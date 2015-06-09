@@ -32,7 +32,6 @@ entities.
 - Instance RDF triples annotated with detailed information of the mentions (via named graph)
 - REST API service included, built on top of [Grizzly](https://grizzly.java.net/)
 - Based on [Java 8](http://www.oracle.com/technetwork/java/javase/overview/java8-2100321.html) and [RDFpro](http://rdfpro.fbk.eu/)
-- open source software ([GNU General Public License](http://www.gnu.org/licenses/gpl-3.0.html))
 
 ### News
 
