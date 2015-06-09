@@ -1,8 +1,8 @@
 #!/bin/bash
 
-set -e
+# set -e
 
-mvn clean package site:site site:deploy -DskipTests
+mvn clean package site:site site:deploy -DskipTests -Dsite.root=http://pikes.fbk.eu/
 git checkout gh-pages
 cp -r target/website/* .
 git add *
