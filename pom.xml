@@ -284,7 +284,7 @@
         <javadoc-skip>false</javadoc-skip>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <site-path>file:///${basedir}/${parent-path}/target/website</site-path>
-        <site-root>file:///Users/alessio/Documents/scripts/pikes/target/website/</site-root>
+        <site-root>${site.root}</site-root>
 
         <!-- Build configuration -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
