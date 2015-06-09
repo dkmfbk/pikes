@@ -14,4 +14,5 @@ In this page, we release the corresponding datasets.
 
 * [Original Simple English Wikipedia (SEW) XML dump](https://knowledgestore.fbk.eu/files/pikes/simplewiki-20150406-pages-articles.xml.bz2)
 * [Original SEW plain text, parsed with PIKES](https://knowledgestore.fbk.eu/files/pikes/simplewiki-20150406-pages-articles.txt.tar.gz)
+* [SEW in RDF format](https://knowledgestore.fbk.eu/files/pikes/simplewiki-20150406-pages-articles.tql.gz)
 
