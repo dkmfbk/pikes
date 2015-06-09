@@ -24,9 +24,9 @@ entities.
 
 ### Features
 
-- Argument nominalization using semantic role labelling
-- Frame-frame relations
-- Entity grouping exploiting entity linking and co-reference
+- Argument nominalization using SRL
+- Frame-frame relations extractions
+- Entity grouping exploiting linking and co-reference
 - Extensible and replaceable NLP pipeline
 - Interlinked three-layer representation model exposed as RDF
 - Instance RDF triples annotated with detailed information of the mentions (via named graph)
