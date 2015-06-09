@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 mvn clean package site:site site:deploy -DskipTests
 git checkout gh-pages
 cp -r target/website/* .
