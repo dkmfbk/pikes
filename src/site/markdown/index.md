@@ -5,7 +5,9 @@
 <div class="well sidebar" style="text-align: center">
 <h1 style="font-size:400%">PIKES</h1><br/>
 <p style="font-size:200%">Pikes is a Knowledge Extraction Suite</p><br/>
-<form method="GET" action="install.html"><button class="btn btn-primary btn-large" type="submit" style="font-size:150%">Demo</button></form>
+<form method="GET" action="https://knowledgestore2.fbk.eu/pikes-demo/">
+    <button class="btn btn-primary btn-large" type="submit" style="font-size:150%">Demo</button>
+</form>
 </div>
 </div>
 </div>
@@ -14,30 +16,24 @@
 
 ### About
 
-**RDFpro** (RDF Processor) is a public domain, Java command line tool and library for **RDF processing**.
-RDFpro offers a suite of stream-oriented, highly optimized **RDF processors** for common tasks that can be assembled in complex **pipelines** to efficiently process RDF data in one or more passes.
-RDFpro originated from the need of a tool supporting typical **Linked Data integration tasks**, involving dataset sizes up to few **billions triples**.
-
-[learn more...](model.html)
+**PIKES** is a Java-based suite that extracts knowledge from textual resources.
+The tool implements a rule-based strategy that reinterprets the output of semantic role labelling (SRL) tools in light
+of other linguistic analyses, such as dependency parsing or co-reference resolution, thus properly capturing and
+formalizing in RDF important linguistic aspects such as argument nominalization, frame-frame relations, and group
+entities.
 
 ### Features
 
-- RDF quad (triple + graph) filtering and replacement (with [Groovy](http://groovy.codehaus.org/) scripting support)
-- RDFS inference with selectable rules
-- owl:sameAs [smushing](http://patterns.dataincubator.org/book/smushing.html)
-- TBox and VOID statistics extraction
-- RDF deduplication and set/multiset operations
-- data upload/download via SPARQL endpoints
-- data read/write in multiple (compressed) formats (rdf, rj, jsonld, nt, nq, trix, trig, tql, ttl, n3, brf)
-- command line [tool](usage.html) plus [core](rdfprolib.html), [tql](tql.html), [jsonld](jsonld.html) libraries
-- based on [Java 8](http://www.oracle.com/technetwork/java/javase/overview/java8-2100321.html) and [Sesame](http://www.openrdf.org/)
-- public domain software ([Creative Commons CC0](license.html))
-
+- Argument nominalization using semantic role labelling
+- Frame-frame relations
+- Entity grouping exploiting entity linking and co-reference
+- Extensible and replaceable NLP pipeline
+- Interlinked three-layer representation model exposed as RDF
+- Instance RDF triples annotated with detailed information of the mentions (via named graph)
+- REST API service included, built on top of [Grizzly](https://grizzly.java.net/)
+- Based on [Java 8](http://www.oracle.com/technetwork/java/javase/overview/java8-2100321.html) and [RDFpro](http://rdfpro.fbk.eu/)
+- open source software ([GNU General Public License](http://www.gnu.org/licenses/gpl-3.0.html))
 
 ### News
 
-- 2015-02-11 Version 0.3 has been released, RDFpro migrates to GitHub
-- 2014-12-01 [Paper](https://dkm-static.fbk.eu/people/rospocher/files/pubs/2015sac.pdf) accepted at [SAC 2015](http://www.acm.org/conferences/sac/sac2015/) conference
-- 2014-09-01 [Paper](https://dkm-static.fbk.eu/people/rospocher/files/pubs/2014iswcSemDev01.pdf) accepted at [ISWC 2014 SemDev](http://iswc2014.semdev.org/) workshop
-- 2014-08-04 Version 0.2 has been released
-- 2014-07-24 Version 0.1 has been released
+- 2015-06-08 Version 0.1 has been released.
