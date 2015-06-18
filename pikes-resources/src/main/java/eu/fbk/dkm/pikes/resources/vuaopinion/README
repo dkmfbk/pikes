@@ -1,0 +1,14 @@
+Process the VUA opinion corpus, converting it to NAF (from KAF) and adding opinion.
+
+- Preprocessing: java eu.fbk.fssa.eu.fbk.dkm.pikes.resources.vuaopinion.CorpusPreprocessor -i ~/Documents/scripts/opinion_annotations_news/en/
+  this script converts KAFs to NAFs and saves them in the naf folder
+- Tintop: java -cp target/dbp-addenda.jar:target/dbp-nlp-deps.jar:target/dbp-nlp.jar org.fbk.dkm.nlp.pipeline.TintopOrchestrator -l server-list.txt -i ~/Documents/scripts/opinion_annotations_news/en/naf/ -o ~/Documents/scripts/opinion_annotations_news/en/naf-parsed/
+  this step parses the files and saves them in the naf-parsed folder
+- Postprocess: java eu.fbk.fssa.eu.fbk.dkm.pikes.resources.vuaopinion.CorpusAnnotator -i ~/Documents/scripts/opinion_annotations_news/en/
+  it reads both KAFs and parsed NAFs and aligns gold opinion
+
+Pay attention! Options to set:
+stanford_break_on_newline = always
+stanford_eolonly = 0
+stanford_token_whitespace = 1
+

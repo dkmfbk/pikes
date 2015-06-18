@@ -4,3 +4,5 @@ pikes-naflib/target/
 pikes.iml
 target/
 
+**/pom.xml.versionsBackup
+**/*.iml

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>pikes</artifactId>
+        <groupId>eu.fbk.pikes</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>pikes-resources</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.guessencoding</groupId>
+            <artifactId>guessencoding</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.fbk.pikes</groupId>
+            <artifactId>pikes-naflib</artifactId>
+        </dependency>
+
+        <!-- Not inherited from fbk-parent -->
+        <dependency>
+            <groupId>eu.fbk.dkm.utils</groupId>
+            <artifactId>utils</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>info.bliki.wiki</groupId>
+                    <artifactId>bliki-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>jwnl</groupId>
+                    <artifactId>jwnl</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jwordnet</groupId>
+            <artifactId>jwnl</artifactId>
+            <version>${jwnl.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>se.lth.cs.nlp</groupId>
+            <artifactId>nlputils</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
+
+    <properties>
+        <jwnl.version>1.4_rc3</jwnl.version>
+    </properties>
+</project>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{title}}</title>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+<link href="index.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script>
+$( document ).ready(function() {
+    $('[title]').tooltip({html: true, animation: false, placement: 'bottom'});
+    $('a.badge').click(function (event) {
+        var button = $(event.delegateTarget);
+        var modal = $('#sentence-modal');
+        modal.find('.modal-title').text(button.data('id') + ' details (sentence ' + button.data('sentence') + ' of ' + button.data('document') + ')');
+        modal.find('iframe').attr('src', button.data('file'));
+        modal.find('iframe').load(function() { modal.modal(); });
+        return false;
+    });
+});
+</script>
+</head>
+<body>
+<div id="content" class="container-fluid">
+<table style="width: 100%">
+{{#sentences}}
+<tr>
+<td class="txt_sent_id"><a class="badge" href="#" data-toggle="modal" data-target="#sentence-modal" data-id="{{id}}" data-file="{{file}}" data-document="{{document}}" data-sentence="{{sentence}}"><small>{{id}}</small></a></td>
+<td class="txt_sent">
+{{{markup}}}
+</td>
+</tr>
+{{/sentences}}
+</table>
+</div>
+
+<div id="sentence-modal" class="modal modal-wide">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+        <h4 class="modal-title">Sentence detail</h4>
+      </div>
+      <div class="modal-body">
+        <iframe src="sentence1.html" frameborder="0" height="100%" width="100.0%"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

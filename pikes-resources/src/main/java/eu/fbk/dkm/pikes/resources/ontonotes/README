@@ -1,0 +1,10 @@
+Per generare le classi di OntoNotes, ricordarsi di aggiungere un attributo a caso a "text" altrimenti va in errore.
+
+Esempio:
+    <!ELEMENT text (#PCDATA)>
+    <!ATTLIST text
+      src  CDATA #IMPLIED>
+
+I comandi sono:
+    xjc -dtd -d <PATH> -p eu.fbk.naftools.resources.eu.fbk.dkm.pikes.resources.ontonotes.senses inventory.dtd
+    xjc -dtd -d <PATH> -p eu.fbk.naftools.resources.eu.fbk.dkm.pikes.resources.ontonotes.frames frameset.dtd

@@ -1,0 +1,26 @@
+CorpusLoader loads the corpus and save it in NAF format.
+
+Example:
+java eu.fbk.fssa.eu.fbk.dkm.pikes.resources.goodbadfor.CorpusLoader \
+    -i /Users/alessio/Desktop/gfbf_DengChoiWiebe2013 \
+    -n http://eu.fbk.dkm.pikes.resources.mpqa.cs.pitt.edu/corpora/gfbf_corpus/
+
+Then you obtain a new folder "NAF" inside the resource, containing the empty NAFs.
+
+Now you can parse them using a pipeline (i.e. Tintop).
+
+---
+
+CorpusAnnotator loads the parsed NAFs and add the opinion layer to them.
+
+Example:
+java eu.fbk.fssa.eu.fbk.dkm.pikes.resources.goodbadfor.CorpusAnnotator \
+    -i /Users/alessio/Desktop/gfbf_DengChoiWiebe2013/
+
+This script will look for a "NAF-parsed" folder.
+
+Pay attention! Options to set:
+stanford_break_on_newline = always
+stanford_eolonly = 0
+stanford_token_whitespace = 0
+

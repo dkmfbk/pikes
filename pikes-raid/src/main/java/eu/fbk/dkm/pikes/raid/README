@@ -1,0 +1,69 @@
+=== Create training:
+
+CreateTrainingForExpression \
+    -i /Users/alessio/Documents/Resources/database.eu.fbk.dkm.pikes.resources.mpqa.2.0/NAF-parsed/ \
+    -o /Users/alessio/Documents/Resources/database.eu.fbk.dkm.pikes.resources.mpqa.2.0/yamcha-test/
+
+
+=== Train with YAMCHA
+
+See: http://chasen.org/~taku/software/yamcha/
+
+First of all, run yamcha-config with --libexecdir option. The location of Makefile which is used for training is output.
+Please copy the Makefile to the local working directory.
+
+    % yamcha-config --libexecdir
+    /usr/local/libexec/yamcha
+    % cp /usr/local/libexec/yamcha/Makefile .
+
+    % make CORPUS=train.data MODEL=case_study train
+    /usr/bin/yamcha  -F'F:-2..2:0.. T:-2..-1' < train.data > case_study.data
+    perl -w /usr/local/libexec/yamcha/mkparam   case_study < case_study.data
+    perl -w /usr/local/libexec/yamcha/mksvmdata case_study
+
+    % Used: make CORPUS=data.train MODEL=model SVM_PARAM="-t1 -d2 -c1 -m 4096" train
+
+
+=== Test with YAMCHA
+
+OK, let's parse this test data using above generated model file (case_study.model). You simply use the command:
+
+    % yamcha -m case_study.model < test.data
+    Rockwell        NNP     B       B
+    International   NNP     I       I
+    Corp.   NNP     I       I
+    's      POS     B       B
+    Tulsa   NNP     I       I
+    unit    NN      I       I
+    said    VBD     O       O
+    ...
+
+The last column is given (estimated) tag. If the 3rd column is true answer tag , you can evaluate the accuracy by simply seeing the difference between the 3rd and 4th columns.
+
+
+=== Save results
+
+    yamcha -m model.model < data.test > results.test
+    Evaluation \
+        -i /Users/alessio/Documents/Resources/yamcha-test/vua2/results.test \
+        -g 17 -t 18
+
+=== Mallet
+
+java -Xmx4G -cp target/fssa-0.1-SNAPSHOT-jar-with-dependencies.jar eu.fbk.fssa.yamcha.CreateTrainingForExpression \
+    -i ~/Documents/Resources/DarmstadtServiceReviewCorpus\ 2/naf-parsed/ \
+    -o ~/Documents/Resources/yamcha-test/eu.fbk.dkm.pikes.resources.darmstadt-new-nown/ \
+    --mallet
+mallet --train true --model-file data.model --threads 8 data.train
+cat data.test | rev | cut -d ' ' -f2- | rev > data.test.nogold
+mallet --model-file data.model --threads 8 data.test.nogold > data.res.mallet
+paste -d ' ' data.test data.res.mallet > data.res.goldmallet
+cat data.res.goldmallet | rev | cut -d ' ' -f1-3 | rev > data.res.onlyres
+
+=== CRFsuite
+
+crfsuite learn -a pa -m data.model data.train
+crfsuite tag -m data.model data.test > data.res.crfsuite
+cut -f1 data.test > data.test.onlygold
+paste data.test.onlygold data.res.crfsuite > data.res
+

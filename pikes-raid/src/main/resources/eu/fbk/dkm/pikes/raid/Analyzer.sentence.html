@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{title}}</title>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+<link href="index.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script>
+$( document ).ready(function() {
+    $('[title]').tooltip({html: true, animation: false, placement: 'bottom'});
+});
+</script>
+</head>
+<body>
+<div id="content" class="container-fluid">
+{{{markup}}}
+<br/>
+{{{parsing}}}
+<br/>
+{{{graph}}}
+</div>
+</body>
+</html>

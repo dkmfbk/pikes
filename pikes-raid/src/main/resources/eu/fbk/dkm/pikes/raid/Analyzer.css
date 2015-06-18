@@ -1,0 +1,82 @@
+html, body { margin: 0; padding: 0; }
+
+.nav > li > a { padding-top: 4px; padding-bottom: 6px; }
+
+.modal-wide .modal-dialog { width: 90%; }
+.modal-wide .modal-body { height: 85vh; overflow-y: auto; }
+
+.tooltip-inner      { text-align: left; max-width: 800px }
+
+.hg                 { padding-bottom: 7px; border-bottom: 1px solid #808080 }
+.tg                 { padding-bottom: 4px; border-bottom: 1px solid #8080FF; }
+
+.ht                 { padding-bottom: 7px; background-color: rgba(192, 192, 192, 0.5); }
+.tt                 { padding-bottom: 4px; background-color: rgba(192, 192, 255, 0.5); }
+
+.eg0                { border-bottom: 1px solid #FFFF00 }
+.eg1                { border-bottom: 1px solid #80FF80 }
+.eg2                { border-bottom: 1px solid #FF8080 }
+
+.et0                { background-color: rgba(255, 255, 192, 0.5) }
+.et1                { background-color: rgba(192, 255, 192, 0.5) }
+.et2                { background-color: rgba(255, 192, 192, 0.5) }
+
+.head               { font-weight: bold }
+.opinion            { padding-top: 5px; line-height: 2.25 }
+.opinion-id         { font-size: 75%; color: grey; display: inline-block; min-width: 8em }
+
+.txt_sent_id        { vertical-align: top; padding: 5px 1em 0 0; width: 1%; line-height: 2 }
+.txt_sent           { padding: 0 0 .5em 0; }
+
+table.txt           { text-align: center; border: none; border-collapse: collapse }
+
+.txt_dep td         { font-size: 70%; }
+.txt_dep div        { margin-top: -.75em; margin-bottom: .5em; }
+.txt_dep div span   { background-color: white; padding-left: 2px; padding-right: 2px;  color: #444 }
+.txt_dep_co         { height: 5px; min-width: .5em }
+.txt_dep_ci         { height: 5px; width: .75em }
+
+.txt_term td        { height: 1.5em }
+.txt_term_c         { padding-left: 5px; padding-right: 5px; }
+.txt_term_lc        { margin-left: 5px; padding-right: 5px; }
+.txt_term_cr        { padding-left: 5px; margin-right: 5px; }
+.txt_term_lcr       { margin-left: 5px; margin-right: 5px; }
+.txt_term_tip       { }
+
+.txt_srl td         { padding-left: 5px; padding-right: 5px; font-size: 70% }
+.txt_srl div        { margin-top: 3px; margin-bottom: -3px; border-top: 1px dotted #888; color: #444 }
+
+.txt_empty          { height: 10px }
+
+.txt_bg_person      { background-color: #FFC8C8 }
+.txt_bg_organization{ background-color: #FFFF84 }
+.txt_bg_location    { background-color: #A9C5EB }
+.txt_bg_gpe         { background-color: #A9C5EB }
+
+.txt_bg_quantity    { background-color: #EEBBEE }
+.txt_bg_money       { background-color: #EEBBEE }
+.txt_bg_cardinal    { background-color: #EEBBEE }
+.txt_bg_ordinal     { background-color: #EEBBEE }
+.txt_bg_percent     { background-color: #EEBBEE }
+
+.txt_bg_fac         { background-color: #FFC65B }
+.txt_bg_product     { background-color: #FFC65B }
+.txt_bg_work_of_art { background-color: #FFC65B }
+
+.txt_bg_event       { background-color: #B4D1B6 }
+.txt_bg_date        { background-color: #B4D1B6 }
+.txt_bg_time        { background-color: #B4D1B6 }
+
+.txt_bg_misc        { background-color: #D0D0C0 }
+.txt_bg_language    { background-color: #D0D0C0 }
+.txt_bg_norp        { background-color: #D0D0C0 }
+.txt_bg_law         { background-color: #D0D0C0 }
+
+.txt_bg_evn         { background-color: #CFE990 }
+
+.txt_coref          { border-bottom: 2px dotted #444 }
+
+.txt_lb             { border-left: 1px solid #888; }
+.txt_rb             { border-right: 1px solid #888; }
+.txt_tb             { border-top: 1px solid #888; }
+.txt_ab             { width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 4px solid #888; position: relative; left:-4px; bottom: -5px; }

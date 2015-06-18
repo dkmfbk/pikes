@@ -1,0 +1,24 @@
+CorpusPreprocessor takes the original MPQA dataset (as released by its authors) in input and builds:
+(1) the NAF files containing the raw sentences to be processed, one sentence per line (i.e., sentence splitting already done)
+(2) a file annotations.tsv with a row for each holder/target/opinion extracted from the MPQA dataset
+(3) a file annotations.html with a rendering of opinionated sentences with highlighted the holder/target/opinion
+
+Example:
+java eu.fbk.fssa.eu.fbk.dkm.pikes.resources.mpqa.CorpusPreprocessor \
+    -i /mnt/data/sentiment/database.eu.fbk.dkm.pikes.resources.mpqa.2.0 \
+    -o /mnt/data/sentiment/database.eu.fbk.dkm.pikes.resources.mpqa.2.0/naf-raw
+    -f /mnt/data/sentiment/database.eu.fbk.dkm.pikes.resources.mpqa.2.0/doclist.attitudeSubset
+    -n http://eu.fbk.dkm.pikes.resources.mpqa.cs.pitt.edu/corpora/mpqa_corpus/
+
+Remarks:
+- the tool works on the folder structure of the MPQA dataset and takes its root in input with option -i
+- option -f points to a file listing the documents to be processed (use doclist.attitudeSubset)
+- option -n is the namespace of the URIs of generated NAFs
+- call the tool with -h to have more information
+- Remove the file ula/AFGP-2002-600175-Trans, as it is garbled.
+
+Pay attention! Options to set:
+stanford_break_on_newline = always
+stanford_eolonly = 1
+stanford_token_whitespace = 0
+

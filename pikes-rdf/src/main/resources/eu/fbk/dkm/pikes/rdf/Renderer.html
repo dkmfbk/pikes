@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{title}}</title>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.5/css/jquery.dataTables.css">
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
+<!-- <script src="https://ariutta.github.io/svg-pan-zoom/dist/svg-pan-zoom.min.js"></script> -->
+<script>
+// var graphPanZoom;
+$( document ).ready(function() {
+    $('[title]').tooltip({html: true, animation: false, placement: 'bottom'});
+    $(".modal-wide").on("show.bs.modal", function() {
+      var height = $(window).height() - 200;
+      $(this).find(".modal-body").css("max-height", height);
+    });
+    $('pre code').each(function(i, block) {
+      hljs.highlightBlock(block);
+    });
+    $(".txt_sent_id").click(function(event) {
+      event.preventDefault();
+      $(this).parent().children("td:nth-child(2)").children("div:nth-child(1)").toggle("fast");
+      $(this).parent().children("td:nth-child(2)").children("div:nth-child(2)").toggle("fast");
+    });
+    $('table.datatable').each( function() {
+        var head = $(this).find('thead');
+        var filters = head.clone().attr('class', 'datatable-filter');
+        head.attr('class', 'datatable-head');
+        filters.insertAfter(head);
+        $('th', filters).html('<small><input type="text" placeholder="filter" style="width:100%" /></small>');
+        var table = $(this).DataTable({ "dom": 'ilfrtp', paging: false });
+        table.columns().eq(0).each( function ( colIdx ) {
+        	$('input', $('th', filters)[colIdx]).on('keyup change', function () {
+            table.column( colIdx ).search( this.value ).draw();
+          } );
+        } );
+    } );
+    // $('#header a[href="#graph"]').on('shown.bs.tab', function (e) {
+    //	  $('#graph svg').attr('width', '100%');
+    //    if (graphPanZoom == null) graphPanZoom = svgPanZoom('#graph svg');
+    // })
+});
+</script>
+<style type="text/css">
+
+    html, body { height: 100%; margin: 0; padding: 0; display: flex; flex-direction: column; -webkit-flex-direction: column; background-color: #f4f4f4; overflow: hidden }
+    #header { width: 100% }
+    #header h3 { width: 100%; margin: 5px 0 5px 0; }
+    #content { width: 100%; flex: 1; -webkit-flex: 1; margin: 5px 0 0 0; display: flex; flex-direction: column; -webkit-flex-direction: column; overflow: auto; }
+    #content .panel { flex: 1; -webkit-flex: 1; overflow: auto; }
+    #content .panel-body { height: 100%; overflow: auto; }
+
+    @media screen and (min-color-index:0) and(-webkit-min-device-pixel-ratio:0) {
+        /* This part affects only Safari browser */
+        @media {
+            #content { height: calc(100% - 40px); }
+            #content .panel { height: calc(100% - 21px); }
+        }
+    }
+
+.nav > li > a { padding-top: 4px; padding-bottom: 6px; }
+.modal-wide .modal-dialog { width: 90%; }
+.modal-wide .modal-body { flex: 1; overflow-y: auto; }
+#pills { margin-right: 0px; }
+#naf pre, #naf code { background-color: white; border: none; margin: 0px; padding: 0px }
+#graph { text-align: center }
+/* #graph svg { height: 100% } */
+
+#metadata div.panel-body { text-align: center}
+#metadata div.panel-body div { display: inline-block; text-align: left }
+
+.tooltip-inner       { text-align: left; max-width: 800px }
+.datatable th        { padding-left: 10px!important; padding-right: 10px!important }
+.datatable ol        { margin-left: 0px; margin-bottom: 0px }
+.datatable-head th   { border: none!important; padding-bottom: 2px!important }
+.datatable-filter th { border-top: none!important; border-bottom: 1px solid!important; padding-top: 0px!important }
+.datatable td        { padding-top: 2px!important; padding-bottom: 2px!important }
+table.datatable      { margin-top: 0px; margin-bottom: 10px; border-bottom: none!important }
+
+.properties tr:first-child td { border-top: none }
+table.properties    { margin-bottom: 0; display: inline-table!important; width: auto; }
+table.properties table.properties { border: 1px outset #dddddd; margin: 5px 10px 5px 0px }
+table.properties td { padding-top: 2px!important; padding-bottom: 2px!important; border: none!important }
+
+.txt_sent_id        { vertical-align: top; padding: .5em 1em 0 0; width: 1% }
+.txt_sent_short     { padding: .5em 0 .5em 0; }
+.txt_sent_long      { padding: .5em 0 .5em 0; }
+
+table.txt           { text-align: center; border: none; border-collapse: collapse }
+
+.txt_dep td         { font-size: 70%; }
+.txt_dep div        { margin-top: -.75em; margin-bottom: .5em; }
+.txt_dep div span   { background-color: white; padding-left: 2px; padding-right: 2px;  color: #444 }
+.txt_dep_co         { height: 5px; min-width: .5em }
+.txt_dep_ci         { height: 5px; width: .75em }
+
+.txt_term td        { height: 1.5em }
+.txt_term_c         { padding-left: 5px; padding-right: 5px; }
+.txt_term_lc        { margin-left: 5px; padding-right: 5px; }
+.txt_term_cr        { padding-left: 5px; margin-right: 5px; }
+.txt_term_lcr       { margin-left: 5px; margin-right: 5px; }
+.txt_term_tip       { }
+
+.txt_srl td         { padding-left: 5px; padding-right: 5px; font-size: 70% }
+.txt_srl div        { margin-top: 3px; margin-bottom: -3px; border-top: 1px dotted #888; color: #444 }
+
+.txt_empty          { height: 10px }
+
+.txt_bg_person      { background-color: #FFC8C8 }
+.txt_bg_organization{ background-color: #FFFF84 }
+.txt_bg_location    { background-color: #A9C5EB }
+.txt_bg_gpe         { background-color: #A9C5EB }
+
+.txt_bg_quantity    { background-color: #EEBBEE }
+.txt_bg_money       { background-color: #EEBBEE }
+.txt_bg_cardinal    { background-color: #EEBBEE }
+.txt_bg_ordinal     { background-color: #EEBBEE }
+.txt_bg_percent     { background-color: #EEBBEE }
+
+.txt_bg_fac         { background-color: #FFC65B }
+.txt_bg_product     { background-color: #FFC65B }
+.txt_bg_work_of_art { background-color: #FFC65B }
+
+.txt_bg_event       { background-color: #B4D1B6 }
+.txt_bg_date        { background-color: #B4D1B6 }
+.txt_bg_time        { background-color: #B4D1B6 }
+
+.txt_bg_misc        { background-color: #D0D0C0 }
+.txt_bg_language    { background-color: #D0D0C0 }
+.txt_bg_norp        { background-color: #D0D0C0 }
+.txt_bg_law         { background-color: #D0D0C0 }
+
+.txt_bg_evn         { background-color: #CFE990 }
+
+.txt_coref          { border-bottom: 2px dotted #444 } 
+
+.txt_lb             { border-left: 1px solid #888; }
+.txt_rb             { border-right: 1px solid #888; }
+.txt_tb             { border-top: 1px solid #888; }
+.txt_ab             { width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 4px solid #888; position: relative; left:-4px; bottom: -5px; }
+</style>
+</head>
+
+<body>
+
+<div id="header" class="container-fluid">
+<div>
+<ul id="pills" class="nav nav-pills navbar-right">
+    <li><a data-toggle="pill" href="#metadata">Metadata</a></li>
+    <li><a data-toggle="pill" href="#mentions">Mentions</a></li>
+    <li><a data-toggle="pill" href="#triples">Instances</a></li>
+    <li class="active"><a data-toggle="pill" href="#graph">Graph</a></li>
+    <li><a data-toggle="pill" href="#text">Hybrid</a></li>
+    <li><a data-toggle="pill" href="#naf">Annotations</a></li>
+    {{#backlink}}
+    <li><a href="{{backlink}}">{{#backlabel}}{{.}}{{/backlabel}}{{^backlabel}}Back to text{{/backlabel}}</a></li>
+    {{/backlink}}
+</ul>
+<h3>{{title}}</h3>
+</div>
+</div>
+
+<div id="content" class="container-fluid tab-content">
+
+<!-- NAF TAB -->
+<div class="panel panel-default tab-pane" id="naf">
+<div class="panel-body">
+<pre><code class="xml">{{naf}}</code></pre>
+</div>
+</div>
+
+<!-- METADATA TAB -->
+<div class="panel panel-default tab-pane" id="metadata">
+<div class="panel-body">
+<div>
+{{{metadata}}}
+</div>
+</div>
+</div>
+
+<!-- TEXT TAB -->
+<div class="panel panel-default tab-pane" id="text">
+<div class="panel-body">
+<table style="border-collapse: collapse; width: 100%">
+{{#sentences}}
+<tr>
+<td class="txt_sent_id"><a class="badge" href="#"><small>S{{id}}</small></a></td>
+<td class="txt_sent">
+<div class="txt_sent_short">
+{{{markup}}}
+</div>
+<div class="txt_sent_long" style="display: none">
+{{{parsing}}}
+<br/>
+{{{graph}}}
+</div>
+</td>
+</tr>
+{{/sentences}}
+</table>
+</div>
+</div>
+
+<!-- MENTIONS TAB -->
+<div class="panel panel-default tab-pane" id="mentions">
+<div class="panel-body">
+{{{mentions}}}
+</div>
+</div>
+
+<!-- TRIPLES TAB -->
+<div class="panel panel-default tab-pane" id="triples">
+<div class="panel-body">
+{{{triples}}}
+</div>
+</div>
+
+<!-- GRAPH TAB -->
+<div class="panel panel-default tab-pane active" id="graph">
+<div class="panel-body">
+{{{graph}}}
+</div>
+</div>
+
+</div>
+
+</body>
+</html>
