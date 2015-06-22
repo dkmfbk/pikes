@@ -4,7 +4,6 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Multimap;
-import eu.fbk.dkm.utils.Lexicon;
 import eu.fbk.rdfpro.util.Environment;
 import ixa.kaflib.KAFDocument;
 import ixa.kaflib.Term;

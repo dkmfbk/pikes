@@ -9,7 +9,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import eu.fbk.dkm.utils.CommandLine;
 import eu.fbk.dkm.utils.CommandLine.Type;
-import eu.fbk.dkm.utils.Lexicon;
 import eu.fbk.rdfpro.AbstractRDFHandler;
 import eu.fbk.rdfpro.RDFSources;
 import eu.fbk.rdfpro.tql.TQL;

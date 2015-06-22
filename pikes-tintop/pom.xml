@@ -11,5 +11,43 @@
 
     <artifactId>pikes-tintop</artifactId>
 
+    <repositories>
+        <repository>
+            <id>fbk-repo</id>
+            <url>https://raw.githubusercontent.com/fbk/mvn-repo/master/releases</url>
+        </repository>
+    </repositories>
 
+    <dependencies>
+        <dependency>
+            <groupId>edu.stanford.nlp</groupId>
+            <artifactId>stanford-corenlp</artifactId>
+            <version>3.4</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.stanford.nlp</groupId>
+            <artifactId>stanford-corenlp</artifactId>
+            <version>3.4</version>
+            <classifier>models</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.annolab.tt4j</groupId>
+            <artifactId>org.annolab.tt4j</artifactId>
+            <version>1.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ini4j</groupId>
+            <artifactId>ini4j</artifactId>
+            <version>0.5.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.fbk.anna</groupId>
+            <artifactId>annafbk</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
 </project>

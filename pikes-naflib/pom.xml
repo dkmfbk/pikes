@@ -24,5 +24,9 @@
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
         </dependency>
+        <dependency>
+            <groupId>eu.fbk.dkm.utils</groupId>
+            <artifactId>utils</artifactId>
+        </dependency>
     </dependencies>
 </project>

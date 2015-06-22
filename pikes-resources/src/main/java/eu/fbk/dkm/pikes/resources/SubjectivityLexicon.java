@@ -6,8 +6,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import eu.fbk.dkm.utils.CommandLine;
-import eu.fbk.dkm.utils.Lexicon;
-import eu.fbk.dkm.utils.Stemming;
 import eu.fbk.rdfpro.util.Environment;
 import eu.fbk.rdfpro.util.IO;
 import org.slf4j.Logger;

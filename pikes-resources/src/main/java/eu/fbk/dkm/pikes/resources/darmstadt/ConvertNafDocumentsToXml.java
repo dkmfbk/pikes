@@ -1,7 +1,7 @@
 package eu.fbk.dkm.pikes.resources.darmstadt;
 
+import eu.fbk.dkm.pikes.naflib.Corpus;
 import eu.fbk.dkm.utils.CommandLine;
-import eu.fbk.dkm.utils.Corpus;
 import ixa.kaflib.KAFDocument;
 import ixa.kaflib.Opinion;
 import org.openrdf.model.impl.URIImpl;

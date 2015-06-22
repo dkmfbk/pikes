@@ -44,7 +44,6 @@
             <groupId>eu.fbk.dkm.utils</groupId>
             <artifactId>utils</artifactId>
         </dependency>
-
         <dependency>
             <groupId>eu.fbk.shell</groupId>
             <artifactId>mdfsa</artifactId>

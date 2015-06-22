@@ -48,7 +48,7 @@
         <dependency>
             <groupId>se.lth.cs.nlp</groupId>
             <artifactId>nlputils</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
 
     </dependencies>
