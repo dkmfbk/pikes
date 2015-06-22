@@ -2,10 +2,10 @@ package eu.fbk.dkm.pikes.raid;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import eu.fbk.dkm.pikes.naflib.Corpus;
 import eu.fbk.dkm.pikes.resources.*;
 import eu.fbk.dkm.utils.ArrayUtils;
 import eu.fbk.dkm.utils.CommandLine;
-import eu.fbk.dkm.utils.Corpus;
 import ixa.kaflib.*;
 import org.fbk.cit.hlt.core.analysis.stemmer.Stemmer;
 import org.fbk.cit.hlt.core.analysis.stemmer.StemmerFactory;

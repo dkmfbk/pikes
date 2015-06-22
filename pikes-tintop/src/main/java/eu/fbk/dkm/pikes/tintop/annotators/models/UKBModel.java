@@ -1,7 +1,8 @@
 package eu.fbk.dkm.pikes.tintop.annotators.models;
 
-import org.apache.log4j.Logger;
-import org.fbk.dkm.nlp.pipeline.annotators.raw.UKB;
+import eu.fbk.dkm.pikes.tintop.annotators.raw.UKB;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Map;
@@ -14,7 +15,7 @@ public class UKBModel {
 
 	private static UKBModel instance;
 	private UKB tagger;
-	static Logger logger = Logger.getLogger(UKBModel.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(UKBModel.class);
 
 	private UKBModel(Map properties) throws IOException {
 		tagger = new UKB(properties);
@@ -22,7 +23,7 @@ public class UKBModel {
 
 	public static UKBModel getInstance(Map properties) throws IOException {
 		if (instance == null) {
-			logger.info("Loading model for UKB");
+			LOGGER.info("Loading model for UKB");
 			instance = new UKBModel(properties);
 		}
 

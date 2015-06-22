@@ -6,8 +6,8 @@ import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.Annotator;
 import edu.stanford.nlp.util.ArraySet;
 import edu.stanford.nlp.util.CoreMap;
-import org.fbk.dkm.nlp.pipeline.annotators.models.UKBModel;
-import org.fbk.dkm.nlp.pipeline.annotators.raw.UKB;
+import eu.fbk.dkm.pikes.tintop.annotators.models.UKBModel;
+import eu.fbk.dkm.pikes.tintop.annotators.raw.UKB;
 
 import java.io.IOException;
 import java.util.*;

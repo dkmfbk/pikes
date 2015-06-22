@@ -1,6 +1,9 @@
 package eu.fbk.dkm.pikes.raid;
 
 import com.google.common.collect.Iterables;
+import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.dkm.utils.PrecisionRecallStats;
+import eu.fbk.dkm.utils.ValueComparator;
 import ixa.kaflib.KAFDocument;
 import ixa.kaflib.Opinion;
 import ixa.kaflib.Opinion.OpinionExpression;

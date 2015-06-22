@@ -1,6 +1,7 @@
 package eu.fbk.dkm.pikes.tintop.annotators.models;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.lth.cs.srl.SemanticRoleLabeler;
 import se.lth.cs.srl.languages.Language;
 import se.lth.cs.srl.pipeline.Pipeline;
@@ -16,10 +17,10 @@ public class MateSrlModel {
 
 	private static MateSrlModel instance;
 	private SemanticRoleLabeler labeler;
-	static Logger logger = Logger.getLogger(MateSrlModel.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(MateSrlModel.class);
 
 	private MateSrlModel(File mateModel) {
-		logger.info("Loading model for Mate Tools");
+		LOGGER.info("Loading model for Mate Tools");
 
 		try {
 			ZipFile zipFile;
@@ -27,7 +28,7 @@ public class MateSrlModel {
 			labeler = Pipeline.fromZipFile(zipFile);
 			zipFile.close();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			LOGGER.error(e.getMessage());
 		}
 
 		Language.setLanguage(Language.L.valueOf("eng"));

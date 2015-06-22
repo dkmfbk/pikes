@@ -5,9 +5,9 @@ import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.Annotator;
 import edu.stanford.nlp.util.CoreMap;
+import eu.fbk.dkm.pikes.tintop.annotators.models.AnnaPosModel;
 import is2.data.SentenceData09;
 import is2.tag.Tagger;
-import org.fbk.dkm.nlp.pipeline.annotators.models.AnnaPosModel;
 
 import java.io.File;
 import java.util.Collections;

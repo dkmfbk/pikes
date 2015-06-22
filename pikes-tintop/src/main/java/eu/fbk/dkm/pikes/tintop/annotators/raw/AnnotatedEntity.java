@@ -2,7 +2,6 @@ package eu.fbk.dkm.pikes.tintop.annotators.raw;
 
 import com.machinelinking.api.client.Keyword;
 import com.machinelinking.api.client.Topic;
-import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +15,6 @@ import java.util.List;
  */
 
 public class AnnotatedEntity {
-
-	static Logger logger = Logger.getLogger(AnnotatedEntity.class.getName());
 
 	private String link;
 	private float rel;

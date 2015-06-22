@@ -1,12 +1,10 @@
 package eu.fbk.dkm.pikes.tintop.annotators.raw;
 
-import org.apache.commons.cli.CommandLine;
+import eu.fbk.dkm.pikes.tintop.utils.PipelineConfiguration;
 import org.apache.commons.lang3.CharEncoding;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.fbk.cit.hlt.thewikimachine.util.CommandLineWithLogger;
-import org.fbk.dkm.nlp.pipeline.PipelineConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -23,7 +21,7 @@ import java.util.*;
 
 public class DBpediaSpotlight {
 
-	static Logger logger = Logger.getLogger(DBpediaSpotlight.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(DBpediaSpotlight.class);
 	static String urlAddress;
 	private Properties config = new Properties();
 
@@ -54,13 +52,13 @@ public class DBpediaSpotlight {
 			try {
 				thisRequest += "&" + key + "=" + URLEncoder.encode(value, "utf-8");
 			} catch (Exception e) {
-				logger.error(e.getMessage());
+				LOGGER.error(e.getMessage());
 			}
 		}
 
 		URL serverAddress = new URL(urlAddress);
-		logger.debug("URL: " + urlAddress);
-		logger.debug("Request: " + thisRequest);
+		LOGGER.debug("URL: " + urlAddress);
+		LOGGER.debug("Request: " + thisRequest);
 
 		boolean useProxy = config.getProperty(prefix + "use_proxy").equals("1");
 
@@ -115,29 +113,22 @@ public class DBpediaSpotlight {
 	}
 
 	public static void main(String[] args) {
-		CommandLineWithLogger commandLineWithLogger = new CommandLineWithLogger();
-
-//    options.addOption(OptionBuilder.withDescription("Languages mappings").isRequired()
-//            .hasArgs().withArgName("iso-codes").withLongOpt("languages").create("l"));
-//    options.addOption(OptionBuilder.withDescription("Mapping folder").isRequired()
-//            .hasArgs().withArgName("folder").withLongOpt("mapping-dir").create("f"));
-//    options.addOption(OptionBuilder.withDescription("enter in the interactive mode")
-//            .withLongOpt("interactive-mode").create("I"));
-
-		CommandLine commandLine = null;
-		try {
-			commandLine = commandLineWithLogger.getCommandLine(args);
-			PropertyConfigurator.configure(commandLineWithLogger.getLoggerProps());
-		} catch (Exception e) {
-			System.exit(1);
-		}
-
-		DBpediaSpotlight s = new DBpediaSpotlight();
-		try {
-			s.tag("The dinner is not scheduled.");
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error(e.getMessage());
-		}
+//		CommandLineWithLogger commandLineWithLogger = new CommandLineWithLogger();
+//
+//		CommandLine commandLine = null;
+//		try {
+//			commandLine = commandLineWithLogger.getCommandLine(args);
+//			PropertyConfigurator.configure(commandLineWithLogger.getLoggerProps());
+//		} catch (Exception e) {
+//			System.exit(1);
+//		}
+//
+//		DBpediaSpotlight s = new DBpediaSpotlight();
+//		try {
+//			s.tag("The dinner is not scheduled.");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			LOGGER.error(e.getMessage());
+//		}
 	}
 }

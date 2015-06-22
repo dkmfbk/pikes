@@ -22,12 +22,10 @@
         <dependency>
             <groupId>edu.stanford.nlp</groupId>
             <artifactId>stanford-corenlp</artifactId>
-            <version>3.4</version>
         </dependency>
         <dependency>
             <groupId>edu.stanford.nlp</groupId>
             <artifactId>stanford-corenlp</artifactId>
-            <version>3.4</version>
             <classifier>models</classifier>
         </dependency>
         <dependency>
@@ -41,13 +39,38 @@
             <version>0.5.4</version>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
+            <groupId>eu.fbk.anna</groupId>
+            <artifactId>annafbk</artifactId>
+            <version>3.61</version>
         </dependency>
         <dependency>
             <groupId>eu.fbk.anna</groupId>
-            <artifactId>annafbk</artifactId>
-            <version>1.0</version>
+            <artifactId>anna</artifactId>
+            <version>3.3</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.fbk.anna</groupId>
+            <artifactId>mate</artifactId>
+            <version>4.31</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.12</version>
+        </dependency>
+        <dependency>
+            <groupId>com.machinelinking</groupId>
+            <artifactId>api-client</artifactId>
+            <version>1.5-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
     </dependencies>
 </project>

@@ -1,6 +1,7 @@
 package eu.fbk.dkm.pikes.tintop.annotators.raw;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 
@@ -14,7 +15,7 @@ import java.io.Serializable;
 
 public class DBpediaSpotlightTag implements Serializable {
 
-	static Logger logger = Logger.getLogger(DBpediaSpotlightTag.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(DBpediaSpotlightTag.class);
 	private int offset;
 	private String page;
 	private double score;
