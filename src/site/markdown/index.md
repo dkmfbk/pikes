@@ -1,15 +1,18 @@
-<div class="row">
-<br/>
-<br/>
-<div class="span12">
-<div class="well sidebar" style="text-align: center">
-<h1 style="font-size:400%">PIKES</h1><br/>
-<p style="font-size:200%">Pikes is a Knowledge Extraction Suite</p><br/>
-<form method="GET" action="https://knowledgestore2.fbk.eu/pikes-demo/">
-    <button class="btn btn-primary btn-large" type="submit" style="font-size:150%">Demo</button>
-</form>
-</div>
-</div>
+<div class="well sidebar" id="well-home">
+    <h1>
+        <img src='images/pikes-150.png' />
+        PIKES
+    </h1>
+    
+    <p class='title2'>
+        Pikes is a Knowledge Extraction Suite
+    </p>
+                
+    <p class='title2'>
+        <!--<a class="btn btn-primary btn-large" href="install.html">Download</a>-->
+        <a class="btn btn-primary btn-large" href="https://knowledgestore2.fbk.eu/pikes-demo/">Online demo</a>
+        <a class="btn btn-primary btn-large" href="install.html">Video tour</a>
+    </p>
 </div>
 
 ---------------------------------------

@@ -57,9 +57,12 @@
             <!--<protocolRelativeURLs>true</protocolRelativeURLs>-->
             <skinAttribution>true</skinAttribution>
             <brand>
-                <name><![CDATA[
-                    PIKES
-                ]]></name>
+                <name>
+                    <![CDATA[
+                        <img src='images/pikes.png' />
+                        <span>PIKES</span>
+                    ]]>
+                </name>
                 <href>${site-root}</href>
             </brand>
             <titleTemplate>%2$s | %1$s</titleTemplate>
