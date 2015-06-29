@@ -30,7 +30,7 @@ public final class PropBank {
         try {
             final Map<String, int[]> corefMap = Maps.newHashMap();
             for (final String line : Resources.readLines(
-                    PropBank.class.getResource("eu.fbk.dkm.pikes.resources.PropBank.coref"), Charsets.UTF_8)) {
+                    PropBank.class.getResource("PropBank.coref"), Charsets.UTF_8)) {
                 final String[] tokens = line.split("\\s+");
                 final int[] roles = new int[] { Integer.parseInt(tokens[1]),
                         Integer.parseInt(tokens[2]) };
@@ -41,7 +41,7 @@ public final class PropBank {
             final ListMultimap<String, Roleset> lemmaIndex = ArrayListMultimap.create();
 
             final BufferedReader reader = Resources.asCharSource(
-                    PropBank.class.getResource("eu.fbk.dkm.pikes.resources.PropBank.tsv"), Charsets.UTF_8)
+                    PropBank.class.getResource("PropBank.tsv"), Charsets.UTF_8)
                     .openBufferedStream();
 
             String line;

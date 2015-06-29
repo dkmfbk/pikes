@@ -1,4 +1,4 @@
-K-CAP 2015 Evaluation
+Evaluation (May 2015)
 ===
 
 Evaluating KE tools is a challenging task, especially when the goal is to extract all the knowledge conveyed by a text.

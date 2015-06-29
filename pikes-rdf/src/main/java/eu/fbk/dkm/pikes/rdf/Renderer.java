@@ -68,7 +68,7 @@ public class Renderer {
 
     public static final Map<Object, String> DEFAULT_STYLE_MAP = ImmutableMap.of();
 
-    public static final Mustache DEFAULT_TEMPLATE = loadTemplate("eu.fbk.dkm.pikes.rdf.Renderer.html");
+    public static final Mustache DEFAULT_TEMPLATE = loadTemplate("Renderer.html");
 
     public static final List<String> DEFAULT_RANKED_NAMESPACES = ImmutableList.of(
             "http://www.newsreader-project.eu/ontologies/propbank/",

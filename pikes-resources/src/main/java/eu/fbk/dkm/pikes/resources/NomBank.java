@@ -34,7 +34,7 @@ public class NomBank {
             final ListMultimap<String, Roleset> pbIdIndex = ArrayListMultimap.create();
 
             final BufferedReader reader = Resources.asCharSource(
-                    NomBank.class.getResource("eu.fbk.dkm.pikes.resources.NomBank.tsv"), Charsets.UTF_8).openBufferedStream();
+                    NomBank.class.getResource("NomBank.tsv"), Charsets.UTF_8).openBufferedStream();
 
             String line;
             while ((line = reader.readLine()) != null) {

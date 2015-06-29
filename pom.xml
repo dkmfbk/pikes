@@ -23,6 +23,13 @@
     <name>pikes</name>
     <description>Pikes is a Knowledge Extraction Suite</description>
 
+    <repositories>
+        <repository>
+            <id>fbk-repo</id>
+            <url>https://raw.githubusercontent.com/fbk/mvn-repo/master/releases</url>
+        </repository>
+    </repositories>
+
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
@@ -72,12 +79,25 @@
         </developer>
     </developers>
 
+    <contributors>
+        <contributor>
+            <name>Mauro Dragoni</name>
+            <email>dragoni@fbk.eu</email>
+            <url>http://shell.fbk.eu/people/profile/dragoni</url>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>+1</timezone>
+            <properties>
+                <picUrl>https://my.fbk.eu/fbk-api/v2/picture/dragoni</picUrl>
+            </properties>
+        </contributor>
+    </contributors>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -283,14 +303,6 @@
 
         <!-- Dependency versions -->
         <junit-version>4.12-beta-2</junit-version>
-        <jsr305-version>3.0.0</jsr305-version>
-        <slf4j-version>1.7.10</slf4j-version>
-        <logback-version>1.1.2</logback-version>
-        <sesame-version>2.7.14</sesame-version>
-        <jsonld-java-version>0.2</jsonld-java-version>
-        <semargl-jsonld-version>0.6.1</semargl-jsonld-version>
-        <httpclient-version>3.1</httpclient-version>
-        <groovy-version>2.4.0-beta-4</groovy-version>
 
         <!-- Build plugin versions -->
         <release-plugin-version>2.5.1</release-plugin-version>

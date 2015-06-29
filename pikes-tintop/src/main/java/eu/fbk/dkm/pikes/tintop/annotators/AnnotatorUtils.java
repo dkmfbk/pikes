@@ -1,7 +1,7 @@
 package eu.fbk.dkm.pikes.tintop.annotators;
 
 
-import eu.fbk.dkm.pikes.tintop.annotators.util.POStagset;
+import eu.fbk.dkm.pikes.tintop.util.POStagset;
 
 import java.util.Map;
 import java.util.Properties;

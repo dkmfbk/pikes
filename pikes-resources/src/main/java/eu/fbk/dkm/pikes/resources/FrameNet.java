@@ -27,7 +27,7 @@ public class FrameNet {
                 map.put(relation, ImmutableMultimap.builder());
             }
             for (final String line : Resources.readLines(
-                    FrameNet.class.getResource("eu.fbk.dkm.pikes.resources.FrameNet.tsv"), Charsets.UTF_8)) {
+                    FrameNet.class.getResource("FrameNet.tsv"), Charsets.UTF_8)) {
                 final String[] tokens = line.split("\t");
                 final Relation relation = Relation.valueOf(tokens[0]);
                 final String from = tokens[1];

@@ -26,7 +26,7 @@
 
         <menu name="Resources">
             <item name="Simple English Wikipedia RDF" href="sew-rdf.html"/>
-            <item name="K-CAP 2015 evaluation" href="evaluation.html"/>
+            <item name="Evaluation (May 2015)" href="evaluation.html"/>
         </menu>
 
         <menu name="Maven Reports" ref="reports" inherit="top"/>

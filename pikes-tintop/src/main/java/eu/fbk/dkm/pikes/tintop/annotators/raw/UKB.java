@@ -1,6 +1,6 @@
 package eu.fbk.dkm.pikes.tintop.annotators.raw;
 
-import eu.fbk.dkm.pikes.tintop.annotators.util.PikesProperties;
+import eu.fbk.dkm.pikes.tintop.util.PikesProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

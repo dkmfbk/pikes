@@ -36,7 +36,7 @@ public final class YagoTaxonomy {
         try {
             final ImmutableMap.Builder<Long, String> builder = ImmutableMap.builder();
             for (final String line : Resources.readLines(
-                    YagoTaxonomy.class.getResource("eu.fbk.dkm.pikes.resources.YagoTaxonomy.tsv"), Charsets.UTF_8)) {
+                    YagoTaxonomy.class.getResource("YagoTaxonomy.tsv"), Charsets.UTF_8)) {
                 final String[] tokens = line.split("\t");
                 builder.put(Long.valueOf(tokens[0]), tokens[1]);
             }

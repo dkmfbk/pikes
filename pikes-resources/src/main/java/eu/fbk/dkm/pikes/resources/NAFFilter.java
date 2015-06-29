@@ -4,7 +4,6 @@ import com.google.common.base.*;
 import com.google.common.base.Objects;
 import com.google.common.collect.*;
 import com.google.common.io.Resources;
-import eu.fbk.dkm.utils.NumberSpeller;
 import eu.fbk.dkm.utils.Util;
 import eu.fbk.dkm.utils.vocab.SUMO;
 import ixa.kaflib.*;

@@ -61,7 +61,7 @@ public class SenticNet extends Lexicon<SenticNet.Lexeme> {
     public static synchronized SenticNet getInstance() {
         if (instance == null) {
             final String location = Objects.firstNonNull(
-                    Environment.getProperty("senticnet.home"), "eu.fbk.dkm.pikes.resources.SenticNet.tsv");
+                    Environment.getProperty("senticnet.home"), "SenticNet.tsv");
             try {
                 instance = Lexicon.readFrom(SenticNet.class, Lexeme.class, location);
             } catch (final Throwable ex) {

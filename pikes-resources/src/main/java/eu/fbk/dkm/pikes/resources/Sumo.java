@@ -25,7 +25,7 @@ public final class Sumo {
 
     static {
         try (final BufferedReader reader = Resources.asCharSource(
-                NomBank.class.getResource("eu.fbk.dkm.pikes.resources.Sumo.tsv"), Charsets.UTF_8).openBufferedStream()) {
+                NomBank.class.getResource("Sumo.tsv"), Charsets.UTF_8).openBufferedStream()) {
 
             final Map<String, URI> uriIndex = Maps.newHashMap();
             final Map<URI, Concept> nameIndex = Maps.newHashMap();

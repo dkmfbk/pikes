@@ -11,13 +11,6 @@
 
     <artifactId>pikes-tintop</artifactId>
 
-    <repositories>
-        <repository>
-            <id>fbk-repo</id>
-            <url>https://raw.githubusercontent.com/fbk/mvn-repo/master/releases</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>edu.stanford.nlp</groupId>
@@ -63,7 +56,34 @@
             <artifactId>api-client</artifactId>
             <version>1.5-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.grizzly</groupId>
+            <artifactId>grizzly-http-server</artifactId>
+            <version>2.3.21</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openrdf.sesame</groupId>
+            <artifactId>sesame-rio-api</artifactId>
+            <version>2.7.12</version>
+        </dependency>
+        <dependency>
+            <groupId>cc.mallet</groupId>
+            <artifactId>mallet</artifactId>
+            <version>2.0.7</version>
+        </dependency>
 
+        <dependency>
+            <groupId>eu.fbk.pikes</groupId>
+            <artifactId>pikes-naflib</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.fbk.pikes</groupId>
+            <artifactId>pikes-resources</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.fbk.pikes</groupId>
+            <artifactId>pikes-rdf</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -73,4 +93,25 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

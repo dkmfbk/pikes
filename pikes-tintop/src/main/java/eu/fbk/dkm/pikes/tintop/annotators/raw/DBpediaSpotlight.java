@@ -1,6 +1,6 @@
 package eu.fbk.dkm.pikes.tintop.annotators.raw;
 
-import eu.fbk.dkm.pikes.tintop.utils.PipelineConfiguration;
+import eu.fbk.dkm.pikes.tintop.util.PipelineConfiguration;
 import org.apache.commons.lang3.CharEncoding;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
@@ -25,7 +25,7 @@ public class DBpediaSpotlight {
 	static String urlAddress;
 	private Properties config = new Properties();
 
-	private String prefix = "";
+	private String prefix = "dbps_";
 
 	public DBpediaSpotlight() {
 		this(PipelineConfiguration.getInstance().getProperties());

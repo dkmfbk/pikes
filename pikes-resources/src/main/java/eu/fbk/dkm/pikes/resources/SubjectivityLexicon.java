@@ -31,7 +31,7 @@ public final class SubjectivityLexicon extends Lexicon<SubjectivityLexicon.Lexem
         if (instance == null) {
             final String location = Objects.firstNonNull(
                     Environment.getProperty("subjectivity.lexicon.home"),
-                    "eu.fbk.dkm.pikes.resources.SubjectivityLexicon.tsv");
+                    "SubjectivityLexicon.tsv");
             try {
                 instance = Lexicon.readFrom(SubjectivityLexicon.class, Lexeme.class, location);
             } catch (final Throwable ex) {

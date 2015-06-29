@@ -1,4 +1,4 @@
-package eu.fbk.dkm.pikes.tintop.utils;
+package eu.fbk.dkm.pikes.tintop.util;
 
 import java.io.FileInputStream;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package eu.fbk.dkm.pikes.tintop.annotators.util;
+package eu.fbk.dkm.pikes.tintop.util;
 
 import java.util.HashMap;
 
