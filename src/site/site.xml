@@ -20,6 +20,9 @@
 
         <menu name="About">
             <item name="Home" href="index.html"/>
+            <item name="Pikes in a nutshell" href="overview.html"/>
+            <item name="Representation model" href="model.html"/>
+            <item name="Extraction pipeline" href="pipeline.html"/>
             <!--<item name="Team" href="team-list.html"/>-->
             <!--<item name="Publications" href="publications.html"/>-->
         </menu>
@@ -108,6 +111,9 @@
                 <license>
                     <highlightJs>false</highlightJs>
                 </license>
+                <pipeline>
+                    <highlightJs>false</highlightJs>
+                </pipeline>
             </pages>
         </reflowSkin>
     </custom>
