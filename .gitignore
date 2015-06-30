@@ -6,3 +6,7 @@ target/
 
 **/pom.xml.versionsBackup
 **/*.iml
+**/.classpath
+**/.project
+**/.settings
+
