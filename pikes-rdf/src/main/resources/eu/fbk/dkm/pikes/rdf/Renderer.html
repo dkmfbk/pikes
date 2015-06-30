@@ -31,13 +31,20 @@ $( document ).ready(function() {
     });
     $('table.datatable').each( function() {
         var head = $(this).find('thead');
+        var defs = [];
+        head.find('th').each( function (colIdx, cell) {
+            var columnClass = $(cell).attr('class');
+            if (columnClass != undefined) {
+                defs.push({ targets: [colIdx], className: columnClass});
+            }
+        } );
         var filters = head.clone().attr('class', 'datatable-filter');
         head.attr('class', 'datatable-head');
         filters.insertAfter(head);
         $('th', filters).html('<small><input type="text" placeholder="filter" style="width:100%" /></small>');
-        var table = $(this).DataTable({ "dom": 'ilfrtp', paging: false });
+        var table = $(this).DataTable({ "dom": 'ilfrtp', paging: false, columnDefs: defs });
         table.columns().eq(0).each( function ( colIdx ) {
-        	$('input', $('th', filters)[colIdx]).on('keyup change', function () {
+            $('input', $('th', filters)[colIdx]).on('keyup change', function () {
             table.column( colIdx ).search( this.value ).draw();
           } );
         } );
@@ -88,6 +95,12 @@ table.datatable      { margin-top: 0px; margin-bottom: 10px; border-bottom: none
 table.properties    { margin-bottom: 0; display: inline-table!important; width: auto; }
 table.properties table.properties { border: 1px outset #dddddd; margin: 5px 10px 5px 0px }
 table.properties td { padding-top: 2px!important; padding-bottom: 2px!important; border: none!important }
+
+.col-mi                   { background-color: #fafafa; }
+.col-ma, .col-mt, .col-mo { background-color: #ffffff; }
+.col-md, .col-me          { background-color: #fafafa; }
+.col-ts, .col-tp, .col-to { background-color: #ffffff; }
+.col-te                   { background-color: #fafafa; }
 
 .txt_sent_id        { vertical-align: top; padding: .5em 1em 0 0; width: 1% }
 .txt_sent_short     { padding: .5em 0 .5em 0; }

@@ -1,25 +1,53 @@
 package eu.fbk.dkm.pikes.rdf;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.net.URL;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.Callable;
+
+import javax.annotation.Nullable;
+
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.util.LatchedWriter;
-import com.google.common.base.*;
+import com.google.common.base.Charsets;
+import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
-import com.google.common.collect.*;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 import com.google.common.html.HtmlEscapers;
 import com.google.common.io.Files;
-import eu.fbk.dkm.pikes.naflib.OpinionPrecisionRecall;
-import eu.fbk.dkm.pikes.resources.NAFFilter;
-import eu.fbk.dkm.pikes.resources.NAFUtils;
-import eu.fbk.dkm.utils.Range;
-import eu.fbk.dkm.utils.Util;
-import eu.fbk.dkm.utils.vocab.*;
-import eu.fbk.rdfpro.util.*;
-import ixa.kaflib.*;
-import ixa.kaflib.Opinion.Polarity;
-import ixa.kaflib.Predicate;
-import ixa.kaflib.Predicate.Role;
-import org.openrdf.model.*;
+
+import org.openrdf.model.BNode;
+import org.openrdf.model.Literal;
+import org.openrdf.model.Model;
+import org.openrdf.model.Resource;
+import org.openrdf.model.Statement;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 import org.openrdf.model.impl.LinkedHashModel;
 import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.vocabulary.RDF;
@@ -27,11 +55,36 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
-import javax.annotation.Nullable;
-import java.io.*;
-import java.net.URL;
-import java.util.*;
-import java.util.concurrent.Callable;
+import ixa.kaflib.Coref;
+import ixa.kaflib.Dep;
+import ixa.kaflib.Entity;
+import ixa.kaflib.ExternalRef;
+import ixa.kaflib.KAFDocument;
+import ixa.kaflib.Opinion;
+import ixa.kaflib.Opinion.Polarity;
+import ixa.kaflib.Predicate;
+import ixa.kaflib.Predicate.Role;
+import ixa.kaflib.Span;
+import ixa.kaflib.Term;
+
+import eu.fbk.dkm.pikes.naflib.OpinionPrecisionRecall;
+import eu.fbk.dkm.pikes.resources.NAFFilter;
+import eu.fbk.dkm.pikes.resources.NAFUtils;
+import eu.fbk.dkm.utils.Range;
+import eu.fbk.dkm.utils.Util;
+import eu.fbk.dkm.utils.vocab.GAF;
+import eu.fbk.dkm.utils.vocab.KS;
+import eu.fbk.dkm.utils.vocab.NIF;
+import eu.fbk.dkm.utils.vocab.NWR;
+import eu.fbk.dkm.utils.vocab.OWLTIME;
+import eu.fbk.dkm.utils.vocab.SUMO;
+import eu.fbk.rdfpro.util.Environment;
+import eu.fbk.rdfpro.util.Hash;
+import eu.fbk.rdfpro.util.IO;
+import eu.fbk.rdfpro.util.Namespaces;
+import eu.fbk.rdfpro.util.Options;
+import eu.fbk.rdfpro.util.Statements;
+import eu.fbk.rdfpro.util.Tracker;
 
 public class Renderer {
 
@@ -790,13 +843,13 @@ public class Renderer {
         // TODO: confidence?
 
         out.append("<table class=\"table table-condensed datatable\">\n<thead>\n");
-        out.append("<tr><th width='25%'>");
+        out.append("<tr><th width='25%' class='col-ts'>");
         out.append(shorten(RDF.SUBJECT));
-        out.append("</th><th width='25%'>");
+        out.append("</th><th width='25%' class='col-tp'>");
         out.append(shorten(RDF.PREDICATE));
-        out.append("</th><th width='25%'>");
+        out.append("</th><th width='25%' class='col-to'>");
         out.append(shorten(RDF.OBJECT));
-        out.append("</th><th width='25%'>");
+        out.append("</th><th width='25%' class='col-te'>");
         out.append(shorten(KS.EXPRESSED_BY));
         out.append("</th></tr>\n");
         out.append("</thead>\n<tbody>\n");
@@ -813,17 +866,14 @@ public class Renderer {
                 String separator = "";
                 for (final Value mentionID : model.filter(statement.getContext(), KS.EXPRESSED_BY,
                         null).objects()) {
-                    final int begin = model.filter((Resource) mentionID, NIF.BEGIN_INDEX, null)
-                            .objectLiteral().intValue();
-                    final int end = model.filter((Resource) mentionID, NIF.END_INDEX, null)
-                            .objectLiteral().intValue();
                     final String extent = model.filter((Resource) mentionID, NIF.ANCHOR_OF, null)
                             .objectLiteral().stringValue();
-                    out.append(String.format("%s<b>(%d,%d)</b> '%s'", separator, begin, end,
-                            escape(extent)));
-                    separator = ", ";
+                    out.append(separator);
+                    renderObject(out, mentionID, model);
+                    out.append(" '").append(escape(extent)).append("'");
+                    separator = "<br/>";
                 }
-                out.append("</td></tr>\n");
+                out.append("</ol></td></tr>\n");
             }
         }
 
@@ -833,16 +883,15 @@ public class Renderer {
     public void renderMentionsTable(final Appendable out, final Model model) throws IOException {
 
         out.append("<table class=\"table table-condensed datatable\">\n<thead>\n");
-        out.append("<tr><th width='12%'>id</th><th width='18%'>");
+        out.append("<tr><th width='12%' class='col-mi'>id</th><th width='18%' class='col-ma'>");
         out.append(shorten(NIF.ANCHOR_OF));
-        out.append("</th><th width='11%'>");
+        out.append("</th><th width='11%' class='col-mt'>");
         out.append(shorten(RDF.TYPE));
-        out.append("</th><th width='11%'>");
+        out.append("</th><th width='18%' class='col-mo'>mention attributes</th><th width='11%' class='col-md'>");
         out.append(shorten(GAF.DENOTED_BY)).append("<sup>-1</sup>");
-        out.append("</th><th width='30%'>");
+        out.append("</th><th width='30%' class='col-me'>");
         out.append(shorten(KS.EXPRESSED_BY)).append("<sup>-1</sup>");
-        out.append("</th><th width='18%'>other</th></tr>\n");
-        out.append("</thead>\n<tbody>\n");
+        out.append("</th></tr>\n</thead>\n<tbody>\n");
 
         for (final Resource mentionID : this.valueComparator.sortedCopy(ModelUtil
                 .getMentions(model))) {
@@ -852,6 +901,19 @@ public class Renderer {
             out.append(model.filter(mentionID, NIF.ANCHOR_OF, null).objectString());
             out.append("</td><td>");
             renderObject(out, model.filter(mentionID, RDF.TYPE, null).objects(), model);
+            out.append("</td><td>");
+            final Model mentionModel = new LinkedHashModel();
+            for (final Statement statement : model.filter(mentionID, null, null)) {
+                final URI pred = statement.getPredicate();
+                if (!NIF.BEGIN_INDEX.equals(pred) && !NIF.END_INDEX.equals(pred)
+                        && !NIF.ANCHOR_OF.equals(pred) && !RDF.TYPE.equals(pred)
+                        && !KS.MENTION_OF.equals(pred)) {
+                    mentionModel.add(statement);
+                }
+            }
+            if (!mentionModel.isEmpty()) {
+                renderProperties(out, mentionModel, mentionID, false);
+            }
             out.append("</td><td>");
             renderObject(out, model.filter(null, GAF.DENOTED_BY, mentionID).subjects(), model);
             out.append("</td><td><ol>");
@@ -866,20 +928,7 @@ public class Renderer {
                     out.append("</li>");
                 }
             }
-            out.append("</ol></td><td>");
-            final Model mentionModel = new LinkedHashModel();
-            for (final Statement statement : model.filter(mentionID, null, null)) {
-                final URI pred = statement.getPredicate();
-                if (!NIF.BEGIN_INDEX.equals(pred) && !NIF.END_INDEX.equals(pred)
-                        && !NIF.ANCHOR_OF.equals(pred) && !RDF.TYPE.equals(pred)
-                        && !KS.MENTION_OF.equals(pred)) {
-                    mentionModel.add(statement);
-                }
-            }
-            if (!mentionModel.isEmpty()) {
-                renderProperties(out, mentionModel, mentionID, false);
-            }
-            out.append("</td></tr>\n");
+            out.append("</ol></td></tr>\n");
         }
 
         out.append("</tbody>\n</table>\n");
@@ -1831,7 +1880,7 @@ public class Renderer {
             }
 
             final RDFGenerator generator = RDFGenerator.builder()
-                    .withProperties(Util.PROPERTIES, "eu.fbk.naftools.cmd.eu.fbk.dkm.pikes.rdf.RDFGenerator")
+                    .withProperties(Util.PROPERTIES, "eu.fbk.naftools.cmd.RDFGenerator")
                     .withMerging(merge).withNormalization(normalize).build();
 
             return new Runner(inputFiles, outputFiles, generator, template);
