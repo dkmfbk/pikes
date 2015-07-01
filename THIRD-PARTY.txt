@@ -72,11 +72,7 @@ List of third-party dependencies grouped by their license type.
             * nlputils (se.lth.cs.nlp:nlputils:1.0)
             * LIBSVM (tw.edu.ntu.csie:libsvm:3.17)
 
-        CDDL 1.1:
-
-            * Java Architecture for XML Binding (javax.xml.bind:jaxb-api:2.2.7)
-
-        CDDL+GPL:
+        CDDL + GPLv2:
 
             * JSR 353 (JSON Processing) API (javax.json:javax.json-api:1.0)
             * grizzly-framework (org.glassfish.grizzly:grizzly-framework:2.2.19)
@@ -86,6 +82,10 @@ List of third-party dependencies grouped by their license type.
             * grizzly-http-server (org.glassfish.grizzly:grizzly-http-server:2.2.19)
             * grizzly-http-server (org.glassfish.grizzly:grizzly-http-server:2.3.21)
             * grizzly-rcm (org.glassfish.grizzly:grizzly-rcm:2.2.19)
+
+        CDDL 1.1:
+
+            * Java Architecture for XML Binding (javax.xml.bind:jaxb-api:2.2.7)
 
         Common Public License:
 
@@ -111,10 +111,6 @@ List of third-party dependencies grouped by their license type.
             * pikes-rdf (eu.fbk.pikes:pikes-rdf:1.0-SNAPSHOT)
             * pikes-resources (eu.fbk.pikes:pikes-resources:1.0-SNAPSHOT)
 
-        GNU General Public License Version 2:
-
-            * Stanford CoreNLP (edu.stanford.nlp:stanford-corenlp:3.4)
-
         GNU Lesser General Public License:
 
             * Logback Classic Module (ch.qos.logback:logback-classic:1.1.2)
@@ -128,8 +124,9 @@ List of third-party dependencies grouped by their license type.
             * GNU Trove (net.sf.trove4j:trove4j:2.0.2)
             * BeanShell (org.beanshell:bsh:2.0b4)
 
-        GPL2 w/ CPE:
+        GPLv2 with classpath exception:
 
+            * Stanford CoreNLP (edu.stanford.nlp:stanford-corenlp:3.4)
             * Java Architecture for XML Binding (javax.xml.bind:jaxb-api:2.2.7)
 
         JSON License:

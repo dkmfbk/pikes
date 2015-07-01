@@ -50,7 +50,7 @@ List of third-party dependencies grouped by their license type.
             * nlputils (se.lth.cs.nlp:nlputils:1.0)
             * LIBSVM (tw.edu.ntu.csie:libsvm:3.17)
 
-        CDDL+GPL:
+        CDDL + GPLv2:
 
             * grizzly-framework (org.glassfish.grizzly:grizzly-framework:2.2.19)
             * grizzly-http (org.glassfish.grizzly:grizzly-http:2.2.19)
