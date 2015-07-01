@@ -23,6 +23,14 @@
     <name>pikes</name>
     <description>Pikes is a Knowledge Extraction Suite</description>
 
+    <licenses>
+        <license>
+            <name>GNU General Public License (GPL) version 3</name>
+            <url>http://www.gnu.org/licenses/gpl.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
     <repositories>
         <repository>
             <id>fbk-repo</id>
@@ -224,6 +232,16 @@
         </pluginManagement>
 
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <configuration>
+                    <licenseName>gpl_v3</licenseName>
+                    <!--<licenseResolver>${project.baseUri}/${parent-path}/src/license</licenseResolver>-->
+                    <fileTemplate>${project.basedir}/${parent-path}/src/license/template.ftl</fileTemplate>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <!-- The following goal is necessary in order to allow child modules to
                      inherit the site descriptor of the parent project -->

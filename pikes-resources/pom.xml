@@ -24,10 +24,6 @@
             <groupId>org.codehaus.guessencoding</groupId>
             <artifactId>guessencoding</artifactId>
         </dependency>
-        <dependency>
-            <groupId>eu.fbk.pikes</groupId>
-            <artifactId>pikes-naflib</artifactId>
-        </dependency>
 
         <!-- Not inherited from fbk-parent -->
         <dependency>
@@ -59,5 +55,6 @@
 
     <properties>
         <jwnl.version>1.4_rc3</jwnl.version>
+        <parent-path>..</parent-path>
     </properties>
 </project>

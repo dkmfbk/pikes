@@ -11,10 +11,6 @@
 
     <artifactId>pikes-naflib</artifactId>
 
-    <properties>
-        <parent-path>..</parent-path>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.jdom</groupId>
@@ -29,4 +25,9 @@
             <artifactId>utils</artifactId>
         </dependency>
     </dependencies>
+
+    <properties>
+        <parent-path>..</parent-path>
+    </properties>
+
 </project>

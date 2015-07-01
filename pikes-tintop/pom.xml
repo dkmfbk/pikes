@@ -45,6 +45,12 @@
             <groupId>eu.fbk.anna</groupId>
             <artifactId>mate</artifactId>
             <version>4.31</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.riedelcastro</groupId>
+                    <artifactId>whatswrong</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
@@ -114,4 +120,8 @@
             </plugin>
         </plugins>
     </build>
+
+    <properties>
+        <parent-path>..</parent-path>
+    </properties>
 </project>

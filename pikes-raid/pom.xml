@@ -67,4 +67,9 @@
             <!--<version>1.0-SNAPSHOT</version>-->
         <!--</dependency>-->
     </dependencies>
+
+    <properties>
+        <parent-path>..</parent-path>
+    </properties>
+
 </project>
