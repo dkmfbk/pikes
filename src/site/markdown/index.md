@@ -1,7 +1,6 @@
 <div class="well sidebar" id="well-home">
     <h1>
-        <img src='images/pikes-150.png' />
-        PIKES
+        <img src='images/pikes-big.png' alt='PIKES' title='PIKES' />
     </h1>
     
     <p class='title2'>
