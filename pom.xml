@@ -60,7 +60,7 @@
             </roles>
             <timezone>+1</timezone>
             <properties>
-                <picUrl>https://my.fbk.eu/fbk-api/v2/picture/rospocher</picUrl>
+                <picUrl>http://pikes.fbk.eu/images/team/rospocher.jpg</picUrl>
             </properties>
         </developer>
         <developer>
@@ -71,6 +71,9 @@
                 <role>Developer</role>
             </roles>
             <timezone>+1</timezone>
+            <properties>
+                <picUrl>http://pikes.fbk.eu/images/team/corcoglio.jpg</picUrl>
+            </properties>
         </developer>
         <developer>
             <id>aprosio</id>
@@ -82,7 +85,7 @@
             </roles>
             <timezone>+1</timezone>
             <properties>
-                <picUrl>https://my.fbk.eu/fbk-api/v2/picture/aprosio</picUrl>
+                <picUrl>http://pikes.fbk.eu/images/team/aprosio.jpg</picUrl>
             </properties>
         </developer>
     </developers>
@@ -97,7 +100,7 @@
             </roles>
             <timezone>+1</timezone>
             <properties>
-                <picUrl>https://my.fbk.eu/fbk-api/v2/picture/dragoni</picUrl>
+                <picUrl>http://pikes.fbk.eu/images/team/dragoni.jpg</picUrl>
             </properties>
         </contributor>
     </contributors>
