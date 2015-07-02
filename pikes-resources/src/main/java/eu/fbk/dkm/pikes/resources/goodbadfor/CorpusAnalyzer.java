@@ -1,13 +1,13 @@
 package eu.fbk.dkm.pikes.resources.goodbadfor;
 
 import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.dkm.utils.FrequencyHashSet;
 import ixa.kaflib.KAFDocument;
 import ixa.kaflib.Opinion;
 import ixa.kaflib.Span;
 import ixa.kaflib.Term;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.fbk.cit.hlt.thewikimachine.util.FrequencyHashSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -58,7 +58,10 @@
             <artifactId>stanford-corenlp</artifactId>
             <classifier>models</classifier>
         </dependency>
-
+        <dependency>
+            <groupId>org.fbk.cit.hlt</groupId>
+            <artifactId>core</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.apache.jena</groupId>
             <artifactId>jena-core</artifactId>
@@ -69,12 +72,6 @@
             <artifactId>utils</artifactId>
             <version>1.0</version>
         </dependency>
-
-        <!--<dependency> -->
-        <!--<groupId>eu.fbk.shell</groupId> -->
-        <!--<artifactId>mdfsa</artifactId> -->
-        <!--<version>1.0-SNAPSHOT</version> -->
-        <!--</dependency> -->
     </dependencies>
 
     <properties>

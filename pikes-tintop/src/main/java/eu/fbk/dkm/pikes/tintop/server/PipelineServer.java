@@ -1,11 +1,11 @@
 package eu.fbk.dkm.pikes.tintop.server;
 
 import eu.fbk.dkm.pikes.tintop.AnnotationPipeline;
+import eu.fbk.dkm.pikes.tintop.CommandLineWithLogger;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import org.fbk.cit.hlt.thewikimachine.util.CommandLineWithLogger;
 import org.glassfish.grizzly.http.server.HttpServer;
 
 import java.util.Date;
