@@ -240,7 +240,6 @@
                 <artifactId>license-maven-plugin</artifactId>
                 <configuration>
                     <licenseName>gpl_v3</licenseName>
-                    <!--<licenseResolver>${project.baseUri}/${parent-path}/src/license</licenseResolver>-->
                     <fileTemplate>${project.basedir}/${parent-path}/src/license/template.ftl</fileTemplate>
                 </configuration>
             </plugin>

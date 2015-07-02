@@ -32,7 +32,7 @@
             <item name="Evaluation (May 2015)" href="evaluation.html"/>
         </menu>
 
-        <menu name="Maven Reports" ref="reports" inherit="top"/>
+        <!--<menu name="Maven Reports" ref="reports" inherit="top"/>-->
 
         <menu name="Links">
             <item name="GitHub project" href="https://github.com/dkmfbk/pikes"/>
