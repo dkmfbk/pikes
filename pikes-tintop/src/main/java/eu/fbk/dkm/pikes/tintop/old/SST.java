@@ -1,5 +1,6 @@
 package eu.fbk.dkm.pikes.tintop.old;
 
+import eu.fbk.dkm.pikes.tintop.CommandLineWithLogger;
 import eu.fbk.dkm.pikes.tintop.util.GenericCommandLine;
 import ixa.kaflib.KAFDocument;
 import ixa.kaflib.SSTspan;
@@ -10,7 +11,6 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import org.fbk.cit.hlt.thewikimachine.util.CommandLineWithLogger;
 
 import java.io.File;
 import java.io.IOException;
