@@ -707,7 +707,8 @@ public final class RDFGenerator {
             URI timexURI = null;
             if (timex.getValue() != null) {
                 if (type.equals("date") || type.equals("time")) {
-                    final OWLTime.Interval interval = OWLTime.Interval.parseTimex(timex.getValue());
+                    final OWLTime.Interval interval = OWLTime.Interval
+                            .parseTimex(timex.getValue());
                     if (interval != null) {
                         timexURI = interval.toRDF(this.handler,
                                 RDFGenerator.this.owltimeNamespace, null);
@@ -716,7 +717,8 @@ public final class RDFGenerator {
                                 + "' of " + NAFUtils.toString(timex));
                     }
                 } else if (type.equals("duration")) {
-                    final OWLTime.Duration duration = OWLTime.Duration.parseTimex(timex.getValue());
+                    final OWLTime.Duration duration = OWLTime.Duration
+                            .parseTimex(timex.getValue());
                     if (duration != null) {
                         timexURI = FACTORY.createURI(RDFGenerator.this.owltimeNamespace,
                                 duration.toString());
@@ -1359,7 +1361,6 @@ public final class RDFGenerator {
 
             for (final ExternalRef ref : head.getExternalRefs()) {
                 final URI typeURI = mintRefURI(ref.getResource(), ref.getReference());
-                emitFact(instanceID, RDF.TYPE, typeURI, mentionID, ref.getConfidence());
                 if (ref.getResource().equals(NAFUtils.RESOURCE_SUMO)) {
                     if (emitSumo) {
                         emitFact(instanceID, RDF.TYPE, typeURI, mentionID, ref.getConfidence());
