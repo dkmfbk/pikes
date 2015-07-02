@@ -47,7 +47,7 @@ public final class WordNet {
         // TODO: need better mapping
         final Map<String, String> bbnToSynset = Maps.newLinkedHashMap();
         bbnToSynset.put("person", "00007846-n");
-        bbnToSynset.put("organization", "07950920-n");
+        bbnToSynset.put("organization", "08008335-n"); // was 07950920
         bbnToSynset.put("gpe", "00027167-n");
         bbnToSynset.put("location", "00027167-n");
         bbnToSynset.put("event", "00029378-n");

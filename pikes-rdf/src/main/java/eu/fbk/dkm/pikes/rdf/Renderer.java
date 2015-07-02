@@ -1880,7 +1880,7 @@ public class Renderer {
             }
 
             final RDFGenerator generator = RDFGenerator.builder()
-                    .withProperties(Util.PROPERTIES, "eu.fbk.naftools.cmd.RDFGenerator")
+                    .withProperties(Util.PROPERTIES, "eu.fbk.dkm.pikes.cmd.RDFGenerator")
                     .withMerging(merge).withNormalization(normalize).build();
 
             return new Runner(inputFiles, outputFiles, generator, template);
@@ -1892,7 +1892,7 @@ public class Renderer {
             LOGGER.info("Rendering {} NAF files to HTML", this.inputFiles.size());
 
             final NAFFilter filter = NAFFilter.builder()
-                    .withProperties(Util.PROPERTIES, "eu.fbk.naftools.cmd.NAFFilter").build();
+                    .withProperties(Util.PROPERTIES, "eu.fbk.dkm.pikes.cmd.NAFFilter").build();
 
             final Renderer renderer = Renderer.DEFAULT;
 

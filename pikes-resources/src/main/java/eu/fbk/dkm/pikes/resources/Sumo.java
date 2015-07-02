@@ -1,19 +1,28 @@
 package eu.fbk.dkm.pikes.resources;
 
-import com.google.common.base.Charsets;
-import com.google.common.collect.*;
-import com.google.common.io.Resources;
-import eu.fbk.dkm.utils.vocab.SUMO;
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.URIImpl;
-
-import javax.annotation.Nullable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.annotation.Nullable;
+
+import com.google.common.base.Charsets;
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.google.common.io.Resources;
+
+import org.openrdf.model.URI;
+import org.openrdf.model.impl.URIImpl;
+
+import eu.fbk.dkm.utils.vocab.SUMO;
 
 public final class Sumo {
 
@@ -32,32 +41,29 @@ public final class Sumo {
             final Map<String, Concept> synsetIndex = Maps.newHashMap();
 
             String line;
-            final String[] empty = new String[0];
             while ((line = reader.readLine()) != null) {
 
                 final String[] tokens = Arrays.copyOf(line.split("\t"), 4);
 
                 final String name = tokens[0].intern();
-                final String[] parents = tokens[1] == null ? empty : tokens[1].split("\\|");
-                final String[] children = tokens[2] == null ? empty : tokens[2].split("\\|");
-                final String[] synsets = tokens[3] == null ? empty : tokens[3].split("\\|");
-
-                for (final String[] array : new String[][] { parents, children, synsets }) {
-                    for (int i = 0; i < array.length; ++i) {
-                        array[i] = array[i].intern();
-                    }
-                }
+                final List<String> parents = tokens[1] == null ? ImmutableList.of() : Splitter
+                        .on('|').trimResults().omitEmptyStrings().splitToList(tokens[1]);
+                final List<String> children = tokens[2] == null ? ImmutableList.of() : Splitter
+                        .on('|').trimResults().omitEmptyStrings().splitToList(tokens[2]);
+                final List<String> synsets = tokens[3] == null ? ImmutableList.of() : Splitter
+                        .on('|').trimResults().omitEmptyStrings().splitToList(tokens[3]);
 
                 final URI[][] uriArrays = new URI[3][];
-                final String[][] stringArrays = new String[][] { new String[] { name }, parents,
-                        children };
+                final List<List<String>> stringLists = ImmutableList.of(ImmutableList.of(name),
+                        parents, children);
 
                 for (int i = 0; i < 3; ++i) {
-                    final String[] stringArray = stringArrays[i];
-                    final URI[] uriArray = new URI[stringArray.length];
+                    final List<String> stringList = stringLists.get(i);
+                    final URI[] uriArray = new URI[stringList.size()];
                     uriArrays[i] = uriArray;
-                    for (int j = 0; j < stringArray.length; ++j) {
-                        final String uriString = SUMO.NAMESPACE + stringArray[j].trim();
+                    for (int j = 0; j < stringList.size(); ++j) {
+                        final String uriString = (SUMO.NAMESPACE + stringList.get(j).trim())
+                                .intern();
                         URI uri = uriIndex.get(uriString);
                         if (uri == null) {
                             uri = new URIImpl(uriString);
@@ -69,12 +75,13 @@ public final class Sumo {
 
                 final URI conceptURI = uriArrays[0][0];
 
-                for (int i = 0; i < synsets.length; ++i) {
-                    synsets[i] = synsets[i].trim().intern();
+                final String[] synsetsArray = new String[synsets.size()];
+                for (int i = 0; i < synsets.size(); ++i) {
+                    synsetsArray[i] = synsets.get(i).trim().intern();
                 }
 
                 final Concept concept = new Concept(conceptURI, uriArrays[1], uriArrays[2],
-                        synsets);
+                        synsetsArray);
 
                 nameIndex.put(conceptURI, concept);
                 for (final String synset : synsets) {
@@ -86,7 +93,7 @@ public final class Sumo {
             SYNSET_INDEX = ImmutableMap.copyOf(synsetIndex);
 
         } catch (final IOException ex) {
-            throw new Error("Cannot load eu.fbk.dkm.pikes.resources.PropBank data", ex);
+            throw new Error("Cannot load PropBank data", ex);
         }
     }
 
@@ -148,7 +155,7 @@ public final class Sumo {
         return result;
     }
 
-    public static Set<URI> getSuperClasses(URI childURI) {
+    public static Set<URI> getSuperClasses(final URI childURI) {
         final Set<URI> result = Sets.newHashSet();
         final List<URI> queue = Lists.newLinkedList();
         queue.add(childURI);

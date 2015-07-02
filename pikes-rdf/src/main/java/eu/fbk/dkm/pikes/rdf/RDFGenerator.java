@@ -243,7 +243,7 @@ public final class RDFGenerator {
             final boolean normalize = options.hasOption("n");
             final Corpus corpus = Corpus.create(recursive, options.getPositionalArgs(File.class));
             final RDFGenerator generator = RDFGenerator.builder()
-                    .withProperties(Util.PROPERTIES, "eu.fbk.naftools.cmd.eu.fbk.dkm.pikes.rdf.RDFGenerator")
+                    .withProperties(Util.PROPERTIES, "eu.fbk.dkm.pikes.rdf.RDFGenerator")
                     .withMerging(merge).withNormalization(normalize).build();
             return new Runner(corpus, generator, outputFile);
         }
@@ -254,7 +254,7 @@ public final class RDFGenerator {
             LOGGER.info("Converting {} NAF files to RDF", this.corpus.size());
 
             final NAFFilter filter = NAFFilter.builder()
-                    .withProperties(Util.PROPERTIES, "eu.fbk.naftools.cmd.NAFFilter").build();
+                    .withProperties(Util.PROPERTIES, "eu.fbk.dkm.pikes.rdf.NAFFilter").build();
 
             final RDFHandler writer;
             try {
@@ -1094,7 +1094,8 @@ public final class RDFGenerator {
                     emitFact(compURI, RDF.TYPE, new Object[] { KS.ENTITY }, mentionURI, null);
                     // emitFact(compURI, RDFS.LABEL, label, mentionURI, null);
                     // emitMeta(mentionURI, RDF.TYPE, KS.MISC_MENTION);
-                    emitMeta(compURI, GAF.DENOTED_BY, mentionURI);
+
+                    // emitMeta(compURI, GAF.DENOTED_BY, mentionURI);
 
                     // this.emitter.emitFact(predURI, KS.COMPOSITE, compURI, mentionURI, null);
                     for (int j = 0; j < uris.size(); ++j) {
@@ -1659,7 +1660,7 @@ public final class RDFGenerator {
 
         @Nullable
         private URI mintRefURI(@Nullable final String resource, @Nullable final String reference) {
-            if (resource != null && reference != null) {
+            if (!Strings.isNullOrEmpty(resource) && !Strings.isNullOrEmpty(reference)) {
                 final String normResource = resource.toLowerCase();
                 final String namespace = RDFGenerator.this.namespaceMap.get(normResource);
                 if (namespace != null) {
@@ -1729,7 +1730,10 @@ public final class RDFGenerator {
                 final Value obj = stmt.getObject();
                 final boolean subjIsGroup = groups.containsKey(subj);
                 final boolean objIsGroup = groups.containsKey(obj);
-                if (subjIsGroup && objIsGroup && !subj.equals(obj)) {
+                if (stmt.getPredicate().equals(OWL.SAMEAS)
+                        && (obj instanceof BNode || obj.stringValue().startsWith(this.baseURI))) {
+                    // discard statement
+                } else if (subjIsGroup && objIsGroup && !subj.equals(obj)) {
                     groupRels.put(subj, stmt);
                     groupRels.put((Resource) obj, stmt);
                 } else if (subjIsGroup) {
