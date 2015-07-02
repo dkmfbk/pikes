@@ -1,13 +1,17 @@
 package eu.fbk.dkm.pikes.naflib;
 
-import eu.fbk.dkm.utils.CommandLine;
-import eu.fbk.dkm.utils.EasySpan;
-import ixa.kaflib.KAFDocument;
-import org.apache.commons.io.FileUtils;
+import java.io.File;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
+import ixa.kaflib.KAFDocument;
+
+import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.dkm.utils.EasySpan;
 
 /**
  * Created by alessio on 25/03/15.
@@ -37,7 +41,7 @@ public class NafOffsetReader {
 				KAFDocument document = KAFDocument.createFromFile(nafFile);
 				text = document.getRawText();
 			} catch (Exception e) {
-				text = FileUtils.readFileToString(nafFile);
+				text = Files.toString(nafFile, Charsets.UTF_8);
 			}
 			EasySpan span = new EasySpan(start, end);
 			String piece = span.apply(text, false);

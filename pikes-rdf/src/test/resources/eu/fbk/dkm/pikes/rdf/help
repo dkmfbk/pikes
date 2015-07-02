@@ -1,0 +1,9 @@
+pikes-rdf %s - (Public Domain software)
+
+Manipulates NLP Annotation Format (NAF) files.
+
+Usage: pikes-rdf -v | -h | [-V] COMMAND ARG...
+
+Available commands:
+
+%s
