@@ -11,6 +11,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -467,6 +468,89 @@ public class Renderer {
     }
 
     public void renderText(final Appendable out, final KAFDocument document,
+            final Iterable<Term> terms, final Model model) throws IOException {
+
+        final List<Term> termList = Ordering.from(Term.OFFSET_COMPARATOR).sortedCopy(terms);
+        final Set<Term> termSet = ImmutableSet.copyOf(termList);
+        if (termList.isEmpty()) {
+            return;
+        }
+
+        final Markable[] markables = Markable.extract(termList, model, this.colorMap);
+
+        final Map<Term, Set<Coref>> corefs = Maps.newHashMap();
+        for (final Coref coref : document.getCorefs()) {
+            for (final Span<Term> span : coref.getSpans()) {
+                for (final Term term : span.getTargets()) {
+                    if (termSet.contains(term)) {
+                        Set<Coref> set = corefs.get(term);
+                        if (set == null) {
+                            set = Sets.newHashSet();
+                            corefs.put(term, set);
+                        }
+                        set.add(coref);
+                    }
+                }
+            }
+        }
+
+        Markable markable = null;
+
+        int index = NAFUtils.getBegin(termList.get(0));
+        final int end = Integer.MAX_VALUE;
+
+        List<Coref> lastCorefs = ImmutableList.of();
+        for (int i = 0; i < termList.size(); ++i) {
+
+            final Term term = termList.get(i);
+            final int termOffset = term.getOffset();
+            final int termLength = NAFUtils.getLength(term);
+            final int termBegin = Math.max(termOffset, index);
+            final int termEnd = Math.min(termOffset + termLength, end);
+            final List<Coref> termCorefs = document.getCorefsByTerm(term);
+
+            if (termBegin > index) {
+                final List<Coref> sameCorefs = Lists.newArrayList(lastCorefs);
+                sameCorefs.retainAll(termCorefs);
+                out.append(sameCorefs.isEmpty() ? " " : "<span class=\"txt_coref\"> </span>");
+            }
+
+            if (markable == null) {
+                markable = markables[i];
+                if (markable != null) {
+                    out.append("<span style=\"background-color: ").append(markable.color)
+                            .append("\">");
+                }
+            }
+
+            out.append("<span class=\"txt_term_tip");
+            for (final Coref coref : termCorefs) {
+                if (coref.getSpans().size() > 1) {
+                    out.append(" txt_coref");
+                    break;
+                }
+            }
+            out.append("\" title=\"");
+            emitTermTooltip(out, document, term);
+            out.append("\">");
+            out.append(term.getForm());
+            out.append("</span>");
+
+            if (markable != null && term == markable.terms.get(markable.terms.size() - 1)) {
+                out.append("</span>");
+                markable = null;
+            }
+
+            index = termEnd;
+            lastCorefs = termCorefs;
+        }
+
+        if (markable != null) {
+            out.append("</span>");
+        }
+    }
+
+    public void renderText(final Appendable out, final KAFDocument document,
             final Iterable<Term> terms) throws IOException {
 
         final List<Term> termList = Ordering.from(Term.OFFSET_COMPARATOR).sortedCopy(terms);
@@ -682,9 +766,9 @@ public class Renderer {
         }
     }
 
-    public void renderParsing(final Appendable out, final KAFDocument document, final int sentence)
-            throws IOException {
-        new ParsingRenderer(out, document, sentence).render(true, true, true);
+    public void renderParsing(final Appendable out, final KAFDocument document,
+            @Nullable final Model model, final int sentence) throws IOException {
+        new ParsingRenderer(out, document, model, sentence).render(true, true, true);
     }
 
     private void emitTermTooltip(final Appendable out, final KAFDocument document, final Term term)
@@ -1266,9 +1350,9 @@ public class Renderer {
                     final StringBuilder builder = new StringBuilder(128 * 1024);
                     if (this.type == SENTENCE_TEXT) {
                         renderText(builder, this.document,
-                                this.document.getTermsBySent(this.sentenceID));
+                                this.document.getTermsBySent(this.sentenceID), this.model);
                     } else if (this.type == SENTENCE_PARSING) {
-                        renderParsing(builder, this.document, this.sentenceID);
+                        renderParsing(builder, this.document, this.model, this.sentenceID);
                     } else if (this.type == SENTENCE_GRAPH) {
                         int begin = Integer.MAX_VALUE;
                         int end = Integer.MIN_VALUE;
@@ -1313,6 +1397,8 @@ public class Renderer {
 
         private final KAFDocument document;
 
+        private final Model model;
+
         private final int sentence;
 
         private final List<Term> terms;
@@ -1321,9 +1407,11 @@ public class Renderer {
 
         private final Map<Term, Integer> indexes;
 
-        ParsingRenderer(final Appendable out, final KAFDocument document, final int sentence) {
+        ParsingRenderer(final Appendable out, final KAFDocument document, final Model model,
+                final int sentence) {
             this.out = out;
             this.document = document;
+            this.model = model;
             this.sentence = sentence;
             this.terms = document.getTermsBySent(sentence);
             this.deps = Lists.newArrayListWithCapacity(this.terms.size());
@@ -1554,20 +1642,8 @@ public class Renderer {
 
         private void renderTerms(final boolean emitMentions) throws IOException {
 
-            // associate each term to the Entity / Predicate it possibly represent
-            final Object[] markables = new Object[this.terms.size()];
-            if (emitMentions) {
-                for (final Entity entity : this.document.getEntitiesBySent(this.sentence)) {
-                    for (final Term term : entity.getTerms()) {
-                        markables[this.indexes.get(term)] = entity;
-                    }
-                }
-                for (final Predicate predicate : this.document.getPredicatesBySent(this.sentence)) {
-                    for (final Term term : predicate.getTerms()) {
-                        markables[this.indexes.get(term)] = predicate;
-                    }
-                }
-            }
+            final Markable[] markables = emitMentions ? Markable.extract(this.terms, this.model,
+                    Renderer.this.colorMap) : new Markable[this.terms.size()];
 
             // open the TR row
             this.out.append("<tr class=\"txt_terms\">\n");
@@ -1576,24 +1652,20 @@ public class Renderer {
             for (int i = 0; i < this.terms.size(); ++i) {
                 final Term term = this.terms.get(i);
                 this.out.append("<td colspan=\"4\"><div class=\"");
-                final Object markable = markables[i];
+                final Markable markable = markables[i];
                 if (markable == null) {
                     this.out.append("txt_term_c\">");
                 } else {
                     final boolean start = i == 0 || markable != markables[i - 1];
                     final boolean end = i == this.terms.size() - 1 || markable != markables[i + 1];
-                    this.out.append(
-                            start ? end ? "txt_term_lcr" : "txt_term_lc" : end ? "txt_term_cr"
-                                    : "txt_term_c")
-                            .append(' ')
-                            .append(markable instanceof Entity ? "txt_bg_"
-                                    + Objects.firstNonNull(((Entity) markable).getType(), "misc")
-                                            .toLowerCase() : "txt_bg_evn").append("\">");
+                    this.out.append(start ? end ? "txt_term_lcr" : "txt_term_lc"
+                            : end ? "txt_term_cr" : "txt_term_c");
+                    this.out.append("\" style=\"background-color: ").append(markable.color)
+                            .append("\">");
                 }
                 this.out.append("<span class=\"txt_term_tip\" title=\"");
                 emitTermTooltip(this.out, this.document, term);
                 this.out.append("\">").append(term.getForm().replace(' ', '_')).append("</span>");
-
                 this.out.append("</div></td>\n");
             }
 
@@ -1761,7 +1833,7 @@ public class Renderer {
 
     }
 
-    private static class SRLElement implements Comparable<SRLElement> {
+    private static final class SRLElement implements Comparable<SRLElement> {
 
         final SRLElement parent;
 
@@ -1808,6 +1880,58 @@ public class Renderer {
                 }
             }
             return result;
+        }
+
+    }
+
+    private static final class Markable {
+
+        final List<Term> terms;
+
+        final String color;
+
+        Markable(final Iterable<Term> terms, final String color) {
+            this.terms = ImmutableList.copyOf(terms);
+            this.color = color;
+        }
+
+        static Markable[] extract(final List<Term> terms, final Model model,
+                final Map<Object, String> colorMap) {
+
+            final int[] offsets = new int[terms.size()];
+            for (int i = 0; i < terms.size(); ++i) {
+                offsets[i] = terms.get(i).getOffset();
+            }
+
+            final Markable[] markables = new Markable[offsets.length];
+            for (final Statement stmt : model.filter(null, GAF.DENOTED_BY, null)) {
+                final Resource instance = stmt.getSubject();
+                final String color = select(colorMap, model.filter(instance, RDF.TYPE, null)
+                        .objects(), null);
+                if (stmt.getObject() instanceof URI && color != null) {
+                    final URI mentionURI = (URI) stmt.getObject();
+                    final String name = mentionURI.getLocalName();
+                    if (name.indexOf(';') < 0) {
+                        final int index = name.indexOf(',');
+                        final int start = Integer.parseInt(name.substring(5, index));
+                        final int end = Integer.parseInt(name.substring(index + 1));
+                        final int s = Arrays.binarySearch(offsets, start);
+                        if (s >= 0) {
+                            int e = s;
+                            while (e < offsets.length && offsets[e] < end) {
+                                ++e;
+                            }
+                            final Markable markable = new Markable(ImmutableList.copyOf(terms
+                                    .subList(s, e)), color);
+                            for (int i = s; i < e; ++i) {
+                                markables[i] = markable;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return markables;
         }
 
     }
