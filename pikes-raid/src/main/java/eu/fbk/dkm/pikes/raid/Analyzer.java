@@ -203,8 +203,10 @@ public final class Analyzer {
                     try {
                         this.reportRenderer.renderOpinions(sentenceMarkup, document, sentenceID,
                                 goldMap.get(sentenceID), testMap.get(sentenceID));
-                        this.reportRenderer.renderParsing(sentenceParsing, document, sentenceID);
-                        this.reportRenderer.renderGraph(sentenceGraph, model, Renderer.Algorithm.NEATO);
+                        this.reportRenderer.renderParsing(sentenceParsing, document, model,
+                                sentenceID);
+                        this.reportRenderer.renderGraph(sentenceGraph, model,
+                                Renderer.Algorithm.NEATO);
                         runTemplate(this.reportPath.resolve(file).toFile(), SENTENCE_TEMPLATE,
                                 ImmutableMap.of("markup", sentenceMarkup, "parsing",
                                         sentenceParsing, "graph", sentenceGraph));
@@ -230,7 +232,7 @@ public final class Analyzer {
         if (this.reportPath != null) {
             try {
                 Collections.sort(this.reportModel, (final Map<String, Object> m1,
-                                                    final Map<String, Object> m2) -> {
+                        final Map<String, Object> m2) -> {
                     final String d1 = m1.get("document").toString();
                     final String d2 = m2.get("document").toString();
                     int result = d1.compareTo(d2);
