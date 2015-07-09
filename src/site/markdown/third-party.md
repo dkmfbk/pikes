@@ -1,0 +1,154 @@
+List of third-party dependencies grouped by their license type.
+
+        Apache Software License, Version 2.0:
+
+            * compiler (com.github.spullara.mustache.java:compiler:0.8.12)
+            * FindBugs-jsr305 (com.google.code.findbugs:jsr305:2.0.3)
+            * Guava: Google Core Libraries for Java (com.google.guava:guava:17.0)
+            * api-client (com.machinelinking:api-client:1.5-SNAPSHOT)
+            * Commons BeanUtils (commons-beanutils:commons-beanutils:1.8.3)
+            * Commons BeanUtils Core (commons-beanutils:commons-beanutils-core:1.8.3)
+            * Commons CLI (commons-cli:commons-cli:1.2)
+            * Commons Codec (commons-codec:commons-codec:1.6)
+            * Commons Collections (commons-collections:commons-collections:3.2.1)
+            * Commons Configuration (commons-configuration:commons-configuration:1.7)
+            * Commons Digester (commons-digester:commons-digester:1.8.1)
+            * Commons IO (commons-io:commons-io:2.4)
+            * Commons Lang (commons-lang:commons-lang:2.6)
+            * Commons Logging (commons-logging:commons-logging:1.1.1)
+            * Jollyday (de.jollyday:jollyday:0.4.7)
+            * mate (eu.fbk.anna:mate:4.31)
+            * utils (eu.fbk.dkm.utils:utils:1.0)
+            * Joda time (joda-time:joda-time:2.1)
+            * Apache Log4j (log4j:log4j:1.2.17)
+            * opencsv (net.sf.opencsv:opencsv:2.0)
+            * TreeTagger for Java (org.annolab.tt4j:org.annolab.tt4j:1.2.1)
+            * Commons Compress (org.apache.commons:commons-compress:1.5)
+            * Apache Commons CSV (org.apache.commons:commons-csv:1.0)
+            * Commons Exec (org.apache.commons:commons-exec:1.1)
+            * Apache Commons Lang (org.apache.commons:commons-lang3:3.4)
+            * Apache Jena - Core (org.apache.jena:jena-core:2.13.0)
+            * Apache Jena - IRI (org.apache.jena:jena-iri:1.1.2)
+            * Lucene Core (org.apache.lucene:lucene-core:2.9.2)
+            * OpenNLP Maxent (org.apache.opennlp:opennlp-maxent:3.0.2-incubating)
+            * Apache OpenNLP Maxent (org.apache.opennlp:opennlp-maxent:3.0.3)
+            * OpenNLP Tools (org.apache.opennlp:opennlp-tools:1.5.2-incubating)
+            * Apache OpenNLP Tools (org.apache.opennlp:opennlp-tools:1.5.3)
+            * Guess Encoding (org.codehaus.guessencoding:guessencoding:1.4)
+            * Jackson (org.codehaus.jackson:jackson-core-asl:1.9.12)
+            * Data Mapper for Jackson (org.codehaus.jackson:jackson-mapper-asl:1.9.12)
+            * Jetty :: Asynchronous HTTP Client (org.eclipse.jetty:jetty-client:9.2.3.v20140905)
+            * Jetty :: Http Utility (org.eclipse.jetty:jetty-http:9.2.3.v20140905)
+            * Jetty :: IO Utility (org.eclipse.jetty:jetty-io:9.2.3.v20140905)
+            * Jetty :: Utilities (org.eclipse.jetty:jetty-util:9.2.3.v20140905)
+            * core (org.fbk.cit.hlt:core:1.4)
+            * thewikimachine (org.fbk.cit.hlt:thewikimachine:1.3.1)
+            * ini4j (org.ini4j:ini4j:0.5.4)
+            * JDOM (org.jdom:jdom:1.1)
+            * JDOM (org.jdom:jdom2:2.0.4)
+            * Snappy for Java (org.xerial.snappy:snappy-java:1.0.4.1)
+            * xalan (xalan:xalan:2.7.0)
+            * Xerces2-j (xerces:xercesImpl:2.11.0)
+            * Xerces2 Java Parser (xerces:xercesImpl:2.8.0)
+            * xml-apis (xml-apis:xml-apis:1.3.03)
+            * XML Commons External Components XML APIs (xml-apis:xml-apis:1.4.01)
+
+        BSD License:
+
+            * Netlib for Java (com.googlecode.netlib-java:netlib-java:0.9.3)
+            * liblinear (de.bwaldvogel:liblinear:1.95)
+            * liblinear (eu.fbk.anna:liblinear:1.51)
+            * jwnl (jwnl:jwnl:1.3.3)
+            * Java WordNet Library (net.sf.jwordnet:jwnl:1.4_rc3)
+            * Fortran to Java ARPACK (net.sourceforge.f2j:arpack_combined_all:0.1)
+            * Hamcrest Core (org.hamcrest:hamcrest-core:1.3)
+            * OpenRDF Sesame: Model (org.openrdf.sesame:sesame-model:2.7.12)
+            * OpenRDF Sesame: Model (org.openrdf.sesame:sesame-model:2.7.14)
+            * OpenRDF Sesame: Rio - API (org.openrdf.sesame:sesame-rio-api:2.7.12)
+            * OpenRDF Sesame: Rio - API (org.openrdf.sesame:sesame-rio-api:2.7.14)
+            * OpenRDF Sesame: util (org.openrdf.sesame:sesame-util:2.7.12)
+            * OpenRDF Sesame: util (org.openrdf.sesame:sesame-util:2.7.14)
+            * snowball (org.tartarus.snowball:snowball:1.0)
+            * nlputils (se.lth.cs.nlp:nlputils:1.0)
+            * LIBSVM (tw.edu.ntu.csie:libsvm:3.17)
+
+        CDDL + GPLv2:
+
+            * JSR 353 (JSON Processing) API (javax.json:javax.json-api:1.0)
+            * grizzly-framework (org.glassfish.grizzly:grizzly-framework:2.2.19)
+            * grizzly-framework (org.glassfish.grizzly:grizzly-framework:2.3.21)
+            * grizzly-http (org.glassfish.grizzly:grizzly-http:2.2.19)
+            * grizzly-http (org.glassfish.grizzly:grizzly-http:2.3.21)
+            * grizzly-http-server (org.glassfish.grizzly:grizzly-http-server:2.2.19)
+            * grizzly-http-server (org.glassfish.grizzly:grizzly-http-server:2.3.21)
+            * grizzly-rcm (org.glassfish.grizzly:grizzly-rcm:2.2.19)
+
+        CDDL 1.1:
+
+            * Java Architecture for XML Binding (javax.xml.bind:jaxb-api:2.2.7)
+
+        Common Public License:
+
+            * MAchine Learning for LanguagE Toolkit (MALLET) (cc.mallet:mallet:2.0.7)
+            * JUnit (junit:junit:4.11)
+            * HTML Parser (org.htmlparser:htmlparser:1.6)
+
+        Eclipse Public License - Version 1.0:
+
+            * Logback Classic Module (ch.qos.logback:logback-classic:1.1.2)
+            * Logback Core Module (ch.qos.logback:logback-core:1.1.2)
+            * Jetty :: Asynchronous HTTP Client (org.eclipse.jetty:jetty-client:9.2.3.v20140905)
+            * Jetty :: Http Utility (org.eclipse.jetty:jetty-http:9.2.3.v20140905)
+            * Jetty :: IO Utility (org.eclipse.jetty:jetty-io:9.2.3.v20140905)
+            * Jetty :: Utilities (org.eclipse.jetty:jetty-util:9.2.3.v20140905)
+
+        GNU General Public License (GPL) version 3:
+
+            * Stanford CoreNLP (edu.stanford.nlp:stanford-corenlp:3.4)
+            * anna (eu.fbk.anna:anna:3.3)
+            * annafbk (eu.fbk.anna:annafbk:3.61)
+            * pikes-naflib (eu.fbk.pikes:pikes-naflib:1.0-SNAPSHOT)
+            * pikes-rdf (eu.fbk.pikes:pikes-rdf:1.0-SNAPSHOT)
+            * pikes-resources (eu.fbk.pikes:pikes-resources:1.0-SNAPSHOT)
+
+        GNU Lesser General Public License:
+
+            * Logback Classic Module (ch.qos.logback:logback-classic:1.1.2)
+            * Logback Core Module (ch.qos.logback:logback-core:1.1.2)
+            * Efficient Java Matrix Library (com.googlecode.efficient-java-matrix-library:ejml:0.23)
+            * Matrix Toolkits for Java (com.googlecode.matrix-toolkits-java:mtj:0.9.14)
+            * XOM (com.io7m.xom:xom:1.2.10)
+            * wikipedia.parser (de.tudarmstadt.ukp:wikipedia.parser:0.9.2)
+            * bliki-core (info.bliki.wiki:bliki-core:3.0.19)
+            * JGraphT (jgrapht:jgrapht:0.6.0)
+            * GNU Trove (net.sf.trove4j:trove4j:2.0.2)
+            * BeanShell (org.beanshell:bsh:2.0b4)
+
+        GPLv2 with classpath exception:
+
+            * Stanford CoreNLP (edu.stanford.nlp:stanford-corenlp:3.4)
+            * Java Architecture for XML Binding (javax.xml.bind:jaxb-api:2.2.7)
+
+        JSON License:
+
+            * JSON in Java (org.json:json:20140107)
+
+        MIT License:
+
+            * jsoup (org.jsoup:jsoup:1.7.2)
+            * SLF4J API Module (org.slf4j:slf4j-api:1.7.7)
+            * SLF4J LOG4J-12 Binding (org.slf4j:slf4j-log4j12:1.7.6)
+
+        Public Domain:
+
+            * rdfpro-core (eu.fbk.rdfpro:rdfpro-core:0.4-SNAPSHOT)
+            * rdfpro-tql (eu.fbk.rdfpro:rdfpro-tql:0.4-SNAPSHOT)
+            * XZ for Java (org.tukaani:xz:1.2)
+
+        SAX License:
+
+            * XML Commons External Components XML APIs (xml-apis:xml-apis:1.4.01)
+
+        W3C License:
+
+            * XML Commons External Components XML APIs (xml-apis:xml-apis:1.4.01)
