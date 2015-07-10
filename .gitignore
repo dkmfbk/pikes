@@ -11,3 +11,4 @@ target/
 **/.settings
 
 pikes-rdf/test/
+sync-demo.sh

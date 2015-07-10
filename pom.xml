@@ -4,8 +4,8 @@
 
     <parent>
         <groupId>eu.fbk.dkm</groupId>
-        <artifactId>fbk-parent</artifactId>
-        <version>1.1-SNAPSHOT</version>
+        <artifactId>parent</artifactId>
+        <version>1.1.1</version>
     </parent>
 
     <groupId>eu.fbk.pikes</groupId>
