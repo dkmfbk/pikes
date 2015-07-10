@@ -42,7 +42,9 @@ public class EverythingHandler extends AbstractHandler {
 
 		super.service(request, response);
 
-		String referer = request.getHeader("Referer");
+		String host = request.getHeader("x-forwarded-for");
+
+		String referer = request.getHeader("referer");
 		String okReferer = pipeline.getConfig().getProperty("back_referer");
 
 		boolean backLink = false;
@@ -74,7 +76,12 @@ public class EverythingHandler extends AbstractHandler {
 		}
 
 		String text = request.getParameter("text");
-		LOGGER.info(text);
+
+		// Log for stats
+		LOGGER.info("[SENTENCE]");
+		LOGGER.info("Host: {}", host);
+		LOGGER.info("Text: {}", text);
+
 		KAFDocument doc = text2naf(text, meta);
 
 		doc = pipeline.parseFromString(doc.toString(), annotators);
@@ -98,12 +105,6 @@ public class EverythingHandler extends AbstractHandler {
 			demoProperties.put("generator.fusion", fusion);
 			demoProperties.put("generator.normalization", normalization);
 
-//			NAFFilter filter = NAFFilter.builder()
-//					.withTermSenseCompletion(false)
-//					.withSRLRoleLinking(false, false)
-//					.withOpinionLinking(false, false)
-//					.withLinkingFixing(true)
-//					.build();
 			NAFFilter filter = NAFFilter.builder().withProperties(pipeline.getConfig(), "filter").build();
 			RDFGenerator generator = RDFGenerator.builder().withProperties(demoProperties, "generator").build();
 			Renderer renderer = Renderer.builder().withProperties(demoProperties, "renderer").build();

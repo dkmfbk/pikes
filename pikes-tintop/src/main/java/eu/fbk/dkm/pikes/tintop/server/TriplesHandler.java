@@ -1,19 +1,26 @@
 package eu.fbk.dkm.pikes.tintop.server;
 
 import eu.fbk.dkm.pikes.rdf.RDFGenerator;
-import eu.fbk.dkm.pikes.rdf.Renderer;
 import eu.fbk.dkm.pikes.resources.NAFFilter;
 import eu.fbk.dkm.pikes.tintop.AnnotationPipeline;
+import eu.fbk.rdfpro.RDFProcessors;
+import eu.fbk.rdfpro.RDFSource;
+import eu.fbk.rdfpro.RDFSources;
 import ixa.kaflib.KAFDocument;
 import org.glassfish.grizzly.http.server.Request;
 import org.glassfish.grizzly.http.server.Response;
-import org.openrdf.model.Model;
+import org.openrdf.model.Statement;
+import org.openrdf.rio.RDFFormat;
+import org.openrdf.rio.RDFWriter;
+import org.openrdf.rio.Rio;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -107,12 +114,20 @@ public class TriplesHandler extends AbstractHandler {
 
 			NAFFilter filter = NAFFilter.builder().withProperties(pipeline.getConfig(), "filter").build();
 			RDFGenerator generator = RDFGenerator.builder().withProperties(demoProperties, "generator").build();
-			Renderer renderer = Renderer.builder().withProperties(demoProperties, "renderer").build();
+//			Renderer renderer = Renderer.builder().withProperties(demoProperties, "renderer").build();
 
-			filter.filter(doc);
-			final Model model = generator.generate(doc, null);
 			StringWriter writer = new StringWriter();
-			renderer.renderAll(writer, doc, model, null, null);
+			RDFWriter rdfWriter = Rio.createWriter(RDFFormat.TRIG, writer);
+			filter.filter(doc);
+			List<Statement> statementList = new ArrayList<>();
+
+			generator.generate(doc, null, statementList);
+			RDFSource rdfSource = RDFSources.wrap(statementList);
+			RDFProcessors.prefix(null).wrap(rdfSource).emit(rdfWriter, 1);
+
+//			final Model model = generator.generate(doc, null);
+//			StringWriter writer = new StringWriter();
+//			renderer.renderAll(writer, doc, model, null, null);
 			viewString = writer.toString();
 
 		} catch (Exception e) {
@@ -120,6 +135,6 @@ public class TriplesHandler extends AbstractHandler {
 			viewString = "Unable to show graph. <br /><br />\n<pre>" + doc.toString().replace("<", "&lt;").replace(">", "&gt;") + "</pre>";
 		}
 
-		super.writeOutput(response, "text/html", viewString);
+		super.writeOutput(response, "text/plain", viewString);
 	}
 }

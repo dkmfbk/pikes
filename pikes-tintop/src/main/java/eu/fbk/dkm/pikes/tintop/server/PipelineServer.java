@@ -45,6 +45,7 @@ public class PipelineServer {
 		httpServer.getServerConfiguration().addHttpHandler(new NafGenerateHandler(pipeline), "/text");
 		httpServer.getServerConfiguration().addHttpHandler(new EverythingHandler(pipeline), "/all");
 		httpServer.getServerConfiguration().addHttpHandler(new Text2NafHandler(pipeline), "/text2naf");
+		httpServer.getServerConfiguration().addHttpHandler(new TriplesHandler(pipeline), "/text2rdf");
 
 		try {
 			httpServer.start();

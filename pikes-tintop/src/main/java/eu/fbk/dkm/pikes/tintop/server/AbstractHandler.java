@@ -64,8 +64,6 @@ public class AbstractHandler extends HttpHandler {
 			aPublic.uri = meta.get("uri");
 		}
 
-		System.out.println(doc);
-
 //		KAFDocument.Public p = doc.createPublic();
 //		p.uri = "http://www.example.com";
 //		p.publicId = "0";
