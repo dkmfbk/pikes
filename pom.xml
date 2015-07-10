@@ -3,23 +3,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
+        <groupId>eu.fbk.dkm</groupId>
         <artifactId>fbk-parent</artifactId>
-        <groupId>eu.fbk</groupId>
-        <version>1.0</version>
+        <version>1.1-SNAPSHOT</version>
     </parent>
 
     <groupId>eu.fbk.pikes</groupId>
     <artifactId>pikes</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>pikes-naflib</module>
-        <module>pikes-resources</module>
-        <module>pikes-tintop</module>
-        <module>pikes-raid</module>
-        <module>pikes-rdf</module>
-    </modules>
     <packaging>pom</packaging>
-
     <name>pikes</name>
     <description>Pikes is a Knowledge Extraction Suite</description>
 
@@ -31,20 +23,15 @@
         </license>
     </licenses>
 
-    <repositories>
-        <repository>
-            <id>fbk-repo</id>
-            <url>https://raw.githubusercontent.com/fbk/mvn-repo/master/releases</url>
-        </repository>
-    </repositories>
+    <scm>
+        <connection>scm:git:https://github.com/dkmfbk/pikes.git</connection>
+        <developerConnection>scm:git:https://github.com/dkmfbk/pikes.git</developerConnection>
+        <url>https://github.com/dkmfbk/pikes</url>
+    </scm>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
         <site>
-            <id>siterdfpro</id>
+            <id>site</id>
             <url>${site-path}/</url>
         </site>
     </distributionManagement>
@@ -61,18 +48,6 @@
             <timezone>+1</timezone>
             <properties>
                 <picUrl>http://pikes.fbk.eu/images/team/rospocher.jpg</picUrl>
-            </properties>
-        </developer>
-        <developer>
-            <id>corcoglio</id>
-            <name>Francesco Corcoglioniti</name>
-            <email>corcoglio@fbk.eu</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-            <timezone>+1</timezone>
-            <properties>
-                <picUrl>http://pikes.fbk.eu/images/team/corcoglio.jpg</picUrl>
             </properties>
         </developer>
         <developer>
@@ -105,251 +80,32 @@
         </contributor>
     </contributors>
 
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-    </dependencies>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>edu.stanford.nlp</groupId>
-                <artifactId>stanford-corenlp</artifactId>
-                <version>3.4</version>
-            </dependency>
-            <dependency>
-                <groupId>edu.stanford.nlp</groupId>
-                <artifactId>stanford-corenlp</artifactId>
-                <version>3.4</version>
-                <classifier>models</classifier>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <build>
-        <!-- Check SSH -->
-
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-release-plugin</artifactId>
-                    <version>${release-plugin-version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>${jar-plugin-version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>${source-plugin-version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <version>${assembly-plugin-version}</version>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
                     <configuration>
-                        <!-- avoid warnings for paths longer than 100 chars -->
-                        <tarLongFileMode>gnu</tarLongFileMode>
-                    </configuration>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-site-plugin</artifactId>
-                    <version>${site-plugin-version}</version>
-                    <configuration>
-                        <locales>en</locales>
-                    </configuration>
-                    <dependencies>
-                        <dependency>
-                            <groupId>lt.velykis.maven.skins</groupId>
-                            <artifactId>reflow-velocity-tools</artifactId>
-                            <version>1.1.1</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.apache.velocity</groupId>
-                            <artifactId>velocity</artifactId>
-                            <version>1.7</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.apache.maven.doxia</groupId>
-                            <artifactId>doxia-module-markdown</artifactId>
-                            <version>1.6</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.apache.maven.doxia</groupId>
-                            <artifactId>doxia-module-xhtml</artifactId>
-                            <version>1.6</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-eclipse-plugin</artifactId>
-                    <version>${eclipse-plugin-version}</version>
-                    <configuration>
-                        <downloadSources>true</downloadSources>
-                        <downloadJavadocs>true</downloadJavadocs>
-                        <useProjectReferences>true</useProjectReferences>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${surefire-plugin-version}</version>
-                    <configuration>
-                        <argLine>-enableassertions</argLine>
-                        <includes>
-                            <include>**/*Test.java</include>
-                        </includes>
-                        <excludes>
-                            <exclude>**/Abstract*Test.java</exclude>
-                        </excludes>
-                        <testFailureIgnore>true</testFailureIgnore>
-                        <forkedProcessTimeoutInSeconds>10</forkedProcessTimeoutInSeconds>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>${javadoc-plugin-version}</version>
-                    <configuration>
-                        <links>
-                            <link>http://java.sun.com/javase/6/docs/api/</link>
-                            <link>http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/</link>
-                            <link>http://openrdf.callimachus.net/sesame/2.7/apidocs/</link>
-                            <link>http://www.slf4j.org/apidocs/</link>
-                        </links>
-                        <show>protected</show>
-                        <quiet>true</quiet>
-                        <failOnError>false</failOnError>
+                        <licenseName>gpl_v3</licenseName>
+                        <fileTemplate>${project.basedir}${parent-path}/src/license/template.ftl</fileTemplate>
                     </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
-
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-                <configuration>
-                    <licenseName>gpl_v3</licenseName>
-                    <fileTemplate>${project.basedir}/${parent-path}/src/license/template.ftl</fileTemplate>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <!-- The following goal is necessary in order to allow child modules to
-                     inherit the site descriptor of the parent project -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <inherited>false</inherited>
-                <executions>
-                    <execution>
-                        <id>attach-descriptor</id>
-                        <goals>
-                            <goal>attach-descriptor</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <skip>${javadoc-skip}</skip>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>test-jar</goal>
-                        </goals>
-                        <phase>test-compile</phase>
-                        <configuration>
-                            <includes>
-                                <include>**</include>
-                            </includes>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
     </build>
 
     <properties>
-        <!-- Paths -->
-        <parent-path>.</parent-path>
-        <javadoc-skip>false</javadoc-skip>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <site-path>file:///${basedir}/${parent-path}/target/website</site-path>
-        <site-root>${site.root}</site-root>
-
-        <!-- Build configuration -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java-source-version>1.8</java-source-version>
-        <java-target-version>1.8</java-target-version>
-
-        <!-- Dependency versions -->
-        <junit-version>4.12-beta-2</junit-version>
-
-        <!-- Build plugin versions -->
-        <release-plugin-version>2.5.1</release-plugin-version>
-        <compiler-plugin-version>3.2</compiler-plugin-version>
-        <assembly-plugin-version>2.5.3</assembly-plugin-version>
-        <eclipse-plugin-version>2.9</eclipse-plugin-version>
-        <surefire-plugin-version>2.18.1</surefire-plugin-version>
-        <source-plugin-version>2.4</source-plugin-version>
-        <jar-plugin-version>2.5</jar-plugin-version>
-        <dependency-plugin-version>2.9</dependency-plugin-version>
-        <wagon-version>2.8</wagon-version>
-
-        <!-- Reporting plugin versions -->
-        <site-plugin-version>3.4</site-plugin-version>
-        <project-info-plugin-version>2.8</project-info-plugin-version>
-        <taglist-plugin-version>2.4</taglist-plugin-version>
-        <surefire-report-plugin-version>2.18.1</surefire-report-plugin-version>
-        <pmd-plugin-version>3.3</pmd-plugin-version>
-        <findbugs-plugin-version>3.0.0</findbugs-plugin-version>
-        <javancss-plugin-version>2.1</javancss-plugin-version>
-        <javadoc-plugin-version>2.10.1</javadoc-plugin-version>
-        <jxr-plugin-version>2.5</jxr-plugin-version>
-        <cobertura-plugin-version>2.6</cobertura-plugin-version>
-        <checkstyle-plugin-version>2.13</checkstyle-plugin-version>
-        <jdepend-plugin-version>2.0</jdepend-plugin-version>
-        <versions-plugin-version>2.1</versions-plugin-version>
-        <changelog-plugin-version>2.3</changelog-plugin-version>
+        <pikes-version>${project.version}</pikes-version>
+        <site.root>http://pikes.fbk.eu/</site.root>
     </properties>
+
+    <modules>
+        <module>pikes-naflib</module>
+        <module>pikes-resources</module>
+        <module>pikes-tintop</module>
+        <module>pikes-raid</module>
+        <module>pikes-rdf</module>
+    </modules>
 
 </project>

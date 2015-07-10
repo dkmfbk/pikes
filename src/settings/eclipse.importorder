@@ -1,0 +1,15 @@
+#Organize Import Order
+#Fri Nov 29 13:48:13 CET 2013
+9=ch
+8=it
+7=info
+6=org
+5=net
+4=com
+12=eu
+3=sun
+11=virtuoso
+2=junit
+10=javassist
+1=javax
+0=java

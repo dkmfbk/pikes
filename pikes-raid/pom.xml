@@ -3,15 +3,25 @@
     xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <artifactId>pikes</artifactId>
         <groupId>eu.fbk.pikes</groupId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
     <artifactId>pikes-raid</artifactId>
 
+    <name>pikes-raid</name>
+    <description>
+        A NLP module for opinion extraction (holder/target/expression/polarity)
+        from texts, using SVM and CRF and compatible with the NAF format.
+    </description>
+    <url>http://pikes.fbk.eu/pikes-raid/</url>
+    
     <dependencies>
         <dependency>
             <groupId>commons-io</groupId>
@@ -75,7 +85,7 @@
     </dependencies>
 
     <properties>
-        <parent-path>..</parent-path>
+        <parent-path>/..</parent-path>
     </properties>
 
 </project>

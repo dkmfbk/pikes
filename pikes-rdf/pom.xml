@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <artifactId>pikes</artifactId>
         <groupId>eu.fbk.pikes</groupId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
     <artifactId>pikes-rdf</artifactId>
 
+    <name>pikes-rdf</name>
+    <description>
+        Extracts RDF from the output of NLP tools encoded in NAF.
+        Includes also rendering facilities of extracted RDF.
+    </description>
+    <url>http://pikes.fbk.eu/pikes-rdf/</url>
+    
     <dependencies>
         <dependency>
             <groupId>eu.fbk.pikes</groupId>
@@ -35,6 +46,7 @@
     </dependencies>
 
     <properties>
-        <parent-path>..</parent-path>
+        <parent-path>/..</parent-path>
     </properties>
+
 </project>
