@@ -158,6 +158,13 @@ table.txt           { text-align: center; border: none; border-collapse: collaps
 .txt_rb             { border-right: 1px solid #888; }
 .txt_tb             { border-top: 1px solid #888; }
 .txt_ab             { width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 4px solid #888; position: relative; left:-4px; bottom: -5px; }
+
+#logo {
+    width: 40px;
+    vertical-align: middle;
+    position: relative;
+    top: -3px;
+}
 </style>
 </head>
 
@@ -176,7 +183,9 @@ table.txt           { text-align: center; border: none; border-collapse: collaps
     <li><a href="{{backlink}}">{{#backlabel}}{{.}}{{/backlabel}}{{^backlabel}}Back to text{{/backlabel}}</a></li>
     {{/backlink}}
 </ul>
-<h3>{{title}}</h3>
+<h3>
+    <img src="https://knowledgestore2.fbk.eu/pikes-demo/images/pikes-black.png" id="logo">
+    {{title}} <small>| <a href="http://pikes.fbk.eu">Project website</a> | <a href="http://www.youtube.com/watch?v=D0mcnUKc3sg">Video tutorial</a> | <a href="http://www.youtube.com/watch?v=D0mcnUKc3sg&amp;t=2m48s">Jump to example</a></small></h3>
 </div>
 </div>
 
