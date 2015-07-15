@@ -39,8 +39,9 @@ public class MateSrlAnnotator implements Annotator {
 
 	public static Sentence createMateSentence(CoreMap stanfordSentence) {
 		Sentence ret;
-
-		int size = stanfordSentence.size();
+		
+		java.util.List<CoreLabel> get = stanfordSentence.get(CoreAnnotations.TokensAnnotation.class);
+		int size = get.size();
 
 		String[] forms = new String[size + 1];
 		String[] poss = new String[size + 1];
@@ -54,22 +55,18 @@ public class MateSrlAnnotator implements Annotator {
 		lemmas[0] = "<root>";
 		feats[0] = "<root>";
 
-		java.util.List<CoreLabel> get = stanfordSentence.get(CoreAnnotations.TokensAnnotation.class);
 		for (int i = 0; i < get.size(); i++) {
 			CoreLabel token = get.get(i);
 			forms[i + 1] = token.get(CoreAnnotations.TextAnnotation.class);
 			poss[i + 1] = token.get(CoreAnnotations.PartOfSpeechAnnotation.class);
 			lemmas[i + 1] = token.get(CoreAnnotations.LemmaAnnotation.class);
 			feats[i + 1] = null;
-
 			labels[0] = token.get(CoreAnnotations.CoNLLDepTypeAnnotation.class);
 			parents[0] = token.get(CoreAnnotations.CoNLLDepParentIndexAnnotation.class) + 1;
 		}
 
 		ret = new Sentence(forms, lemmas, poss, feats);
-
 		ret.setHeadsAndDeprels(parents, labels);
-
 		return ret;
 	}
 
