@@ -21,7 +21,6 @@ import se.lth.cs.srl.languages.Language;
 import se.lth.cs.srl.pipeline.Pipeline;
 
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.zip.ZipFile;
 
@@ -94,23 +93,8 @@ public class StanfordTest {
 
 	public static void main(String[] args) {
 
-		String time = "2015-06-29T10:56:54+02:00";
-//		time = "2015-06-29T10:56:54";
-
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.ENGLISH);
-
-		try {
-			String date = format.format(format.parse(time));
-			System.out.println(date);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-
-		System.exit(1);
-
-
 		Properties props = new Properties();
-		props.setProperty("annotators", "tokenize, ssplit, pos, lemma, simple_pos, conll_parse, parse, dbps");
+		props.setProperty("annotators", "tokenize, ssplit, pos, parse");
 //		props.setProperty("annotators", "tokenize, ssplit, dbps");
 //		props.setProperty("tokenize.whitespace", "true");
 //		props.setProperty("ssplit.eolonly", "true");
@@ -120,21 +104,21 @@ public class StanfordTest {
 //		props.setProperty("customAnnotatorClass.tt_pos","org.fbk.dkm.nlp.pipeline.annotators.TreeTaggerPosAnnotator");
 //		props.setProperty("customAnnotatorClass.ukb","org.fbk.dkm.nlp.pipeline.annotators.UKBAnnotator");
 
-		props.setProperty("customAnnotatorClass.simple_pos", "org.fbk.dkm.nlp.pipeline.annotators.SimplePosAnnotator");
-		props.setProperty("customAnnotatorClass.conll_parse", "org.fbk.dkm.nlp.pipeline.annotators.AnnaParseAnnotator");
-		props.setProperty("customAnnotatorClass.dbps", "org.fbk.dkm.nlp.pipeline.annotators.DBpediaSpotlightAnnotator");
-		props.setProperty("customAnnotatorClass.conll_srl", "org.fbk.dkm.nlp.pipeline.annotators.MateSrlAnnotator");
-
-		props.setProperty("conll_parse.model", "/Users/alessio/Documents/tintop/retrain-anna-20140819.model");
-
-		props.setProperty("conll_srl.model", "/Users/alessio/Documents/tintop/retrain-srl-20140818.model");
-
-		props.setProperty("dbps.address", "https://knowledgestore2.fbk.eu/dbps/rest/annotate");
-		props.setProperty("dbps.use_proxy", "0");
-		props.setProperty("dbps.proxy_url", "proxy.fbk.eu");
-		props.setProperty("dbps.proxy_port", "3128");
-		props.setProperty("dbps.min_confidence", "0.33");
-		props.setProperty("dbps.timeout", "2000");
+//		props.setProperty("customAnnotatorClass.simple_pos", "org.fbk.dkm.nlp.pipeline.annotators.SimplePosAnnotator");
+//		props.setProperty("customAnnotatorClass.conll_parse", "org.fbk.dkm.nlp.pipeline.annotators.AnnaParseAnnotator");
+//		props.setProperty("customAnnotatorClass.dbps", "org.fbk.dkm.nlp.pipeline.annotators.DBpediaSpotlightAnnotator");
+//		props.setProperty("customAnnotatorClass.conll_srl", "org.fbk.dkm.nlp.pipeline.annotators.MateSrlAnnotator");
+//
+//		props.setProperty("conll_parse.model", "/Users/alessio/Documents/tintop/retrain-anna-20140819.model");
+//
+//		props.setProperty("conll_srl.model", "/Users/alessio/Documents/tintop/retrain-srl-20140818.model");
+//
+//		props.setProperty("dbps.address", "https://knowledgestore2.fbk.eu/dbps/rest/annotate");
+//		props.setProperty("dbps.use_proxy", "0");
+//		props.setProperty("dbps.proxy_url", "proxy.fbk.eu");
+//		props.setProperty("dbps.proxy_port", "3128");
+//		props.setProperty("dbps.min_confidence", "0.33");
+//		props.setProperty("dbps.timeout", "2000");
 
 		try {
 			ZipFile zipFile;

@@ -67,6 +67,7 @@
             <groupId>edu.stanford.nlp</groupId>
             <artifactId>stanford-corenlp</artifactId>
             <classifier>models</classifier>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.fbk.cit.hlt</groupId>
@@ -81,6 +82,20 @@
             <groupId>eu.fbk.dkm.utils</groupId>
             <artifactId>utils</artifactId>
             <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openrdf.sesame</groupId>
+            <artifactId>sesame-model</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+            <version>1.4.01</version>
         </dependency>
     </dependencies>
 
