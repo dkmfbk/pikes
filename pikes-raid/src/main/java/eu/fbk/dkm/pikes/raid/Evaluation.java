@@ -91,6 +91,7 @@ public class Evaluation {
 				else {
 					thisGoldSpan.add(i);
 				}
+
 				if (parts[testCol].equals("O")) {
 					if (thisTestSpan.size() > 0) {
 						testSpans.add(thisTestSpan);
@@ -101,11 +102,10 @@ public class Evaluation {
 					thisTestSpan.add(i);
 				}
 
-//				System.out.println(parts[testCol]);
-//				System.out.println(parts[goldCol]);
+//				System.out.println(thisGoldSpan);
+//				System.out.println(thisTestSpan);
 //				System.out.println();
 			}
-			LOGGER.debug(goldSpans.toString());
 			e.add(goldSpans, testSpans);
 
 			SetPrecisionRecall spr = e.getResult();
