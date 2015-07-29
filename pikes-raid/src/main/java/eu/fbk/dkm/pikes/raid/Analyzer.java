@@ -1,14 +1,51 @@
 package eu.fbk.dkm.pikes.raid;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Writer;
+import java.nio.file.Path;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.stream.StreamSupport;
+
+import javax.annotation.Nullable;
+
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.base.Throwables;
-import com.google.common.collect.*;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
+
+import org.openrdf.model.Model;
+import org.openrdf.model.URI;
+import org.openrdf.model.impl.URIImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import ixa.kaflib.KAFDocument;
+import ixa.kaflib.Opinion;
+import ixa.kaflib.Opinion.Polarity;
+import ixa.kaflib.Term;
+
 import eu.fbk.dkm.pikes.naflib.Corpus;
 import eu.fbk.dkm.pikes.naflib.OpinionPrecisionRecall;
 import eu.fbk.dkm.pikes.rdf.RDFGenerator;
@@ -17,28 +54,12 @@ import eu.fbk.dkm.pikes.resources.NAFUtils;
 import eu.fbk.dkm.pikes.resources.WordNet;
 import eu.fbk.dkm.utils.CommandLine;
 import eu.fbk.dkm.utils.CommandLine.Type;
+import eu.fbk.dkm.utils.Range;
 import eu.fbk.dkm.utils.Util;
 import eu.fbk.dkm.utils.vocab.KS;
+import eu.fbk.rdfpro.rules.model.QuadModel;
 import eu.fbk.rdfpro.util.IO;
 import eu.fbk.rdfpro.util.Tracker;
-import ixa.kaflib.KAFDocument;
-import ixa.kaflib.Opinion;
-import org.openrdf.model.Model;
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.URIImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.annotation.Nullable;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Writer;
-import java.nio.file.Path;
-import java.util.*;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.stream.StreamSupport;
 
 public final class Analyzer {
 
@@ -201,11 +222,11 @@ public final class Analyzer {
                     final StringBuilder sentenceParsing = new StringBuilder();
                     final StringBuilder sentenceGraph = new StringBuilder();
                     try {
-                        this.reportRenderer.renderOpinions(sentenceMarkup, document, sentenceID,
+                        renderOpinions(sentenceMarkup, document, sentenceID,
                                 goldMap.get(sentenceID), testMap.get(sentenceID));
                         this.reportRenderer.renderParsing(sentenceParsing, document, model,
                                 sentenceID);
-                        this.reportRenderer.renderGraph(sentenceGraph, model,
+                        this.reportRenderer.renderGraph(sentenceGraph, QuadModel.wrap(model),
                                 Renderer.Algorithm.NEATO);
                         runTemplate(this.reportPath.resolve(file).toFile(), SENTENCE_TEMPLATE,
                                 ImmutableMap.of("markup", sentenceMarkup, "parsing",
@@ -265,6 +286,131 @@ public final class Analyzer {
 
         // Return precision / recall stats
         return this.evaluator.getResult();
+    }
+
+    private static void renderOpinions(final Appendable out, final KAFDocument document,
+            final int sentenceID, final Iterable<Opinion> goldOpinions,
+            final Iterable<Opinion> testOpinions) throws IOException {
+
+        // Extract the terms of the sentence.
+        final List<Term> sentenceTerms = Ordering.from(Term.OFFSET_COMPARATOR).sortedCopy(
+                document.getSentenceTerms(sentenceID));
+        final Range sentenceRange = Range.enclose(NAFUtils.rangesFor(document, sentenceTerms));
+        final String text = document.getRawText().replace("&nbsp;", " ");
+
+        // Align gold and test opinions
+        final Opinion[][] pairs = Util.align(Opinion.class, goldOpinions, testOpinions, true,
+                true, true, OpinionPrecisionRecall.matcher());
+
+        // Identify the ranges of text to highlight in the sentence
+        for (final Opinion[] pair : pairs) {
+
+            // Retrieve gold and test opinions (possibly null)
+            final Opinion goldOpinion = pair[0];
+            final Opinion testOpinion = pair[1];
+
+            // Create sets for the different types of text spans to be highlighted
+            final Set<Term> headTerms = Sets.newHashSet();
+            final Set<Range> targetGoldRanges = Sets.newHashSet();
+            final Set<Range> targetTestRanges = Sets.newHashSet();
+            final Set<Range> holderGoldRanges = Sets.newHashSet();
+            final Set<Range> holderTestRanges = Sets.newHashSet();
+            final Set<Range> expGoldRanges = Sets.newHashSet();
+            final Set<Range> expTestRanges = Sets.newHashSet();
+            Polarity goldPolarity = null;
+            Polarity testPolarity = null;
+
+            // Process gold opinion (if any)
+            if (goldOpinion != null) {
+                if (goldOpinion.getOpinionTarget() != null) {
+                    final List<Term> t = goldOpinion.getOpinionTarget().getSpan().getTargets();
+                    targetGoldRanges.addAll(NAFUtils.rangesFor(document, t));
+                    headTerms.addAll(NAFUtils.extractHeads(document, null, t, NAFUtils
+                            .matchExtendedPos(document, "NN", "PRP", "JJP", "DTP", "WP", "VB")));
+                }
+                if (goldOpinion.getOpinionHolder() != null) {
+                    final List<Term> h = goldOpinion.getOpinionHolder().getSpan().getTargets();
+                    holderGoldRanges.addAll(NAFUtils.rangesFor(document, h));
+                    headTerms.addAll(NAFUtils.extractHeads(document, null, h,
+                            NAFUtils.matchExtendedPos(document, "NN", "PRP", "JJP", "DTP", "WP")));
+                }
+                if (goldOpinion.getOpinionExpression() != null) {
+                    final List<Term> e = goldOpinion.getOpinionExpression().getSpan().getTargets();
+                    expGoldRanges.addAll(NAFUtils.rangesFor(document, e));
+                    headTerms.addAll(NAFUtils.extractHeads(document, null, e,
+                            NAFUtils.matchExtendedPos(document, "NN", "VB", "JJ", "R")));
+                    goldPolarity = Polarity.forExpression(goldOpinion.getOpinionExpression());
+                }
+            }
+
+            // Process test opinion (if any)
+            if (testOpinion != null) {
+                if (testOpinion.getOpinionTarget() != null) {
+                    final List<Term> t = testOpinion.getOpinionTarget().getSpan().getTargets();
+                    targetTestRanges.addAll(NAFUtils.rangesFor(document, t));
+                }
+                if (testOpinion.getOpinionHolder() != null) {
+                    final List<Term> h = testOpinion.getOpinionHolder().getSpan().getTargets();
+                    holderTestRanges.addAll(NAFUtils.rangesFor(document, h));
+                }
+                if (testOpinion.getOpinionExpression() != null) {
+                    final List<Term> e = testOpinion.getOpinionExpression().getSpan().getTargets();
+                    expTestRanges.addAll(NAFUtils.rangesFor(document, e));
+                    testPolarity = Polarity.forExpression(testOpinion.getOpinionExpression());
+                }
+            }
+
+            // Split the sentence range based on the highlighted ranges identified before
+            final List<Range> headRanges = NAFUtils.rangesFor(document, headTerms);
+            @SuppressWarnings("unchecked")
+            final List<Range> ranges = sentenceRange.split(ImmutableSet.copyOf(Iterables
+                    .<Range>concat(targetGoldRanges, targetTestRanges, holderGoldRanges,
+                            holderTestRanges, expGoldRanges, expTestRanges, headRanges)));
+
+            // Emit the HTML
+            out.append("<p class=\"opinion\">");
+            out.append("<span class=\"opinion-id\" title=\"Test label: ")
+                    .append(testOpinion == null ? "-" : testOpinion.getLabel())
+                    .append(", gold label: ")
+                    .append(goldOpinion == null ? "-" : goldOpinion.getLabel()).append("\">")
+                    .append(testOpinion == null ? "-" : testOpinion.getId()).append(" / ")
+                    .append(goldOpinion == null ? "-" : goldOpinion.getId()).append("</span>");
+            for (final Range range : ranges) {
+                final boolean targetGold = range.containedIn(targetGoldRanges);
+                final boolean targetTest = range.containedIn(targetTestRanges);
+                final boolean holderGold = range.containedIn(holderGoldRanges);
+                final boolean holderTest = range.containedIn(holderTestRanges);
+                final boolean expGold = range.containedIn(expGoldRanges);
+                final boolean expTest = range.containedIn(expTestRanges);
+                final boolean head = range.containedIn(headRanges);
+                int spans = 0;
+                if (holderGold || holderTest) {
+                    ++spans;
+                    final String css = (holderGold ? "hg" : "") + " " + (holderTest ? "ht" : "");
+                    out.append("<span class=\"").append(css).append("\">");
+                }
+                if (targetGold || targetTest) {
+                    ++spans;
+                    final String css = (targetGold ? "tg" : "") + " " + (targetTest ? "tt" : "");
+                    out.append("<span class=\"").append(css).append("\">");
+                }
+                if (expGold || expTest) {
+                    ++spans;
+                    final String css = (expGold ? "eg" + goldPolarity.ordinal() : "") + " "
+                            + (expTest ? "et" + testPolarity.ordinal() : "");
+                    out.append("<span class=\"").append(css).append("\">");
+                }
+                if (head) {
+                    ++spans;
+                    out.append("<span class=\"head\">");
+                }
+                out.append(text.substring(range.begin(), range.end()));
+                for (int i = 0; i < spans; ++i) {
+                    out.append("</span>");
+                }
+            }
+            out.append("</p>");
+        }
     }
 
     private static Multimap<Integer, Opinion> toMultimap(final Iterable<Opinion> opinions) {

@@ -1,6 +1,35 @@
 package eu.fbk.dkm.pikes.raid.pipeline;
 
-import com.google.common.collect.*;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+
+import javax.annotation.Nullable;
+
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.MapMaker;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import ixa.kaflib.Dep;
+import ixa.kaflib.Dep.Path;
+import ixa.kaflib.ExternalRef;
+import ixa.kaflib.KAFDocument;
+import ixa.kaflib.Predicate;
+import ixa.kaflib.Predicate.Role;
+import ixa.kaflib.Term;
+
 import eu.fbk.dkm.pikes.resources.NAFUtils;
 import eu.fbk.dkm.utils.Graph;
 import eu.fbk.dkm.utils.Util;
@@ -10,18 +39,6 @@ import eu.fbk.dkm.utils.svm.Classifier;
 import eu.fbk.dkm.utils.svm.FeatureStats;
 import eu.fbk.dkm.utils.svm.LabelledVector;
 import eu.fbk.dkm.utils.svm.Vector;
-import ixa.kaflib.*;
-import ixa.kaflib.Dep.Path;
-import ixa.kaflib.Predicate.Role;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.annotation.Nullable;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
-import java.nio.file.Files;
-import java.util.*;
 
 public class LinkLabeller {
 
@@ -63,6 +80,9 @@ public class LinkLabeller {
 
     public Map<Term, Float> label(final KAFDocument document, final Term root) {
 
+        // Identify candidate terms. For each of them, compute features and apply classifier to
+        // determine whether candidate term should be selected and with what probability estimate
+        // Return a map mapping selected terms to their probability estimates
         final Map<Term, Float> map = Maps.newHashMap();
         for (final Term term : candidates(document, root, this.posPrefixes)) {
             final Vector vector = features(document, root, term);
@@ -115,17 +135,23 @@ public class LinkLabeller {
     private static List<Term> candidates(final KAFDocument document, final Term root,
             @Nullable final Set<String> posPrefixes) {
 
+        // We build a larger set of candidate terms, always excluding modifiers (AMOD/NMOD)
         final Set<Term> nonModifierTerms = Sets.newHashSet();
+
+        // Extract all the terms dominated by root that are not coordinated (COORD/CONJ) with
+        // root, excluding modifiers (AMOD/NMOD) at any level
         for (final Dep dep : document.getDepsFromTerm(root)) {
             if (!"COORD".equals(dep.getRfunc()) && !"CONJ".equals(dep.getRfunc())) {
                 candidatesHelper(document, dep.getTo(), nonModifierTerms);
             }
         }
 
+        // Add all the ancestors of root that are not coordinated (COORD/CONJ) with root. Then,
+        // add all the descendents of those ancestors excluding modifiers (AMOD/NMOD) at any level
         for (Dep dep = document.getDepToTerm(root); dep != null; dep = document.getDepToTerm(dep
                 .getFrom())) {
             if ("COORD".equals(dep.getRfunc()) || "CONJ".equals(dep.getRfunc())) {
-                continue;
+                continue; // exclude terms coordinated with root
             }
             nonModifierTerms.add(dep.getFrom());
             final List<Term> queue = Lists.newArrayList(dep.getFrom());
@@ -135,7 +161,7 @@ public class LinkLabeller {
                     if (dep2.getTo().equals(dep.getTo())) {
                         continue;
                     } else if ("COORD".equals(dep2.getRfunc()) || "CONJ".equals(dep2.getRfunc())) {
-                        queue.add(dep2.getTo());
+                        queue.add(dep2.getTo()); // TODO: ignore this case?
                     } else {
                         candidatesHelper(document, dep2.getTo(), nonModifierTerms);
                     }
@@ -143,6 +169,10 @@ public class LinkLabeller {
             }
         }
 
+        // Starting from the computed set, we build the final set of candidate terms by
+        // considering only terms that matches certain POS tags (extended to consider
+        // demonstrative pronouns) and are made only of letters; in case of verbs, we keep only
+        // the SRL predicate head
         final List<Term> candidates = Lists.newArrayList();
         final java.util.function.Predicate<Term> matcher = posPrefixes == null ? null //
                 : NAFUtils.matchExtendedPos(document, posPrefixes.toArray(new String[0]));
@@ -161,12 +191,13 @@ public class LinkLabeller {
                 }
             }
         }
-
         return candidates;
     }
 
     private static void candidatesHelper(final KAFDocument document, final Term term,
             final Set<Term> nonModifierTerms) {
+
+        // Recursively add term and all its descendants, stopping when a NMOD/AMOD link is found
         nonModifierTerms.add(term);
         for (final Dep dep : document.getDepsFromTerm(term)) {
             final String func = dep.getRfunc();
@@ -196,12 +227,12 @@ public class LinkLabeller {
         builder.set("root.pos." + root.getMorphofeat()); // JM
         builder.set("root.dep." + (rootDep == null ? "none" : rootDep.getRfunc())); // JM
         for (final ExternalRef ref : NAFUtils.getRefs(root, NAFUtils.RESOURCE_WN_SYNSET, null)) {
-            builder.set("root.wn." + ref.getReference());
+            builder.set("root.wn." + ref.getReference()); // TODO: inherit hypernyms
         }
         builder.set("root.word." + root.getStr().toLowerCase()); // JM
         builder.set("root.lemma." + root.getLemma().toLowerCase()); // JM
-        builder.set("root.named", root.getMorphofeat().startsWith("NNP"));
-        builder.set("root.bbn.", getReferences(root, NAFUtils.RESOURCE_BBN));
+        builder.set("root.named", root.getMorphofeat().startsWith("NNP")); // TODO: try remove
+        builder.set("root.bbn.", getReferences(root, NAFUtils.RESOURCE_BBN)); // TODO: try remove
         builder.set("root.form."
                 + (rootActive == null ? "none" : rootActive ? "active" : "passive"));
         builder.set("root.sst." + rootSST);
@@ -210,13 +241,15 @@ public class LinkLabeller {
         builder.set("node.pos." + node.getMorphofeat()); // JM
         builder.set("node.dep." + (nodeDep == null ? "none" : nodeDep.getRfunc())); // JM
         for (final ExternalRef ref : NAFUtils.getRefs(node, NAFUtils.RESOURCE_WN_SYNSET, null)) {
-            builder.set("node.wn." + ref.getReference());
+            builder.set("node.wn." + ref.getReference()); // TODO: inherit hypernyms
         }
         builder.set("node.word." + node.getStr().toLowerCase()); // JM
         // builder.set("node.lemma." + node.getLemma().toLowerCase());
         builder.set("node.named", node.getMorphofeat().startsWith("NNP"));
         builder.set("node.bbn.", getReferences(node, NAFUtils.RESOURCE_BBN));
         builder.set("node.sst." + nodeSST);
+
+        // TODO: try using lemma instead of word
 
         // Add context features
         final int index = document.getTerms().indexOf(node);
@@ -266,7 +299,7 @@ public class LinkLabeller {
             if ("coord".equals(func) || "conj".equals(func)) {
                 continue;
             }
-            if ("pmod".equals(func)) {
+            if ("pmod".equals(func)) { // TODO: try removing this block
                 if (i > 0) {
                     final String f = path.getDeps().get(i - 1).getRfunc();
                     if ("coord".equals(f) || "conj".equals(f)) {
@@ -424,8 +457,7 @@ public class LinkLabeller {
             // Perform training considering a grid of parameters of the size specified (min 1)
             final List<Classifier.Parameters> grid = Lists.newArrayList();
             for (final float weight : new float[] { 0.25f, 0.5f, 1.0f, 2.0f, 4.0f }) {
-                // The SVM classifiers produces better CV results on training, but overfits on
-                // test
+                // SVM classifiers produce better CV results on training, but overfits on test
                 // grid.addAll(Classifier.Parameters.forSVMPolyKernel(2, new float[] { 1f, weight
                 // }, 1f, 1f, 0.0f, 3).grid(Math.max(1, gridSize), 10.0f));
                 // grid.addAll(Classifier.Parameters.forSVMLinearKernel(2,

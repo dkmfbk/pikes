@@ -1,40 +1,107 @@
 package eu.fbk.dkm.pikes.rdf;
 
+import java.io.File;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.annotation.Nullable;
+
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
-import com.google.common.collect.*;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 import com.google.common.io.Files;
-import eu.fbk.dkm.pikes.naflib.Corpus;
-import eu.fbk.dkm.pikes.resources.*;
-import eu.fbk.dkm.utils.Util;
-import eu.fbk.dkm.utils.vocab.*;
-import eu.fbk.rdfpro.RDFHandlers;
-import eu.fbk.rdfpro.RDFProcessors;
-import eu.fbk.rdfpro.RDFSource;
-import eu.fbk.rdfpro.RDFSources;
-import eu.fbk.rdfpro.util.*;
-import ixa.kaflib.*;
-import ixa.kaflib.KAFDocument.FileDesc;
-import ixa.kaflib.Opinion.OpinionHolder;
-import ixa.kaflib.Opinion.OpinionTarget;
-import ixa.kaflib.Opinion.Polarity;
-import ixa.kaflib.Predicate.Role;
-import org.openrdf.model.*;
+
+import org.openrdf.model.BNode;
+import org.openrdf.model.Literal;
+import org.openrdf.model.Model;
+import org.openrdf.model.Resource;
+import org.openrdf.model.Statement;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
+import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.LinkedHashModel;
 import org.openrdf.model.impl.ValueFactoryImpl;
-import org.openrdf.model.vocabulary.*;
+import org.openrdf.model.vocabulary.DCTERMS;
+import org.openrdf.model.vocabulary.FOAF;
+import org.openrdf.model.vocabulary.OWL;
+import org.openrdf.model.vocabulary.RDF;
+import org.openrdf.model.vocabulary.RDFS;
 import org.openrdf.rio.RDFHandler;
 import org.openrdf.rio.RDFHandlerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
-import javax.annotation.Nullable;
-import java.io.File;
-import java.lang.reflect.Array;
-import java.util.*;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicInteger;
+import ixa.kaflib.Coref;
+import ixa.kaflib.Dep;
+import ixa.kaflib.Entity;
+import ixa.kaflib.ExternalRef;
+import ixa.kaflib.Factuality;
+import ixa.kaflib.KAFDocument;
+import ixa.kaflib.KAFDocument.FileDesc;
+import ixa.kaflib.LinguisticProcessor;
+import ixa.kaflib.Opinion;
+import ixa.kaflib.Opinion.OpinionHolder;
+import ixa.kaflib.Opinion.OpinionTarget;
+import ixa.kaflib.Opinion.Polarity;
+import ixa.kaflib.Predicate;
+import ixa.kaflib.Predicate.Role;
+import ixa.kaflib.Span;
+import ixa.kaflib.Term;
+import ixa.kaflib.Timex3;
+import ixa.kaflib.WF;
+
+import eu.fbk.dkm.pikes.naflib.Corpus;
+import eu.fbk.dkm.pikes.rdf.util.ModelUtil;
+import eu.fbk.dkm.pikes.rdf.util.OWLTime;
+import eu.fbk.dkm.pikes.rdf.util.ProcessorASNorm;
+import eu.fbk.dkm.pikes.resources.FrameNet;
+import eu.fbk.dkm.pikes.resources.NAFFilter;
+import eu.fbk.dkm.pikes.resources.NAFUtils;
+import eu.fbk.dkm.pikes.resources.PropBank;
+import eu.fbk.dkm.pikes.resources.Sumo;
+import eu.fbk.dkm.pikes.resources.VerbNet;
+import eu.fbk.dkm.pikes.resources.WordNet;
+import eu.fbk.dkm.pikes.resources.YagoTaxonomy;
+import eu.fbk.dkm.utils.Util;
+import eu.fbk.dkm.utils.vocab.GAF;
+import eu.fbk.dkm.utils.vocab.GR;
+import eu.fbk.dkm.utils.vocab.KS;
+import eu.fbk.dkm.utils.vocab.NIF;
+import eu.fbk.dkm.utils.vocab.NWR;
+import eu.fbk.dkm.utils.vocab.OWLTIME;
+import eu.fbk.dkm.utils.vocab.SEM;
+import eu.fbk.dkm.utils.vocab.SUMO;
+import eu.fbk.rdfpro.RDFHandlers;
+import eu.fbk.rdfpro.RDFProcessors;
+import eu.fbk.rdfpro.RDFSource;
+import eu.fbk.rdfpro.RDFSources;
+import eu.fbk.rdfpro.util.Environment;
+import eu.fbk.rdfpro.util.Hash;
+import eu.fbk.rdfpro.util.Options;
+import eu.fbk.rdfpro.util.Statements;
+import eu.fbk.rdfpro.util.Tracker;
 
 // entity.type
 // instance
@@ -90,14 +157,14 @@ public final class RDFGenerator {
     private final boolean normalization;
 
     private RDFGenerator(final Builder builder) {
-        this.typeMap = ImmutableMultimap.copyOf(Objects.firstNonNull(builder.typeMap,
+        this.typeMap = ImmutableMultimap.copyOf(MoreObjects.firstNonNull(builder.typeMap,
                 DEFAULT_TYPE_MAP));
-        this.namespaceMap = ImmutableMap.copyOf(Objects.firstNonNull(builder.namespaceMap,
+        this.namespaceMap = ImmutableMap.copyOf(MoreObjects.firstNonNull(builder.namespaceMap,
                 DEFAULT_NAMESPACE_MAP));
-        this.owltimeNamespace = Objects.firstNonNull(builder.owltimeNamespace,
+        this.owltimeNamespace = MoreObjects.firstNonNull(builder.owltimeNamespace,
                 DEFAULT_OWLTIME_NAMESPACE);
-        this.merging = Objects.firstNonNull(builder.merging, Boolean.FALSE);
-        this.normalization = Objects.firstNonNull(builder.normalization, Boolean.FALSE);
+        this.merging = MoreObjects.firstNonNull(builder.merging, Boolean.FALSE);
+        this.normalization = MoreObjects.firstNonNull(builder.normalization, Boolean.FALSE);
     }
 
     public Model generate(final KAFDocument document, @Nullable final Iterable<Integer> sentenceIDs) {
@@ -119,7 +186,7 @@ public final class RDFGenerator {
 
     public void generate(final KAFDocument document,
             @Nullable final Iterable<Integer> sentenceIDs, final RDFHandler handler)
-            throws RDFHandlerException {
+                    throws RDFHandlerException {
 
         final boolean[] ids = new boolean[document.getNumSentences() + 1];
         if (sentenceIDs == null) {
@@ -295,8 +362,8 @@ public final class RDFGenerator {
                                     Files.createParentDirs(Runner.this.outputFile);
                                     source.emit(RDFHandlers.ignoreMethods(writer,
                                             RDFHandlers.METHOD_START_RDF
-                                                    | RDFHandlers.METHOD_END_RDF
-                                                    | RDFHandlers.METHOD_CLOSE), 1);
+                                            | RDFHandlers.METHOD_END_RDF
+                                            | RDFHandlers.METHOD_CLOSE), 1);
                                     succeeded.incrementAndGet();
                                 } catch (final Throwable ex) {
                                     LOGGER.error("Processing failed for " + docName, ex);
@@ -489,9 +556,9 @@ public final class RDFGenerator {
                             } catch (final Throwable ex) {
                                 LOGGER.error(
                                         "Error processing MODIFIER " + NAFUtils.toString(term)
-                                                + " of " + NAFUtils.toString(ann.head)
-                                                + " (object URI " + ann.objectURI
-                                                + "; predicate URI " + ann.predicateURI + ")", ex);
+                                        + " of " + NAFUtils.toString(ann.head)
+                                        + " (object URI " + ann.objectURI
+                                        + "; predicate URI " + ann.predicateURI + ")", ex);
                             }
                         }
                     }
@@ -739,7 +806,7 @@ public final class RDFGenerator {
             // Generate a default timex URI on failure
             if (timexURI == null) {
                 timexURI = mintURI(timex.getId(),
-                        Objects.firstNonNull(timex.getValue(), timex.getSpan().getStr()));
+                        MoreObjects.firstNonNull(timex.getValue(), timex.getSpan().getStr()));
             }
 
             // Register the timex URI it in the term annotation and link it to the mention
@@ -1260,7 +1327,7 @@ public final class RDFGenerator {
             emitFact(opinionURI, RDF.TYPE, KS.OPINION, null, null);
             emitFact(opinionURI, RDF.TYPE, polarity == Polarity.POSITIVE ? KS.POSITIVE_OPINION
                     : polarity == Polarity.NEGATIVE ? KS.NEGATIVE_OPINION : KS.NEUTRAL_OPINION,
-                    null, null);
+                            null, null);
             if (opinion.getLabel() != null) {
                 emitFact(opinionURI, RDFS.LABEL, opinion.getLabel(), null, null);
             }
@@ -1324,7 +1391,7 @@ public final class RDFGenerator {
 
         private void emitCommonAttributes(final URI instanceID, final URI mentionID,
                 final Term head, final String label, final boolean emitSumo)
-                throws RDFHandlerException {
+                        throws RDFHandlerException {
 
             if ("QPD".indexOf(head.getPos()) < 0 && label != null && !label.isEmpty()) {
                 emitFact(instanceID, RDFS.LABEL, label, mentionID, null);
@@ -1452,7 +1519,7 @@ public final class RDFGenerator {
 
             final StringBuilder anchorBuilder = new StringBuilder();
             final StringBuilder uriBuilder = new StringBuilder(this.documentURI.stringValue())
-                    .append("#char=").append(begin).append(",");
+            .append("#char=").append(begin).append(",");
 
             for (int i = 0; i < numTerms; ++i) {
                 final Term term = sortedTerms.get(i);
@@ -1528,7 +1595,7 @@ public final class RDFGenerator {
             final ExternalRef synsetRef = NAFUtils.getRef(head, NAFUtils.RESOURCE_WN_SYNSET, null);
             final String headSynsetID = synsetRef == null ? null : synsetRef.getReference();
             final String readableHeadSynsetID = WordNet.getReadableSynsetID(headSynsetID);
-            final String headID = Objects.firstNonNull(readableHeadSynsetID, //
+            final String headID = MoreObjects.firstNonNull(readableHeadSynsetID, //
                     head.getLemma().toLowerCase());
 
             final List<URI> modifierURIs = Lists.newArrayList();
@@ -1639,7 +1706,7 @@ public final class RDFGenerator {
         private URI mintURI(final String id, @Nullable final String suggestedLocalName) {
             String localName = this.mintedURIs.get(id);
             if (localName == null) {
-                final String name = Objects.firstNonNull(suggestedLocalName, id);
+                final String name = MoreObjects.firstNonNull(suggestedLocalName, id);
                 final StringBuilder builder = new StringBuilder();
                 for (int i = 0; i < name.length(); ++i) {
                     final char c = name.charAt(i);
@@ -1711,7 +1778,7 @@ public final class RDFGenerator {
 
             final List<Statement> smushedStmts = Lists.newArrayList();
             RDFProcessors.smush("http://dbpedia.org/resource/").wrap(RDFSources.wrap(stmts))
-                    .emit(RDFHandlers.wrap(smushedStmts), 1);
+            .emit(RDFHandlers.wrap(smushedStmts), 1);
 
             final Set<Resource> named = Sets.newHashSet();
             final Multimap<Resource, Resource> groups = HashMultimap.create();

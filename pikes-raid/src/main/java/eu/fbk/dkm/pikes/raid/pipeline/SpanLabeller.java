@@ -101,30 +101,6 @@ public final class SpanLabeller {
         return expand(document, this.predictor, excludedTerms, getMinimalSpan(document, head));
     }
 
-    public static List<Term> getTermsByDepAncestors(final KAFDocument document,
-            final Iterable<Term> ancestors, final String allowedPos) {
-
-        final List<Term> terms = Lists.newArrayList();
-        final List<Term> queue = Lists.newLinkedList();
-        Iterables.addAll(queue, ancestors);
-
-        while (!queue.isEmpty()) {
-            final Term term = queue.remove(0);
-            for (final Dep dep : document.getDepsFromTerm(term)) {
-                final Term to = dep.getTo();
-                final char pos = Character.toUpperCase(to.getPos().charAt(0));
-                if (allowedPos.indexOf(pos) >= 0) {
-                    terms.add(to);
-                } else {
-                    queue.add(to);
-                }
-            }
-        }
-
-        Collections.sort(terms, Term.OFFSET_COMPARATOR);
-        return terms;
-    }
-
     private static Span<Term> expand(final KAFDocument document, final Predictor predictor,
             @Nullable final Iterable<Term> marked, final Span<Term> span) {
 

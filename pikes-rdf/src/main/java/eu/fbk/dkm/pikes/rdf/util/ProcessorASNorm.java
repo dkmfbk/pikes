@@ -1,7 +1,21 @@
-package eu.fbk.dkm.pikes.rdf;
+package eu.fbk.dkm.pikes.rdf.util;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+
+import org.openrdf.model.BNode;
+import org.openrdf.model.Literal;
+import org.openrdf.model.Resource;
+import org.openrdf.model.Statement;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
+import org.openrdf.rio.RDFHandler;
+import org.openrdf.rio.RDFHandlerException;
+
 import eu.fbk.dkm.utils.Util;
 import eu.fbk.rdfpro.Mapper;
 import eu.fbk.rdfpro.RDFProcessor;
@@ -10,15 +24,8 @@ import eu.fbk.rdfpro.Reducer;
 import eu.fbk.rdfpro.util.Hash;
 import eu.fbk.rdfpro.util.Options;
 import eu.fbk.rdfpro.util.Statements;
-import org.openrdf.model.*;
-import org.openrdf.rio.RDFHandler;
-import org.openrdf.rio.RDFHandlerException;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-final class ProcessorASNorm implements RDFProcessor {
+public final class ProcessorASNorm implements RDFProcessor {
 
     private final String namespace;
 
@@ -36,7 +43,7 @@ final class ProcessorASNorm implements RDFProcessor {
         return new ProcessorASNorm(namespace);
     }
 
-    ProcessorASNorm(final String namespace) {
+    public ProcessorASNorm(final String namespace) {
         this.namespace = namespace;
         this.checkedMapper = new CheckedMapper();
         this.uncheckedMapper = new UncheckedMapper();

@@ -1,4 +1,4 @@
-package eu.fbk.dkm.pikes.rdf;
+package eu.fbk.dkm.pikes.rdf.util;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;

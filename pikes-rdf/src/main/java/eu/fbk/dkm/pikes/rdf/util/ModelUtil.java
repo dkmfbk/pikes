@@ -1,19 +1,30 @@
-package eu.fbk.dkm.pikes.rdf;
+package eu.fbk.dkm.pikes.rdf.util;
 
-import com.google.common.collect.*;
-import eu.fbk.dkm.utils.vocab.GAF;
-import eu.fbk.dkm.utils.vocab.KS;
-import eu.fbk.dkm.utils.vocab.NIF;
-import eu.fbk.rdfpro.util.Statements;
-import org.openrdf.model.*;
-import org.openrdf.model.impl.LinkedHashModel;
-import org.openrdf.model.vocabulary.RDF;
-
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+
+import javax.annotation.Nullable;
+
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+
+import org.openrdf.model.Literal;
+import org.openrdf.model.Resource;
+import org.openrdf.model.Statement;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
+import org.openrdf.model.vocabulary.RDF;
+
+import eu.fbk.dkm.utils.vocab.GAF;
+import eu.fbk.dkm.utils.vocab.KS;
+import eu.fbk.dkm.utils.vocab.NIF;
+import eu.fbk.rdfpro.rules.model.QuadModel;
+import eu.fbk.rdfpro.util.Statements;
 
 // TODO: define RDFModel (quad extension of Model) and KSModel (with methods specific to KS
 // schema)
@@ -38,11 +49,11 @@ public final class ModelUtil {
         LANGUAGE_URIS_TO_CODES = ImmutableMap.copyOf(urisToCodes);
     }
 
-    public static Set<Resource> getMentions(final Model model) {
+    public static Set<Resource> getMentions(final QuadModel model) {
         return model.filter(null, RDF.TYPE, KS.MENTION).subjects();
     }
 
-    public static Set<Resource> getMentions(final Model model, final int beginIndex,
+    public static Set<Resource> getMentions(final QuadModel model, final int beginIndex,
             final int endIndex) {
         final List<Resource> mentionIDs = Lists.newArrayList();
         for (final Resource mentionID : model.filter(null, RDF.TYPE, KS.MENTION).subjects()) {
@@ -56,10 +67,10 @@ public final class ModelUtil {
         return ImmutableSet.copyOf(mentionIDs);
     }
 
-    public static Model getSubModel(final Model model,
+    public static QuadModel getSubModel(final QuadModel model,
             final Iterable<? extends Resource> mentionIDs) {
 
-        final Model result = new LinkedHashModel();
+        final QuadModel result = QuadModel.create();
         final Set<Resource> nodes = Sets.newHashSet();
 
         // Add all the triples (i) describing the mention; (ii) linking the mention to denoted

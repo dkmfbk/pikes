@@ -21,7 +21,7 @@
         Includes also rendering facilities of extracted RDF.
     </description>
     <url>http://pikes.fbk.eu/pikes-rdf/</url>
-    
+
     <dependencies>
         <dependency>
             <groupId>eu.fbk.pikes</groupId>
@@ -34,6 +34,10 @@
         <dependency>
             <groupId>eu.fbk.rdfpro</groupId>
             <artifactId>rdfpro-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.fbk.rdfpro</groupId>
+            <artifactId>rdfpro-rules</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
