@@ -81,7 +81,7 @@
         <dependency>
             <groupId>eu.fbk.dkm.utils</groupId>
             <artifactId>utils</artifactId>
-            <version>1.0</version>
+            <version>1.2-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -98,6 +98,35 @@
             <version>1.4.01</version>
         </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <properties>
         <parent-path>/..</parent-path>

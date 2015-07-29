@@ -155,7 +155,7 @@ public abstract class Trainer<T extends Extractor> {
         // Select the implementation class and delegate to its constructor
         String implementationName = properties.getProperty("class");
         if (implementationName == null) {
-            implementationName = "eu.fbk.fssa.pipeline.PipelineTrainer"; // default
+            implementationName = "eu.fbk.dkm.pikes.raid.pipeline.PipelineTrainer"; // default
         }
         try {
             final Class<?> implementationClass = Class.forName(implementationName);
