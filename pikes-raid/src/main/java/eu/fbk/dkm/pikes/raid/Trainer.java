@@ -1,9 +1,36 @@
 package eu.fbk.dkm.pikes.raid;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Path;
+import java.util.EnumSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
+import java.util.Set;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.stream.StreamSupport;
+
+import javax.annotation.Nullable;
+
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.base.Throwables;
-import com.google.common.collect.*;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Lists;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import ixa.kaflib.KAFDocument;
+import ixa.kaflib.Opinion;
+import ixa.kaflib.Opinion.OpinionExpression;
+
 import eu.fbk.dkm.pikes.naflib.Corpus;
 import eu.fbk.dkm.pikes.resources.NAFUtils;
 import eu.fbk.dkm.pikes.resources.WordNet;
@@ -11,23 +38,6 @@ import eu.fbk.dkm.utils.CommandLine;
 import eu.fbk.dkm.utils.CommandLine.Type;
 import eu.fbk.dkm.utils.Util;
 import eu.fbk.rdfpro.util.Tracker;
-import ixa.kaflib.KAFDocument;
-import ixa.kaflib.Opinion;
-import ixa.kaflib.Opinion.OpinionExpression;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.annotation.Nullable;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Path;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.stream.StreamSupport;
 
 public abstract class Trainer<T extends Extractor> {
 
@@ -111,6 +121,15 @@ public abstract class Trainer<T extends Extractor> {
                 opinions = Lists.newArrayList();
                 for (final String goldLabel : goldLabels) {
                     opinions.addAll(document.getOpinions(goldLabel));
+                }
+            }
+            // TODO: this is an hack to deal with VUA non-opinionated fake opinions
+            for (final Iterator<Opinion> i = opinions.iterator(); i.hasNext();) {
+                final Opinion opinion = i.next();
+                if (opinion.getPolarity() != null
+                        && opinion.getPolarity().equalsIgnoreCase("NON-OPINIONATED")) {
+                    i.remove();
+                    LOGGER.info("Skipping non-opinionated opinion {}", opinion.getId());
                 }
             }
             for (final Opinion opinion : opinions) {
