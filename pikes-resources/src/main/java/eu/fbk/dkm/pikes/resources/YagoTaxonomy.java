@@ -1,8 +1,35 @@
 package eu.fbk.dkm.pikes.resources;
 
+import java.io.File;
+import java.io.Writer;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.annotation.Nullable;
+
 import com.google.common.base.Charsets;
-import com.google.common.collect.*;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 import com.google.common.io.Resources;
+
+import org.openrdf.model.Resource;
+import org.openrdf.model.Statement;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
+import org.openrdf.model.impl.ValueFactoryImpl;
+import org.openrdf.model.vocabulary.RDFS;
+import org.openrdf.rio.RDFHandlerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import eu.fbk.dkm.utils.CommandLine;
 import eu.fbk.dkm.utils.CommandLine.Type;
 import eu.fbk.rdfpro.AbstractRDFHandler;
@@ -10,37 +37,77 @@ import eu.fbk.rdfpro.RDFSource;
 import eu.fbk.rdfpro.RDFSources;
 import eu.fbk.rdfpro.tql.TQL;
 import eu.fbk.rdfpro.util.IO;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.ValueFactoryImpl;
-import org.openrdf.rio.RDFHandlerException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.annotation.Nullable;
-import java.io.File;
-import java.io.Writer;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public final class YagoTaxonomy {
 
-    public static final String NAMESPACE_DBPEDIA_YAGO = "http://dbpedia.org/class/yago/";
+    public static final String NAMESPACE = "http://dbpedia.org/class/yago/";
 
-    private static final Map<Long, String> OFFSET_TO_LEMMA;
+    private static final Map<String, Concept> ID_INDEX;
+
+    private static final Map<Integer, Concept> OFFSET_INDEX;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(YagoTaxonomy.class);
 
     static {
         try {
-            final ImmutableMap.Builder<Long, String> builder = ImmutableMap.builder();
+            final List<String> ids = Lists.newArrayList();
+            final Map<Integer, String> offsetMap = Maps.newHashMap();
+            final Multimap<Integer, Integer> parentsMap = HashMultimap.create();
+            final Multimap<Integer, Integer> childrenMap = HashMultimap.create();
             for (final String line : Resources.readLines(
                     YagoTaxonomy.class.getResource("YagoTaxonomy.tsv"), Charsets.UTF_8)) {
                 final String[] tokens = line.split("\t");
-                builder.put(Long.valueOf(tokens[0]), tokens[1]);
+                if (tokens.length > 0) {
+                    final int num = ids.size();
+                    final String id = tokens[0];
+                    ids.add(id);
+                    final int len = id.length();
+                    if (len > 9) {
+                        try {
+                            final int offset = Integer.parseInt(id.substring(len - 8));
+                            offsetMap.put(offset, id);
+                        } catch (final NumberFormatException ex) {
+                            // Ignore
+                        }
+                    }
+                    for (int i = 1; i < tokens.length; ++i) {
+                        final int parentNum = Integer.parseInt(tokens[i]);
+                        parentsMap.put(num, parentNum);
+                        childrenMap.put(parentNum, num);
+                    }
+                }
             }
-            OFFSET_TO_LEMMA = builder.build();
+
+            final String[] emptyIDs = new String[0];
+            final ImmutableMap.Builder<String, Concept> idIndexBuilder = ImmutableMap.builder();
+            for (int num = 0; num < ids.size(); ++num) {
+                final String id = ids.get(num);
+                final Collection<Integer> parentNums = parentsMap.get(num);
+                final Collection<Integer> childrenNums = childrenMap.get(num);
+                final int numParents = parentNums.size();
+                final int numChildren = childrenNums.size();
+                final String[] parentIDs = numParents == 0 ? emptyIDs : new String[numParents];
+                final String[] childrenIDs = numChildren == 0 ? emptyIDs : new String[numChildren];
+                int index = 0;
+                for (final Integer parentNum : parentNums) {
+                    parentIDs[index++] = ids.get(parentNum);
+                }
+                index = 0;
+                for (final Integer childrenNum : childrenNums) {
+                    childrenIDs[index++] = ids.get(childrenNum);
+                }
+                final Concept concept = new Concept(id, parentIDs, childrenIDs);
+                idIndexBuilder.put(id, concept);
+            }
+            ID_INDEX = idIndexBuilder.build();
+
+            final ImmutableMap.Builder<Integer, Concept> offsetIndexBuilder = ImmutableMap
+                    .builder();
+            for (final Map.Entry<Integer, String> entry : offsetMap.entrySet()) {
+                offsetIndexBuilder.put(entry.getKey(), ID_INDEX.get(entry.getValue()));
+            }
+            OFFSET_INDEX = offsetIndexBuilder.build();
+
         } catch (final Exception ex) {
             throw new Error(ex);
         }
@@ -49,11 +116,10 @@ public final class YagoTaxonomy {
     @Nullable
     public static URI getDBpediaYagoURI(@Nullable final String synsetID) {
         if (synsetID != null) {
-            final Long offset = Long.valueOf(synsetID.substring(0, synsetID.length() - 2));
-            final String lemma = OFFSET_TO_LEMMA.get(offset);
-            if (lemma != null) {
-                return ValueFactoryImpl.getInstance().createURI(
-                        String.format("%s%s1%08d", NAMESPACE_DBPEDIA_YAGO, lemma, offset));
+            final Integer offset = Integer.valueOf(synsetID.substring(0, synsetID.length() - 2));
+            final Concept concept = OFFSET_INDEX.get(offset);
+            if (concept != null) {
+                return ValueFactoryImpl.getInstance().createURI(NAMESPACE + concept.id);
             }
         }
         return null;
@@ -84,8 +150,7 @@ public final class YagoTaxonomy {
 
     @Nullable
     public static String getSynsetID(@Nullable final URI dbpediaYagoURI) {
-        if (dbpediaYagoURI != null
-                && dbpediaYagoURI.stringValue().startsWith(NAMESPACE_DBPEDIA_YAGO)) {
+        if (dbpediaYagoURI != null && dbpediaYagoURI.stringValue().startsWith(NAMESPACE)) {
             final String s = dbpediaYagoURI.stringValue();
             final int l = s.length();
             if (l > 9) {
@@ -98,6 +163,66 @@ public final class YagoTaxonomy {
             }
         }
         return null;
+    }
+
+    public static Set<URI> getSubClasses(final URI parentURI, final boolean recursive) {
+        final Set<URI> result = Sets.newHashSet();
+        final List<URI> queue = Lists.newLinkedList();
+        queue.add(parentURI);
+        while (!queue.isEmpty()) {
+            final URI uri = queue.remove(0);
+            final String id = uri.stringValue().substring(NAMESPACE.length());
+            final Concept concept = ID_INDEX.get(id);
+            if (concept != null) {
+                for (final String childID : concept.children) {
+                    final URI childURI = ValueFactoryImpl.getInstance().createURI(
+                            NAMESPACE + childID);
+                    if (result.add(childURI) && recursive) {
+                        queue.add(childURI);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    public static Set<URI> getSuperClasses(final URI childURI, final boolean recursive) {
+        final Set<URI> result = Sets.newHashSet();
+        final List<URI> queue = Lists.newLinkedList();
+        queue.add(childURI);
+        while (!queue.isEmpty()) {
+            final URI uri = queue.remove(0);
+            final String id = uri.stringValue().substring(NAMESPACE.length());
+            final Concept concept = ID_INDEX.get(id);
+            if (concept != null) {
+                for (final String parentID : concept.parents) {
+                    final URI parentURI = ValueFactoryImpl.getInstance().createURI(
+                            NAMESPACE + parentID);
+                    if (result.add(parentURI) && recursive) {
+                        queue.add(parentURI);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    public static boolean isSubClassOf(final URI childURI, final URI parentURI) {
+        if (childURI.equals(parentURI)) {
+            return true;
+        }
+        final String childID = childURI.stringValue().substring(NAMESPACE.length());
+        final Concept child = ID_INDEX.get(childID);
+        if (child == null) {
+            return false;
+        }
+        for (final String parentID : child.parents) {
+            final URI uri = ValueFactoryImpl.getInstance().createURI(NAMESPACE + parentID);
+            if (isSubClassOf(uri, parentURI)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void main(final String... args) {
@@ -117,50 +242,78 @@ public final class YagoTaxonomy {
 
             TQL.register();
 
-            final Set<URI> uris = Sets.newHashSet();
+            final Set<String> ids = Sets.newHashSet();
+            final Multimap<String, String> parents = HashMultimap.create();
             final RDFSource source = RDFSources.read(false, true, null, null,
                     input.getAbsolutePath());
             source.emit(new AbstractRDFHandler() {
 
                 @Override
-                public void handleStatement(final Statement statement) throws RDFHandlerException {
-                    if (statement.getSubject() instanceof URI) {
-                        process((URI) statement.getSubject());
+                public void handleStatement(final Statement stmt) throws RDFHandlerException {
+                    final Resource s = stmt.getSubject();
+                    final URI p = stmt.getPredicate();
+                    final Value o = stmt.getObject();
+                    if (p.equals(RDFS.SUBCLASSOF) && s instanceof URI && o instanceof URI
+                            && s.stringValue().startsWith(NAMESPACE)
+                            && o.stringValue().startsWith(NAMESPACE)) {
+                        final String childID = s.stringValue().substring(NAMESPACE.length());
+                        final String parentID = o.stringValue().substring(NAMESPACE.length());
+                        if (getSynsetID((URI) o) != null) {
+                            ids.add(parentID);
+                        }
+                        if (getSynsetID((URI) s) != null) {
+                            ids.add(childID);
+                            parents.put(childID, parentID);
+                        }
                     }
-                    if (statement.getObject() instanceof URI) {
-                        process((URI) statement.getObject());
-                    }
-                }
-
-                private void process(final URI uri) {
-                    if (getSynsetID(uri) == null) {
-                        return;
-                    }
-                    uris.add(uri);
                 }
 
             }, 1);
 
-            final Map<Long, String> map = Maps.newHashMap();
-            for (final URI uri : uris) {
-                final String synsetID = getSynsetID(uri);
-                final Long offset = Long.valueOf(synsetID.substring(0, 8));
-                final String name = uri.stringValue().substring(NAMESPACE_DBPEDIA_YAGO.length());
-                final String lemma = name.substring(0, name.length() - 9);
-                map.put(offset, lemma);
+            final List<String> sortedIDs = Ordering.natural().immutableSortedCopy(ids);
+
+            int counter = 0;
+            final Map<String, Integer> nums = Maps.newHashMap();
+            for (final String id : sortedIDs) {
+                nums.put(id, counter++);
             }
 
             try (Writer writer = IO.utf8Writer(IO.buffer(IO.write(output.getAbsolutePath())))) {
-                for (final Long offset : Ordering.natural().immutableSortedCopy(map.keySet())) {
-                    writer.write(offset + "\t" + map.get(offset) + "\n");
+                for (int childNum = 0; childNum < sortedIDs.size(); ++childNum) {
+                    final String childID = sortedIDs.get(childNum);
+                    writer.write(childID);
+                    for (final String parentID : parents.get(childID)) {
+                        final Integer parentNum = nums.get(parentID);
+                        if (parentNum != null) {
+                            writer.write("\t");
+                            writer.write(Integer.toString(parentNum));
+                        }
+                    }
+                    writer.write("\n");
                 }
             }
 
-            LOGGER.info("Emitted {} mappings", map.size());
+            LOGGER.info("Emitted {} mappings", sortedIDs.size());
 
         } catch (final Throwable ex) {
             CommandLine.fail(ex);
         }
+    }
+
+    private static final class Concept {
+
+        public final String id;
+
+        public final String[] parents;
+
+        public final String[] children;
+
+        Concept(final String id, final String[] parents, final String[] children) {
+            this.id = id;
+            this.parents = parents;
+            this.children = children;
+        }
+
     }
 
 }
