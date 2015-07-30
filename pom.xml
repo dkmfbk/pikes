@@ -98,6 +98,7 @@
     <properties>
         <pikes-version>${project.version}</pikes-version>
         <rdfpro-version>0.5-SNAPSHOT</rdfpro-version>
+        <utils-version>1.2-SNAPSHOT</utils-version>
         <site.root>http://pikes.fbk.eu/</site.root>
     </properties>
 
