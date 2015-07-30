@@ -80,7 +80,7 @@ public final class RDFGraphvizRenderer {
                 : ImmutableSet.copyOf(builder.collapsedProperties);
         this.colorMap = builder.colorMap == null ? null : ImmutableMap.copyOf(builder.colorMap);
         this.styleMap = builder.styleMap == null ? null : ImmutableMap.copyOf(builder.styleMap);
-        this.namespaces = builder.namespaces == null ? Namespaces.DEFAULT : this.namespaces;
+        this.namespaces = builder.namespaces == null ? Namespaces.DEFAULT : builder.namespaces;
         this.valueComparator = builder.valueComparator != null ? Ordering
                 .from(builder.valueComparator) : Ordering.from(Statements.valueComparator());
         this.graphvizCommand = builder.graphvizCommand == null ? "neato" : builder.graphvizCommand;
