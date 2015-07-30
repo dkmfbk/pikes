@@ -140,7 +140,7 @@ public final class RDFGenerator {
             // TODO: change this namespace
             .put("syn", "http://wordnet-rdf.princeton.edu/wn30/")
             // TODO .put("conn", "http://www.newsreader-project.eu/conn/")
-            .put("sumo", Sumo.NAMESPACE).put("yago", YagoTaxonomy.NAMESPACE_DBPEDIA_YAGO).build();
+            .put("sumo", Sumo.NAMESPACE).put("yago", YagoTaxonomy.NAMESPACE).build();
 
     private static final String DEFAULT_OWLTIME_NAMESPACE = "http://www.newsreader-project.eu/time/";
 

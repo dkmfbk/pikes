@@ -1,20 +1,38 @@
 package eu.fbk.dkm.pikes.raid.pipeline;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.EnumSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+
+import javax.annotation.Nullable;
+
 import com.google.common.base.Preconditions;
-import com.google.common.collect.*;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
+
+import ixa.kaflib.Dep;
+import ixa.kaflib.KAFDocument;
+import ixa.kaflib.Opinion;
+import ixa.kaflib.Opinion.Polarity;
+import ixa.kaflib.Span;
+import ixa.kaflib.Term;
+
 import eu.fbk.dkm.pikes.raid.Component;
 import eu.fbk.dkm.pikes.raid.Extractor;
 import eu.fbk.dkm.pikes.raid.Opinions;
 import eu.fbk.dkm.pikes.resources.NAFFilter;
 import eu.fbk.dkm.pikes.resources.NAFUtils;
-import ixa.kaflib.*;
-import ixa.kaflib.Opinion.Polarity;
-
-import javax.annotation.Nullable;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.*;
 
 public final class PipelineExtractor extends Extractor {
 
@@ -188,7 +206,7 @@ public final class PipelineExtractor extends Extractor {
 
     private List<Span<Term>> findArguments(final KAFDocument document, final int sentence,
             final Term expressionHead, final LinkLabeller linkLabeller,
-            final SpanLabeller spanLabeller, boolean unique) {
+            final SpanLabeller spanLabeller, final boolean unique) {
 
         final Map<Term, Float> map = linkLabeller.label(document, expressionHead);
 
@@ -217,25 +235,16 @@ public final class PipelineExtractor extends Extractor {
         while (!clusters.isEmpty()) {
             final Set<Term> cluster = clusters.values().iterator().next();
             clusters.keySet().removeAll(cluster);
-            float score = 0;
+            float score = 1.0f; // was 0;
             int count = 0;
             for (final Term term : cluster) {
                 final Float s = map.get(term);
                 if (s != null) {
                     ++count;
-                    score = Math.max(score, s);
+                    score = Math.min(score, s); // was max
                 }
             }
             if (count > 0) {
-
-                // // TODO
-                // float score2 = -1000.0f;
-                // for (Term term : cluster) {
-                // int len = Dep.Path.create(term, expressionHead, document).length();
-                // score2 = Math.max(score2, -len);
-                // }
-                // score += score2;
-
                 for (final Term term : cluster) {
                     if ("CO".indexOf(term.getPos().charAt(0)) < 0) {
                         map.put(term, score);
@@ -245,6 +254,11 @@ public final class PipelineExtractor extends Extractor {
                     bestScore = score;
                     bestCluster = cluster;
                 }
+            }
+        }
+        for (final Iterator<Map.Entry<Term, Float>> i = map.entrySet().iterator(); i.hasNext();) {
+            if (i.next().getValue() < 0.5f) {
+                i.remove();
             }
         }
         if (unique && bestCluster != null) {

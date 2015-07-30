@@ -31,6 +31,7 @@ import ixa.kaflib.Predicate.Role;
 import ixa.kaflib.Term;
 
 import eu.fbk.dkm.pikes.resources.NAFUtils;
+import eu.fbk.dkm.pikes.resources.WordNet;
 import eu.fbk.dkm.utils.Graph;
 import eu.fbk.dkm.utils.Util;
 import eu.fbk.dkm.utils.eval.ConfusionMatrix;
@@ -87,8 +88,11 @@ public class LinkLabeller {
         for (final Term term : candidates(document, root, this.posPrefixes)) {
             final Vector vector = features(document, root, term);
             final LabelledVector outVector = this.classifier.predict(true, vector);
+            final float p = outVector.getProbability(SELECTED);
             if (outVector.getLabel() == SELECTED) {
-                map.put(term, outVector.getProbability(SELECTED));
+                map.put(term, p >= 0.5f ? p : 0.5f);
+            } else {
+                map.put(term, p < 0.5f ? p : 0.5f);
             }
         }
         return map;
@@ -160,9 +164,7 @@ public class LinkLabeller {
                 for (final Dep dep2 : document.getDepsFromTerm(t)) {
                     if (dep2.getTo().equals(dep.getTo())) {
                         continue;
-                    } else if ("COORD".equals(dep2.getRfunc()) || "CONJ".equals(dep2.getRfunc())) {
-                        queue.add(dep2.getTo()); // TODO: ignore this case?
-                    } else {
+                    } else if (!"COORD".equals(dep2.getRfunc()) && !"CONJ".equals(dep2.getRfunc())) {
                         candidatesHelper(document, dep2.getTo(), nonModifierTerms);
                     }
                 }
@@ -227,39 +229,75 @@ public class LinkLabeller {
         builder.set("root.pos." + root.getMorphofeat()); // JM
         builder.set("root.dep." + (rootDep == null ? "none" : rootDep.getRfunc())); // JM
         for (final ExternalRef ref : NAFUtils.getRefs(root, NAFUtils.RESOURCE_WN_SYNSET, null)) {
-            builder.set("root.wn." + ref.getReference()); // TODO: inherit hypernyms
+            // builder.set("root.wn." + ref.getReference());
+            for (final String synsetID : WordNet.getHypernyms(ref.getReference(), true)) {
+                builder.set("root.wn." + synsetID);
+            }
         }
-        builder.set("root.word." + root.getStr().toLowerCase()); // JM
+        // builder.set("root.word." + root.getStr().toLowerCase()); // JM
         builder.set("root.lemma." + root.getLemma().toLowerCase()); // JM
-        builder.set("root.named", root.getMorphofeat().startsWith("NNP")); // TODO: try remove
-        builder.set("root.bbn.", getReferences(root, NAFUtils.RESOURCE_BBN)); // TODO: try remove
         builder.set("root.form."
                 + (rootActive == null ? "none" : rootActive ? "active" : "passive"));
         builder.set("root.sst." + rootSST);
+
+        // Experimental, disabled root features: SUMO and YAGO types
+        // for (final ExternalRef ref : NAFUtils.getRefs(root, NAFUtils.RESOURCE_SUMO, null)) {
+        // builder.set("root.sumo." + ref.getReference());
+        // for (final URI uri : Sumo.getSuperClasses(new URIImpl(Sumo.NAMESPACE
+        // + ref.getReference()))) {
+        // builder.set("root.sumo." + uri.getLocalName());
+        // }
+        // }
+        // for (final ExternalRef ref : NAFUtils.getRefs(root, NAFUtils.RESOURCE_YAGO, null)) {
+        // builder.set("root.yago." + ref.getReference());
+        // for (final URI uri : YagoTaxonomy.getSuperClasses(new URIImpl(YagoTaxonomy.NAMESPACE
+        // + ref.getReference()), true)) {
+        // builder.set("root.yago." + uri.getLocalName());
+        // }
+        // }
 
         // Add node features
         builder.set("node.pos." + node.getMorphofeat()); // JM
         builder.set("node.dep." + (nodeDep == null ? "none" : nodeDep.getRfunc())); // JM
         for (final ExternalRef ref : NAFUtils.getRefs(node, NAFUtils.RESOURCE_WN_SYNSET, null)) {
-            builder.set("node.wn." + ref.getReference()); // TODO: inherit hypernyms
+            // builder.set("node.wn." + ref.getReference());
+            for (final String synsetID : WordNet.getHypernyms(ref.getReference(), true)) {
+                builder.set("node.wn." + synsetID);
+            }
         }
-        builder.set("node.word." + node.getStr().toLowerCase()); // JM
-        // builder.set("node.lemma." + node.getLemma().toLowerCase());
+        // builder.set("node.word." + node.getStr().toLowerCase()); // JM
+        builder.set("node.lemma." + node.getLemma().toLowerCase());
         builder.set("node.named", node.getMorphofeat().startsWith("NNP"));
         builder.set("node.bbn.", getReferences(node, NAFUtils.RESOURCE_BBN));
         builder.set("node.sst." + nodeSST);
 
-        // TODO: try using lemma instead of word
+        // Experimental, disabled node features: SUMO and YAGO types
+        // for (final ExternalRef ref : NAFUtils.getRefs(node, NAFUtils.RESOURCE_SUMO, null)) {
+        // builder.set("node.sumo." + ref.getReference());
+        // for (final URI uri : Sumo.getSuperClasses(new URIImpl(Sumo.NAMESPACE
+        // + ref.getReference()))) {
+        // builder.set("node.sumo." + uri.getLocalName());
+        // }
+        // }
+        // for (final ExternalRef ref : NAFUtils.getRefs(node, NAFUtils.RESOURCE_YAGO, null)) {
+        // builder.set("node.yago." + ref.getReference());
+        // for (final URI uri : YagoTaxonomy.getSuperClasses(new URIImpl(YagoTaxonomy.NAMESPACE
+        // + ref.getReference()), true)) {
+        // builder.set("node.yago." + uri.getLocalName());
+        // }
+        // }
 
-        // Add context features
-        final int index = document.getTerms().indexOf(node);
-        final Term left = index == 0 ? null : document.getTerms().get(index - 1);
-        final Term right = index == document.getTerms().size() - 1 ? null : document.getTerms()
-                .get(index + 1);
-        builder.set("left.pos." + (left == null ? "none" : left.getMorphofeat())); // JM
-        builder.set("left.word." + (left == null ? "none" : left.getStr().toLowerCase())); // JM
-        builder.set("right.pos." + (right == null ? "none" : right.getMorphofeat())); // JM
-        builder.set("right.word." + (right == null ? "none" : right.getStr().toLowerCase())); // JM
+        // Add context features (their impact is minimal, hence we disabled them)
+        // final int index = document.getTerms().indexOf(node);
+        // final Term left = index == 0 ? null : document.getTerms().get(index - 1);
+        // final Term right = index == document.getTerms().size() - 1 ? null : document.getTerms()
+        // .get(index + 1);
+        // builder.set("left.pos." + (left == null ? "none" : left.getMorphofeat())); // JM
+        // builder.set("left.word." + (left == null ? "none" : left.getStr().toLowerCase())); //
+        // JM
+        // builder.set("right.pos." + (right == null ? "none" : right.getMorphofeat())); // JM
+        // builder.set("right.word." + (right == null ? "none" : right.getStr().toLowerCase()));
+        // // JM
 
         // Add path features
         final Dep.Path path = Dep.Path.create(root, node, document);
@@ -291,6 +329,9 @@ public class LinkLabeller {
     }
 
     private static String getSimplifiedPathLabel(final Path path) {
+
+        // Filter out coordination edges (COORD|CONJ) and keep track of remaining edge direction
+        // (U=up, D=down in the tree)
         final StringBuilder builder = new StringBuilder();
         Term term = path.getTerms().get(0);
         for (int i = 0; i < path.getDeps().size(); ++i) {
@@ -298,20 +339,6 @@ public class LinkLabeller {
             final String func = dep.getRfunc().toLowerCase();
             if ("coord".equals(func) || "conj".equals(func)) {
                 continue;
-            }
-            if ("pmod".equals(func)) { // TODO: try removing this block
-                if (i > 0) {
-                    final String f = path.getDeps().get(i - 1).getRfunc();
-                    if ("coord".equals(f) || "conj".equals(f)) {
-                        continue;
-                    }
-                }
-                if (i < path.getDeps().size() - 1) {
-                    final String f = path.getDeps().get(i + 1).getRfunc();
-                    if ("coord".equals(f) || "conj".equals(f)) {
-                        continue;
-                    }
-                }
             }
             builder.append(func);
             if (term.equals(dep.getFrom())) {

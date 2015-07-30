@@ -339,7 +339,7 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                 for (final URI uri : YagoTaxonomy.getDBpediaYagoURIs(ImmutableList.of(synsetRef
                         .getReference()))) {
                     final String yagoID = uri.stringValue().substring(
-                            YagoTaxonomy.NAMESPACE_DBPEDIA_YAGO.length());
+                            YagoTaxonomy.NAMESPACE.length());
                     final ExternalRef yagoRef = document.newExternalRef(NAFUtils.RESOURCE_YAGO,
                             yagoID);
                     NAFUtils.setRef(term, yagoRef);

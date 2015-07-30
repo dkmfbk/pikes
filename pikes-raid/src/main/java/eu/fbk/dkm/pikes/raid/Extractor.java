@@ -276,10 +276,10 @@ public abstract class Extractor {
                             Type.DIRECTORY_EXISTING, true, false, false)
                     .withFooter(
                             "Zero or more input paths can be specified, corresponding either "
-                                    + "to NAF files or directories that are scanned for NAF "
-                                    + "files. If the list is empty, an input NAF file will be "
+                                    + "to NAF files or\ndirectories that are scanned for NAF "
+                                    + "files. If the list is empty, an input NAF\nfile will be "
                                     + "read from the standard input. If no output path is "
-                                    + "specified (-o), output is written to standard output.")
+                                    + "specified (-o),\noutput is written to standard output.")
                     .withLogger(LoggerFactory.getLogger("eu.fbk")) //
                     .parse(args);
 

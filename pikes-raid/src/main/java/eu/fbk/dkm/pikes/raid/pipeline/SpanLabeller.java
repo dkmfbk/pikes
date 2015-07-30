@@ -346,6 +346,10 @@ public final class SpanLabeller {
     }
 
     private static Span<Term> getMinimalSpan(final KAFDocument document, final Term term) {
+
+        // The minimal span for a term includes all the terms of a named entity covering the input
+        // term, as well as all terms reachable through IM/VC links (this allows keeping together
+        // verbal expressions such as would like, going to do...)
         final Set<Term> terms = Sets.newHashSet(term);
         for (final Entity entity : document.getEntitiesByTerm(term)) {
             if (document.getTermsHead(Iterables.concat(terms, entity.getTerms())) != null) {
