@@ -261,7 +261,7 @@ public final class PipelineExtractor extends Extractor {
                 i.remove();
             }
         }
-        if (unique && bestCluster != null) {
+        if (bestCluster != null) {
             map.keySet().retainAll(bestCluster);
         }
 
