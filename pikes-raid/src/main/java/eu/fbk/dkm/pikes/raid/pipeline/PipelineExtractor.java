@@ -216,7 +216,9 @@ public final class PipelineExtractor extends Extractor {
         for (final Term term : document.getTermsBySent(expressionHead.getSent())) {
             clusters.put(term, ImmutableSet.of(term));
         }
-        for (final Dep dep : document.getDepsBySent(expressionHead.getSent())) {
+        List<Dep> deps = document.getDepsBySent(expressionHead.getSent());
+        deps = deps != null ? deps : Lists.newArrayList();
+        for (final Dep dep : deps) {
             if ("COORD".equals(dep.getRfunc()) || "CONJ".equals(dep.getRfunc())) {
                 if (blockedTerms.contains(dep.getFrom()) || blockedTerms.contains(dep.getTo())) {
                     continue;

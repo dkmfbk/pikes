@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.StreamSupport;
@@ -47,11 +48,14 @@ public abstract class Trainer<T extends Extractor> {
 
     private final ReadWriteLock lock;
 
+    private final AtomicInteger numOpinions;
+
     private boolean trained;
 
     protected Trainer(final Component... components) {
         this.components = Component.toSet(components);
         this.lock = new ReentrantReadWriteLock(false);
+        this.numOpinions = new AtomicInteger(0);
         this.trained = false;
     }
 
@@ -97,6 +101,7 @@ public abstract class Trainer<T extends Extractor> {
         this.lock.writeLock().lock();
         try {
             checkNotTrained();
+            LOGGER.info("Extracted {} opinions", this.numOpinions.get());
             return doTrain();
         } catch (final Throwable ex) {
             throw Throwables.propagate(ex);
@@ -148,6 +153,7 @@ public abstract class Trainer<T extends Extractor> {
             // Perform training
             try {
                 doAdd(document, sentID, opinions);
+                this.numOpinions.addAndGet(opinions.length);
             } catch (final Throwable ex) {
                 Throwables.propagate(ex);
             }
