@@ -1,13 +1,11 @@
 package eu.fbk.dkm.pikes.resources.darmstadt;
 
-import eu.fbk.dkm.pikes.naflib.Corpus;
-import eu.fbk.dkm.utils.CommandLine;
-import ixa.kaflib.KAFDocument;
-import ixa.kaflib.Opinion;
-import org.openrdf.model.impl.URIImpl;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import java.io.File;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,11 +14,19 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.File;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+
+import com.google.common.collect.Sets;
+
+import org.openrdf.model.impl.URIImpl;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import ixa.kaflib.KAFDocument;
+import ixa.kaflib.Opinion;
+
+import eu.fbk.dkm.pikes.naflib.Corpus;
+import eu.fbk.dkm.utils.CommandLine;
 
 /**
  * Created by alessio on 26/05/15.
@@ -45,8 +51,8 @@ public class ConvertNafDocumentsToXml {
 
 			File inputFolder = cmd.getOptionValue("input-folder", File.class);
 			File outputFile = cmd.getOptionValue("output-file", File.class);
-			String label = cmd.getOptionValue("label", String.class);
-
+			Set<String> labels = Sets.newHashSet(cmd.getOptionValue("label", String.class, "").split(","));
+			
 			File list = cmd.getOptionValue("list", File.class);
 
 			boolean useNumeric = cmd.hasOption("numeric");
@@ -98,70 +104,79 @@ public class ConvertNafDocumentsToXml {
 
 				for (Opinion opinion : document.getOpinions()) {
 
-					if (opinion.getLabel().contains(label)) {
-						String expression = null;
-						if (opinion.getOpinionExpression() == null) {
-							continue;
-						}
-
-						HashMap<String, Integer> indexes = new HashMap<>();
-						indexes.put("holder-start", -1);
-						indexes.put("holder-end", -1);
-						indexes.put("target-start", -1);
-						indexes.put("target-end", -1);
-
-						expression = opinion.getExpressionSpan().getStr();
-						indexes.put("expression-start", opinion.getExpressionSpan().getTargets().get(0).getOffset());
-						indexes.put("expression-end", opinion.getExpressionSpan().getTargets().get(opinion.getExpressionSpan().getTargets().size() - 1).getOffset() +
-								opinion.getExpressionSpan().getTargets().get(opinion.getExpressionSpan().getTargets().size() - 1).getLength());
-
-						String holder = null;
-						if (opinion.getOpinionHolder() != null) {
-							holder = opinion.getHolderSpan().getStr();
-							indexes.put("holder-start", opinion.getHolderSpan().getTargets().get(0).getOffset());
-							indexes.put("holder-end", opinion.getHolderSpan().getTargets().get(opinion.getHolderSpan().getTargets().size() - 1).getOffset() +
-									opinion.getHolderSpan().getTargets().get(opinion.getHolderSpan().getTargets().size() - 1).getLength());
-						}
-						else {
-							holder = "null";
-						}
-
-						String target = null;
-						if (opinion.getOpinionTarget() != null) {
-							target = opinion.getTargetSpan().getStr();
-							indexes.put("target-start", opinion.getTargetSpan().getTargets().get(0).getOffset());
-							indexes.put("target-end", opinion.getTargetSpan().getTargets().get(opinion.getTargetSpan().getTargets().size() - 1).getOffset() +
-									opinion.getTargetSpan().getTargets().get(opinion.getTargetSpan().getTargets().size() - 1).getLength());
-						}
-						else {
-							target = "null";
-						}
-
-						Element frameElement = doc.createElement("frame");
-
-						Element holderElement = doc.createElement("holder");
-						holderElement.setAttribute("value", holder);
-						holderElement.setAttribute("start", Integer.toString(indexes.get("holder-start")));
-						holderElement.setAttribute("end", Integer.toString(indexes.get("holder-end")));
-
-						Element topicElement = doc.createElement("topic");
-						topicElement.setAttribute("value", target);
-						topicElement.setAttribute("start", Integer.toString(indexes.get("target-start")));
-						topicElement.setAttribute("end", Integer.toString(indexes.get("target-end")));
-
-						Element opinionElement = doc.createElement("opinion");
-						opinionElement.setAttribute("value", expression);
-						opinionElement.setAttribute("start", Integer.toString(indexes.get("expression-start")));
-						opinionElement.setAttribute("end", Integer.toString(indexes.get("expression-end")));
-						Element polarityElement = doc.createElement("polarity");
-						polarityElement.appendChild(doc.createTextNode(opinion.getPolarity() != null ? opinion.getPolarity().toLowerCase() : "neutral"));
-						opinionElement.appendChild(polarityElement);
-
-						frameElement.appendChild(holderElement);
-						frameElement.appendChild(topicElement);
-						frameElement.appendChild(opinionElement);
-						sentenceElement.appendChild(frameElement);
+				    boolean matches = false;
+				    for (String l : labels) {
+				        if (opinion.getLabel().contains(l)) {
+				            matches = true;
+				            break;
+				        }
+				    }
+				    if (!matches) {
+				        continue;
+				    }
+				    
+					String expression = null;
+					if (opinion.getOpinionExpression() == null) {
+						continue;
 					}
+
+					HashMap<String, Integer> indexes = new HashMap<>();
+					indexes.put("holder-start", -1);
+					indexes.put("holder-end", -1);
+					indexes.put("target-start", -1);
+					indexes.put("target-end", -1);
+
+					expression = opinion.getExpressionSpan().getStr();
+					indexes.put("expression-start", opinion.getExpressionSpan().getTargets().get(0).getOffset());
+					indexes.put("expression-end", opinion.getExpressionSpan().getTargets().get(opinion.getExpressionSpan().getTargets().size() - 1).getOffset() +
+							opinion.getExpressionSpan().getTargets().get(opinion.getExpressionSpan().getTargets().size() - 1).getLength());
+
+					String holder = null;
+					if (opinion.getOpinionHolder() != null && !opinion.getOpinionHolder().getTerms().isEmpty()) {
+						holder = opinion.getHolderSpan().getStr();
+						indexes.put("holder-start", opinion.getHolderSpan().getTargets().get(0).getOffset());
+						indexes.put("holder-end", opinion.getHolderSpan().getTargets().get(opinion.getHolderSpan().getTargets().size() - 1).getOffset() +
+								opinion.getHolderSpan().getTargets().get(opinion.getHolderSpan().getTargets().size() - 1).getLength());
+					}
+					else {
+						holder = "null";
+					}
+
+					String target = null;
+					if (opinion.getOpinionTarget() != null && !opinion.getOpinionTarget().getTerms().isEmpty()) {
+						target = opinion.getTargetSpan().getStr();
+						indexes.put("target-start", opinion.getTargetSpan().getTargets().get(0).getOffset());
+						indexes.put("target-end", opinion.getTargetSpan().getTargets().get(opinion.getTargetSpan().getTargets().size() - 1).getOffset() +
+								opinion.getTargetSpan().getTargets().get(opinion.getTargetSpan().getTargets().size() - 1).getLength());
+					}
+					else {
+						target = "null";
+					}
+
+					Element frameElement = doc.createElement("frame");
+
+					Element holderElement = doc.createElement("holder");
+					holderElement.setAttribute("value", holder);
+					holderElement.setAttribute("start", Integer.toString(indexes.get("holder-start")));
+					holderElement.setAttribute("end", Integer.toString(indexes.get("holder-end")));
+
+					Element topicElement = doc.createElement("topic");
+					topicElement.setAttribute("value", target);
+					topicElement.setAttribute("start", Integer.toString(indexes.get("target-start")));
+					topicElement.setAttribute("end", Integer.toString(indexes.get("target-end")));
+
+					Element opinionElement = doc.createElement("opinion");
+					opinionElement.setAttribute("value", expression);
+					opinionElement.setAttribute("start", Integer.toString(indexes.get("expression-start")));
+					opinionElement.setAttribute("end", Integer.toString(indexes.get("expression-end")));
+					Element polarityElement = doc.createElement("polarity");
+					polarityElement.appendChild(doc.createTextNode(opinion.getPolarity() != null ? normalizePolarity(opinion.getPolarity()) : "neutral"));
+					opinionElement.appendChild(polarityElement);
+
+					frameElement.appendChild(holderElement);
+					frameElement.appendChild(topicElement);
+					frameElement.appendChild(opinionElement);
+					sentenceElement.appendChild(frameElement);
 				}
 			}
 
@@ -184,4 +199,16 @@ public class ConvertNafDocumentsToXml {
 			CommandLine.fail(ex);
 		}
 	}
+	
+	private static String normalizePolarity( String polarity) {
+        String p = polarity.toLowerCase();
+        if (p.contains("pos")) {
+            return "positive";
+        } else if (p.contains("neg")) {
+            return "negative";
+        } else {
+            return "neutral";
+        }
+    }
+	
 }
