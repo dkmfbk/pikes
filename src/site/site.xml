@@ -59,6 +59,8 @@
             <bootstrapIcons>true</bootstrapIcons>
             <html5Anchor>true</html5Anchor>
             <markPageHeader>true</markPageHeader>
+            <absoluteResourceURL>${site-root}</absoluteResourceURL>
+
             <!--<protocolRelativeURLs>true</protocolRelativeURLs>-->
             <skinAttribution>true</skinAttribution>
             <brand>
