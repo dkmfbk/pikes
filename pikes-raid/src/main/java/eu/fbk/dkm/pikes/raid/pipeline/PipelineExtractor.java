@@ -104,7 +104,7 @@ public final class PipelineExtractor extends Extractor {
         for (final Span<Term> expressionSpan : findExpressions(document, sentence)) {
 
             // Identify the expression head
-            final Term expressionHead = Ordering.from(Term.OFFSET_COMPARATOR).min(
+            final Term expressionHead = Ordering.from(Term.OFFSET_COMPARATOR).max(
                     Opinions.heads(document, NAFUtils.normalizeSpan(document, expressionSpan),
                             Component.EXPRESSION));
 
@@ -216,7 +216,9 @@ public final class PipelineExtractor extends Extractor {
         for (final Term term : document.getTermsBySent(expressionHead.getSent())) {
             clusters.put(term, ImmutableSet.of(term));
         }
-        for (final Dep dep : document.getDepsBySent(expressionHead.getSent())) {
+        List<Dep> deps = document.getDepsBySent(expressionHead.getSent());
+        deps = deps != null ? deps : Lists.newArrayList();
+        for (final Dep dep : deps) {
             if ("COORD".equals(dep.getRfunc()) || "CONJ".equals(dep.getRfunc())) {
                 if (blockedTerms.contains(dep.getFrom()) || blockedTerms.contains(dep.getTo())) {
                     continue;
@@ -274,16 +276,19 @@ public final class PipelineExtractor extends Extractor {
 
         // If a unique span is required, we add missing terms between found spans so to get a span
         // of consecutive terms
-        final List<Span<Term>> spans = NAFUtils.mergeSpans(document, argSpans, unique);
-        if (spans.size() <= 1) {
-            return spans;
+        List<Span<Term>> spans = argSpans;
+        if (unique && spans.size() > 1) {
+            spans = NAFUtils.mergeSpans(document, spans, unique);
+            if (spans.size() > 1) {
+                final Set<Term> terms = Sets.newHashSet();
+                for (final Span<Term> span : spans) {
+                    terms.addAll(span.getTargets());
+                }
+                spans = ImmutableList.of(KAFDocument.newTermSpan(Ordering.from(
+                        Term.OFFSET_COMPARATOR).sortedCopy(terms)));
+            }
         }
-        final Set<Term> terms = Sets.newHashSet();
-        for (final Span<Term> span : spans) {
-            terms.addAll(span.getTargets());
-        }
-        return ImmutableList.of(KAFDocument.newTermSpan(Ordering.from(Term.OFFSET_COMPARATOR)
-                .sortedCopy(terms)));
+        return spans;
     }
 
     private Polarity findPolarity(final Span<Term> span) {
