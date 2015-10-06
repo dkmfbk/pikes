@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -46,20 +47,56 @@ public class Evaluation {
 //			Integer goldCol = -1;
 //			Integer testCol = -1;
 
+			int totSents = 0;
+			int okSents = 0;
+			int okSentLen = 0;
+			int noSents = 0;
+			int noSentLen = 0;
+
 			int i = 0;
+			int tokCount = 0;
 			while ((line = reader.readLine()) != null) {
 				i++;
 
-				LOGGER.debug("{} --- {} - {}", i,
-						line.substring(0, Math.min(20, line.length())),
-						line.substring(Math.max(0, line.length() - 10)));
+				if (line.trim().length() > 0) {
+					LOGGER.debug("{} --- {} - {}", i,
+							line.substring(0, Math.min(20, line.length())),
+							line.substring(Math.max(0, line.length() - 10)));
+				}
 
 				if (line.trim().length() == 0) {
-					LOGGER.debug(goldSpans.toString());
-					LOGGER.debug(testSpans.toString());
+					LOGGER.debug("Sentence token count: {}", tokCount);
+
+					LOGGER.debug("Gold: {}", goldSpans.toString());
+					LOGGER.debug("Test: {}", testSpans.toString());
+
+					HashSet<Integer> allGold = new HashSet<>();
+					for (Set<Integer> goldSpan : goldSpans) {
+						allGold.addAll(goldSpan);
+					}
+					HashSet<Integer> allTest = new HashSet<>();
+					for (Set<Integer> testSpan : testSpans) {
+						allTest.addAll(testSpan);
+					}
+
+//					LOGGER.debug(allTest.toString());
+//					LOGGER.debug(allGold.toString());
+					totSents++;
+					if (allTest.equals(allGold)) {
+						okSents++;
+						okSentLen += allTest.size();
+						LOGGER.debug("CORRECT");
+					}
+					else {
+						noSents++;
+						noSentLen += allTest.size();
+						LOGGER.debug("WRONG");
+					}
+
 					e.add(goldSpans, testSpans);
 					goldSpans = Sets.newHashSet();
 					testSpans = Sets.newHashSet();
+//					tokCount = 0;
 				}
 
 				String[] parts = line.split("\\s");
@@ -69,6 +106,7 @@ public class Evaluation {
 
 				int testCol = parts.length - 1;
 				int goldCol = parts.length - 2;
+				tokCount++;
 
 //				if (parts.length > 0 && parts[0].trim().length() > 0 && goldCol.equals(-1) && testCol.equals(-1)) {
 //					testCol = parts.length - 1;
@@ -109,6 +147,17 @@ public class Evaluation {
 			e.add(goldSpans, testSpans);
 
 			SetPrecisionRecall spr = e.getResult();
+			System.out.println(totSents);
+			System.out.println(tokCount);
+
+			System.out.println(okSents);
+			System.out.println(okSentLen);
+			System.out.println((double) okSentLen / (double) okSents);
+
+			System.out.println(noSents);
+			System.out.println(noSentLen);
+			System.out.println((double) noSentLen / (double) noSents);
+
 			System.out.println(spr);
 
 			reader.close();

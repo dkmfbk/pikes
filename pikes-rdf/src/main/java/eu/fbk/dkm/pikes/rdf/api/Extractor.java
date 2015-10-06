@@ -1,6 +1,7 @@
 package eu.fbk.dkm.pikes.rdf.api;
 
-import eu.fbk.rdfpro.rules.model.QuadModel;
+
+import eu.fbk.rdfpro.util.QuadModel;
 
 public interface Extractor {
 

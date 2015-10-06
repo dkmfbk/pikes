@@ -9,6 +9,7 @@ target/
 **/.classpath
 **/.project
 **/.settings
+**/.DS_Store
 
 pikes-rdf/test/
 sync-demo.sh

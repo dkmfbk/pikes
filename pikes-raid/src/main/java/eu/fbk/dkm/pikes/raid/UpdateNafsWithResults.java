@@ -52,7 +52,7 @@ public class UpdateNafsWithResults {
 					.withOption(null, "sentiment-pos-limit", String.format("MDFSA positive limit (default %f)", DEFAULT_POS_POL), "NUM", CommandLine.Type.FLOAT, true, false, false)
 					.withOption(null, "seed", "Seed", "NUM", CommandLine.Type.FLOAT, true, false, false)
 					.withOption(null, "split", "Split part (training)", "NUM", CommandLine.Type.POSITIVE_FLOAT, true, false, false)
-					.withOption(null, "train-list", "Trining set file list", "FILE", CommandLine.Type.FILE_EXISTING, true, false, false)
+					.withOption(null, "train-list", "Training set file list", "FILE", CommandLine.Type.FILE_EXISTING, true, false, false)
 					.withOption(null, "test-list", "Test set file list", "FILE", CommandLine.Type.FILE_EXISTING, true, false, false)
 					.withOption(null, "fake", "Fake mode")
 					.withLogger(LoggerFactory.getLogger("eu.fbk")).parse(args);

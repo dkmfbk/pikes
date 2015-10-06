@@ -2,7 +2,7 @@ package eu.fbk.dkm.pikes.raid.mdfsa.wordnet;
 
 import eu.fbk.dkm.pikes.raid.mdfsa.FileManager;
 import eu.fbk.dkm.pikes.raid.mdfsa.FileManager.Mode;
-import eu.fbk.dkm.pikes.raid.mdfsa.structures.Graph;
+import eu.fbk.shell.mdfsa.data.structures.Graph;
 
 import java.util.ArrayList;
 import java.util.HashMap;

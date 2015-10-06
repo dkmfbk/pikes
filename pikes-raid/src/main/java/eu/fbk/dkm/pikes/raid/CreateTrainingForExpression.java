@@ -46,7 +46,7 @@ public class CreateTrainingForExpression {
 		SRL
 	}
 
-	private static boolean MAJORITY = true;
+	private static boolean MAJORITY = false;
 
 	private static boolean FEATS_STANFORD = false;
 	private static boolean FEATS_SENTICNET = MAJORITY;
@@ -55,12 +55,12 @@ public class CreateTrainingForExpression {
 	private static boolean FEATS_WORDNET = MAJORITY;
 	private static boolean FEATS_SENTIWORDNET = false;
 
-	private static boolean FEATS_MOSCHITTI = false;
+	private static boolean FEATS_MOSCHITTI = true;
 
-	private static boolean FEATS_SST = MAJORITY;
-	private static boolean FEATS_ENTITIES = MAJORITY;
-	private static boolean FEATS_STEM = MAJORITY;
-	private static boolean FEATS_POS = MAJORITY;
+	private static boolean FEATS_SST = true;
+	private static boolean FEATS_ENTITIES = true;
+	private static boolean FEATS_STEM = true;
+	private static boolean FEATS_POS = true;
 	private static boolean FEATS_DEP = MAJORITY;
 	private static boolean FEATS_SRL = MAJORITY;
 
@@ -194,6 +194,7 @@ public class CreateTrainingForExpression {
 				continue;
 			}
 
+			// for VUA dataset
 			if (opinion.getOpinionExpression().getPolarity() != null) {
 				if (opinion.getOpinionExpression().getPolarity().equals("NON-OPINIONATED")) {
 					continue;

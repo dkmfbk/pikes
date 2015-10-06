@@ -5,7 +5,7 @@
     <parent>
         <groupId>eu.fbk.dkm</groupId>
         <artifactId>parent</artifactId>
-        <version>1.1.1</version>
+        <version>1.2-SNAPSHOT</version>
     </parent>
 
     <groupId>eu.fbk.pikes</groupId>
@@ -61,6 +61,18 @@
             <timezone>+1</timezone>
             <properties>
                 <picUrl>http://pikes.fbk.eu/images/team/aprosio.jpg</picUrl>
+            </properties>
+        </developer>
+        <developer>
+            <id>corcoglio</id>
+            <name>Francesco Corcoglioniti</name>
+            <email>corcoglio@fbk.eu</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>+1</timezone>
+            <properties>
+                <picUrl>http://rdfpro.fbk.eu/images/team/corcoglio.jpg</picUrl>
             </properties>
         </developer>
     </developers>

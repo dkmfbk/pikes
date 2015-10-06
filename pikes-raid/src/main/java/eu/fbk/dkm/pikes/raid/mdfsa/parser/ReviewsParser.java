@@ -6,7 +6,7 @@ import edu.stanford.nlp.trees.Tree;
 import eu.fbk.dkm.pikes.raid.mdfsa.FileManager;
 import eu.fbk.dkm.pikes.raid.mdfsa.FileManager.Mode;
 import eu.fbk.dkm.pikes.raid.mdfsa.MaxEntTagger;
-import eu.fbk.dkm.pikes.raid.mdfsa.structures.SentenceStructuredRepresentation;
+import eu.fbk.shell.mdfsa.data.structures.SentenceStructuredRepresentation;
 import eu.fbk.dkm.pikes.raid.mdfsa.wordnet.WordNetLexicalizer;
 import eu.fbk.dkm.pikes.raid.mdfsa.wordnet.WordNetLoader;
 import org.w3c.dom.Document;
