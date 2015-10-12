@@ -1,30 +1,19 @@
 package eu.fbk.dkm.pikes.rdf.util;
 
+import com.google.common.collect.*;
+import eu.fbk.dkm.utils.vocab.GAF;
+import eu.fbk.dkm.utils.vocab.KS;
+import eu.fbk.dkm.utils.vocab.NIF;
+import eu.fbk.rdfpro.util.QuadModel;
+import eu.fbk.rdfpro.util.Statements;
+import org.openrdf.model.*;
+import org.openrdf.model.vocabulary.RDF;
+
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-
-import javax.annotation.Nullable;
-
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-
-import org.openrdf.model.Literal;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.vocabulary.RDF;
-
-import eu.fbk.dkm.utils.vocab.GAF;
-import eu.fbk.dkm.utils.vocab.KS;
-import eu.fbk.dkm.utils.vocab.NIF;
-import eu.fbk.rdfpro.rules.model.QuadModel;
-import eu.fbk.rdfpro.util.Statements;
 
 // TODO: define RDFModel (quad extension of Model) and KSModel (with methods specific to KS
 // schema)

@@ -1,16 +1,15 @@
 package eu.fbk.dkm.pikes.rdf.api;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.openrdf.model.Statement;
-import org.openrdf.rio.RDFHandler;
-
 import eu.fbk.rdfpro.RDFHandlers;
 import eu.fbk.rdfpro.RDFProcessor;
 import eu.fbk.rdfpro.RDFSource;
 import eu.fbk.rdfpro.RDFSources;
-import eu.fbk.rdfpro.rules.model.QuadModel;
+import eu.fbk.rdfpro.util.QuadModel;
+import org.openrdf.model.Statement;
+import org.openrdf.rio.RDFHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public interface Mapper {
 

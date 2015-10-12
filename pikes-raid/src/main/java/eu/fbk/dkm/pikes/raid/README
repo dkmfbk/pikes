@@ -67,3 +67,38 @@ crfsuite tag -m data.model data.test > data.res.crfsuite
 cut -f1 data.test > data.test.onlygold
 paste data.test.onlygold data.res.crfsuite > data.res
 
+
+=== Holder/target
+
+Per generare target e holder segui le seguenti istruzioni:
+
+(1) assicurati di usare le ultime versioni di kaflib, naftools e fssa
+    (ho appena fatto commit e push, quindi aggiorna; nel seguito può
+    essere che faccia altri aggiornamenti)
+
+(2) fai training col seguente comando (per comodità ti allego già il
+    modello model.zip migliore generato finora):
+
+    fssa-trainer -o model.zip -c ht -l gold-darmstadt \
+                 -p 'joint=true holder.unique=true target.unique=true' \
+                 PATH_TO_DIR_WITH_TRAINING_NAF_FILES
+
+(3) fai classificazione col seguente comando:
+
+    fssa-extractor -m model.zip -c ht -f .naf.gz -o PATH_TO_OUTPUT_DIR \
+                   -l INPUT_LABEL -b OUTPUT_LABEL \
+                   PATH_TO_DIR_WITH_NAF_FILES_WITH_EXPR_AND_POLARITY
+
+    nota: INPUT_LABEL è la label delle opinioni con expression e
+          polarity nei file generati da te; OUTPUT_LABEL è la label
+          da usare per le opinioni complete di holder e target generate
+          da fssa-extractor
+
+(4) [opzionale] genera il rendering html col seguente comando:
+
+    fssa-analyzer -m model.zip -c ht -o PATH_TO_DIR_WHERE_TO_PUT_HTML \
+                  -l gold-darmstadt -b OUTPUT_LABEL
+
+    nota: i file NAF sono quelli prodotti al punto (3), quindi
+          OUTPUT_LABEL è la label usata al punto (3); è importante che
+          i file contengano anche le opinioni gold (gold-darmstadt)

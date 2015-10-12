@@ -1,20 +1,5 @@
 package eu.fbk.dkm.pikes.rdf.naf;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.Callable;
-
-import javax.annotation.Nullable;
-
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.util.LatchedWriter;
@@ -22,30 +7,8 @@ import com.google.common.base.Charsets;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Ordering;
-import com.google.common.collect.Sets;
+import com.google.common.collect.*;
 import com.google.common.html.HtmlEscapers;
-
-import org.openrdf.model.BNode;
-import org.openrdf.model.Literal;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.impl.URIImpl;
-import org.openrdf.model.vocabulary.RDF;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import ixa.kaflib.KAFDocument;
-import ixa.kaflib.Term;
-
 import eu.fbk.dkm.pikes.naflib.NafRenderUtils;
 import eu.fbk.dkm.pikes.naflib.NafRenderUtils.Markable;
 import eu.fbk.dkm.pikes.rdf.api.Renderer;
@@ -57,10 +20,26 @@ import eu.fbk.dkm.utils.vocab.NIF;
 import eu.fbk.dkm.utils.vocab.NWR;
 import eu.fbk.dkm.utils.vocab.OWLTIME;
 import eu.fbk.dkm.utils.vocab.SUMO;
-import eu.fbk.rdfpro.rules.model.QuadModel;
 import eu.fbk.rdfpro.util.Hash;
 import eu.fbk.rdfpro.util.Namespaces;
+import eu.fbk.rdfpro.util.QuadModel;
 import eu.fbk.rdfpro.util.Statements;
+import ixa.kaflib.KAFDocument;
+import ixa.kaflib.Term;
+import org.openrdf.model.*;
+import org.openrdf.model.impl.URIImpl;
+import org.openrdf.model.vocabulary.RDF;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.annotation.Nullable;
+import java.io.*;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.Callable;
 
 public class NAFRenderer implements Renderer {
 

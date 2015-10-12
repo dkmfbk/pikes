@@ -1,4 +1,4 @@
-package eu.fbk.dkm.pikes.raid.mdfsa.structures;
+package eu.fbk.shell.mdfsa.data.structures;
 
 import java.io.Serializable;
 import java.util.ArrayList;

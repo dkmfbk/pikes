@@ -1,4 +1,4 @@
-package eu.fbk.dkm.pikes.tintop.old;
+package eu.fbk.dkm.pikes.resources;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -15,6 +15,8 @@ public class PredicateMatrix {
 	private HashMap<String, ArrayList<String>> eventType = new HashMap<String, ArrayList<String>>();
 	private HashMap<String, ArrayList<String>> wnSense = new HashMap<String, ArrayList<String>>();
 
+	private HashMap<String, ArrayList<String>> vnToFn = new HashMap<String, ArrayList<String>>();
+
 	private HashMap<String, ArrayList<String>> vnThematicRole = new HashMap<String, ArrayList<String>>();
 	private HashMap<String, ArrayList<String>> fnFrameElement = new HashMap<String, ArrayList<String>>();
 	private HashMap<String, ArrayList<String>> pbArgument = new HashMap<String, ArrayList<String>>();
@@ -29,6 +31,9 @@ public class PredicateMatrix {
 
 			while ((pmLine = pmReader.readLine()) != null) {
 				pmFields = pmLine.split("\t");
+
+//				System.out.println(Arrays.toString(pmFields));
+
 				if (!pmFields[2].equals("NULL")) {
 					if (!pmFields[4].equals("NULL")) {
 						ArrayList<String> array = new ArrayList<String>();
@@ -49,6 +54,16 @@ public class PredicateMatrix {
 							array.add(pmFields[6]);
 						}
 						vnSubClass.put(pmFields[2], array);
+
+						if (!vnToFn.containsKey(pmFields[6])) {
+							vnToFn.put(pmFields[6], new ArrayList<>());
+						}
+						if (!vnToFn.get(pmFields[6]).contains(pmFields[12]) && !pmFields[12].equals("NULL")) {
+							vnToFn.get(pmFields[6]).add(pmFields[12]);
+//							System.out.println(pmFields[6]);
+//							System.out.println(pmFields[12]);
+//							System.out.println();
+						}
 					}
 					if (!pmFields[12].equals("NULL")) {
 						ArrayList<String> array = new ArrayList<String>();
@@ -175,6 +190,14 @@ public class PredicateMatrix {
 		ArrayList<String> array = new ArrayList<String>();
 		if (vnClass.containsKey(PBSense)) {
 			array = vnClass.get(PBSense);
+		}
+		return array;
+	}
+
+	public ArrayList<String> getVNClassesToFN(String vnSense) {
+		ArrayList<String> array = new ArrayList<String>();
+		if (vnToFn.containsKey(vnSense)) {
+			array = vnToFn.get(vnSense);
 		}
 		return array;
 	}

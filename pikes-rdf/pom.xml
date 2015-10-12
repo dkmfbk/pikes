@@ -36,10 +36,6 @@
             <artifactId>rdfpro-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>eu.fbk.rdfpro</groupId>
-            <artifactId>rdfpro-rules</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
