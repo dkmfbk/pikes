@@ -5,7 +5,7 @@
     <parent>
         <groupId>eu.fbk.dkm</groupId>
         <artifactId>parent</artifactId>
-        <version>1.2-SNAPSHOT</version>
+        <version>1.2</version>
     </parent>
 
     <groupId>eu.fbk.pikes</groupId>
@@ -109,9 +109,8 @@
 
     <properties>
         <pikes-version>${project.version}</pikes-version>
-        <rdfpro-version>0.5-SNAPSHOT</rdfpro-version>
-        <utils-version>1.2-SNAPSHOT</utils-version>
         <site.root>http://pikes.fbk.eu/</site.root>
+        <utils-version>1.1</utils-version>
     </properties>
 
     <modules>
@@ -120,7 +119,6 @@
         <module>pikes-tintop</module>
         <module>pikes-raid</module>
         <module>pikes-rdf</module>
-    <module>pikes-eval</module>
-  </modules>
+    </modules>
 
 </project>

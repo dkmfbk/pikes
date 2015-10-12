@@ -42,7 +42,7 @@ import eu.fbk.dkm.utils.CommandLine.Type;
 import eu.fbk.dkm.utils.vocab.NIF;
 import eu.fbk.rdfpro.RDFHandlers;
 import eu.fbk.rdfpro.RDFSources;
-import eu.fbk.rdfpro.rules.model.QuadModel;
+import eu.fbk.rdfpro.util.QuadModel;
 import eu.fbk.rdfpro.util.Statements;
 
 public class Converter {

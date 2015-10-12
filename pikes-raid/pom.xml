@@ -81,7 +81,6 @@
         <dependency>
             <groupId>eu.fbk.dkm.utils</groupId>
             <artifactId>utils</artifactId>
-            <version>1.2-SNAPSHOT</version>
         </dependency>
 
         <dependency>
