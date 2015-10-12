@@ -1,0 +1,348 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rr:   <http://dkm.fbk.eu/rdfpro-rules#> .
+@prefix sys:  <sys:> .
+@prefix :     <http://dkm.fbk.eu/rdfpro-rules/owl2rl#> .
+
+rr: rr:prefix "rr" .
+sys: rr:prefix "sys" .
+rdf: rr:prefix "rdf" .
+rdfs: rr:prefix "rdfs" .
+
+:owl_axioms a rr:Rule;
+    rr:head """ owl:Thing rdf:type owl:Class.
+                owl:Nothing rdf:type owl:Class.
+                rdfs:label rdf:type owl:AnnotationProperty.
+                rdfs:comment rdf:type owl:AnnotationProperty.
+                rdfs:seeAlso rdf:type owl:AnnotationProperty.
+                rdfs:isDefinedBy rdf:type owl:AnnotationProperty.
+                owl:deprecated rdf:type owl:AnnotationProperty.
+                owl:versionInfo rdf:type owl:AnnotationProperty.
+                owl:priorVersion rdf:type owl:AnnotationProperty.
+                owl:backwardCompatibleWith rdf:type owl:AnnotationProperty.
+                owl:incompatibleWith rdf:type owl:AnnotationProperty.
+                rdf:PlainLiteral rdf:type rdfs:Datatype.
+                rdf:XMLLiteral rdf:type rdfs:Datatype.
+                rdfs:Literal rdf:type rdfs:Datatype.
+                xsd:decimal rdf:type rdfs:Datatype.
+                xsd:integer rdf:type rdfs:Datatype.
+                xsd:nonNegativeInteger rdf:type rdfs:Datatype.
+                xsd:nonPositiveInteger rdf:type rdfs:Datatype.
+                xsd:positiveInteger rdf:type rdfs:Datatype.
+                xsd:negativeInteger rdf:type rdfs:Datatype.
+                xsd:long rdf:type rdfs:Datatype.
+                xsd:int rdf:type rdfs:Datatype.
+                xsd:short rdf:type rdfs:Datatype.
+                xsd:byte rdf:type rdfs:Datatype.
+                xsd:unsignedLong rdf:type rdfs:Datatype.
+                xsd:unsignedInt rdf:type rdfs:Datatype.
+                xsd:unsignedShort rdf:type rdfs:Datatype.
+                xsd:unsignedByte rdf:type rdfs:Datatype.
+                xsd:float rdf:type rdfs:Datatype.
+                xsd:double rdf:type rdfs:Datatype.
+                xsd:string rdf:type rdfs:Datatype.
+                xsd:normalizedString rdf:type rdfs:Datatype.
+                xsd:token rdf:type rdfs:Datatype.
+                xsd:language rdf:type rdfs:Datatype.
+                xsd:Name rdf:type rdfs:Datatype.
+                xsd:NCName rdf:type rdfs:Datatype.
+                xsd:NMTOKEN rdf:type rdfs:Datatype.
+                xsd:boolean rdf:type rdfs:Datatype.
+                xsd:hexBinary rdf:type rdfs:Datatype.
+                xsd:base64Binary rdf:type rdfs:Datatype.
+                xsd:anyURI rdf:type rdfs:Datatype.
+                xsd:dateTime rdf:type rdfs:Datatype.
+                xsd:dateTimeStamp rdf:type rdfs:Datatype """.
+
+:eq-sym a rr:Rule;
+    rr:head """ ?y owl:sameAs ?x. """;
+    rr:body """ ?x owl:sameAs ?y. FILTER (?x != ?y) """.
+    
+:cax-sco a rr:Rule;
+    rr:head """ ?x rdf:type ?c2. """;
+    rr:body """ ?x rdf:type ?c1. ?c1 rdfs:subClassOf ?c2.
+                FILTER (?c1 != ?c2) """.
+
+:scm-sco a rr:Rule;
+    rr:head """ ?c1 rdfs:subClassOf ?c3. """;
+    rr:body """ ?c1 rdfs:subClassOf ?c2. ?c2 rdfs:subClassOf ?c3.
+                FILTER (?c1 != ?c2 && ?c2 != ?c3 && ?c1 != ?c3) """.
+
+:scm-eqc1 a rr:Rule;
+    rr:head """ ?c1 owl:equivalentClass ?c2. """;
+    rr:body """ ?c1 rdfs:subClassOf ?c2. ?c2 rdfs:subClassOf ?c1.
+                FILTER (?c1 != ?c2) """.
+
+:scm-eqc2 a rr:Rule;
+    rr:head """ ?c1 rdfs:subClassOf ?c2. ?c2 rdfs:subClassOf ?c1. """;
+    rr:body """ ?c1 owl:equivalentClass ?c2. FILTER (?c1 != ?c2) """.
+
+:prp-spo1 a rr:Rule;
+    rr:head """ ?x ?p2 ?y. """;
+    rr:body """ ?x ?p1 ?y. ?p1 rdfs:subPropertyOf ?p2. FILTER (?p1 != ?p2) """.
+
+:scm-op a rr:Rule;
+    rr:head """ ?p rdfs:subPropertyOf ?p; owl:equivalentProperty ?p. """;
+    rr:body """ ?p rdf:type owl:ObjectProperty. """.
+
+:scm-dp a rr:Rule ;
+    rr:head """ ?p rdfs:subPropertyOf ?p; owl:equivalentProperty ?p. """;
+    rr:body """ ?p rdf:type owl:DatatypeProperty. """.
+
+:scm-spo a rr:Rule;
+    rr:head """ ?p1 rdfs:subPropertyOf ?p3. """ ;
+    rr:body """ ?p1 rdfs:subPropertyOf ?p2. ?p2 rdfs:subPropertyOf ?p3.
+                FILTER (?p1 != ?p2 && ?p2 != ?p3 && ?p1 != ?p3) """.
+
+:scm-eqp1 a rr:Rule;
+    rr:head """ ?p1 rdfs:subPropertyOf ?p2. ?p2 rdfs:subPropertyOf ?p1. """;
+    rr:body """ ?p1 owl:equivalentProperty ?p2. FILTER (?p1 != ?p2) """.
+
+:scm-eqp2 a rr:Rule;
+    rr:head """ ?p1 owl:equivalentProperty ?p2. """;
+    rr:body """ ?p1 rdfs:subPropertyOf ?p2. ?p2 rdfs:subPropertyOf ?p1.
+                FILTER (?p1 != ?p2) """.
+
+:prp-dom a rr:Rule;
+    rr:head """ ?x rdf:type ?c. """;
+    rr:body """ ?x ?p ?y. ?p rdfs:domain ?c. """.
+
+:scm-dom1 a rr:Rule;
+    rr:head """ ?p rdfs:domain ?c2. """;
+    rr:body """ ?p rdfs:domain ?c1. ?c1 rdfs:subClassOf ?c2. FILTER (?c1 != ?c2) """.
+
+:scm-dom2 a rr:Rule;
+    rr:head """ ?p1 rdfs:domain ?c. """;
+    rr:body """ ?p1 rdfs:subPropertyOf ?p2. ?p2 rdfs:domain ?c. FILTER (?p1 != ?p2) """.
+
+:prp-rng a rr:Rule;
+    rr:head """ ?y rdf:type ?c. """;
+    rr:body """ ?x ?p ?y. ?p rdfs:range ?c. """.
+
+:scm-rng1 a rr:Rule;
+    rr:head """ ?p rdfs:range ?c2. """;
+    rr:body """ ?p rdfs:range ?c1. ?c1 rdfs:subClassOf ?c2.
+                FILTER (?c1 != ?c2) """.
+
+:scm-rng2 a rr:Rule;
+    rr:head """ ?p1 rdfs:range ?c. """;
+    rr:body """ ?p1 rdfs:subPropertyOf ?p2. ?p2 rdfs:range ?c.
+                FILTER (?p1 != ?p2) """ .
+
+:prp-fp a rr:Rule;
+    rr:head """ ?y1 owl:sameAs ?y2. """;
+    rr:body """ ?p rdf:type owl:FunctionalProperty.
+                ?x ?p ?y1, ?y2. FILTER (?y1 != ?y2) """.
+
+:prp-ifp a rr:Rule;
+    rr:head """ ?x1 owl:sameAs ?x2. """;
+    rr:body """ ?p rdf:type owl:InverseFunctionalProperty.
+                ?x1 ?p ?y. ?x2 ?p ?y. FILTER (?x1 != ?x2) """.
+
+:prp-symp a rr:Rule;
+    rr:head """ ?y ?p ?x. """ ;
+    rr:body """ ?x ?p ?y. ?p rdf:type owl:SymmetricProperty. """.
+
+:prp-trp a rr:Rule;
+    rr:head """ ?x ?p ?z """;
+    rr:body """ ?x ?p ?y. ?y ?p ?z. ?p rdf:type owl:TransitiveProperty.
+                FILTER (?x != ?y && ?y != ?z) """.
+
+:prp-spo2-1 a rr:Rule;
+    rr:head """ ?p1 rdfs:subPropertyOf ?p """;
+    rr:body """ ?p owl:propertyChainAxiom ?l.
+                ?l rdf:first ?p1; rdf:rest rdf:nil. """.
+
+:prp-spo2-2ax a rr:Rule;
+    rr:head """ ?l1 sys:chain2prop1 ?p1; sys:chain2prop2 ?p2. """;
+    rr:body """ ?p owl:propertyChainAxiom ?l1.
+                ?l1 rdf:first ?p1; rdf:rest ?l2.
+                ?l2 rdf:first ?p2; rdf:rest rdf:nil. """.
+
+:prp-spo2-2 a rr:Rule;
+    rr:head """ ?x ?p ?z. """;
+    rr:body """ ?p owl:propertyChainAxiom ?l.
+                ?l sys:chain2prop1 ?p1; sys:chain2prop2 ?p2.
+                ?x ?p1 ?y. ?y ?p2 ?z. """.
+
+:prp-spo2-nax a rr:Rule;
+    rr:head """ ?l1 sys:chain2prop1 ?p1; sys:chain2prop2 ?u.
+                ?u owl:propertyChainAxiom ?l2. """;
+    rr:body """ ?p owl:propertyChainAxiom ?l1.
+                ?l1 rdf:first ?p1; rdf:rest ?l2. ?l2 rdf:rest ?l3.
+                FILTER (?l3 != rdf:nil) BIND (ks:mint(sys:, ?l2) AS ?u) """.
+
+:prp-inv1 a rr:Rule;
+    rr:head """ ?y ?p2 ?x. """;
+    rr:body """ ?x ?p1 ?y. ?p1 owl:inverseOf ?p2. """.
+
+:prp-inv2 a rr:Rule;
+    rr:head """ ?y ?p1 ?x. """;
+    rr:body """ ?x ?p2 ?y. ?p1 owl:inverseOf ?p2. """.
+
+:prp-key-1ax a rr:Rule;
+    rr:head """ ?c sys:key1prop ?p. """;
+    rr:body """ ?c owl:hasKey [ rdf:first ?p; rdf:rest rdf:nil ]. """.
+
+:prp-key-2ax a rr:Rule;
+    rr:head """ ?l1 sys:key2prop1 ?p1; sys:key2prop2 ?p2. """;
+    rr:body """ ?c owl:hasKey ?l1.
+                ?l1 rdf:first ?p1; rdf:rest ?l2.
+                ?l2 rdf:first ?p2; rdf:rest rdf:nil. """.
+
+:prp-key-nax a rr:Rule;
+    rr:head """ ?l1 sys:keyNprop1 ?p1; sys:keyNprop2 ?p2;
+                    sys:keyNprop3 ?p3; sys:keyNrest ?l. """;
+    rr:body """ ?c owl:hasKey ?l1.
+                ?l1 rdf:first ?p1; rdf:rest ?l2.
+                ?l2 rdf:first ?p2; rdf:rest ?l3.
+                ?l3 rdf:first ?p3; rdf:rest ?l. """.
+
+:prp-key-1 a rr:Rule;
+    rr:head """ ?x owl:sameAs ?y. """;
+    rr:body """ ?c sys:key1prop ?p.
+                ?x rdf:type ?c; ?p ?v.
+                ?y rdf:type ?c; ?p ?v
+                FILTER (?x != ?y) """.
+
+:prp-key-2 a rr:Rule;
+    rr:head """ ?x owl:sameAs ?y. """;
+    rr:body """ ?c owl:hasKey ?l.
+                ?l sys:key2prop1 ?p1; sys:key2prop2 ?p2.
+                ?x rdf:type ?c; ?p1 ?v1; ?p2 ?v2.
+                ?y rdf:type ?c; ?p1 ?v1; ?p2 ?v2.
+                FILTER (?x != ?y) """.
+
+:prp-key-ns a rr:Rule;
+    rr:head """ ?b sys:keyNarg1 ?x; sys:keyNarg2 ?y;
+                   sys:keyNnode ?l. """;
+    rr:body """ ?c owl:hasKey ?l1.
+                ?l1 sys:keyNprop1 ?p1; sys:keyNprop2 ?p2;
+                    sys:keyNprop3 ?p3; sys:keyNrest ?l.
+                ?x rdf:type ?c; ?p1 ?v1; ?p2 ?v2; ?p3 ?v3.
+                ?y rdf:type ?c; ?p1 ?v1; ?p2 ?v2; ?p3 ?v3.
+                FILTER (?x != ?y && str(?x) <= str(?y))
+                BIND (ks:mint(sys:, ?x, ?y, ?l1) AS ?b) """.
+
+:prp-key-nr a rr:Rule;
+    rr:head """ ?b sys:keyNnode ?l2. """;
+    rr:body """ ?l1 rdf:first ?p1; rdf:rest ?l2.
+                ?b sys:keyNarg1 ?x; sys:keyNarg2 ?y; sys:keyNnode ?l1.
+                ?x ?p1 ?v. ?y ?p2 ?v. """.
+
+:prp-key-ne a rr:Rule;
+    rr:head """ ?x owl:sameAs ?y. """;
+    rr:body """ ?b sys:keyNarg1 ?x; sys:keyNarg2 ?y; sys:keyNnode rdf:nil. """.
+
+:cls-int-eq a rr:Rule;
+    rr:head """ ?c owl:equivalentClass ?c1. """;
+    rr:body """ ?c owl:intersectionOf ?l. ?l rdf:first ?c1; rdf:rest rdf:nil. """.
+
+:cls-int-tbox a rr:Rule;
+    rr:head """ ?c sys:intersectionOfMember1 ?c1;
+                   sys:intersectionOfMember2 ?l2;
+                   rdfs:subClassOf ?c1, ?l2.
+                ?l2 owl:intersectionOf ?l2. """;
+    rr:body """ ?c owl:intersectionOf ?l1.
+                ?l1 rdf:first ?c1; rdf:rest ?l2.
+                FILTER (?l1 != rdf:nil) """.
+
+:cls-int-abox a rr:Rule;
+    rr:head """ ?x rdf:type ?c. """;
+    rr:body """ ?c sys:intersectionOfMember1 ?c1;
+                   sys:intersectionOfMember2 ?c2.
+                ?x rdf:type ?c1, ?c2. """.
+
+:cls-uni-s a rr:Rule;
+    rr:head """ ?c sys:expandUnion ?l2. ?c1 rdfs:subClassOf ?c. """;
+    rr:body """ ?c owl:unionOf ?l1. ?l1 rdf:first ?c1; rdf:rest ?l2. """.
+
+:cls-uni-r a rr:Rule;
+    rr:head """ ?c sys:expandUnion ?l2. ?c1 rdfs:subClassOf ?c. """;
+    rr:body """ ?c sys:expandUnion ?l1. ?l1 rdf:first ?c1; rdf:rest ?l2. """.
+
+:cls-svf1-o a rr:Rule;
+    rr:head """ ?u rdf:type ?r. """;
+    rr:body """ ?r owl:someValuesFrom ?c; owl:onProperty ?p.
+                ?u ?p ?v. ?v rdf:type ?c. """.
+
+:cls-svf1-d a rr:Rule;
+    rr:head """ ?u rdf:type ?r. """;
+    rr:body """ ?r owl:someValuesFrom ?d; owl:onProperty ?p. ?u ?p ?v.
+                FILTER (isliteral(?v))
+                FILTER (rr:compatibleDatatype(?d, datatype(?v))) """.
+
+:cls-svf2 a rr:Rule;
+    rr:head """ ?u rdf:type ?r. """;
+    rr:body """ ?r owl:someValuesFrom owl:Thing; owl:onProperty ?p. ?u ?p ?v. """.
+
+:scm-svf1 a rr:Rule;
+    rr:head """ ?r1 rdfs:subClassOf ?r2. """;
+    rr:body """ ?r1 owl:someValuesFrom ?t1; owl:onProperty ?p.
+                ?r2 owl:someValuesFrom ?t2; owl:onProperty ?p.
+                ?t1 rdfs:subClassOf ?t1. FILTER (?r1 != ?r2) """.
+
+:scm-svf2 a rr:Rule;
+    rr:head """ ?r1 rdfs:subClassOf ?r2. """;
+    rr:body """ ?r1 owl:someValuesFrom ?t; owl:onProperty ?p1.
+                ?r2 owl:someValuesFrom ?t; owl:onProperty ?p2.
+                ?p1 rdfs:subPropertyOf ?p2. FILTER (?r1 != ?r2) """.
+
+:cls-avf a rr:Rule;
+    rr:head """ ?v rdf:type ?t. """;
+    rr:body """ ?r owl:allValuesFrom ?t; owl:onProperty ?p.
+                ?u rdf:type ?r; ?p ?v. """.
+
+:scm-avf1 a rr:Rule;
+    rr:head """ ?r1 rdfs:subClassOf ?r2. """;
+    rr:body """ ?r1 owl:allValuesFrom ?t1; owl:onProperty ?p.
+                ?r2 owl:allValuesFrom ?t2; owl:onProperty ?p.
+                ?t1 rdfs:subClassOf ?t2. FILTER (?r1 != ?r2) """.
+
+:scm-avf2 a rr:Rule;
+    rr:head """ ?r2 rdfs:subClassOf ?r1. """;
+    rr:body """ ?r1 owl:allValuesFrom ?t; owl:onProperty ?p1.
+                ?r2 owl:allValuesFrom ?t; owl:onProperty ?p2.
+                ?p1 rdfs:subPropertyOf ?p2. FILTER (?r1 != ?r2) """.
+
+:cls-hv1 a rr:Rule;
+    rr:head """ ?u ?p ?v. """;
+    rr:body """ ?r owl:hasValue ?v; owl:onProperty ?p. ?u rdf:type ?r. """.
+
+:cls-hv2 a rr:Rule;
+    rr:head """ ?u rdf:type ?r. """;
+    rr:body """ ?r owl:hasValue ?v; owl:onProperty ?p. ?u ?p ?v. """.
+
+:scm-hv a rr:Rule;
+    rr:head """ ?r1 rdfs:subClassOf ?r2. """;
+    rr:body """ ?r1 owl:hasValue ?v; owl:onProperty ?p1.
+                ?r2 owl:hasValue ?v; owl:onProperty ?p2.
+                ?p1 rdfs:subPropertyOf ?p2. FILTER (?r1 != ?r2) """.
+
+:cls-maxc2 a rr:Rule;
+    rr:head """ ?v1 owl:sameAs ?v2. """;
+    rr:body """ ?r owl:maxCardinality '1'^^xsd:nonNegativeInteger;
+                   owl:onProperty ?p.
+                ?u rdf:type ?r; ?p ?v1, ?v2. """.
+
+:cls-maxqc3 a rr:Rule;
+    rr:head """ ?v1 owl:sameAs ?v2. """;
+    rr:body """ ?u rdf:type ?r; ?p ?v1, ?v2. ?v1 rdf:type ?c. ?v2 rdf:type ?c.
+                FILTER (?v1 != ?v2)
+                ?r owl:onProperty ?p; owl:onClass ?c;
+                   owl:maxQualifiedCardinality '1'^^xsd:nonNegativeInteger. """.
+
+:cls-maxqc4 a rr:Rule;
+    rr:head """ ?v1 owl:sameAs ?v2. """;
+    rr:body """ ?r owl:onProperty ?p; owl:onClass owl:Thing;
+                   owl:maxQualifiedCardinality '1'^^xsd:nonNegativeInteger.
+                ?u rdf:type ?r; ?p ?v1, ?v2. """ .
+
+:cls-oo-s a rr:Rule;
+    rr:head """ ?v1 rdf:type ?c. ?c sys:expandOneOf ?l2. """;
+    rr:body """ ?c owl:oneOf ?l1. ?l1 rdf:first ?v1; rdf:rest ?l2. """.
+
+:cls-oo-r a rr:Rule;
+    rr:head """ ?v1 rdf:type ?c.  ?c sys:expandOneOf ?l2. """;
+    rr:body """ ?c sys:expandOneOf ?l1. ?l1 rdf:first ?v1; rdf:rest ?l2. """.
