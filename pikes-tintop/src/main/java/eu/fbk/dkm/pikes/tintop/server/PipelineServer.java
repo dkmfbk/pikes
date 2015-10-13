@@ -47,6 +47,11 @@ public class PipelineServer {
 		httpServer.getServerConfiguration().addHttpHandler(new Text2NafHandler(pipeline), "/text2naf");
 		httpServer.getServerConfiguration().addHttpHandler(new TriplesHandler(pipeline), "/text2rdf");
 
+//		CompressionConfig compressionConfig = httpServer.getListener("grizzly").getCompressionConfig();
+//		compressionConfig.setCompressionMode(CompressionConfig.CompressionMode.ON); // the mode
+//		compressionConfig.setCompressionMinSize(1); // the min amount of bytes to compress
+//		compressionConfig.setCompressableMimeTypes("text/plain", "text/html"); // the mime types to compress
+
 		try {
 			httpServer.start();
 			Thread.currentThread().join();
