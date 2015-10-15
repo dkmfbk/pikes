@@ -2,7 +2,6 @@ package eu.fbk.dkm.pikes.tintop.server;
 
 import eu.fbk.dkm.pikes.tintop.AnnotationPipeline;
 import ixa.kaflib.KAFDocument;
-import org.apache.log4j.Logger;
 import org.glassfish.grizzly.http.server.Request;
 import org.glassfish.grizzly.http.server.Response;
 
@@ -16,11 +15,8 @@ import org.glassfish.grizzly.http.server.Response;
 
 public class Text2NafHandler extends AbstractHandler {
 
-	static Logger logger = Logger.getLogger(Text2NafHandler.class.getName());
-	private AnnotationPipeline pipeline;
-
 	public Text2NafHandler(AnnotationPipeline pipeline) {
-		this.pipeline = pipeline;
+		super(pipeline);
 	}
 
 	@Override
@@ -29,8 +25,8 @@ public class Text2NafHandler extends AbstractHandler {
 		super.service(request, response);
 
 		String text = request.getParameter("text");
-		KAFDocument doc = text2naf(text, null);
-		doc = pipeline.parseFromNAF(doc, null);
+		KAFDocument doc = text2naf(text, meta);
+		doc = pipeline.parseFromNAF(doc, annotators);
 
 		writeOutput(response, "text/xml", doc.toString());
 	}

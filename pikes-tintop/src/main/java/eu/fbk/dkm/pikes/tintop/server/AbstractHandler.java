@@ -1,5 +1,6 @@
 package eu.fbk.dkm.pikes.tintop.server;
 
+import eu.fbk.dkm.pikes.tintop.AnnotationPipeline;
 import ixa.kaflib.KAFDocument;
 import org.apache.log4j.Logger;
 import org.glassfish.grizzly.http.server.HttpHandler;
@@ -10,7 +11,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,12 +26,45 @@ import java.util.Locale;
 
 public class AbstractHandler extends HttpHandler {
 
+	public final static Pattern ANNOTATOR_PATTERN = Pattern.compile("^annotator_(.*)");
+	public final static Pattern META_PATTERN = Pattern.compile("^meta_(.*)");
+	protected AnnotationPipeline pipeline;
+
+	protected HashSet<String> annotators = new HashSet<>();
+	protected HashMap<String, String> meta = new HashMap<>();
+
 	static Logger logger = Logger.getLogger(AbstractHandler.class.getName());
+
+	public AbstractHandler(AnnotationPipeline pipeline) {
+		super();
+		this.pipeline = pipeline;
+	}
 
 	@Override
 	public void service(Request request, Response response) throws Exception {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
+
+
+		for (String parameterLabel : request.getParameterMap().keySet()) {
+
+			Matcher matcher;
+
+			matcher = ANNOTATOR_PATTERN.matcher(parameterLabel);
+			if (matcher.find()) {
+				annotators.add(matcher.group(1));
+			}
+
+			matcher = META_PATTERN.matcher(parameterLabel);
+			if (matcher.find()) {
+				String key = matcher.group(1);
+				meta.put(key, request.getParameter(parameterLabel));
+			}
+		}
+
+		if (meta.get("uri") == null || meta.get("uri").length() == 0) {
+			meta.put("uri", pipeline.getConfig().getProperty("default_uri"));
+		}
 	}
 
 	public void writeOutput(Response response, String contentType, String output) throws IOException {

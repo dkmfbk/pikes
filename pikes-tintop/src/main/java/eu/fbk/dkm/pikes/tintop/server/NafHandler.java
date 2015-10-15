@@ -17,10 +17,9 @@ import org.glassfish.grizzly.http.server.Response;
 public class NafHandler extends AbstractHandler {
 
 	static Logger logger = Logger.getLogger(NafHandler.class.getName());
-	private AnnotationPipeline pipeline;
 
 	public NafHandler(AnnotationPipeline pipeline) {
-		this.pipeline = pipeline;
+		super(pipeline);
 	}
 
 	@Override

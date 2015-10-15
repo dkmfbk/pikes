@@ -19,10 +19,7 @@ import org.slf4j.LoggerFactory;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created with IntelliJ IDEA.
@@ -35,13 +32,9 @@ import java.util.regex.Pattern;
 public class TriplesHandler extends AbstractHandler {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(TriplesHandler.class);
-	private AnnotationPipeline pipeline;
-
-	private static Pattern annotatorPattern = Pattern.compile("^annotator_(.*)");
-	private static Pattern metaPattern = Pattern.compile("^meta_(.*)");
 
 	public TriplesHandler(AnnotationPipeline pipeline) {
-		this.pipeline = pipeline;
+		super(pipeline);
 	}
 
 	@Override
@@ -57,29 +50,6 @@ public class TriplesHandler extends AbstractHandler {
 		boolean backLink = false;
 		if (referer != null && okReferer != null && referer.equals(okReferer)) {
 			backLink = true;
-		}
-
-		HashSet<String> annotators = new HashSet<>();
-		HashMap<String, String> meta = new HashMap<>();
-
-		for (String parameterLabel : request.getParameterMap().keySet()) {
-
-			Matcher matcher;
-
-			matcher = annotatorPattern.matcher(parameterLabel);
-			if (matcher.find()) {
-				annotators.add(matcher.group(1));
-			}
-
-			matcher = metaPattern.matcher(parameterLabel);
-			if (matcher.find()) {
-				String key = matcher.group(1);
-				meta.put(key, request.getParameter(parameterLabel));
-			}
-		}
-
-		if (meta.get("uri") == null || meta.get("uri").length() == 0) {
-			meta.put("uri", pipeline.getConfig().getProperty("default_uri"));
 		}
 
 		String text = request.getParameter("text");

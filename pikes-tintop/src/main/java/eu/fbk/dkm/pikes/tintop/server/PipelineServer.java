@@ -21,7 +21,6 @@ import java.util.Date;
 public class PipelineServer {
 
 	static Logger logger = Logger.getLogger(PipelineServer.class.getName());
-	private HttpServer httpServer;
 
 	public static final String DEFAULT_HOST = "localhost";
 	public static final String DEFAULT_PORT = "8011";
@@ -39,7 +38,7 @@ public class PipelineServer {
 			System.exit(1);
 		}
 
-		httpServer = HttpServer.createSimpleServer(host, new Integer(port).intValue());
+		HttpServer httpServer = HttpServer.createSimpleServer(host, new Integer(port).intValue());
 		httpServer.getServerConfiguration().addHttpHandler(new NafHandler(pipeline), "/naf");
 		httpServer.getServerConfiguration().addHttpHandler(new NafVisualizeHandler(pipeline), "/view");
 		httpServer.getServerConfiguration().addHttpHandler(new NafGenerateHandler(pipeline), "/text");

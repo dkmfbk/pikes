@@ -8,8 +8,6 @@ import ixa.kaflib.KAFDocument;
 import org.glassfish.grizzly.http.server.Request;
 import org.glassfish.grizzly.http.server.Response;
 import org.openrdf.model.Model;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -24,11 +22,8 @@ import java.io.StringWriter;
 
 public class NafVisualizeHandler extends AbstractHandler {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(NafVisualizeHandler.class);
-	private AnnotationPipeline pipeline;
-
 	public NafVisualizeHandler(AnnotationPipeline pipeline) {
-		this.pipeline = pipeline;
+		super(pipeline);
 	}
 
 	@Override
