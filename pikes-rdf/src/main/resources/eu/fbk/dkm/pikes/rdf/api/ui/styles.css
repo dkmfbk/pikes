@@ -1,0 +1,121 @@
+body {
+	padding: 0 5%;
+}
+
+#navigation-content {
+	margin: auto;
+	/*width: 800px;*/
+	text-align: left;
+	/*font-size: .7em;*/
+	/*background-color: #ddd;*/
+	/*padding: 20px;*/
+}
+
+#navigation-container {
+	/*width: 1000px;*/
+	margin: auto;
+}
+
+.page-header {
+	/*position: fixed;*/
+	margin-top: 0;
+}
+
+.page-header div.logos {
+	background-color: white;
+	padding: 0 20px;
+}
+
+.page-header h1 a {
+	text-decoration: none;
+}
+
+#logo {
+	vertical-align: middle;
+	position: relative;
+	top: 7px;
+	padding-bottom: 22px;
+}
+
+.page-header h1 small {
+	padding-left: 20px;
+}
+
+span.predicate {
+	color: #c00;
+	font-style: italic;
+	font-weight: bold;
+}
+
+span.object, span.subject {
+	color: #008;
+}
+
+span.pre-situation {
+	background-color: #ffd;
+}
+span.during-situation {
+	background-color: #ddf;
+}
+span.post-situation {
+	background-color: #dfd;
+}
+
+#navigation > li > span {
+	font-weight: bold;
+}
+
+#documentation pre {
+	height: 600px;
+	overflow: auto;
+	word-wrap: normal;
+	white-space: pre;
+}
+
+#form-output label {
+	padding-right: 5px;
+	padding-left: 15px;
+	font-weight: normal !important;
+}
+
+#form-output .form-group > :first-child {
+	padding-left: 0 !important;
+}
+
+.form-radio {
+	margin: 5px 0 10px 20px;
+}
+
+#form-format {
+	margin-top: 10px;
+}
+
+#form-format label {
+	padding-left: 0 !important;
+}
+
+.radio {
+	margin-top: 15px !important;
+}
+
+#form-additional-file input {
+	display: inline;
+	width: 200px;
+}
+
+#form-additional-file .form-group {
+	margin-right: 20px;
+}
+
+#form-additional-file label {
+	font-weight: normal !important;
+}
+
+#accordion .panel-body {
+    font-size: .7em;
+}
+
+#accordion .panel-smalltext input.form-control {
+    font-size: .9em;
+    height: 90%;
+}

@@ -1,4 +1,19 @@
-package eu.fbk.dkm.pikes.rdf.naf;
+package eu.fbk.dkm.pikes.rdf.api;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.Callable;
+
+import javax.annotation.Nullable;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
@@ -7,15 +22,35 @@ import com.google.common.base.Charsets;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import com.google.common.collect.*;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 import com.google.common.html.HtmlEscapers;
+
+import org.openrdf.model.BNode;
+import org.openrdf.model.Literal;
+import org.openrdf.model.Resource;
+import org.openrdf.model.Statement;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
+import org.openrdf.model.impl.URIImpl;
+import org.openrdf.model.vocabulary.RDF;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import ixa.kaflib.KAFDocument;
+import ixa.kaflib.Term;
+
 import eu.fbk.dkm.pikes.naflib.NafRenderUtils;
 import eu.fbk.dkm.pikes.naflib.NafRenderUtils.Markable;
-import eu.fbk.dkm.pikes.rdf.api.Renderer;
 import eu.fbk.dkm.pikes.rdf.util.ModelUtil;
 import eu.fbk.dkm.pikes.rdf.util.RDFGraphvizRenderer;
 import eu.fbk.dkm.pikes.rdf.vocab.KS;
-import eu.fbk.dkm.pikes.resources.NAFUtils;
 import eu.fbk.dkm.utils.vocab.NIF;
 import eu.fbk.dkm.utils.vocab.NWR;
 import eu.fbk.dkm.utils.vocab.OWLTIME;
@@ -24,24 +59,8 @@ import eu.fbk.rdfpro.util.Hash;
 import eu.fbk.rdfpro.util.Namespaces;
 import eu.fbk.rdfpro.util.QuadModel;
 import eu.fbk.rdfpro.util.Statements;
-import ixa.kaflib.KAFDocument;
-import ixa.kaflib.Term;
-import org.openrdf.model.*;
-import org.openrdf.model.impl.URIImpl;
-import org.openrdf.model.vocabulary.RDF;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nullable;
-import java.io.*;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.Callable;
-
-public class NAFRenderer implements Renderer {
+final class TemplateRenderer implements Renderer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Renderer.class);
 
@@ -85,7 +104,7 @@ public class NAFRenderer implements Renderer {
 
     private final RDFGraphvizRenderer graphvizRenderer;
 
-    private NAFRenderer(final Builder builder) {
+    private TemplateRenderer(final Builder builder) {
         this.colorMap = builder.colorMap == null ? DEFAULT_COLOR_MAP : ImmutableMap
                 .copyOf(builder.colorMap);
         this.valueComparator = Ordering.from(Statements.valueComparator(Iterables.toArray(
@@ -108,46 +127,47 @@ public class NAFRenderer implements Renderer {
     }
 
     @Override
-    public void render(final Object document, final QuadModel model, final Appendable out)
-            throws IOException {
+    public void render(final QuadModel model, @Nullable final Annotation annotation,
+            final Appendable out) throws IOException {
 
         final long ts = System.currentTimeMillis();
-        final KAFDocument doc = (KAFDocument) document;
+
+        final URI uri = (URI) model.filter(null, RDF.TYPE, KS.TEXT).subjects().iterator().next();
 
         final List<Map<String, Object>> sentencesModel = Lists.newArrayList();
-        for (int i = 1; i <= doc.getNumSentences(); ++i) {
-            final int sentenceID = i;
-            final Map<String, Object> sm = Maps.newHashMap();
-            sm.put("id", i);
-            sm.put("markup", (Callable<String>) () -> {
-                return renderText(new StringBuilder(), doc, doc.getTermsBySent(sentenceID), model)
-                        .toString();
-            });
-            sm.put("parsing", (Callable<String>) () -> {
-                return renderParsing(new StringBuilder(), doc, model, sentenceID).toString();
-            });
-            sm.put("graph",
-                    (Callable<String>) () -> {
-                        int begin = Integer.MAX_VALUE;
-                        int end = Integer.MIN_VALUE;
-                        for (final Term term : doc.getSentenceTerms(sentenceID)) {
-                            begin = Math.min(begin, NAFUtils.getBegin(term));
-                            end = Math.max(end, NAFUtils.getEnd(term));
-                        }
-                        final QuadModel sentenceModel = ModelUtil.getSubModel(model,
-                                ModelUtil.getMentions(model, begin, end));
-                        return renderGraph(new StringBuilder(), sentenceModel).toString();
-
-                    });
-            sentencesModel.add(sm);
-        }
+        // for (int i = 1; i <= doc.getNumSentences(); ++i) {
+        // final int sentenceID = i;
+        // final Map<String, Object> sm = Maps.newHashMap();
+        // sm.put("id", i);
+        // sm.put("markup", (Callable<String>) () -> {
+        // return renderText(new StringBuilder(), doc, doc.getTermsBySent(sentenceID), model)
+        // .toString();
+        // });
+        // sm.put("parsing", (Callable<String>) () -> {
+        // return renderParsing(new StringBuilder(), doc, model, sentenceID).toString();
+        // });
+        // sm.put("graph",
+        // (Callable<String>) () -> {
+        // int begin = Integer.MAX_VALUE;
+        // int end = Integer.MIN_VALUE;
+        // for (final Term term : doc.getSentenceTerms(sentenceID)) {
+        // begin = Math.min(begin, NAFUtils.getBegin(term));
+        // end = Math.max(end, NAFUtils.getEnd(term));
+        // }
+        // final QuadModel sentenceModel = ModelUtil.getSubModel(model,
+        // ModelUtil.getMentions(model, begin, end));
+        // return renderGraph(new StringBuilder(), sentenceModel).toString();
+        //
+        // });
+        // sentencesModel.add(sm);
+        // }
 
         final Map<String, Object> documentModel = Maps.newHashMap();
-        documentModel.put("title", doc.getPublic().uri);
+        documentModel.put("title", uri.stringValue());
         documentModel.put("sentences", sentencesModel);
         documentModel.put("metadata", (Callable<String>) () -> {
             return renderProperties(new StringBuilder(), model, //
-                    new URIImpl(doc.getPublic().uri), true).toString();
+                    new URIImpl(uri.stringValue()), true).toString();
         });
         documentModel.put("mentions", (Callable<String>) () -> {
             return renderMentionsTable(new StringBuilder(), model).toString();
@@ -158,9 +178,11 @@ public class NAFRenderer implements Renderer {
         documentModel.put("graph", (Callable<String>) () -> {
             return renderGraph(new StringBuilder(), model).toString();
         });
-        documentModel.put("naf", (Callable<String>) () -> {
-            return doc.toString();
-        });
+        if (annotation != null) {
+            documentModel.put("naf", (Callable<String>) () -> {
+                return annotation.toString();
+            });
+        }
 
         documentModel.putAll(this.templateParameters);
         if (this.templateParameters != null) {
@@ -592,7 +614,7 @@ public class NAFRenderer implements Renderer {
         }
 
         public Renderer build() {
-            return new NAFRenderer(this);
+            return new TemplateRenderer(this);
         }
 
     }

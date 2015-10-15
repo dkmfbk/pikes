@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<title>PIKES - Pikes is a Knowledge Extraction suite</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link href="styles.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="page-header">
+    <div class='pull-right logos'>
+      <a href="http://dkm.fbk.eu/"><img src="fbkdkm.png" /></a> &nbsp;&nbsp; <a href="http://www.newsreader-project.eu/"><img
+        src="newsreader.png" /></a>
+    </div>
+    <h1>
+      <img src='pikes-black.png' id='logo' /> <a href=''>PIKES <small>Pikes is a Knowledge Extraction suite</small></a>
+    </h1>
+  </div>
+
+  <div class="container-fluid">
+    <form id="sendText" method="post" name="sendText" onsubmit="javascript: return submitForm(this);">
+
+      <div class="row">
+        <div class="col-md-8">
+          <p>
+            <a href="http://www.youtube.com/watch?v=D0mcnUKc3sg">Video tutorial</a> | <a href="http://www.youtube.com/watch?v=D0mcnUKc3sg&amp;t=2m48s">Jump
+              to example</a>
+          </p>
+          <h4>Write a text in English and press the blue button.</h4>
+
+          <div class="form-group">
+            <textarea class="form-control" id="inputText" name='text' rows='15'></textarea>
+          </div>
+          <div class="form-group">
+            <label for="inputSentence">Pick a sample text:</label> <select class="form-control" id="inputSentence">
+              <option value="">[Select one]</option>
+            </select>
+          </div>
+
+          <button class="btn btn-primary ladda-button" data-style="expand-left" type="submit">
+            <span class="ladda-label">Submit</span>
+          </button>
+        </div>
+
+        <div class="col-md-4">
+          <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+            <div class="panel panel-default">
+              <div class="panel-heading" id="headingRDF" role="tab">
+                <h4 class="panel-title">
+                  <a data-parent="#accordion" data-toggle="collapse" href="#collapseRDF" aria-expanded="true" aria-controls="collapseRDF">RDF
+                    properties</a>
+                </h4>
+              </div>
+              <div class="panel-collapse collapse" id="collapseRDF" role="tabpanel" aria-labelledby="headingRDF">
+                <div class="panel-body">
+                  <div class="form-group">
+                    <div class="checkbox" id="rdf_fusion">
+                      <label data-toggle="tooltip"
+                        title="Keeps only a canonical URI for each instance (preferably, the DBpedia URI) and filters out unnamed composite instances that ks:include some member instance.">
+                        <input name="rdf_fusion" type="checkbox" checked="checked"> Smushing and instance filtering
+                      </label>
+                    </div>
+                    <div class="checkbox" id="rdf_compaction">
+                      <label data-toggle="tooltip"
+                        title="Ensures that all fact triples expressed by the same set of mentions are placed in the same graph, with exactly one graph associated to each fact triple, leading to a semantics-preserving reduction of the number of produced quads.">
+                        <input name="rdf_compaction" type="checkbox" checked="checked"> RDF Compaction
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel panel-default">
+              <div class="panel-heading" id="headingMeta" role="tab">
+                <h4 class="panel-title">
+                  <a data-parent="#accordion" data-toggle="collapse" href="#collapseMeta" aria-expanded="true" aria-controls="collapseMeta">Document
+                    metadata</a>
+                </h4>
+              </div>
+              <div class="panel-collapse collapse" id="collapseMeta" role="tabpanel" aria-labelledby="headingMeta">
+                <div class="panel-body panel-smalltext">
+                  <div class="form-group">
+                    <label for="inputAuthor">Author</label> <input name="meta_author" class="form-control" id="inputAuthor"
+                      placeholder="Document author">
+                  </div>
+                  <div class="form-group">
+                    <label for="inputTitle">Title</label> <input name="meta_title" class="form-control" id="inputTitle" placeholder="Document title">
+                  </div>
+                  <div class="form-group">
+                    <label for="inputID">ID</label> <input name="meta_id" class="form-control" id="inputID" placeholder="Document ID">
+                  </div>
+                  <div class="form-group">
+                    <label for="inputUri">URI</label> <input name="meta_uri" class="form-control" id="inputUri" placeholder="Document URI">
+                  </div>
+                  <div class="form-group">
+                    <label for="inputDate">Document creation time</label> <input name="meta_date" class="form-control" id="inputDate"
+                      placeholder="XXXX-XX-XX">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel panel-default">
+              <div class="panel-heading" id="headingOutput" role="tab">
+                <h4 class="panel-title">
+                  <a data-parent="#accordion" data-toggle="collapse" href="#collapseOutput" aria-expanded="true" aria-controls="collapseOutput">Output
+                    format</a>
+                </h4>
+              </div>
+
+              <div class="panel-collapse collapse" id="collapseOutput" role="tabpanel" aria-labelledby="headingOutput">
+                <div class="panel-body panel-smalltext">
+                  <div class="form-group" id="outputformats">
+                    <div class="radio" id="output_visualize">
+                      <label><input name="outputformat" value="output_visualize" type="radio" checked="checked"> Visualize</label>
+                    </div>
+                    <div class="radio" id="output_rdf">
+                      <label><input name="outputformat" value="output_rdf" type="radio"> RDF TRiG</label>
+                    </div>
+                    <div class="radio" id="output_naf">
+                      <label><input name="outputformat" value="output_naf" type="radio"> NLP annotations (NAF)</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel panel-default" style="display: none;">
+              <div class="panel-heading" id="headingOne" role="tab">
+                <h4 class="panel-title">
+                  <a class="collapsed" data-parent="#accordion" data-toggle="collapse" href="#collapseOne" aria-expanded="false"
+                    aria-controls="collapseOne">Linguistic tools</a>
+                </h4>
+              </div>
+
+              <div class="panel-collapse collapse" id="collapseOne" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body panel-smalltext">
+                  <div class="form-group annotators">
+                    <div>
+                      <a href='#' onclick="javascript: return checkAll();">Check all</a> | <a href='#' onclick="javascript: return checkNone();">Check
+                        none</a>
+                    </div>
+
+                    <div class="checkbox" id="annotator_tokenize">
+                      <label><input name="annotator_tokenize" type="checkbox"> Tokenize (Stanford CoreNLP)</label>
+                    </div>
+
+                    <div class="checkbox" data-require="tokenize" id="annotator_ssplit">
+                      <label><input name="annotator_ssplit" type="checkbox"> Sentence splitting (Stanford CoreNLP)</label>
+                    </div>
+
+                    <div class="checkbox" data-require="ssplit" id="annotator_anna_pos">
+                      <label><input name="annotator_anna_pos" type="checkbox"> Part-of-speech (Anna)</label>
+                    </div>
+
+                    <div class="checkbox" data-require="anna_pos" id="annotator_simple_pos">
+                      <label><input name="annotator_simple_pos" type="checkbox"> Simple part-of-speech (NWR)</label>
+                    </div>
+
+                    <div class="checkbox" data-require="anna_pos" id="annotator_lemma">
+                      <label><input name="annotator_lemma" type="checkbox"> Lemmatize (Stanford CoreNLP)</label>
+                    </div>
+
+                    <div class="checkbox" data-require="lemma,simple_pos" id="annotator_ukb">
+                      <label><input name="annotator_ukb" type="checkbox"> Word sense disambiguation (UKB)</label>
+                    </div>
+
+                    <div class="checkbox" data-require="ukb" id="annotator_sst">
+                      <label><input name="annotator_sst" type="checkbox"> Supersense tagger (UKB)</label>
+                    </div>
+
+                    <div class="checkbox" data-require="lemma" id="annotator_ner">
+                      <label><input name="annotator_ner" type="checkbox"> Name entity recognition (Stanford CoreNLP)</label>
+                    </div>
+
+                    <div class="checkbox" data-require="anna_pos" id="annotator_parse">
+                      <label><input name="annotator_parse" type="checkbox"> Constituency parsing (Stanford CoreNLP)</label>
+                    </div>
+
+                    <div class="checkbox" data-require="anna_pos" id="annotator_dep_parse">
+                      <label><input name="annotator_dep_parse" type="checkbox"> Dependency parsing (Anna)</label>
+                    </div>
+
+                    <div class="checkbox" data-require="ner,parse" id="annotator_dcoref">
+                      <label><input name="annotator_dcoref" type="checkbox"> Coreference resolution (Stanford CoreNLP)</label>
+                    </div>
+
+                    <div class="checkbox" data-require="parse" id="annotator_sentiment">
+                      <label><input name="annotator_sentiment" type="checkbox"> Sentiment (Stanford CoreNLP)</label>
+                    </div>
+
+                    <div class="checkbox" data-require="dep_parse,lemma" id="annotator_srl">
+                      <label><input name="annotator_srl" type="checkbox"> Semantic role labelling (Mate)</label>
+                    </div>
+
+                    <div class="checkbox" data-require="srl" id="annotator_cross_srl">
+                      <label><input name="annotator_cross_srl" type="checkbox"> Cross-resource SRL (PredicateMatrix)</label>
+                    </div>
+
+                    <div class="checkbox" data-require="tokenize" id="annotator_linking">
+                      <label><input name="annotator_linking" type="checkbox"> Entity linking (DBpedia Spotlight)</label>
+                    </div>
+
+                    <div class="checkbox" id="annotator_naf_filter">
+                      <label><input name="annotator_naf_filter" type="checkbox"> NAF filter</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <hr />
+
+    <div class="row">
+      <div class="col-md-12">
+        <p class="text-center">
+          PIKES is a GPLv3 software | <a href='http://pikes.fbk.eu/'>Official website</a>
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="scripts.js"></script>
+
+</body>
+</html>

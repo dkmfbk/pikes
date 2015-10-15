@@ -1,11 +1,41 @@
 package eu.fbk.dkm.pikes.rdf.naf;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
+
+import org.openrdf.model.URI;
+import org.openrdf.model.ValueFactory;
+import org.openrdf.model.vocabulary.DCTERMS;
+import org.openrdf.model.vocabulary.RDF;
+import org.openrdf.rio.RDFHandlerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import ixa.kaflib.Coref;
+import ixa.kaflib.Dep;
+import ixa.kaflib.Entity;
+import ixa.kaflib.ExternalRef;
+import ixa.kaflib.KAFDocument;
+import ixa.kaflib.KAFDocument.FileDesc;
+import ixa.kaflib.LinguisticProcessor;
+import ixa.kaflib.Predicate;
+import ixa.kaflib.Predicate.Role;
+import ixa.kaflib.Span;
+import ixa.kaflib.Term;
+import ixa.kaflib.Timex3;
+import ixa.kaflib.WF;
+
+import eu.fbk.dkm.pikes.rdf.api.Annotation;
 import eu.fbk.dkm.pikes.rdf.api.Extractor;
 import eu.fbk.dkm.pikes.rdf.util.ModelUtil;
 import eu.fbk.dkm.pikes.rdf.util.OWLTime.Duration;
@@ -19,30 +49,21 @@ import eu.fbk.dkm.utils.vocab.NIF;
 import eu.fbk.rdfpro.RDFHandlers;
 import eu.fbk.rdfpro.util.Hash;
 import eu.fbk.rdfpro.util.QuadModel;
-import ixa.kaflib.*;
-import ixa.kaflib.KAFDocument.FileDesc;
-import ixa.kaflib.Predicate.Role;
-import org.openrdf.model.URI;
-import org.openrdf.model.ValueFactory;
-import org.openrdf.model.vocabulary.DCTERMS;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.rio.RDFHandlerException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 public class NAFExtractor implements Extractor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NAFExtractor.class);
 
     @Override
-    public void extract(final Object document, final QuadModel model) {
-        final KAFDocument naf = (KAFDocument) document;
-        new Extraction(model, naf).run();
+    public void extract(final Annotation annotation, final QuadModel model) throws Exception {
+        if (annotation instanceof NAFAnnotation) {
+            new Extraction(annotation.getURI(), model, ((NAFAnnotation) annotation).getDocument())
+                    .run();
+        }
+    }
+
+    public void extract(final URI uri, final QuadModel model, final KAFDocument naf) {
+        new Extraction(uri, model, naf).run();
     }
 
     private static boolean isAttributeTerm(final Term term) {
@@ -65,7 +86,7 @@ public class NAFExtractor implements Extractor {
         private final Map<Term, InstanceMention> mentions;
 
         @SuppressWarnings("deprecation")
-        Extraction(final QuadModel model, final KAFDocument document) {
+        Extraction(final URI uri, final QuadModel model, final KAFDocument document) {
 
             // Reconstruct the document text using term offsets to avoid alignment issues
             final StringBuilder builder = new StringBuilder();
@@ -86,7 +107,8 @@ public class NAFExtractor implements Extractor {
             this.document = document;
             this.vf = model.getValueFactory();
             this.documentText = builder.toString();
-            this.documentURI = this.vf.createURI(Util.cleanIRI(document.getPublic().uri));
+            this.documentURI = uri != null ? uri : this.vf.createURI(Util.cleanIRI(document
+                    .getPublic().uri));
             this.mentions = Maps.newHashMap();
         }
 
@@ -468,7 +490,7 @@ public class NAFExtractor implements Extractor {
                 this.model.add(mentionURI, KS.COREFERENTIAL, coreferential);
             }
             for (final URI coreferentialConjunct : coreferentialConjuncts) {
-                this.model.add(mentionURI, KS.COREFERENTIAL, coreferentialConjunct);
+                this.model.add(mentionURI, KS.COREFERENTIAL_CONJUNCT, coreferentialConjunct);
             }
         }
 
