@@ -1192,7 +1192,7 @@ public class AnnotationPipeline {
 
 	public KAFDocument parseFromNAF(KAFDocument NAFdocument, HashSet<String> annotators) throws Exception {
 
-		CachedParsedText cache = parse(NAFdocument);
+		CachedParsedText cache = parse(NAFdocument, annotators);
 		NAFdocument = getNAF(cache, NAFdocument, annotators);
 
 		return NAFdocument;
