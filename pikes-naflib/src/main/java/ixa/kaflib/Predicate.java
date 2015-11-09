@@ -130,7 +130,7 @@ public class Predicate extends IReferable implements Serializable {
         return this.source != null;
     }
 
-    private float confidence;
+    private double confidence;
     private Span<Term> span;
     private List<Role> roles;
     private List<ExternalRef> externalReferences;
@@ -169,11 +169,11 @@ public class Predicate extends IReferable implements Serializable {
         return confidence != -1.0f;
     }
 
-    public float getConfidence() {
+    public double getConfidence() {
         return confidence;
     }
 
-    public void setConfidence(float confidence) {
+    public void setConfidence(double confidence) {
         this.confidence = confidence;
     }
 

@@ -1859,7 +1859,7 @@ class ReadWriteManager {
                     predicateElem.setAttribute("uri", predicate.getUri());
                 }
                 if (predicate.hasConfidence()) {
-                    predicateElem.setAttribute("confidence", Float.toString(predicate.getConfidence()));
+                    predicateElem.setAttribute("confidence", Double.toString(predicate.getConfidence()));
                 }
                 if (!predicate.getFlags().isEmpty()) {
                     StringBuilder builder = new StringBuilder();
