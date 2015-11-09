@@ -11,12 +11,12 @@ public class ExternalRef implements Serializable {
     private String source = null;
     private ExternalRef externalRef;
 
-    ExternalRef(String resource, String reference) {
+    public ExternalRef(String resource, String reference) {
 	this.resource = resource;
 	this.reference = reference;
     }
 
-    ExternalRef(ExternalRef externalReference) {
+    public ExternalRef(ExternalRef externalReference) {
 	this.resource = externalReference.resource;
 	this.reference = externalReference.reference;
 	this.confidence = externalReference.confidence;

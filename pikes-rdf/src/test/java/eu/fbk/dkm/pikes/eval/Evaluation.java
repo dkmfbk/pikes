@@ -206,7 +206,7 @@ public final class Evaluation {
                 + "    FILTER EXISTS {\n"
                 + "      { ?s ?p ?o } UNION { ?o ?p ?s }\n"
                 + "      FILTER (?p != eval:associableTo && ?p != eval:notAssociableTo &&\n"
-                + "              ?p != eval:mappedTo)\n"
+                + "              ?p != eval:classifiableAs && ?p != eval:mappedTo)\n"
                 + "    }\n"
                 + "    FILTER (MD5(STR(?s)) < MD5(STR(?o)))\n"
                 + "    OPTIONAL { ?s eval:mappedTo ?sm }\n"
@@ -223,7 +223,7 @@ public final class Evaluation {
                 + "    ?o a eval:Node .\n"
                 + "    ?s ?p ?o .\n"
                 + "    FILTER (?p != eval:associableTo && ?p != eval:notAssociableTo &&\n"
-                + "            ?p != eval:mappedTo)\n"
+                + "            ?p != eval:classifiableAs && ?p != eval:mappedTo)\n"
                 + "    FILTER (?s != ?o)\n"
                 + "    OPTIONAL { ?s eval:mappedTo ?sm }\n"
                 + "    OPTIONAL { ?o eval:mappedTo ?om }\n" //
@@ -240,7 +240,8 @@ public final class Evaluation {
                         + "    ?s ?p ?o .\n" //
                         + "    FILTER NOT EXISTS { ?o a eval:Node }\n"
                         + "    FILTER (?o != eval:Node && ?p != eval:mappedTo && ?p != eval:denotedBy &&\n"
-                        + "            ?p != eval:associableTo && ?p != eval:notAssociableTo)\n"
+                        + "            ?p != eval:associableTo && ?p != eval:notAssociableTo &&\n"
+                        + "            ?p != eval:classifiableAs)\n"
                         + "    OPTIONAL { ?s eval:mappedTo ?sm }\n" //
                         + "  }\n" //
                         + "}\n");

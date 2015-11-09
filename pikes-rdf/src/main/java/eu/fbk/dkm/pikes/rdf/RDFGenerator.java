@@ -76,12 +76,10 @@ import eu.fbk.dkm.pikes.naflib.Corpus;
 import eu.fbk.dkm.pikes.rdf.util.ModelUtil;
 import eu.fbk.dkm.pikes.rdf.util.OWLTime;
 import eu.fbk.dkm.pikes.rdf.util.ProcessorASNorm;
-import eu.fbk.dkm.pikes.resources.FrameNet;
 import eu.fbk.dkm.pikes.resources.NAFFilter;
 import eu.fbk.dkm.pikes.resources.NAFUtils;
 import eu.fbk.dkm.pikes.resources.PropBank;
 import eu.fbk.dkm.pikes.resources.Sumo;
-import eu.fbk.dkm.pikes.resources.VerbNet;
 import eu.fbk.dkm.pikes.resources.WordNet;
 import eu.fbk.dkm.pikes.resources.YagoTaxonomy;
 import eu.fbk.dkm.utils.Util;
@@ -186,7 +184,7 @@ public final class RDFGenerator {
 
     public void generate(final KAFDocument document,
             @Nullable final Iterable<Integer> sentenceIDs, final RDFHandler handler)
-                    throws RDFHandlerException {
+            throws RDFHandlerException {
 
         final boolean[] ids = new boolean[document.getNumSentences() + 1];
         if (sentenceIDs == null) {
@@ -321,7 +319,8 @@ public final class RDFGenerator {
             LOGGER.info("Converting {} NAF files to RDF", this.corpus.size());
 
             final NAFFilter filter = NAFFilter.builder()
-                    .withProperties(Util.PROPERTIES, "eu.fbk.dkm.pikes.rdf.NAFFilter").build();
+                    .withProperties(Util.PROPERTIES, "eu.fbk.dkm.pikes.rdf.NAFFilter")
+                    .withSRLSenseMapping(false).withSRLPreprocess(true, true, true).build();
 
             final RDFHandler writer;
             try {
@@ -362,8 +361,8 @@ public final class RDFGenerator {
                                     Files.createParentDirs(Runner.this.outputFile);
                                     source.emit(RDFHandlers.ignoreMethods(writer,
                                             RDFHandlers.METHOD_START_RDF
-                                            | RDFHandlers.METHOD_END_RDF
-                                            | RDFHandlers.METHOD_CLOSE), 1);
+                                                    | RDFHandlers.METHOD_END_RDF
+                                                    | RDFHandlers.METHOD_CLOSE), 1);
                                     succeeded.incrementAndGet();
                                 } catch (final Throwable ex) {
                                     LOGGER.error("Processing failed for " + docName, ex);
@@ -556,9 +555,9 @@ public final class RDFGenerator {
                             } catch (final Throwable ex) {
                                 LOGGER.error(
                                         "Error processing MODIFIER " + NAFUtils.toString(term)
-                                        + " of " + NAFUtils.toString(ann.head)
-                                        + " (object URI " + ann.objectURI
-                                        + "; predicate URI " + ann.predicateURI + ")", ex);
+                                                + " of " + NAFUtils.toString(ann.head)
+                                                + " (object URI " + ann.objectURI
+                                                + "; predicate URI " + ann.predicateURI + ")", ex);
                             }
                         }
                     }
@@ -996,18 +995,18 @@ public final class RDFGenerator {
                 }
                 final URI typeURI = mintRefURI(ref.getResource(), ref.getReference());
                 emitFact(predicateURI, RDF.TYPE, typeURI, mentionURI, null);
-                if (ref.getResource().equals(NAFUtils.RESOURCE_FRAMENET)) {
-                    for (final String id : FrameNet.getRelatedFrames(true, ref.getReference(),
-                            FrameNet.Relation.INHERITS_FROM)) {
-                        final URI uri = mintRefURI(NAFUtils.RESOURCE_FRAMENET, id);
-                        emitFact(predicateURI, RDF.TYPE, uri, mentionURI, null);
-                    }
-                } else if (ref.getResource().equals(NAFUtils.RESOURCE_VERBNET)) {
-                    for (final String id : VerbNet.getSuperClasses(true, ref.getReference())) {
-                        final URI uri = mintRefURI(NAFUtils.RESOURCE_VERBNET, id);
-                        emitFact(predicateURI, RDF.TYPE, uri, mentionURI, null);
-                    }
-                }
+                //                if (ref.getResource().equals(NAFUtils.RESOURCE_FRAMENET)) {
+                //                    for (final String id : FrameNet.getRelatedFrames(true, ref.getReference(),
+                //                            FrameNet.Relation.INHERITS_FROM)) {
+                //                        final URI uri = mintRefURI(NAFUtils.RESOURCE_FRAMENET, id);
+                //                        emitFact(predicateURI, RDF.TYPE, uri, mentionURI, null);
+                //                    }
+                //                } else if (ref.getResource().equals(NAFUtils.RESOURCE_VERBNET)) {
+                //                    for (final String id : VerbNet.getSuperClasses(true, ref.getReference())) {
+                //                        final URI uri = mintRefURI(NAFUtils.RESOURCE_VERBNET, id);
+                //                        emitFact(predicateURI, RDF.TYPE, uri, mentionURI, null);
+                //                    }
+                //                }
             }
 
             // Mark the predicate as sem:Event and associate it the correct ego: type
@@ -1230,7 +1229,7 @@ public final class RDFGenerator {
 
             // Add properties from the SEM ontology
             String semRole = role.getSemRole();
-            if (semRole != null) {
+            if (semRole != null && !semRole.equals("")) {
                 semRole = semRole.toLowerCase();
                 final int index = semRole.lastIndexOf('-');
                 if (index >= 0) {
@@ -1275,7 +1274,7 @@ public final class RDFGenerator {
 
             // The AX, AM-X information may not be encoded in external references, so
             // we derive it from predicate sense and role semRole property.
-            if (semRole != null) {
+            if (!Strings.isNullOrEmpty(semRole)) {
                 for (final ExternalRef ref : predicate.getExternalRefs()) {
                     final String resource = ref.getResource().toLowerCase();
                     if (resource.equals(semRoleResource)) {
@@ -1327,7 +1326,7 @@ public final class RDFGenerator {
             emitFact(opinionURI, RDF.TYPE, KS.OPINION, null, null);
             emitFact(opinionURI, RDF.TYPE, polarity == Polarity.POSITIVE ? KS.POSITIVE_OPINION
                     : polarity == Polarity.NEGATIVE ? KS.NEGATIVE_OPINION : KS.NEUTRAL_OPINION,
-                            null, null);
+                    null, null);
             if (opinion.getLabel() != null) {
                 emitFact(opinionURI, RDFS.LABEL, opinion.getLabel(), null, null);
             }
@@ -1391,7 +1390,7 @@ public final class RDFGenerator {
 
         private void emitCommonAttributes(final URI instanceID, final URI mentionID,
                 final Term head, final String label, final boolean emitSumo)
-                        throws RDFHandlerException {
+                throws RDFHandlerException {
 
             if ("QPD".indexOf(head.getPos()) < 0 && label != null && !label.isEmpty()) {
                 emitFact(instanceID, RDFS.LABEL, label, mentionID, null);
@@ -1519,7 +1518,7 @@ public final class RDFGenerator {
 
             final StringBuilder anchorBuilder = new StringBuilder();
             final StringBuilder uriBuilder = new StringBuilder(this.documentURI.stringValue())
-            .append("#char=").append(begin).append(",");
+                    .append("#char=").append(begin).append(",");
 
             for (int i = 0; i < numTerms; ++i) {
                 final Term term = sortedTerms.get(i);
@@ -1778,7 +1777,7 @@ public final class RDFGenerator {
 
             final List<Statement> smushedStmts = Lists.newArrayList();
             RDFProcessors.smush("http://dbpedia.org/resource/").wrap(RDFSources.wrap(stmts))
-            .emit(RDFHandlers.wrap(smushedStmts), 1);
+                    .emit(RDFHandlers.wrap(smushedStmts), 1);
 
             final Set<Resource> named = Sets.newHashSet();
             final Multimap<Resource, Resource> groups = HashMultimap.create();
