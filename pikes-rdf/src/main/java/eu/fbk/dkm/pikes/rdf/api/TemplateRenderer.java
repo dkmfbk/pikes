@@ -127,12 +127,11 @@ final class TemplateRenderer implements Renderer {
     }
 
     @Override
-    public void render(final QuadModel model, @Nullable final Annotation annotation,
-            final Appendable out) throws IOException {
+    public void render(final Document document, final Appendable out) throws Exception {
 
         final long ts = System.currentTimeMillis();
 
-        final URI uri = (URI) model.filter(null, RDF.TYPE, KS.TEXT).subjects().iterator().next();
+        final URI uri = document.getURI();
 
         final List<Map<String, Object>> sentencesModel = Lists.newArrayList();
         // for (int i = 1; i <= doc.getNumSentences(); ++i) {
@@ -166,21 +165,25 @@ final class TemplateRenderer implements Renderer {
         documentModel.put("title", uri.stringValue());
         documentModel.put("sentences", sentencesModel);
         documentModel.put("metadata", (Callable<String>) () -> {
-            return renderProperties(new StringBuilder(), model, //
+            return renderProperties(new StringBuilder(), document.getGraph(), //
                     new URIImpl(uri.stringValue()), true).toString();
         });
         documentModel.put("mentions", (Callable<String>) () -> {
-            return renderMentionsTable(new StringBuilder(), model).toString();
+            return renderMentionsTable(new StringBuilder(), document.getGraph()).toString();
         });
         documentModel.put("triples", (Callable<String>) () -> {
-            return renderTriplesTable(new StringBuilder(), model).toString();
+            return renderTriplesTable(new StringBuilder(), document.getGraph()).toString();
         });
         documentModel.put("graph", (Callable<String>) () -> {
-            return renderGraph(new StringBuilder(), model).toString();
+            return renderGraph(new StringBuilder(), document.getGraph()).toString();
         });
-        if (annotation != null) {
+        if (!document.getAnnotations().isEmpty()) {
             documentModel.put("naf", (Callable<String>) () -> {
-                return annotation.toString();
+                final StringWriter writer = new StringWriter();
+                for (final Annotation annotation : document.getAnnotations()) {
+                    annotation.write(writer);
+                }
+                return writer.toString();
             });
         }
 

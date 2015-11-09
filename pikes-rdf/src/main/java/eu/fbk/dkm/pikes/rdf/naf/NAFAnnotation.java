@@ -50,6 +50,11 @@ public final class NAFAnnotation extends Annotation {
     }
 
     @Override
+    public String getText() {
+        return this.document.getRawText();
+    }
+
+    @Override
     public Format getFormat() {
         return FORMAT;
     }

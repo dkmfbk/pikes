@@ -36,6 +36,7 @@ import ixa.kaflib.Timex3;
 import ixa.kaflib.WF;
 
 import eu.fbk.dkm.pikes.rdf.api.Annotation;
+import eu.fbk.dkm.pikes.rdf.api.Document;
 import eu.fbk.dkm.pikes.rdf.api.Extractor;
 import eu.fbk.dkm.pikes.rdf.util.ModelUtil;
 import eu.fbk.dkm.pikes.rdf.util.OWLTime.Duration;
@@ -49,21 +50,21 @@ import eu.fbk.dkm.utils.vocab.NIF;
 import eu.fbk.rdfpro.RDFHandlers;
 import eu.fbk.rdfpro.util.Hash;
 import eu.fbk.rdfpro.util.QuadModel;
+import eu.fbk.rdfpro.util.Statements;
 
 public class NAFExtractor implements Extractor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NAFExtractor.class);
 
     @Override
-    public void extract(final Annotation annotation, final QuadModel model) throws Exception {
-        if (annotation instanceof NAFAnnotation) {
-            new Extraction(annotation.getURI(), model, ((NAFAnnotation) annotation).getDocument())
-                    .run();
+    public void extract(final Document document) throws Exception {
+        final URI uri = document.getURI();
+        for (final Annotation annotation : document.getAnnotations()) {
+            if (annotation instanceof NAFAnnotation) {
+                new Extraction(uri, document.getGraph(),
+                        ((NAFAnnotation) annotation).getDocument()).run();
+            }
         }
-    }
-
-    public void extract(final URI uri, final QuadModel model, final KAFDocument naf) {
-        new Extraction(uri, model, naf).run();
     }
 
     private static boolean isAttributeTerm(final Term term) {
@@ -83,9 +84,10 @@ public class NAFExtractor implements Extractor {
 
         private final URI documentURI;
 
+        private final URI contextURI;
+
         private final Map<Term, InstanceMention> mentions;
 
-        @SuppressWarnings("deprecation")
         Extraction(final URI uri, final QuadModel model, final KAFDocument document) {
 
             // Reconstruct the document text using term offsets to avoid alignment issues
@@ -105,10 +107,11 @@ public class NAFExtractor implements Extractor {
             // Initialize the object
             this.model = model;
             this.document = document;
-            this.vf = model.getValueFactory();
+            this.vf = Statements.VALUE_FACTORY;
             this.documentText = builder.toString();
-            this.documentURI = uri != null ? uri : this.vf.createURI(Util.cleanIRI(document
-                    .getPublic().uri));
+            this.documentURI = uri;
+            this.contextURI = (URI) Iterables.getOnlyElement(
+                    model.filter(null, NIF.SOURCE_URL, uri).subjects(), null);
             this.mentions = Maps.newHashMap();
         }
 
@@ -201,9 +204,16 @@ public class NAFExtractor implements Extractor {
             // Emit title, author and DCT from the <fileDesc> element, if present
             if (this.document.getFileDesc() != null) {
                 final FileDesc fd = this.document.getFileDesc();
-                this.model.add(docURI, DCTERMS.TITLE, this.vf.createLiteral(fd.title));
-                this.model.add(docURI, DCTERMS.CREATOR, this.vf.createLiteral(fd.author));
-                this.model.add(docURI, DCTERMS.CREATED, this.vf.createLiteral(fd.creationtime));
+                if (!Strings.isNullOrEmpty(fd.title)) {
+                    this.model.add(docURI, DCTERMS.TITLE, this.vf.createLiteral(fd.title));
+                }
+                if (!Strings.isNullOrEmpty(fd.author)) {
+                    this.model.add(docURI, DCTERMS.CREATOR, this.vf.createLiteral(fd.author));
+                }
+                if (!Strings.isNullOrEmpty(fd.creationtime)) {
+                    this.model.add(docURI, DCTERMS.CREATED, //
+                            this.vf.createLiteral(fd.creationtime));
+                }
             }
 
             // Emit the document language, if available
@@ -240,9 +250,14 @@ public class NAFExtractor implements Extractor {
             // Emit types, version and publicId of NAF resource
             this.model.add(nafURI, RDF.TYPE, KS.RESOURCE);
             this.model.add(nafURI, RDF.TYPE, KS.NAF);
-            this.model.add(nafURI, KS.VERSION, this.vf.createLiteral(this.document.getVersion()));
-            this.model.add(nafURI, DCTERMS.IDENTIFIER,
-                    this.vf.createLiteral(this.document.getPublic().publicId));
+            if (!Strings.isNullOrEmpty(this.document.getVersion())) {
+                this.model.add(nafURI, KS.VERSION,
+                        this.vf.createLiteral(this.document.getVersion()));
+            }
+            if (!Strings.isNullOrEmpty(this.document.getPublic().publicId)) {
+                this.model.add(nafURI, DCTERMS.IDENTIFIER,
+                        this.vf.createLiteral(this.document.getPublic().publicId));
+            }
 
             // Emit information about linguistic processors: dct:created, dct:creatro, ego:layer
             String timestamp = null;
@@ -259,10 +274,15 @@ public class NAFExtractor implements Extractor {
                         }
                     }
                     final URI lpURI = this.vf.createURI(ModelUtil.cleanIRI(KS.NAMESPACE
-                            + lp.getName() + '.' + lp.getVersion()));
+                            + lp.getName().replace(' ', '_').replaceAll("[()*]", "")
+                            + (lp.getVersion() == null ? "" : '_' + lp.getVersion())));
                     this.model.add(nafURI, DCTERMS.CREATOR, lpURI);
-                    this.model.add(lpURI, DCTERMS.TITLE, this.vf.createLiteral(lp.getName()));
-                    this.model.add(lpURI, KS.VERSION, this.vf.createLiteral(lp.getVersion()));
+                    if (lp.getName() != null) {
+                        this.model.add(lpURI, DCTERMS.TITLE, this.vf.createLiteral(lp.getName()));
+                    }
+                    if (lp.getVersion() != null) {
+                        this.model.add(lpURI, KS.VERSION, this.vf.createLiteral(lp.getVersion()));
+                    }
                 }
             }
             this.model.add(nafURI, DCTERMS.CREATED, this.vf.createLiteral(timestamp));
@@ -380,7 +400,7 @@ public class NAFExtractor implements Extractor {
                         rolesetURI = this.vf.createURI(
                                 "http://www.newsreader-project.eu/ontologies/nombank/",
                                 ref.getReference());
-                    } else if (ref.getResource().equals("propbank")) {
+                    } else if (ref.getResource().equalsIgnoreCase("propbank")) {
                         rolesetURI = this.vf.createURI(
                                 "http://www.newsreader-project.eu/ontologies/propbank/",
                                 ref.getReference());
@@ -463,7 +483,7 @@ public class NAFExtractor implements Extractor {
                             Collections.singleton(head), "(COORD CONJ?)*")) {
                         if (span.getTargets().contains(term)) {
                             final InstanceMention mention = this.mentions.get(term);
-                            if (mention.head == term) {
+                            if (mention != null && mention.head == term) {
                                 uris.add(mention.uri);
                                 extent.addAll(mention.extent);
                             }
@@ -531,7 +551,7 @@ public class NAFExtractor implements Extractor {
                         roleURI = this.vf.createURI(
                                 "http://www.newsreader-project.eu/ontologies/nombank/",
                                 ref.getReference() + "_" + semRole);
-                    } else if (ref.getResource().equals("propbank")) {
+                    } else if (ref.getResource().equalsIgnoreCase("propbank")) {
                         roleURI = this.vf.createURI(
                                 "http://www.newsreader-project.eu/ontologies/propbank/",
                                 ref.getReference() + "_" + semRole);
@@ -549,7 +569,7 @@ public class NAFExtractor implements Extractor {
 
             // Emit the links to predicate and argument, as well as the role triple
             this.model.add(mentionURI, KS.ROLE, roleURI);
-            this.model.add(mentionURI, KS.FRAME, predMention.uri);
+            this.model.add(mentionURI, KS.FRAME_PROPERTY, predMention.uri);
             this.model.add(mentionURI, KS.ARGUMENT, argMention.uri);
         }
 
@@ -591,6 +611,9 @@ public class NAFExtractor implements Extractor {
                 // Generate mention URI and NIF triples and create corresponding Mention object
                 final URI mentionURI = emitNIF(terms);
                 mention = new InstanceMention(mentionURI, head, terms);
+                for (final Term term : terms) {
+                    this.mentions.put(term, mention);
+                }
 
                 // Link the mention to the document
                 this.model.add(mention.uri, KS.MENTION_OF, this.documentURI);
@@ -691,8 +714,11 @@ public class NAFExtractor implements Extractor {
                 for (final URI componentURI : componentURIs) {
                     this.model.add(uri, KS.COMPONENT_SUB_STRING, componentURI);
                 }
+            } else {
+                this.model.add(uri, RDF.TYPE, NIF.RFC5147_STRING);
             }
 
+            this.model.add(uri, NIF.REFERENCE_CONTEXT, this.contextURI);
             this.model.add(uri, NIF.BEGIN_INDEX, this.vf.createLiteral(begin));
             this.model.add(uri, NIF.END_INDEX, this.vf.createLiteral(offset));
             this.model.add(uri, NIF.ANCHOR_OF, this.vf.createLiteral(anchor));

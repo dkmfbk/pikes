@@ -92,6 +92,8 @@ public abstract class Annotation {
 
     public abstract URI getURI();
 
+    public abstract String getText();
+
     public abstract Format getFormat();
 
     public void write(final OutputStream out) throws IOException {

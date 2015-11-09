@@ -2,21 +2,34 @@ package eu.fbk.dkm.pikes.rdf.api;
 
 import java.util.Map;
 
-import eu.fbk.rdfpro.util.QuadModel;
-
 public interface Annotator {
 
-    Annotation annotate(QuadModel model) throws Exception;
+    void annotate(Document document) throws Exception;
 
-    static Annotator newHttpRestAnnotator(final String url, final boolean post,
-            final Map<String, String> parameters, final Map<String, String> headers,
-            final Annotation.Format format) {
-        return new HttpRestAnnotator(url, post, parameters, headers, format);
+    public static Annotator concat(final Annotator... annotators) {
+        return new Annotator() {
+
+            private final Annotator[] delegates = annotators.clone();
+
+            @Override
+            public void annotate(final Document document) throws Exception {
+                for (final Annotator annotator : this.delegates) {
+                    annotator.annotate(document);
+                }
+            }
+
+        };
     }
 
-    static Annotator newRoundRobinAnnotator(final Annotator... annotators) {
+    static Annotator roundRobin(final Annotator... annotators) {
         // TODO
         return null;
+    }
+
+    static Annotator newHttpAnnotator(final String url, final boolean post,
+            final Map<String, String> parameters, final Map<String, String> headers,
+            final Annotation.Format format) {
+        return new HttpAnnotator(url, post, parameters, headers, format);
     }
 
 }
