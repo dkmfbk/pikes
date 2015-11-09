@@ -1,28 +1,59 @@
 package eu.fbk.dkm.pikes.resources;
 
-import com.google.common.base.*;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Consumer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.annotation.Nullable;
+
+import com.google.common.base.Charsets;
+import com.google.common.base.Joiner;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import com.google.common.collect.*;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 import com.google.common.io.Resources;
-import eu.fbk.dkm.utils.Util;
-import eu.fbk.dkm.utils.vocab.SUMO;
-import ixa.kaflib.*;
-import ixa.kaflib.Opinion.OpinionExpression;
-import ixa.kaflib.Opinion.OpinionHolder;
-import ixa.kaflib.Opinion.OpinionTarget;
-import ixa.kaflib.Predicate;
-import ixa.kaflib.Predicate.Role;
+
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.URIImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nullable;
-import java.io.IOException;
-import java.util.*;
-import java.util.function.Consumer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import ixa.kaflib.Coref;
+import ixa.kaflib.Dep;
+import ixa.kaflib.Entity;
+import ixa.kaflib.ExternalRef;
+import ixa.kaflib.KAFDocument;
+import ixa.kaflib.LinkedEntity;
+import ixa.kaflib.Opinion;
+import ixa.kaflib.Opinion.OpinionExpression;
+import ixa.kaflib.Opinion.OpinionHolder;
+import ixa.kaflib.Opinion.OpinionTarget;
+import ixa.kaflib.Predicate;
+import ixa.kaflib.Predicate.Role;
+import ixa.kaflib.Span;
+import ixa.kaflib.Term;
+import ixa.kaflib.Timex3;
+import ixa.kaflib.WF;
+
+import eu.fbk.dkm.utils.Util;
+import eu.fbk.dkm.utils.vocab.SUMO;
 
 /**
  * A filter for the post-processing of a NAF document.
@@ -92,6 +123,12 @@ public final class NAFFilter implements Consumer<KAFDocument> {
 
     private final boolean corefSpanFixing;
 
+    private final boolean srlPreprocess;
+
+    private final boolean srlEnableMate;
+
+    private final boolean srlEnableSemafor;
+
     private final boolean srlRemoveWrongRefs;
 
     private final boolean srlRemoveUnknownPredicates;
@@ -111,29 +148,32 @@ public final class NAFFilter implements Consumer<KAFDocument> {
     private final boolean opinionLinkingUsingCoref;
 
     private NAFFilter(final Builder builder) {
-        this.termSenseFiltering = Objects.firstNonNull(builder.termSenseFiltering, true);
-        this.termSenseCompletion = Objects.firstNonNull(builder.termSenseCompletion, true);
-        this.entityRemoveOverlaps = Objects.firstNonNull(builder.entityRemoveOverlaps, true);
-        this.entitySpanFixing = Objects.firstNonNull(builder.entitySpanFixing, true);
-        this.entityAddition = Objects.firstNonNull(builder.entityAddition, true);
-        this.entityValueNormalization = Objects.firstNonNull(builder.entityValueNormalization,
+        this.termSenseFiltering = MoreObjects.firstNonNull(builder.termSenseFiltering, true);
+        this.termSenseCompletion = MoreObjects.firstNonNull(builder.termSenseCompletion, true);
+        this.entityRemoveOverlaps = MoreObjects.firstNonNull(builder.entityRemoveOverlaps, true);
+        this.entitySpanFixing = MoreObjects.firstNonNull(builder.entitySpanFixing, true);
+        this.entityAddition = MoreObjects.firstNonNull(builder.entityAddition, true);
+        this.entityValueNormalization = MoreObjects.firstNonNull(builder.entityValueNormalization,
                 true);
-        this.linkingCompletion = Objects.firstNonNull(builder.linkingCompletion, true);
-        this.linkingFixing = Objects.firstNonNull(builder.linkingFixing, false);
-        this.corefForRoleDependencies = Objects.firstNonNull(builder.corefForRoleDependencies,
+        this.linkingCompletion = MoreObjects.firstNonNull(builder.linkingCompletion, true);
+        this.linkingFixing = MoreObjects.firstNonNull(builder.linkingFixing, false);
+        this.corefForRoleDependencies = MoreObjects.firstNonNull(builder.corefForRoleDependencies,
                 false);
-        this.corefSpanFixing = Objects.firstNonNull(builder.corefSpanFixing, false);
-        this.srlRemoveWrongRefs = Objects.firstNonNull(builder.srlRemoveWrongRefs, true);
-        this.srlRemoveUnknownPredicates = Objects.firstNonNull(builder.srlRemoveUnknownPredicates,
-                false);
-        this.srlPredicateAddition = Objects.firstNonNull(builder.srlPredicateAddition, true);
-        this.srlSelfArgFixing = Objects.firstNonNull(builder.srlSelfArgFixing, true);
-        this.srlSenseMapping = Objects.firstNonNull(builder.srlSenseMapping, true);
-        this.srlRoleLinking = Objects.firstNonNull(builder.srlRoleLinking, true);
-        this.srlRoleLinkingUsingCoref = Objects.firstNonNull(builder.srlRoleLinkingUsingCoref,
+        this.corefSpanFixing = MoreObjects.firstNonNull(builder.corefSpanFixing, false);
+        this.srlPreprocess = MoreObjects.firstNonNull(builder.srlPreprocess, true);
+        this.srlEnableMate = MoreObjects.firstNonNull(builder.srlEnableMate, true);
+        this.srlEnableSemafor = MoreObjects.firstNonNull(builder.srlEnableSemafor, true);
+        this.srlRemoveWrongRefs = MoreObjects.firstNonNull(builder.srlRemoveWrongRefs, true);
+        this.srlRemoveUnknownPredicates = MoreObjects.firstNonNull(
+                builder.srlRemoveUnknownPredicates, false);
+        this.srlPredicateAddition = MoreObjects.firstNonNull(builder.srlPredicateAddition, true);
+        this.srlSelfArgFixing = MoreObjects.firstNonNull(builder.srlSelfArgFixing, true);
+        this.srlSenseMapping = MoreObjects.firstNonNull(builder.srlSenseMapping, true);
+        this.srlRoleLinking = MoreObjects.firstNonNull(builder.srlRoleLinking, true);
+        this.srlRoleLinkingUsingCoref = MoreObjects.firstNonNull(builder.srlRoleLinkingUsingCoref,
                 true);
-        this.opinionLinking = Objects.firstNonNull(builder.opinionLinking, true);
-        this.opinionLinkingUsingCoref = Objects.firstNonNull(builder.opinionLinkingUsingCoref,
+        this.opinionLinking = MoreObjects.firstNonNull(builder.opinionLinking, true);
+        this.opinionLinkingUsingCoref = MoreObjects.firstNonNull(builder.opinionLinkingUsingCoref,
                 true);
     }
 
@@ -184,6 +224,9 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         }
 
         // SRL-level filtering
+        if (this.srlPreprocess) {
+            applySRLPreprocess(document);
+        }
         if (this.srlRemoveWrongRefs) {
             applySRLRemoveWrongRefs(document);
         }
@@ -776,6 +819,114 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                     }
                     LOGGER.debug(builder.toString());
                 }
+            }
+        }
+    }
+
+    private void applySRLPreprocess(final KAFDocument document) {
+
+        // Allocate two maps to store term -> predicate pairs
+        final Map<Term, Predicate> matePredicates = Maps.newHashMap();
+        final Map<Term, Predicate> semaforPredicates = Maps.newHashMap();
+
+        // TODO: remove once fixed - normalize Semafor roles
+        if (this.srlEnableSemafor) {
+            for (final Predicate predicate : document.getPredicates()) {
+                if (predicate.getId().startsWith("f_pr")) {
+                    for (final Role role : predicate.getRoles()) {
+                        role.setSemRole("");
+                        final Term head = NAFUtils.extractHead(document, role.getSpan());
+                        if (head != null) {
+                            final Span<Term> newSpan = KAFDocument.newTermSpan(Ordering.from(
+                                    Term.OFFSET_COMPARATOR).sortedCopy(
+                                    document.getTermsByDepAncestors(ImmutableList.of(head))));
+                            role.setSpan(newSpan);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Remove predicates from non-enabled tools (Mate, Semafor)
+        for (final Predicate predicate : Lists.newArrayList(document.getPredicates())) {
+            final boolean isSemafor = predicate.getId().startsWith("f_pr");
+            if (isSemafor && !this.srlEnableSemafor || !isSemafor && !this.srlEnableMate) {
+                document.removeAnnotation(predicate);
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("Removed " + NAFUtils.toString(predicate) + " (disabled)");
+                }
+            } else {
+                final Term term = NAFUtils.extractHead(document, predicate.getSpan());
+                (isSemafor ? semaforPredicates : matePredicates).put(term, predicate);
+            }
+        }
+
+        // For each Semafor predicate, merge a corresponding Mate predicate for the same term
+        for (final Map.Entry<Term, Predicate> entry : semaforPredicates.entrySet()) {
+            final Term term = entry.getKey();
+            final Predicate semaforPredicate = entry.getValue();
+            final Predicate matePredicate = matePredicates.get(term);
+            if (matePredicate != null) {
+
+                // Determine whether FrameNet predicate corresponds (-> FN data can be merged)
+                final ExternalRef semaforRef = NAFUtils.getRef(semaforPredicate, "FrameNet", null);
+                final ExternalRef mateRef = NAFUtils.getRef(matePredicate, "FrameNet", null);
+                final boolean mergeFramenet = semaforRef != null && mateRef != null
+                        && semaforRef.getReference().equalsIgnoreCase(mateRef.getReference());
+
+                // Merge predicate types
+                for (final ExternalRef ref : NAFUtils.getRefs(matePredicate, null, null)) {
+                    if (!ref.getResource().equalsIgnoreCase("FrameNet")) {
+                        NAFUtils.addRef(semaforPredicate, new ExternalRef(ref));
+                    }
+                }
+
+                // Merge roles
+                for (final Role mateRole : matePredicate.getRoles()) {
+                    boolean addRole = true;
+                    final Set<Term> mateTerms = ImmutableSet.copyOf(mateRole.getSpan()
+                            .getTargets());
+                    for (final Role semaforRole : semaforPredicate.getRoles()) {
+                        final Set<Term> semaforTerms = ImmutableSet.copyOf(semaforRole.getSpan()
+                                .getTargets());
+                        if (mateTerms.equals(semaforTerms)) {
+                            addRole = false;
+                            semaforRole.setSemRole(mateRole.getSemRole());
+                            final boolean addFramenetRef = mergeFramenet
+                                    && NAFUtils.getRef(semaforRole, "FrameNet", null) != null;
+                            for (final ExternalRef ref : mateRole.getExternalRefs()) {
+                                if (!ref.getResource().equalsIgnoreCase("FrameNet")
+                                        || addFramenetRef) {
+                                    semaforRole.addExternalRef(new ExternalRef(ref));
+                                }
+                            }
+                        }
+                    }
+                    if (addRole) {
+                        final Role semaforRole = document.newRole(semaforPredicate,
+                                mateRole.getSemRole(), mateRole.getSpan());
+                        semaforPredicate.addRole(semaforRole);
+                        for (final ExternalRef ref : mateRole.getExternalRefs()) {
+                            semaforRole.addExternalRef(new ExternalRef(ref));
+                        }
+                    }
+                }
+
+                // Delete original Mate predicate
+                document.removeAnnotation(matePredicate);
+
+                // Log operation
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("Merged " + NAFUtils.toString(matePredicate) + " into "
+                            + NAFUtils.toString(semaforPredicate)
+                            + (mergeFramenet ? " (including FrameNet data)" : ""));
+                }
+
+            } else if (this.srlEnableMate) {
+                // TODO: HACK FOR REMOVING FINE-GRAINED FRAMENET FRAMES
+//                document.removeAnnotation(semaforPredicate);
+//                LOGGER.debug("Deleted " + NAFUtils.toString(semaforPredicate)
+//                        + " as there is no matching Mate predicate");
             }
         }
     }
@@ -1392,6 +1543,15 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         private Boolean corefForRoleDependencies;
 
         @Nullable
+        private Boolean srlPreprocess;
+
+        @Nullable
+        private Boolean srlEnableMate;
+
+        @Nullable
+        private Boolean srlEnableSemafor;
+
+        @Nullable
         private Boolean srlRemoveWrongRefs;
 
         @Nullable
@@ -1639,6 +1799,27 @@ public final class NAFFilter implements Consumer<KAFDocument> {
          */
         public Builder withCorefSpanFixing(@Nullable final Boolean corefSpanFixing) {
             this.corefSpanFixing = corefSpanFixing;
+            return this;
+        }
+
+        /**
+         * Specifies whether to preprocess SRL layer, enabling Mate and/or Semafor outputs. If
+         * both tools are enabled, they are combined in such a way that semafor takes precedence
+         * in case two predicates refer to the same token.
+         *
+         * @param srlPreprocess
+         *            true, to enable preprocessing of SRL layer
+         * @param srlEnableMate
+         *            true, to enable Mate output
+         * @param srlEnableSemafor
+         *            true, to enable Semafor output
+         * @return this builder object, for call chaining
+         */
+        public Builder withSRLPreprocess(@Nullable final Boolean srlPreprocess,
+                @Nullable final Boolean srlEnableMate, @Nullable final Boolean srlEnableSemafor) {
+            this.srlPreprocess = srlPreprocess;
+            this.srlEnableMate = srlEnableMate;
+            this.srlEnableSemafor = srlEnableSemafor;
             return this;
         }
 

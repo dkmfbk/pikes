@@ -8,6 +8,7 @@ import java.util.Set;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
@@ -123,6 +124,7 @@ public class Aligner {
 
         Map<URI, URI> bestMapping = baseMapping;
         PrecisionRecall bestPR = null;
+        int bestCount = 0;
 
         final int[] tps = new int[alternativesCount];
         if (alternativesCount == 1) {
@@ -140,8 +142,14 @@ public class Aligner {
                     mapping.put(testNode, goldNode);
                 }
                 final PrecisionRecall pr = evaluate(goldRelations, testRelations, mapping);
-                if (bestPR == null || pr.getTP() > bestPR.getTP()) {
+                final int count = ImmutableSet.copyOf(mapping.values()).size();
+                if (bestPR != null && pr.getTP() == bestPR.getTP() && count == bestCount) {
+                    System.out.println(bestPR);
+                }
+                if (bestPR == null || pr.getTP() > bestPR.getTP() || pr.getTP() == bestPR.getTP()
+                        && count > bestCount) {
                     bestPR = pr;
+                    bestCount = count;
                     bestMapping = mapping;
                 }
                 tps[i] = (int) pr.getTP();
@@ -211,11 +219,12 @@ public class Aligner {
         }
         final Set<Relation> relations = Sets.newHashSet();
         for (final Statement stmt : stmts) {
-            if (!stmt.getPredicate().equals(EVAL.ASSOCIABLE_TO)
+            if (!stmt.getPredicate().equals(EVAL.CLASSIFIABLE_AS)
+                    && !stmt.getPredicate().equals(EVAL.ASSOCIABLE_TO)
                     && !stmt.getPredicate().equals(EVAL.NOT_ASSOCIABLE_TO)
                     && !stmt.getSubject().equals(stmt.getObject()) //
                     && nodes.contains(stmt.getSubject()) //
-                    && nodes.contains(stmt.getObject())) {
+                    && (nodes.contains(stmt.getObject()) || stmt.getPredicate().equals(RDF.TYPE))) {
                 relations
                         .add(new Relation((URI) stmt.getSubject(), (URI) stmt.getObject(), false));
             }

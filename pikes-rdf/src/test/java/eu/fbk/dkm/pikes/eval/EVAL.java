@@ -37,6 +37,8 @@ public class EVAL {
 
     public static final URI NOT_ASSOCIABLE_TO = createURI("notAssociableTo");
 
+    public static final URI CLASSIFIABLE_AS = createURI("classifiableAs");
+
     private static URI createURI(final String localName) {
         return ValueFactoryImpl.getInstance().createURI(NAMESPACE, localName);
     }
