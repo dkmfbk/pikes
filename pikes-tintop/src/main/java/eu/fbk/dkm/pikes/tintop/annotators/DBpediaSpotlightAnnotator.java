@@ -68,25 +68,6 @@ public class DBpediaSpotlightAnnotator implements Annotator {
 						token.set(PikesAnnotations.DBpediaSpotlightAnnotation.class, startEntity);
 					}
 				}
-
-//
-//				String[] annaTokens = new String[tokens.size() + 1];
-//				annaTokens[0] = "<ROOT>";
-//
-//				for (int i = 0, sz = tokens.size(); i < sz; i++) {
-//					CoreLabel thisToken = tokens.get(i);
-//					annaTokens[i + 1] = thisToken.originalText();
-//				}
-//
-//				SentenceData09 instance = new SentenceData09();
-//				instance.init(annaTokens);
-//				tagger.apply(instance);
-//
-//				for (int i = 0, sz = tokens.size(); i < sz; i++) {
-//					CoreLabel thisToken = tokens.get(i);
-//					String pos = AnnotatorUtils.parenthesisToCode(instance.ppos[i + 1]);
-//					thisToken.set(CoreAnnotations.PartOfSpeechAnnotation.class, pos);
-//				}
 			}
 		}
 		else {

@@ -26,6 +26,9 @@ public class PikesAnnotations {
 	public static final String PIKES_SRL = "srl";
 	public static final Annotator.Requirement SRL_REQUIREMENT = new Annotator.Requirement(PIKES_SRL);
 
+	public static final String PIKES_SEMAFOR = "semafor";
+	public static final Annotator.Requirement SEMAFOR_REQUIREMENT = new Annotator.Requirement(PIKES_SEMAFOR);
+
 	public static final String PIKES_DBPS = "dbps";
 	public static final Annotator.Requirement DBPS_REQUIREMENT = new Annotator.Requirement(PIKES_DBPS);
 
