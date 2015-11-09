@@ -4,258 +4,271 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Predicate extends IReferable implements Serializable {
 
     public static class Role implements Serializable {
-	private String rid;
-	private String semRole;
-	private Span<Term> span;
-	private List<ExternalRef> externalReferences;
-	private List<String> flags;
 
-	Role(String id, String semRole, Span span) {
-	    this.rid = id;
-	    this.semRole = semRole;
-	    this.span = span;
-	    this.externalReferences = new ArrayList<ExternalRef>();
-	    this.flags = new ArrayList<String>();
-	}
+        private String rid;
+        private String semRole;
+        private Span<Term> span;
+        private List<ExternalRef> externalReferences;
+        private List<String> flags;
 
-		@Override
-		public String toString() {
-			return "Role{" +
-					semRole + " -> " +
-					span.getStr() +
-					'}';
-		}
+        Role(String id, String semRole, Span span) {
+            this.rid = id;
+            this.semRole = semRole;
+            this.span = span;
+            this.externalReferences = new ArrayList<ExternalRef>();
+            this.flags = new ArrayList<String>();
+        }
 
-		public String getId() {
-	    return this.rid;
-	}
+        @Override
+        public String toString() {
+            return "Role{" +
+                    semRole + " -> " +
+                    span.getStr() +
+                    '}';
+        }
 
-	public void setId(String id) {
-	    this.rid = id;
-	}
+        public String getId() {
+            return this.rid;
+        }
 
-	public String getSemRole() {
-	    return this.semRole;
-	}
+        public void setId(String id) {
+            this.rid = id;
+        }
 
-	public void setSemRole(String semRole) {
-	    this.semRole = semRole;
-	}
+        public String getSemRole() {
+            return this.semRole;
+        }
 
-	public Span<Term> getSpan() {
-	    return this.span;
-	}
+        public void setSemRole(String semRole) {
+            this.semRole = semRole;
+        }
 
-	public void setSpan(Span<Term> span) {
-	    this.span = span;
-	}
+        public Span<Term> getSpan() {
+            return this.span;
+        }
 
-	public List<Term> getTerms() {
-	    return this.span.getTargets();
-	}
+        public void setSpan(Span<Term> span) {
+            this.span = span;
+        }
 
-	public void addTerm(Term term) {
-	    this.span.addTarget(term);
-	}
-	
-	public void addTerm(Term term, boolean isHead) {
-	    this.span.addTarget(term, isHead);
-	}
+        public List<Term> getTerms() {
+            return this.span.getTargets();
+        }
 
-	public String getStr() {
-	    String str = "";
-	    for (Term term : this.span.getTargets()) {
-		if (!str.isEmpty()) {
-		    str += " ";
-		}
-		str += term.getStr();
-	    }
-	    return str;
-	}
-	
-	public ExternalRef getExternalRef(String resource) {
-	    for (ExternalRef ref : externalReferences) {
-	        if (ref.getResource().equalsIgnoreCase(resource)) {
-	            return ref;
-	        }
-	    }
-	    return null;
-    }
+        public void addTerm(Term term) {
+            this.span.addTarget(term);
+        }
 
+        public void addTerm(Term term, boolean isHead) {
+            this.span.addTarget(term, isHead);
+        }
 
-	public List<ExternalRef> getExternalRefs() {
-	    return externalReferences;
-	}
+        public String getStr() {
+            String str = "";
+            for (Term term : this.span.getTargets()) {
+                if (!str.isEmpty()) {
+                    str += " ";
+                }
+                str += term.getStr();
+            }
+            return str;
+        }
 
-	public void addExternalRef(ExternalRef externalRef) {
-	    externalReferences.add(externalRef);
-	}
+        public ExternalRef getExternalRef(String resource) {
+            for (ExternalRef ref : externalReferences) {
+                if (ref.getResource().equalsIgnoreCase(resource)) {
+                    return ref;
+                }
+            }
+            return null;
+        }
 
-	public void addExternalRefs(List<ExternalRef> externalRefs) {
-	    externalReferences.addAll(externalRefs);
-	}
-	
-    public List<String> getFlags() {
-    return this.flags;
-    }
-       
-    public void addFlag(String flag) {
-    if (!this.flags.contains(flag)) {
-        this.flags.add(flag);
-    }
-    }
-       
-    public void removeFlag(String flag) {
-    this.flags.remove(flag);
-    }
-	       
+        public List<ExternalRef> getExternalRefs() {
+            return externalReferences;
+        }
+
+        public void addExternalRef(ExternalRef externalRef) {
+            externalReferences.add(externalRef);
+        }
+
+        public void addExternalRefs(List<ExternalRef> externalRefs) {
+            externalReferences.addAll(externalRefs);
+        }
+
+        public List<String> getFlags() {
+            return this.flags;
+        }
+
+        public void addFlag(String flag) {
+            if (!this.flags.contains(flag)) {
+                this.flags.add(flag);
+            }
+        }
+
+        public void removeFlag(String flag) {
+            this.flags.remove(flag);
+        }
+
     }
 
     private String id;
     private String uri;
+    private String source;
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public boolean hasSource() {
+        return this.source != null;
+    }
+
     private float confidence;
     private Span<Term> span;
     private List<Role> roles;
     private List<ExternalRef> externalReferences;
     private List<String> flags;
-    
+
     Predicate(String id, Span<Term> span) {
-	this.id = id;
-	this.span = span;
-	this.roles = new ArrayList<Role>();
-	this.confidence = -1.0f;
-	this.externalReferences = new ArrayList<ExternalRef>();
-    this.flags = new ArrayList<String>();
+        this.id = id;
+        this.span = span;
+        this.roles = new ArrayList<Role>();
+        this.confidence = -1.0f;
+        this.externalReferences = new ArrayList<ExternalRef>();
+        this.flags = new ArrayList<String>();
     }
 
     public String getId() {
-	return this.id;
+        return this.id;
     }
 
     public void setId(String id) {
-	this.id = id;
+        this.id = id;
     }
 
     public boolean hasUri() {
-	return (this.uri != null);
+        return (this.uri != null);
     }
 
     public String getUri() {
-	return this.uri;
+        return this.uri;
     }
 
     public void setUri(String uri) {
-	this.uri = uri;
+        this.uri = uri;
     }
 
     public boolean hasConfidence() {
-	return confidence != -1.0f;
+        return confidence != -1.0f;
     }
 
     public float getConfidence() {
-	return confidence;
+        return confidence;
     }
 
     public void setConfidence(float confidence) {
-	this.confidence = confidence;
+        this.confidence = confidence;
     }
 
     public Span<Term> getSpan() {
-	return this.span;
+        return this.span;
     }
 
     public void setSpan(Span<Term> span) {
-	this.span = span;
+        this.span = span;
     }
 
     public List<Term> getTerms() {
-	return this.span.getTargets();
+        return this.span.getTargets();
     }
 
     public void addTerm(Term term) {
-	this.span.addTarget(term);
+        this.span.addTarget(term);
     }
-	
+
     public void addTerm(Term term, boolean isHead) {
-	this.span.addTarget(term, isHead);
+        this.span.addTarget(term, isHead);
     }
 
     public String getStr() {
-	String str = "";
-	if (!this.span.isEmpty()) {
-	    Term target = this.span.getFirstTarget();
-	    str += target.getId() + " " + target.getStr() + " ";
-	}
-	str += ":";
-	for (Role role : this.roles) {
-	    if (!role.span.isEmpty()) {
-		Term roleTarget = role.getSpan().getFirstTarget();
-		str += " " + role.getSemRole() + "[" + roleTarget.getId() + " " + roleTarget.getStr() + "]";
-	    }
-	}
-	return str;
+        String str = "";
+        if (!this.span.isEmpty()) {
+            Term target = this.span.getFirstTarget();
+            str += target.getId() + " " + target.getStr() + " ";
+        }
+        str += ":";
+        for (Role role : this.roles) {
+            if (!role.span.isEmpty()) {
+                Term roleTarget = role.getSpan().getFirstTarget();
+                str += " " + role.getSemRole() + "[" + roleTarget.getId() + " " + roleTarget.getStr() + "]";
+            }
+        }
+        return str;
     }
 
     public String getSpanStr() {
-	String str = "";
-	for (Term term : this.span.getTargets()) {
-	    if (!str.isEmpty()) {
-		str += " ";
-	    }
-	    str += term.getStr();
-	}
-	return str;
-    }
-    
-    public ExternalRef getExternalRef(String resource) {
-    for (ExternalRef ref : externalReferences) {
-        if (ref.getResource().equalsIgnoreCase(resource)) {
-            return ref;
+        String str = "";
+        for (Term term : this.span.getTargets()) {
+            if (!str.isEmpty()) {
+                str += " ";
+            }
+            str += term.getStr();
         }
+        return str;
     }
-    return null;
+
+    public ExternalRef getExternalRef(String resource) {
+        for (ExternalRef ref : externalReferences) {
+            if (ref.getResource().equalsIgnoreCase(resource)) {
+                return ref;
+            }
+        }
+        return null;
     }
 
     public List<ExternalRef> getExternalRefs() {
-	return externalReferences;
+        return externalReferences;
     }
 
     public void addExternalRef(ExternalRef externalRef) {
-	externalReferences.add(externalRef);
+        externalReferences.add(externalRef);
     }
 
     public void addExternalRefs(List<ExternalRef> externalRefs) {
-	externalReferences.addAll(externalRefs);
+        externalReferences.addAll(externalRefs);
     }
 
     public List<Role> getRoles() {
-	return this.roles;
+        return this.roles;
     }
 
     public void addRole(Role role) {
-	this.roles.add(role);
+        this.roles.add(role);
     }
-    
+
     public void removeRole(Role role) {
-    this.roles.remove(role);
+        this.roles.remove(role);
     }
-    
+
     public List<String> getFlags() {
-    return this.flags;
+        return this.flags;
     }
-    
+
     public void addFlag(String flag) {
-    if (!this.flags.contains(flag)) {
-        this.flags.add(flag);
+        if (!this.flags.contains(flag)) {
+            this.flags.add(flag);
+        }
     }
-    }
-    
+
     public void removeFlag(String flag) {
-    this.flags.remove(flag);
+        this.flags.remove(flag);
     }
-    
+
 }
