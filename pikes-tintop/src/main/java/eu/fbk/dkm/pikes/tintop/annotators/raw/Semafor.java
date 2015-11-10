@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
@@ -23,6 +24,13 @@ import java.util.Properties;
  */
 
 public class Semafor {
+
+    public static HashMap<String, String> conversionMap = new HashMap<>();
+    static {
+        conversionMap.put("TMP", "ADV");
+        conversionMap.put("CONJ", "CC");
+        conversionMap.put("NAME", "NMOD");
+    }
 
     public static class SemaforSpan {
         int start, end;

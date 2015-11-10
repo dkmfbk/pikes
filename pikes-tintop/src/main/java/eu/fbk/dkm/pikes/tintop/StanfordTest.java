@@ -2,27 +2,28 @@ package eu.fbk.dkm.pikes.tintop;
 
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
+import edu.stanford.nlp.ling.IndexedWord;
 import edu.stanford.nlp.ling.Word;
 import edu.stanford.nlp.neural.rnn.RNNCoreAnnotations;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
+import edu.stanford.nlp.semgraph.SemanticGraph;
+import edu.stanford.nlp.semgraph.SemanticGraphCoreAnnotations;
+import edu.stanford.nlp.semgraph.SemanticGraphEdge;
 import edu.stanford.nlp.sentiment.SentimentCoreAnnotations;
 import edu.stanford.nlp.trees.CollinsHeadFinder;
 import edu.stanford.nlp.trees.HeadFinder;
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.util.ArrayCoreMap;
 import edu.stanford.nlp.util.CoreMap;
-import eu.fbk.dkm.pikes.tintop.annotators.PikesAnnotations;
+import edu.stanford.nlp.util.Generics;
+import eu.fbk.dkm.pikes.tintop.annotators.DepParseInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import se.lth.cs.srl.SemanticRoleLabeler;
-import se.lth.cs.srl.languages.Language;
-import se.lth.cs.srl.pipeline.Pipeline;
 
 import java.io.PrintWriter;
 import java.util.*;
-import java.util.zip.ZipFile;
 
 /**
  * Created by alessio on 26/02/15.
@@ -90,6 +91,31 @@ public class StanfordTest {
 
 	}
 
+	private static String space(int width) {
+		StringBuilder b = new StringBuilder();
+		for (int i = 0; i < width; i++) {
+			b.append(' ');
+		}
+		return b.toString();
+	}
+
+	// helper for toString()
+	private static void recToString(IndexedWord curr, StringBuilder sb, int offset, Set<IndexedWord> used,
+			SemanticGraph dependencies, HashMap<Integer, String> depLabels, HashMap<Integer, Integer> depParents) {
+		used.add(curr);
+		List<SemanticGraphEdge> edges = dependencies.outgoingEdgeList(curr);
+		Collections.sort(edges);
+		for (SemanticGraphEdge edge : edges) {
+			IndexedWord target = edge.getTarget();
+			depParents.put(target.index(), edge.getSource().index());
+			depLabels.put(target.index(), edge.getRelation().toString());
+			sb.append(space(2 * offset)).append("-> ").append(target).append(" (").append(edge.getRelation()).append(")\n");
+			if (!used.contains(target)) { // recurse
+				recToString(target, sb, offset + 1, used, dependencies, depLabels, depParents);
+			}
+		}
+	}
+
 
 	public static void main(String[] args) {
 
@@ -120,17 +146,17 @@ public class StanfordTest {
 //		props.setProperty("dbps.min_confidence", "0.33");
 //		props.setProperty("dbps.timeout", "2000");
 
-		try {
-			ZipFile zipFile;
-			zipFile = new ZipFile(props.getProperty("conll_srl.model"));
-			SemanticRoleLabeler mateSrl = Pipeline.fromZipFile(zipFile);
-			zipFile.close();
-			Language.setLanguage(Language.L.valueOf("eng"));
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
-		}
-
-		System.exit(1);
+//		try {
+//			ZipFile zipFile;
+//			zipFile = new ZipFile(props.getProperty("conll_srl.model"));
+//			SemanticRoleLabeler mateSrl = Pipeline.fromZipFile(zipFile);
+//			zipFile.close();
+//			Language.setLanguage(Language.L.valueOf("eng"));
+//		} catch (Exception e) {
+//			LOGGER.error(e.getMessage());
+//		}
+//
+//		System.exit(1);
 
 //		props.setProperty("ukb.folder","ukb/");
 //		props.setProperty("ukb.model","models/wnet30_wnet30g_rels.bin");
@@ -140,16 +166,16 @@ public class StanfordTest {
 //		props.setProperty("tt_pos.home", "/Users/alessio/Desktop/treetagger");
 //		props.setProperty("tt_pos.model", "/Users/alessio/Desktop/treetagger/lib/english-utf8.par");
 
-		System.out.println("Load first annotator");
-		StanfordCoreNLP pipeline_pre = new StanfordCoreNLP(props);
-
-		// ---
+//		System.out.println("Load first annotator");
+//		StanfordCoreNLP pipeline_pre = new StanfordCoreNLP(props);
+//
+//		// ---
 
 		System.out.println("Loading other annotators");
 		StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
 
 
-		String onlyText = "Barack Obama spent ten euros to buy 10% of his company. The second god is more beautiful.";
+		String onlyText = "G. W. Bush and Bono are very strong supporters of the fight of HIV in Africa. Their March 2002 meeting resulted in a 5 billion dollar aid.";
 		Annotation s = new Annotation(onlyText);
 
 		Annotation myDoc = new Annotation(s);
@@ -157,18 +183,31 @@ public class StanfordTest {
 
 		List<CoreMap> sents = myDoc.get(CoreAnnotations.SentencesAnnotation.class);
 		for (CoreMap thisSent : sents) {
-			ArrayCoreMap sentenceCoreMap = (ArrayCoreMap) thisSent;
-			List<CoreLabel> tokens = sentenceCoreMap.get(CoreAnnotations.TokensAnnotation.class);
-			for (CoreLabel token : tokens) {
-				System.out.println(token);
-				System.out.println(token.get(CoreAnnotations.PartOfSpeechAnnotation.class));
-				System.out.println(token.get(CoreAnnotations.LemmaAnnotation.class));
-				System.out.println(token.get(PikesAnnotations.SimplePosAnnotation.class));
-				System.out.println(token.get(CoreAnnotations.CoNLLDepTypeAnnotation.class));
-				System.out.println(token.get(CoreAnnotations.CoNLLDepParentIndexAnnotation.class));
-				System.out.println(token.get(PikesAnnotations.DBpediaSpotlightAnnotation.class));
-				System.out.println();
-			}
+
+			SemanticGraph dependencies = thisSent.get(SemanticGraphCoreAnnotations.BasicDependenciesAnnotation.class);
+			DepParseInfo info = new DepParseInfo(dependencies);
+
+			System.out.println(info.getDepParents().size());
+			System.out.println(info.getDepLabels().size());
+
+			System.out.println(dependencies);
+
+//			System.out.println(dependencies.getFirstRoot().index());
+//			System.out.println(dependencies.getChildren(dependencies.getFirstRoot()));
+//			System.out.println(dependencies);
+
+//			ArrayCoreMap sentenceCoreMap = (ArrayCoreMap) thisSent;
+//			List<CoreLabel> tokens = sentenceCoreMap.get(CoreAnnotations.TokensAnnotation.class);
+//			for (CoreLabel token : tokens) {
+//				System.out.println(token);
+//				System.out.println(token.get(CoreAnnotations.PartOfSpeechAnnotation.class));
+//				System.out.println(token.get(CoreAnnotations.LemmaAnnotation.class));
+//				System.out.println(token.get(PikesAnnotations.SimplePosAnnotation.class));
+//				System.out.println(token.get(CoreAnnotations.CoNLLDepTypeAnnotation.class));
+//				System.out.println(token.get(CoreAnnotations.CoNLLDepParentIndexAnnotation.class));
+//				System.out.println(token.get(PikesAnnotations.DBpediaSpotlightAnnotation.class));
+//				System.out.println();
+//			}
 		}
 
 //			System.out.println(s);

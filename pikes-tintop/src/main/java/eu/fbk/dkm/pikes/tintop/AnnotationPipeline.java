@@ -14,6 +14,8 @@ import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.neural.rnn.RNNCoreAnnotations;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
+import edu.stanford.nlp.semgraph.SemanticGraph;
+import edu.stanford.nlp.semgraph.SemanticGraphCoreAnnotations;
 import edu.stanford.nlp.sentiment.SentimentCoreAnnotations;
 import edu.stanford.nlp.trees.CollinsHeadFinder;
 import edu.stanford.nlp.trees.HeadFinder;
@@ -25,6 +27,7 @@ import edu.stanford.nlp.util.IntPair;
 import eu.fbk.dkm.pikes.resources.*;
 import eu.fbk.dkm.pikes.resources.ontonotes.VerbNetStatisticsExtractor;
 import eu.fbk.dkm.pikes.tintop.annotators.AnnotatorUtils;
+import eu.fbk.dkm.pikes.tintop.annotators.DepParseInfo;
 import eu.fbk.dkm.pikes.tintop.annotators.PikesAnnotations;
 import eu.fbk.dkm.pikes.tintop.annotators.raw.AnnotatedEntity;
 import eu.fbk.dkm.pikes.tintop.annotators.raw.DBpediaSpotlight;
@@ -122,6 +125,8 @@ public class AnnotationPipeline {
     boolean enableEventCoref = false;
     boolean enableNafFilter = false;
     boolean enableOntoNotesFilter = false;
+
+    boolean useStanfordForSemafor = false;
 
     private boolean modelsLoaded = false;
 
@@ -224,6 +229,8 @@ public class AnnotationPipeline {
         stanfordProps.setProperty("annotators", annotators);
         stanfordProps.setProperty("anna_pos.model", config.getProperty("mate_model_pos", ""));
         stanfordProps.setProperty("dcoref.maxdist", "5");
+
+        useStanfordForSemafor = config.getProperty("semafor.use_stanford", "0").equals("1");
 
         stanfordProps
                 .setProperty("customAnnotatorClass.anna_pos", "eu.fbk.dkm.pikes.tintop.annotators.AnnaPosAnnotator");
@@ -1022,7 +1029,14 @@ public class AnnotationPipeline {
             // Semafor
             if (semafor != null) {
 
-                StringBuffer conll = new StringBuffer();
+                SemanticGraph dependencies = sentenceCoreMap.get(
+                        SemanticGraphCoreAnnotations.BasicDependenciesAnnotation.class);
+                DepParseInfo info = new DepParseInfo(dependencies);
+
+                logger.info(info.getDepLabels());
+                logger.info(info.getDepParents());
+
+                StringBuilder conll = new StringBuilder();
 
                 for (int i = 0; i < tokens.size(); i++) {
 
@@ -1042,12 +1056,27 @@ public class AnnotationPipeline {
                     int head = mateToken.getHeadId();
                     String parseLabel = mateToken.getDeprel();
 
+                    // Use Stanford?
+                    if (useStanfordForSemafor) {
+                        try {
+                            head = info.getDepParents().get(i + 1);
+                            parseLabel = info.getDepLabels().get(i + 1);
+                        } catch (Exception e) {
+                            //todo: check why sometimes it is broken (punctuation?)
+                            // e.printStackTrace();
+                        }
+                    } else {
+                        if (Semafor.conversionMap.containsKey(parseLabel)) {
+                            parseLabel = Semafor.conversionMap.get(parseLabel);
+                        }
+                    }
+
                     StringBuffer row = new StringBuffer();
                     row.append(i + 1);
                     row.append("\t");
                     row.append(form);
                     row.append("\t");
-                    row.append("_"); // why not lemma?
+                    row.append(lemma);
                     row.append("\t");
                     row.append(pos);
                     row.append("\t");
@@ -1065,6 +1094,8 @@ public class AnnotationPipeline {
 
                     conll.append(row.toString()).append("\n");
                 }
+
+                logger.info(conll.toString());
 
                 try {
                     Semafor.SemaforResponse semaforResponse = semafor.tag(conll.toString());
@@ -1100,6 +1131,7 @@ public class AnnotationPipeline {
                         predicate.setSource("semafor");
                         predicate.setConfidence(semaforAnnotation.getScore());
                         predicate.addExternalRef(NAFdocument.createExternalRef("FrameNet", frameName));
+                        predicate.setId("f_" + predicate.getId());
 
                         for (Semafor.SemaforAnnotation frameAnnotation : semaforAnnotation.getFrameElements()) {
                             Semafor.SemaforSpan roleSpan = frameAnnotation.getSpans().get(0);
@@ -1117,8 +1149,9 @@ public class AnnotationPipeline {
                             Predicate.Role role = NAFdocument.newRole(predicate, "", roleTermSpan);
                             final Term head = NAFUtils.extractHead(NAFdocument, role.getSpan());
                             if (head != null) {
-                                final Span<Term> newSpan = KAFDocument.newTermSpan(Ordering.from(Term.OFFSET_COMPARATOR).sortedCopy(
-                                        NAFdocument.getTermsByDepAncestors(ImmutableList.of(head))));
+                                final Span<Term> newSpan = KAFDocument
+                                        .newTermSpan(Ordering.from(Term.OFFSET_COMPARATOR).sortedCopy(
+                                                NAFdocument.getTermsByDepAncestors(ImmutableList.of(head))));
                                 role.setSpan(newSpan);
                             }
                             role.addExternalRef(NAFdocument.createExternalRef("FrameNet", frameName + "@" + roleName));

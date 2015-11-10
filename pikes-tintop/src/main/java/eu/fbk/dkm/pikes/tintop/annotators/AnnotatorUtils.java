@@ -1,10 +1,12 @@
 package eu.fbk.dkm.pikes.tintop.annotators;
 
 
+import edu.stanford.nlp.ling.IndexedWord;
+import edu.stanford.nlp.semgraph.SemanticGraph;
+import edu.stanford.nlp.semgraph.SemanticGraphEdge;
 import eu.fbk.dkm.pikes.tintop.util.POStagset;
 
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * Created by alessio on 18/05/15.
