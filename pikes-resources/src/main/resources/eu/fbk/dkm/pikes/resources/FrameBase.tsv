@@ -1,0 +1,2125 @@
+fe-Aggregate-AggregateProperty	aggregate@aggregateproperty
+fe-Businesses-Business_Name	businesses@business_name
+fe-Catastrophe-Undesirable_Event	catastrophe@undesirable_event
+fe-Cause_change_of_consistency-HotCold_source	cause_change_of_consistency@hotcold_source
+fe-Cause_change_of_position_on_a_scale-Co_Variable	cause_change_of_position_on_a_scale@co_variable
+fe-Cause_expansion-Co_Variable	cause_expansion@co_variable
+fe-Cause_motion-Initial_State	cause_motion@initial_state
+fe-Cause_proliferation_in_number-Co_Variable	cause_proliferation_in_number@co_variable
+fe-Cause_temperature_change-Hot_Cold_source	cause_temperature_change@hot_cold_source
+fe-Ceasing_to_be-Period_of_Iterations	ceasing_to_be@period_of_iterations
+fe-Coming_to_be-Period_of_Iterations	coming_to_be@period_of_iterations
+fe-Commerce_sell-Purpose_of_Goods	commerce_sell@purpose_of_goods
+fe-Compliance-State_of_Affairs	compliance@state_of_affairs
+fe-Conduct-Affected_Party	conduct@affected_party
+fe-Containment_relation_IS-Landmark	containment_relation_is@landmark
+fe-Containment_relation_IS-Profiled_region	containment_relation_is@profiled_region
+fe-Containment_relation_IS-Trajector	containment_relation_is@trajector
+fe-Convey_importance-Particular%20Iteration	convey_importance@particular%20iteration
+fe-Cooking_creation-Heating_Instrument	cooking_creation@heating_instrument
+fe-Desiring-Location_of_Event	desiring@location_of_event
+fe-Desiring-Purpose_of_Event	desiring@purpose_of_event
+fe-Desiring-Time_of_Event	desiring@time_of_event
+fe-Detaining-Holding_Location	detaining@holding_location
+fe-Event_instance-Instance_Prop	event_instance@instance_prop
+fe-Evidence-Domain_of_Relevance	evidence@domain_of_relevance
+fe-Extradition-Legal_Basis	extradition@legal_basis
+fe-Going_back_on_a_commitment-Re_Encoding	going_back_on_a_commitment@re_encoding
+fe-Hair_configuration-Hair_Property	hair_configuration@hair_property
+fe-Halt-Containing_Event	halt@containing_event
+fe-Impact-Period_of_Iterations	impact@period_of_iterations
+fe-Inclination-Containing_Event	inclination@containing_event
+fe-Information-Means_of_Gathering	information@means_of_gathering
+fe-Instance-Instance_Prop	instance@instance_prop
+fe-Into-Goal-Interior	into@goal-interior
+fe-Into-Source-Exterior	into@source-exterior
+fe-Labeling-Duration_Of_Final_State	labeling@duration_of_final_state
+fe-Labeling-Particular_Iteration	labeling@particular_iteration
+fe-Medical_conditions-Body_Part	medical_conditions@body_part
+fe-Observable_body_parts-Orientational_Location	observable_body_parts@orientational_location
+fe-Part_inner_outer-Part_Prop	part_inner_outer@part_prop
+fe-Part_orientational-Part_Prop	part_orientational@part_prop
+fe-Part_whole-Part_Prop	part_whole@part_prop
+fe-Passing-Initial_State	passing@initial_state
+fe-Planting-Co-Participant	planting@co-participant
+fe-Predicting-Time_of_Eventuality	predicting@time_of_eventuality
+fe-Preference-Location_of_Event	preference@location_of_event
+fe-Preference-Purpose_of_Event	preference@purpose_of_event
+fe-Preference-Time_of_Event	preference@time_of_event
+fe-Quantity-Q_Prop	quantity@q_prop
+fe-Reason-State_of_Affairs	reason@state_of_affairs
+fe-Relational_quantity-Q_Prop	relational_quantity@q_prop
+fe-Renting_out-Purpose_of_Goods	renting_out@purpose_of_goods
+fe-Resolve_problem-Containing_Event	resolve_problem@containing_event
+fe-Resolve_problem-Resultant_Situation	resolve_problem@resultant_situation
+fe-Revenge-Injured_Party	revenge@injured_party
+fe-Rite-New_Status	rite@new_status
+fe-Ruling_legally-Legal_Basis	ruling_legally@legal_basis
+fe-Shaped_part-Part_Prop	shaped_part@part_prop
+fe-Trajector-Landmark-Landmark	trajector-landmark@landmark
+fe-Trajector-Landmark-Profiled_region	trajector-landmark@profiled_region
+fe-Trajector-Landmark-Trajector	trajector-landmark@trajector
+fe-Travel-Period_of_Iterations	travel@period_of_iterations
+fe-Type-Item_Property	type@item_property
+fe-Type-Type_Property	type@type_property
+fe-Verdict-Legal_Basis	verdict@legal_basis
+frame-Abounding_with-adorned.a	abounding_with#decorated.a
+frame-Abounding_with-draped.a	abounding_with#cloaked.a
+frame-Abounding_with-spattered.a	abounding_with#splattered.a
+frame-Abounding_with-teem.v	abounding_with#swarm.v
+frame-Absorb_heat-sear.v	absorb_heat#scorch.v	absorb_heat#singe.v
+frame-Absorb_heat-stew.v	absorb_heat#simmer.v
+frame-Abundance-abound.v	abundance#abundant.a
+frame-Abusing-abuse.v	abusing#abuse.n	abusing#abusive.a	abusing#maltreat.v	abusing#maltreatment.n
+frame-Accompaniment-along_with.prep	accompaniment#along_with.c
+frame-Accompaniment-together_with.prep	accompaniment#together_with.c
+frame-Accompaniment-with.prep	accompaniment#with.c
+frame-Accomplishment-achieve.v	accomplishment#accomplish.v	accomplishment#accomplishment.n	accomplishment#achievement.n
+frame-Accoutrements-bangle.n	accoutrements#bracelet.n
+frame-Accoutrements-boater.n	accoutrements#panama.n
+frame-Accoutrements-crown.n	accoutrements#diadem.n
+frame-Accoutrements-glasses.n	accoutrements#spectacles.n
+frame-Accoutrements-medal.n	accoutrements#medallion.n	accoutrements#ribbon.n
+frame-Accuracy-accurately.adv	accuracy#accurate.a	accuracy#accurately.c
+frame-Accuracy-inaccurately.adv	accuracy#inaccurate.a	accuracy#inaccurately.c
+frame-Accuracy-off.prep	accuracy#off.c
+frame-Accuracy-on.prep	accuracy#on.c
+frame-Accuracy-precision.n	accuracy#exact.a	accuracy#precise.a
+frame-Achieving_first-coin.v	achieving_first#coinage.n
+frame-Achieving_first-invent.v	achieving_first#discover.v	achieving_first#discoverer.n	achieving_first#discovery.n	achieving_first#invention.n	achieving_first#inventor.n
+frame-Achieving_first-originate.v	achieving_first#originator.n
+frame-Achieving_first-pioneer.v	achieving_first#pioneer.n
+frame-Activity_done_state-done.a	activity_done_state#through.a
+frame-Activity_finish-finish.v	activity_finish#complete.v	activity_finish#completion.n
+frame-Activity_ongoing-keep.v	activity_ongoing#carry_on.v	activity_ongoing#continue.v	activity_ongoing#keep_on.v	activity_ongoing#keep_up.v	activity_ongoing#maintain.v	activity_ongoing#proceed.v
+frame-Activity_pause-freeze.v	activity_pause#freeze.n	activity_pause#suspend.v
+frame-Activity_prepare-fix.v	activity_prepare#ready.v
+frame-Activity_prepare-gear_up.v	activity_prepare#preparation.n	activity_prepare#prepare.v
+frame-Activity_ready_state-ready.a	activity_ready_state#prepared.a
+frame-Activity_resume-resume.v	activity_resume#restart.v
+frame-Activity_start-begin.v	activity_start#beginner.n	activity_start#commence.v	activity_start#initiate.v	activity_start#neophyte.n	activity_start#start.v	activity_start#take_up.v
+frame-Activity_stop-halt.v	activity_stop#cease.v	activity_stop#discontinue.v	activity_stop#quit.v	activity_stop#stop.v
+frame-Addiction-addict.n	addiction#addiction.n	addiction#hooked.a	addiction#junkie.n
+frame-Addiction-alcoholic.n	addiction#alcoholism.n
+frame-Adding_up-tally.v	adding_up#add_up.v	adding_up#total.v
+frame-Adducing-cite.v	adducing#adduce.v	adducing#name.v
+frame-Adjusting-adjust.v	adjusting#adjustment.n
+frame-Adjusting-calibrate.v	adjusting#calibration.n
+frame-Adorning-deck.v	adorning#adorn.v	adorning#decorate.v
+frame-Adorning-dot.v	adorning#stud.v
+frame-Aesthetics-fair.a	aesthetics#lovely.a
+frame-Age-of.prep	age#of.c
+frame-Aggregate-assemblage.n	aggregate#collection.n
+frame-Aggregate-band.n	aggregate#circle.n
+frame-Aggregate-class.n	aggregate#family.n
+frame-Aggregate-clump.n	aggregate#cluster.n	aggregate#package.n
+frame-Aggregate-crew.n	aggregate#bunch.n	aggregate#gang.n
+frame-Aggregate-herd.n	aggregate#crowd.n
+frame-Aggregate-host.n	aggregate#horde.n	aggregate#legion.n
+frame-Aggregate-mob.n	aggregate#batch.n	aggregate#flock.n	aggregate#heap.n	aggregate#multitude.n	aggregate#passel.n	aggregate#slew.n	aggregate#throng.n
+frame-Aggregate-pack.n	aggregate#clique.n	aggregate#coterie.n
+frame-Aggregate-team.n	aggregate#squad.n
+frame-Aggregate-variety.n	aggregate#assortment.n
+frame-Aging-age.v	aging#aging.a	aging#mature.v
+frame-Agree_or_refuse_to_act-refuse.v	agree_or_refuse_to_act#decline.v	agree_or_refuse_to_act#refusal.n
+frame-Agriculture-farm.v	agriculture#cultivate.v	agriculture#farming.n
+frame-Aiming-aim.v	aiming#aim.n	aiming#direct.v	aiming#target.n	aiming#target.v
+frame-Amalgamation-fuse.v	amalgamation#amalgamate.v	amalgamation#blend.v	amalgamation#combine.v	amalgamation#commingle.v	amalgamation#intermix.v	amalgamation#merge.v	amalgamation#merger.n	amalgamation#unify.v	amalgamation#unite.v
+frame-Amassing-amass.v	amassing#accumulate.v	amassing#hoard.v
+frame-Ambient_temperature-cold.n	ambient_temperature#cold.a
+frame-Ambient_temperature-cool.a	ambient_temperature#chilly.a
+frame-Ammunition-ammo.n	ammunition#ammunition.n
+frame-Amounting_to-total.v	amounting_to#amount.v	amounting_to#number.v	amounting_to#total.n
+frame-Annoyance-annoyed.a	annoyance#irritated.a
+frame-Appeal-appeal.n	appeal#appellant.n	appeal#appellate.a
+frame-Appearance-look.v	appearance#appear.v	appearance#seem.v
+frame-Appearance-reek.v	appearance#stink.v
+frame-Apply_heat-bake.v	apply_heat#broil.v
+frame-Apply_heat-blanch.v	apply_heat#parboil.v
+frame-Apply_heat-char.v	apply_heat#sear.v	apply_heat#singe.v
+frame-Apply_heat-fry.v	apply_heat#saute.v
+frame-Apply_heat-stew.v	apply_heat#simmer.v
+frame-Appointing-name.v	appointing#designate.v
+frame-Arraignment-arraign.v	arraignment#arraignment.n
+frame-Arranging-deploy.v	arranging#deployment.n
+frame-Arranging-set_up.v	arranging#arrange.v
+frame-Arrest-bust.v	arrest#bust.n
+frame-Arrest-cop.v	arrest#apprehend.v	arrest#apprehension.n	arrest#arrest.n	arrest#arrest.v	arrest#collar.v	arrest#nab.v
+frame-Arriving-arrive.v	arriving#arrival.n
+frame-Arriving-come.v	arriving#approach.v
+frame-Arriving-enter.v	arriving#entrance.n	arriving#entry.n
+frame-Arriving-return.v	arriving#return.n
+frame-Arson-arson.n	arson#arsonist.n
+frame-Artificiality-phoney.n	artificiality#bogus.a	artificiality#fake.a	artificiality#phoney.a
+frame-Assemble-meet.v	assemble#assemble.v
+frame-Assessing-judge.v	assessing#appraisal.n	assessing#appraise.v	assessing#assess.v	assessing#assessment.n	assessing#evaluate.v	assessing#evaluation.n	assessing#value.v
+frame-Assessing-rank.v	assessing#grade.v	assessing#rate.v
+frame-Assessing-reappraise.v	assessing#reappraisal.n
+frame-Assistance-aid.v	assistance#aid_((act)).n	assistance#aid_((entity)).n	assistance#assist.v	assistance#assistance.n	assistance#help.n	assistance#help.v	assistance#serve.v
+frame-Atonement-atone.v	atonement#atonement.n	atonement#expiate.v	atonement#expiation.n	atonement#expiatory.a
+frame-Attaching-append.v	attaching#tack_on.v
+frame-Attaching-fetter.v	attaching#shackle.v
+frame-Attaching-fix.v	attaching#adhere.v	attaching#attach.v	attaching#attachment_act.n	attaching#attachment_item.n	attaching#bond.v	attaching#fasten.v	attaching#glue.v	attaching#gum.v	attaching#paste.v	attaching#secure.v	attaching#stick.v
+frame-Attaching-manacle.v	attaching#handcuff.v
+frame-Attaching-tie.v	attaching#bind.v	attaching#connect.v	attaching#link.v	attaching#tying.n	attaching#yoke.v
+frame-Attack-ambush.v	attack#ambush.n
+frame-Attack-assail.v	attack#assault.v	attack#attack.n	attack#attack.v	attack#attacker.n	attack#onset.n	attack#onslaught.n
+frame-Attack-bomb.v	attack#bombing.n
+frame-Attack-charge.v	attack#charge.n
+frame-Attack-infiltrate.v	attack#infiltration.n
+frame-Attack-invade.v	attack#invader.n
+frame-Attack-raid.v	attack#raid.n
+frame-Attack-strike.v	attack#strike.n
+frame-Attempt-shot.n	attempt#stab.n
+frame-Attempt-try.v	attempt#attempt.n	attempt#attempt.v	attempt#effort.n	attempt#endeavor.n	attempt#endeavor.v	attempt#try.n
+frame-Attempt_suasion-admonish.v	attempt_suasion#discourage.v
+frame-Attempt_suasion-coax.v	attempt_suasion#cajole.v	attempt_suasion#wheedle.v
+frame-Attempt_suasion-spur.v	attempt_suasion#advocate.v	attempt_suasion#exhort.v	attempt_suasion#press.v	attempt_suasion#pressure.v	attempt_suasion#urge.v
+frame-Attempt_suasion-tempt.v	attempt_suasion#entice.v
+frame-Attending-attend.v	attending#attendance.n
+frame-Attention-attention.n	attention#attentive.a
+frame-Attention-closely.adv	attention#close.a	attention#closely.c
+frame-Attention_getting-hey.intj	attention_getting#hey.c
+frame-Attention_getting-pal.n	attention_getting#buddy.n
+frame-Attention_getting-yoohoo.intj	attention_getting#yoohoo.c
+frame-Attributed_information-according_to.prep	attributed_information#according_to.c
+frame-Attributed_information-on_authority_of.prep	attributed_information#on_authority_of.c
+frame-Avoiding-duck.v	avoiding#avoid.v	avoiding#avoidance.n	avoiding#dodge.v	avoiding#eschew.v	avoiding#evade.v	avoiding#shun.v	avoiding#sidestep.v	avoiding#skirt.v
+frame-Avoiding-shirk.v	avoiding#shrink_from.v
+frame-Awareness-hunch.n	awareness#suspicion.n
+frame-Awareness-know.v	awareness#aware.a	awareness#awareness.n	awareness#cognizant.a	awareness#comprehend.v	awareness#comprehension.n	awareness#consciousness.n	awareness#understand.v	awareness#understanding.n
+frame-Awareness-presume.v	awareness#presumption.n	awareness#supposition.n
+frame-Awareness-think.v	awareness#believe.v	awareness#conceive.v	awareness#imagine.v	awareness#reckon.v	awareness#thought.n
+frame-Bail_decision-fix.v	bail_decision#set.v
+frame-Be_in_agreement_on_action-accord.n	be_in_agreement_on_action#treaty.n
+frame-Be_in_agreement_on_assessment-agree.v	be_in_agreement_on_assessment#agreement.n	be_in_agreement_on_assessment#concur.v
+frame-Be_subset_of-among.prep	be_subset_of#among.c
+frame-Be_subset_of-count.v	be_subset_of#number.v
+frame-Beat_opponent-beat.v	beat_opponent#trounce.v
+frame-Beat_opponent-rout.v	beat_opponent#rout.n
+frame-Become_silent-hush.v	become_silent#hush_up.v	become_silent#pipe_down.v	become_silent#quiet.n	become_silent#quiet.v	become_silent#quiet_down.v	become_silent#quieten.v	become_silent#silence.v
+frame-Become_silent-sh.intj	become_silent#sh.c
+frame-Becoming-get.v	becoming#become.v
+frame-Becoming-grow.v	becoming#turn.v
+frame-Becoming_a_member-enter.v	becoming_a_member#enlist.v	becoming_a_member#enroll.v
+frame-Becoming_aware-come_(upon).v	becoming_aware#come_(across).v
+frame-Becoming_aware-espy.v	becoming_aware#chance_(across).v	becoming_aware#chance_(on).v	becoming_aware#descry.v	becoming_aware#detect.v	becoming_aware#discern.v	becoming_aware#discover.v	becoming_aware#discovery.n	becoming_aware#encounter.v	becoming_aware#find.v	becoming_aware#learn.v	becoming_aware#note.v	becoming_aware#notice.v	becoming_aware#observe.v	becoming_aware#perceive.v	becoming_aware#pick_up.v	becoming_aware#recognize.v	becoming_aware#spot.v
+frame-Becoming_dry-dry.v	becoming_dry#dehydrate.v	becoming_dry#dry_up.v	becoming_dry#exsiccate.v
+frame-Becoming_separated-split.v	becoming_separated#divide.v	becoming_separated#separate.v
+frame-Behind_the_scenes-film.v	behind_the_scenes#shoot.v
+frame-Being_at_risk-risk.n	being_at_risk#vulnerability.n
+frame-Being_at_risk-security.n	being_at_risk#secure.a
+frame-Being_at_risk-unsafe.a	being_at_risk#insecure.a
+frame-Being_attached-attached.a	being_attached#connected.a
+frame-Being_attached-glued.a	being_attached#pasted.a
+frame-Being_attached-stick.v	being_attached#adhere.v	being_attached#adhesion.n
+frame-Being_attached-tied.a	being_attached#fastened.a
+frame-Being_dry-dehydrated.a	being_dry#desiccated.a
+frame-Being_dry-dry.a	being_dry#waterless.a
+frame-Being_employed-work.v	being_employed#employment.n	being_employed#work.n
+frame-Being_in_effect-null.a	being_in_effect#void.a
+frame-Being_in_operation-off.prep	being_in_operation#off.c
+frame-Being_in_operation-on.prep	being_in_operation#on.c
+frame-Being_located-located.a	being_located#situated.a
+frame-Being_named-Christian_name.n	being_named#christian_name.n
+frame-Being_named-call.v	being_named#name.n
+frame-Being_named-forename.n	being_named#first_name.n	being_named#given_name.n
+frame-Being_named-moniker.n	being_named#cognomen.n	being_named#nickname.n	being_named#soubriquet.n
+frame-Being_named-pen_name.n	being_named#nom_de_plume.n
+frame-Being_named-pseudonym.n	being_named#nom_de_guerre.n
+frame-Being_named-surname.n	being_named#family_name.n	being_named#last_name.n
+frame-Being_necessary-necessity.n	being_necessary#essential.a	being_necessary#indispensable.a	being_necessary#necessary.a	being_necessary#needed.a	being_necessary#required.a	being_necessary#requirement.n
+frame-Being_obligated-duty.n	being_obligated#obligation.n	being_obligated#responsibility.n
+frame-Being_obligated-mission.n	being_obligated#commission.n
+frame-Being_obligatory-mandatory.a	being_obligatory#compulsory.a
+frame-Being_operational-broken.a	being_operational#busted.a
+frame-Being_operational-work.v	being_operational#functional.a	being_operational#operational.a	being_operational#working.a
+frame-Being_rotted-putrid.a	being_rotted#decayed.a	being_rotted#rotted.a	being_rotted#rotten.a
+frame-Being_strong-strong.a	being_strong#impregnable.a
+frame-Being_up_to_it-up_to.prep	being_up_to_it#up_to.c
+frame-Being_wet-damp.a	being_wet#moist.a
+frame-Being_wet-soggy.a	being_wet#waterlogged.a
+frame-Besieging-besiege.v	besieging#beleaguer.v
+frame-Besieging-invest.v	besieging#investment.n
+frame-Beyond_compare-beyond_compare.prep	beyond_compare#beyond_compare.c
+frame-Beyond_compare-peerless.a	beyond_compare#matchless.a	beyond_compare#nonpareil.a	beyond_compare#unmatched.a	beyond_compare#unrivalled.a
+frame-Beyond_compare-without_compare.prep	beyond_compare#without_compare.c
+frame-Beyond_compare-without_equal.prep	beyond_compare#without_equal.c
+frame-Beyond_compare-without_match.prep	beyond_compare#without_match.c
+frame-Beyond_compare-without_peer.prep	beyond_compare#without_peer.c
+frame-Biological_area-bog.n	biological_area#fen.n	biological_area#marsh.n	biological_area#marshland.n	biological_area#mire.n	biological_area#swamp.n	biological_area#swampland.n
+frame-Biological_area-bush.n	biological_area#scrub.n
+frame-Biological_area-copse.n	biological_area#thicket.n
+frame-Biological_area-wood.n	biological_area#forest.n	biological_area#woodland.n
+frame-Biological_urge-beat.a	biological_urge#bushed.a
+frame-Biological_urge-drowsiness.n	biological_urge#drowsy.a	biological_urge#sleepiness.n	biological_urge#sleepy.a	biological_urge#somnolence.n	biological_urge#somnolent.a
+frame-Biological_urge-famished.a	biological_urge#ravenous.a
+frame-Biological_urge-fatigue.n	biological_urge#tired.a	biological_urge#tiredness.n	biological_urge#weariness.n	biological_urge#weary.a
+frame-Biological_urge-fatigued.a	biological_urge#dog-tired.a	biological_urge#exhausted.a	biological_urge#worn_out.a
+frame-Biological_urge-horny.a	biological_urge#aroused.a	biological_urge#randy.a	biological_urge#turned_on.a
+frame-Biological_urge-hunger.n	biological_urge#thirst.n	biological_urge#thirsty.a
+frame-Biological_urge-nausea.n	biological_urge#nauseated.a	biological_urge#nauseous.a	biological_urge#queasiness.n	biological_urge#queasy.a	biological_urge#sick.a
+frame-Birth-bear.v	birth#birth.n	birth#birth.v
+frame-Birth-sire.v	birth#beget.v	birth#bring_forth.v	birth#father.v	birth#generate.v	birth#mother.v
+frame-Board_vehicle-embark.v	board_vehicle#embarkation.n	board_vehicle#embarkment.n
+frame-Body_decoration-rouge.n	body_decoration#blusher.n
+frame-Body_description_holistic-bony.a	body_description_holistic#gaunt.a	body_description_holistic#scrawny.a	body_description_holistic#skinny.a
+frame-Body_description_holistic-dumpy.a	body_description_holistic#chubby.a	body_description_holistic#plump.a	body_description_holistic#pudgy.a	body_description_holistic#squat.a	body_description_holistic#stubby.a
+frame-Body_description_holistic-hefty.a	body_description_holistic#brawny.a	body_description_holistic#muscular.a
+frame-Body_description_holistic-lanky.a	body_description_holistic#rangy.a
+frame-Body_description_holistic-lean.a	body_description_holistic#thin.a
+frame-Body_description_holistic-obese.a	body_description_holistic#corpulent.a	body_description_holistic#portly.a	body_description_holistic#stout.a
+frame-Body_description_holistic-slim.a	body_description_holistic#lithe.a	body_description_holistic#slender.a	body_description_holistic#svelte.a
+frame-Body_description_holistic-stocky.a	body_description_holistic#thickset.a
+frame-Body_mark-zit.n	body_mark#pimple.n	body_mark#pustule.n
+frame-Body_movement-bat.v	body_movement#flutter.v
+frame-Body_movement-bend.v	body_movement#flex.v
+frame-Body_movement-bob.v	body_movement#curtsy.n	body_movement#curtsy.v
+frame-Body_movement-flap.v	body_movement#roll.v	body_movement#wave.v
+frame-Body_movement-pucker.v	body_movement#crumple.v
+frame-Body_movement-purse.v	body_movement#crease.v	body_movement#crinkle.v	body_movement#scrunch.v	body_movement#wrinkle.v
+frame-Body_movement-shiver.v	body_movement#shudder.v
+frame-Body_movement-shut.v	body_movement#close.v
+frame-Body_movement-toss.v	body_movement#twitch.v
+frame-Body_movement-twist.v	body_movement#jiggle.v	body_movement#wiggle.v	body_movement#wriggle.v	body_movement#writhe.v
+frame-Body_movement-wag.v	body_movement#shake.v	body_movement#waggle.v
+frame-Body_movement-wink.v	body_movement#blink.v
+frame-Boundary-edge.n	boundary#border.n	boundary#boundary.n
+frame-Bragging-brag.v	bragging#boast.n	bragging#boast.v	bragging#boastful.a	bragging#braggart.n	bragging#rodomontade.n	bragging#vaunt.v
+frame-Breathing-blow.v	breathing#gasp.v	breathing#pant.v	breathing#puff.v
+frame-Breathing-exhale.v	breathing#exhalation.n	breathing#exhalation_act.n	breathing#expire.v
+frame-Breathing-inhale.v	breathing#breathe.v	breathing#inhalation.n	breathing#inhalation_breath.n	breathing#inspire.v	breathing#respire.v	breathing#suspire.v
+frame-Breathing-sigh.v	breathing#sigh.n
+frame-Bringing-bike.v	bringing#wheel.v
+frame-Bringing-drive.v	bringing#motor.v
+frame-Bringing-haul.v	bringing#truck.v
+frame-Bringing-lug.v	bringing#bear.v	bringing#bring.v	bringing#carry.v	bringing#convey.v	bringing#fetch.v	bringing#take.v	bringing#tote.v	bringing#transport.n	bringing#transport.v
+frame-Building-erect.v	building#raise.v
+frame-Building-make.v	building#build.v	building#construct.v	building#construction.n	building#fashion.v
+frame-Building_subparts-TV_room.n	building_subparts#tv_room.n
+frame-Building_subparts-bathroom.n	building_subparts#lavatory.n
+frame-Building_subparts-bedroom.n	building_subparts#chamber.n
+frame-Building_subparts-cellar.n	building_subparts#basement.n
+frame-Building_subparts-flat.n	building_subparts#apartment.n
+frame-Building_subparts-foyer.n	building_subparts#antechamber.n	building_subparts#anteroom.n	building_subparts#lobby.n	building_subparts#vestibule.n
+frame-Building_subparts-larder.n	building_subparts#buttery.n	building_subparts#pantry.n
+frame-Building_subparts-lift.n	building_subparts#elevator.n
+frame-Building_subparts-loft.n	building_subparts#attic.n	building_subparts#garret.n
+frame-Building_subparts-parlor.n	building_subparts#living_room.n	building_subparts#sitting_room.n
+frame-Building_subparts-playroom.n	building_subparts#rumpus_room.n
+frame-Buildings-arena.n	buildings#stadium.n
+frame-Buildings-castle.n	buildings#palace.n
+frame-Buildings-cottage.n	buildings#bungalow.n
+frame-Buildings-disco.n	buildings#discotheque.n
+frame-Buildings-fort.n	buildings#fortification.n	buildings#fortress.n
+frame-Buildings-hall.n	buildings#manse.n	buildings#mansion.n	buildings#residence.n
+frame-Buildings-home.n	buildings#dwelling.n
+frame-Buildings-house.n	buildings#housing.n
+frame-Buildings-hovel.n	buildings#shack.n	buildings#shanty.n
+frame-Buildings-inn.n	buildings#hostel.n
+frame-Buildings-temple.n	buildings#synagogue.n	buildings#tabernacle.n
+frame-Bungling-blow.v	bungling#ball_up.v	bungling#bollix.v	bungling#bollix_up.v	bungling#botch.v	bungling#botch_up.v	bungling#bumble.v	bungling#bungle.v	bungling#bungler.n	bungling#flub.v	bungling#fluff.v	bungling#foul_up.v	bungling#fuck_up.v	bungling#fumble.v	bungling#louse_up.v	bungling#mess-up.n	bungling#mess_up.v	bungling#muck_up.v	bungling#muff.v	bungling#screw_up.v	bungling#stumble.v
+frame-Bungling-bumbling.a	bungling#bungling.a
+frame-Calendric_unit-April.n	calendric_unit#april.n
+frame-Calendric_unit-August.n	calendric_unit#august.n
+frame-Calendric_unit-December.n	calendric_unit#december.n
+frame-Calendric_unit-February.n	calendric_unit#february.n
+frame-Calendric_unit-Friday.n	calendric_unit#friday.n
+frame-Calendric_unit-January.n	calendric_unit#january.n
+frame-Calendric_unit-July.n	calendric_unit#july.n
+frame-Calendric_unit-June.n	calendric_unit#june.n
+frame-Calendric_unit-March.n	calendric_unit#march.n
+frame-Calendric_unit-May.n	calendric_unit#may.n
+frame-Calendric_unit-Monday.n	calendric_unit#monday.n
+frame-Calendric_unit-November.n	calendric_unit#november.n
+frame-Calendric_unit-October.n	calendric_unit#october.n
+frame-Calendric_unit-Saturday.n	calendric_unit#saturday.n
+frame-Calendric_unit-September.n	calendric_unit#september.n
+frame-Calendric_unit-Sunday.n	calendric_unit#sunday.n
+frame-Calendric_unit-Thursday.n	calendric_unit#thursday.n
+frame-Calendric_unit-Tuesday.n	calendric_unit#tuesday.n
+frame-Calendric_unit-Wednesday.n	calendric_unit#wednesday.n
+frame-Calendric_unit-dawn.n	calendric_unit#daybreak.n
+frame-Calendric_unit-dusk.n	calendric_unit#twilight.n
+frame-Calendric_unit-eve.n	calendric_unit#evening.n
+frame-Calendric_unit-morn.n	calendric_unit#morning.n
+frame-Calendric_unit-noon.n	calendric_unit#midday.n
+frame-Candidness-candour.n	candidness#blunt.a	candidness#bluntness.n	candidness#candid.a	candidness#forthright.a	candidness#forthrightness.n	candidness#frank.a	candidness#open.a	candidness#outspoken.a
+frame-Candidness-discreet.a	candidness#circumspect.a
+frame-Candidness-earnestness.n	candidness#earnest.a
+frame-Candidness-honesty.n	candidness#honest.a
+frame-Candidness-straight.a	candidness#straightforward.a
+frame-Capability-ability.n	capability#able.a	capability#capability.n	capability#capable.a
+frame-Capability-potential.n	capability#potential.a
+frame-Cardinal_numbers-1000.num	cardinal_numbers#1000.c
+frame-Cardinal_numbers-1200.num	cardinal_numbers#1200.c
+frame-Cardinal_numbers-400.num	cardinal_numbers#400.c
+frame-Cardinal_numbers-450.num	cardinal_numbers#450.c
+frame-Cardinal_numbers-6500.num	cardinal_numbers#6500.c
+frame-Cardinal_numbers-billion.num	cardinal_numbers#billion.c	cardinal_numbers#million.c
+frame-Cardinal_numbers-eight.num	cardinal_numbers#eight.c
+frame-Cardinal_numbers-fifteen.num	cardinal_numbers#fifteen.c
+frame-Cardinal_numbers-fifty-two.num	cardinal_numbers#fifty-two.c
+frame-Cardinal_numbers-fifty.num	cardinal_numbers#fifty.c
+frame-Cardinal_numbers-five.num	cardinal_numbers#five.c
+frame-Cardinal_numbers-five_hundred.num	cardinal_numbers#five_hundred.c
+frame-Cardinal_numbers-forty.num	cardinal_numbers#forty.c
+frame-Cardinal_numbers-four.num	cardinal_numbers#four.c
+frame-Cardinal_numbers-hundred.num	cardinal_numbers#hundred.c
+frame-Cardinal_numbers-ninety.num	cardinal_numbers#ninety.c
+frame-Cardinal_numbers-one.num	cardinal_numbers#one.c
+frame-Cardinal_numbers-pair.n	cardinal_numbers#brace.n	cardinal_numbers#couple.n
+frame-Cardinal_numbers-seven.num	cardinal_numbers#seven.c
+frame-Cardinal_numbers-seventy-four.num	cardinal_numbers#seventy-four.c
+frame-Cardinal_numbers-seventy.num	cardinal_numbers#seventy.c
+frame-Cardinal_numbers-six.num	cardinal_numbers#six.c
+frame-Cardinal_numbers-sixty.num	cardinal_numbers#sixty.c
+frame-Cardinal_numbers-ten.num	cardinal_numbers#ten.c
+frame-Cardinal_numbers-thirty.num	cardinal_numbers#thirty.c
+frame-Cardinal_numbers-three.num	cardinal_numbers#three.c
+frame-Cardinal_numbers-twelve.num	cardinal_numbers#twelve.c
+frame-Cardinal_numbers-twenty-five.num	cardinal_numbers#twenty-five.c
+frame-Cardinal_numbers-twenty-one.num	cardinal_numbers#twenty-one.c
+frame-Cardinal_numbers-twenty.num	cardinal_numbers#twenty.c
+frame-Cardinal_numbers-two.num	cardinal_numbers#two.c
+frame-Cardinal_numbers-two_hundred.num	cardinal_numbers#two_hundred.c
+frame-Cardinal_numbers-zero.num	cardinal_numbers#zero.c
+frame-Catastrophe-befall.v	catastrophe#betide.v
+frame-Catastrophe-mishap.n	catastrophe#mischance.n
+frame-Catastrophe-tragedy.n	catastrophe#calamitous.a	catastrophe#calamity.n	catastrophe#cataclysm.n	catastrophe#catastrophe.n	catastrophe#disaster.n	catastrophe#disastrous.a
+frame-Categorization-class.v	categorization#categorization.n	categorization#categorize.v	categorization#classification.n	categorization#classify.v
+frame-Categorization-construe.v	categorization#interpret.v	categorization#interpretation.n
+frame-Categorization-pigeonhole.v	categorization#stereotype.v
+frame-Categorization-translate.v	categorization#understand.v
+frame-Categorization-view.v	categorization#conceive.v	categorization#consider.v	categorization#regard.v
+frame-Causation-because_of.prep	causation#because_of.c
+frame-Causation-cause.v	causation#bring_on.v	causation#causative.a	causation#cause.n	causation#induce.v	causation#reason.n
+frame-Causation-give_rise.v	causation#bring_about.v
+frame-Causation-result_(in).v	causation#result.n
+frame-Cause_bodily_experience-rub.v	cause_bodily_experience#chafe.v	cause_bodily_experience#itch.v	cause_bodily_experience#scratch.v
+frame-Cause_change-vary.v	cause_change#alter.v	cause_change#alteration.n	cause_change#change.v	cause_change#modification.n	cause_change#modify.v
+frame-Cause_change_of_consistency-clot.v	cause_change_of_consistency#coagulate.v	cause_change_of_consistency#curdle.v
+frame-Cause_change_of_consistency-set.v	cause_change_of_consistency#congeal.v	cause_change_of_consistency#harden.v	cause_change_of_consistency#indurate.v	cause_change_of_consistency#jell.v
+frame-Cause_change_of_consistency-thicken.v	cause_change_of_consistency#inspissate.v
+frame-Cause_change_of_phase-flux.v	cause_change_of_phase#liquefy.v
+frame-Cause_change_of_phase-melt.v	cause_change_of_phase#thaw.v	cause_change_of_phase#unfreeze.v
+frame-Cause_change_of_position_on_a_scale-cut.v	cause_change_of_position_on_a_scale#decrease.v	cause_change_of_position_on_a_scale#diminish.v	cause_change_of_position_on_a_scale#reduce.v	cause_change_of_position_on_a_scale#reduction.n
+frame-Cause_change_of_position_on_a_scale-push.v	cause_change_of_position_on_a_scale#push.n
+frame-Cause_change_of_position_on_a_scale-step_up.v	cause_change_of_position_on_a_scale#increase.v
+frame-Cause_change_of_strength-fortify.v	cause_change_of_strength#reinforce.v	cause_change_of_strength#strengthen.v
+frame-Cause_emotion-insult.v	cause_emotion#affront.n	cause_emotion#affront.v	cause_emotion#insult.n
+frame-Cause_emotion-offend.v	cause_emotion#offense.n
+frame-Cause_expansion-blow_up.v	cause_expansion#enlarge.v	cause_expansion#magnify.v
+frame-Cause_expansion-expansion.n	cause_expansion#enlargement.n
+frame-Cause_expansion-narrow.v	cause_expansion#contraction.n
+frame-Cause_expansion-shrink.v	cause_expansion#reduction.n
+frame-Cause_fluidic_motion-splash.v	cause_fluidic_motion#spatter.v	cause_fluidic_motion#splatter.v
+frame-Cause_harm-bash.v	cause_harm#belt.v	cause_harm#smash.v
+frame-Cause_harm-beat.v	cause_harm#beat_up.v	cause_harm#cane.v	cause_harm#flagellate.v	cause_harm#flog.v	cause_harm#lash.v	cause_harm#welt.v	cause_harm#whip.v
+frame-Cause_harm-biff.v	cause_harm#clout.v	cause_harm#pummel.v	cause_harm#punch.v
+frame-Cause_harm-break.v	cause_harm#crack.v	cause_harm#fracture.v
+frame-Cause_harm-burn.v	cause_harm#sting.v
+frame-Cause_harm-club.v	cause_harm#bludgeon.v
+frame-Cause_harm-electrocute.v	cause_harm#electrocution.n
+frame-Cause_harm-hit.v	cause_harm#strike.v
+frame-Cause_harm-hurt.v	cause_harm#bruise.v
+frame-Cause_harm-impale.v	cause_harm#transfix.v
+frame-Cause_harm-maim.v	cause_harm#maul.v	cause_harm#mutilate.v
+frame-Cause_harm-slap.v	cause_harm#smack.v	cause_harm#thwack.v
+frame-Cause_harm-stab.v	cause_harm#knife.v
+frame-Cause_harm-wound.v	cause_harm#injure.v
+frame-Cause_impact-bang.v	cause_impact#slam.v
+frame-Cause_impact-clash.v	cause_impact#collide.v
+frame-Cause_impact-click.v	cause_impact#clink.v
+frame-Cause_impact-hit.v	cause_impact#rap.v	cause_impact#strike.v
+frame-Cause_impact-ram.v	cause_impact#crash.v
+frame-Cause_impact-slap.v	cause_impact#smack.v
+frame-Cause_motion-cast.v	cause_motion#hurl.v
+frame-Cause_motion-toss.v	cause_motion#chuck.v	cause_motion#pitch.v
+frame-Cause_motion-tug.v	cause_motion#attract.v	cause_motion#drag.v	cause_motion#draw.v	cause_motion#force.v	cause_motion#haul.v	cause_motion#jerk.v	cause_motion#pull.v	cause_motion#push.v	cause_motion#shove.v	cause_motion#thrust.v	cause_motion#yank.v
+frame-Cause_temperature_change-cool.v	cause_temperature_change#chill.v	cause_temperature_change#cool_down.v
+frame-Cause_temperature_change-heat.v	cause_temperature_change#heat_up.v	cause_temperature_change#warm.v
+frame-Cause_to_amalgamate-jumble.v	cause_to_amalgamate#throw_together.v
+frame-Cause_to_amalgamate-mix.v	cause_to_amalgamate#admix.v	cause_to_amalgamate#amalgamate.v	cause_to_amalgamate#blend.v	cause_to_amalgamate#coalesce.v	cause_to_amalgamate#combine.v	cause_to_amalgamate#commingle.v	cause_to_amalgamate#compound.v	cause_to_amalgamate#conflate.v	cause_to_amalgamate#flux.v	cause_to_amalgamate#fuse.v	cause_to_amalgamate#intermix.v	cause_to_amalgamate#meld.v	cause_to_amalgamate#merge.v	cause_to_amalgamate#unify.v	cause_to_amalgamate#unite.v
+frame-Cause_to_be_dry-dry.v	cause_to_be_dry#dehydrate.v	cause_to_be_dry#desiccate.v	cause_to_be_dry#desiccation.n	cause_to_be_dry#dry_out.v	cause_to_be_dry#dry_up.v
+frame-Cause_to_be_sharp-dull.v	cause_to_be_sharp#blunt.v
+frame-Cause_to_be_wet-sop.v	cause_to_be_wet#douse.v	cause_to_be_wet#drench.v	cause_to_be_wet#soak.v	cause_to_be_wet#souse.v
+frame-Cause_to_be_wet-wet.v	cause_to_be_wet#dampen.v	cause_to_be_wet#humidify.v	cause_to_be_wet#moisten.v	cause_to_be_wet#moisturize.v
+frame-Cause_to_experience-amuse.v	cause_to_experience#divert.v	cause_to_experience#entertain.v
+frame-Cause_to_fragment-break.v	cause_to_fragment#fracture.v
+frame-Cause_to_fragment-break_up.v	cause_to_fragment#fragment.v
+frame-Cause_to_fragment-rip.v	cause_to_fragment#cleave.v	cause_to_fragment#rend.v	cause_to_fragment#rive.v	cause_to_fragment#snap.v	cause_to_fragment#split.v	cause_to_fragment#tear.v
+frame-Cause_to_fragment-shred.v	cause_to_fragment#rip_up.v	cause_to_fragment#tear_up.v
+frame-Cause_to_fragment-sliver.v	cause_to_fragment#splinter.v
+frame-Cause_to_fragment-smash.v	cause_to_fragment#shatter.v
+frame-Cause_to_make_noise-honk.v	cause_to_make_noise#blare.v	cause_to_make_noise#toot.v
+frame-Cause_to_make_noise-ring.v	cause_to_make_noise#ringer.n
+frame-Cause_to_make_progress-development.n	cause_to_make_progress#modernization.n
+frame-Cause_to_move_in_place-spin.v	cause_to_move_in_place#swirl.v	cause_to_move_in_place#twirl.v
+frame-Cause_to_perceive-show.v	cause_to_perceive#demonstrate.v	cause_to_perceive#exhibit.v	cause_to_perceive#present.v
+frame-Cause_to_rot-rot.v	cause_to_rot#putrefy.v
+frame-Cause_to_start-arouse.v	cause_to_start#actuate.v	cause_to_start#elicit.v	cause_to_start#incite.v	cause_to_start#instigate.v	cause_to_start#kindle.v	cause_to_start#motivate.v	cause_to_start#prompt.v	cause_to_start#provoke.v	cause_to_start#set_off.v	cause_to_start#stir_up.v
+frame-Cause_to_start-produce.v	cause_to_start#bring_about.v
+frame-Cause_to_wake-wake.v	cause_to_wake#awaken.v	cause_to_wake#rouse.v	cause_to_wake#wake_up.v
+frame-Ceasing_to_be-dissipate.v	ceasing_to_be#dissipation.n
+frame-Ceasing_to_be-vanish.v	ceasing_to_be#disappear.v	ceasing_to_be#go_away.v
+frame-Certainty-confidence.n	certainty#certain.a	certainty#sure.a
+frame-Certainty-doubt.n	certainty#doubtful.a	certainty#dubious.a	certainty#skeptic.n	certainty#skeptical.a	certainty#skepticism.n	certainty#uncertainty.n
+frame-Certainty-positive.a	certainty#confident.a	certainty#convinced.a
+frame-Certainty-unsure.a	certainty#uncertain.a
+frame-Change_direction-cut.v	change_direction#veer.v
+frame-Change_direction-turn.v	change_direction#turn.n
+frame-Change_event_duration-extend.v	change_event_duration#prolong.v	change_event_duration#protract.v
+frame-Change_event_duration-shorten.v	change_event_duration#abbreviate.v
+frame-Change_event_time-defer.v	change_event_time#hold_over.v	change_event_time#postpone.v	change_event_time#put_off.v	change_event_time#put_over.v
+frame-Change_event_time-delay.v	change_event_time#delay.n
+frame-Change_of_consistency-clot.v	change_of_consistency#coagulate.v	change_of_consistency#coagulation.n	change_of_consistency#curdle.v
+frame-Change_of_consistency-set.v	change_of_consistency#congeal.v	change_of_consistency#harden.v	change_of_consistency#indurate.v	change_of_consistency#jell.v
+frame-Change_of_leadership-depose.v	change_of_leadership#dethrone.v
+frame-Change_of_leadership-elect.v	change_of_leadership#election.n
+frame-Change_of_leadership-mutiny.v	change_of_leadership#mutiny.n
+frame-Change_of_leadership-revolt.v	change_of_leadership#insurrection.n	change_of_leadership#overthrow.n	change_of_leadership#overthrow.v	change_of_leadership#rebellion.n	change_of_leadership#revolt.n	change_of_leadership#revolution.n	change_of_leadership#revolutionary.n	change_of_leadership#uprising.n
+frame-Change_of_leadership-take_over.v	change_of_leadership#coup.n
+frame-Change_of_leadership-vest.v	change_of_leadership#coronate.v	change_of_leadership#crown.v	change_of_leadership#enthrone.v	change_of_leadership#throne.v
+frame-Change_of_phase-condense.v	change_of_phase#condensation.n
+frame-Change_of_phase-melt.v	change_of_phase#thaw.v
+frame-Change_of_phase-solidify.v	change_of_phase#solidification.n
+frame-Change_of_phase-sublime.v	change_of_phase#sublimation.n
+frame-Change_of_phase-vaporize.v	change_of_phase#evaporate.v	change_of_phase#evaporation.n
+frame-Change_position_on_a_scale-decline.v	change_position_on_a_scale#decline.n	change_position_on_a_scale#decrease.n	change_position_on_a_scale#decrease.v	change_position_on_a_scale#diminish.v	change_position_on_a_scale#fall.n
+frame-Change_position_on_a_scale-gain.v	change_position_on_a_scale#advance.v
+frame-Change_position_on_a_scale-grow.v	change_position_on_a_scale#gain.n	change_position_on_a_scale#increase.n	change_position_on_a_scale#increase.v
+frame-Change_position_on_a_scale-growth.n	change_position_on_a_scale#growing.a
+frame-Change_position_on_a_scale-increasingly.adv	change_position_on_a_scale#increasingly.c
+frame-Change_position_on_a_scale-rise.v	change_position_on_a_scale#rise.n
+frame-Change_position_on_a_scale-rocket.v	change_position_on_a_scale#skyrocket.v
+frame-Change_position_on_a_scale-swing.v	change_position_on_a_scale#fluctuate.v	change_position_on_a_scale#fluctuation.n
+frame-Change_posture-sit.v	change_posture#sit_down.v
+frame-Change_posture-stand.v	change_posture#stand_up.v
+frame-Change_posture-stoop.v	change_posture#crouch.v
+frame-Change_tool-swap.v	change_tool#switch.v	change_tool#trade.v
+frame-Chatting-chat.v	chatting#chat.n	chatting#chit-chat.n	chatting#gossip.n	chatting#gossip.v	chatting#shoot_the_breeze.v
+frame-Chatting-converse.v	chatting#conversation.n
+frame-Chatting-gab.v	chatting#yak.v
+frame-Chatting-talk.v	chatting#speak.v
+frame-Chemical-sense_description-bland.a	chemical-sense_description#flavourless.a	chemical-sense_description#insipid.a	chemical-sense_description#tasteless.a
+frame-Chemical-sense_description-bouquet.n	chemical-sense_description#aromatic.a	chemical-sense_description#fragrance.n	chemical-sense_description#fragrant.a
+frame-Chemical-sense_description-reek.v	chemical-sense_description#aroma.n	chemical-sense_description#malodorous.a	chemical-sense_description#odor.n	chemical-sense_description#reek.n	chemical-sense_description#scent.n	chemical-sense_description#smell.v	chemical-sense_description#smelly.a	chemical-sense_description#stench.n	chemical-sense_description#stink.n	chemical-sense_description#stink.v
+frame-Chemical-sense_description-tart.a	chemical-sense_description#flavourful.a	chemical-sense_description#flavoursome.a	chemical-sense_description#piquant.a	chemical-sense_description#sapid.a	chemical-sense_description#spicy.a
+frame-Chemical-sense_description-yummy.a	chemical-sense_description#delectable.a	chemical-sense_description#delicious.a	chemical-sense_description#scrumptious.a	chemical-sense_description#toothsome.a
+frame-Choosing-opt.v	choosing#choice.n	choosing#choose.v	choosing#pick.n	choosing#pick.v	choosing#select.v	choosing#selection.n
+frame-Clarity_of_resolution-narrowly.adv	clarity_of_resolution#narrowly.c
+frame-Closure-open.v	closure#unfasten.v
+frame-Clothing-bra.n	clothing#brassiere.n
+frame-Clothing-breeches.n	clothing#knickers.n
+frame-Clothing-dress.n	clothing#frock.n
+frame-Clothing-garb.n	clothing#apparel.n	clothing#attire.n	clothing#clothes.n	clothing#clothing.n	clothing#garment.n	clothing#outfit.n	clothing#raiment.n	clothing#regalia.n	clothing#robe.n	clothing#vestment.n
+frame-Clothing-gown.n	clothing#nightdress.n	clothing#nightgown.n	clothing#nightie.n
+frame-Clothing-hose.n	clothing#hosiery.n
+frame-Clothing-jumper.n	clothing#sweater.n
+frame-Clothing-overcoat.n	clothing#greatcoat.n
+frame-Clothing-parka.n	clothing#windbreaker.n	clothing#windcheater.n
+frame-Clothing-slip.n	clothing#chemise.n	clothing#shift.n	clothing#teddy.n
+frame-Clothing-tie.n	clothing#necktie.n
+frame-Clothing-underwear.n	clothing#underclothes.n	clothing#underclothing.n
+frame-Clothing-vest.n	clothing#waistcoat.n
+frame-Clothing_parts-clasp.n	clothing_parts#buckle.n
+frame-Clothing_parts-collar.n	clothing_parts#neckband.n
+frame-Clothing_parts-sash.n	clothing_parts#waistband.n
+frame-Clothing_parts-waist.n	clothing_parts#waistline.n
+frame-Clothing_parts-zip.n	clothing_parts#zipper.n
+frame-Cogitation-brood.v	cogitation#dwell.v
+frame-Cogitation-muse.v	cogitation#contemplate.v	cogitation#contemplation.n	cogitation#meditate.v	cogitation#meditation.n	cogitation#mull_over.v	cogitation#ponder.v	cogitation#reflect.v	cogitation#reflection.n	cogitation#ruminate.v
+frame-Cogitation-think.v	cogitation#consider.v	cogitation#consideration.n	cogitation#deliberate.v	cogitation#deliberation.n	cogitation#thought.n
+frame-Coincidence-chance.v	coincidence#chance.n
+frame-Coincidence-coincidence.n	coincidence#happenstance.n
+frame-Coincidence-randomly.adv	coincidence#random.a	coincidence#randomly.c
+frame-Collaboration-collude.v	collaboration#collusion.n	collaboration#conspiracy.n	collaboration#conspire.v
+frame-Collaboration-cooperate.v	collaboration#collaborate.v	collaboration#collaboration.n	collaboration#collaborator.n	collaboration#cooperation.n	collaboration#partner.n
+frame-Collaboration-jointly.adv	collaboration#jointly.c
+frame-Collaboration-together.adv	collaboration#together.c
+frame-Colonization-settle.v	colonization#colonist.n	colonization#colonize.v	colonization#colony.n	colonization#settlement_((act)).n	colonization#settlement_((entity)).n	colonization#settler.n
+frame-Color-purple.a	color#violet.a
+frame-Color-red.a	color#crimson.a	color#scarlet.a	color#vermilion.a
+frame-Come_together-amass.v	come_together#throng.v
+frame-Come_together-meet.v	come_together#gather.v
+frame-Coming_to_be-arise.v	coming_to_be#develop.v	coming_to_be#spring_up.v
+frame-Coming_to_be-form.v	coming_to_be#take_shape.v
+frame-Coming_to_believe-find.v	coming_to_believe#ascertain.v	coming_to_believe#conclude.v	coming_to_believe#determine.v	coming_to_believe#find_out.v
+frame-Coming_to_believe-guess.v	coming_to_believe#guess.n	coming_to_believe#speculate.v	coming_to_believe#surmise.v
+frame-Coming_to_believe-infer.v	coming_to_believe#deduce.v	coming_to_believe#inference.n
+frame-Coming_to_believe-work_out.v	coming_to_believe#figure_out.v	coming_to_believe#puzzle_out.v
+frame-Coming_up_with-create.v	coming_up_with#conceive.v	coming_up_with#contrive.v	coming_up_with#cook_up.v	coming_up_with#design.n	coming_up_with#design.v	coming_up_with#devise.v	coming_up_with#formulate.v	coming_up_with#invent.v	coming_up_with#invention_artifact.n	coming_up_with#invention_process.n
+frame-Coming_up_with-hatch.v	coming_up_with#concoct.v	coming_up_with#concoction.n
+frame-Commemorative-April_Fool's_Day.n	commemorative#april_fool's_day.n
+frame-Commemorative-Armistice_Day.n	commemorative#armistice_day.n
+frame-Commemorative-Boxing_Day.n	commemorative#boxing_day.n
+frame-Commemorative-Christmas_Day.n	commemorative#christmas_day.n
+frame-Commemorative-Labor_Day.n	commemorative#labor_day.n
+frame-Commemorative-Passover_Eve.n	commemorative#passover_eve.n
+frame-Commerce_buy-buy.v	commerce_buy#purchase.v	commerce_buy#purchase_((act)).n
+frame-Commerce_collect-bill.v	commerce_collect#charge.v
+frame-Commerce_pay-disburse.v	commerce_pay#disbursement.n
+frame-Commerce_pay-pay.v	commerce_pay#payment.n
+frame-Commerce_scenario-buyer.n	commerce_scenario#purchaser.n
+frame-Commerce_scenario-seller.n	commerce_scenario#trafficker.n	commerce_scenario#vendor.n
+frame-Commerce_sell-auction.v	commerce_sell#auction.n
+frame-Commerce_sell-sell.v	commerce_sell#vend.v	commerce_sell#vendor.n
+frame-Commitment-commit.v	commitment#commitment.n
+frame-Commitment-pledge.v	commitment#pledge.n	commitment#promise.n	commitment#promise.v
+frame-Commitment-vow.v	commitment#vow.n
+frame-Committing_crime-commit.v	committing_crime#commission.n	committing_crime#perpetrate.v
+frame-Communicate_categorization-define.v	communicate_categorization#definition.n
+frame-Communicate_categorization-depict.v	communicate_categorization#characterization.n	communicate_categorization#characterize.v	communicate_categorization#depiction.n	communicate_categorization#describe.v
+frame-Communicate_categorization-paint.v	communicate_categorization#portray.v
+frame-Communicate_categorization-redefine.v	communicate_categorization#redefinition.n
+frame-Communication-communicate.v	communication#communication_((act)).n	communication#communication_((entity)).n
+frame-Communication-signal.v	communication#indicate.v
+frame-Communication_manner-mumble.v	communication_manner#mutter.v
+frame-Communication_manner-rant.v	communication_manner#babble.v	communication_manner#chatter.v	communication_manner#gabble.v	communication_manner#gibber.v	communication_manner#jabber.v	communication_manner#natter.v	communication_manner#prattle.v	communication_manner#rave.v
+frame-Communication_manner-stammer.v	communication_manner#stutter.v
+frame-Communication_means-phone.v	communication_means#telephone.v
+frame-Communication_means-wire.v	communication_means#cable.v	communication_means#telegraph.v
+frame-Communication_noise-burble.v	communication_noise#gurgle.v
+frame-Communication_noise-chirp.v	communication_noise#chirrup.v	communication_noise#twitter.v
+frame-Communication_noise-cry.v	communication_noise#bawl.v	communication_noise#bellow.v	communication_noise#croak.v	communication_noise#groan.v	communication_noise#howl.v	communication_noise#moan.v	communication_noise#murmur.v	communication_noise#roar.v	communication_noise#scream.v	communication_noise#screech.v	communication_noise#shriek.v	communication_noise#shrill.v	communication_noise#squawk.v	communication_noise#squeak.v	communication_noise#wail.v	communication_noise#whimper.v	communication_noise#whine.v	communication_noise#yell.v
+frame-Communication_noise-gasp.v	communication_noise#snort.v
+frame-Communication_noise-growl.v	communication_noise#rumble.v
+frame-Communication_noise-grunt.v	communication_noise#squeal.v
+frame-Communication_noise-hiss.v	communication_noise#hoot.v
+frame-Communication_noise-sputter.v	communication_noise#splutter.v
+frame-Communication_noise-trill.v	communication_noise#warble.v
+frame-Communication_response-rejoin.v	communication_response#come_back.v	communication_response#comeback.n	communication_response#counter.v	communication_response#rejoinder.n	communication_response#retort.n	communication_response#retort.v	communication_response#riposte.n
+frame-Communication_response-reply.v	communication_response#answer.n	communication_response#answer.v	communication_response#reply.n	communication_response#respond.v	communication_response#response.n
+frame-Compatibility-at_variance.prep	compatibility#at_variance.c
+frame-Compatibility-compatibility.n	compatibility#compatible.a
+frame-Compatibility-congruent.a	compatibility#congruous.a
+frame-Compatibility-incompatibility.n	compatibility#incompatible.a
+frame-Compatibility-jibe.v	compatibility#accord.v	compatibility#agree.v	compatibility#consonant.a	compatibility#harmonize.v	compatibility#harmony.n	compatibility#match.v
+frame-Competition-compete.v	competition#competition.n	competition#competitive.a	competition#competitor.n	competition#rival.n	competition#rivalry.n
+frame-Competition-play.v	competition#player.n
+frame-Complaining-moan.v	complaining#bitch.v	complaining#complain.v	complaining#complaint.n	complaining#gripe.n	complaining#gripe.v	complaining#grouse.v	complaining#grumble.v	complaining#whine.v
+frame-Completeness-completeness.n	completeness#complete.a
+frame-Completeness-full.a	completeness#total.a
+frame-Compliance-adhere.v	compliance#adherence.n
+frame-Compliance-break.v	compliance#breach.v	compliance#contravene.v	compliance#contravention.n	compliance#transgress.v	compliance#transgression.n	compliance#violate.v	compliance#violation.n
+frame-Compliance-comply.v	compliance#compliance.n	compliance#compliant.a	compliance#conformity.n	compliance#follow.v
+frame-Compliance-disobey.v	compliance#noncompliance.n
+frame-Compliance-honor.v	compliance#observance.n	compliance#observant.a	compliance#observe.v
+frame-Compliance-obey.v	compliance#obedient.a
+frame-Concessive-although.scon	concessive#although.c
+frame-Concessive-despite.prep	concessive#despite.c
+frame-Concessive-however.adv	concessive#however.c	concessive#nevertheless.c
+frame-Concessive-in_spite_of.prep	concessive#in_spite_of.c
+frame-Concessive-though.scon	concessive#though.c
+frame-Concessive-to_be_fair.adv	concessive#to_be_fair.c
+frame-Concessive-while.scon	concessive#while.c
+frame-Conduct-act.v	conduct#behave.v
+frame-Conduct-conduct.v	conduct#bearing.n	conduct#behavior.n	conduct#comportment.n	conduct#conduct.n	conduct#demeanor.n	conduct#deportment.n
+frame-Conduct-misbehave.v	conduct#misbehavior.n
+frame-Confronting_problem-face.v	confronting_problem#confront.v
+frame-Connecting_architecture-lift.n	connecting_architecture#elevator.n
+frame-Connectors-tie.n	connectors#connector.n	connectors#link.n
+frame-Conquering-capture.v	conquering#conquer.v
+frame-Contacting-cable.v	contacting#telegraph.v
+frame-Contacting-ring.v	contacting#call.n	contacting#call_up.v	contacting#phone.v	contacting#telephone.v
+frame-Containers-backpack.n	containers#haversack.n	containers#knapsack.n	containers#rucksack.n
+frame-Containers-can.n	containers#canister.n
+frame-Containers-carafe.n	containers#decanter.n
+frame-Containers-cask.n	containers#barrel.n
+frame-Containers-casket.n	containers#coffin.n
+frame-Containers-cuspidor.n	containers#spittoon.n
+frame-Containers-goblet.n	containers#chalice.n
+frame-Containers-pail.n	containers#bucket.n
+frame-Containers-pot.n	containers#pot_cooking.n
+frame-Containers-purse.n	containers#handbag.n
+frame-Containers-vial.n	containers#ampule.n
+frame-Containment_relation-in.prep	containment_relation#in.c
+frame-Contingency-dependence.n	contingency#dependent.a
+frame-Contingency-independence.n	contingency#independent.a
+frame-Continued_state_of_affairs-as_of_yet.adv	continued_state_of_affairs#as_of_yet.c
+frame-Continued_state_of_affairs-as_yet.adv	continued_state_of_affairs#as_yet.c	continued_state_of_affairs#so_far.c
+frame-Continued_state_of_affairs-still.adv	continued_state_of_affairs#still.c
+frame-Continued_state_of_affairs-to_date.adv	continued_state_of_affairs#to_date.c
+frame-Continued_state_of_affairs-up_to.prep	continued_state_of_affairs#up_to.c
+frame-Contrition-guilt.n	contrition#guilty.a
+frame-Contrition-rue.v	contrition#contrite.a	contrition#contrition.n	contrition#penitence.n	contrition#penitent.a	contrition#remorseful.a	contrition#repent.v	contrition#repentance.n	contrition#repentant.a	contrition#rueful.a
+frame-Convey_importance-stress.v	convey_importance#emphasize.v	convey_importance#underline.v	convey_importance#underscore.v
+frame-Cooking_creation-concoct.v	cooking_creation#cook_up.v
+frame-Cooking_creation-cook.v	cooking_creation#prepare.v
+frame-Corporal_punishment-cane.v	corporal_punishment#flog.v	corporal_punishment#flogging.n	corporal_punishment#lash.n	corporal_punishment#scourge.v
+frame-Corporal_punishment-spank.v	corporal_punishment#paddle.v
+frame-Correctness-correctness.n	correctness#correct.a	correctness#right.a
+frame-Correctness-wrong.a	correctness#incorrect.a
+frame-Corroding-rust.v	corroding#corrode.v
+frame-Cotheme-dog.v	cotheme#chase.v	cotheme#follow.v	cotheme#pursue.v	cotheme#pursuer.n	cotheme#pursuit.n	cotheme#shadow.v	cotheme#tail.v	cotheme#track.v	cotheme#trail.v
+frame-Cotheme-lead.v	cotheme#conduct.v	cotheme#guide.v	cotheme#show.v	cotheme#usher.v
+frame-Court_examination-examine.v	court_examination#examination.n
+frame-Creating-create.v	creating#produce.v	creating#production.n
+frame-Creating-form.v	creating#formation.n
+frame-Creating-yield.v	creating#generate.v
+frame-Criminal_investigation-probe.v	criminal_investigation#inquire.v	criminal_investigation#investigate.v	criminal_investigation#investigation.n	criminal_investigation#probe.n
+frame-Criminal_investigation-under_investigation.prep	criminal_investigation#under_investigation.c
+frame-Cure-cure.v	cure#curable.a	cure#curative.a	cure#curative.n	cure#cure.n	cure#heal.v	cure#healer.n	cure#remedy.n	cure#remedy.v	cure#therapeutic.a	cure#therapist.n	cure#therapy.n
+frame-Cure-ease.v	cure#alleviate.v	cure#alleviation.n	cure#palliate.v	cure#palliation.n	cure#palliative.a	cure#palliative.n
+frame-Cure-rehabilitate.v	cure#rehabilitative.a
+frame-Cure-treat.v	cure#treatment.n
+frame-Custom-custom.n	custom#habitual.a
+frame-Custom-traditionally.adv	custom#customary.a	custom#tradition.n	custom#traditional.a	custom#traditionally.c
+frame-Cutting-cube.v	cutting#dice.v
+frame-Damaging-chip.v	damaging#nick.v
+frame-Damaging-damage.v	damaging#damage.n
+frame-Damaging-dent.v	damaging#scrape.v	damaging#scratch.v
+frame-Damaging-mar.v	damaging#deface.v
+frame-Damaging-rip.v	damaging#rend.v	damaging#tear.v
+frame-Daring-risk.v	daring#chance.v	daring#hazard.v	daring#risk.n	daring#venture.v
+frame-Dead_or_alive-lifeless.a	dead_or_alive#nonliving.a
+frame-Death-die.v	death#croak.v	death#death.n	death#decease.v	death#expire.v	death#kick_the_bucket.v	death#pass_away.v	death#perish.v
+frame-Death-suffocate.v	death#asphyxiate.v	death#suffocation.n
+frame-Deciding-decide.v	deciding#decision.n
+frame-Defend-defend.v	defend#defender.n	defend#defensive.a
+frame-Degree-a_little.adv	degree#a_little.c
+frame-Degree-a_little_bit.adv	degree#a_little_bit.c
+frame-Degree-far.adv	degree#far.c
+frame-Degree-fully.adv	degree#fully.c
+frame-Degree-heavily.adv	degree#heavily.c
+frame-Degree-so.adv	degree#so.c
+frame-Degree-somewhat.adv	degree#somewhat.c
+frame-Degree-that.adv	degree#that.c
+frame-Degree-totally.adv	degree#totally.c
+frame-Degree-very.adv	degree#very.c
+frame-Delimitation_of_diversity-from_to.prep	delimitation_of_diversity#from_to.c
+frame-Delivery-deliver.v	delivery#delivery.n
+frame-Deny_permission-forbid.v	deny_permission#prohibit.v
+frame-Departing-decamp.v	departing#vamoose.v
+frame-Departing-escape.v	departing#escape.n
+frame-Departing-exit.v	departing#depart.v	departing#departure.n	departing#emerge.v	departing#exit.n	departing#leave.v	departing#set_off.v	departing#set_out.v
+frame-Departing-vanish.v	departing#disappear.v	departing#disappearance.n
+frame-Deserving-justify.v	deserving#warrant.v
+frame-Deserving-merit.v	deserving#deserve.v	deserving#worth.a
+frame-Desirability-amazing.a	desirability#astonishing.a
+frame-Desirability-awful.a	desirability#dreadful.a	desirability#nasty.a	desirability#terrible.a
+frame-Desirability-crappy.a	desirability#rotten.a	desirability#shitty.a
+frame-Desirability-excellence.n	desirability#excellent.a	desirability#splendid.a
+frame-Desirability-fair.a	desirability#average.a
+frame-Desirability-fine.a	desirability#okay.a
+frame-Desirability-mediocre.a	desirability#second-rate.a
+frame-Desirability-pitiful.a	desirability#execrable.a	desirability#miserable.a	desirability#pathetic.a
+frame-Desirability-super.a	desirability#first-rate.a	desirability#top-notch.a
+frame-Desirability-terrific.a	desirability#fantastic.a	desirability#magnificent.a	desirability#marvellous.a	desirability#tremendous.a	desirability#wonderful.a
+frame-Desiring-aspire.v	desiring#ambition.n	desiring#aspiration.n
+frame-Desiring-hope.v	desiring#desire.n	desiring#desire.v	desiring#desirous.a	desiring#hope.n	desiring#want.v	desiring#wish.n	desiring#wish.v	desiring#wish_(that).v
+frame-Desiring-in_hopes_of.prep	desiring#in_hopes_of.c
+frame-Desiring-in_the_hope_of.prep	desiring#in_the_hope_of.c
+frame-Desiring-itch.v	desiring#urge.n
+frame-Desiring-loath.a	desiring#reluctant.a
+frame-Desiring-will.v	desiring#will.n
+frame-Desiring-yen.v	desiring#ache.v	desiring#crave.v	desiring#craving.n	desiring#hanker.v	desiring#hankering.n	desiring#hunger.n	desiring#hunger.v	desiring#long.v	desiring#longing.n	desiring#lust.n	desiring#lust.v	desiring#pine.v	desiring#thirst.n	desiring#thirst.v	desiring#thirsty.a	desiring#yearn.v	desiring#yearning.n	desiring#yen.n
+frame-Destiny-fate.n	destiny#destiny.n
+frame-Destiny-fated.a	destiny#doomed.a
+frame-Destiny-in_the_cards.adv	destiny#in_the_cards.c
+frame-Destiny-lot.n	destiny#fortune.n
+frame-Destroying-raze.v	destroying#annihilate.v	destroying#annihilation.n	destroying#demolish.v	destroying#demolition.n	destroying#destroy.v	destroying#destruction.n	destroying#destructive.a	destroying#devastate.v	destroying#devastation.n	destroying#dismantle.v	destroying#level.v	destroying#obliterate.v	destroying#obliteration.n
+frame-Detaching-untie.v	detaching#unfasten.v
+frame-Detaining-intern.v	detaining#internment.n
+frame-Detaining-on_the_loose.prep	detaining#on_the_loose.c
+frame-Detaining-under_arrest.prep	detaining#under_arrest.c
+frame-Differentiation-separate.v	differentiation#differentiate.v	differentiation#discriminate.v	differentiation#discrimination.n	differentiation#distinguish.v	differentiation#tell_apart.v
+frame-Difficulty-hard.a	difficulty#difficult.a	difficulty#tough.a
+frame-Dimension-across.adv	dimension#across.c
+frame-Dimension-around.adv	dimension#around.c
+frame-Dimension-big.a	dimension#large.a
+frame-Dimension-light((weight)).a	dimension#light((illumination)).a
+frame-Dimension-wide.a	dimension#broad.a
+frame-Dimension-width.n	dimension#breadth.n
+frame-Direction-down.adv	direction#down.c
+frame-Direction-east.adv	direction#east.c
+frame-Direction-forward.adv	direction#forward.c
+frame-Direction-left.adv	direction#left.c
+frame-Direction-north.adv	direction#north.c
+frame-Direction-outward.adv	direction#outward.c
+frame-Direction-right.adv	direction#right.c
+frame-Direction-south.adv	direction#south.c
+frame-Direction-up.adv	direction#up.c
+frame-Discussion-communicate.v	discussion#communication.n
+frame-Discussion-confer.v	discussion#conference.n	discussion#consultation.n
+frame-Discussion-discuss.v	discussion#discussant.n	discussion#discussion.n
+frame-Discussion-negotiate.v	discussion#dialogue.n	discussion#negotiation.n
+frame-Discussion-parley.v	discussion#parley.n
+frame-Disembarking-debark.v	disembarking#disembark.v	disembarking#disembarkation.n
+frame-Disgraceful_situation-shameful.a	disgraceful_situation#disgraceful.a
+frame-Dispersal-dispersion.n	dispersal#distribution.n
+frame-Dispersal-dissolve.v	dispersal#dissolution.n
+frame-Dispersal-strew.v	dispersal#dispersal.n	dispersal#disperse.v	dispersal#disseminate.v	dispersal#distribute.v	dispersal#pass_on.v	dispersal#scatter.v	dispersal#spread.v	dispersal#sprinkle.v
+frame-Distinctiveness-characterize.v	distinctiveness#characteristic.a	distinctiveness#characteristic.n
+frame-Diversity-heterogeneity.n	diversity#heterogeneous.a
+frame-Diversity-mixed_bag.n	diversity#assorted.a	diversity#assortment.n	diversity#miscellany.n
+frame-Diversity-range.n	diversity#scope.n
+frame-Diversity-uniformity.n	diversity#uniform.a
+frame-Diversity-variety.n	diversity#diverse.a	diversity#diverseness.n	diversity#diversity.n	diversity#multifarious.a	diversity#multifariousness.n
+frame-Documents-accord.n	documents#agreement.n
+frame-Documents-contract.n	documents#contractual.a
+frame-Documents-deed.n	documents#title.n
+frame-Documents-papers.n	documents#document.n
+frame-Documents-permit.n	documents#certificate.n	documents#licence.n
+frame-Documents-ruling.n	documents#opinion.n
+frame-Documents-will.n	documents#testament.n
+frame-Dodging-dodge.v	dodging#sidestep.v
+frame-Domain-culturally.adv	domain#culturally.c
+frame-Domain-economically.adv	domain#economically.c
+frame-Domain-emotionally.adv	domain#emotionally.c
+frame-Domain-financially.adv	domain#financially.c
+frame-Domain-geographically.adv	domain#geographically.c
+frame-Domain-historically.adv	domain#historically.c
+frame-Domain-in_terms.prep	domain#in_terms.c
+frame-Domain-legally.adv	domain#legally.c
+frame-Domain-psychologically.adv	domain#psychologically.c
+frame-Domain-socially.adv	domain#socially.c
+frame-Dominate_competitor-dominate.v	dominate_competitor#dominant.a	dominate_competitor#domination.n
+frame-Dominate_situation-dominate.v	dominate_situation#predominate.v
+frame-Dominate_situation-domination.n	dominate_situation#dominant.a
+frame-Dough_rising-rise.v	dough_rising#prove.v
+frame-Dressing-don.v	dressing#put_on.v
+frame-Dunking-dip.v	dunking#dunk.v
+frame-Duplication-duplicate.n	duplication#duplication.n
+frame-Duplication-duplicate.v	duplication#reduplicate.v	duplication#replica.n	duplication#replicate.v
+frame-Duplication-run_off.v	duplication#photocopy.n	duplication#photocopy.v
+frame-Duration_attribute-abiding.a	duration_attribute#enduring.a	duration_attribute#lasting.a	duration_attribute#persistent.a
+frame-Duration_attribute-brief.a	duration_attribute#ephemeral.a	duration_attribute#momentary.a
+frame-Duration_attribute-eternal.a	duration_attribute#perpetual.a
+frame-Duration_attribute-lengthy.a	duration_attribute#extended.a
+frame-Earnings_and_losses-net.n	earnings_and_losses#earnings.n	earnings_and_losses#profit.n
+frame-Eclipse-befog.v	eclipse#becloud.v	eclipse#obscure.v
+frame-Eclipse-block.v	eclipse#obstruct.v	eclipse#occlude.v
+frame-Eclipse-cover.v	eclipse#enshroud.v	eclipse#shroud.v
+frame-Eclipse-eclipse.n	eclipse#occultation.n
+frame-Eclipse-hide.v	eclipse#blot_out.v	eclipse#conceal.v
+frame-Eclipse-masked.a	eclipse#cloaked.a
+frame-Economy-economy.n	economy#economic.a
+frame-Education_teaching-coach.v	education_teaching#educate.v	education_teaching#education.n	education_teaching#educational.a	education_teaching#instruct.v	education_teaching#instruction.n	education_teaching#learn.v	education_teaching#teach.v	education_teaching#teacher.n	education_teaching#train.v	education_teaching#training.n
+frame-Education_teaching-tutor.v	education_teaching#tutor.n
+frame-Electricity-electric_power.n	electricity#electrical_power.n
+frame-Electricity-electricity.n	electricity#electric.a	electricity#electrical.a	electricity#photoelectric.a	electricity#photoelectricity.n
+frame-Electricity-hydroelectricity.n	electricity#hydroelectric.a
+frame-Elusive_goal-elude.v	elusive_goal#evade.v
+frame-Emitting-emit.v	emitting#exhale.v	emitting#give_off.v
+frame-Emitting-secrete.v	emitting#discharge.v
+frame-Emitting-void.v	emitting#excrete.v
+frame-Emotion_active-fret.v	emotion_active#fuss.v
+frame-Emotion_active-obsess.v	emotion_active#obsession.n
+frame-Emotion_directed-abashed.a	emotion_directed#chagrined.a
+frame-Emotion_directed-agony.n	emotion_directed#anguish.n
+frame-Emotion_directed-all_about.prep	emotion_directed#all_about.c
+frame-Emotion_directed-anger.n	emotion_directed#angry.a
+frame-Emotion_directed-anguished.a	emotion_directed#tormented.a
+frame-Emotion_directed-baffled.a	emotion_directed#befuddled.a	emotion_directed#bewildered.a	emotion_directed#disoriented.a
+frame-Emotion_directed-bafflement.n	emotion_directed#bewilderment.n	emotion_directed#mystification.n	emotion_directed#puzzlement.n	emotion_directed#stupefaction.n
+frame-Emotion_directed-blue.a	emotion_directed#crushed.a	emotion_directed#depressed.a	emotion_directed#downcast.a	emotion_directed#downhearted.a	emotion_directed#low-spirited.a	emotion_directed#lugubrious.a
+frame-Emotion_directed-chagrin.n	emotion_directed#mortification.n
+frame-Emotion_directed-concern.n	emotion_directed#interest.n
+frame-Emotion_directed-discomfited.a	emotion_directed#disappointed.a
+frame-Emotion_directed-discomfiture.n	emotion_directed#disconcertion.n
+frame-Emotion_directed-discouraged.a	emotion_directed#disheartened.a
+frame-Emotion_directed-dismay.n	emotion_directed#dejection.n	emotion_directed#discouragement.n
+frame-Emotion_directed-disquiet.n	emotion_directed#anxious.a	emotion_directed#nervous.a
+frame-Emotion_directed-excitement.n	emotion_directed#exhilaration.n
+frame-Emotion_directed-fury.n	emotion_directed#enraged.a	emotion_directed#exasperation.n	emotion_directed#furious.a	emotion_directed#infuriated.a	emotion_directed#mad.a	emotion_directed#sore.a
+frame-Emotion_directed-glee.n	emotion_directed#gleeful.a	emotion_directed#jubilant.a
+frame-Emotion_directed-grief.n	emotion_directed#despondency.n	emotion_directed#despondent.a	emotion_directed#disconsolate.a	emotion_directed#heartbreak.n	emotion_directed#heartbroken.a	emotion_directed#inconsolable.a
+frame-Emotion_directed-horror.n	emotion_directed#revulsion.n
+frame-Emotion_directed-incensed.a	emotion_directed#indignant.a
+frame-Emotion_directed-mortified.a	emotion_directed#embarrassed.a	emotion_directed#humiliated.a
+frame-Emotion_directed-perplexity.n	emotion_directed#perplexed.a
+frame-Emotion_directed-rattled.a	emotion_directed#flustered.a	emotion_directed#perturbed.a
+frame-Emotion_directed-riled.a	emotion_directed#annoyed.a	emotion_directed#irritated.a	emotion_directed#miffed.a	emotion_directed#nettled.a	emotion_directed#peeved.a
+frame-Emotion_directed-shocked.a	emotion_directed#appalled.a	emotion_directed#dismayed.a
+frame-Emotion_directed-sorrow.n	emotion_directed#mournful.a	emotion_directed#sad.a	emotion_directed#sadness.n	emotion_directed#sorrowful.a
+frame-Emotion_directed-stunned.a	emotion_directed#astonished.a	emotion_directed#astounded.a
+frame-Emotion_directed-stupefied.a	emotion_directed#flabbergasted.a
+frame-Emotion_directed-sympathize.v	emotion_directed#sympathetic.a	emotion_directed#sympathy.n
+frame-Emotion_directed-upset.a	emotion_directed#disquieted.a	emotion_directed#distressed.a	emotion_directed#worried.a
+frame-Emotion_directed-vexation.n	emotion_directed#annoyance.n
+frame-Emotion_directed-vexed.a	emotion_directed#harried.a
+frame-Emotion_directed-wretched.a	emotion_directed#miserable.a
+frame-Emotions_by_stimulus-joyful.a	emotions_by_stimulus#jubilant.a
+frame-Emotions_of_mental_activity-enjoy.v	emotions_of_mental_activity#delight.n	emotions_of_mental_activity#delight_(in).v	emotions_of_mental_activity#enjoyment.n	emotions_of_mental_activity#pleasure.n	emotions_of_mental_activity#relish.v	emotions_of_mental_activity#savour.v
+frame-Employing-employee.n	employing#employer.n	employing#employment.n
+frame-Emptying-bone.v	emptying#debone.v
+frame-Emptying-decontaminate.v	emptying#decontamination.n
+frame-Emptying-disarm.v	emptying#disarmament.n
+frame-Emptying-peel.v	emptying#skin.v
+frame-Emptying-pit.v	emptying#stone.v
+frame-Emptying-void.v	emptying#empty.v	emptying#emptying.n	emptying#evacuate.v	emptying#purge.v
+frame-Encoding-put.v	encoding#cast.v	encoding#couch.v	encoding#frame.v
+frame-Encoding-word.v	encoding#expression.n	encoding#formulate.v	encoding#formulation.n	encoding#phrase.v	encoding#phrasing.n	encoding#wording.n
+frame-Endangering-imperil.v	endangering#endanger.v	endangering#endangerment.n	endangering#jeopardise.v
+frame-Enforcing-enforce.v	enforcing#enforcement.n
+frame-Escaping-escape.v	escaping#fly_the_coop.v	escaping#scarper.v
+frame-Estimated_value-estimate.n	estimated_value#estimation.n
+frame-Estimating-guess.v	estimating#estimate.v	estimating#estimation.n
+frame-Evading-elude.v	evading#elusive.a	evading#evasion.n
+frame-Evading-flee.v	evading#get_away.v
+frame-Evaluative_comparison-compare.v	evaluative_comparison#comparable.a
+frame-Evaluative_comparison-equal.v	evaluative_comparison#match.n	evaluative_comparison#match.v	evaluative_comparison#rival.v
+frame-Event-go_on.v	event#happen.v	event#occur.v	event#take_place.v
+frame-Event_instance-once.adv	event_instance#once.c
+frame-Event_instance-twice.adv	event_instance#twice.c
+frame-Evidence-from.prep	evidence#from.c
+frame-Evidence-mean.v	evidence#imply.v
+frame-Evidence-show.v	evidence#attest.v	evidence#confirm.v	evidence#corroborate.v	evidence#demonstrate.v	evidence#evidence.n	evidence#evidence.v	evidence#illustrate.v	evidence#prove.v	evidence#substantiate.v	evidence#support.v	evidence#testify.v	evidence#verify.v
+frame-Evoking-evoke.v	evoking#conjure.v	evoking#evocation.n
+frame-Evoking-recall.v	evoking#evocative.a
+frame-Evoking-remind.v	evoking#reminder.n
+frame-Examination-test.v	examination#exam.n	examination#examination.n	examination#examine.v	examination#test.n
+frame-Exchange-change.v	exchange#exchange.v
+frame-Exchange-swap.v	exchange#swap.n	exchange#switch.v	exchange#trade.n	exchange#trade.v
+frame-Exchange_currency-convert.v	exchange_currency#exchange.v
+frame-Exclude_member-excommunicate.v	exclude_member#excommunication.n
+frame-Excreting-burp.v	excreting#belch.v
+frame-Excreting-pee.v	excreting#piss.v	excreting#urinate.v
+frame-Excreting-puke.v	excreting#regurgitate.v	excreting#retch.v	excreting#spew.v	excreting#throw_up.v	excreting#vomit.v
+frame-Excreting-shit.v	excreting#defecate.v	excreting#evacuate.v	excreting#void.v
+frame-Excreting-sweat.v	excreting#perspiration.n	excreting#perspire.v	excreting#sweat.n
+frame-Execute_plan-implement.v	execute_plan#effect_((into_effect)).n	execute_plan#implementation.n
+frame-Execution-hang.v	execution#hanging.n
+frame-Execution-put_to_death.v	execution#execution.n	execution#executioner.n
+frame-Exemplar-image.n	exemplar#epitome.n	exemplar#prototype.n
+frame-Exemplar-model.n	exemplar#exemplar.n
+frame-Exercising-exercise.v	exercising#exercise.n	exercising#work_out.v
+frame-Existence-exist.v	existence#existence.n	existence#real.a
+frame-Expansion-dilate.v	expansion#enlarge.v
+frame-Expansion-expansion.n	expansion#enlargement.n
+frame-Expansion-shrink.v	expansion#contract.v
+frame-Expectation-await.v	expectation#anticipate.v	expectation#expect.v	expectation#expectation.n
+frame-Expectation-predict.v	expectation#prediction.n	expectation#premonition.n
+frame-Expected_location_of_person-in.prep	expected_location_of_person#in.c
+frame-Expected_location_of_person-out.prep	expected_location_of_person#out.c
+frame-Expensiveness-cheap.a	expensiveness#inexpensive.a
+frame-Expensiveness-costly.a	expensiveness#pricey.a
+frame-Expensiveness-low-cost.a	expensiveness#affordable.a	expensiveness#low-priced.a
+frame-Experience_bodily_harm-abrade.v	experience_bodily_harm#scrape.v
+frame-Experience_bodily_harm-pull.v	experience_bodily_harm#sprain.v	experience_bodily_harm#twist.v
+frame-Experiencer_focus-delight.v	experiencer_focus#pleasure.n
+frame-Experiencer_focus-despair.v	experiencer_focus#desperation.n
+frame-Experiencer_focus-dislike.v	experiencer_focus#dislike.n
+frame-Experiencer_focus-empathize.v	experiencer_focus#empathetic.a	experiencer_focus#empathy.n
+frame-Experiencer_focus-envy.v	experiencer_focus#envy.n
+frame-Experiencer_focus-fear.v	experiencer_focus#apprehensive.a	experiencer_focus#dread.n	experiencer_focus#dread.v
+frame-Experiencer_focus-feverishly.adv	experiencer_focus#feverish.a	experiencer_focus#feverishly.c
+frame-Experiencer_focus-happily.adv	experiencer_focus#happily.c
+frame-Experiencer_focus-hate.v	experiencer_focus#abhor.v	experiencer_focus#abhorrence.n	experiencer_focus#abominate.v	experiencer_focus#detest.v	experiencer_focus#detestation.n	experiencer_focus#hatred.n	experiencer_focus#loathe.v	experiencer_focus#loathing.n
+frame-Experiencer_focus-love.v	experiencer_focus#enjoy.v	experiencer_focus#enjoyment.n	experiencer_focus#relish.n	experiencer_focus#relish.v	experiencer_focus#savour.v
+frame-Experiencer_focus-nettled.a	experiencer_focus#irritated.a
+frame-Experiencer_focus-pity.v	experiencer_focus#compassion.n	experiencer_focus#pity.n
+frame-Experiencer_focus-resent.v	experiencer_focus#resentment.n
+frame-Experiencer_focus-rue.v	experiencer_focus#grieve.v	experiencer_focus#mourn.v	experiencer_focus#regret.n	experiencer_focus#regret.v	experiencer_focus#rueful.a
+frame-Experiencer_focus-upset.a	experiencer_focus#worried.a
+frame-Experiencer_obj-abash.v	experiencer_obj#embarrass.v
+frame-Experiencer_obj-astound.v	experiencer_obj#astonish.v
+frame-Experiencer_obj-boggle.v	experiencer_obj#flabbergast.v
+frame-Experiencer_obj-charm.v	experiencer_obj#appeal.v	experiencer_obj#beguile.v	experiencer_obj#bewitch.v	experiencer_obj#captivate.v	experiencer_obj#enchant.v	experiencer_obj#enthrall.v	experiencer_obj#exhilarate.v	experiencer_obj#fascinate.v	experiencer_obj#intrigue.v	experiencer_obj#thrill.v	experiencer_obj#tickle.v
+frame-Experiencer_obj-cheer.v	experiencer_obj#hearten.v
+frame-Experiencer_obj-crush.v	experiencer_obj#demolish.v
+frame-Experiencer_obj-depress.v	experiencer_obj#discourage.v	experiencer_obj#dishearten.v
+frame-Experiencer_obj-destroy.v	experiencer_obj#devastate.v
+frame-Experiencer_obj-faze.v	experiencer_obj#unnerve.v	experiencer_obj#unsettle.v
+frame-Experiencer_obj-floor.v	experiencer_obj#outrage.v	experiencer_obj#shock.v	experiencer_obj#shocker.n	experiencer_obj#traumatize.v
+frame-Experiencer_obj-fulfill.v	experiencer_obj#gratify.v	experiencer_obj#satisfy.v
+frame-Experiencer_obj-grate.v	experiencer_obj#rankle.v
+frame-Experiencer_obj-irk.v	experiencer_obj#gall.v
+frame-Experiencer_obj-mortify.v	experiencer_obj#humiliate.v
+frame-Experiencer_obj-pacify.v	experiencer_obj#conciliate.v	experiencer_obj#mollify.v	experiencer_obj#placate.v
+frame-Experiencer_obj-please.v	experiencer_obj#delight.v	experiencer_obj#gladden.v
+frame-Experiencer_obj-repel.v	experiencer_obj#revolt.v	experiencer_obj#sicken.v
+frame-Experiencer_obj-rile.v	experiencer_obj#aggravate.v	experiencer_obj#annoy.v	experiencer_obj#arouse.v	experiencer_obj#enrage.v	experiencer_obj#exasperate.v	experiencer_obj#harass.v	experiencer_obj#incense.v	experiencer_obj#infuriate.v	experiencer_obj#irritate.v	experiencer_obj#nettle.v
+frame-Experiencer_obj-scare.v	experiencer_obj#frighten.v	experiencer_obj#terrify.v
+frame-Experiencer_obj-solace.v	experiencer_obj#comfort.v	experiencer_obj#console.v	experiencer_obj#soothe.v
+frame-Experiencer_obj-stir.v	experiencer_obj#excite.v	experiencer_obj#shake.v	experiencer_obj#stimulate.v
+frame-Experiencer_obj-surprise.v	experiencer_obj#surprise.n
+frame-Experiencer_obj-upset.v	experiencer_obj#discomfit.v	experiencer_obj#disconcert.v	experiencer_obj#disturb.v	experiencer_obj#fluster.v	experiencer_obj#perturb.v	experiencer_obj#trouble.n	experiencer_obj#trouble.v
+frame-Experiencer_obj-vex.v	experiencer_obj#amaze.v	experiencer_obj#baffle.v	experiencer_obj#bewilder.v	experiencer_obj#confuse.v	experiencer_obj#flummox.v	experiencer_obj#mystify.v	experiencer_obj#nonplus.v	experiencer_obj#perplex.v	experiencer_obj#puzzle.v	experiencer_obj#stupefy.v
+frame-Experiencer_obj-worry.v	experiencer_obj#frustrate.v	experiencer_obj#torment.v
+frame-Experiencer_obj-wound.v	experiencer_obj#offend.v
+frame-Expertise-ace.a	expertise#crack.a
+frame-Expertise-ace.n	expertise#adept.a	expertise#adept.n	expertise#adeptness.n	expertise#expert.a	expertise#expertise.n	expertise#master.n	expertise#maven.n	expertise#proficiency.n	expertise#proficient.a	expertise#skilful.a	expertise#virtuoso.n	expertise#whiz.n	expertise#wizard.n
+frame-Expertise-amateur.a	expertise#inexpert.a
+frame-Expertise-awful.a	expertise#dreadful.a	expertise#terrible.a
+frame-Expertise-competence.n	expertise#competent.a
+frame-Expertise-conversance.n	expertise#conversant.a	expertise#familiar.a
+frame-Expertise-excel.v	expertise#excellent.a	expertise#splendid.a
+frame-Expertise-experience.n	expertise#experienced.a
+frame-Expertise-ineptness.n	expertise#incompetence.n	expertise#incompetent.a	expertise#ineptitude.n
+frame-Expertise-terrific.a	expertise#fantastic.a	expertise#tremendous.a	expertise#wonderful.a
+frame-Exporting-export.v	exporting#export_((act)).n	exporting#export_((entity)).n	exporting#exportation.n
+frame-Expressing_publicly-voice.v	expressing_publicly#articulate.v	expressing_publicly#give_voice.v
+frame-Extradition-extradite.v	extradition#extradition.n
+frame-Facial_expression-frown.n	facial_expression#scowl.n
+frame-Facial_expression-grin.n	facial_expression#smile.n
+frame-Facial_expression-look.n	facial_expression#expression.n
+frame-Fairness_evaluation-fairly.adv	fairness_evaluation#fair.a	fairness_evaluation#fairly.c
+frame-Fairness_evaluation-unfairly.adv	fairness_evaluation#inequitable.a	fairness_evaluation#unfair.a	fairness_evaluation#unfairly.c	fairness_evaluation#unjust.a
+frame-Fairness_evaluation-unjustly.adv	fairness_evaluation#unjustly.c
+frame-Fall_asleep-nod_off.v	fall_asleep#doze_off.v	fall_asleep#drift_off.v
+frame-Fall_asleep-pass_out.v	fall_asleep#black_out.v
+frame-Fame-fame.n	fame#famous.a	fame#renown.n	fame#renowned.a
+frame-Fame-infamous.a	fame#notorious.a
+frame-Fear-fear.n	fear#apprehension.n	fear#dread.n	fear#frightened.a	fear#terrified.a	fear#terror.n
+frame-Feeling-feel.v	feeling#experience.v	feeling#feelings.n
+frame-Feigning-fake.v	feigning#affect.v	feigning#counterfeit.v	feigning#feign.v	feigning#pretend.v	feigning#simulate.v
+frame-Fields-art.n	fields#artistic.a
+frame-Fields-in.prep	fields#in.c
+frame-Fighting_activity-fray.n	fighting_activity#affray.n
+frame-Filling-adorn.v	filling#embellish.v
+frame-Filling-coat.v	filling#surface.v
+frame-Filling-dab.v	filling#spatter.v	filling#splash.v	filling#splatter.v
+frame-Filling-daub.v	filling#plaster.v	filling#smear.v
+frame-Filling-dust.v	filling#scatter.v	filling#spread.v	filling#sprinkle.v	filling#strew.v
+frame-Filling-jam.v	filling#cram.v	filling#heap.v	filling#pack.v	filling#pile.v
+frame-Filling-sow.v	filling#seed.v
+frame-Fining-fine.v	fining#amerce.v	fining#fine.n	fining#mulct.v	fining#ticket.n	fining#ticket.v
+frame-Finish_competition-tie.v	finish_competition#draw.n	finish_competition#tie.n
+frame-Finish_competition-victory.n	finish_competition#victorious.a
+frame-Finish_competition-win.v	finish_competition#victor.n	finish_competition#win.n	finish_competition#winner.n
+frame-Firing-can.v	firing#dismiss.v	firing#dismissal.n	firing#fire.v	firing#firing.n	firing#sack.v	firing#terminate.v
+frame-First_experience-first.adv	first_experience#first.c
+frame-First_rank-lead.n	first_rank#leader.n
+frame-First_rank-main.a	first_rank#chief.a	first_rank#primary.a	first_rank#principal.a
+frame-Fleeing-flee.v	fleeing#run_away.v
+frame-Fluidic_motion-drip.v	fluidic_motion#dribble.v	fluidic_motion#trickle.v
+frame-Fluidic_motion-jet.v	fluidic_motion#gush.v	fluidic_motion#spout.v	fluidic_motion#spurt.v	fluidic_motion#squirt.v
+frame-Fluidic_motion-ooze.v	fluidic_motion#seep.v
+frame-Fluidic_motion-run.v	fluidic_motion#course.v	fluidic_motion#flow.v	fluidic_motion#stream.v
+frame-Food-cookie.n	food#biscuit.n
+frame-Food-sugar.n	food#cabbage.n	food#lettuce.n
+frame-Forging-fake.v	forging#counterfeit.v	forging#fake.n	forging#falsify.v	forging#forge.v	forging#forgery_((act)).n	forging#forgery_((entity)).n
+frame-Forgiveness-excuse.v	forgiveness#condone.v	forgiveness#forgive.v	forgiveness#forgiveness.n	forgiveness#pardon.v
+frame-Forgoing-abstention.n	forgoing#abstinence.n
+frame-Forgoing-forbear.v	forgoing#forbearance.n	forgoing#refrain.v
+frame-Forming_relationships-betroth.v	forming_relationships#betrothal.n	forming_relationships#engagement.n
+frame-Forming_relationships-divorce.v	forming_relationships#divorce.n
+frame-Forming_relationships-wed.v	forming_relationships#marry.v	forming_relationships#marry_(into).v	forming_relationships#wedding.n
+frame-Frequency-all_the_time.adv	frequency#all_the_time.c
+frame-Frequency-always.adv	frequency#always.c
+frame-Frequency-annual.a	frequency#yearly.a
+frame-Frequency-at_times.adv	frequency#at_times.c	frequency#occasional.a	frequency#occasionally.c	frequency#once_in_a_while.c
+frame-Frequency-constantly.adv	frequency#constantly.c
+frame-Frequency-daily.adv	frequency#daily.a	frequency#daily.c
+frame-Frequency-every.prep	frequency#every.c
+frame-Frequency-every_once_in_a_while.adv	frequency#every_once_in_a_while.c
+frame-Frequency-never.adv	frequency#never.c
+frame-Frequency-often.adv	frequency#frequency.n	frequency#frequent.a	frequency#frequently.c	frequency#often.c
+frame-Frequency-regularly.adv	frequency#regularly.c
+frame-Frequency-repeated.a	frequency#recurrent.a
+frame-Frequency-seldom.adv	frequency#infrequent.a	frequency#infrequently.c	frequency#rare.a	frequency#seldom.c
+frame-Frequency-sometimes.adv	frequency#sometimes.c
+frame-Frequency-time_to_time.adv	frequency#time_to_time.c
+frame-Frugality-austerity.n	frugality#austere.a	frugality#spartan.a
+frame-Frugality-husband.v	frugality#economical.a	frugality#economy.n	frugality#frugal.a	frugality#frugality.n	frugality#parsimonious.a	frugality#parsimony.n	frugality#sparing.a	frugality#thrift.n	frugality#thrifty.a
+frame-Frugality-waste.v	frugality#extravagant.a	frugality#profligacy.n	frugality#profligate.a	frugality#squander.v	frugality#wasteful.a
+frame-Fullness-emptiness.n	fullness#empty.a
+frame-Fullness-fullness.n	fullness#full.a
+frame-Gathering_up-amass.v	gathering_up#collect.v
+frame-Gathering_up-gather.v	gathering_up#assemble.v
+frame-Gesture-motion.v	gesture#gesticulate.v	gesture#gesture.v
+frame-Gesture-signal.v	gesture#signal.n
+frame-Gesture-wave.v	gesture#beckon.v
+frame-Getting-get.v	getting#acquire.v	getting#acquisition_((act)).n	getting#acquisition_((entity)).n
+frame-Getting-secure.v	getting#procure.v	getting#procurement_((act)).n
+frame-Getting-win.v	getting#gain.v
+frame-Getting_up-rise.v	getting_up#get_up.v
+frame-Giving-gift.v	giving#contribute.v	giving#contribution.n	giving#donate.v	giving#donation.n	giving#donor.n	giving#gift.n	giving#give.v
+frame-Giving-give_out.v	giving#hand_out.v	giving#pass_out.v
+frame-Giving-hand.v	giving#pass.v
+frame-Giving-will.v	giving#bequeath.v	giving#leave.v
+frame-Giving_in-yield.v	giving_in#relent.v
+frame-Gizmo-gadget.n	gizmo#appliance.n	gizmo#contraption.n
+frame-Goal-into.prep	goal#into.c
+frame-Goal-to.prep	goal#to.c
+frame-Grant_permission-clear.v	grant_permission#authorize.v
+frame-Grant_permission-let.v	grant_permission#allow.v	grant_permission#approve.v	grant_permission#okay.v	grant_permission#permit.v	grant_permission#sanction.v
+frame-Grasp-grasp.v	grasp#apprehend.v	grasp#comprehend.v	grasp#comprehensible.a	grasp#grasp.n	grasp#graspable.a	grasp#intelligible.a	grasp#understand.v
+frame-Grinding-chew.v	grinding#masticate.v	grinding#mastication.n
+frame-Grinding-mill.v	grinding#crush.v	grinding#grate.v	grinding#grind.v	grinding#pulverize.v
+frame-Grooming-brush_((hair)).v	grooming#brush_((teeth)).v
+frame-Grooming-lave.v	grooming#wash.v
+frame-Grooming-manicure.v	grooming#manicure.n
+frame-Ground_up-powdered.a	ground_up#pulverized.a
+frame-Guilt_or_innocence-guilt.n	guilt_or_innocence#guilty.a
+frame-Guilt_or_innocence-innocence.n	guilt_or_innocence#innocent.a
+frame-Hair_configuration-blond.a	hair_configuration#blonde.a
+frame-Hair_configuration-braid.n	hair_configuration#plait.n	hair_configuration#tress.n
+frame-Hair_configuration-curl.v	hair_configuration#curl.n	hair_configuration#curly.a	hair_configuration#lock.n	hair_configuration#wave.n	hair_configuration#wavy.a
+frame-Hair_configuration-hairdo.n	hair_configuration#hairstyle.n
+frame-Halt-halt.v	halt#stop.v
+frame-Halt-to_a_halt.prep	halt#to_a_halt.c
+frame-Halt-to_a_stop.prep	halt#to_a_stop.c
+frame-Have_as_requirement-need.v	have_as_requirement#demand.v	have_as_requirement#require.v	have_as_requirement#take.v
+frame-Have_associated-have.v	have_associated#have_got.v
+frame-Health_response-allergy.n	health_response#allergic.a
+frame-Health_response-sensitivity.n	health_response#sensitive.a
+frame-Health_response-susceptibility.n	health_response#susceptible.a
+frame-Hiding_objects-hide.v	hiding_objects#conceal.v
+frame-Hiding_objects-mask.v	hiding_objects#camouflage.v
+frame-Hindering-delay.v	hindering#retard.v
+frame-Hindering-hamper.v	hindering#constrain.v	hindering#encumber.v	hindering#encumbrance.n	hindering#handicap.v	hindering#hinder.v	hindering#hindrance.n	hindering#impede.v	hindering#impediment.n	hindering#interference.n	hindering#trammel.v
+frame-Hindering-obstruct.v	hindering#obstruction_act.n	hindering#obstruction_entity.n	hindering#obstructive.a
+frame-Hiring-sign.v	hiring#contract.v	hiring#sign_on.v	hiring#sign_up.v
+frame-Historic_event-historic.a	historic_event#historic_((entity)).a
+frame-Hit_or_miss-wide.adv	hit_or_miss#wide.c
+frame-Holding_off_on-wait.v	holding_off_on#hold_off.v
+frame-Hospitality-hospitality.n	hospitality#hospitable.a
+frame-Hostile_encounter-brawl.v	hostile_encounter#battle.n	hostile_encounter#battle.v	hostile_encounter#brawl.n	hostile_encounter#combat.n	hostile_encounter#conflict.n	hostile_encounter#fight.n	hostile_encounter#fight.v	hostile_encounter#fighting.n	hostile_encounter#row.n	hostile_encounter#struggle.n	hostile_encounter#struggle.v	hostile_encounter#wrangling.n
+frame-Hostile_encounter-confront.v	hostile_encounter#confrontation.n	hostile_encounter#showdown.n
+frame-Hostile_encounter-duel.v	hostile_encounter#duel.n
+frame-Hostile_encounter-gunfight.n	hostile_encounter#shootout.n
+frame-Hostile_encounter-scuffle.v	hostile_encounter#scuffle.n	hostile_encounter#tussle.n
+frame-Hostile_encounter-skirmish.v	hostile_encounter#clash.n	hostile_encounter#skirmish.n
+frame-Hostile_encounter-spat.n	hostile_encounter#squabble.n	hostile_encounter#tiff.n
+frame-Hostile_encounter-war.n	hostile_encounter#warfare.n
+frame-Idiosyncrasy-idiosyncrasy.n	idiosyncrasy#idiosyncratic.a
+frame-Idiosyncrasy-peculiarity.n	idiosyncrasy#particular.a	idiosyncrasy#peculiar.a
+frame-Idiosyncrasy-weird.a	idiosyncrasy#uncanny.a
+frame-Imitating-ape.v	imitating#copy.v	imitating#imitate.v
+frame-Impact-bang.v	impact#slam.v
+frame-Impact-bump.v	impact#knock.v
+frame-Impact-click.v	impact#chatter.v
+frame-Impact-clink.v	impact#tinkle.v
+frame-Impact-crash.v	impact#crash.n
+frame-Impact-hit.v	impact#clash.v	impact#collide.v	impact#collision.n	impact#hit.n	impact#rap.v	impact#strike.v
+frame-Impact-slap.v	impact#smack.v
+frame-Impact-thud.v	impact#clunk.v	impact#plunk.v
+frame-Import_export-export.v	import_export#export_((act)).n	import_export#export_((entity)).n	import_export#exporter.n
+frame-Import_export-import.v	import_export#import_((act)).n	import_export#import_((entity)).n	import_export#importation.n	import_export#importer.n
+frame-Importance-importance.n	importance#critical.a	importance#crucial.a	importance#decisive.a	importance#important.a	importance#significance.n	importance#significant.a	importance#vital.a
+frame-Importance-key.a	importance#fundamental.a
+frame-Importance-seriously.adv	importance#seriously.c
+frame-Importing-import.v	importing#import_((act)).n	importing#import_((entity)).n	importing#importation.n
+frame-Imposing_obligation-bind.v	imposing_obligation#obligate.v
+frame-Imposing_obligation-charge.v	imposing_obligation#charge.n
+frame-Imprisonment-jail.v	imprisonment#imprison.v	imprisonment#imprisonment.n	imprisonment#incarcerate.v	imprisonment#incarceration.n	imprisonment#put_away.v
+frame-In-in.prep	in#in.c
+frame-Inchoative_attaching-bind.v	inchoative_attaching#attach.v	inchoative_attaching#fasten.v	inchoative_attaching#stick.v
+frame-Inchoative_change_of_temperature-cool.v	inchoative_change_of_temperature#chill.v
+frame-Inchoative_change_of_temperature-heat.v	inchoative_change_of_temperature#warm.v
+frame-Inclination-proclivity.n	inclination#propensity.n
+frame-Inclusion-among.prep	inclusion#among.c
+frame-Inclusion-amongst.prep	inclusion#amongst.c
+frame-Inclusion-contain.v	inclusion#incorporate.v
+frame-Inclusion-excluding.prep	inclusion#excluding.c
+frame-Inclusion-including.prep	inclusion#including.c
+frame-Indigenous_origin-indigenous.a	indigenous_origin#autochthonous.a
+frame-Ineffability-magic.n	ineffability#magic.a	ineffability#magical.a
+frame-Influence_of_event_on_cognizer-influence.v	influence_of_event_on_cognizer#influence((mass)).n	influence_of_event_on_cognizer#influence.n	influence_of_event_on_cognizer#influential.a
+frame-Information-data.n	information#info.n	information#information.n
+frame-Ingest_substance-drag.v	ingest_substance#drag.n	ingest_substance#puff.v
+frame-Ingestion-down.v	ingestion#devour.v
+frame-Ingestion-drink.v	ingestion#imbibe.v
+frame-Ingestion-gulp.v	ingestion#gulp.n	ingestion#guzzle.v	ingestion#quaff.v	ingestion#swig.n	ingestion#swig.v	ingestion#swill.v
+frame-Ingestion-ingest.v	ingestion#consume.v
+frame-Ingestion-nosh.v	ingestion#snack.v
+frame-Ingestion-sip.v	ingestion#sip.n
+frame-Ingredients-element.n	ingredients#component.n
+frame-Inhibit_movement-confine.v	inhibit_movement#restrict.v
+frame-Inhibit_movement-immure.v	inhibit_movement#imprison.v
+frame-Installing-install.v	installing#installation.n
+frame-Instance-case.n	instance#example.n	instance#instance.n
+frame-Institutionalization-commit.v	institutionalization#commitment.n	institutionalization#institutionalize.v
+frame-Institutionalization-hospitalize.v	institutionalization#hospitalization.n
+frame-Institutions-institution.n	institutions#institutional.a
+frame-Intentionally_act-act.v	intentionally_act#act.n	intentionally_act#action.n	intentionally_act#move.n
+frame-Intentionally_act-execute.v	intentionally_act#carry_out.v
+frame-Intentionally_act-perform.v	intentionally_act#actor.n
+frame-Intentionally_create-create.v	intentionally_create#creation.n	intentionally_create#produce.v	intentionally_create#production.n
+frame-Intentionally_create-found.v	intentionally_create#set_up.v
+frame-Intentionally_create-synthesise.v	intentionally_create#synthesis.n
+frame-Intercepting-intercept.v	intercepting#interception.n
+frame-Interrupt_process-interrupt.v	interrupt_process#interruption.n
+frame-Into-into.prep	into#into.c
+frame-Intoxicants-LSD.n	intoxicants#lsd.n
+frame-Intoxicants-cannabis.n	intoxicants#marijuana.n
+frame-Intoxicants-downer.n	intoxicants#sedative.n	intoxicants#tranquillizer.n
+frame-Intoxicants-peyote.n	intoxicants#mescaline.n
+frame-Intoxicants-pot.n	intoxicants#dope.n	intoxicants#grass.n	intoxicants#weed.n
+frame-Intoxicants-speed.n	intoxicants#amphetamine.n	intoxicants#upper.n
+frame-Intoxication-blotto.a	intoxication#pissed.a	intoxication#sloshed.a
+frame-Intoxication-drunk.a	intoxication#inebriated.a	intoxication#intoxicated.a
+frame-Intoxication-under_the_influence.prep	intoxication#under_the_influence.c
+frame-Invading-invade.v	invading#invader.n	invading#invasion.n
+frame-Isolated_places-Bumblefuck.n	isolated_places#bumblefuck.n
+frame-Isolated_places-Podunk.n	isolated_places#podunk.n
+frame-Isolated_places-backwoods.n	isolated_places#boondocks.n
+frame-Judgment-admiration.n	judgment#appreciation.n
+frame-Judgment-approbation.n	judgment#approving.a
+frame-Judgment-blame.v	judgment#blame.n	judgment#fault.v
+frame-Judgment-deify.v	judgment#exalt.v
+frame-Judgment-mock.v	judgment#mockery.n
+frame-Judgment-prize.v	judgment#admire.v	judgment#appreciate.v	judgment#esteem.n	judgment#esteem.v	judgment#respect.n	judgment#respect.v	judgment#value.v
+frame-Judgment-revere.v	judgment#reverence.n
+frame-Judgment-scorn.n	judgment#contempt.n	judgment#contemptuous.a	judgment#disdain.n	judgment#disdainful.a	judgment#scornful.a
+frame-Judgment-scorn.v	judgment#disdain.v
+frame-Judgment-stigmatize.v	judgment#stigma.n
+frame-Judgment_communication-accuse.v	judgment_communication#accusation.n	judgment_communication#charge.n	judgment_communication#charge.v
+frame-Judgment_communication-belittle.v	judgment_communication#belittling.n	judgment_communication#denigrate.v	judgment_communication#denigration.n	judgment_communication#denigrative.a	judgment_communication#deprecate.v	judgment_communication#deprecation.n	judgment_communication#deprecative.a	judgment_communication#deprecatory.a	judgment_communication#disparage.v	judgment_communication#disparagement.n	judgment_communication#disparaging.a
+frame-Judgment_communication-censure.v	judgment_communication#castigate.v	judgment_communication#censure.n	judgment_communication#remonstrate.v	judgment_communication#reprehend.v	judgment_communication#reprehension.n
+frame-Judgment_communication-commend.v	judgment_communication#commendation.n
+frame-Judgment_communication-critique.v	judgment_communication#critic.n	judgment_communication#critical.a	judgment_communication#criticism.n	judgment_communication#criticize.v	judgment_communication#critique.n
+frame-Judgment_communication-damn.v	judgment_communication#condemnation.n	judgment_communication#denounce.v	judgment_communication#denouncement.n	judgment_communication#denunciation.n	judgment_communication#denunciative.a	judgment_communication#denunciatory.a	judgment_communication#execration.n	judgment_communication#malediction.n
+frame-Judgment_communication-decry.v	judgment_communication#condemn.v	judgment_communication#excoriate.v	judgment_communication#excoriation.n
+frame-Judgment_communication-deride.v	judgment_communication#derision.n	judgment_communication#mocking.a	judgment_communication#ridicule.n	judgment_communication#ridicule.v
+frame-Judgment_communication-gibe.v	judgment_communication#mock.v	judgment_communication#scoff.v
+frame-Judgment_communication-hail.v	judgment_communication#acclaim.n	judgment_communication#acclaim.v
+frame-Judgment_communication-harangue.v	judgment_communication#harangue.n
+frame-Judgment_communication-laud.v	judgment_communication#commendable.a	judgment_communication#extol.v	judgment_communication#kudos.n	judgment_communication#laudable.a	judgment_communication#laudatory.a	judgment_communication#praise.n	judgment_communication#praise.v
+frame-Judgment_direct_address-chide.v	judgment_direct_address#admonish.v	judgment_direct_address#admonishment.n	judgment_direct_address#admonition.n	judgment_direct_address#berate.v	judgment_direct_address#castigation.n	judgment_direct_address#chastise.v	judgment_direct_address#chastisement.n	judgment_direct_address#rebuke.n	judgment_direct_address#rebuke.v	judgment_direct_address#reprimand.n	judgment_direct_address#reprimand.v	judgment_direct_address#reproach.v	judgment_direct_address#reproof.n	judgment_direct_address#reprove.v	judgment_direct_address#scold.v	judgment_direct_address#take_to_task.v	judgment_direct_address#tongue-lashing.n	judgment_direct_address#upbraid.v
+frame-Judgment_direct_address-compliment.v	judgment_direct_address#compliment.n
+frame-Judgment_direct_address-jeer.v	judgment_direct_address#jeer.n
+frame-Judicial_body-court.n	judicial_body#tribunal.n
+frame-Jury_deliberation-deliberate.v	jury_deliberation#deliberation.n
+frame-Justifying-defend.v	justifying#defence.n
+frame-Justifying-explain.v	justifying#justification.n	justifying#justify.v	justifying#rationalize.v
+frame-Kidnapping-abduct.v	kidnapping#abduction.n	kidnapping#abductor.n	kidnapping#kidnap.v	kidnapping#kidnapper.n	kidnapping#kidnapping.n	kidnapping#snatch.v	kidnapping#snatcher.n
+frame-Killing-annihilate.v	killing#annihilation.n
+frame-Killing-assassinate.v	killing#assassin.n	killing#assassination.n
+frame-Killing-behead.v	killing#decapitate.v
+frame-Killing-beheading.n	killing#decapitation.n
+frame-Killing-butcher.v	killing#butchery.n	killing#carnage.n	killing#massacre.n	killing#massacre.v	killing#slaughter.n	killing#slaughter.v	killing#slaughterer.n
+frame-Killing-crucify.v	killing#crucifixion.n
+frame-Killing-deadly.a	killing#lethal.a
+frame-Killing-kill.v	killing#dispatch.v	killing#eliminate.v	killing#homicide.n	killing#killer.n	killing#liquidate.v	killing#liquidation.n	killing#liquidator.n	killing#murder.n	killing#murder.v	killing#murderer.n	killing#slay.v	killing#slayer.n	killing#slaying.n
+frame-Killing-smother.v	killing#asphyxiate.v	killing#suffocate.v	killing#suffocation.n
+frame-Kinship-ancestor.n	kinship#ancestral.a
+frame-Kinship-aunt.n	kinship#auntie.n
+frame-Kinship-dad.n	kinship#daddy.n
+frame-Kinship-father.n	kinship#forefather.n	kinship#mother.n
+frame-Kinship-kid.n	kinship#child.n
+frame-Kinship-kin.n	kinship#clan.n	kinship#relative.n
+frame-Kinship-mom.n	kinship#mum.n
+frame-Kinship-parent.n	kinship#maternal.a	kinship#parental.a	kinship#paternal.a
+frame-Leadership-CEO.n	leadership#ceo.n	leadership#chief_executive_officer.n
+frame-Leadership-baron.n	leadership#mogul.n	leadership#power_((rule)).n
+frame-Leadership-command.v	leadership#command.n	leadership#commandant.n	leadership#commander.n
+frame-Leadership-congressman.n	leadership#representative.n
+frame-Leadership-head.v	leadership#chief.n	leadership#head.n	leadership#lead.v	leadership#leader.n	leadership#leadership.n	leadership#principal.n
+frame-Leadership-legislator.n	leadership#legislature.n
+frame-Leadership-monarch.n	leadership#sovereign.n
+frame-Leadership-overlord.n	leadership#authority.n	leadership#headmaster.n
+frame-Leadership-premier.n	leadership#prime_minister.n
+frame-Leadership-preside.v	leadership#administer.v	leadership#chairman.n	leadership#chairperson.n	leadership#executive.n	leadership#president_(political).n	leadership#presidential.a
+frame-Leadership-rule.v	leadership#administration.n	leadership#govern.v	leadership#government.n	leadership#governor.n	leadership#regime.n	leadership#rule.n	leadership#ruler.n
+frame-Legality-licit.a	legality#lawful.a	legality#legitimate.a
+frame-Legality-wrong.a	legality#illicit.a	legality#unlawful.a	legality#wrongful.a
+frame-Legality-wrongly.adv	legality#wrongly.c
+frame-Light_movement-flame.v	light_movement#flare.v
+frame-Light_movement-flash.v	light_movement#coruscate.v	light_movement#coruscation.n	light_movement#flicker.n	light_movement#flicker.v	light_movement#gleam.v	light_movement#glint.n	light_movement#glint.v	light_movement#glisten.v	light_movement#glister.n	light_movement#glitter.n	light_movement#glitter.v	light_movement#scintillate.v	light_movement#scintillation.n	light_movement#sparkle.v	light_movement#twinkle.n	light_movement#twinkle.v
+frame-Light_movement-glimmer.v	light_movement#glimmer.n
+frame-Light_movement-glow.v	light_movement#gleam.n	light_movement#glow.n
+frame-Light_movement-shine.v	light_movement#glistening.a	light_movement#refulgence.n	light_movement#sheen.n	light_movement#shine.n
+frame-Likelihood-certainly.adv	likelihood#certainly.c	likelihood#sure.a
+frame-Likelihood-likely.adv	likelihood#likelihood.n	likelihood#likely.a	likelihood#likely.c	likelihood#probability.n	likelihood#probable.a	likelihood#probably.c
+frame-Likelihood-possibility.n	likelihood#possible.a
+frame-Likelihood-possibly.adv	likelihood#possibly.c
+frame-Linguistic_meaning-denote.v	linguistic_meaning#denotation.n	linguistic_meaning#extension.n	linguistic_meaning#referential.a
+frame-Linguistic_meaning-mean.v	linguistic_meaning#meaning.n
+frame-Lively_place-hum.v	lively_place#buzz.v
+frame-Locale-site.n	locale#location.n
+frame-Locale-spot.n	locale#locale.n	locale#place.n
+frame-Locale_by_event-field.n	locale_by_event#battlefield.n
+frame-Locale_by_ownership-land.n	locale_by_ownership#estate.n
+frame-Locale_by_use-city.n	locale_by_use#urban.a
+frame-Locale_by_use-facility.n	locale_by_use#installation.n
+frame-Locale_by_use-field.n	locale_by_use#airfield.n
+frame-Locale_by_use-lab.n	locale_by_use#laboratory.n
+frame-Locale_by_use-park.n	locale_by_use#green.n	locale_by_use#park((2)).n
+frame-Location_of_light-flame.v	location_of_light#flare.v
+frame-Location_of_light-flash.v	location_of_light#coruscate.v	location_of_light#coruscation.n	location_of_light#flicker.n	location_of_light#flicker.v	location_of_light#gleam.v	location_of_light#glint.n	location_of_light#glint.v	location_of_light#glisten.v	location_of_light#glister.n	location_of_light#glitter.n	location_of_light#glitter.v	location_of_light#glittering.a	location_of_light#scintillate.v	location_of_light#scintillation.n	location_of_light#sparkle.v	location_of_light#twinkle.v
+frame-Location_of_light-glimmer.v	location_of_light#glimmer.n
+frame-Location_of_light-glow.v	location_of_light#gleam.n	location_of_light#glow.n	location_of_light#lambency.n	location_of_light#lambent.a
+frame-Location_of_light-shine.v	location_of_light#glistening.a	location_of_light#glossy.a	location_of_light#lustre.n	location_of_light#refulgence.n	location_of_light#refulgent.a	location_of_light#sheen.n	location_of_light#shine.n	location_of_light#shining.a	location_of_light#shiny.a
+frame-Locative_relation-above.prep	locative_relation#above.c
+frame-Locative_relation-abut.v	locative_relation#adjoin.v	locative_relation#border.v
+frame-Locative_relation-adjacent.a	locative_relation#neighboring.a
+frame-Locative_relation-against.prep	locative_relation#against.c
+frame-Locative_relation-all_over.prep	locative_relation#all_over.c
+frame-Locative_relation-along.prep	locative_relation#along.c
+frame-Locative_relation-amid.prep	locative_relation#amid.c
+frame-Locative_relation-among.prep	locative_relation#among.c
+frame-Locative_relation-around.prep	locative_relation#around.c
+frame-Locative_relation-astride.prep	locative_relation#astride.c
+frame-Locative_relation-at.prep	locative_relation#at.c
+frame-Locative_relation-athwart.prep	locative_relation#athwart.c
+frame-Locative_relation-atop.prep	locative_relation#atop.c
+frame-Locative_relation-below.prep	locative_relation#below.c
+frame-Locative_relation-beneath.prep	locative_relation#beneath.c
+frame-Locative_relation-beside.prep	locative_relation#beside.c
+frame-Locative_relation-between.prep	locative_relation#between.c
+frame-Locative_relation-beyond.prep	locative_relation#beyond.c
+frame-Locative_relation-by.prep	locative_relation#by.c
+frame-Locative_relation-down.prep	locative_relation#down.c
+frame-Locative_relation-east.prep	locative_relation#east.c
+frame-Locative_relation-elsewhere.adv	locative_relation#elsewhere.c
+frame-Locative_relation-everywhere.adv	locative_relation#everywhere.c
+frame-Locative_relation-here.adv	locative_relation#here.c
+frame-Locative_relation-in.prep	locative_relation#in.c
+frame-Locative_relation-inside.prep	locative_relation#inside.c
+frame-Locative_relation-meet.v	locative_relation#contact.v	locative_relation#touch.v
+frame-Locative_relation-near.prep	locative_relation#near.c
+frame-Locative_relation-next_to.prep	locative_relation#next_to.c
+frame-Locative_relation-north.prep	locative_relation#north.c
+frame-Locative_relation-northeast.prep	locative_relation#northeast.c
+frame-Locative_relation-off.prep	locative_relation#off.c
+frame-Locative_relation-on.prep	locative_relation#on.c
+frame-Locative_relation-on_top_of.prep	locative_relation#on_top_of.c
+frame-Locative_relation-opposite.prep	locative_relation#opposite.c
+frame-Locative_relation-out.prep	locative_relation#out.c
+frame-Locative_relation-outside.prep	locative_relation#outside.c
+frame-Locative_relation-over.prep	locative_relation#over.c
+frame-Locative_relation-past.prep	locative_relation#past.c
+frame-Locative_relation-south.prep	locative_relation#south.c
+frame-Locative_relation-southeast.prep	locative_relation#southeast.c
+frame-Locative_relation-there.adv	locative_relation#there.c
+frame-Locative_relation-throughout.prep	locative_relation#throughout.c
+frame-Locative_relation-to.prep	locative_relation#to.c
+frame-Locative_relation-under.prep	locative_relation#under.c
+frame-Locative_relation-underground.adv	locative_relation#underground.c
+frame-Locative_relation-underneath.prep	locative_relation#underneath.c
+frame-Locative_relation-up.prep	locative_relation#up.c
+frame-Locative_relation-upon.prep	locative_relation#upon.c
+frame-Locative_relation-west.prep	locative_relation#west.c
+frame-Locative_relation-where.adv	locative_relation#where.c
+frame-Luck-luckily.adv	luck#fortunate.a	luck#fortunately.c	luck#luckily.c
+frame-Make_cognitive_connection-tie.v	make_cognitive_connection#connect.v	make_cognitive_connection#connection.n	make_cognitive_connection#link.n	make_cognitive_connection#link.v	make_cognitive_connection#tie.n
+frame-Make_noise-babble.v	make_noise#burble.v	make_noise#gurgle.v
+frame-Make_noise-beep.v	make_noise#blare.v
+frame-Make_noise-boom.v	make_noise#blast.v	make_noise#thunder.v
+frame-Make_noise-clack.v	make_noise#clatter.v	make_noise#click.v
+frame-Make_noise-creak.v	make_noise#screech.v	make_noise#squeak.v	make_noise#whine.v
+frame-Make_noise-cry.v	make_noise#bellow.v	make_noise#caterwaul.v	make_noise#howl.v	make_noise#keen.v	make_noise#mewl.v	make_noise#moan.v	make_noise#roar.v	make_noise#scream.v	make_noise#squawk.v	make_noise#ululate.v	make_noise#wail.v	make_noise#whimper.v	make_noise#yammer.v	make_noise#yowl.v
+frame-Make_noise-gasp.v	make_noise#snort.v
+frame-Make_noise-giggle.v	make_noise#titter.v
+frame-Make_noise-grunt.v	make_noise#squeal.v
+frame-Make_noise-neigh.v	make_noise#whinny.v
+frame-Make_noise-peal.v	make_noise#ring.v	make_noise#toll.v
+frame-Make_noise-peep.v	make_noise#cheep.v	make_noise#chirp.v	make_noise#twitter.v
+frame-Make_noise-snicker.v	make_noise#snigger.v
+frame-Make_noise-yap.v	make_noise#yelp.v
+frame-Make_possible_to_do-let.v	make_possible_to_do#allow.v
+frame-Making_faces-frown.v	making_faces#scowl.v
+frame-Making_faces-grin.v	making_faces#smile.v
+frame-Manipulate_into_doing-cajole.v	manipulate_into_doing#flatter.v
+frame-Manipulate_into_doing-con.v	manipulate_into_doing#cheat.v	manipulate_into_doing#defraud.v	manipulate_into_doing#trick.v
+frame-Manipulate_into_doing-dupe.v	manipulate_into_doing#fool.v
+frame-Manipulate_into_shape-coil.v	manipulate_into_shape#curl.v	manipulate_into_shape#loop.v
+frame-Manipulation-grip.v	manipulation#clasp.v	manipulation#clutch.v	manipulation#grasp.v	manipulation#handle.v	manipulation#hold.v	manipulation#seize.v
+frame-Manipulation-grope.v	manipulation#fumble.v
+frame-Manipulation-kiss.v	manipulation#caress.n	manipulation#caress.v
+frame-Manipulation-knead.v	manipulation#massage.v
+frame-Manipulation-nip.v	manipulation#pinch.v	manipulation#squeeze.v	manipulation#tweak.v
+frame-Manipulation-stroke.v	manipulation#stroke.n
+frame-Manipulation-tug.v	manipulation#pull.n	manipulation#pull.v	manipulation#push.v	manipulation#yank.v
+frame-Manufacturing-fabricate.v	manufacturing#fabrication.n	manufacturing#industrial.a	manufacturing#maker.n	manufacturing#manufacture.n	manufacturing#manufacture.v	manufacturing#manufacturer.n	manufacturing#manufacturing.n	manufacturing#producer.n
+frame-Mass_motion-pour.v	mass_motion#stream.v	mass_motion#swarm.v	mass_motion#teem.v
+frame-Mass_motion-troop.v	mass_motion#parade.v
+frame-Means-by.prep	means#by.c
+frame-Means-on.prep	means#on.c
+frame-Means-process.n	means#procedure.n
+frame-Measure_mass-kilo.n	measure_mass#kilogram.n
+frame-Measure_volume-box.n	measure_volume#packet.n
+frame-Measure_volume-carload.n	measure_volume#boatload.n
+frame-Measure_volume-scoop.n	measure_volume#scoopful.n
+frame-Measure_volume-spoon.n	measure_volume#spoonful.n
+frame-Measure_volume-teaspoon.n	measure_volume#teaspoonful.n
+frame-Medical_conditions-AIDS.n	medical_conditions#aids.n
+frame-Medical_conditions-Alzheimer's.n	medical_conditions#alzheimer's.n
+frame-Medical_conditions-flu.n	medical_conditions#influenza.n
+frame-Medical_conditions-health.n	medical_conditions#healthy.a
+frame-Medical_conditions-illness.n	medical_conditions#ill.a	medical_conditions#sick.a	medical_conditions#sickness.n	medical_conditions#unwell.a
+frame-Medical_conditions-rubella.n	medical_conditions#german_measles.n
+frame-Medical_professionals-doctor.n	medical_professionals#physician.n
+frame-Medical_specialties-midwifery.n	medical_specialties#obstetrics.n
+frame-Medium-in.prep	medium#in.c
+frame-Membership-member.n	membership#membership.n	membership#membership_(status).n
+frame-Memorization-learn.v	memorization#memorise.v	memorization#memorization.n
+frame-Memory-recall.v	memory#memory.n	memory#recollect.v	memory#recollection.n	memory#remember.v	memory#retain.v
+frame-Mental_property-absurdity.n	mental_property#absurd.a	mental_property#idiotic.a	mental_property#inane.a	mental_property#ludicrous.a	mental_property#nonsensical.a	mental_property#ridiculous.a
+frame-Mental_property-astuteness.n	mental_property#astute.a	mental_property#sagacious.a	mental_property#shrewd.a
+frame-Mental_property-carefully.adv	mental_property#carefully.c
+frame-Mental_property-carelessly.adv	mental_property#careless.a	mental_property#carelessly.c	mental_property#carelessness.n
+frame-Mental_property-daft.a	mental_property#crackers.a	mental_property#crazy.a
+frame-Mental_property-discernment.n	mental_property#discerning.a
+frame-Mental_property-foxy.a	mental_property#crafty.a	mental_property#cunning.a
+frame-Mental_property-insightfully.adv	mental_property#insightfully.c
+frame-Mental_property-narrow-mindedly.adv	mental_property#narrow-minded.a	mental_property#narrow-mindedly.c
+frame-Mental_property-perceptively.adv	mental_property#perceptive.a	mental_property#perceptively.c
+frame-Mental_property-sensible.a	mental_property#reasonable.a
+frame-Mental_property-stupidly.adv	mental_property#stupid.a	mental_property#stupidly.c
+frame-Mental_property-wit.n	mental_property#brilliant.a
+frame-Mental_stimulus_exp_focus-absorbed.a	mental_stimulus_exp_focus#engrossed.a
+frame-Mental_stimulus_exp_focus-captivated.a	mental_stimulus_exp_focus#enthralled.a
+frame-Mental_stimulus_exp_focus-smitten.a	mental_stimulus_exp_focus#infatuated.a
+frame-Mental_stimulus_stimulus_focus-absorbing.a	mental_stimulus_stimulus_focus#engrossing.a	mental_stimulus_stimulus_focus#fascinating.a
+frame-Mental_stimulus_stimulus_focus-captivating.a	mental_stimulus_stimulus_focus#enthralling.a
+frame-Military-military.n	military#armed_forces.n
+frame-Military-navy.n	military#naval.a
+frame-Misdeed-sin.v	misdeed#sin.n	misdeed#transgress.v	misdeed#transgression.n
+frame-Money-dough.n	money#dinero.n
+frame-Morality_evaluation-base.a	morality_evaluation#foul.a	morality_evaluation#immoral.a	morality_evaluation#iniquitous.a	morality_evaluation#nefarious.a	morality_evaluation#sinful.a	morality_evaluation#vile.a	morality_evaluation#villainous.a	morality_evaluation#wicked.a
+frame-Morality_evaluation-depravity.n	morality_evaluation#depraved.a	morality_evaluation#reprobate.a
+frame-Morality_evaluation-ethical.a	morality_evaluation#honorable.a
+frame-Motion-blow.v	motion#drift.v	motion#float.v
+frame-Motion-go.v	motion#move.v	motion#travel.v
+frame-Motion-roll.v	motion#meander.v	motion#weave.v	motion#wind.v
+frame-Motion-soar.v	motion#coast.v	motion#glide.v
+frame-Motion_directional-angle.v	motion_directional#slant.v
+frame-Motion_directional-fall.v	motion_directional#descend.v
+frame-Motion_noise-clack.v	motion_noise#clatter.v	motion_noise#click.v
+frame-Motion_noise-clang.v	motion_noise#clank.v	motion_noise#crash.v
+frame-Motion_noise-creak.v	motion_noise#screech.v	motion_noise#whine.v
+frame-Motion_noise-crunch.v	motion_noise#crackle.v
+frame-Motion_noise-howl.v	motion_noise#roar.v	motion_noise#thunder.v
+frame-Motion_noise-purr.v	motion_noise#whir.v
+frame-Motion_noise-splash.v	motion_noise#squelch.v
+frame-Motion_noise-thud.v	motion_noise#clump.v	motion_noise#clunk.v	motion_noise#thump.v
+frame-Moving_in_place-quake.n	moving_in_place#earthquake.n	moving_in_place#temblor.n
+frame-Moving_in_place-quiver.v	moving_in_place#quiver.n	moving_in_place#vibrate.v
+frame-Moving_in_place-rock.v	moving_in_place#shake.v	moving_in_place#swing.n	moving_in_place#swing.v
+frame-Moving_in_place-spin.v	moving_in_place#twirl.v
+frame-Name_conferral-baptize.v	name_conferral#christen.v
+frame-Name_conferral-dub.v	name_conferral#nickname.v
+frame-Natural_features-berg.n	natural_features#iceberg.n
+frame-Natural_features-brook.n	natural_features#creek.n
+frame-Natural_features-cay.n	natural_features#key.n
+frame-Natural_features-cirque.n	natural_features#corrie.n
+frame-Natural_features-continent.n	natural_features#continental.a
+frame-Natural_features-dell.n	natural_features#dingle.n
+frame-Natural_features-falls.n	natural_features#waterfall.n
+frame-Natural_features-hill.n	natural_features#mount.n	natural_features#mountain.n
+frame-Natural_features-isle.n	natural_features#islet.n
+frame-Natural_features-knoll.n	natural_features#hillock.n	natural_features#hummock.n
+frame-Natural_features-pond.n	natural_features#pool.n
+frame-Natural_features-reef.n	natural_features#shelf.n	natural_features#shoal.n
+frame-Natural_features-rill.n	natural_features#stream.n
+frame-Natural_features-sound.n	natural_features#strait.n
+frame-Natural_features-vale.n	natural_features#valley.n
+frame-Needing-need.v	needing#need.n	needing#require.v
+frame-Network-web.n	network#network.n
+frame-Non-commutative_process-subtract.v	non-commutative_process#subtraction.n
+frame-Non-commutative_statement-minus.prep	non-commutative_statement#minus.c
+frame-Notification_of_charges-accuse.v	notification_of_charges#charge.n	notification_of_charges#charge.v
+frame-Notification_of_charges-indict.v	notification_of_charges#indictment.n
+frame-Nuclear_process-fuse.v	nuclear_process#fusion.n
+frame-Nuclear_process-radioactivity.n	nuclear_process#radioactive.a
+frame-Objective_influence-affect.v	objective_influence#impact.n	objective_influence#impact.v
+frame-Objective_influence-influence.v	objective_influence#influence.n
+frame-Obscurity-unsung.a	obscurity#obscure.a
+frame-Observable_body_parts-beak.n	observable_body_parts#bill.n
+frame-Observable_body_parts-body.n	observable_body_parts#trunk.n
+frame-Observable_body_parts-brow.n	observable_body_parts#forehead.n
+frame-Observable_body_parts-chest.n	observable_body_parts#breast.n
+frame-Observable_body_parts-member.n	observable_body_parts#appendage.n
+frame-Observable_body_parts-pelt.n	observable_body_parts#skin.n
+frame-Observable_body_parts-rump.n	observable_body_parts#buttocks.n	observable_body_parts#hindquarters.n
+frame-Observable_body_parts-thumb.n	observable_body_parts#antenna.n	observable_body_parts#feeler.n	observable_body_parts#finger.n
+frame-Obviousness-clearly.adv	obviousness#clarity.n	obviousness#clear.a	obviousness#clearly.c	obviousness#clearly_((clarity)).c
+frame-Obviousness-obviously.adv	obviousness#evident.a	obviousness#manifest.a	obviousness#obvious.a	obviousness#obviously.c
+frame-Offenses-murder.n	offenses#homicide.n
+frame-Offenses-rape.n	offenses#assault.n
+frame-Offenses-theft.n	offenses#larceny.n
+frame-Offering-offer.v	offering#extend.v	offering#proffer.v
+frame-Omen-bode.v	omen#augur.v	omen#betoken.v	omen#forebode.v	omen#foreshadow.v	omen#foreshadowing.n	omen#foretell.v	omen#omen.n	omen#ominous.a	omen#portend.v	omen#portent.n	omen#prefigure.v	omen#presage.n	omen#presage.v	omen#promise.v
+frame-Omen-herald.v	omen#announce.v	omen#harbinger.n
+frame-Operate_vehicle-bike.v	operate_vehicle#bicycle.v	operate_vehicle#cycle.v	operate_vehicle#pedal.v
+frame-Operate_vehicle-canoe.v	operate_vehicle#paddle.v
+frame-Operate_vehicle-ride.v	operate_vehicle#drive.v	operate_vehicle#motor.v
+frame-Operate_vehicle-sail.v	operate_vehicle#cruise.v
+frame-Operational_testing-test.v	operational_testing#testing.n
+frame-Opinion-think.v	opinion#believe.v	opinion#suppose.v
+frame-Opinion-view.n	opinion#opinion.n
+frame-Opportunity-chance.n	opportunity#opportune.a	opportunity#opportunity.n
+frame-Organization-brotherhood.n	organization#organization.n
+frame-Organization-committee.n	organization#delegation.n
+frame-Origin-from.prep	origin#from.c
+frame-Origin-national.n	origin#national.a
+frame-Origin-of.prep	origin#of.c
+frame-Others_situation_as_stimulus-pity.v	others_situation_as_stimulus#compassion.n
+frame-Pardon-pardon.v	pardon#pardon.n
+frame-Part_inner_outer-centre.n	part_inner_outer#central.a	part_inner_outer#middle.n
+frame-Part_inner_outer-outside.n	part_inner_outer#exterior.n
+frame-Part_orientational-back.n	part_orientational#rear.a	part_orientational#rear.n
+frame-Part_orientational-bottom.n	part_orientational#underside.n
+frame-Part_orientational-face.n	part_orientational#side.n
+frame-Part_orientational-tip.n	part_orientational#crest.n	part_orientational#peak.n	part_orientational#summit.n	part_orientational#top.n
+frame-Part_piece-chip.n	part_piece#flake.n	part_piece#scrap.n
+frame-Part_piece-clod.n	part_piece#chunk.n	part_piece#clump.n	part_piece#hunk.n	part_piece#lump.n
+frame-Part_piece-shard.n	part_piece#fragment.n
+frame-Part_piece-shred.n	part_piece#smidgen.n
+frame-Part_whole-part.n	part_whole#portion.n
+frame-Part_whole-section.n	part_whole#segment.n
+frame-Partiality-bias.v	partiality#bias.n	partiality#prejudice.n
+frame-Partiality-favor.v	partiality#prefer.v
+frame-Partiality-impartiality.n	partiality#impartial.a
+frame-Partiality-neutrality.n	partiality#neutral.a
+frame-Partiality-partiality.n	partiality#partial.a
+frame-Participation-embroiled.a	participation#entangled.a
+frame-Participation-in.prep	participation#in.c
+frame-Participation-take_part.v	participation#involvement.n	participation#participant.n	participation#participate.v	participation#participation.n
+frame-Partitive-of.prep	partitive#of.c
+frame-Partitive-out_of.prep	partitive#out_of.c
+frame-Path_shape-angle.v	path_shape#slant.v
+frame-Path_shape-cross.v	path_shape#traverse.v
+frame-Path_shape-emerge.v	path_shape#emergence.n
+frame-Path_shape-exit.v	path_shape#leave.v
+frame-Path_shape-twisty.a	path_shape#twisting.a	path_shape#winding.a
+frame-Path_shape-veer.v	path_shape#swerve.v	path_shape#twist.v
+frame-Path_shape-wind.v	path_shape#meander.v	path_shape#weave.v
+frame-People-chap.n	people#fellow.n
+frame-People-human.n	people#human_being.n
+frame-People-person.n	people#individual.n
+frame-People_by_age-baby.n	people_by_age#infant.n
+frame-People_by_age-kid.n	people_by_age#youngster.n
+frame-People_by_age-neonate.n	people_by_age#newborn.n
+frame-People_by_age-teenager.n	people_by_age#adolescent.n
+frame-People_by_age-youth.n	people_by_age#spring_chicken.n
+frame-People_by_jurisdiction-subject.n	people_by_jurisdiction#national.n
+frame-People_by_morality-miscreant.n	people_by_morality#reprobate.n
+frame-People_by_morality-sinner.n	people_by_morality#evildoer.n
+frame-People_by_origin-American.n	people_by_origin#american.n	people_by_origin#american_(n_and_s_am).n
+frame-People_by_origin-Brit.n	people_by_origin#brit.n
+frame-People_by_origin-Californian.n	people_by_origin#californian.n
+frame-People_by_origin-Chicagoan.n	people_by_origin#chicagoan.n
+frame-People_by_origin-Denverite.n	people_by_origin#denverite.n
+frame-People_by_origin-Dubliner.n	people_by_origin#dubliner.n
+frame-People_by_origin-English.n	people_by_origin#english.n
+frame-People_by_origin-Frenchman.n	people_by_origin#frenchman.n	people_by_origin#frenchwoman.n
+frame-People_by_origin-Frenchy.n	people_by_origin#frenchy.n
+frame-People_by_origin-Greek.n	people_by_origin#greek.n
+frame-People_by_origin-Indian((American)).n	people_by_origin#indian((american)).n
+frame-People_by_origin-Iranian.n	people_by_origin#iranian.n	people_by_origin#persian.n
+frame-People_by_origin-Irish.n	people_by_origin#irish.n
+frame-People_by_origin-Kraut.n	people_by_origin#kraut.n
+frame-People_by_origin-Mexican.n	people_by_origin#mexican.n
+frame-People_by_origin-New_Yorker.n	people_by_origin#new_yorker.n
+frame-People_by_origin-Turk.n	people_by_origin#turk.n
+frame-People_by_religion-pagan.n	people_by_religion#infidel.n
+frame-People_by_vocation-officer.n	people_by_vocation#police_officer.n
+frame-People_by_vocation-waiter.n	people_by_vocation#waitress.n
+frame-Perception_active-gape.v	perception_active#gawk.v	perception_active#goggle.v
+frame-Perception_active-gaze.v	perception_active#gaze.n	perception_active#stare.n	perception_active#stare.v
+frame-Perception_active-peek.v	perception_active#glance.n	perception_active#glance.v	perception_active#peek.n	perception_active#peep.v
+frame-Perception_active-sniff.v	perception_active#sniff.n
+frame-Perception_active-spy.v	perception_active#look.n	perception_active#look.v	perception_active#view.v	perception_active#watch.v
+frame-Perception_active-taste.v	perception_active#savour.v	perception_active#taste.n
+frame-Perception_body-ail.v	perception_body#ache.v	perception_body#hurt.v	perception_body#pain.n	perception_body#pain.v	perception_body#smart.v
+frame-Perception_body-burn.v	perception_body#sting.v
+frame-Perception_body-tingle.v	perception_body#prickle.v
+frame-Perception_experience-detect.v	perception_experience#perceive.v	perception_experience#perception.n	perception_experience#witness.v
+frame-Perception_experience-feel.v	perception_experience#experience.n
+frame-Performers-actor.n	performers#player.n
+frame-Performers_and_roles-act.v	performers_and_roles#play.v
+frame-Performers_and_roles-as.prep	performers_and_roles#as.c
+frame-Performers_and_roles-co-star.v	performers_and_roles#co-star.n	performers_and_roles#co-star_(in).v
+frame-Performers_and_roles-part.n	performers_and_roles#character.n	performers_and_roles#role.n
+frame-Performers_and_roles-star.v	performers_and_roles#lead.n	performers_and_roles#star.n	performers_and_roles#star_(in).v
+frame-Permitting-allow.v	permitting#permit.n	permitting#permit.v	permitting#sanction.v
+frame-Personal_relationship-beau.n	personal_relationship#boyfriend.n
+frame-Personal_relationship-betrothed.n	personal_relationship#betrothed.a
+frame-Personal_relationship-cohabit.v	personal_relationship#cohabitation.n
+frame-Personal_relationship-court.v	personal_relationship#romance.n	personal_relationship#suitor.n
+frame-Personal_relationship-date.v	personal_relationship#engagement.n
+frame-Personal_relationship-friend.n	personal_relationship#friendship.n
+frame-Personal_relationship-marriage.n	personal_relationship#marital.a	personal_relationship#married.a
+frame-Personal_relationship-mate.n	personal_relationship#partner.n	personal_relationship#spouse.n
+frame-Personal_relationship-pal.n	personal_relationship#buddy.n	personal_relationship#chum.n
+frame-Personal_relationship-widow.v	personal_relationship#widow.n
+frame-Physical_artworks-photo.n	physical_artworks#photograph.n	physical_artworks#picture.n
+frame-Physical_artworks-statue.n	physical_artworks#statuette.n
+frame-Piracy-carjack.v	piracy#carjacking.n
+frame-Piracy-hijack.v	piracy#hijacker.n	piracy#hijacking.n	piracy#piracy.n	piracy#pirate.v
+frame-Place_weight_on-stress.v	place_weight_on#emphasis.n	place_weight_on#emphasize.v
+frame-Placing-bag.v	placing#box.v	placing#pack.v	placing#package.v
+frame-Placing-daub.v	placing#smear.v
+frame-Placing-embed.v	placing#implant.v
+frame-Placing-jam.v	placing#heap.v	placing#pile.v
+frame-Placing-lay.v	placing#arrange.v	placing#deposit.v	placing#emplace.v	placing#place.v	placing#placement.n	placing#plant.v	placing#position.v	placing#put.v	placing#set.v	placing#situate.v
+frame-Placing-lodge.v	placing#stick.v
+frame-Placing-plunge.v	placing#immerse.v
+frame-Placing-tuck.v	placing#enclose.v	placing#insert.v	placing#wrap.v
+frame-Political_locales-city.n	political_locales#metropolis.n
+frame-Political_locales-district.n	political_locales#territory.n
+frame-Political_locales-internationally.adv	political_locales#international.a	political_locales#internationally.c
+frame-Political_locales-municipality.n	political_locales#municipal.a
+frame-Political_locales-state.n	political_locales#commonwealth.n	political_locales#country.n	political_locales#nation.n	political_locales#national.a
+frame-Posing_as-pose.v	posing_as#impersonate.v
+frame-Position_on_a_scale-lacking.a	position_on_a_scale#deficient.a
+frame-Position_on_a_scale-through_the_roof.prep	position_on_a_scale#through_the_roof.c
+frame-Possession-lack.v	possession#lack.n	possession#want.n
+frame-Possession-own.v	possession#belong.v	possession#belongings.n	possession#have.v	possession#have_got.v	possession#owner.n	possession#ownership.n	possession#possess.v	possession#possessor.n	possession#property.n
+frame-Possession-possession.n	possession#definite_possession.n	possession#possession_of_goods.n
+frame-Possibilities-choice.n	possibilities#alternative.n	possibilities#option.n
+frame-Posture-stoop.v	posture#crouch.v
+frame-Practice-practice.v	practice#drill.n	practice#dry_run.n	practice#exercise.n	practice#practice.n	practice#rehearsal.n	practice#rehearse.v
+frame-Praiseworthiness-deplorable.a	praiseworthiness#lamentable.a
+frame-Praiseworthiness-execrable.a	praiseworthiness#abominable.a	praiseworthiness#detestable.a
+frame-Praiseworthiness-laudable.a	praiseworthiness#commendable.a	praiseworthiness#praiseworthy.a
+frame-Precipitation-drizzle.v	precipitation#drizzle.n
+frame-Precipitation-hail.v	precipitation#hail.n
+frame-Precipitation-precipitation.n	precipitation#precipitation_event.n
+frame-Precipitation-rain.v	precipitation#rain.n	precipitation#rain_event.n	precipitation#rainfall.n	precipitation#shower.n	precipitation#shower.v
+frame-Precipitation-sleet.v	precipitation#sleet.n
+frame-Precipitation-snow.v	precipitation#snow.n	precipitation#snowfall.n
+frame-Precipitation-torrent.n	precipitation#downpour.n
+frame-Predicament-fix.n	predicament#jam.n	predicament#mess.n	predicament#pickle.n
+frame-Predicament-plight.n	predicament#predicament.n
+frame-Predicting-predict.v	predicting#forecast.v	predicting#foretell.v	predicting#prediction.n	predicting#prognosticate.v	predicting#prophecy.n	predicting#prophesy.v	predicting#vaticinate.v
+frame-Preference-favor.v	preference#prefer.v
+frame-Preliminaries-preliminary.n	preliminaries#preliminary.a
+frame-Presence-presence.n	presence#present.a
+frame-Preserving-mummify.v	preserving#mummification.n
+frame-Prevarication-bullshit.v	prevarication#dissemble.v	prevarication#dissembler.n
+frame-Prevarication-deceive.v	prevarication#deception.n	prevarication#deceptive.a	prevarication#misrepresent.v	prevarication#misrepresentation.n
+frame-Prevarication-fib.v	prevarication#equivocate.v	prevarication#equivocation.n	prevarication#fib.n	prevarication#lie.n	prevarication#lie.v	prevarication#prevaricate.v	prevarication#prevarication.n
+frame-Preventing-avert.v	preventing#avoid.v	preventing#obviate.v	preventing#prevent.v	preventing#stave_off.v
+frame-Preventing-stop.v	preventing#check.v
+frame-Prison-jail.n	prison#jailhouse.n	prison#slammer.n
+frame-Prison-pen.n	prison#penitentiary.n
+frame-Probability-chance.n	probability#likelihood.n	probability#probability.n
+frame-Process_completed_state-over.a	process_completed_state#complete.a
+frame-Process_continue-go_on.v	process_continue#continue.v	process_continue#proceed.v
+frame-Process_end-end.v	process_end#end.n	process_end#end_cessation.n	process_end#end_final-subevent.n	process_end#finale.n
+frame-Process_start-begin.v	process_start#commence.v	process_start#commencement.n	process_start#start.v
+frame-Process_start-erupt.v	process_start#break_out.v
+frame-Process_stop-quit.v	process_stop#cease.v	process_stop#cessation.n	process_stop#discontinuation.n	process_stop#discontinue.v	process_stop#halt.n	process_stop#stop.v
+frame-Progress-advance.v	progress#advance.n	progress#advancement.n	progress#progress.n	progress#progress.v
+frame-Progress-mature.v	progress#develop.v	progress#maturation.n
+frame-Prohibiting-ban.v	prohibiting#ban.n	prohibiting#forbid.v	prohibiting#prohibit.v	prohibiting#prohibition.n	prohibiting#proscribe.v
+frame-Project-plan.n	project#program.n	project#project.n
+frame-Proliferating_in_number-proliferate.v	proliferating_in_number#proliferation.n
+frame-Prominence-salient.a	prominence#prominent.a
+frame-Protecting-safeguard.v	protecting#safeguard.n
+frame-Protecting-shield.v	protecting#protect.v	protecting#protection_((entity)).n	protecting#protection_((event)).n	protecting#shield.n
+frame-Provide_lodging-house.v	provide_lodging#lodge.v	provide_lodging#put_up.v
+frame-Punctual_perception-glimpse.v	punctual_perception#glimpse.n
+frame-Purpose-aim.v	purpose#aim.n	purpose#intend.v	purpose#intention.n	purpose#mean.v	purpose#object.n	purpose#objective.n	purpose#plan.n	purpose#purpose.n	purpose#target.n
+frame-Purpose-in_order.adv	purpose#in_order.c
+frame-Purpose-use.n	purpose#application.n
+frame-Quantity-a_few.art	quantity#a_few.c
+frame-Quantity-few.n	quantity#few.a
+frame-Quantity-flood.n	quantity#deluge.n	quantity#torrent.n
+frame-Quantity-handful.n	quantity#smattering.n
+frame-Quantity-heap.n	quantity#abundance.n	quantity#mass.n	quantity#mountain.n	quantity#pile.n	quantity#raft.n
+frame-Quantity-mite.n	quantity#pinch.n	quantity#touch.n
+frame-Quantity-number.n	quantity#measure.n	quantity#quantity.n
+frame-Quantity-scads.n	quantity#dozens.n	quantity#oodles.n	quantity#scores.n
+frame-Quarreling-argue.v	quarreling#argument.n	quarreling#disagreement.n	quarreling#disputation.n	quarreling#dispute.n	quarreling#fight.v	quarreling#quarrel.n	quarreling#quarrel.v	quarreling#row.n	quarreling#wrangle.n	quarreling#wrangle.v	quarreling#wrangling.n
+frame-Quarreling-bicker.v	quarreling#bickering.n	quarreling#quibble.v	quarreling#spat.n	quarreling#squabble.n	quarreling#squabble.v	quarreling#tiff.n
+frame-Questioning-ask.v	questioning#inquiry.n	questioning#interrogate.v	questioning#interrogation.n	questioning#query.n	questioning#query.v	questioning#question.n	questioning#question.v	questioning#questioning.n
+frame-Quitting-quit.v	quitting#resign.v	quitting#resignation.n	quitting#step_down.v
+frame-Quitting-retire.v	quitting#retirement.n
+frame-Quitting_a_place-defect.v	quitting_a_place#defection.n	quitting_a_place#desert.v	quitting_a_place#desertion.n
+frame-Quitting_a_place-emigrate.v	quitting_a_place#emigrant.n	quitting_a_place#emigration.n	quitting_a_place#emigre.n
+frame-Quitting_a_place-quit.v	quitting_a_place#abandon.v	quitting_a_place#vacate.v
+frame-Quitting_a_place-retreat.v	quitting_a_place#withdraw.v	quitting_a_place#withdrawal.n
+frame-Range-range.n	range#reach.n
+frame-Rank-level.n	rank#degree.n
+frame-Rape-rape.v	rape#rape.n	rape#rapist.n
+frame-Rashness-precipitate.a	rashness#precipitous.a
+frame-Ratification-ratify.v	ratification#ratification.n
+frame-Reading-read.v	reading#reader.n
+frame-Reading-scan.v	reading#skim.v
+frame-Reason-basis.n	reason#reason.n
+frame-Reason-motive.n	reason#motivation.n
+frame-Reasoning-argue.v	reasoning#reason.v
+frame-Reasoning-prove.v	reasoning#demonstrate.v
+frame-Reassuring-reassure.v	reassuring#reassurance.n
+frame-Receiving-receive.v	receiving#receipt.n
+frame-Recovery-recover.v	recovery#convalesce.v	recovery#convalescence.n	recovery#recovery.n	recovery#recuperate.v	recovery#recuperation.n
+frame-Referring_by_name-call.v	referring_by_name#name.n
+frame-Reforming_a_system-reform.v	reforming_a_system#reform.n
+frame-Regard-esteem.n	regard#regard.n
+frame-Regard-opinion.n	regard#impression.n
+frame-Regard-think.v	regard#regard.v
+frame-Rejuvenation-invigorate.v	rejuvenation#reinvigorate.v
+frame-Rejuvenation-restore.v	rejuvenation#rejuvenate.v
+frame-Rejuvenation-resuscitate.v	rejuvenation#resuscitation.n
+frame-Rejuvenation-revival.n	rejuvenation#revitalization.n
+frame-Relating_concepts-tie.v	relating_concepts#associate.v	relating_concepts#connect.v	relating_concepts#link.v	relating_concepts#relate.v
+frame-Relational_natural_features-peak.n	relational_natural_features#summit.n
+frame-Relational_quantity-about.prep	relational_quantity#about.c
+frame-Relational_quantity-almost.prep	relational_quantity#almost.c
+frame-Relational_quantity-around.prep	relational_quantity#around.c
+frame-Relational_quantity-at_least.adv	relational_quantity#at_least.c
+frame-Relational_quantity-at_most.adv	relational_quantity#at_most.c
+frame-Relational_quantity-barely.adv	relational_quantity#barely.c
+frame-Relational_quantity-circa.prep	relational_quantity#circa.c
+frame-Relational_quantity-exactly.adv	relational_quantity#exactly.c	relational_quantity#precisely.c
+frame-Relational_quantity-in_neighborhood_(of).prep	relational_quantity#in_neighborhood_(of).c
+frame-Relational_quantity-in_vicinity_(of).prep	relational_quantity#in_vicinity_(of).c
+frame-Relational_quantity-little.art	relational_quantity#little.c
+frame-Relational_quantity-much.art	relational_quantity#much.c
+frame-Relational_quantity-nearly.adv	relational_quantity#nearly.c
+frame-Relational_quantity-or_so.adv	relational_quantity#approximately.c	relational_quantity#or_so.c	relational_quantity#roughly.c
+frame-Relational_quantity-over.prep	relational_quantity#over.c
+frame-Relational_quantity-some.art	relational_quantity#some.c
+frame-Relational_quantity-something_like.prep	relational_quantity#something_like.c
+frame-Relational_quantity-thereabouts.adv	relational_quantity#thereabouts.c
+frame-Relational_quantity-under.prep	relational_quantity#under.c
+frame-Relational_quantity-upwards_of.prep	relational_quantity#upwards_of.c
+frame-Relative_time-after.prep	relative_time#after.c
+frame-Relative_time-ahead.adv	relative_time#ahead.c
+frame-Relative_time-as.adv	relative_time#as.c
+frame-Relative_time-behind.adv	relative_time#behind.c
+frame-Relative_time-late.a	relative_time#belated.a	relative_time#recent.a	relative_time#tardy.a
+frame-Relative_time-later.adv	relative_time#later.c	relative_time#subsequent.a	relative_time#subsequently.c
+frame-Relative_time-next.a	relative_time#following.a
+frame-Relative_time-on_time.adv	relative_time#on_time.c
+frame-Relative_time-precede.v	relative_time#antecedent.a	relative_time#predate.v	relative_time#prior.a
+frame-Relative_time-punctually.adv	relative_time#punctual.a	relative_time#punctuality.n	relative_time#punctually.c
+frame-Relative_time-simultaneously.adv	relative_time#simultaneous.a	relative_time#simultaneously.c
+frame-Relative_time-sooner.adv	relative_time#sooner.c
+frame-Relative_time-sooner_rather_than_later.adv	relative_time#sooner_rather_than_later.c
+frame-Releasing-release.v	releasing#set_free.v
+frame-Reliance-count.v	reliance#depend.v	reliance#dependence.n	reliance#dependency.n
+frame-Reliance-rely.v	reliance#reliance.n
+frame-Remembering_experience-recall.v	remembering_experience#memory.n	remembering_experience#remember.v	remembering_experience#reminisce.v
+frame-Removing-ejection.n	removing#expulsion.n
+frame-Removing-empty.v	removing#eliminate.v	removing#elimination.n	removing#evacuate.v	removing#evacuation.n
+frame-Removing-evict.v	removing#eviction.n
+frame-Removing-excise.v	removing#expunge.v
+frame-Removing-extract.v	removing#extraction.n
+frame-Removing-oust.v	removing#eject.v	removing#expel.v
+frame-Removing-purge.v	removing#disgorge.v
+frame-Removing-take.v	removing#removal.n	removing#remove.v	removing#withdraw.v	removing#withdrawal.n
+frame-Removing-tear.v	removing#pluck.v
+frame-Render_nonfunctional-disable.v	render_nonfunctional#incapacitate.v
+frame-Renting-hire.v	renting#charter.v	renting#lease.v	renting#rent.v
+frame-Renting_out-rent.v	renting_out#lease.v
+frame-Renunciation-renounce.v	renunciation#renunciation.n
+frame-Reparation-amends.n	reparation#reparation.n
+frame-Repayment-repay.v	repayment#repayment.n
+frame-Replacing-switch.v	replacing#replace.v	replacing#replacement.n	replacing#substitute.v	replacing#substitution.n
+frame-Reporting-rat.v	reporting#fink.n	reporting#fink.v	reporting#informer.n	reporting#peach.v	reporting#snitch.n	reporting#snitch.v
+frame-Request-appeal.n	request#entreaty.n
+frame-Request-beg.v	request#implore.v
+frame-Request-beseech.v	request#command.n	request#command.v	request#entreat.v
+frame-Request-demand.v	request#demand.n
+frame-Request-request.v	request#petition.n	request#request.n
+frame-Request-tell.v	request#order.v
+frame-Research-research.v	research#investigate.v
+frame-Reshaping-bend.v	reshaping#fold.v
+frame-Reshaping-curl.v	reshaping#roll.v
+frame-Reshaping-form.v	reshaping#shape.v
+frame-Reshaping-mash.v	reshaping#crush.v	reshaping#squash.v
+frame-Residence-camp.v	residence#bivouac.n	residence#bivouac.v	residence#camp.n	residence#camper.n
+frame-Residence-live.v	residence#dwell.v	residence#dweller.n	residence#inhabit.v	residence#inhabitant.n
+frame-Residence-room.v	residence#lodge.v
+frame-Residence-stay.v	residence#occupant.n	residence#occupy.v	residence#reside.v	residence#resident.n
+frame-Resolve_problem-deal.v	resolve_problem#address.v
+frame-Resolve_problem-solve.v	resolve_problem#resolve.v
+frame-Respond_to_proposal-rebuff.v	respond_to_proposal#rebuff.n
+frame-Respond_to_proposal-refuse.v	respond_to_proposal#reject.v	respond_to_proposal#turn_down.v
+frame-Response-react.v	response#reaction.n	response#respond.v
+frame-Resurrection-rise.v	resurrection#resurrect.v
+frame-Reveal_secret-expose.v	reveal_secret#disclose.v	reveal_secret#disclosure.n	reveal_secret#divulge.v	reveal_secret#divulgence.n	reveal_secret#reveal.v	reveal_secret#revelation.n
+frame-Revenge-avenge.v	revenge#avenger.n	revenge#retaliate.v	revenge#retaliation.n	revenge#retributive.a	revenge#retributory.a	revenge#revenge.n	revenge#revenge.v
+frame-Revenge-get_even.v	revenge#get_back_((at)).v
+frame-Revenge-payback.n	revenge#retribution.n	revenge#vengeance.n
+frame-Revenge-vengeful.a	revenge#revengeful.a	revenge#vindictive.a
+frame-Rewards_and_punishments-discipline.v	rewards_and_punishments#disciplinary.a
+frame-Rewards_and_punishments-punish.v	rewards_and_punishments#penalty.n	rewards_and_punishments#punitive.a
+frame-Rewards_and_punishments-reward.v	rewards_and_punishments#reward.n
+frame-Ride_vehicle-fly.v	ride_vehicle#flight.n
+frame-Ride_vehicle-ride.v	ride_vehicle#ride.n
+frame-Ride_vehicle-sail.v	ride_vehicle#cruise.n	ride_vehicle#cruise.v
+frame-Risky_situation-danger.n	risky_situation#dangerous.a	risky_situation#unsafe.a
+frame-Risky_situation-riskily.adv	risky_situation#risk.n	risky_situation#riskily.c	risky_situation#risky.a	risky_situation#threat.n
+frame-Risky_situation-safely.adv	risky_situation#safely.c
+frame-Rite-anoint.v	rite#unction.n
+frame-Rite-baptize.v	rite#baptism.n	rite#christen.v	rite#christening.n
+frame-Rite-bless.v	rite#consecrate.v	rite#consecration.n	rite#ordain.v	rite#order.v	rite#ordination.n
+frame-Rite-circumcise.v	rite#circumcision.n
+frame-Rite-initiate.v	rite#initiation.n
+frame-Rite-pray.v	rite#prayer.n
+frame-Rite-rite.n	rite#ritual.n
+frame-Roadways-avenue.n	roadways#boulevard.n
+frame-Roadways-flyover.n	roadways#overpass.n
+frame-Roadways-freeway.n	roadways#expressway.n	roadways#motorway.n
+frame-Roadways-parkway.n	roadways#driveway.n
+frame-Roadways-pavement.n	roadways#sidewalk.n
+frame-Roadways-rail.n	roadways#runway.n
+frame-Roadways-railway.n	roadways#railroad.n
+frame-Roadways-road.n	roadways#route.n
+frame-Roadways-track.n	roadways#course.n	roadways#crosswalk.n
+frame-Robbery-hold_up.v	robbery#stick_up.v
+frame-Robbery-mug.v	robbery#mugger.n	robbery#mugging.n
+frame-Robbery-rifle.v	robbery#ransack.v
+frame-Robbery-rob.v	robbery#robber.n	robbery#robbery.n
+frame-Rotting-rot.v	rotting#decay.v	rotting#decompose.v	rotting#moulder.v	rotting#putrefy.v	rotting#rot.n
+frame-Run_risk-risk.v	run_risk#peril.n	run_risk#risk.n
+frame-Scarcity-plentifulness.n	scarcity#plentiful.a
+frame-Scarcity-scarcity.n	scarcity#scarce.a	scarcity#scarceness.n
+frame-Scouring-comb.v	scouring#ransack.v	scouring#rummage.v
+frame-Scouring-sweep.v	scouring#sweep.n
+frame-Scrutiny-comb.v	scrutiny#ransack.v	scrutiny#rummage.v
+frame-Scrutiny-monitor.v	scrutiny#monitoring.n
+frame-Scrutiny-peruse.v	scrutiny#perusal.n
+frame-Scrutiny-scan.v	scrutiny#skim.v
+frame-Scrutiny-scout.v	scrutiny#reconnoitre.v
+frame-Scrutiny-scrutinize.v	scrutiny#examination.n	scrutiny#inspector.n	scrutiny#scrutiny.n
+frame-Scrutiny-search.v	scrutiny#explore.v	scrutiny#investigate.v	scrutiny#investigation.n
+frame-Scrutiny-study.v	scrutiny#analyse.v	scrutiny#analysis.n	scrutiny#analyst.n	scrutiny#analytic.a	scrutiny#examine.v	scrutiny#study.n	scrutiny#survey.n	scrutiny#survey.v
+frame-Scrutiny-surveillance.n	scrutiny#surveillance_((entity)).n
+frame-Scrutiny-sweep.v	scrutiny#sweep.n
+frame-Secrecy_status-publicly.adv	secrecy_status#public.a	secrecy_status#publicly.c
+frame-Secrecy_status-secret.a	secrecy_status#clandestine.a	secrecy_status#surreptitious.a
+frame-Secrecy_status-secretly.adv	secrecy_status#secretly.c
+frame-Seeking-feel.v	seeking#palpate.v
+frame-Seeking-grope.v	seeking#fumble.v
+frame-Seeking-hunt.v	seeking#search.v	seeking#seek.v
+frame-Seeking-look.v	seeking#watch.v
+frame-Self_motion-advance.v	self_motion#proceed.v
+frame-Self_motion-amble.v	self_motion#mosey.v	self_motion#saunter.v	self_motion#stroll.n	self_motion#stroll.v
+frame-Self_motion-clamber.v	self_motion#scramble.v
+frame-Self_motion-crawl.v	self_motion#crawl.n	self_motion#creep.v	self_motion#prowl.v	self_motion#sneak.v
+frame-Self_motion-dart.v	self_motion#dash.n	self_motion#dash.v	self_motion#flit.v	self_motion#scoot.v	self_motion#sprint.n	self_motion#sprint.v
+frame-Self_motion-hike.v	self_motion#hike.n	self_motion#meander.v	self_motion#roam.v	self_motion#rove.v	self_motion#straggle.v
+frame-Self_motion-hop.v	self_motion#skip.v
+frame-Self_motion-jog.v	self_motion#canter.v	self_motion#lope.v	self_motion#trot.v
+frame-Self_motion-jump.v	self_motion#bound.v	self_motion#leap.v	self_motion#spring.v
+frame-Self_motion-limp.v	self_motion#hobble.v
+frame-Self_motion-lurch.v	self_motion#stagger.v	self_motion#toddle.v	self_motion#totter.v	self_motion#waddle.v
+frame-Self_motion-march.v	self_motion#march.n
+frame-Self_motion-pace.v	self_motion#step.n	self_motion#step.v	self_motion#stride.v	self_motion#tread.v
+frame-Self_motion-pad.v	self_motion#plod.v	self_motion#slog.v	self_motion#stomp.v	self_motion#tramp.v	self_motion#trudge.v
+frame-Self_motion-romp.v	self_motion#caper.v	self_motion#frolic.v	self_motion#gambol.v
+frame-Self_motion-rush.v	self_motion#hasten.v	self_motion#hurry.v
+frame-Self_motion-sail.v	self_motion#cruise.v
+frame-Self_motion-scurry.v	self_motion#scamper.v	self_motion#scramble.n	self_motion#scuttle.v
+frame-Self_motion-slop.v	self_motion#slosh.v
+frame-Self_motion-strut.v	self_motion#prance.v	self_motion#sashay.v	self_motion#swagger.v
+frame-Self_motion-swim.v	self_motion#swim.n
+frame-Self_motion-trip.v	self_motion#jaunt.n
+frame-Self_motion-troop.v	self_motion#parade.v	self_motion#promenade.v
+frame-Self_motion-walk.v	self_motion#walk.n
+frame-Sending-mail.v	sending#post.v
+frame-Sending-send.v	sending#dispatch.v	sending#ship.v	sending#shipment_((act)).n	sending#shipment_((items)).n
+frame-Sensation-feel.n	sensation#feeling.n	sensation#flavour.n
+frame-Sensation-odor.n	sensation#aroma.n	sensation#bouquet.n	sensation#fragrance.n	sensation#perfume.n	sensation#scent.n	sensation#smell.n
+frame-Sensation-reek.n	sensation#stink.n
+frame-Sensation-sense.n	sensation#perception.n	sensation#sensation.n
+frame-Sensation-taste.n	sensation#savour.n
+frame-Sent_items-mail.n	sent_items#post.n
+frame-Sentencing-condemn.v	sentencing#sentence.n	sentencing#sentence.v
+frame-Separating-part.v	separating#divide.v	separating#partition.n	separating#partition.v	separating#section.v	separating#segment.v	separating#separate.v	separating#split.v
+frame-Sequence-series.n	sequence#sequence.n	sequence#sequential.a	sequence#succession.n	sequence#successive.a
+frame-Setting_fire-ablaze.a	setting_fire#alight.a	setting_fire#on_fire.a
+frame-Setting_fire-light.v	setting_fire#combust.v	setting_fire#ignite.v	setting_fire#kindle.v
+frame-Shapes-circle.n	shapes#circular.a	shapes#round.a
+frame-Shapes-oval.n	shapes#ellipse.n
+frame-Sharpness-dull.a	sharpness#blunt.a
+frame-Shopping-shop.v	shopping#shopping.n
+frame-Sign-indicate.v	sign#indication.n
+frame-Sign-symptom.n	sign#symptomatic.a
+frame-Sign_agreement-sign.v	sign_agreement#signatory.n	sign_agreement#signature.n
+frame-Silencing-hush.v	silencing#hush_up.v	silencing#quiet.v	silencing#quiet_down.v	silencing#silence.v
+frame-Similarity-differ.v	similarity#difference.n	similarity#difference_((count)).n	similarity#different.a	similarity#dissimilar.a	similarity#dissimilarity.n	similarity#dissimilarity_((mass)).n	similarity#distinction.n	similarity#unlike.a
+frame-Similarity-disparity.n	similarity#disparate.a
+frame-Similarity-like.prep	similarity#like.c
+frame-Similarity-resemble.v	similarity#resemblance.n
+frame-Similarity-similarity_((mass)).n	similarity#alike.a	similarity#like.a	similarity#similar.a	similarity#similarity_((count)).n
+frame-Similarity-unlike.prep	similarity#unlike.c
+frame-Similarity-vary.v	similarity#discrepancy.n	similarity#variant.n
+frame-Simultaneity-co-occur.v	simultaneity#co-occurrence.n	simultaneity#coincide.v	simultaneity#concurrent.a	simultaneity#conjunction.n	simultaneity#simultaneity.n	simultaneity#simultaneous.a	simultaneity#simultaneously.c
+frame-Size-big.a	size#large.a
+frame-Size-huge.a	size#enormous.a
+frame-Size-small.a	size#little.a
+frame-Sleep-hibernate.v	sleep#hibernation.n
+frame-Sleep-kip.v	sleep#catnap.n	sleep#catnap.v	sleep#doze.n	sleep#doze.v	sleep#drowse.n	sleep#drowse.v	sleep#forty_winks.n	sleep#kip.n	sleep#nap.n	sleep#nap.v	sleep#sleep.v	sleep#sleep_((quantity)).n	sleep#sleep_event.n	sleep#slumber.n	sleep#slumber.v	sleep#snooze.n	sleep#snooze.v
+frame-Smuggling-smuggle.v	smuggling#contraband.a	smuggling#contraband.n	smuggling#smuggler.n	smuggling#smuggling.n
+frame-Soaking_up-absorb.v	soaking_up#soak_up.v
+frame-Sociability-shy.a	sociability#timid.a
+frame-Social_connection-closeness.n	social_connection#close.a
+frame-Social_connection-intimate.a	social_connection#intimate_((setting)).a
+frame-Social_event-fete.n	social_event#banquet.n	social_event#celebration.n	social_event#feast.n
+frame-Social_interaction_evaluation-cruel.a	social_interaction_evaluation#barbaric.a
+frame-Social_interaction_evaluation-genial.a	social_interaction_evaluation#affable.a	social_interaction_evaluation#amiable.a	social_interaction_evaluation#cordial.a	social_interaction_evaluation#good-humored.a	social_interaction_evaluation#good-natured.a
+frame-Social_interaction_evaluation-nice.a	social_interaction_evaluation#civil.a	social_interaction_evaluation#courteous.a	social_interaction_evaluation#gracious.a	social_interaction_evaluation#polite.a
+frame-Social_interaction_evaluation-rude.a	social_interaction_evaluation#ill-mannered.a	social_interaction_evaluation#uncivil.a
+frame-Social_interaction_evaluation-smart.a	social_interaction_evaluation#impertinent.a	social_interaction_evaluation#impudent.a
+frame-Social_interaction_evaluation-ungracious.a	social_interaction_evaluation#discourteous.a
+frame-Sole_instance-lone.a	sole_instance#only.a	sole_instance#sole.a
+frame-Sound_movement-echo.v	sound_movement#resound.v	sound_movement#reverberate.v
+frame-Sounds-bang.n	sounds#bellow.n	sounds#blare.n	sounds#blast.n	sounds#boom.n	sounds#clack.n	sounds#clatter.n	sounds#howl.n	sounds#roar.n	sounds#wail.n	sounds#whimper.n	sounds#whine.n	sounds#yowl.n
+frame-Sounds-clang.n	sounds#clash.n
+frame-Sounds-click.n	sounds#clink.n	sounds#tinkle.n
+frame-Sounds-creak.n	sounds#screech.n	sounds#squeak.n
+frame-Sounds-giggle.n	sounds#titter.n
+frame-Sounds-hiss.n	sounds#hoot.n	sounds#snigger.n	sounds#snort.n
+frame-Sounds-neigh.n	sounds#whinny.n
+frame-Sounds-peep.n	sounds#cheep.n	sounds#chirp.n	sounds#twitter.n
+frame-Sounds-plunk.n	sounds#scrunch.n	sounds#thump.n
+frame-Sounds-rasp.n	sounds#scrape.n
+frame-Sounds-slap.n	sounds#smack.n
+frame-Speak_on_topic-deal.v	speak_on_topic#address.v	speak_on_topic#discuss.v
+frame-Speak_on_topic-expound.v	speak_on_topic#expatiate.v
+frame-Speak_on_topic-lecture.v	speak_on_topic#lecture.n
+frame-Speak_on_topic-preach.v	speak_on_topic#sermonize.v
+frame-Speed-quickly.adv	speed#fast.a	speed#quick.a	speed#quickly.c	speed#rapid.a	speed#rapidly.c	speed#speed.n	speed#speedily.c	speed#speedy.a
+frame-Stage_of_progress-advanced.a	stage_of_progress#sophisticated.a
+frame-State_continue-rest.v	state_continue#remain.v	state_continue#stay.v
+frame-Statement-admit.v	statement#acknowledge.v	statement#admission.n
+frame-Statement-claim.v	statement#claim.n
+frame-Statement-concede.v	statement#profess.v
+frame-Statement-confirm.v	statement#reaffirm.v
+frame-Statement-contend.v	statement#contention.n
+frame-Statement-declare.v	statement#announce.v	statement#announcement.n	statement#declaration.n	statement#exclaim.v	statement#proclaim.v	statement#proclamation.n	statement#promulgation.n
+frame-Statement-deny.v	statement#denial.n
+frame-Statement-hazard.v	statement#conjecture.n	statement#conjecture.v
+frame-Statement-note.v	statement#comment.n	statement#comment.v	statement#mention.n	statement#mention.v	statement#observe.v	statement#remark.n	statement#remark.v
+frame-Statement-propose.v	statement#suggest.v
+frame-Statement-report.v	statement#describe.v	statement#explanation.n	statement#report.n
+frame-Statement-say.v	statement#affirm.v	statement#affirmation.n	statement#allegation.n	statement#allege.v	statement#assert.v	statement#assertion.n	statement#aver.v	statement#avow.v	statement#avowal.n	statement#maintain.v	statement#recount.v	statement#relate.v	statement#state.v	statement#statement.n	statement#tell.v
+frame-Statement-talk.v	statement#speak.v
+frame-Stimulus_focus-agonizing.a	stimulus_focus#harrowing.a
+frame-Stimulus_focus-appalling.a	stimulus_focus#dismaying.a
+frame-Stimulus_focus-astounding.a	stimulus_focus#astonishing.a	stimulus_focus#stupefying.a
+frame-Stimulus_focus-bewitching.a	stimulus_focus#captivating.a	stimulus_focus#enchanting.a	stimulus_focus#enthralling.a
+frame-Stimulus_focus-charm_((mass)).n	stimulus_focus#charm_((count)).n
+frame-Stimulus_focus-cheering.a	stimulus_focus#satisfying.a
+frame-Stimulus_focus-confusing.a	stimulus_focus#perplexing.a
+frame-Stimulus_focus-consoling.a	stimulus_focus#comforting.a
+frame-Stimulus_focus-delight.n	stimulus_focus#pleasant.a
+frame-Stimulus_focus-dreadful.a	stimulus_focus#abominable.a	stimulus_focus#frightening.a
+frame-Stimulus_focus-dull.a	stimulus_focus#boring.a	stimulus_focus#irksome.a	stimulus_focus#tedious.a	stimulus_focus#tiresome.a
+frame-Stimulus_focus-enjoyable.a	stimulus_focus#gratifying.a	stimulus_focus#pleasurable.a
+frame-Stimulus_focus-full.a	stimulus_focus#rich.a
+frame-Stimulus_focus-funny.a	stimulus_focus#amusing.a	stimulus_focus#comical.a	stimulus_focus#hilarious.a	stimulus_focus#humorous.a	stimulus_focus#jolly.a
+frame-Stimulus_focus-ghastly.a	stimulus_focus#shocking.a
+frame-Stimulus_focus-gripping.a	stimulus_focus#absorbing.a	stimulus_focus#engrossing.a	stimulus_focus#fascinating.a
+frame-Stimulus_focus-maddening.a	stimulus_focus#exasperating.a	stimulus_focus#infuriating.a
+frame-Stimulus_focus-mortifying.a	stimulus_focus#embarrassing.a
+frame-Stimulus_focus-offensive.a	stimulus_focus#disgusting.a	stimulus_focus#distasteful.a	stimulus_focus#repellent.a	stimulus_focus#revolting.a	stimulus_focus#sickening.a
+frame-Stimulus_focus-poignant.a	stimulus_focus#touching.a
+frame-Stimulus_focus-rest.n	stimulus_focus#relaxation.n
+frame-Stimulus_focus-rousing.a	stimulus_focus#stirring.a
+frame-Stimulus_focus-sad.a	stimulus_focus#pitiful.a
+frame-Stimulus_focus-scary.a	stimulus_focus#chilling.a
+frame-Stimulus_focus-stressful.a	stimulus_focus#nerve-racking.a
+frame-Stimulus_focus-thrilling.a	stimulus_focus#electrifying.a
+frame-Stimulus_focus-unnerving.a	stimulus_focus#formidable.a
+frame-Stimulus_focus-upsetting.a	stimulus_focus#disconcerting.a
+frame-Stimulus_focus-vexation.n	stimulus_focus#annoyance.n
+frame-Stimulus_focus-vexing.a	stimulus_focus#annoying.a	stimulus_focus#bothersome.a	stimulus_focus#galling.a	stimulus_focus#irritating.a	stimulus_focus#vexatious.a
+frame-Stimulus_focus-worrying.a	stimulus_focus#distressing.a	stimulus_focus#disturbing.a	stimulus_focus#troubling.a	stimulus_focus#worrisome.a
+frame-Stinginess-miser.n	stinginess#mean.a	stinginess#miserliness.n	stinginess#miserly.a	stinginess#niggardliness.n	stinginess#niggardly.a
+frame-Stinginess-stingy.a	stinginess#ungenerous.a
+frame-Store-stock.n	store#inventory.n	store#reserve.n	store#stockpile.n	store#store.n
+frame-Storing-store.v	storing#storage.n
+frame-Strictness-lenient.a	strictness#indulgent.a
+frame-Strictness-liberal.a	strictness#tolerant.a
+frame-Suasion-sway.v	suasion#convince.v	suasion#persuade.v
+frame-Subjective_influence-impact.v	subjective_influence#impact.n
+frame-Subjective_influence-influence.v	subjective_influence#influential.a
+frame-Subjective_influence-inspire.v	subjective_influence#inspiration.n
+frame-Submitting_documents-submit.v	submitting_documents#submission.n
+frame-Subordinates_and_superiors-master.n	subordinates_and_superiors#superior.n
+frame-Subordinates_and_superiors-underling.n	subordinates_and_superiors#subordinate.n
+frame-Subversion-subvert.v	subversion#sabotage.v	subversion#undermine.v
+frame-Success_or_failure-manage.v	success_or_failure#pull_off.v
+frame-Sufficiency-enough.adv	sufficiency#enough.c	sufficiency#plenty.c
+frame-Sufficiency-inadequately.adv	sufficiency#inadequate.a	sufficiency#inadequately.c
+frame-Sufficiency-insufficiently.adv	sufficiency#inadequacy.n	sufficiency#insufficient.a	sufficiency#insufficiently.c
+frame-Sufficiency-so.adv	sufficiency#so.c
+frame-Sufficiency-sufficiently.adv	sufficiency#adequacy.n	sufficiency#adequate.a	sufficiency#adequately.c	sufficiency#enough.a	sufficiency#enough.n	sufficiency#suffice.v	sufficiency#sufficient.a	sufficiency#sufficiently.c
+frame-Sufficiency-too.adv	sufficiency#too.c
+frame-Suitability-fit.a	suitability#fitting.a
+frame-Suitability-fit.v	suitability#suit.v
+frame-Suitability-right.a	suitability#correct.a
+frame-Suitability-suitability.n	suitability#suitable.a	suitability#suitableness.n	suitability#suited.a
+frame-Suitability-unsuitability.n	suitability#unsuitable.a	suitability#unsuitableness.n
+frame-Summarizing-sum_up.v	summarizing#outline.v	summarizing#summarize.v	summarizing#synopsis.n
+frame-Supply-equip.v	supply#equipment.n	supply#outfit.v
+frame-Supply-issue.v	supply#furnish.v	supply#provide.v	supply#provision.n	supply#provision.v	supply#supplier.n	supply#supply.n	supply#supply.v
+frame-Surpassing-outdo.v	surpassing#exceed.v	surpassing#outstrip.v	surpassing#surpass.v
+frame-Surrendering-give_up.v	surrendering#surrender.v
+frame-Surrendering_possession-yield.v	surrendering_possession#give_up.v	surrendering_possession#surrender.v
+frame-Surviving-survive.v	surviving#survival.n
+frame-Suspicion-suspect.v	suspicion#suspect.n
+frame-Suspicion-under_suspicion.prep	suspicion#under_suspicion.c
+frame-Suspiciousness-fishy.a	suspiciousness#suspect.a	suspiciousness#suspicious.a
+frame-Take_place_of-replace.v	take_place_of#replacement.n	take_place_of#substitute.v
+frame-Taking_sides-against.prep	taking_sides#against.c
+frame-Taking_sides-back.v	taking_sides#endorse.v	taking_sides#support.v	taking_sides#supporter.n	taking_sides#supportive.a
+frame-Taking_sides-for.prep	taking_sides#for.c
+frame-Taking_sides-in_favor.prep	taking_sides#in_favor.c
+frame-Taking_sides-opposition_((act)).n	taking_sides#opposition_((entity)).n
+frame-Taking_sides-pro.adv	taking_sides#pro.c
+frame-Taking_time-fast.a	taking_time#quick.a	taking_time#rapid.a	taking_time#speedy.a	taking_time#swift.a
+frame-Taking_time-gradually.adv	taking_time#gradually.c
+frame-Taking_time-in.prep	taking_time#in.c
+frame-Taking_time-slowly.adv	taking_time#slow.a	taking_time#slowly.c
+frame-Talking_into-incite.v	talking_into#inspire.v
+frame-Tasting-try.v	tasting#taste.v
+frame-Telling-advise.v	telling#apprise.v	telling#notification.n	telling#notify.v
+frame-Temperature-tepid.a	temperature#lukewarm.a
+frame-Temporal_collocation-around.prep	temporal_collocation#around.c
+frame-Temporal_collocation-at.prep	temporal_collocation#at.c
+frame-Temporal_collocation-at_present.adv	temporal_collocation#at_present.c
+frame-Temporal_collocation-at_the_time.adv	temporal_collocation#at_the_time.c
+frame-Temporal_collocation-currently.adv	temporal_collocation#current.a	temporal_collocation#currently.c	temporal_collocation#nowadays.n
+frame-Temporal_collocation-during.prep	temporal_collocation#during.c
+frame-Temporal_collocation-in.prep	temporal_collocation#in.c
+frame-Temporal_collocation-newly.adv	temporal_collocation#newly.c
+frame-Temporal_collocation-no_longer.adv	temporal_collocation#no_longer.c
+frame-Temporal_collocation-now.adv	temporal_collocation#now.c
+frame-Temporal_collocation-on.prep	temporal_collocation#on.c
+frame-Temporal_collocation-recently.adv	temporal_collocation#recently.c
+frame-Temporal_collocation-then.adv	temporal_collocation#then.c
+frame-Temporal_collocation-ultimately.adv	temporal_collocation#ultimately.c
+frame-Temporal_collocation-when.adv	temporal_collocation#when.c
+frame-Temporal_collocation-within.prep	temporal_collocation#within.c
+frame-Temporal_pattern-beat.n	temporal_pattern#rhythm.n
+frame-Temporal_pattern-rhythmically.adv	temporal_pattern#rhythmic.a	temporal_pattern#rhythmically.c
+frame-Temporal_subregion-late.a	temporal_subregion#later.a
+frame-Temporal_subregion-start.n	temporal_subregion#beginning.n	temporal_subregion#outset.n
+frame-Temporary_stay-room.v	temporary_stay#board.v
+frame-Temporary_stay-stay.v	temporary_stay#stay.n
+frame-Temporary_stay-stay_over.v	temporary_stay#sleep_over.v
+frame-Terms_of_agreement-term.n	terms_of_agreement#stipulation.n
+frame-Terrorism-terrorism.n	terrorism#terrorist.n
+frame-Text-account.n	text#chronicle.n	text#history.n
+frame-Text-book.n	text#booklet.n	text#brochure.n	text#pamphlet.n	text#script.n	text#tract.n	text#volume.n
+frame-Text-epic.n	text#epic.a
+frame-Text-fable.n	text#fiction.n
+frame-Text-lay.n	text#ballad.n
+frame-Text-letter.n	text#missive.n
+frame-Text-mag.n	text#magazine.n
+frame-Text-mystery.n	text#whodunit.n
+frame-Text-newspaper.n	text#paper_(newspaper).n
+frame-Text-novel.n	text#novelette.n	text#novella.n
+frame-Text-rhyme.n	text#poetry.n
+frame-Text_creation-jot.v	text_creation#jot_down.v
+frame-Text_creation-pen.v	text_creation#author.v	text_creation#compose.v	text_creation#write.v
+frame-Text_creation-speak.v	text_creation#utter.v
+frame-Theft-cop.v	theft#abstract.v	theft#filch.v	theft#larceny.n	theft#lift.v	theft#pilfer.v	theft#pilferage.n	theft#pilferer.n	theft#pinch.v	theft#purloin.v	theft#shoplift.v	theft#shoplifter.n	theft#shoplifting.n	theft#snitch.v	theft#steal.v	theft#stealer.n	theft#stealing.n	theft#swipe.v	theft#theft.n	theft#thief.n	theft#thieve.v	theft#thieving.n
+frame-Theft-cutpurse.n	theft#pickpocket.n
+frame-Theft-embezzle.v	theft#embezzlement.n	theft#embezzler.n	theft#misappropriate.v	theft#misappropriation.n	theft#peculation.n
+frame-Theft-snatch.v	theft#snatch.n
+frame-Thriving-thrive.v	thriving#prosper.v
+frame-Thwarting-counter.v	thwarting#forestall.v	thwarting#preclude.v	thwarting#prevent.v
+frame-Thwarting-foil.v	thwarting#frustrate.v	thwarting#stop.v	thwarting#stymie.v	thwarting#thwart.v
+frame-Time_vector-after.prep	time_vector#after.c
+frame-Time_vector-ago.prep	time_vector#ago.c
+frame-Time_vector-already.adv	time_vector#already.c
+frame-Time_vector-ante.prep	time_vector#ante.c
+frame-Time_vector-before.prep	time_vector#before.c
+frame-Time_vector-beforehand.adv	time_vector#beforehand.c
+frame-Time_vector-down_the_road.prep	time_vector#down_the_road.c
+frame-Time_vector-finally.adv	time_vector#eventually.c	time_vector#finally.c
+frame-Time_vector-formerly.adv	time_vector#formerly.c
+frame-Time_vector-from.prep	time_vector#from.c
+frame-Time_vector-hence.prep	time_vector#hence.c
+frame-Time_vector-in_time.prep	time_vector#in_time.c
+frame-Time_vector-later.adv	time_vector#afterward.c	time_vector#afterwards.c	time_vector#later.c
+frame-Time_vector-post.prep	time_vector#post.c
+frame-Time_vector-pre.prep	time_vector#pre.c
+frame-Time_vector-previously.adv	time_vector#previous.a	time_vector#previously.c
+frame-Time_vector-prior.adv	time_vector#prior.c
+frame-Time_vector-right_away.adv	time_vector#right_away.c
+frame-Time_vector-since.adv	time_vector#since.c
+frame-Time_vector-sooner_rather_than_later.adv	time_vector#sooner_rather_than_later.c
+frame-Time_vector-thereafter.adv	time_vector#thereafter.c
+frame-Time_vector-through.prep	time_vector#through.c
+frame-Time_vector-until.prep	time_vector#until.c
+frame-Tolerating-bear.v	tolerating#endure.v	tolerating#tolerate.v	tolerating#toleration.n
+frame-Topic-about.prep	topic#about.c
+frame-Topic-concerning.prep	topic#concerning.c
+frame-Topic-cover.v	topic#address.v	topic#discuss.v	topic#treat.v
+frame-Topic-on.prep	topic#on.c
+frame-Topic-regard.v	topic#regard.n
+frame-Topic-regarding.prep	topic#regarding.c
+frame-Topic-theme.n	topic#subject.n	topic#topic.n
+frame-Touring-tour.v	touring#tour.n	touring#tourism.n	touring#tourist.n
+frame-Toxic_substance-toxin.n	toxic_substance#toxic.a
+frame-Toxic_substance-venom.n	toxic_substance#venomous.a
+frame-Transfer-transfer.v	transfer#transfer.n
+frame-Travel-tour.v	travel#tour.n
+frame-Travel-travel.v	travel#excursion.n	travel#expedition.n	travel#jaunt.n	travel#journey.n	travel#journey.v	travel#junket.n	travel#travel.n	travel#traveler.n	travel#trip.n
+frame-Travel-voyage.v	travel#voyage.n
+frame-Traversing-cross.v	traversing#traverse.v
+frame-Traversing-jump.v	traversing#leap.v
+frame-Trendiness-chic.a	trendiness#fashionable.a
+frame-Trendiness-style.n	trendiness#fashion.n
+frame-Trust-gullible.a	trust#credulous.a
+frame-Trust-reliability.n	trust#reliable.a
+frame-Trust-trust.v	trust#faith.n	trust#trust.n	trust#trustworthy.a
+frame-Trying_out-try.v	trying_out#try_out.v
+frame-Type-breed.n	type#strain.n
+frame-Type-form.n	type#class.n	type#kind.n	type#sort.n	type#variety.n
+frame-Type-make.n	type#brand.n
+frame-Typicality-odd.a	typicality#curious.a
+frame-Unattributed_information-allegedly.adv	unattributed_information#alleged.a	unattributed_information#allegedly.c
+frame-Unattributed_information-ostensibly.adv	unattributed_information#ostensible.a	unattributed_information#ostensibly.c
+frame-Unattributed_information-reportedly.adv	unattributed_information#reportedly.c
+frame-Unattributed_information-rumor.v	unattributed_information#rumor.n
+frame-Unattributed_information-supposedly.adv	unattributed_information#purportedly.c	unattributed_information#supposedly.c
+frame-Undergo_change-change.v	undergo_change#change.n
+frame-Undressing-shed.v	undressing#throw_off.v
+frame-Use_firearm-fire.v	use_firearm#discharge.v
+frame-Used_up-worn_out.a	used_up#exhausted.a
+frame-Usefulness-great.a	usefulness#outstanding.a
+frame-Usefulness-splendid.a	usefulness#excellent.a
+frame-Usefulness-terrific.a	usefulness#fantastic.a	usefulness#marvellous.a	usefulness#tremendous.a	usefulness#wonderful.a
+frame-Usefulness-utility.n	usefulness#useful.a
+frame-Using-use.v	using#application.n	using#apply.v	using#employ.v	using#employment.n	using#use.n	using#utilisation.n	using#utilise.v
+frame-Vehicle-bike.n	vehicle#bicycle.n
+frame-Vehicle-cab.n	vehicle#taxi.n
+frame-Vehicle-car.n	vehicle#automobile.n
+frame-Vehicle-plane.n	vehicle#aeroplane.n
+frame-Verdict-clear.v	verdict#acquit.v	verdict#acquittal.n
+frame-Verification-verify.v	verification#certify.v	verification#confirm.v	verification#confirmation.n	verification#substantiate.v	verification#verifiable.a	verification#verification.n
+frame-Visiting-visit.v	visiting#call.n	visiting#visit.n	visiting#visitor.n
+frame-Volubility-curt.a	volubility#laconic.a	volubility#terse.a
+frame-Volubility-gushy.a	volubility#effusive.a	volubility#gushing.a
+frame-Volubility-loquacity.n	volubility#chatty.a	volubility#expansive.a	volubility#garrulous.a	volubility#loquacious.a	volubility#talkative.a
+frame-Volubility-mum.a	volubility#silent.a
+frame-Volubility-reticence.n	volubility#reticent.a	volubility#taciturn.a
+frame-Wagering-wager.v	wagering#wager.n
+frame-Waking_up-revive.v	waking_up#come_to.v
+frame-Waking_up-wake.v	waking_up#awake.v	waking_up#wake_up.v
+frame-Waver_between_options-waver.v	waver_between_options#vacillate.v	waver_between_options#waffle.v
+frame-Wealthiness-needy.a	wealthiness#impoverished.a
+frame-Wealthiness-poverty.n	wealthiness#poor.a
+frame-Wealthiness-rich.a	wealthiness#affluent.a	wealthiness#wealthy.a
+frame-Wealthiness-well-off.a	wealthiness#prosperous.a
+frame-Weapon-AK-47.n	weapon#ak-47.n
+frame-Weapon-BW.n	weapon#bw.n
+frame-Weapon-CW.n	weapon#cw.n
+frame-Weapon-Scud-B.n	weapon#scud-b.n
+frame-Weapon-Scud-B_missile.n	weapon#scud-b_missile.n
+frame-Weapon-Scud-C_missile.n	weapon#scud-c_missile.n
+frame-Weapon-WMD.n	weapon#weapon_of_mass_destruction.n	weapon#wmd.n
+frame-Weapon-arms.n	weapon#weaponry.n
+frame-Weapon-atomic_weapon.n	weapon#nuclear_weapon.n
+frame-Weapon-explosive.n	weapon#explosive.a
+frame-Weapon-gun.n	weapon#artillery.n	weapon#ordnance.n
+frame-Weapon-pistol.n	weapon#handgun.n
+frame-Weapon-revolver.n	weapon#six-shooter.n
+frame-Wearing-barefoot.a	wearing#barefooted.a	wearing#shoeless.a
+frame-Wearing-braless.a	wearing#bare-breasted.a	wearing#topless.a
+frame-Wearing-clad.a	wearing#clothed.a
+frame-Wearing-in.prep	wearing#in.c
+frame-Wearing-nudity.n	wearing#bare.a	wearing#naked.a	wearing#nakedness.n	wearing#nude.a
+frame-Wearing-robed.a	wearing#attired.a	wearing#dressed.a	wearing#garbed.a
+frame-Wearing-unclad.a	wearing#undressed.a
+frame-Wearing-wear.v	wearing#have_on.v
+frame-Wearing-with_on.prep	wearing#with_on.c
+frame-Weather-blizzard.n	weather#snowstorm.n
+frame-Weather-storm.n	weather#stormy.a
+frame-Willingness-loath.a	willingness#reluctant.a
+frame-Willingness-unwillingness.n	willingness#unwilling.a
+frame-Willingness-willingness.n	willingness#willing.a
+frame-Withdraw_from_participation-withdraw.v	withdraw_from_participation#withdrawal.n
+frame-Within_distance-within.prep	within_distance#within.c
+frame-Word_relations-homophone.n	word_relations#homophonous.a
+frame-Word_relations-synonym.n	word_relations#synonymous.a
+frame-Working_on-peg_away.v	working_on#plug_away.v
+frame-Working_on-work.v	working_on#work.n
