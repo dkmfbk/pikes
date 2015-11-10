@@ -830,26 +830,28 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         final Map<Term, Predicate> semaforPredicates = Maps.newHashMap();
 
         // TODO: remove once fixed - normalize Semafor roles
-        if (this.srlEnableSemafor) {
-            for (final Predicate predicate : document.getPredicates()) {
-                if (predicate.getId().startsWith("f_pr")) {
-                    for (final Role role : predicate.getRoles()) {
-                        role.setSemRole("");
-                        final Term head = NAFUtils.extractHead(document, role.getSpan());
-                        if (head != null) {
-                            final Span<Term> newSpan = KAFDocument.newTermSpan(Ordering.from(
-                                    Term.OFFSET_COMPARATOR).sortedCopy(
-                                    document.getTermsByDepAncestors(ImmutableList.of(head))));
-                            role.setSpan(newSpan);
-                        }
-                    }
-                }
-            }
-        }
+        //        if (this.srlEnableSemafor) {
+        //            for (final Predicate predicate : document.getPredicates()) {
+        //                if (predicate.getId().startsWith("f_pr")
+        //                        || "semafor".equalsIgnoreCase(predicate.getSource())) {
+        //                    for (final Role role : predicate.getRoles()) {
+        //                        role.setSemRole("");
+        //                        final Term head = NAFUtils.extractHead(document, role.getSpan());
+        //                        if (head != null) {
+        //                            final Span<Term> newSpan = KAFDocument.newTermSpan(Ordering.from(
+        //                                    Term.OFFSET_COMPARATOR).sortedCopy(
+        //                                    document.getTermsByDepAncestors(ImmutableList.of(head))));
+        //                            role.setSpan(newSpan);
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
 
         // Remove predicates from non-enabled tools (Mate, Semafor)
         for (final Predicate predicate : Lists.newArrayList(document.getPredicates())) {
-            final boolean isSemafor = predicate.getId().startsWith("f_pr");
+            final boolean isSemafor = predicate.getId().startsWith("f_pr")
+                    || "semafor".equalsIgnoreCase(predicate.getSource());
             if (isSemafor && !this.srlEnableSemafor || !isSemafor && !this.srlEnableMate) {
                 document.removeAnnotation(predicate);
                 if (LOGGER.isDebugEnabled()) {
@@ -924,9 +926,9 @@ public final class NAFFilter implements Consumer<KAFDocument> {
 
             } else if (this.srlEnableMate) {
                 // TODO: HACK FOR REMOVING FINE-GRAINED FRAMENET FRAMES
-//                document.removeAnnotation(semaforPredicate);
-//                LOGGER.debug("Deleted " + NAFUtils.toString(semaforPredicate)
-//                        + " as there is no matching Mate predicate");
+                //                document.removeAnnotation(semaforPredicate);
+                //                LOGGER.debug("Deleted " + NAFUtils.toString(semaforPredicate)
+                //                        + " as there is no matching Mate predicate");
             }
         }
     }

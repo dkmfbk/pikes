@@ -258,6 +258,8 @@ public final class Evaluation {
 
         private final Multimap<URI, Relation> forbiddenRelations;
 
+        private final Multimap<URI, Relation> ignorableTypes;
+
         private final String separator;
 
         private final Evaluation evaluation;
@@ -286,16 +288,20 @@ public final class Evaluation {
 
             this.ignorableRelations = HashMultimap.create();
             this.forbiddenRelations = HashMultimap.create();
+            this.ignorableTypes = HashMultimap.create();
             for (final Statement stmt : Iterables.concat(
                     this.model.filter(null, EVAL.ASSOCIABLE_TO, null),
-                    this.model.filter(null, EVAL.NOT_ASSOCIABLE_TO, null))) {
+                    this.model.filter(null, EVAL.NOT_ASSOCIABLE_TO, null),
+                    this.model.filter(null, EVAL.CLASSIFIABLE_AS, null))) {
                 final URI sentenceID = this.sentenceMap.get(stmt.getContext());
                 final String system = this.systemMap.get(stmt.getContext());
                 if (sentenceID != null && system.equals("gold")) {
+                    final URI p = stmt.getPredicate();
                     final Relation relation = new Relation((URI) stmt.getSubject(),
                             (URI) stmt.getObject(), false);
-                    (EVAL.ASSOCIABLE_TO.equals(stmt.getPredicate()) ? this.ignorableRelations
-                            : this.forbiddenRelations).put(sentenceID, relation);
+                    (EVAL.CLASSIFIABLE_AS.equals(p) ? this.ignorableTypes : EVAL.ASSOCIABLE_TO
+                            .equals(p) ? this.ignorableRelations : this.forbiddenRelations).put(
+                            sentenceID, relation);
                 }
             }
 
@@ -789,7 +795,12 @@ public final class Evaluation {
                     for (final Statement keyStmt : Util.STMT_ORDERING
                             .sortedCopy(multimap.keySet())) {
                         if (!goldStmtSet.contains(keyStmt)) {
-                            final boolean ignore = extraCtx.equals(keyStmt.getContext());
+                            final Relation keyRelation = keyStmt.getSubject() instanceof URI
+                                    && keyStmt.getObject() instanceof URI ? new Relation(
+                                    (URI) keyStmt.getSubject(), (URI) keyStmt.getObject(), false)
+                                    : null;
+                            final boolean ignore = extraCtx.equals(keyStmt.getContext())
+                                    || this.ignorableTypes.containsEntry(sentenceURI, keyRelation);
                             if (!ignore) {
                                 goldEvaluators.get(system).addFP(1);
                                 unionEvaluators.get(system).addFP(1);

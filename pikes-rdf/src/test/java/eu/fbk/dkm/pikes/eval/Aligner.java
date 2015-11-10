@@ -143,9 +143,6 @@ public class Aligner {
                 }
                 final PrecisionRecall pr = evaluate(goldRelations, testRelations, mapping);
                 final int count = ImmutableSet.copyOf(mapping.values()).size();
-                if (bestPR != null && pr.getTP() == bestPR.getTP() && count == bestCount) {
-                    System.out.println(bestPR);
-                }
                 if (bestPR == null || pr.getTP() > bestPR.getTP() || pr.getTP() == bestPR.getTP()
                         && count > bestCount) {
                     bestPR = pr;

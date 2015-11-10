@@ -1,23 +1,50 @@
 package eu.fbk.dkm.pikes.resources;
 
-import com.google.common.base.Charsets;
-import com.google.common.collect.*;
-import eu.fbk.dkm.utils.Range;
-import eu.fbk.rdfpro.util.IO;
-import ixa.kaflib.*;
-import ixa.kaflib.Opinion.OpinionExpression;
-import ixa.kaflib.Opinion.OpinionHolder;
-import ixa.kaflib.Opinion.OpinionTarget;
-import ixa.kaflib.Predicate.Role;
-
-import javax.annotation.Nullable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
+
+import javax.annotation.Nullable;
+
+import com.google.common.base.Charsets;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
+
+import ixa.kaflib.Coref;
+import ixa.kaflib.Dep;
+import ixa.kaflib.Entity;
+import ixa.kaflib.ExternalRef;
+import ixa.kaflib.Factuality;
+import ixa.kaflib.KAFDocument;
+import ixa.kaflib.Opinion;
+import ixa.kaflib.Opinion.OpinionExpression;
+import ixa.kaflib.Opinion.OpinionHolder;
+import ixa.kaflib.Opinion.OpinionTarget;
+import ixa.kaflib.Predicate;
+import ixa.kaflib.Predicate.Role;
+import ixa.kaflib.Span;
+import ixa.kaflib.Term;
+import ixa.kaflib.Timex3;
+import ixa.kaflib.WF;
+
+import eu.fbk.dkm.utils.Range;
+import eu.fbk.rdfpro.util.IO;
 
 public final class NAFUtils {
 
@@ -304,7 +331,8 @@ public final class NAFUtils {
             return null;
         }
         final int start = Math.max(0, rolesetOrRole.indexOf('.') + 1);
-        final int end = Math.max(rolesetOrRole.length(), rolesetOrRole.indexOf('@'));
+        int end = rolesetOrRole.indexOf('@');
+        end = end > 0 ? end : rolesetOrRole.length();
         try {
             return Integer.valueOf(rolesetOrRole.substring(start, end));
         } catch (final Throwable ex) {
