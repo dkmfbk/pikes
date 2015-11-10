@@ -139,6 +139,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
 
     private final boolean srlSenseMapping;
 
+    private final boolean srlFrameBaseMapping;
+
     private final boolean srlRoleLinking;
 
     private final boolean srlRoleLinkingUsingCoref;
@@ -169,6 +171,7 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         this.srlPredicateAddition = MoreObjects.firstNonNull(builder.srlPredicateAddition, true);
         this.srlSelfArgFixing = MoreObjects.firstNonNull(builder.srlSelfArgFixing, true);
         this.srlSenseMapping = MoreObjects.firstNonNull(builder.srlSenseMapping, true);
+        this.srlFrameBaseMapping = MoreObjects.firstNonNull(builder.srlFrameBaseMapping, true);
         this.srlRoleLinking = MoreObjects.firstNonNull(builder.srlRoleLinking, true);
         this.srlRoleLinkingUsingCoref = MoreObjects.firstNonNull(builder.srlRoleLinkingUsingCoref,
                 true);
@@ -241,6 +244,9 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         }
         if (this.srlSenseMapping) {
             applySRLSenseMapping(document);
+        }
+        if (this.srlFrameBaseMapping) {
+            applySRLFrameBaseMapping(document);
         }
         if (this.srlRoleLinking) {
             applySRLRoleLinking(document);
@@ -924,11 +930,6 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                             + (mergeFramenet ? " (including FrameNet data)" : ""));
                 }
 
-            } else if (this.srlEnableMate) {
-                // TODO: HACK FOR REMOVING FINE-GRAINED FRAMENET FRAMES
-                //                document.removeAnnotation(semaforPredicate);
-                //                LOGGER.debug("Deleted " + NAFUtils.toString(semaforPredicate)
-                //                        + " as there is no matching Mate predicate");
             }
         }
     }
@@ -1201,6 +1202,56 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                     for (final String fnRole : pbRoleset.getArgFNRoles(pbNum)) {
                         NAFUtils.setRef(role,
                                 document.newExternalRef(NAFUtils.RESOURCE_FRAMENET, fnRole));
+                    }
+                }
+            }
+        }
+    }
+
+    private void applySRLFrameBaseMapping(final KAFDocument document) {
+
+        // Process each predicate and role in the SRL layer
+        for (final Predicate predicate : document.getPredicates()) {
+
+            // Determine the POS necessary for FrameBase disambiguation (n/a/v/other)
+            final Term head = NAFUtils.extractHead(document, predicate.getSpan());
+            final FrameBase.POS pos = FrameBase.POS.forPennTag(head.getMorphofeat());
+
+            // Determine the lemma, handling multiwords
+            final StringBuilder builder = new StringBuilder();
+            for (final Term term : predicate.getSpan().getTargets()) {
+                builder.append(builder.length() == 0 ? "" : "_");
+                builder.append(term.getLemma().toLowerCase());
+            }
+            final String lemma = builder.toString();
+
+            // Convert FrameNet refs to FrameBase refs at the predicate level
+            for (final ExternalRef ref : ImmutableList.copyOf(predicate.getExternalRefs())) {
+                if (ref.getResource().equalsIgnoreCase("framenet")) {
+                    final String frame = ref.getReference();
+                    final URI fnClass = FrameBase.classFor(frame, lemma, pos);
+                    if (fnClass != null) {
+                        NAFUtils.setRef(predicate,
+                                new ExternalRef("FrameBase", fnClass.getLocalName()));
+                    }
+                }
+            }
+
+            // Convert FrameNet refs to FrameBase refs at the role level
+            for (final Role role : predicate.getRoles()) {
+                for (final ExternalRef ref : ImmutableList.copyOf(role.getExternalRefs())) {
+                    if (ref.getResource().equalsIgnoreCase("framenet")) {
+                        final String s = ref.getReference();
+                        final int index = s.indexOf('@');
+                        if (index > 0) {
+                            final String frame = s.substring(0, index);
+                            final String fe = s.substring(index + 1);
+                            final URI fnProperty = FrameBase.propertyFor(frame, fe);
+                            if (fnProperty != null) {
+                                NAFUtils.setRef(role,
+                                        new ExternalRef("FrameBase", fnProperty.getLocalName()));
+                            }
+                        }
                     }
                 }
             }
@@ -1495,6 +1546,12 @@ public final class NAFFilter implements Consumer<KAFDocument> {
      * <td>srlSenseMapping</td>
      * <td>true, false</td>
      * <td>{@link #withSRLSenseMapping(Boolean)}</td>
+     * <td>false</td>
+     * </tr>
+     * <tr>
+     * <td>srlFrameBaseMapping</td>
+     * <td>true, false</td>
+     * <td>{@link #withSRLFrameBaseMapping(Boolean)}</td>
      * <td>true</td>
      * </tr>
      * <tr>
@@ -1569,6 +1626,9 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         private Boolean srlSenseMapping;
 
         @Nullable
+        private Boolean srlFrameBaseMapping;
+
+        @Nullable
         private Boolean srlRoleLinking;
 
         @Nullable
@@ -1629,6 +1689,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                         withSRLSelfArgFixing(Boolean.valueOf(value));
                     } else if ("srlSenseMapping".equals(name)) {
                         withSRLSenseMapping(Boolean.valueOf(value));
+                    } else if ("srlFrameBaseMapping".equals(name)) {
+                        withSRLFrameBaseMapping(Boolean.valueOf(value));
                     } else if ("srlRoleLinking".equals(name)) {
                         if ("none".equalsIgnoreCase(value)) {
                             withSRLRoleLinking(false, false);
@@ -1900,6 +1962,20 @@ public final class NAFFilter implements Consumer<KAFDocument> {
          */
         public Builder withSRLSenseMapping(@Nullable final Boolean srlSenseMapping) {
             this.srlSenseMapping = srlSenseMapping;
+            return this;
+        }
+
+        /**
+         * Specifies whether mapping of rolesets / roles in the SRL layer to FrameBase classes /
+         * properties should take place. If enabled, new external refs for FrameBase targets are
+         * added where possible.
+         *
+         * @param srlFrameBaseMapping
+         *            true, to enable SRL to FrameBase mapping; null, to use the default setting
+         * @return this builder object, for call chaining
+         */
+        public Builder withSRLFrameBaseMapping(@Nullable final Boolean srlFrameBaseMapping) {
+            this.srlFrameBaseMapping = srlFrameBaseMapping;
             return this;
         }
 

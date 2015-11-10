@@ -134,6 +134,7 @@ public final class RDFGenerator {
             .put("nombank", "http://www.newsreader-project.eu/ontologies/nombank/")
             .put("framenet", "http://www.newsreader-project.eu/ontologies/framenet/")
             .put("verbnet", "http://www.newsreader-project.eu/ontologies/verbnet/")
+            .put("framebase", "http://framebase.org/ns/") //
             .put("attribute", "attr:")
             // TODO: change this namespace
             .put("syn", "http://wordnet-rdf.princeton.edu/wn30/")
