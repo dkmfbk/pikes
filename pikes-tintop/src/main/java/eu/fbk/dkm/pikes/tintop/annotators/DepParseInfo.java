@@ -46,6 +46,12 @@ public class DepParseInfo {
         }
     }
 
+    public DepParseInfo(HashMap<Integer, Integer> depParents,
+            HashMap<Integer, String> depLabels) {
+        this.depParents = depParents;
+        this.depLabels = depLabels;
+    }
+
     public DepParseInfo(SemanticGraph dependencies) {
         Collection<IndexedWord> rootNodes = dependencies.getRoots();
         if (rootNodes.isEmpty()) {
