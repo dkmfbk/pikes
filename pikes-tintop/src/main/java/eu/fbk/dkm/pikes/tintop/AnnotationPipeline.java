@@ -29,10 +29,7 @@ import eu.fbk.dkm.pikes.resources.ontonotes.VerbNetStatisticsExtractor;
 import eu.fbk.dkm.pikes.tintop.annotators.AnnotatorUtils;
 import eu.fbk.dkm.pikes.tintop.annotators.DepParseInfo;
 import eu.fbk.dkm.pikes.tintop.annotators.PikesAnnotations;
-import eu.fbk.dkm.pikes.tintop.annotators.raw.AnnotatedEntity;
-import eu.fbk.dkm.pikes.tintop.annotators.raw.DBpediaSpotlight;
-import eu.fbk.dkm.pikes.tintop.annotators.raw.DBpediaSpotlightTag;
-import eu.fbk.dkm.pikes.tintop.annotators.raw.Semafor;
+import eu.fbk.dkm.pikes.tintop.annotators.raw.*;
 import eu.fbk.dkm.pikes.tintop.old.CachedParsedText;
 import eu.fbk.dkm.pikes.tintop.old.SST;
 import eu.fbk.dkm.pikes.tintop.util.NER2SSTtagset;
@@ -114,6 +111,7 @@ public class AnnotationPipeline {
     private VerbNetStatisticsExtractor statisticsExtractor = null;
 
     private Semafor semafor = null;
+    private MstParser mstParser = null;
 //	private EventCorefWordnetSimServer eventCorefWordnetSimServer;
 
     boolean enableDBPS = false;
@@ -127,6 +125,8 @@ public class AnnotationPipeline {
     boolean enableOntoNotesFilter = false;
 
     boolean useStanfordForSemafor = false;
+    boolean useMstForSemafor = false;
+    boolean useMapForAnna = false;
 
     private boolean modelsLoaded = false;
 
@@ -231,6 +231,8 @@ public class AnnotationPipeline {
         stanfordProps.setProperty("dcoref.maxdist", "5");
 
         useStanfordForSemafor = config.getProperty("semafor.use_stanford", "0").equals("1");
+        useMstForSemafor = config.getProperty("semafor.use_mst", "0").equals("1");
+        useMapForAnna = config.getProperty("semafor.use_map_for_anna", "0").equals("1");
 
         stanfordProps
                 .setProperty("customAnnotatorClass.anna_pos", "eu.fbk.dkm.pikes.tintop.annotators.AnnaPosAnnotator");
@@ -328,6 +330,14 @@ public class AnnotationPipeline {
             semafor = new Semafor(getConfig().getProperty("semafor.host"),
                     Integer.parseInt(getConfig().getProperty("semafor.port")));
         }
+        if (getConfig().getProperty("mst.port") != null && getConfig().getProperty("mst.host") != null) {
+            String server = config.getProperty("mst.host");
+            Integer port = Integer.parseInt(config.getProperty("mst.port"));
+
+            mstParser = new MstParser(server, port);
+
+        }
+
 
         // Event coreference
 
@@ -1029,12 +1039,31 @@ public class AnnotationPipeline {
             // Semafor
             if (semafor != null) {
 
-                SemanticGraph dependencies = sentenceCoreMap.get(
-                        SemanticGraphCoreAnnotations.BasicDependenciesAnnotation.class);
-                DepParseInfo info = new DepParseInfo(dependencies);
+                DepParseInfo info = null;
+                if (useStanfordForSemafor) {
+                    SemanticGraph dependencies = sentenceCoreMap.get(
+                            SemanticGraphCoreAnnotations.BasicDependenciesAnnotation.class);
+                    info = new DepParseInfo(dependencies);
+                }
+                if (useMstForSemafor) {
 
-                logger.info(info.getDepLabels());
-                logger.info(info.getDepParents());
+                    ArrayList<String> forms = new ArrayList<>();
+                    ArrayList<String> poss = new ArrayList<>();
+
+                    for (int i = 0; i < tokens.size(); i++) {
+                        CoreLabel stanfordToken = tokens.get(i);
+                        String form = stanfordToken.get(CoreAnnotations.TextAnnotation.class);
+                        String pos = stanfordToken.get(CoreAnnotations.PartOfSpeechAnnotation.class);
+                        forms.add(form);
+                        poss.add(pos);
+                    }
+
+                    try {
+                        info = mstParser.tag(forms, poss);
+                    } catch (Exception e) {
+                        logger.error(e.getMessage());
+                    }
+                }
 
                 StringBuilder conll = new StringBuilder();
 
@@ -1057,7 +1086,7 @@ public class AnnotationPipeline {
                     String parseLabel = mateToken.getDeprel();
 
                     // Use Stanford?
-                    if (useStanfordForSemafor) {
+                    if (info != null) {
                         try {
                             head = info.getDepParents().get(i + 1);
                             parseLabel = info.getDepLabels().get(i + 1);
@@ -1066,7 +1095,7 @@ public class AnnotationPipeline {
                             // e.printStackTrace();
                         }
                     } else {
-                        if (Semafor.conversionMap.containsKey(parseLabel)) {
+                        if (useMapForAnna && Semafor.conversionMap.containsKey(parseLabel)) {
                             parseLabel = Semafor.conversionMap.get(parseLabel);
                         }
                     }

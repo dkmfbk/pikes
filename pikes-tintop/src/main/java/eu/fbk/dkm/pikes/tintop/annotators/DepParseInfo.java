@@ -86,4 +86,11 @@ public class DepParseInfo {
     public HashMap<Integer, String> getDepLabels() {
         return depLabels;
     }
+
+    @Override public String toString() {
+        return "DepParseInfo{" +
+                "depParents=" + depParents +
+                ", depLabels=" + depLabels +
+                '}';
+    }
 }
