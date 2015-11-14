@@ -321,7 +321,7 @@ public final class RDFGenerator {
 
             final NAFFilter filter = NAFFilter.builder()
                     .withProperties(Util.PROPERTIES, "eu.fbk.dkm.pikes.rdf.NAFFilter")
-                    .withSRLSenseMapping(false).withSRLPreprocess(true, true, true).build();
+                    .withSRLPreprocess(true, true, true).build();
 
             final RDFHandler writer;
             try {
