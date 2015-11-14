@@ -13,3 +13,10 @@ target/
 
 pikes-rdf/test/
 sync-demo.sh
+
+test/lib
+test/naf
+test/pikes
+test/rdf
+test/tmp
+

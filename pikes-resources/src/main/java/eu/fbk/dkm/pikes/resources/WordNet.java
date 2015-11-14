@@ -5,6 +5,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.*;
 import com.google.common.io.Resources;
+import com.sun.istack.internal.NotNull;
 import eu.fbk.rdfpro.util.Environment;
 import net.didion.jwnl.JWNL;
 import net.didion.jwnl.JWNLException;
@@ -14,10 +15,7 @@ import net.didion.jwnl.dictionary.Dictionary;
 import javax.annotation.Nullable;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public final class WordNet {
 
@@ -156,6 +154,27 @@ public final class WordNet {
         getDictionary();
     }
 
+    @NotNull public static List<String> getSynsetsForLemma(String lemma, String pos) {
+        try {
+            synchronized (WordNet.class) {
+                IndexWord indexWord = getDictionary().lookupIndexWord(POS.getPOSForKey(pos), lemma);
+                if (indexWord == null) {
+                    return new ArrayList<>();
+                }
+                Synset[] synsets = indexWord.getSenses();
+                ArrayList<String> ret = new ArrayList<>();
+                for (int i = 0; i < synsets.length; i++) {
+                    Synset synset = synsets[i];
+                    ret.add(getSynsetID(synset.getOffset(), synset.getPOS().getKey()));
+                }
+
+                return ret;
+            }
+        } catch (final JWNLException ex) {
+            throw new Error(ex);
+        }
+    }
+
     public static String getPath() {
         synchronized (WordNet.class) {
             return dictionaryPath;
@@ -178,6 +197,19 @@ public final class WordNet {
         return String.format("%08d-%s", offset, pos);
     }
 
+    /**
+     * Return the synset ID starting from a readable format:
+     * <ul>
+     * <li>lemma</li>
+     * <li>"-" (dash)</li>
+     * <li>synset number</li>
+     * <li>POS</li>
+     * </ul>
+     * <p>
+     * For example: look-3v
+     *
+     * @param readableSynsetID an absolute URL giving the base location of the image
+     */
     @Nullable
     public static String getSynsetID(@Nullable final String readableSynsetID) {
         if (readableSynsetID == null) {

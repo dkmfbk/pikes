@@ -1,0 +1,991 @@
+@prefix pb: <http://pikes.fbk.eu/ontologies/propbank#> .
+@prefix eval: <http://pikes.fbk.eu/ontologies/eval#> .
+@prefix nb: <http://pikes.fbk.eu/ontologies/nombank#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix vn: <http://pikes.fbk.eu/ontologies/verbnet#> .
+@prefix fn: <http://pikes.fbk.eu/ontologies/framenet#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
+
+<file:///eswc.1.ttl/graph_gold> {
+	<file:///eswc.1.ttl/approval> a eval:Node , fn:Grant_permission , nb:approval.01 , pb:approve.01 , vn:64 ;
+		eval:associableTo <file:///eswc.1.ttl/stamp> ;
+		eval:denotedBy <file:///eswc.1.ttl/term_approval> ;
+		fn:grantee <file:///eswc.1.ttl/group> ;
+		fn:grantor <file:///eswc.1.ttl/qaeda> ;
+		fn:manner <file:///eswc.1.ttl/explicit> ;
+		nb:a0 <file:///eswc.1.ttl/qaeda> ;
+		nb:a1 <file:///eswc.1.ttl/group> ;
+		nb:am-mnr <file:///eswc.1.ttl/explicit> ;
+		pb:a0 <file:///eswc.1.ttl/qaeda> ;
+		pb:a1 <file:///eswc.1.ttl/group> ;
+		pb:am-mnr <file:///eswc.1.ttl/explicit> ;
+		vn:agent <file:///eswc.1.ttl/qaeda> ;
+		vn:theme <file:///eswc.1.ttl/group> .
+	
+	<file:///eswc.1.ttl/become> a eval:Node , fn:Becoming , pb:become.01 ;
+		eval:denotedBy <file:///eswc.1.ttl/term_become> ;
+		eval:notAssociableTo <file:///eswc.1.ttl/uprising> ;
+		fn:entity <file:///eswc.1.ttl/group> ;
+		fn:final_category <file:///eswc.1.ttl/forces> ;
+		pb:a1 <file:///eswc.1.ttl/group> ;
+		pb:a2 <file:///eswc.1.ttl/forces> .
+	
+	<file:///eswc.1.ttl/challenge> a eval:Node , fn:Competition , nb:challenge.01 , pb:challenge.01 ;
+		eval:denotedBy <file:///eswc.1.ttl/term_challenge> ;
+		fn:Participant_1 <file:///eswc.1.ttl/group> ;
+		fn:Participant_2 <file:///eswc.1.ttl/countries> , <file:///eswc.1.ttl/states> ;
+		nb:a0 <file:///eswc.1.ttl/group> ;
+		nb:a1 <file:///eswc.1.ttl/countries> , <file:///eswc.1.ttl/states> ;
+		nb:am-mnr <file:///eswc.1.ttl/stark> ;
+		pb:a0 <file:///eswc.1.ttl/group> ;
+		pb:a1 <file:///eswc.1.ttl/countries> , <file:///eswc.1.ttl/states> ;
+		pb:am-mnr <file:///eswc.1.ttl/stark> .
+	
+	<file:///eswc.1.ttl/countries> a eval:Node , fn:Political_locales , nb:country.01 ;
+		eval:denotedBy <file:///eswc.1.ttl/term_countries> ;
+		eval:notAssociableTo <file:///eswc.1.ttl/states> ;
+		fn:descriptor <file:///eswc.1.ttl/other> ;
+		nb:mod <file:///eswc.1.ttl/other> .
+	
+	<file:///eswc.1.ttl/explicit> a eval:Node ;
+		eval:associableTo <file:///eswc.1.ttl/group> , <file:///eswc.1.ttl/stamp> ;
+		eval:classifiableAs fn:Candidness ;
+		eval:denotedBy <file:///eswc.1.ttl/term_explicit> .
+	
+	<file:///eswc.1.ttl/extremists> a eval:Node ;
+		eval:denotedBy <file:///eswc.1.ttl/term_extremists> .
+	
+	<file:///eswc.1.ttl/fighting> a eval:Node ;
+		eval:classifiableAs fn:Hostile_encounter ;
+		eval:denotedBy <file:///eswc.1.ttl/term_fighting> .
+	
+	<file:///eswc.1.ttl/forces> a eval:Node , fn:Military , nb:force.01 ;
+		eval:denotedBy <file:///eswc.1.ttl/term_forces> ;
+		fn:aggregate <file:///eswc.1.ttl/forces> ;
+		fn:descriptor <file:///eswc.1.ttl/uprising> ;
+		fn:domain <file:///eswc.1.ttl/fighting> ;
+		fn:force <file:///eswc.1.ttl/forces> ;
+		nb:a1 <file:///eswc.1.ttl/fighting> ;
+		nb:a3 <file:///eswc.1.ttl/uprising> .
+	
+	<file:///eswc.1.ttl/group> a eval:Node , fn:Organization , nb:group.01 ;
+		eval:associableTo <file:///eswc.1.ttl/stamp> ;
+		eval:denotedBy <file:///eswc.1.ttl/term_group> ;
+		fn:descriptor <file:///eswc.1.ttl/lone> , <file:///eswc.1.ttl/rebel> ;
+		fn:place <file:///eswc.1.ttl/syrian> ;
+		nb:a1 <file:///eswc.1.ttl/rebel> , <file:///eswc.1.ttl/syrian> ;
+		nb:a3 <file:///eswc.1.ttl/lone> .
+	
+	<file:///eswc.1.ttl/lone> a eval:Node ;
+		eval:classifiableAs fn:Sole_instance , fn:Wearing ;
+		eval:denotedBy <file:///eswc.1.ttl/term_lone> .
+	
+	<file:///eswc.1.ttl/not> a eval:Node ;
+		eval:denotedBy <file:///eswc.1.ttl/term_not> ;
+		eval:notAssociableTo <file:///eswc.1.ttl/extremists> .
+	
+	<file:///eswc.1.ttl/other> a eval:Node , fn:Increment ;
+		eval:denotedBy <file:///eswc.1.ttl/term_other> ;
+		fn:added_set <file:///eswc.1.ttl/countries> ;
+		fn:class <file:///eswc.1.ttl/countries> .
+	
+	<file:///eswc.1.ttl/posing> a eval:Node , pb:pose.02 , vn:37.1.1 ;
+		eval:denotedBy <file:///eswc.1.ttl/term_posing> ;
+		pb:a0 <file:///eswc.1.ttl/group> ;
+		pb:a1 <file:///eswc.1.ttl/challenge> ;
+		pb:a2 <file:///eswc.1.ttl/countries> , <file:///eswc.1.ttl/states> ;
+		vn:agent <file:///eswc.1.ttl/group> ;
+		vn:recipient <file:///eswc.1.ttl/countries> , <file:///eswc.1.ttl/states> ;
+		vn:topic <file:///eswc.1.ttl/challenge> .
+	
+	<file:///eswc.1.ttl/qaeda> a eval:Node ;
+		eval:denotedBy <file:///eswc.1.ttl/term_Qaeda> ;
+		owl:sameAs dbpedia:Al-Qaeda .
+	
+	<file:///eswc.1.ttl/rebel> a eval:Node ;
+		eval:denotedBy <file:///eswc.1.ttl/term_rebel> .
+	
+	<file:///eswc.1.ttl/rebels> a eval:Node ;
+		eval:denotedBy <file:///eswc.1.ttl/term_rebels> .
+	
+	<file:///eswc.1.ttl/stamp> a eval:Node , nb:stamp.01 ;
+		eval:denotedBy <file:///eswc.1.ttl/term_stamp> .
+	
+	<file:///eswc.1.ttl/stark> a eval:Node ;
+		eval:denotedBy <file:///eswc.1.ttl/term_stark> .
+	
+	<file:///eswc.1.ttl/states> a eval:Node ;
+		eval:denotedBy <file:///eswc.1.ttl/term_States> ;
+		owl:sameAs dbpedia:United_States .
+	
+	<file:///eswc.1.ttl/support> a eval:Node , fn:Taking_sides , pb:support.01 , vn:72 ;
+		eval:denotedBy <file:///eswc.1.ttl/term_support> ;
+		eval:notAssociableTo <file:///eswc.1.ttl/extremists> ;
+		fn:cognizer <file:///eswc.1.ttl/countries> , <file:///eswc.1.ttl/states> ;
+		fn:side <file:///eswc.1.ttl/rebels> ;
+		pb:a0 <file:///eswc.1.ttl/countries> , <file:///eswc.1.ttl/states> ;
+		pb:a1 <file:///eswc.1.ttl/rebels> ;
+		vn:agent <file:///eswc.1.ttl/countries> , <file:///eswc.1.ttl/states> ;
+		vn:beneficiary <file:///eswc.1.ttl/rebels> .
+	
+	<file:///eswc.1.ttl/support_1> a eval:Node , fn:Taking_sides , pb:support.01 , vn:72 ;
+		eval:denotedBy <file:///eswc.1.ttl/term_support> ;
+		fn:cognizer <file:///eswc.1.ttl/countries> , <file:///eswc.1.ttl/states> ;
+		fn:side <file:///eswc.1.ttl/extremists> ;
+		pb:a0 <file:///eswc.1.ttl/countries> , <file:///eswc.1.ttl/states> ;
+		pb:a1 <file:///eswc.1.ttl/extremists> ;
+		pb:neg <file:///eswc.1.ttl/not> ;
+		vn:agent <file:///eswc.1.ttl/countries> , <file:///eswc.1.ttl/states> ;
+		vn:beneficiary <file:///eswc.1.ttl/extremists> .
+	
+	<file:///eswc.1.ttl/syrian> a eval:Node ;
+		eval:denotedBy <file:///eswc.1.ttl/term_Syrian> .
+	
+	<file:///eswc.1.ttl/uprising> a eval:Node ;
+		eval:classifiableAs fn:Change_of_leadership ;
+		eval:denotedBy <file:///eswc.1.ttl/term_uprising> .
+	
+	<file:///eswc.1.ttl/want> a eval:Node , fn:Desiring , pb:want.01 , vn:32.1-1-1 ;
+		eval:denotedBy <file:///eswc.1.ttl/term_want> ;
+		fn:event <file:///eswc.1.ttl/support> , <file:///eswc.1.ttl/support_1> ;
+		fn:experiencer <file:///eswc.1.ttl/countries> , <file:///eswc.1.ttl/states> ;
+		pb:a0 <file:///eswc.1.ttl/countries> , <file:///eswc.1.ttl/states> ;
+		pb:a1 <file:///eswc.1.ttl/support> , <file:///eswc.1.ttl/support_1> ;
+		vn:pivot <file:///eswc.1.ttl/countries> , <file:///eswc.1.ttl/states> ;
+		vn:theme <file:///eswc.1.ttl/support> , <file:///eswc.1.ttl/support_1> .
+}
+
+<file:///eswc.2.ttl/graph_gold> {
+	<file:///eswc.2.ttl/abroad> a eval:Node ;
+		eval:denotedBy <file:///eswc.2.ttl/term_abroad> .
+	
+	<file:///eswc.2.ttl/donors> a eval:Node ;
+		eval:denotedBy <file:///eswc.2.ttl/term_donors> ;
+		dul:hasQuality <file:///eswc.2.ttl/abroad> , <file:///eswc.2.ttl/like-minded> .
+	
+	<file:///eswc.2.ttl/donors_v> a eval:Node , fn:Giving , nb:donor.01 , pb:donate.01 , vn:13.2-1-1 ;
+		eval:denotedBy <file:///eswc.2.ttl/term_donors> ;
+		fn:recipient <file:///eswc.2.ttl/group> ;
+		fn:theme <file:///eswc.2.ttl/donors> , <file:///eswc.2.ttl/money> ;
+		nb:a0 <file:///eswc.2.ttl/donors> ;
+		nb:a1 <file:///eswc.2.ttl/money> ;
+		nb:a2 <file:///eswc.2.ttl/group> ;
+		pb:a0 <file:///eswc.2.ttl/donors> ;
+		pb:a1 <file:///eswc.2.ttl/money> ;
+		pb:a2 <file:///eswc.2.ttl/group> ;
+		vn:agent <file:///eswc.2.ttl/donors> ;
+		vn:recipient <file:///eswc.2.ttl/group> ;
+		vn:theme <file:///eswc.2.ttl/money> .
+	
+	<file:///eswc.2.ttl/flows> a eval:Node , fn:Fluidic_motion , pb:flow.01 , vn:47.2 ;
+		eval:denotedBy <file:///eswc.2.ttl/term_flows> ;
+		fn:fluid <file:///eswc.2.ttl/money> ;
+		fn:goal <file:///eswc.2.ttl/group> ;
+		fn:source <file:///eswc.2.ttl/donors> ;
+		pb:a1 <file:///eswc.2.ttl/money> ;
+		pb:am-dir <file:///eswc.2.ttl/donors> , <file:///eswc.2.ttl/group> ;
+		vn:theme <file:///eswc.2.ttl/money> .
+	
+	<file:///eswc.2.ttl/group> a eval:Node , fn:Organization , nb:group.01 ;
+		eval:denotedBy <file:///eswc.2.ttl/term_group> ;
+		owl:sameAs <file:///eswc.2.ttl/front> .
+	
+	<file:///eswc.2.ttl/like-minded> a eval:Node ;
+		eval:denotedBy <file:///eswc.2.ttl/term_like-minded> .
+	
+	<file:///eswc.2.ttl/money> a eval:Node ;
+		eval:denotedBy <file:///eswc.2.ttl/term_Money> .
+}
+
+<file:///eswc.3.ttl/graph_gold> {
+	<file:///eswc.3.ttl/bases> a eval:Node , fn:Locale_by_use , nb:base.01 ;
+		eval:denotedBy <file:///eswc.3.ttl/term_bases> ;
+		fn:locale <file:///eswc.3.ttl/bases> ;
+		fn:use <file:///eswc.3.ttl/military> ;
+		nb:a1 <file:///eswc.3.ttl/military> .
+	
+	<file:///eswc.3.ttl/battalions> a eval:Node , nb:battalion.01 ;
+		eval:denotedBy <file:///eswc.3.ttl/term_battalions> .
+	
+	<file:///eswc.3.ttl/boldness> a eval:Node ;
+		eval:denotedBy <file:///eswc.3.ttl/term_boldness> ;
+		eval:notAssociableTo <file:///eswc.3.ttl/skill> .
+	
+	<file:///eswc.3.ttl/capture> a eval:Node , fn:Conquering , pb:capture.01 , vn:10.5-1 ;
+		eval:denotedBy <file:///eswc.3.ttl/term_capture> ;
+		fn:conqueror <file:///eswc.3.ttl/battalions> ;
+		fn:theme <file:///eswc.3.ttl/bases> , <file:///eswc.3.ttl/fields> ;
+		pb:a0 <file:///eswc.3.ttl/battalions> ;
+		pb:a1 <file:///eswc.3.ttl/bases> , <file:///eswc.3.ttl/fields> ;
+		vn:agent <file:///eswc.3.ttl/battalions> ;
+		vn:theme <file:///eswc.3.ttl/bases> , <file:///eswc.3.ttl/fields> .
+	
+	<file:///eswc.3.ttl/fields> a eval:Node , fn:Locale_by_use , nb:field.02 ;
+		eval:denotedBy <file:///eswc.3.ttl/term_fields> ;
+		fn:locale <file:///eswc.3.ttl/fields> ;
+		fn:use <file:///eswc.3.ttl/oil> ;
+		nb:a1 <file:///eswc.3.ttl/oil> .
+	
+	<file:///eswc.3.ttl/fighters> a eval:Node ;
+		eval:denotedBy <file:///eswc.3.ttl/term_fighters> ;
+		owl:sameAs <file:///eswc.3.ttl/minority> .
+	
+	<file:///eswc.3.ttl/fighters_v> a eval:Node , fn:Irregular_combatants , nb:fighter.01 , pb:fight.01 , vn:36.3-2 ;
+		eval:denotedBy <file:///eswc.3.ttl/term_fighters> ;
+		eval:notAssociableTo <file:///eswc.3.ttl/have> , <file:///eswc.3.ttl/minority> ;
+		fn:combatant <file:///eswc.3.ttl/fighters> ;
+		fn:side1 <file:///eswc.3.ttl/its> ;
+		nb:a0 <file:///eswc.3.ttl/fighters> ;
+		pb:a0 <file:///eswc.3.ttl/fighters> ;
+		vn:agent <file:///eswc.3.ttl/fighters> .
+	
+	<file:///eswc.3.ttl/fortified> a eval:Node ;
+		eval:classifiableAs fn:Cause_change_of_strength ;
+		eval:denotedBy <file:///eswc.3.ttl/term_fortified> .
+	
+	<file:///eswc.3.ttl/have> a eval:Node , fn:Possession , pb:have.03 , vn:100 ;
+		eval:denotedBy <file:///eswc.3.ttl/term_have> ;
+		fn:owner <file:///eswc.3.ttl/fighters> ;
+		fn:possession <file:///eswc.3.ttl/boldness> , <file:///eswc.3.ttl/skill> ;
+		pb:a0 <file:///eswc.3.ttl/fighters> ;
+		pb:a1 <file:///eswc.3.ttl/boldness> , <file:///eswc.3.ttl/skill> ;
+		vn:pivot <file:///eswc.3.ttl/fighters> ;
+		vn:theme <file:///eswc.3.ttl/boldness> , <file:///eswc.3.ttl/skill> .
+	
+	<file:///eswc.3.ttl/its> a eval:Node ;
+		eval:denotedBy <file:///eswc.3.ttl/term_Its> ;
+		eval:notAssociableTo <file:///eswc.3.ttl/fighters> .
+	
+	<file:///eswc.3.ttl/lead> a eval:Node , fn:Causation , pb:lead.03 , vn:59 ;
+		eval:denotedBy <file:///eswc.3.ttl/term_lead> ;
+		fn:affected <file:///eswc.3.ttl/battalions> ;
+		fn:cause <file:///eswc.3.ttl/fighters> ;
+		fn:effect <file:///eswc.3.ttl/capture> ;
+		pb:a0 <file:///eswc.3.ttl/fighters> ;
+		pb:a1 <file:///eswc.3.ttl/battalions> ;
+		pb:a2 <file:///eswc.3.ttl/capture> ;
+		vn:agent <file:///eswc.3.ttl/fighters> ;
+		vn:patient <file:///eswc.3.ttl/battalions> ;
+		vn:result <file:///eswc.3.ttl/capture> .
+	
+	<file:///eswc.3.ttl/military> a eval:Node ;
+		eval:classifiableAs fn:Military ;
+		eval:denotedBy <file:///eswc.3.ttl/term_military> .
+	
+	<file:///eswc.3.ttl/minority> a eval:Node , nb:minority.01 ;
+		eval:denotedBy <file:///eswc.3.ttl/term_minority> ;
+		nb:a1 <file:///eswc.3.ttl/rebels> ;
+		dul:hasQuality <file:///eswc.3.ttl/small> .
+	
+	<file:///eswc.3.ttl/oil> a eval:Node ;
+		eval:classifiableAs fn:Substance ;
+		eval:denotedBy <file:///eswc.3.ttl/term_oil> .
+	
+	<file:///eswc.3.ttl/other> a eval:Node , fn:Increment ;
+		eval:denotedBy <file:///eswc.3.ttl/term_other> ;
+		fn:added_set <file:///eswc.3.ttl/battalions> .
+	
+	<file:///eswc.3.ttl/positions> a eval:Node , fn:Locale_by_collocation ;
+		eval:denotedBy <file:///eswc.3.ttl/term_positions> ;
+		fn:inherent_purpose <file:///eswc.3.ttl/fortified> ;
+		dul:hasQuality <file:///eswc.3.ttl/fortified> .
+	
+	<file:///eswc.3.ttl/rebels> a eval:Node ;
+		eval:denotedBy <file:///eswc.3.ttl/term_rebels> .
+	
+	<file:///eswc.3.ttl/skill> a eval:Node , fn:Expertise , nb:skill.01 ;
+		eval:associableTo <file:///eswc.3.ttl/storm> ;
+		eval:denotedBy <file:///eswc.3.ttl/term_skill> ;
+		eval:notAssociableTo <file:///eswc.3.ttl/battalions> ;
+		fn:skill <file:///eswc.3.ttl/skill> .
+	
+	<file:///eswc.3.ttl/small> a eval:Node ;
+		eval:associableTo <file:///eswc.3.ttl/minority> ;
+		eval:classifiableAs fn:Dimension ;
+		eval:denotedBy <file:///eswc.3.ttl/term_small> .
+	
+	<file:///eswc.3.ttl/storm> a eval:Node , fn:Attack , pb:storm.02 ;
+		eval:denotedBy <file:///eswc.3.ttl/term_storm> ;
+		fn:assailant <file:///eswc.3.ttl/fighters> ;
+		fn:place <file:///eswc.3.ttl/positions> ;
+		fn:victim <file:///eswc.3.ttl/positions> ;
+		pb:a0 <file:///eswc.3.ttl/fighters> ;
+		pb:a1 <file:///eswc.3.ttl/positions> .
+}
+
+<file:///eswc.4.ttl/graph_gold> {
+	<file:///eswc.4.ttl/attract> a eval:Node , fn:Cause_motion , pb:attract.01 ;
+		eval:denotedBy <file:///eswc.4.ttl/term_attract> ;
+		eval:notAssociableTo <file:///eswc.4.ttl/fighters_v> ;
+		fn:agent <file:///eswc.4.ttl/they> ;
+		fn:theme <file:///eswc.4.ttl/fighters> ;
+		pb:a0 <file:///eswc.4.ttl/they> ;
+		pb:a1 <file:///eswc.4.ttl/fighters> .
+	
+	<file:///eswc.4.ttl/fighters> a eval:Node ;
+		eval:denotedBy <file:///eswc.4.ttl/term_fighters> .
+	
+	<file:///eswc.4.ttl/fighters_v> a eval:Node , fn:Irregular_combatants , nb:fighter.01 , pb:fight.01 , vn:36.3-2 ;
+		eval:denotedBy <file:///eswc.4.ttl/term_fighters> ;
+		fn:combatant <file:///eswc.4.ttl/fighters> ;
+		nb:a0 <file:///eswc.4.ttl/fighters> ;
+		pb:a0 <file:///eswc.4.ttl/fighters> ;
+		vn:agent <file:///eswc.4.ttl/fighters> .
+	
+	<file:///eswc.4.ttl/gather> a eval:Node , fn:Gathering_up , pb:gather.01 , vn:47.5.2 ;
+		eval:denotedBy <file:///eswc.4.ttl/term_gather> ;
+		eval:notAssociableTo <file:///eswc.4.ttl/weapons_v> ;
+		fn:agent <file:///eswc.4.ttl/they> ;
+		fn:individuals <file:///eswc.4.ttl/weapons> ;
+		pb:a0 <file:///eswc.4.ttl/they> ;
+		pb:a1 <file:///eswc.4.ttl/weapons> ;
+		vn:agent <file:///eswc.4.ttl/they> ;
+		vn:theme <file:///eswc.4.ttl/weapons> .
+	
+	<file:///eswc.4.ttl/mount> a eval:Node , pb:mount.02 , vn:47.7 ;
+		eval:denotedBy <file:///eswc.4.ttl/term_mount> ;
+		pb:a1 <file:///eswc.4.ttl/successes> ;
+		vn:theme <file:///eswc.4.ttl/successes> .
+	
+	<file:///eswc.4.ttl/successes> a eval:Node , fn:Success_or_failure , nb:success.01 , pb:succeed.01 , vn:74-1 ;
+		eval:denotedBy <file:///eswc.4.ttl/term_successes> ;
+		fn:agent <file:///eswc.4.ttl/their> ;
+		nb:a0 <file:///eswc.4.ttl/their> ;
+		pb:a0 <file:///eswc.4.ttl/their> ;
+		vn:agent <file:///eswc.4.ttl/their> .
+	
+	<file:///eswc.4.ttl/their> a eval:Node ;
+		eval:denotedBy <file:///eswc.4.ttl/term_their> ;
+		owl:sameAs <file:///eswc.4.ttl/they> .
+	
+	<file:///eswc.4.ttl/they> a eval:Node ;
+		eval:denotedBy <file:///eswc.4.ttl/term_they> .
+	
+	<file:///eswc.4.ttl/weapons> a eval:Node ;
+		eval:denotedBy <file:///eswc.4.ttl/term_weapons> .
+	
+	<file:///eswc.4.ttl/weapons_v> a eval:Node , fn:Weapon , nb:weapon.01 , pb:defend.01 , vn:85 ;
+		eval:denotedBy <file:///eswc.4.ttl/term_weapons> ;
+		fn:weapon <file:///eswc.4.ttl/weapons> ;
+		nb:a2 <file:///eswc.4.ttl/weapons> ;
+		pb:a2 <file:///eswc.4.ttl/weapons> .
+}
+
+<file:///eswc.5.ttl/graph_gold> {
+	<file:///eswc.5.ttl/contributed> a eval:Node , fn:Giving , pb:contribute.01 , vn:13.2-1-1 ;
+		eval:denotedBy <file:///eswc.5.ttl/term_contributed> ;
+		eval:notAssociableTo <file:///eswc.5.ttl/fighters_v> ;
+		fn:donor <file:///eswc.5.ttl/which> ;
+		fn:theme <file:///eswc.5.ttl/fighters> , <file:///eswc.5.ttl/weapons> ;
+		pb:a0 <file:///eswc.5.ttl/which> ;
+		pb:a1 <file:///eswc.5.ttl/fighters> , <file:///eswc.5.ttl/weapons> ;
+		vn:agent <file:///eswc.5.ttl/which> ;
+		vn:theme <file:///eswc.5.ttl/fighters> , <file:///eswc.5.ttl/weapons> .
+	
+	<file:///eswc.5.ttl/direct> a eval:Node ;
+		eval:associableTo <file:///eswc.5.ttl/group> ;
+		eval:denotedBy <file:///eswc.5.ttl/term_direct> .
+	
+	<file:///eswc.5.ttl/fighters> a eval:Node ;
+		eval:denotedBy <file:///eswc.5.ttl/term_fighters> ;
+		eval:notAssociableTo <file:///eswc.5.ttl/weapons> ;
+		dul:hasQuality <file:///eswc.5.ttl/veteran> .
+	
+	<file:///eswc.5.ttl/fighters_v> a eval:Node , fn:Irregular_combatants , nb:fighter.01 , pb:fight.01 ;
+		eval:denotedBy <file:///eswc.5.ttl/term_fighters> ;
+		eval:notAssociableTo <file:///eswc.5.ttl/weapons> ;
+		fn:combatant <file:///eswc.5.ttl/fighters> ;
+		fn:descriptor <file:///eswc.5.ttl/veteran> ;
+		nb:a0 <file:///eswc.5.ttl/fighters> ;
+		pb:a0 <file:///eswc.5.ttl/fighters> ;
+		vn:agent <file:///eswc.5.ttl/fighters> .
+	
+	<file:///eswc.5.ttl/former> a eval:Node ;
+		eval:associableTo <file:///eswc.5.ttl/be> ;
+		eval:classifiableAs fn:Time_vector ;
+		eval:denotedBy <file:///eswc.5.ttl/term_former> .
+	
+	<file:///eswc.5.ttl/group> a eval:Node , nb:group.01 ;
+		eval:associableTo <file:///eswc.5.ttl/qaeda> ;
+		eval:denotedBy <file:///eswc.5.ttl/term_group> ;
+		eval:notAssociableTo <file:///eswc.5.ttl/offshoot_v> ;
+		fn:Organization ""^^<http://www.w3.org/2001/XMLSchema#integer> ;
+		owl:sameAs <file:///eswc.5.ttl/offshoot> .
+	
+	<file:///eswc.5.ttl/insurgents> a eval:Node ;
+		eval:denotedBy <file:///eswc.5.ttl/term_insurgents> ;
+		eval:notAssociableTo <file:///eswc.5.ttl/officials_v> .
+	
+	<file:///eswc.5.ttl/insurgents_v> a eval:Node , fn:Rebellion , nb:insurgent.01 , pb:rebel.01 , vn:71 ;
+		eval:denotedBy <file:///eswc.5.ttl/term_insurgents> ;
+		eval:notAssociableTo <file:///eswc.5.ttl/say> ;
+		fn:place <file:///eswc.5.ttl/iraqi_2> ;
+		fn:rebel <file:///eswc.5.ttl/insurgents> ;
+		nb:a0 <file:///eswc.5.ttl/insurgents> ;
+		nb:a1 <file:///eswc.5.ttl/iraqi_2> ;
+		nb:am-tmp <file:///eswc.5.ttl/former> ;
+		pb:a0 <file:///eswc.5.ttl/insurgents> ;
+		vn:agent <file:///eswc.5.ttl/insurgents> .
+	
+	<file:///eswc.5.ttl/iraqi_1> a eval:Node ;
+		eval:associableTo <file:///eswc.5.ttl/iraqi_2> ;
+		eval:denotedBy <file:///eswc.5.ttl/term_Iraqi_1> .
+	
+	<file:///eswc.5.ttl/iraqi_2> a eval:Node ;
+		eval:denotedBy <file:///eswc.5.ttl/term_Iraqi_2> .
+	
+	<file:///eswc.5.ttl/is> a eval:Node , pb:be.01 , vn:109-1-1 ;
+		eval:denotedBy <file:///eswc.5.ttl/term_is> ;
+		pb:a1 <file:///eswc.5.ttl/group> ;
+		pb:a2 <file:///eswc.5.ttl/offshoot> ;
+		vn:attribute <file:///eswc.5.ttl/offshoot> ;
+		vn:theme <file:///eswc.5.ttl/group> .
+	
+	<file:///eswc.5.ttl/officials> a eval:Node ;
+		eval:denotedBy <file:///eswc.5.ttl/term_officials> .
+	
+	<file:///eswc.5.ttl/officials_v> a eval:Node , fn:Leadership , nb:official.01 ;
+		eval:denotedBy <file:///eswc.5.ttl/term_officials> ;
+		eval:notAssociableTo <file:///eswc.5.ttl/qaeda> ;
+		fn:governed <file:///eswc.5.ttl/iraqi_1> ;
+		fn:leader <file:///eswc.5.ttl/officials> ;
+		nb:a0 <file:///eswc.5.ttl/officials> ;
+		nb:a2 <file:///eswc.5.ttl/iraqi_1> .
+	
+	<file:///eswc.5.ttl/offshoot> a eval:Node ;
+		eval:denotedBy <file:///eswc.5.ttl/term_offshoot> .
+	
+	<file:///eswc.5.ttl/offshoot_v> a eval:Node , nb:offshoot.01 , pb:spin.02 ;
+		eval:denotedBy <file:///eswc.5.ttl/term_offshoot> ;
+		nb:a0 <file:///eswc.5.ttl/offshoot> ;
+		nb:a1 <file:///eswc.5.ttl/qaeda> ;
+		nb:am-mnr <file:///eswc.5.ttl/direct> ;
+		pb:a1 <file:///eswc.5.ttl/offshoot> ;
+		pb:a2 <file:///eswc.5.ttl/qaeda> .
+	
+	<file:///eswc.5.ttl/qaeda> a eval:Node ;
+		eval:denotedBy <file:///eswc.5.ttl/term_Qaeda> ;
+		owl:sameAs <file:///eswc.5.ttl/which> , dbpedia:Al-Qaeda .
+	
+	<file:///eswc.5.ttl/say> a eval:Node , fn:Statement , pb:say.01 , vn:37.7-1 ;
+		eval:denotedBy <file:///eswc.5.ttl/term_say> ;
+		fn:message <file:///eswc.5.ttl/contributed> , <file:///eswc.5.ttl/is> ;
+		fn:speaker <file:///eswc.5.ttl/insurgents> , <file:///eswc.5.ttl/officials> ;
+		pb:a0 <file:///eswc.5.ttl/insurgents> , <file:///eswc.5.ttl/officials> ;
+		pb:a1 <file:///eswc.5.ttl/contributed> , <file:///eswc.5.ttl/is> ;
+		vn:agent <file:///eswc.5.ttl/insurgents> , <file:///eswc.5.ttl/officials> ;
+		vn:topic <file:///eswc.5.ttl/contributed> , <file:///eswc.5.ttl/is> .
+	
+	<file:///eswc.5.ttl/veteran> a eval:Node ;
+		eval:denotedBy <file:///eswc.5.ttl/term_veteran> .
+	
+	<file:///eswc.5.ttl/weapons> a eval:Node ;
+		eval:denotedBy <file:///eswc.5.ttl/term_weapons> .
+	
+	<file:///eswc.5.ttl/weapons_v> a eval:Node , fn:Weapon , nb:weapon.01 , pb:defend.01 , vn:85 ;
+		eval:denotedBy <file:///eswc.5.ttl/term_weapons> ;
+		fn:weapon <file:///eswc.5.ttl/weapons> ;
+		nb:a2 <file:///eswc.5.ttl/weapons> ;
+		pb:a4 <file:///eswc.5.ttl/weapons> .
+	
+	<file:///eswc.5.ttl/which> a eval:Node ;
+		eval:denotedBy <file:///eswc.5.ttl/term_which> .
+}
+
+<file:///eswc.6.ttl/graph_gold> {
+	<file:///eswc.6.ttl/brothers> a eval:Node ;
+		eval:denotedBy <file:///eswc.6.ttl/term_brothers> ;
+		eval:notAssociableTo <file:///eswc.6.ttl/favor> .
+	
+	<file:///eswc.6.ttl/brothers_v> a eval:Node , fn:Kinship , nb:brother.01 ;
+		eval:denotedBy <file:///eswc.6.ttl/term_brothers> ;
+		eval:notAssociableTo <file:///eswc.6.ttl/fought> , <file:///eswc.6.ttl/returning> ;
+		fn:alter <file:///eswc.6.ttl/brothers> ;
+		fn:descriptor <file:///eswc.6.ttl/syrian> ;
+		fn:ego <file:///eswc.6.ttl/our> ;
+		nb:a0 <file:///eswc.6.ttl/brothers> ;
+		nb:a1 <file:///eswc.6.ttl/our> ;
+		nb:am-loc <file:///eswc.6.ttl/syrian> .
+	
+	<file:///eswc.6.ttl/efforts> a eval:Node , fn:Attempt , nb:effort.01 , pb:try.01 , vn:61 ;
+		eval:denotedBy <file:///eswc.6.ttl/term_efforts> ;
+		fn:agent <file:///eswc.6.ttl/front> ;
+		fn:place <file:///eswc.6.ttl/syria> ;
+		nb:a0 <file:///eswc.6.ttl/front> ;
+		nb:am-loc <file:///eswc.6.ttl/syria> ;
+		pb:a0 <file:///eswc.6.ttl/front> ;
+		pb:am-loc <file:///eswc.6.ttl/syria> ;
+		vn:agent <file:///eswc.6.ttl/front> .
+	
+	<file:///eswc.6.ttl/favor> a eval:Node ;
+		eval:denotedBy <file:///eswc.6.ttl/term_favor> .
+	
+	<file:///eswc.6.ttl/favor_v> a eval:Node , nb:favor.02 , pb:give.01 , vn:13.1-1 ;
+		eval:denotedBy <file:///eswc.6.ttl/term_favor> ;
+		nb:a1 <file:///eswc.6.ttl/favor> ;
+		nb:a2 <file:///eswc.6.ttl/brothers> ;
+		pb:a1 <file:///eswc.6.ttl/favor> ;
+		pb:a2 <file:///eswc.6.ttl/brothers> ;
+		vn:recipient <file:///eswc.6.ttl/brothers> ;
+		vn:theme <file:///eswc.6.ttl/favor> .
+	
+	<file:///eswc.6.ttl/fought> a eval:Node , fn:Hostile_encounter , pb:fight.01 , vn:36.4-1 ;
+		eval:associableTo <file:///eswc.6.ttl/iraq_1> ;
+		eval:denotedBy <file:///eswc.6.ttl/term_fought> ;
+		fn:place <file:///eswc.6.ttl/lands> ;
+		fn:side_1 <file:///eswc.6.ttl/brothers> , <file:///eswc.6.ttl/us> ;
+		pb:a0 <file:///eswc.6.ttl/brothers> ;
+		pb:a2 <file:///eswc.6.ttl/us> ;
+		pb:am-loc <file:///eswc.6.ttl/lands> ;
+		vn:agent <file:///eswc.6.ttl/brothers> , <file:///eswc.6.ttl/us> .
+	
+	<file:///eswc.6.ttl/front> a eval:Node ;
+		eval:denotedBy <file:///eswc.6.ttl/term_Front> ;
+		owl:sameAs dbpedia:Al-Nusra_Front .
+	
+	<file:///eswc.6.ttl/he> a eval:Node ;
+		eval:associableTo <file:///eswc.6.ttl/said_2> ;
+		eval:denotedBy <file:///eswc.6.ttl/term_he> ;
+		eval:notAssociableTo <file:///eswc.6.ttl/qaeda> .
+	
+	<file:///eswc.6.ttl/helped> a eval:Node , fn:Assistance , pb:help.01 , vn:72-1 ;
+		eval:denotedBy <file:///eswc.6.ttl/term_helped> ;
+		fn:goal <file:///eswc.6.ttl/lead> ;
+		fn:helper <file:///eswc.6.ttl/he> ;
+		pb:a0 <file:///eswc.6.ttl/he> ;
+		pb:a1 <file:///eswc.6.ttl/lead> ;
+		vn:agent <file:///eswc.6.ttl/he> ;
+		vn:theme <file:///eswc.6.ttl/lead> .
+	
+	<file:///eswc.6.ttl/iraq_1> a eval:Node ;
+		eval:denotedBy <file:///eswc.6.ttl/term_Iraq_1> ;
+		owl:sameAs <file:///eswc.6.ttl/iraq_2> , dbpedia:Iraq .
+	
+	<file:///eswc.6.ttl/iraq_2> a eval:Node ;
+		eval:associableTo <file:///eswc.6.ttl/qaeda> ;
+		eval:denotedBy <file:///eswc.6.ttl/term_Iraq_2> ;
+		owl:sameAs dbpedia:Iraq .
+	
+	<file:///eswc.6.ttl/is> a eval:Node , pb:be.01 , vn:109-1-1 ;
+		eval:denotedBy <file:///eswc.6.ttl/term_is> ;
+		pb:a1 <file:///eswc.6.ttl/this> ;
+		pb:a2 <file:///eswc.6.ttl/way> ;
+		vn:attribute <file:///eswc.6.ttl/way> ;
+		vn:theme <file:///eswc.6.ttl/this> .
+	
+	<file:///eswc.6.ttl/lands> a eval:Node , fn:Political_locales , nb:land.02 ;
+		eval:denotedBy <file:///eswc.6.ttl/term_lands> ;
+		eval:notAssociableTo <file:///eswc.6.ttl/said_1> ;
+		fn:container_possessor <file:///eswc.6.ttl/iraq_1> ;
+		nb:a1 <file:///eswc.6.ttl/iraq_1> .
+	
+	<file:///eswc.6.ttl/lead> a eval:Node , fn:Leadership , pb:lead.01 , vn:51.7 ;
+		eval:associableTo <file:///eswc.6.ttl/said_2> ;
+		eval:denotedBy <file:///eswc.6.ttl/term_lead> ;
+		fn:activity <file:///eswc.6.ttl/efforts> ;
+		fn:leader <file:///eswc.6.ttl/he> ;
+		pb:a0 <file:///eswc.6.ttl/he> ;
+		pb:a1 <file:///eswc.6.ttl/efforts> ;
+		vn:agent <file:///eswc.6.ttl/he> ;
+		vn:theme <file:///eswc.6.ttl/efforts> .
+	
+	<file:///eswc.6.ttl/our> a eval:Node ;
+		eval:denotedBy <file:///eswc.6.ttl/term_our> ;
+		owl:sameAs <file:///eswc.6.ttl/us> .
+	
+	<file:///eswc.6.ttl/qaeda> a eval:Node ;
+		eval:denotedBy <file:///eswc.6.ttl/term_Qaeda> ;
+		eval:notAssociableTo <file:///eswc.6.ttl/said_2> ;
+		owl:sameAs dbpedia:Al-Qaeda .
+	
+	<file:///eswc.6.ttl/returning> a eval:Node , pb:return.02 , vn:13.2-2 ;
+		eval:associableTo <file:///eswc.6.ttl/this> ;
+		eval:denotedBy <file:///eswc.6.ttl/term_returning> ;
+		pb:a1 <file:///eswc.6.ttl/favor> ;
+		pb:a2 <file:///eswc.6.ttl/brothers> ;
+		vn:recipient <file:///eswc.6.ttl/brothers> ;
+		vn:theme <file:///eswc.6.ttl/favor> .
+	
+	<file:///eswc.6.ttl/said_1> a eval:Node , fn:Statement , pb:say.01 , vn:37.7-1 ;
+		eval:denotedBy <file:///eswc.6.ttl/term_said_1> ;
+		fn:message <file:///eswc.6.ttl/is> ;
+		fn:speaker <file:///eswc.6.ttl/veteran> ;
+		pb:a0 <file:///eswc.6.ttl/veteran> ;
+		pb:a1 <file:///eswc.6.ttl/is> ;
+		vn:agent <file:///eswc.6.ttl/veteran> ;
+		vn:topic <file:///eswc.6.ttl/is> .
+	
+	<file:///eswc.6.ttl/said_2> a eval:Node , fn:Statement , pb:say.01 , vn:37.7-1 ;
+		eval:denotedBy <file:///eswc.6.ttl/term_said_2> ;
+		fn:message <file:///eswc.6.ttl/helped> ;
+		fn:speaker <file:///eswc.6.ttl/who> ;
+		pb:a0 <file:///eswc.6.ttl/who> ;
+		pb:a1 <file:///eswc.6.ttl/helped> ;
+		vn:agent <file:///eswc.6.ttl/who> ;
+		vn:topic <file:///eswc.6.ttl/helped> .
+	
+	<file:///eswc.6.ttl/simple> a eval:Node ;
+		eval:associableTo <file:///eswc.6.ttl/this> ;
+		eval:denotedBy <file:///eswc.6.ttl/term_simple> .
+	
+	<file:///eswc.6.ttl/syria> a eval:Node ;
+		eval:associableTo <file:///eswc.6.ttl/syrian> ;
+		eval:denotedBy <file:///eswc.6.ttl/term_Syria> ;
+		owl:sameAs dbpedia:Syria .
+	
+	<file:///eswc.6.ttl/syrian> a eval:Node ;
+		eval:denotedBy <file:///eswc.6.ttl/term_Syrian> .
+	
+	<file:///eswc.6.ttl/this> a eval:Node ;
+		eval:denotedBy <file:///eswc.6.ttl/term_This> ;
+		owl:sameAs <file:///eswc.6.ttl/way> .
+	
+	<file:///eswc.6.ttl/us> a eval:Node ;
+		eval:denotedBy <file:///eswc.6.ttl/term_us> .
+	
+	<file:///eswc.6.ttl/veteran> a eval:Node ;
+		eval:denotedBy <file:///eswc.6.ttl/term_veteran> ;
+		owl:sameAs <file:///eswc.6.ttl/he> , <file:///eswc.6.ttl/who> .
+	
+	<file:///eswc.6.ttl/veteran_v> a eval:Node , nb:veteran.02 ;
+		eval:denotedBy <file:///eswc.6.ttl/term_veteran> ;
+		eval:notAssociableTo <file:///eswc.6.ttl/said_1> ;
+		nb:a0 <file:///eswc.6.ttl/veteran> ;
+		nb:a2 <file:///eswc.6.ttl/qaeda> .
+	
+	<file:///eswc.6.ttl/way> a eval:Node , fn:Means , nb:way.01 ;
+		eval:denotedBy <file:///eswc.6.ttl/term_way> ;
+		fn:descriptor <file:///eswc.6.ttl/simple> ;
+		fn:purpose <file:///eswc.6.ttl/returning> ;
+		nb:a1 <file:///eswc.6.ttl/returning> ;
+		nb:a2 <file:///eswc.6.ttl/simple> .
+	
+	<file:///eswc.6.ttl/who> a eval:Node ;
+		eval:denotedBy <file:///eswc.6.ttl/term_who> .
+}
+
+<file:///eswc.7.ttl/graph_gold> {
+	<file:///eswc.7.ttl/al-assad> a eval:Node ;
+		eval:denotedBy <file:///eswc.7.ttl/term_al-Assad> ;
+		eval:notAssociableTo <file:///eswc.7.ttl/president_v> ;
+		owl:sameAs <file:///eswc.7.ttl/president> , dbpedia:Bashar_al-Assad .
+	
+	<file:///eswc.7.ttl/group> a eval:Node , nb:group.01 ;
+		eval:associableTo <file:///eswc.7.ttl/prevent> ;
+		eval:denotedBy <file:///eswc.7.ttl/term_group> ;
+		fn:Organization ""^^<http://www.w3.org/2001/XMLSchema#integer> .
+	
+	<file:///eswc.7.ttl/hopes> a eval:Node , fn:Desiring , pb:hope.01 , vn:62 ;
+		eval:denotedBy <file:///eswc.7.ttl/term_hopes> ;
+		fn:event <file:///eswc.7.ttl/isolate> ;
+		fn:experiencer <file:///eswc.7.ttl/states> ;
+		pb:a0 <file:///eswc.7.ttl/states> ;
+		pb:a1 <file:///eswc.7.ttl/isolate> ;
+		vn:experiencer <file:///eswc.7.ttl/states> ;
+		vn:theme <file:///eswc.7.ttl/isolate> .
+	
+	<file:///eswc.7.ttl/inheriting> a eval:Node , pb:inherit.01 , vn:13.5.2 ;
+		eval:denotedBy <file:///eswc.7.ttl/term_inheriting> ;
+		pb:a0 <file:///eswc.7.ttl/it> ;
+		pb:a1 <file:///eswc.7.ttl/syria_2> ;
+		vn:agent <file:///eswc.7.ttl/it> ;
+		vn:theme <file:///eswc.7.ttl/syria_2> .
+	
+	<file:///eswc.7.ttl/isolate> a eval:Node , pb:isolate.01 , vn:16 ;
+		eval:denotedBy <file:///eswc.7.ttl/term_isolate> ;
+		pb:a0 <file:///eswc.7.ttl/states> ;
+		pb:a1 <file:///eswc.7.ttl/group> ;
+		pb:am-pnc <file:///eswc.7.ttl/prevent> ;
+		vn:agent <file:///eswc.7.ttl/states> ;
+		vn:patient <file:///eswc.7.ttl/group> .
+	
+	<file:///eswc.7.ttl/it> a eval:Node ;
+		eval:denotedBy <file:///eswc.7.ttl/term_it> ;
+		eval:notAssociableTo <file:///eswc.7.ttl/states> , <file:///eswc.7.ttl/time> ;
+		owl:sameAs <file:///eswc.7.ttl/group> .
+	
+	<file:///eswc.7.ttl/president> a eval:Node ;
+		eval:denotedBy <file:///eswc.7.ttl/term_president> .
+	
+	<file:///eswc.7.ttl/president_v> a eval:Node , fn:Leadership , nb:president.01 ;
+		eval:denotedBy <file:///eswc.7.ttl/term_president> ;
+		eval:notAssociableTo <file:///eswc.7.ttl/running> , <file:///eswc.7.ttl/syria_2> ;
+		fn:governed <file:///eswc.7.ttl/syria_1> ;
+		fn:leader <file:///eswc.7.ttl/president> ;
+		nb:a0 <file:///eswc.7.ttl/president> ;
+		nb:a2 <file:///eswc.7.ttl/syria_1> .
+	
+	<file:///eswc.7.ttl/prevent> a eval:Node , fn:Thwarting , pb:prevent.01 , vn:67 ;
+		eval:denotedBy <file:///eswc.7.ttl/term_prevent> ;
+		fn:action <file:///eswc.7.ttl/inheriting> ;
+		fn:preventing_cause <file:///eswc.7.ttl/states> ;
+		fn:protagonist <file:///eswc.7.ttl/it> ;
+		pb:a0 <file:///eswc.7.ttl/states> ;
+		pb:a1 <file:///eswc.7.ttl/it> ;
+		pb:a2 <file:///eswc.7.ttl/inheriting> ;
+		vn:agent <file:///eswc.7.ttl/states> ;
+		vn:theme <file:///eswc.7.ttl/inheriting> , <file:///eswc.7.ttl/it> .
+	
+	<file:///eswc.7.ttl/running> a eval:Node , fn:Expend_resource , pb:run.05 ;
+		eval:denotedBy <file:///eswc.7.ttl/term_running> ;
+		fn:agent <file:///eswc.7.ttl/al-assad> ;
+		fn:resource <file:///eswc.7.ttl/time> ;
+		pb:a1 <file:///eswc.7.ttl/time> ;
+		pb:a2 <file:///eswc.7.ttl/al-assad> .
+	
+	<file:///eswc.7.ttl/sensing> a eval:Node , fn:Perception_experience , pb:sense.01 , vn:30.1-1 ;
+		eval:denotedBy <file:///eswc.7.ttl/term_sensing> ;
+		fn:perceiver_passive <file:///eswc.7.ttl/states> ;
+		fn:phenomenon <file:///eswc.7.ttl/running> ;
+		pb:a0 <file:///eswc.7.ttl/states> ;
+		pb:a1 <file:///eswc.7.ttl/running> ;
+		vn:experiencer <file:///eswc.7.ttl/states> ;
+		vn:stimulus <file:///eswc.7.ttl/running> .
+	
+	<file:///eswc.7.ttl/states> a eval:Node ;
+		eval:denotedBy <file:///eswc.7.ttl/term_States> ;
+		owl:sameAs dbpedia:United_States .
+	
+	<file:///eswc.7.ttl/syria_1> a eval:Node ;
+		eval:denotedBy <file:///eswc.7.ttl/term_Syria_1> ;
+		owl:sameAs <file:///eswc.7.ttl/syria_2> , dbpedia:Syria .
+	
+	<file:///eswc.7.ttl/syria_2> a eval:Node ;
+		eval:denotedBy <file:///eswc.7.ttl/term_Syria_2> ;
+		owl:sameAs dbpedia:Syria .
+	
+	<file:///eswc.7.ttl/time> a eval:Node ;
+		eval:classifiableAs fn:Measure_duration ;
+		eval:denotedBy <file:///eswc.7.ttl/term_time> .
+}
+
+<file:///eswc.8.ttl/graph_gold> {
+	<file:///eswc.8.ttl/alternative> a eval:Node ;
+		eval:denotedBy <file:///eswc.8.ttl/term_alternative> .
+	
+	<file:///eswc.8.ttl/americans> a eval:Node ;
+		<file:///eswc.8.ttl/eval:associableTo> <file:///eswc.8.ttl/making> ;
+		eval:denotedBy <file:///eswc.8.ttl/term_Americans> ;
+		owl:sameAs dbpedia:Americans .
+	
+	<file:///eswc.8.ttl/blacklist> a eval:Node , pb:blacklist.01 ;
+		eval:associableTo <file:///eswc.8.ttl/organization> , <file:///eswc.8.ttl/states> ;
+		eval:denotedBy <file:///eswc.8.ttl/term_blacklist> ;
+		pb:a0 <file:///eswc.8.ttl/it_1> ;
+		pb:a1 <file:///eswc.8.ttl/front> .
+	
+	<file:///eswc.8.ttl/dealings> a eval:Node , nb:dealing.01 , pb:deal.01 , vn:83 ;
+		eval:denotedBy <file:///eswc.8.ttl/term_dealings> ;
+		nb:a0 <file:///eswc.8.ttl/americans> ;
+		nb:a1 <file:///eswc.8.ttl/group> ;
+		nb:am-mnr <file:///eswc.8.ttl/financial> ;
+		pb:a0 <file:///eswc.8.ttl/americans> ;
+		pb:a1 <file:///eswc.8.ttl/group> ;
+		vn:agent <file:///eswc.8.ttl/americans> ;
+		vn:theme <file:///eswc.8.ttl/group> .
+	
+	<file:///eswc.8.ttl/europe> a eval:Node ;
+		eval:denotedBy <file:///eswc.8.ttl/term_Europe> ;
+		owl:sameAs dbpedia:European_Union .
+	
+	<file:///eswc.8.ttl/financial> a eval:Node ;
+		eval:denotedBy <file:///eswc.8.ttl/term_financial> .
+	
+	<file:///eswc.8.ttl/front> a eval:Node ;
+		eval:denotedBy <file:///eswc.8.ttl/term_Front> ;
+		owl:sameAs dbpedia:Al-Nusra_Front .
+	
+	<file:///eswc.8.ttl/government> a eval:Node ;
+		eval:denotedBy <file:///eswc.8.ttl/term_government> ;
+		dul:hasQuality <file:///eswc.8.ttl/alternative> , <file:///eswc.8.ttl/viable> .
+	
+	<file:///eswc.8.ttl/government_v> a eval:Node , fn:Leadership , nb:government.01 , pb:govern.01 ;
+		eval:denotedBy <file:///eswc.8.ttl/term_government> ;
+		fn:leader <file:///eswc.8.ttl/government> ;
+		nb:a0 <file:///eswc.8.ttl/government> ;
+		pb:a0 <file:///eswc.8.ttl/government> .
+	
+	<file:///eswc.8.ttl/group> a eval:Node , fn:organization , nb:group.01 ;
+		eval:denotedBy <file:///eswc.8.ttl/term_group> ;
+		owl:sameAs <file:///eswc.8.ttl/front> .
+	
+	<file:///eswc.8.ttl/have> a eval:Node , fn:Possession , pb:have.03 , vn:100 ;
+		eval:denotedBy <file:///eswc.8.ttl/term_have> ;
+		fn:owner <file:///eswc.8.ttl/americans> ;
+		fn:possession <file:///eswc.8.ttl/dealings> ;
+		pb:a0 <file:///eswc.8.ttl/americans> ;
+		pb:a1 <file:///eswc.8.ttl/dealings> ;
+		vn:pivot <file:///eswc.8.ttl/americans> ;
+		vn:theme <file:///eswc.8.ttl/dealings> .
+	
+	<file:///eswc.8.ttl/illegal> a eval:Node ;
+		eval:classifiableAs fn:Legality ;
+		eval:denotedBy <file:///eswc.8.ttl/term_illegal> ;
+		eval:notAssociableTo <file:///eswc.8.ttl/states> .
+	
+	<file:///eswc.8.ttl/it_1> a eval:Node ;
+		eval:denotedBy <file:///eswc.8.ttl/term_it_1> ;
+		owl:sameAs <file:///eswc.8.ttl/states> .
+	
+	<file:///eswc.8.ttl/making> a eval:Node , fn:Causation , pb:make.02 , vn:29.3 ;
+		eval:associableTo <file:///eswc.8.ttl/states> ;
+		eval:denotedBy <file:///eswc.8.ttl/term_making> ;
+		fn:actor <file:///eswc.8.ttl/it_1> ;
+		fn:effect <file:///eswc.8.ttl/have> , <file:///eswc.8.ttl/illegal> ;
+		pb:a0 <file:///eswc.8.ttl/it_1> ;
+		pb:a1 <file:///eswc.8.ttl/have> ;
+		vn:agent <file:///eswc.8.ttl/it_1> ;
+		vn:result <file:///eswc.8.ttl/illegal> ;
+		vn:theme <file:///eswc.8.ttl/have> .
+	
+	<file:///eswc.8.ttl/opposition> a eval:Node ;
+		eval:denotedBy <file:///eswc.8.ttl/term_opposition> ;
+		eval:notAssociableTo <file:///eswc.8.ttl/states> ;
+		dul:associatedWith <file:///eswc.8.ttl/syrian> ;
+		owl:sameAs dbpedia:Syrian_opposition .
+	
+	<file:///eswc.8.ttl/opposition_v> a eval:Node , fn:Taking_sides , nb:opposition.01 , pb:oppose.01 , vn:22.2-3 ;
+		eval:denotedBy <file:///eswc.8.ttl/term_opposition> ;
+		fn:cognizer <file:///eswc.8.ttl/opposition> ;
+		nb:a0 <file:///eswc.8.ttl/opposition> ;
+		pb:a0 <file:///eswc.8.ttl/opposition> ;
+		vn:agent <file:///eswc.8.ttl/opposition> .
+	
+	<file:///eswc.8.ttl/organization> a eval:Node , fn:organization , nb:organization.01 ;
+		eval:denotedBy <file:///eswc.8.ttl/term_organization> ;
+		fn:organization <file:///eswc.8.ttl/organization> ;
+		fn:purpose <file:///eswc.8.ttl/terrorist> ;
+		nb:a1 <file:///eswc.8.ttl/terrorist> .
+	
+	<file:///eswc.8.ttl/organize> a eval:Node , fn:Making_arrangements , pb:organize.01 , vn:55.5-1 ;
+		eval:denotedBy <file:///eswc.8.ttl/term_organize> ;
+		fn:agent <file:///eswc.8.ttl/opposition> ;
+		fn:event <file:///eswc.8.ttl/government> ;
+		pb:a0 <file:///eswc.8.ttl/opposition> ;
+		pb:a1 <file:///eswc.8.ttl/government> ;
+		vn:agent <file:///eswc.8.ttl/opposition> ;
+		vn:theme <file:///eswc.8.ttl/government> .
+	
+	<file:///eswc.8.ttl/plans> a eval:Node , fn:Purpose , pb:plan.01 , vn:62 ;
+		eval:associableTo <file:///eswc.8.ttl/states> ;
+		eval:denotedBy <file:///eswc.8.ttl/term_plans> ;
+		fn:agent <file:///eswc.8.ttl/it_1> ;
+		fn:goal <file:///eswc.8.ttl/blacklist> ;
+		pb:a0 <file:///eswc.8.ttl/it_1> ;
+		pb:a1 <file:///eswc.8.ttl/blacklist> ;
+		vn:experiencer <file:///eswc.8.ttl/it_1> ;
+		vn:theme <file:///eswc.8.ttl/blacklist> .
+	
+	<file:///eswc.8.ttl/prompting> a eval:Node , fn:Cause_to_start , pb:prompt.02 , vn:59 ;
+		eval:associableTo <file:///eswc.8.ttl/sanctions_v> , <file:///eswc.8.ttl/states> ;
+		eval:denotedBy <file:///eswc.8.ttl/term_prompting> ;
+		fn:cause <file:///eswc.8.ttl/it_1> ;
+		fn:effect <file:///eswc.8.ttl/sanctions> ;
+		pb:a0 <file:///eswc.8.ttl/it_1> ;
+		pb:a1 <file:///eswc.8.ttl/europe> ;
+		pb:a2 <file:///eswc.8.ttl/sanctions> ;
+		vn:agent <file:///eswc.8.ttl/it_1> ;
+		vn:patient <file:///eswc.8.ttl/europe> ;
+		vn:result <file:///eswc.8.ttl/sanctions> .
+	
+	<file:///eswc.8.ttl/pushes> a eval:Node , fn:Subjective_influence , pb:push.02 , vn:59 ;
+		eval:denotedBy <file:///eswc.8.ttl/term_pushes> ;
+		fn:action <file:///eswc.8.ttl/organize> ;
+		fn:agent <file:///eswc.8.ttl/states> ;
+		fn:cognizer <file:///eswc.8.ttl/opposition> ;
+		pb:a0 <file:///eswc.8.ttl/states> ;
+		pb:a1 <file:///eswc.8.ttl/opposition> ;
+		pb:a2 <file:///eswc.8.ttl/organize> ;
+		vn:agent <file:///eswc.8.ttl/states> ;
+		vn:patient <file:///eswc.8.ttl/opposition> ;
+		vn:result <file:///eswc.8.ttl/organize> .
+	
+	<file:///eswc.8.ttl/sanctions> a eval:Node ;
+		eval:denotedBy <file:///eswc.8.ttl/term_sanctions> .
+	
+	<file:///eswc.8.ttl/sanctions_v> a eval:Node , fn:Revenge , nb:sanction.01 , pb:impose.01 , vn:63 ;
+		eval:denotedBy <file:///eswc.8.ttl/term_sanctions> ;
+		fn:avenger <file:///eswc.8.ttl/europe> ;
+		fn:punishment <file:///eswc.8.ttl/sanctions> ;
+		nb:a0 <file:///eswc.8.ttl/europe> ;
+		nb:a1 <file:///eswc.8.ttl/sanctions> ;
+		pb:a0 <file:///eswc.8.ttl/europe> ;
+		pb:a1 <file:///eswc.8.ttl/sanctions> ;
+		vn:agent <file:///eswc.8.ttl/europe> ;
+		vn:theme <file:///eswc.8.ttl/sanctions> .
+	
+	<file:///eswc.8.ttl/states> a eval:Node ;
+		eval:denotedBy <file:///eswc.8.ttl/term_States> ;
+		owl:sameAs dbpedia:United_States .
+	
+	<file:///eswc.8.ttl/syrian> a eval:Node ;
+		eval:denotedBy <file:///eswc.8.ttl/term_Syrian> .
+	
+	<file:///eswc.8.ttl/terrorist> a eval:Node ;
+		eval:classifiableAs fn:Terrorism ;
+		eval:denotedBy <file:///eswc.8.ttl/term_terrorist> .
+	
+	<file:///eswc.8.ttl/viable> a eval:Node ;
+		eval:denotedBy <file:///eswc.8.ttl/term_viable> .
+}
+
+eval:metadata {
+	<file:///eswc.1.ttl/> a eval:Sentence ;
+		rdfs:label "The lone Syrian rebel group with an explicit stamp of approval from Al Qaeda has become one of the uprising most effective fighting forces, posing a stark challenge to the United States and other countries that want to support the rebels but not Islamic extremists." .
+	
+	<file:///eswc.1.ttl/graph_gold> a eval:KnowledgeGraph ;
+		dcterms:creator "gold" ;
+		dcterms:source <file:///eswc.1.ttl/> .
+	
+	<file:///eswc.2.ttl/> a eval:Sentence ;
+		rdfs:label "Money flows to the group, the Nusra Front, from like-minded donors abroad." .
+	
+	<file:///eswc.2.ttl/graph_gold> a eval:KnowledgeGraph ;
+		dcterms:creator "gold" ;
+		dcterms:source <file:///eswc.2.ttl/> .
+	
+	<file:///eswc.3.ttl/> a eval:Sentence ;
+		rdfs:label "Its fighters, a small minority of the rebels, have the boldness and skill to storm fortified positions and lead other battalions to capture military bases and oil fields." .
+	
+	<file:///eswc.3.ttl/graph_gold> a eval:KnowledgeGraph ;
+		dcterms:creator "gold" ;
+		dcterms:source <file:///eswc.3.ttl/> .
+	
+	<file:///eswc.4.ttl/> a eval:Sentence ;
+		rdfs:label "As their successes mount, they gather more weapons and attract more fighters." .
+	
+	<file:///eswc.4.ttl/graph_gold> a eval:KnowledgeGraph ;
+		dcterms:creator "gold" ;
+		dcterms:source <file:///eswc.4.ttl/> .
+	
+	<file:///eswc.5.ttl/> a eval:Sentence ;
+		rdfs:label "The group is a direct offshoot of Al Qaeda in Iraq, Iraqi officials and former Iraqi insurgents say, which has contributed veteran fighters and weapons." .
+	
+	<file:///eswc.5.ttl/graph_gold> a eval:KnowledgeGraph ;
+		dcterms:creator "gold" ;
+		dcterms:source <file:///eswc.5.ttl/> .
+	
+	<file:///eswc.6.ttl/> a eval:Sentence ;
+		rdfs:label "`` This is just a simple way of returning the favor to our Syrian brothers that fought with us on the lands of Iraq, '' said a veteran of Al Qaeda in Iraq, who said he helped lead the Nusra Front 's efforts in Syria." .
+	
+	<file:///eswc.6.ttl/graph_gold> a eval:KnowledgeGraph ;
+		dcterms:creator "gold" ;
+		dcterms:source <file:///eswc.6.ttl/> .
+	
+	<file:///eswc.7.ttl/> a eval:Sentence ;
+		rdfs:label "The United States, sensing that time may be running out for Syria president Bashar al-Assad, hopes to isolate the group to prevent it from inheriting Syria." .
+	
+	<file:///eswc.7.ttl/graph_gold> a eval:KnowledgeGraph ;
+		dcterms:creator "gold" ;
+		dcterms:source <file:///eswc.7.ttl/> .
+	
+	<file:///eswc.8.ttl/> a eval:Sentence ;
+		rdfs:label "As the United States pushes the Syrian opposition to organize a viable alternative government, it plans to blacklist the Nusra Front as a terrorist organization, making it illegal for Americans to have financial dealings with the group and prompting similar sanctions from Europe." .
+	
+	<file:///eswc.8.ttl/graph_gold> a eval:KnowledgeGraph ;
+		dcterms:creator "gold" ;
+		dcterms:source <file:///eswc.8.ttl/> .
+}

@@ -5,7 +5,7 @@
     <parent>
         <groupId>eu.fbk.dkm</groupId>
         <artifactId>parent</artifactId>
-        <version>1.2</version>
+        <version>1.2.1</version>
     </parent>
 
     <groupId>eu.fbk.pikes</groupId>
@@ -110,7 +110,6 @@
     <properties>
         <pikes-version>${project.version}</pikes-version>
         <site.root>http://pikes.fbk.eu/</site.root>
-        <utils-version>1.1</utils-version>
     </properties>
 
     <modules>
