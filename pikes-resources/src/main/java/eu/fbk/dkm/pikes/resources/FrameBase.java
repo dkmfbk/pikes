@@ -8,10 +8,12 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
@@ -39,10 +41,13 @@ public final class FrameBase {
 
     private static final Map<String, String> PROPERTY_MAP;
 
+    private static final Set<String> NAME_SET;
+
     static {
         try {
             final ImmutableMap.Builder<String, String> classBuilder = ImmutableMap.builder();
             final ImmutableMap.Builder<String, String> propertyBuilder = ImmutableMap.builder();
+            final ImmutableSet.Builder<String> namesBuilder = ImmutableSet.builder();
 
             final BufferedReader reader = Resources.asCharSource(
                     FrameBase.class.getResource("FrameBase.tsv"), Charsets.UTF_8)
@@ -52,6 +57,7 @@ public final class FrameBase {
             while ((line = reader.readLine()) != null) {
                 final String[] tokens = line.split("\t");
                 final String name = tokens[0];
+                namesBuilder.add(name);
                 for (int i = 1; i < tokens.length; ++i) {
                     final String key = tokens[i];
                     if (key.indexOf('@') >= 0) {
@@ -65,6 +71,7 @@ public final class FrameBase {
 
             CLASS_MAP = classBuilder.build();
             PROPERTY_MAP = propertyBuilder.build();
+            NAME_SET = namesBuilder.build();
 
         } catch (final IOException ex) {
             throw new Error("Cannot load eu.fbk.dkm.pikes.resources.FrameBase data", ex);
@@ -77,6 +84,9 @@ public final class FrameBase {
         String name = CLASS_MAP.get(key);
         if (name == null) {
             name = classNameFor(key);
+            if (!NAME_SET.contains(name)) {
+                return null;
+            }
         }
         return Statements.VALUE_FACTORY.createURI(NAMESPACE, name);
     }
@@ -86,6 +96,9 @@ public final class FrameBase {
         String name = PROPERTY_MAP.get(key);
         if (name == null) {
             name = propertyNameFor(key);
+            if (!NAME_SET.contains(name)) {
+                return null;
+            }
         }
         return Statements.VALUE_FACTORY.createURI(NAMESPACE, name);
     }
@@ -138,6 +151,7 @@ public final class FrameBase {
             final ValueFactory vf = Statements.VALUE_FACTORY;
             final URI inheritsFrom = vf.createURI("http://framebase.org/ns/inheritsFrom");
             final URI denotedBy = vf.createURI("http://www.w3.org/ns/lemon/ontolex#isDenotedBy");
+            final String self = "<SELF>";
 
             final Multimap<String, String> map = HashMultimap.create();
 
@@ -167,6 +181,7 @@ public final class FrameBase {
                                 if (!name.equals(sn)) {
                                     map.put(sn, key);
                                 }
+                                map.put(sn, self);
                             }
 
                         } else if (p.equals(denotedBy)) {
@@ -194,6 +209,7 @@ public final class FrameBase {
                 if (!name.equals(entry.getKey())) {
                     map.put(entry.getKey(), key);
                 }
+                map.put(entry.getKey(), self);
             }
 
             try (Writer writer = new OutputStreamWriter(new BufferedOutputStream(
@@ -201,8 +217,10 @@ public final class FrameBase {
                 for (final String name : Ordering.natural().sortedCopy(map.keySet())) {
                     writer.write(name);
                     for (final String key : Ordering.natural().sortedCopy(map.get(name))) {
-                        writer.write("\t");
-                        writer.write(key);
+                        if (!self.equals(key)) {
+                            writer.write("\t");
+                            writer.write(key);
+                        }
                     }
                     writer.write("\n");
                 }
