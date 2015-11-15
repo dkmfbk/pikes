@@ -1032,7 +1032,7 @@ public class MergeMateFramenet {
 
             // Evaluate and save
             double okThreshold = 0.5;
-            int okMinFreq = 5;
+            int okMinFreq = 2;
             HashMap<OutputMapping, HashMap<String, String>> outputMappingsForRolesFromExamples = new HashMap<>();
             for (OutputMapping outputMapping : OutputMapping.values()) {
                 outputMappingsForRolesFromExamples.put(outputMapping, new HashMap<>());
@@ -1092,9 +1092,14 @@ public class MergeMateFramenet {
 //                    LOGGER.info("Correct role mappings: {}", correctMappingsCount);
 //                    LOGGER.info("Wrong role mappings: {}", wrongMappingsCount);
 
-                    double precision = (double) correctMappingsCount / (double) trivialMappingsCount;
+                    int tp = correctMappingsCount;
+                    int fp = wrongMappingsCount;
+                    int fn = outputMappingsForRoles.get(OutputMapping.PBauto).size() - trivialMappingsCount;
+                    double precision = (double) tp / (double) (tp + fp);
+                    double recall = (double) tp / (double) (tp + fn);
+                    double f1 = 2 * (precision * recall) / (precision + recall);
                     System.out.println(String.format(
-                                    "%5f %5d %5d %5d %5d %5d %5d %5f",
+                                    "%5f %5d %5d %5d %5d %5d %5d %5f %5f %5f",
                                     threshold,
                                     minFreq,
                                     outputMappingsForRolesFromExamplesTemp.get(OutputMapping.PBauto).size(),
@@ -1102,7 +1107,9 @@ public class MergeMateFramenet {
                                     trivialMappingsCount,
                                     correctMappingsCount,
                                     wrongMappingsCount,
-                                    precision
+                                    precision,
+                                    recall,
+                                    f1
                             )
                     );
                 }
