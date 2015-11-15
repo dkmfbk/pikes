@@ -1,10 +1,13 @@
 package eu.fbk.dkm.pikes.resources.util.corpus;
 
+import java.io.Serializable;
+import java.util.HashMap;
+
 /**
  * Created by alessio on 12/11/15.
  */
 
-public class Word {
+public class Word implements Serializable {
 
     private int id;
     private String form;
@@ -123,5 +126,12 @@ public class Word {
                 ", depParent=" + depParent +
                 ", depLabel='" + depLabel + '\'' +
                 '}';
+    }
+
+    @Override public boolean equals(Object obj) {
+        if (obj instanceof Word) {
+            return ((Word) obj).getId() == id;
+        }
+        return super.equals(obj);
     }
 }
