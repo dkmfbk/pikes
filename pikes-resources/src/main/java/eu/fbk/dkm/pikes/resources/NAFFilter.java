@@ -19,7 +19,9 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.collect.BiMap;
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -85,6 +87,13 @@ public final class NAFFilter implements Consumer<KAFDocument> {
 
     private static final String[] LINKING_STOP_WORDS;
 
+    private static final BiMap<String, String> MAPPING_PREFIXES = ImmutableBiMap.of("propbank",
+            "pb", "nombank", "nb", "verbnet", "vn", "framenet", "fn");
+
+    private static final Multimap<String, String> MAPPING_PREDICATES;
+
+    private static final Multimap<String, String> MAPPING_ARGUMENTS;
+
     public static final NAFFilter DEFAULT = NAFFilter.builder().build();
 
     static {
@@ -101,6 +110,10 @@ public final class NAFFilter implements Consumer<KAFDocument> {
             LINKING_STOP_WORDS[i] = LINKING_STOP_WORDS[i].toLowerCase();
         }
         Arrays.sort(LINKING_STOP_WORDS);
+
+        MAPPING_PREDICATES = HashMultimap.create();
+        MAPPING_ARGUMENTS = HashMultimap.create();
+        MAPPING_ARGUMENTS.put("nb:meeting.01@tmp", "fn:Discussion@Time"); // TODO
     }
 
     private final boolean termSenseFiltering;
@@ -139,6 +152,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
 
     private final boolean srlSenseMapping;
 
+    private final boolean srlSenseMappingPM;
+
     private final boolean srlFrameBaseMapping;
 
     private final boolean srlRoleLinking;
@@ -171,6 +186,7 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         this.srlPredicateAddition = MoreObjects.firstNonNull(builder.srlPredicateAddition, true);
         this.srlSelfArgFixing = MoreObjects.firstNonNull(builder.srlSelfArgFixing, true);
         this.srlSenseMapping = MoreObjects.firstNonNull(builder.srlSenseMapping, true);
+        this.srlSenseMappingPM = false; // TODO disabled
         this.srlFrameBaseMapping = MoreObjects.firstNonNull(builder.srlFrameBaseMapping, true);
         this.srlRoleLinking = MoreObjects.firstNonNull(builder.srlRoleLinking, true);
         this.srlRoleLinkingUsingCoref = MoreObjects.firstNonNull(builder.srlRoleLinkingUsingCoref,
@@ -1139,69 +1155,94 @@ public final class NAFFilter implements Consumer<KAFDocument> {
 
         for (final Predicate predicate : document.getPredicates()) {
 
-            // Obtain the PropBank roleset, either directly or mapping from NomBank
+            // Apply specific mappings
+            mapExternalRefs(predicate, MAPPING_PREDICATES);
+
+            // Apply Predicate Matrix mappings, if enabled
             NomBank.Roleset nbRoleset = null;
             PropBank.Roleset pbRoleset = null;
-            if (predicate.getTerms().get(0).getPos().equalsIgnoreCase("V")) {
-                final ExternalRef ref = predicate.getExternalRef(NAFUtils.RESOURCE_PROPBANK);
-                pbRoleset = ref == null ? null : PropBank.getRoleset(ref.getReference());
-            } else {
-                final ExternalRef ref = predicate.getExternalRef(NAFUtils.RESOURCE_NOMBANK);
-                nbRoleset = ref == null ? null : NomBank.getRoleset(ref.getReference());
-                final String pbSense = nbRoleset == null ? null : nbRoleset.getPBId();
-                pbRoleset = pbSense == null ? null : PropBank.getRoleset(pbSense);
-            }
+            if (this.srlSenseMappingPM) {
+                // Obtain the PropBank roleset, either directly or mapping from NomBank
+                if (predicate.getTerms().get(0).getPos().equalsIgnoreCase("V")) {
+                    final ExternalRef ref = predicate.getExternalRef(NAFUtils.RESOURCE_PROPBANK);
+                    pbRoleset = ref == null ? null : PropBank.getRoleset(ref.getReference());
+                } else {
+                    final ExternalRef ref = predicate.getExternalRef(NAFUtils.RESOURCE_NOMBANK);
+                    nbRoleset = ref == null ? null : NomBank.getRoleset(ref.getReference());
+                    final String pbSense = nbRoleset == null ? null : nbRoleset.getPBId();
+                    pbRoleset = pbSense == null ? null : PropBank.getRoleset(pbSense);
+                }
 
-            // Skip the predicate if the PropBank roleset could not be obtained
-            if (pbRoleset == null) {
-                continue;
-            }
+                // Skip the predicate if the PropBank roleset could not be obtained
+                if (pbRoleset != null) {
+                    // Add an external ref for the PropBank roleset, if missing
+                    if (NAFUtils.getRef(predicate, NAFUtils.RESOURCE_PROPBANK, pbRoleset.getID()) == null) {
+                        NAFUtils.addRef(predicate, document.newExternalRef( //
+                                NAFUtils.RESOURCE_PROPBANK, pbRoleset.getID()));
+                    }
 
-            // Add an external ref for the PropBank roleset, if missing
-            if (NAFUtils.getRef(predicate, NAFUtils.RESOURCE_PROPBANK, pbRoleset.getID()) == null) {
-                NAFUtils.addRef(predicate,
-                        document.newExternalRef(NAFUtils.RESOURCE_PROPBANK, pbRoleset.getID()));
-            }
-
-            // Apply mappings from the predicate matrix (indexed in PropBank.Roleset object)
-            for (final String vnFrame : pbRoleset.getVNFrames()) {
-                NAFUtils.setRef(predicate,
-                        document.newExternalRef(NAFUtils.RESOURCE_VERBNET, vnFrame));
-            }
-            for (final String fnFrame : pbRoleset.getFNFrames()) {
-                NAFUtils.setRef(predicate,
-                        document.newExternalRef(NAFUtils.RESOURCE_FRAMENET, fnFrame));
+                    // Apply mappings from the predicate matrix (indexed in PropBank.Roleset object)
+                    for (final String vnFrame : pbRoleset.getVNFrames()) {
+                        NAFUtils.setRef(predicate,
+                                document.newExternalRef(NAFUtils.RESOURCE_VERBNET, vnFrame));
+                    }
+                    for (final String fnFrame : pbRoleset.getFNFrames()) {
+                        NAFUtils.setRef(predicate,
+                                document.newExternalRef(NAFUtils.RESOURCE_FRAMENET, fnFrame));
+                    }
+                }
             }
 
             // Map predicate roles
             for (final Role role : predicate.getRoles()) {
-                final String semRole = role.getSemRole();
-                final char numChar = semRole.charAt(semRole.length() - 1);
-                if (semRole != null && Character.isDigit(numChar)) {
 
-                    // Determine the PropBank arg num
-                    final int num = Character.digit(numChar, 10);
-                    final int pbNum = nbRoleset == null ? num : nbRoleset.getArgPBNum(num);
-                    if (pbNum < 0) {
-                        continue;
+                // Add missing ref if necessary
+                if (role.getSemRole().startsWith("A")) {
+                    final boolean verb = NAFUtils.extractHead(document, predicate.getSpan())
+                            .getMorphofeat().startsWith("VB");
+                    final String resource = verb ? "PropBank" : "NomBank";
+                    final ExternalRef ref = NAFUtils.getRef(predicate, resource, null);
+                    if (ref != null) {
+                        final String r = role.getSemRole().startsWith("AM-") ? role.getSemRole()
+                                .substring(3) : role.getSemRole().substring(1);
+                        role.addExternalRef(new ExternalRef(resource, ref.getReference() + "@"
+                                + r.toLowerCase()));
                     }
-                    final String pbRole = pbRoleset.getID() + '@' + pbNum;
-                    // final String pbRole = semRole.substring(0, semRole.length() - 2) + pbNum;
+                }
 
-                    // Create an external ref for the PropBank role, if missing
-                    if (NAFUtils.getRef(role, NAFUtils.RESOURCE_PROPBANK, pbRole) == null) {
-                        NAFUtils.setRef(role,
-                                document.newExternalRef(NAFUtils.RESOURCE_PROPBANK, pbRole));
-                    }
+                // Apply specific mappings
+                mapExternalRefs(role, MAPPING_ARGUMENTS);
 
-                    // Apply mappings from the predicate matrix
-                    for (final String vnRole : pbRoleset.getArgVNRoles(pbNum)) {
-                        NAFUtils.setRef(role,
-                                document.newExternalRef(NAFUtils.RESOURCE_VERBNET, vnRole));
-                    }
-                    for (final String fnRole : pbRoleset.getArgFNRoles(pbNum)) {
-                        NAFUtils.setRef(role,
-                                document.newExternalRef(NAFUtils.RESOURCE_FRAMENET, fnRole));
+                // Apply Predicate Matrix mappings, if enabled
+                if (this.srlSenseMappingPM) {
+                    final String semRole = role.getSemRole();
+                    final char numChar = semRole.charAt(semRole.length() - 1);
+                    if (semRole != null && Character.isDigit(numChar)) {
+
+                        // Determine the PropBank arg num
+                        final int num = Character.digit(numChar, 10);
+                        final int pbNum = nbRoleset == null ? num : nbRoleset.getArgPBNum(num);
+                        if (pbNum < 0) {
+                            continue;
+                        }
+                        final String pbRole = pbRoleset.getID() + '@' + pbNum;
+                        // final String pbRole = semRole.substring(0, semRole.length() - 2) + pbNum;
+
+                        // Create an external ref for the PropBank role, if missing
+                        if (NAFUtils.getRef(role, NAFUtils.RESOURCE_PROPBANK, pbRole) == null) {
+                            NAFUtils.setRef(role,
+                                    document.newExternalRef(NAFUtils.RESOURCE_PROPBANK, pbRole));
+                        }
+
+                        // Apply mappings from the predicate matrix
+                        for (final String vnRole : pbRoleset.getArgVNRoles(pbNum)) {
+                            NAFUtils.setRef(role,
+                                    document.newExternalRef(NAFUtils.RESOURCE_VERBNET, vnRole));
+                        }
+                        for (final String fnRole : pbRoleset.getArgFNRoles(pbNum)) {
+                            NAFUtils.setRef(role,
+                                    document.newExternalRef(NAFUtils.RESOURCE_FRAMENET, fnRole));
+                        }
                     }
                 }
             }
@@ -1400,6 +1441,43 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                     if (LOGGER.isDebugEnabled()) {
                         LOGGER.debug("Linked {} to {} as {}", NAFUtils.toString(pred),
                                 NAFUtils.toString(annotation), res);
+                    }
+                }
+            }
+        }
+    }
+
+    private void mapExternalRefs(final Object annotation, final Multimap<String, String> mappings) {
+
+        // Keep track of prefixes (NB, PB, VN, FN) of resources already available, as well as the
+        // keys corresponding to their values
+        final Set<String> prefixes = Sets.newHashSet();
+        final Set<String> keys = Sets.newHashSet();
+
+        // Extract prefixes and keys
+        for (final ExternalRef ref : NAFUtils.getRefs(annotation, null, null)) {
+            final String prefix = MAPPING_PREFIXES.get(ref.getResource().toLowerCase());
+            if (prefix != null) {
+                prefixes.add(prefix);
+                keys.add(prefix + ":" + ref.getReference());
+            }
+        }
+
+        // Apply mappings
+        final List<String> queue = Lists.newLinkedList(keys);
+        while (!queue.isEmpty()) {
+            final String key = queue.remove(0);
+            for (final String mappedKey : mappings.get(key)) {
+                final String mappedPrefix = mappedKey.substring(0, 2);
+                if (!prefixes.contains(mappedPrefix) && !keys.contains(mappedKey)) {
+                    final String mappedResource = MAPPING_PREFIXES.inverse().get(mappedPrefix);
+                    final String mappedReference = mappedKey.substring(3);
+                    keys.add(mappedKey);
+                    queue.add(mappedKey);
+                    NAFUtils.addRef(annotation, new ExternalRef(mappedResource, mappedReference));
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("Mapped {} : {} to {} for {}", mappedResource,
+                                mappedReference, mappedKey, NAFUtils.toString(annotation));
                     }
                 }
             }
