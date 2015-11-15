@@ -55,7 +55,7 @@ public class MergeMateFramenet {
     static final Pattern PB_PATTERN = Pattern.compile("^verb-((.*)\\.[0-9]+)$");
 
     public enum OutputMapping {
-        PBauto, NBauto, NBresource
+        PBauto, NBauto, NBresource, PBtrivial
     }
 
     static {
@@ -189,6 +189,8 @@ public class MergeMateFramenet {
             boolean ignoreLemmaInFrameBaseMappings = cmd.hasOption("ignore-lemma");
 
             // Start
+
+            Integer max = null;
 
             WordNet.setPath(wordnetFolder.getAbsolutePath());
             WordNet.init();
@@ -334,7 +336,6 @@ public class MergeMateFramenet {
             LOGGER.info("Loaded {} frames without source", nbUnlinked.size());
 
             LOGGER.info("Loading LU files");
-            Integer max = 1000;
             int i = 0;
             HashMap<String, HashMultimap<String, String>> lus = new HashMap<>();
             HashSet<String> existingFrames = new HashSet<>();
@@ -743,6 +744,8 @@ public class MergeMateFramenet {
                         for (String okFrame : okFrames) {
                             if (fnFrames.size() == 1 && fnFrames.contains(okFrame)) {
                                 trivialCount++;
+                                outputMappingsForPredicates.get(OutputMapping.PBtrivial)
+                                        .put(rolesetID, okFrame);
                                 continue;
                             }
                             nonTrivialCount++;
@@ -833,8 +836,16 @@ public class MergeMateFramenet {
 
                             if (tempMappingsForRole.size() == 1) {
                                 for (String frameRole : tempMappingsForRole) {
-                                    outputMappingsForRoles.get(OutputMapping.PBauto)
-                                            .put(roleStr, frameRole);
+
+                                    // Check for inconsistencies
+                                    String frameName = frameRole.replaceAll("@.*", "");
+                                    String goodCandidate = outputMappingsForPredicates.get(OutputMapping.PBauto)
+                                            .get(rolesetID);
+                                    if (goodCandidate == null || !goodCandidate.equals(frameName)) {
+                                        continue;
+                                    }
+
+                                    outputMappingsForRoles.get(OutputMapping.PBauto).put(roleStr, frameRole);
                                     roleMappingCount++;
                                 }
                             }
@@ -884,13 +895,23 @@ public class MergeMateFramenet {
 
             // Parsing examples (exampleSentences)
 
-            HashMap<String, FrequencyHashSet<String>> fnToPb = new HashMap<>();
-            HashMap<String, FrequencyHashSet<String>> pbToFn = new HashMap<>();
+            LOGGER.info("Parsing examples");
+
+            HashMap<String, FrequencyHashSet<String>> rolesCountByType = new HashMap<>();
+            FrequencyHashSet<String> rolesCount = new FrequencyHashSet<>();
 
             for (Sentence sentence : exampleSentences) {
                 HashMap<Word, HashMap<String, Srl>> srlIndex = new HashMap<>();
+
                 for (Srl srl : sentence.getSrls()) {
                     Word target = srl.getTarget().get(0);
+
+                    // Only verbs and nouns
+                    if (!target.getPos().toLowerCase().startsWith("v") && !target.getPos().toLowerCase()
+                            .startsWith("n")) {
+                        continue;
+                    }
+
                     if (!srlIndex.containsKey(target)) {
                         srlIndex.put(target, new HashMap<>());
                     }
@@ -906,37 +927,93 @@ public class MergeMateFramenet {
                         String framenet = srlFrameNet.getLabel();
                         String mate = srlMate.getLabel();
 
+                        boolean isVerb = true;
+                        if (word.getPos().toLowerCase().startsWith("n")) {
+                            isVerb = false;
+                        }
+
                         boolean mappingExists = false;
-                        for (OutputMapping outputMapping : outputMappingsForPredicates.keySet()) {
-                            String frameGuess = outputMappingsForPredicates.get(outputMapping).get(mate);
+                        String frameGuess;
+
+                        if (isVerb) {
+                            frameGuess = outputMappingsForPredicates.get(OutputMapping.PBauto).get(mate);
+                            if (frameGuess != null && frameGuess.equals(framenet)) {
+                                mappingExists = true;
+                            }
+                            frameGuess = outputMappingsForPredicates.get(OutputMapping.PBtrivial).get(mate);
+                            if (frameGuess != null && frameGuess.equals(framenet)) {
+                                mappingExists = true;
+                            }
+                        } else {
+                            frameGuess = outputMappingsForPredicates.get(OutputMapping.NBauto).get(mate);
+                            if (frameGuess != null && frameGuess.equals(framenet)) {
+                                mappingExists = true;
+                            }
+                            frameGuess = outputMappingsForPredicates.get(OutputMapping.NBresource).get(mate);
                             if (frameGuess != null && frameGuess.equals(framenet)) {
                                 mappingExists = true;
                             }
                         }
 
                         if (mappingExists) {
-                            HashMap<Word, String> roleWords = new HashMap<>();
+
+                            HashMap<Word, String> roleWordsMate = new HashMap<>();
+                            HashMap<Word, String> roleWordsFrameNet = new HashMap<>();
+
+                            // Mate
                             for (eu.fbk.dkm.pikes.resources.util.corpus.Role role : srlMate.getRoles()) {
                                 Word roleHead = role.getSpan().get(0);
                                 String roleLabel = role.getLabel();
                                 roleLabel = roleLabel.replaceAll("R-", "");
-                                roleWords.put(roleHead, roleLabel);
+
+                                // Consider only core roles
+                                if (roleLabel.startsWith("AM-")) {
+                                    continue;
+                                }
+
+                                roleWordsMate.put(roleHead, roleLabel);
                             }
 
+                            // FrameNet
                             for (eu.fbk.dkm.pikes.resources.util.corpus.Role role : srlFrameNet.getRoles()) {
                                 Word roleHead = role.getSpan().get(0);
-                                if (roleWords.containsKey(roleHead)) {
-                                    String thisMateRole = mate + "@" + roleWords.get(roleHead);
-                                    String thisFrameNetRole = framenet + "@" + role.getLabel();
+                                String roleLabel = role.getLabel();
+                                roleWordsFrameNet.put(roleHead, roleLabel);
+                            }
 
-                                    if (!pbToFn.containsKey(thisMateRole)) {
-                                        pbToFn.put(thisMateRole, new FrequencyHashSet<>());
-                                    }
-                                    pbToFn.get(thisMateRole).add(thisFrameNetRole);
+                            for (Word key : roleWordsMate.keySet()) {
+                                String prefix = isVerb ? "v-" : "n-";
+                                String mateCompressed =
+                                        prefix + mate + "@" + roleWordsMate.get(key).replaceAll("[aA]", "");
+                                rolesCount.add(mateCompressed);
+
+                                if (!rolesCountByType.containsKey(mateCompressed)) {
+                                    rolesCountByType.put(mateCompressed, new FrequencyHashSet<>());
+                                }
+
+                                String fnRole = roleWordsFrameNet.get(key);
+                                if (fnRole != null) {
+                                    fnRole = fnRole.toLowerCase();
+                                    String fnCompressed = framenet + "@" + fnRole;
+                                    rolesCountByType.get(mateCompressed).add(fnCompressed);
+                                } else {
+                                    rolesCountByType.get(mateCompressed).add("[none]");
                                 }
                             }
-                        }
-                        else {
+
+//                            for (eu.fbk.dkm.pikes.resources.util.corpus.Role role : srlFrameNet.getRoles()) {
+//                                Word roleHead = role.getSpan().get(0);
+//                                if (roleWords.containsKey(roleHead)) {
+//                                    String thisMateRole = mate + "@" + roleWords.get(roleHead);
+//                                    String thisFrameNetRole = framenet + "@" + role.getLabel();
+//
+//                                    if (!pbToFn.containsKey(thisMateRole)) {
+//                                        pbToFn.put(thisMateRole, new FrequencyHashSet<>());
+//                                    }
+//                                    pbToFn.get(thisMateRole).add(thisFrameNetRole);
+//                                }
+//                            }
+                        } else {
                             // These *can* be good mappings
                         }
 
@@ -953,14 +1030,84 @@ public class MergeMateFramenet {
                 }
             }
 
-            for (String key : pbToFn.keySet()) {
-                System.out.println(key);
-                System.out.println(pbToFn.get(key));
+            // Evaluate and save
+            HashMap<OutputMapping, HashMap<String, String>> outputMappingsForRolesFromExamples = new HashMap<>();
+            double okThreshold = 0.5;
+            int okMinFreq = 5;
+
+            for (double threshold = 0.5; threshold < 1; threshold += 0.1) {
+                for (int minFreq = 2; minFreq <= 10; minFreq++) {
+                    int trivialMappingsCount = 0;
+                    int correctMappingsCount = 0;
+                    int wrongMappingsCount = 0;
+
+                    HashMap<OutputMapping, HashMap<String, String>> outputMappingsForRolesFromExamplesTemp = new HashMap<>();
+                    for (OutputMapping outputMapping : OutputMapping.values()) {
+                        outputMappingsForRolesFromExamplesTemp.put(outputMapping, new HashMap<>());
+                        outputMappingsForRolesFromExamples.put(outputMapping, new HashMap<>());
+                    }
+
+                    for (String key : rolesCount.keySet()) {
+
+                        String candidate = rolesCountByType.get(key).mostFrequent();
+                        int freq = rolesCountByType.get(key).get(candidate);
+                        double ratio = 0.0;
+                        if (candidate != null && !candidate.equals("[none]")) {
+                            ratio = (double) freq / (double) rolesCount.get(key);
+                        } else {
+                            candidate = null;
+                        }
+                        if (ratio > threshold && freq >= minFreq) {
+                            String mate = key.substring(2);
+                            OutputMapping mapping = key.startsWith("v") ? OutputMapping.PBauto : OutputMapping.NBauto;
+                            outputMappingsForRolesFromExamplesTemp.get(mapping).put(mate, candidate);
+
+                            // Save one version
+                            if (Math.abs(okThreshold - threshold) < 0.01 && minFreq == okMinFreq) {
+                                outputMappingsForRolesFromExamples.get(mapping).put(mate, candidate);
+                            }
+
+                            switch (mapping) {
+                            case PBauto:
+                                String fnRole = outputMappingsForRoles.get(OutputMapping.PBauto).get(mate);
+                                if (fnRole != null) {
+                                    trivialMappingsCount++;
+                                    if (fnRole.equals(candidate)) {
+                                        correctMappingsCount++;
+                                    } else {
+                                        wrongMappingsCount++;
+//                                        LOGGER.error("Wrong mapping: {} -> {}", mate, candidate);
+                                    }
+                                }
+                                break;
+                            case NBauto:
+                                break;
+                            }
+                        }
+                    }
+
+//                    LOGGER.info("Trivial role mappings: {}", trivialMappingsCount);
+//                    LOGGER.info("Correct role mappings: {}", correctMappingsCount);
+//                    LOGGER.info("Wrong role mappings: {}", wrongMappingsCount);
+
+                    double precision = (double) correctMappingsCount / (double) trivialMappingsCount;
+                    System.out.println(String.format(
+                                    "%5f %5d %5d %5d %5d %5d %5d %5f",
+                                    threshold,
+                                    minFreq,
+                                    outputMappingsForRolesFromExamplesTemp.get(OutputMapping.PBauto).size(),
+                                    outputMappingsForRolesFromExamplesTemp.get(OutputMapping.NBauto).size(),
+                                    trivialMappingsCount,
+                                    correctMappingsCount,
+                                    wrongMappingsCount,
+                                    precision
+                            )
+                    );
+                }
             }
 
-            System.exit(1);
-
             // Write files
+
             BufferedWriter writer;
             File outputFile;
 
@@ -995,6 +1142,22 @@ public class MergeMateFramenet {
             writer.close();
             outputFile = new File(outputPattern + "-roles.ser");
             saveObjectToFile(outputMappingsForRoles, outputFile);
+
+            if (outputMappingsForRolesFromExamples != null) {
+                outputFile = new File(outputPattern + "-roles-examples.tsv");
+                LOGGER.info("Writing output file {}", outputFile.getName());
+                writer = new BufferedWriter(new FileWriter(outputFile));
+                for (OutputMapping outputMapping : outputMappingsForRolesFromExamples.keySet()) {
+                    for (String key : outputMappingsForRolesFromExamples.get(outputMapping).keySet()) {
+                        String value = outputMappingsForRolesFromExamples.get(outputMapping).get(key);
+
+                        writer.append(outputMapping.toString()).append('\t');
+                        writer.append(key).append('\t');
+                        writer.append(value).append('\n');
+                    }
+                }
+                writer.close();
+            }
 
             outputFile = new File(outputPattern + "-add.tsv");
             LOGGER.info("Writing output file {}", outputFile.getName());
