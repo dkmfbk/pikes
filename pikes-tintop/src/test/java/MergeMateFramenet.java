@@ -1031,9 +1031,12 @@ public class MergeMateFramenet {
             }
 
             // Evaluate and save
-            HashMap<OutputMapping, HashMap<String, String>> outputMappingsForRolesFromExamples = new HashMap<>();
             double okThreshold = 0.5;
             int okMinFreq = 5;
+            HashMap<OutputMapping, HashMap<String, String>> outputMappingsForRolesFromExamples = new HashMap<>();
+            for (OutputMapping outputMapping : OutputMapping.values()) {
+                outputMappingsForRolesFromExamples.put(outputMapping, new HashMap<>());
+            }
 
             for (double threshold = 0.5; threshold < 1; threshold += 0.1) {
                 for (int minFreq = 2; minFreq <= 10; minFreq++) {
@@ -1044,7 +1047,6 @@ public class MergeMateFramenet {
                     HashMap<OutputMapping, HashMap<String, String>> outputMappingsForRolesFromExamplesTemp = new HashMap<>();
                     for (OutputMapping outputMapping : OutputMapping.values()) {
                         outputMappingsForRolesFromExamplesTemp.put(outputMapping, new HashMap<>());
-                        outputMappingsForRolesFromExamples.put(outputMapping, new HashMap<>());
                     }
 
                     for (String key : rolesCount.keySet()) {
