@@ -18,6 +18,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashMultimap;
@@ -113,7 +114,33 @@ public final class NAFFilter implements Consumer<KAFDocument> {
 
         MAPPING_PREDICATES = HashMultimap.create();
         MAPPING_ARGUMENTS = HashMultimap.create();
-        MAPPING_ARGUMENTS.put("nb:meeting.01@tmp", "fn:Discussion@Time"); // TODO
+        try {
+            for (final String line : Resources.readLines(
+                    NAFFilter.class.getResource("mappings-frames.tsv"), Charsets.UTF_8)) {
+                final List<String> tokens = Splitter.on("\t").trimResults().splitToList(line);
+                final String prefix = tokens.get(0).substring(0, 2).toLowerCase();
+                final String fromKey = prefix + ":" + tokens.get(1);
+                final String toKey = "fn:" + Character.toUpperCase(tokens.get(2).charAt(0))
+                        + tokens.get(2).substring(1);
+                MAPPING_PREDICATES.put(fromKey, toKey);
+            }
+            for (final String line : Resources.readLines(
+                    NAFFilter.class.getResource("mappings-roles.tsv"), Charsets.UTF_8)) {
+                final List<String> tokens = Splitter.on("\t").trimResults().splitToList(line);
+                final String prefix = tokens.get(0).substring(0, 2).toLowerCase();
+                final String fromKey = prefix + ":" + tokens.get(1);
+                final String fnRole = tokens.get(2);
+                final int index = fnRole.indexOf('@');
+                final String toKey = "fn:" + Character.toUpperCase(fnRole.charAt(0))
+                        + fnRole.substring(1, index + 1)
+                        + Character.toUpperCase(fnRole.charAt(index + 1))
+                        + fnRole.substring(index + 2);
+                MAPPING_ARGUMENTS.put(fromKey, toKey);
+            }
+
+        } catch (final Throwable ex) {
+            LOGGER.error("Could not load mappings", ex);
+        }
     }
 
     private final boolean termSenseFiltering;
@@ -852,23 +879,34 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         final Map<Term, Predicate> semaforPredicates = Maps.newHashMap();
 
         // TODO: remove once fixed - normalize Semafor roles
-        //        if (this.srlEnableSemafor) {
-        //            for (final Predicate predicate : document.getPredicates()) {
-        //                if (predicate.getId().startsWith("f_pr")
-        //                        || "semafor".equalsIgnoreCase(predicate.getSource())) {
-        //                    for (final Role role : predicate.getRoles()) {
-        //                        role.setSemRole("");
-        //                        final Term head = NAFUtils.extractHead(document, role.getSpan());
-        //                        if (head != null) {
-        //                            final Span<Term> newSpan = KAFDocument.newTermSpan(Ordering.from(
-        //                                    Term.OFFSET_COMPARATOR).sortedCopy(
-        //                                    document.getTermsByDepAncestors(ImmutableList.of(head))));
-        //                            role.setSpan(newSpan);
-        //                        }
-        //                    }
+        //if (this.srlEnableSemafor) {
+        //    for (final Predicate predicate : document.getPredicates()) {
+        //        if (predicate.getId().startsWith("f_pr")
+        //                || "semafor".equalsIgnoreCase(predicate.getSource())) {
+        //            for (final Role role : predicate.getRoles()) {
+        //                role.setSemRole("");
+        //                final Term head = NAFUtils.extractHead(document, role.getSpan());
+        //                if (head != null) {
+        //                    final Span<Term> newSpan = KAFDocument.newTermSpan(Ordering.from(
+        //                            Term.OFFSET_COMPARATOR).sortedCopy(
+        //                            document.getTermsByDepAncestors(ImmutableList.of(head))));
+        //                    role.setSpan(newSpan);
         //                }
         //            }
         //        }
+        //    }
+        //}
+
+        // TODO: remove alignments from PM
+        //for (final Predicate predicate : document.getPredicates()) {
+        //    if (!predicate.getId().startsWith("f_pr")
+        //            && !"semafor".equalsIgnoreCase(predicate.getSource())) {
+        //        NAFUtils.removeRefs(predicate, "FrameNet", null);
+        //        for (final Role role : predicate.getRoles()) {
+        //            NAFUtils.removeRefs(role, "FrameNet", null);
+        //        }
+        //    }
+        //}
 
         // Remove predicates from non-enabled tools (Mate, Semafor)
         for (final Predicate predicate : Lists.newArrayList(document.getPredicates())) {

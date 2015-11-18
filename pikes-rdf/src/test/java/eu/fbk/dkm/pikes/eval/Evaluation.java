@@ -330,7 +330,7 @@ public final class Evaluation {
 
             final Stats triplesStats = Stats.aggregate(ImmutableList.of(labelledStats, typeStats,
                     linkingStats));
-
+            
             final StringBuilder out = new StringBuilder();
             emitSection(out, "NODES");
             out.append(nodeStats.getReport());
