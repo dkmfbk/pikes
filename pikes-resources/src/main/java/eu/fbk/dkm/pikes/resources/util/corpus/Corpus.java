@@ -5,17 +5,23 @@ import com.google.common.io.Files;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by alessio on 12/11/15.
  */
 
-public class Corpus {
+public class Corpus implements Iterable<Sentence>, Serializable {
 
-    List<Sentence> sentences = new ArrayList<>();
+    public List<Sentence> getSentences() {
+        return sentences;
+    }
+
+    private List<Sentence> sentences = new ArrayList<>();
 
     public Corpus(List<Sentence> sentences) {
         this.sentences = sentences;
@@ -28,7 +34,7 @@ public class Corpus {
         this.sentences.add(sentence);
     }
 
-    public static Corpus readDocumentFromFile(String fileName) {
+    public static Corpus readDocumentFromFile(String fileName, String sourceName) {
 
         Corpus corpus = new Corpus();
 
@@ -64,7 +70,7 @@ public class Corpus {
                                 continue;
                             }
 
-                            Srl srl = new Srl(sentence.getWords().get(i), row[0]);
+                            Srl srl = new Srl(sentence.getWords().get(i), row[0], sourceName);
                             int roleIndex = ++srlCount;
 
                             for (int i1 = 0; i1 < additionalList.size(); i1++) {
@@ -93,12 +99,20 @@ public class Corpus {
             e.printStackTrace();
         }
 
-        return null;
+        return corpus;
     }
 
     public static void main(String[] args) {
         String fileName = args[0];
-        readDocumentFromFile(fileName);
+        readDocumentFromFile(fileName, "mate");
     }
 
+    /**
+     * Returns an iterator over elements of type {@code T}.
+     *
+     * @return an Iterator.
+     */
+    @Override public Iterator<Sentence> iterator() {
+        return sentences.iterator();
+    }
 }

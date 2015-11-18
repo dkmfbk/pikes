@@ -3,13 +3,15 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.HashMultimap;
 import com.google.common.io.Files;
 import eu.fbk.dkm.pikes.resources.WordNet;
-import eu.fbk.dkm.pikes.resources.util.fnlu.LexUnit;
+import eu.fbk.dkm.pikes.resources.util.corpus.Corpus;
+import eu.fbk.dkm.pikes.resources.util.corpus.Sentence;
+import eu.fbk.dkm.pikes.resources.util.corpus.Srl;
+import eu.fbk.dkm.pikes.resources.util.corpus.Word;
+import eu.fbk.dkm.pikes.resources.util.fnlu.*;
 import eu.fbk.dkm.pikes.resources.util.onsenses.Inventory;
 import eu.fbk.dkm.pikes.resources.util.onsenses.Sense;
 import eu.fbk.dkm.pikes.resources.util.onsenses.Wn;
-import eu.fbk.dkm.pikes.resources.util.propbank.Frameset;
-import eu.fbk.dkm.pikes.resources.util.propbank.Predicate;
-import eu.fbk.dkm.pikes.resources.util.propbank.Roleset;
+import eu.fbk.dkm.pikes.resources.util.propbank.*;
 import eu.fbk.dkm.pikes.resources.util.semlink.vnfn.SemLinkRoot;
 import eu.fbk.dkm.pikes.resources.util.semlink.vnfnroles.Role;
 import eu.fbk.dkm.pikes.resources.util.semlink.vnfnroles.SemLinkRolesRoot;
@@ -17,6 +19,7 @@ import eu.fbk.dkm.pikes.resources.util.semlink.vnfnroles.Vncls;
 import eu.fbk.dkm.pikes.resources.util.semlink.vnpb.Argmap;
 import eu.fbk.dkm.pikes.resources.util.semlink.vnpb.PbvnTypemap;
 import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.dkm.utils.FrequencyHashSet;
 import net.didion.jwnl.data.PointerType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,9 +27,7 @@ import org.slf4j.LoggerFactory;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,6 +35,12 @@ import java.util.regex.Pattern;
 /**
  * Created by alessio on 12/11/15.
  */
+
+// *todo: verificare parentesi
+// *todo: aggiungere semlink
+// *todo: separare estrazioni
+// *todo: verificare +
+// *todo: dividere nofb su altro file
 
 public class MergeMateFramenet {
 
@@ -47,10 +54,8 @@ public class MergeMateFramenet {
     static final Pattern LU_PATTERN = Pattern.compile("^(.*)\\.([a-z]+)$");
     static final Pattern PB_PATTERN = Pattern.compile("^verb-((.*)\\.[0-9]+)$");
 
-    static boolean extract = true;
-
     public enum OutputMapping {
-        PBauto, NBauto, NBresource, PBnofb
+        PBauto, NBauto, NBresource, PBtrivial
     }
 
     static {
@@ -149,15 +154,22 @@ public class MergeMateFramenet {
                             CommandLine.Type.DIRECTORY_EXISTING, true, false, true)
                     .withOption("l", "lu", "FrameNet LU folder", "FOLDER",
                             CommandLine.Type.DIRECTORY_EXISTING, true, false, true)
+                    .withOption(null, "lu-parsed", "FrameNet LU folder (parsed, in CoNLL format)", "FOLDER",
+                            CommandLine.Type.DIRECTORY_EXISTING, true, false, true)
                     .withOption("f", "framebase", "FrameBase FrameNet-WordNet map", "FILE",
                             CommandLine.Type.FILE_EXISTING, true, false, true)
                     .withOption("s", "semlink", "SemLink folder", "FOLDER",
                             CommandLine.Type.DIRECTORY_EXISTING, true, false, true)
                     .withOption("n", "nombank", "NomBank folder", "FOLDER",
                             CommandLine.Type.DIRECTORY_EXISTING, true, false, true)
+                    .withOption("c", "close-match", "closeMatch file from PreMOn", "FILE",
+                            CommandLine.Type.FILE_EXISTING, true, false, true)
                     .withOption(null, "ignore-lemma", "ignore lemma information")
+                    .withOption(null, "save-files", "serialize big files")
                     .withOption("O", "output", "Output file prefix", "PREFIX",
                             CommandLine.Type.STRING, true, false, true)
+                    .withOption(null, "enable-sl4p",
+                            "Enable extraction of frames using SemLink when framnet argument of roleset is empty")
                     .withLogger(LoggerFactory.getLogger("eu.fbk")).parse(args);
 
             ((ch.qos.logback.classic.Logger) LOGGER).setLevel(Level.INFO);
@@ -167,19 +179,21 @@ public class MergeMateFramenet {
             File wordnetFolder = cmd.getOptionValue("wordnet", File.class);
             File ontonotesFolder = cmd.getOptionValue("ontonotes", File.class);
             File framebaseFile = cmd.getOptionValue("framebase", File.class);
+            File closeMatchFile = cmd.getOptionValue("close-match", File.class);
             File luFolder = cmd.getOptionValue("lu", File.class);
+            File luParsedFolder = cmd.getOptionValue("lu-parsed", File.class);
             File semlinkFolder = cmd.getOptionValue("semlink", File.class);
 
             String outputPattern = cmd.getOptionValue("output", String.class);
 
-            HashMap<OutputMapping, HashMap<String, String>> outputMappingsForPredicates = new HashMap<>();
-            HashMap<OutputMapping, HashMap<String, String>> outputMappingsForRoles = new HashMap<>();
-            for (OutputMapping outputMapping : OutputMapping.values()) {
-                outputMappingsForPredicates.put(outputMapping, new HashMap<>());
-                outputMappingsForRoles.put(outputMapping, new HashMap<>());
-            }
+            boolean enableSemLinkForPredicates = cmd.hasOption("enable-sl4p");
+            boolean saveFiles = cmd.hasOption("save-files");
 
             boolean ignoreLemmaInFrameBaseMappings = cmd.hasOption("ignore-lemma");
+
+            // Start
+
+            Integer max = null;
 
             WordNet.setPath(wordnetFolder.getAbsolutePath());
             WordNet.init();
@@ -201,6 +215,32 @@ public class MergeMateFramenet {
 
             JAXBContext semlinkPbContext = JAXBContext.newInstance(PbvnTypemap.class);
             Unmarshaller semlinkPbUnmarshaller = semlinkPbContext.createUnmarshaller();
+
+            // closeMatch
+
+            LOGGER.info("Loading closeMatches");
+            HashMap<String, HashMap<String, String>> nomBankToProbBankRoles = new HashMap<>();
+            Pattern CLOSEMATCH_PATTERN = Pattern.compile("nb10-(.*?)-arg([0-9])>.*pbon5-(.*?)-arg([0-9])>");
+            List<String> closeMatchLines = Files.readLines(closeMatchFile, Charsets.UTF_8);
+            for (String line : closeMatchLines) {
+                line = line.trim();
+                Matcher matcher = CLOSEMATCH_PATTERN.matcher(line);
+                if (matcher.find()) {
+                    if (matcher.group(2).equals(matcher.group(4))) {
+                        continue;
+                    }
+
+                    String nbPredicate = matcher.group(1);
+
+                    if (!nomBankToProbBankRoles.containsKey(nbPredicate)) {
+                        nomBankToProbBankRoles.put(nbPredicate, new HashMap<>());
+                    }
+
+                    nomBankToProbBankRoles.get(nbPredicate).put(matcher.group(2), matcher.group(4));
+                }
+            }
+
+            // SemLink
 
             LOGGER.info("Loading SemLink");
             File semlinkFile;
@@ -323,38 +363,154 @@ public class MergeMateFramenet {
             LOGGER.info("Loaded {} frames without source", nbUnlinked.size());
 
             LOGGER.info("Loading LU files");
+            int i = 0;
             HashMap<String, HashMultimap<String, String>> lus = new HashMap<>();
             HashSet<String> existingFrames = new HashSet<>();
+            List<Sentence> exampleSentences = new ArrayList<>();
 
-            for (File file : Files.fileTreeTraverser().preOrderTraversal(luFolder)) {
-                if (!file.isFile()) {
-                    continue;
+            File existingFramesFile = new File(outputPattern + "-lu-existingFrames.ser");
+            File lusFile = new File(outputPattern + "-lu-lus.ser");
+            File exampleSentencesFile = new File(outputPattern + "-lu-exampleSentences.ser");
+            if (existingFramesFile.exists() && lusFile.exists() && exampleSentencesFile.exists()) {
+                LOGGER.info("Loading data from files");
+                existingFrames = (HashSet<String>) loadObjectFromFile(existingFramesFile);
+                lus = (HashMap<String, HashMultimap<String, String>>) loadObjectFromFile(lusFile);
+                exampleSentences = (List<Sentence>) loadObjectFromFile(exampleSentencesFile);
+            } else {
+                for (File file : Files.fileTreeTraverser().preOrderTraversal(luFolder)) {
+                    if (!file.isFile()) {
+                        continue;
+                    }
+
+                    if (!file.getName().endsWith(".xml")) {
+                        continue;
+                    }
+
+                    LOGGER.debug(file.getName());
+                    i++;
+                    if (max != null && i > max) {
+                        break;
+                    }
+
+                    LexUnit lexUnit = (LexUnit) luUnmarshaller.unmarshal(file);
+                    String lemma = "";
+                    POSType posType = lexUnit.getPOS();
+                    for (LexemeType lexeme : lexUnit.getLexeme()) {
+                        lemma = lemma + " " + lexeme.getName();
+                    }
+                    lemma = lemma.trim();
+
+                    if (lemma.length() == 0 || posType == null) {
+                        LOGGER.error("Lemma or POS null ({}/{})", lemma, posType);
+                        continue;
+                    }
+                    String pos = posType.toString().toLowerCase();
+                    String frame = lexUnit.getFrame().toLowerCase();
+
+//                if (!lemma.equals("muslim")) {
+//                    continue;
+//                }
+
+                    // Get examples from parsed file
+                    Corpus corpus = null;
+                    File parsedFile = new File(luParsedFolder + File.separator + file.getName() + ".conll");
+                    if (parsedFile.exists()) {
+                        corpus = Corpus.readDocumentFromFile(parsedFile.getAbsolutePath(), "mate");
+                    }
+
+                    // Merge examples
+                    int exampleNo = 0;
+                    if (corpus != null) {
+                        for (SubCorpusType subCorpus : lexUnit.getSubCorpus()) {
+                            for (SentenceType sentence : subCorpus.getSentence()) {
+                                String text = sentence.getText();
+                                if (text != null && text.length() > 0) {
+
+                                    Sentence conllSentence = corpus.getSentences().get(exampleNo++);
+
+                                    // This is an example
+                                    List<Integer> target = new ArrayList<>();
+                                    HashMultimap<String, List<Integer>> roles = HashMultimap.create();
+
+                                    for (AnnotationSetType annotationSet : sentence.getAnnotationSet()) {
+                                        for (LayerType layer : annotationSet.getLayer()) {
+                                            String name = layer.getName();
+                                            if (name.equals("Target")) {
+                                                for (LabelType label : layer.getLabel()) {
+                                                    target = getSpan(text, label);
+
+                                                    // Target should be unique...
+                                                    break;
+                                                }
+                                            }
+                                            if (name.equals("FE")) {
+                                                for (LabelType label : layer.getLabel()) {
+                                                    List<Integer> span = getSpan(text, label);
+                                                    if (span == null) {
+                                                        continue;
+                                                    }
+                                                    roles.put(label.getName(), span);
+                                                }
+
+                                            }
+                                        }
+                                    }
+
+                                    if (target == null || target.size() == 0) {
+                                        LOGGER.error("Target not found");
+                                        continue;
+                                    }
+
+                                    try {
+                                        Integer targetHead = conllSentence.searchHead(target);
+                                        Srl srl = new Srl(conllSentence.getWords().get(targetHead), frame, "framenet");
+                                        for (String roleLabel : roles.keySet()) {
+                                            Set<List<Integer>> spans = roles.get(roleLabel);
+                                            for (List<Integer> span : spans) {
+                                                Integer roleHead = conllSentence.searchHead(span);
+                                                eu.fbk.dkm.pikes.resources.util.corpus.Role role = new eu.fbk.dkm.pikes.resources.util.corpus.Role(
+                                                        conllSentence.getWords().get(roleHead), roleLabel);
+                                                srl.addRole(role);
+                                            }
+                                        }
+                                        conllSentence.addSrl(srl);
+                                    } catch (Exception e) {
+
+                                        LOGGER.error("Error in aligning tokens");
+
+//                                    System.out.println(conllSentence);
+//                                    System.out.println(file.getName());
+//                                    System.out.println(lemma);
+//                                    System.out.println(text);
+//                                    System.out.println(frame);
+//                                    System.out.println(target);
+//                                    System.out.println(roles);
+//                                    System.out.println();
+                                    }
+
+                                    exampleSentences.add(conllSentence);
+                                }
+                            }
+                        }
+                    }
+
+                    existingFrames.add(frame);
+//                Matcher matcher = LU_PATTERN.matcher(lemma);
+//                if (!matcher.matches()) {
+//                    LOGGER.error("{} does not match", lemma);
+//                    continue;
+//                }
+
+//                lemma = matcher.group(1);
+//                lemma = getLemmaFromPredicateName(lemma);
+//                String pos = matcher.group(2);
+
+                    if (lus.get(pos) == null) {
+                        lus.put(pos, HashMultimap.create());
+                    }
+
+                    lus.get(pos).put(lemma, frame);
                 }
-
-                if (!file.getName().endsWith(".xml")) {
-                    continue;
-                }
-
-                LOGGER.debug(file.getName());
-                LexUnit lexUnit = (LexUnit) luUnmarshaller.unmarshal(file);
-                String lemma = lexUnit.getName();
-                existingFrames.add(lexUnit.getFrame());
-                Matcher matcher = LU_PATTERN.matcher(lemma);
-                if (!matcher.matches()) {
-                    LOGGER.error("{} does not match", lemma);
-                    continue;
-                }
-
-                lemma = matcher.group(1);
-                lemma = getLemmaFromPredicateName(lemma);
-                String pos = matcher.group(2);
-                String frame = lexUnit.getFrame();
-
-                if (lus.get(pos) == null) {
-                    lus.put(pos, HashMultimap.create());
-                }
-
-                lus.get(pos).put(lemma, frame);
             }
 
             LOGGER.info("Load FrameBase file");
@@ -372,7 +528,7 @@ public class MergeMateFramenet {
                     continue;
                 }
 
-                String frame = matcher.group(1);
+                String frame = matcher.group(1).toLowerCase();
                 String lemma = matcher.group(2);
                 lemma = getLemmaFromPredicateName(lemma);
                 String wnSynset = WordNet.getSynsetID(Long.parseLong(matcher.group(4)), matcher.group(3));
@@ -386,6 +542,70 @@ public class MergeMateFramenet {
 //                System.out.println(key + " -> " + fbFramenetToWordNet.get(key));
 //            }
 
+            LOGGER.info("Reading PropBank files");
+            List<RolesetInfo> rolesets = new ArrayList<>();
+
+            // Warning: this collects only verbs!
+            for (File file : Files.fileTreeTraverser().preOrderTraversal(pbFolder)) {
+
+                if (!file.isFile()) {
+                    continue;
+                }
+
+                if (!file.getName().endsWith(".xml")) {
+                    continue;
+                }
+
+                //todo: check ontonotes or not
+                String type;
+                String baseLemma;
+                Matcher matcher = ONTONOTES_FILENAME_PATTERN.matcher(file.getName());
+                if (matcher.matches()) {
+                    type = matcher.group(2);
+                    baseLemma = matcher.group(1);
+                } else {
+                    throw new Exception(
+                            "File " + file.getName() + " does not appear to be a good OntoNotes frame file");
+                }
+
+                if (!type.equals("v")) {
+                    continue;
+                }
+
+                LOGGER.debug(file.getName());
+
+                HashMap<String, HashMap<String, Set>> senses = getSenses(file.getName(), ontonotesFolder, baseLemma,
+                        type, onUnmarshaller);
+
+                Frameset frameset = (Frameset) fnUnmarshaller.unmarshal(file);
+                List<Object> noteOrPredicate = frameset.getNoteOrPredicate();
+
+                for (Object predicate : noteOrPredicate) {
+                    if (predicate instanceof Predicate) {
+
+                        String lemma = getLemmaFromPredicateName(((Predicate) predicate).getLemma());
+
+                        List<String> synsets = WordNet.getSynsetsForLemma(lemma.replace('+', ' '), type);
+
+                        Set<String> luFrames = lus.get(type).get(lemma);
+                        luFrames.retainAll(existingFrames);
+
+                        List<Object> noteOrRoleset = ((Predicate) predicate).getNoteOrRoleset();
+                        for (Object roleset : noteOrRoleset) {
+                            if (roleset instanceof Roleset) {
+                                String rolesetID = ((Roleset) roleset).getId();
+
+                                RolesetInfo rolesetInfo = new RolesetInfo(file, rolesetID, baseLemma, lemma, type,
+                                        senses, luFrames, (Roleset) roleset, synsets);
+                                rolesets.add(rolesetInfo);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Looping rolesets
+
             int trivialCount = 0;
             int nonTrivialCount = 0;
             int nbCount = 0;
@@ -394,258 +614,219 @@ public class MergeMateFramenet {
             int nbZeroCount = 0;
             int unlinkedCount = 0;
             int roleMappingCount = 0;
+            int nbRoleMappingCount = 0;
             int noFrameBaseCount = 0;
             int semlinkCounter = 0;
 
-            if (extract) {
-                LOGGER.info("Reading PropBank files");
-                for (File file : Files.fileTreeTraverser().preOrderTraversal(pbFolder)) {
+            HashMap<OutputMapping, HashMap<String, String>> outputMappingsForPredicates = new HashMap<>();
+            HashMap<OutputMapping, HashMap<String, String>> outputMappingsForPredicatesAdd = new HashMap<>();
+            HashMap<OutputMapping, HashMap<String, String>> outputMappingsForRoles = new HashMap<>();
+            for (OutputMapping outputMapping : OutputMapping.values()) {
+                outputMappingsForPredicates.put(outputMapping, new HashMap<>());
+                outputMappingsForPredicatesAdd.put(outputMapping, new HashMap<>());
+                outputMappingsForRoles.put(outputMapping, new HashMap<>());
+            }
 
-                    if (!file.isFile()) {
-                        continue;
+            File frameFile = new File(outputPattern + "-frames.ser");
+            File rolesFile = new File(outputPattern + "-roles.ser");
+            File addFile = new File(outputPattern + "-add.ser");
+
+            if (frameFile.exists() && rolesFile.exists() && addFile.exists()) {
+                LOGGER.info("Loading mappings from files");
+                outputMappingsForPredicates = (HashMap<OutputMapping, HashMap<String, String>>) loadObjectFromFile(
+                        frameFile);
+                outputMappingsForRoles = (HashMap<OutputMapping, HashMap<String, String>>) loadObjectFromFile(
+                        rolesFile);
+                outputMappingsForPredicatesAdd = (HashMap<OutputMapping, HashMap<String, String>>) loadObjectFromFile(
+                        addFile);
+            } else {
+                for (RolesetInfo rolesetInfo : rolesets) {
+
+                    Roleset roleset = rolesetInfo.getRoleset();
+                    String rolesetID = rolesetInfo.getLabel();
+                    HashMap<String, HashMap<String, Set>> senses = rolesetInfo.getSenses();
+                    List<String> synsets = rolesetInfo.getSynsets();
+                    String lemma = rolesetInfo.getLemma();
+                    String baseLemma = rolesetInfo.getBaseLemma();
+                    Set<String> luFrames = rolesetInfo.getLuFrames();
+                    String type = rolesetInfo.getType();
+
+                    String frameNet = roleset.getFramnet();
+
+                    if (frameNet != null) {
+                        frameNet = frameNet.toLowerCase();
                     }
 
-                    if (!file.getName().endsWith(".xml")) {
-                        continue;
+                    LOGGER.debug(rolesetID);
+
+                    ArrayList<String> fnFrames = new ArrayList<>();
+                    if (frameNet != null) {
+                        String[] fns = frameNet.split("\\s+");
+                        for (String fn : fns) {
+                            if (fn.length() == 0) {
+                                continue;
+                            }
+                            fnFrames.add(fn);
+                        }
                     }
+                    fnFrames.retainAll(existingFrames);
 
-                    //todo: check ontonotes or not
-                    String type;
-                    String baseLemma;
-                    Matcher matcher = ONTONOTES_FILENAME_PATTERN.matcher(file.getName());
-                    if (matcher.matches()) {
-                        type = matcher.group(2);
-                        baseLemma = matcher.group(1);
-                    } else {
-                        throw new Exception(
-                                "File " + file.getName() + " does not appear to be a good OntoNotes frame file");
-                    }
-
-                    if (!type.equals("v")) {
-                        continue;
-                    }
-
-                    if (!file.getName().equals("add-v.xml")) {
-                        continue;
-                    }
-
-                    LOGGER.debug(file.getName());
-
-                    HashMap<String, HashMap<String, Set>> senses = getSenses(file.getName(), ontonotesFolder, baseLemma,
-                            type, onUnmarshaller);
-
-                    Frameset frameset = (Frameset) fnUnmarshaller.unmarshal(file);
-                    List<Object> noteOrPredicate = frameset.getNoteOrPredicate();
-
-                    for (Object predicate : noteOrPredicate) {
-                        if (predicate instanceof Predicate) {
-
-                            String lemma = getLemmaFromPredicateName(((Predicate) predicate).getLemma());
-
-                            List<String> synsets = WordNet.getSynsetsForLemma(lemma.replace('+', ' '), type);
-
-                            Set<String> luFrames = lus.get(type).get(lemma);
-                            luFrames.retainAll(existingFrames);
-
-                            List<Object> noteOrRoleset = ((Predicate) predicate).getNoteOrRoleset();
-                            for (Object roleset : noteOrRoleset) {
-                                if (roleset instanceof Roleset) {
-                                    String rolesetID = ((Roleset) roleset).getId();
-                                    String frameNet = ((Roleset) roleset).getFramnet();
-
-                                    LOGGER.debug(rolesetID);
-
-//                                    for (Object roles : ((Roleset) roleset).getNoteOrRolesOrExample()) {
-//                                        if (!(roles instanceof Roles)) {
-//                                            continue;
-//                                        }
-//
-//                                        for (Object role : ((Roles) roles).getNoteOrRole()) {
-//                                            if (!(role instanceof eu.fbk.dkm.pikes.resources.util.propbank.Role)) {
-//                                                continue;
-//                                            }
-//
-//                                            String roleStr = rolesetID + "@"
-//                                                    + ((eu.fbk.dkm.pikes.resources.util.propbank.Role) role).getN();
-//
-//                                            HashSet<String> tempMappingsForRole = new HashSet<>();
-//
-//                                            for (Vnrole vnrole : ((eu.fbk.dkm.pikes.resources.util.propbank.Role) role)
-//                                                    .getVnrole()) {
-//                                                String vnClassRole = vnrole.getVncls().toLowerCase();
-//                                                String vnThetaRole =
-//                                                        vnClassRole + "@" + vnrole.getVntheta().toLowerCase();
-//
-//                                                Set<String> fnFrames = verbnetToFramenet
-//                                                        .get(vnThetaRole);
-//                                                tempMappingsForRole.addAll(fnFrames);
-//                                            }
-//
-//                                            if (tempMappingsForRole.size() == 1) {
-//                                                for (String frameRole : tempMappingsForRole) {
-//                                                    outputMappingsForRoles.get(OutputMapping.PBauto)
-//                                                            .put(roleStr, frameRole);
-//                                                    roleMappingCount++;
-//                                                }
-//                                            }
-//                                        }
-//                                    }
-
-                                    ArrayList<String> fnFrames = new ArrayList<>();
-                                    if (frameNet != null) {
-                                        String[] fns = frameNet.split("\\s+");
-                                        for (String fn : fns) {
-                                            if (fn.length() == 0) {
-                                                continue;
-                                            }
-                                            fnFrames.add(fn);
-                                        }
-                                    }
-                                    fnFrames.retainAll(existingFrames);
-
-                                    Collection<String> wnFromSenses = new HashSet<>();
-                                    Collection<String> fnFromSenses = new HashSet<>();
-                                    if (senses.get(rolesetID) != null) {
-                                        wnFromSenses = senses.get(rolesetID).get("wn");
-                                        fnFromSenses = senses.get(rolesetID).get("fn");
-                                    }
-                                    fnFromSenses.retainAll(existingFrames);
-
-                                    System.out.println(synsets);
-                                    System.out.println(wnFromSenses);
-
-                                    Collection<String> wnCandidates = getIntersection(synsets, wnFromSenses);
-
-                                    boolean useBaseLemma = false;
-                                    String lemmaToUse = lemma;
-
-                                    if (!lemma.equals(baseLemma)) {
-                                        if (synsets.size() + wnFromSenses.size() == 0) {
-                                            useBaseLemma = true;
-                                        }
-                                        for (String wnCandidate : wnCandidates) {
-                                            Set<String> lemmas = WordNet.getLemmas(wnCandidate);
-                                            if (lemmas.contains(baseLemma)) {
-                                                useBaseLemma = true;
-                                            }
-                                        }
-
-                                        if (useBaseLemma && luFrames.size() != 0) {
-                                            LOGGER.error("It happens! {}", rolesetID);
-                                            useBaseLemma = false;
-                                        }
-                                    }
-
-                                    Set<String> luFramesToUse = new HashSet<>(luFrames);
-
-                                    if (useBaseLemma) {
-                                        LOGGER.debug("Using base lemma");
-                                        lemmaToUse = baseLemma;
-                                        luFramesToUse = lus.get(type).get(baseLemma);
-
-                                        List<String> newSynsets = WordNet
-                                                .getSynsetsForLemma(baseLemma.replace('+', ' '), type);
-                                        wnCandidates = getIntersection(wnCandidates, newSynsets);
-                                    }
-
-                                    Collection<String> fnCandidates = getIntersection(fnFrames, luFramesToUse,
-                                            fnFromSenses);
-
-                                    Collection<String> fnCandidatesOnlySemLink = getIntersection(fnFrames,
-                                            fnFromSenses);
-                                    if (fnCandidatesOnlySemLink.size() == 1) {
-                                        semlinkCounter++;
-                                    }
-
-                                    Collection<String> okFrames = getCandidateFrames(wnCandidates, fnCandidates,
-                                            lemmaToUse,
-                                            type, fbFramenetToWordNet, ignoreLemmaInFrameBaseMappings);
-
-                                    if (rolesetID.equals("add.04")) {
-                                        System.out.println(synsets);
-                                        System.out.println(wnFromSenses);
-
-                                        System.out.println(fnFrames);
-                                        System.out.println(luFramesToUse);
-                                        System.out.println(fnFromSenses);
-
-                                        System.out.println(wnCandidates);
-                                        System.out.println(fnCandidates);
-
-                                        System.out.println(lemmaToUse);
-                                    }
-
-                                    if (fnCandidatesOnlySemLink.size() == 1 && okFrames.size() == 0) {
-                                        for (String fnCandidate : fnCandidates) {
-                                            outputMappingsForPredicates.get(OutputMapping.PBnofb)
-                                                    .put(rolesetID, fnCandidate);
-                                            noFrameBaseCount++;
-                                        }
-                                    }
-
-                                    // If Fp’ contains a singleton frame f, then we align p to f.
-                                    // Otherwise we avoid any alignment.
-                                    if (okFrames.size() == 1) {
-                                        for (String okFrame : okFrames) {
-                                            if (fnFrames.size() == 1 && fnFrames.contains(okFrame)) {
-                                                trivialCount++;
-                                                continue;
-                                            }
-                                            nonTrivialCount++;
-
-                                            outputMappingsForPredicates.get(OutputMapping.PBauto)
-                                                    .put(rolesetID, okFrame);
-                                        }
-                                    }
-
-                                    // NomBank
-                                    Set<Roleset> rolesets = nbFrames.get(rolesetID);
-                                    for (Roleset nbRoleset : rolesets) {
-
-                                        // See bad choice above
-                                        String nbLemma = nbRoleset.getName();
-
-                                        List<String> nbSynsets = WordNet
-                                                .getSynsetsForLemma(nbLemma.replace('+', ' '), "n");
-
-                                        Set<String> relatedSynsets = new HashSet<>();
-                                        for (String wnCandidate : wnCandidates) {
-                                            relatedSynsets
-                                                    .addAll(WordNet.getGenericSet(wnCandidate, PointerType.DERIVED,
-                                                            PointerType.NOMINALIZATION, PointerType.PARTICIPLE_OF,
-                                                            PointerType.PERTAINYM));
-                                        }
-
-                                        if (relatedSynsets.size() == 0) {
-                                            emptyRelatedCount++;
-                                        }
-
-                                        Set<String> luNbFrames = lus.get("n").get(nbLemma);
-                                        Collection<String> fnNbCandidates = getIntersection(fnFrames, luFrames,
-                                                fnFromSenses, luNbFrames);
-
-                                        Collection<String> nbCandidates = getIntersection(nbSynsets, relatedSynsets);
-                                        Collection<String> okNbFrames = getCandidateFrames(nbCandidates, fnNbCandidates,
-                                                nbLemma, "n", fbFramenetToWordNet, ignoreLemmaInFrameBaseMappings);
-
-                                        // If Fp’ contains a singleton frame f, then we align p to f.
-                                        // Otherwise we avoid any alignment.
-                                        if (okNbFrames.size() == 1) {
-                                            for (String okFrame : okNbFrames) {
-                                                nbCount++;
-                                                outputMappingsForPredicates.get(OutputMapping.NBauto)
-                                                        .put(nbRoleset.getId(), okFrame);
-                                            }
-                                        }
-                                        if (okNbFrames.size() > 1) {
-                                            nbGreaterCount++;
-                                        }
-                                        if (okNbFrames.size() == 0) {
-                                            nbZeroCount++;
-                                        }
-                                    }
+                    if (enableSemLinkForPredicates && fnFrames.size() == 0) {
+                        String vnClasses = roleset.getVncls();
+                        if (vnClasses != null) {
+                            vnClasses = vnClasses.trim();
+                            String[] parts = vnClasses.split("\\s+");
+                            for (String part : parts) {
+                                Set<String> frames = verbnetToFramenet.get(part);
+                                if (frames != null) {
+                                    fnFrames = new ArrayList<>(frames);
                                 }
                             }
+                        }
+                    }
+
+                    Collection<String> wnFromSenses = new HashSet<>();
+                    Collection<String> fnFromSenses = new HashSet<>();
+                    if (senses.get(rolesetID) != null) {
+                        wnFromSenses = senses.get(rolesetID).get("wn");
+                        fnFromSenses = senses.get(rolesetID).get("fn");
+                    }
+                    fnFromSenses.retainAll(existingFrames);
+
+//                                    System.out.println(synsets);
+//                                    System.out.println(wnFromSenses);
+
+                    Collection<String> wnCandidates = getIntersection(synsets, wnFromSenses);
+
+                    boolean useBaseLemma = false;
+                    String lemmaToUse = lemma;
+
+                    if (!lemma.equals(baseLemma)) {
+                        if (synsets.size() + wnFromSenses.size() == 0) {
+                            useBaseLemma = true;
+                        }
+                        for (String wnCandidate : wnCandidates) {
+                            Set<String> lemmas = WordNet.getLemmas(wnCandidate);
+                            if (lemmas.contains(baseLemma)) {
+                                useBaseLemma = true;
+                            }
+                        }
+
+                        if (useBaseLemma && luFrames.size() != 0) {
+                            LOGGER.debug("Base lemma should be used, but lexical unit found ({})",
+                                    rolesetID);
+                            useBaseLemma = false;
+                        }
+                    }
+
+                    Set<String> luFramesToUse = new HashSet<>(luFrames);
+
+                    if (useBaseLemma) {
+                        LOGGER.debug("Using base lemma");
+                        lemmaToUse = baseLemma;
+                        luFramesToUse = lus.get(type).get(baseLemma);
+
+                        List<String> newSynsets = WordNet
+                                .getSynsetsForLemma(baseLemma.replace('+', ' '), type);
+                        wnCandidates = getIntersection(wnCandidates, newSynsets);
+                    }
+
+                    Collection<String> fnCandidates = getIntersection(fnFrames, luFramesToUse,
+                            fnFromSenses);
+
+                    Collection<String> fnCandidatesOnlySemLink = getIntersection(fnFrames,
+                            fnFromSenses);
+                    if (fnCandidatesOnlySemLink.size() == 1) {
+                        semlinkCounter++;
+                    }
+
+                    Collection<String> okFrames = getCandidateFrames(wnCandidates, fnCandidates,
+                            lemmaToUse,
+                            type, fbFramenetToWordNet, ignoreLemmaInFrameBaseMappings);
+
+//                                    if (rolesetID.equals("add.04")) {
+//                                        System.out.println(synsets);
+//                                        System.out.println(wnFromSenses);
+//
+//                                        System.out.println(fnFrames);
+//                                        System.out.println(luFramesToUse);
+//                                        System.out.println(fnFromSenses);
+//
+//                                        System.out.println(wnCandidates);
+//                                        System.out.println(fnCandidates);
+//
+//                                        System.out.println(lemmaToUse);
+//                                    }
+
+                    if (fnCandidatesOnlySemLink.size() == 1 && okFrames.size() == 0) {
+                        for (String fnCandidate : fnCandidates) {
+                            outputMappingsForPredicatesAdd.get(OutputMapping.PBauto)
+                                    .put(rolesetID, fnCandidate);
+                            noFrameBaseCount++;
+                        }
+                    }
+
+                    // If Fp’ contains a singleton frame f, then we align p to f.
+                    // Otherwise we avoid any alignment.
+                    if (okFrames.size() == 1) {
+                        for (String okFrame : okFrames) {
+                            if (fnFrames.size() == 1 && fnFrames.contains(okFrame)) {
+                                trivialCount++;
+                                outputMappingsForPredicates.get(OutputMapping.PBtrivial)
+                                        .put(rolesetID, okFrame);
+                                continue;
+                            }
+                            nonTrivialCount++;
+
+                            outputMappingsForPredicates.get(OutputMapping.PBauto)
+                                    .put(rolesetID, okFrame);
+                        }
+                    }
+
+                    // NomBank
+                    Set<Roleset> fRolesets = nbFrames.get(rolesetID);
+                    for (Roleset nbRoleset : fRolesets) {
+
+                        // See bad choice above
+                        String nbLemma = nbRoleset.getName();
+
+                        List<String> nbSynsets = WordNet
+                                .getSynsetsForLemma(nbLemma.replace('+', ' '), "n");
+
+                        Set<String> relatedSynsets = new HashSet<>();
+                        for (String wnCandidate : wnCandidates) {
+                            relatedSynsets
+                                    .addAll(WordNet.getGenericSet(wnCandidate, PointerType.DERIVED,
+                                            PointerType.NOMINALIZATION, PointerType.PARTICIPLE_OF,
+                                            PointerType.PERTAINYM));
+                        }
+
+                        if (relatedSynsets.size() == 0) {
+                            emptyRelatedCount++;
+                        }
+
+                        Set<String> luNbFrames = lus.get("n").get(nbLemma);
+                        Collection<String> fnNbCandidates = getIntersection(fnFrames, luFrames,
+                                fnFromSenses, luNbFrames);
+
+                        Collection<String> nbCandidates = getIntersection(nbSynsets, relatedSynsets);
+                        Collection<String> okNbFrames = getCandidateFrames(nbCandidates, fnNbCandidates,
+                                nbLemma, "n", fbFramenetToWordNet, ignoreLemmaInFrameBaseMappings);
+
+                        // If Fp’ contains a singleton frame f, then we align p to f.
+                        // Otherwise we avoid any alignment.
+                        if (okNbFrames.size() == 1) {
+                            for (String okFrame : okNbFrames) {
+                                nbCount++;
+                                outputMappingsForPredicates.get(OutputMapping.NBauto)
+                                        .put(nbRoleset.getId(), okFrame);
+                            }
+                        }
+                        if (okNbFrames.size() > 1) {
+                            nbGreaterCount++;
+                        }
+                        if (okNbFrames.size() == 0) {
+                            nbZeroCount++;
                         }
                     }
                 }
@@ -670,9 +851,355 @@ public class MergeMateFramenet {
                         //todo: check senses
                     }
                 }
+
+                // Looping for roles
+                for (RolesetInfo rolesetInfo : rolesets) {
+                    Roleset roleset = rolesetInfo.getRoleset();
+                    String rolesetID = rolesetInfo.getLabel();
+
+                    for (Object roles : roleset.getNoteOrRolesOrExample()) {
+                        if (!(roles instanceof Roles)) {
+                            continue;
+                        }
+
+                        for (Object role : ((Roles) roles).getNoteOrRole()) {
+                            if (!(role instanceof eu.fbk.dkm.pikes.resources.util.propbank.Role)) {
+                                continue;
+                            }
+
+                            String n = ((eu.fbk.dkm.pikes.resources.util.propbank.Role) role).getN();
+                            String roleStr = rolesetID + "@" + n;
+
+                            HashSet<String> tempMappingsForRole = new HashSet<>();
+
+                            for (Vnrole vnrole : ((eu.fbk.dkm.pikes.resources.util.propbank.Role) role)
+                                    .getVnrole()) {
+                                String vnClassRole = vnrole.getVncls().toLowerCase();
+                                String vnThetaRole =
+                                        vnClassRole + "@" + vnrole.getVntheta().toLowerCase();
+
+                                Set<String> fnFrames = verbnetToFramenet
+                                        .get(vnThetaRole);
+                                tempMappingsForRole.addAll(fnFrames);
+                            }
+
+                            if (tempMappingsForRole.size() == 1) {
+                                for (String frameRole : tempMappingsForRole) {
+
+                                    String frameName = frameRole.replaceAll("@.*", "");
+                                    String goodCandidate;
+
+                                    // Check for inconsistencies
+                                    goodCandidate = outputMappingsForPredicates.get(OutputMapping.PBauto)
+                                            .get(rolesetID);
+                                    if (goodCandidate == null || !goodCandidate.equals(frameName)) {
+                                        continue;
+                                    }
+
+                                    outputMappingsForRoles.get(OutputMapping.PBauto).put(roleStr, frameRole);
+                                    roleMappingCount++;
+
+                                    // NomBank
+                                    Set<Roleset> fRolesets = nbFrames.get(rolesetID);
+                                    for (Roleset nbRoleset : fRolesets) {
+
+                                        String nbRolesetID = nbRoleset.getId();
+
+                                        boolean isGoodCandidate = false;
+                                        goodCandidate = outputMappingsForPredicates.get(OutputMapping.NBauto)
+                                                .get(nbRolesetID);
+                                        if (goodCandidate == null || !goodCandidate.equals(frameName)) {
+                                            isGoodCandidate = true;
+                                        }
+                                        goodCandidate = outputMappingsForPredicates.get(OutputMapping.NBresource)
+                                                .get(nbRolesetID);
+                                        if (goodCandidate == null || !goodCandidate.equals(frameName)) {
+                                            isGoodCandidate = true;
+                                        }
+
+                                        if (!isGoodCandidate) {
+                                            continue;
+                                        }
+
+                                        String correctN = n;
+                                        HashMap<String, String> mappings = nomBankToProbBankRoles.get(nbRolesetID);
+                                        if (mappings != null) {
+                                            if (mappings.get(n) != null) {
+                                                correctN = mappings.get(n);
+                                                System.out.println("Editing role...");
+                                            }
+                                        }
+
+                                        String nbRoleStr = nbRolesetID + "@" + correctN;
+
+                                        outputMappingsForRoles.get(OutputMapping.NBauto).put(nbRoleStr, frameRole);
+                                        nbRoleMappingCount++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                LOGGER.info("*** STATISTICS ***");
+
+                LOGGER.info("PropBank trivial: {}", trivialCount);
+                LOGGER.info("PropBank non-trivial: {}", nonTrivialCount);
+                LOGGER.info("PropBank non-FrameBase: {}", noFrameBaseCount);
+
+                LOGGER.info("NomBank (linked): {}", nbCount);
+                LOGGER.info("NomBank (unlinked): {}", unlinkedCount);
+                LOGGER.info("NomBank (total): {}", unlinkedCount + nbCount);
+
+                LOGGER.info("PropBank (only with SemLink): {}", semlinkCounter);
+
+                LOGGER.info("PropBank roles (with SemLink): {}", roleMappingCount);
+                LOGGER.info("NomBank roles (with SemLink): {}", nbRoleMappingCount);
+
+                LOGGER.info("No WordNet relations: {}", emptyRelatedCount);
+                LOGGER.info("More than one frame: {}", nbGreaterCount);
+                LOGGER.info("Zero frames: {}", nbZeroCount);
+            }
+
+            // Parsing examples (exampleSentences)
+
+            LOGGER.info("Parsing examples");
+
+            HashMap<String, FrequencyHashSet<String>> rolesCountByType = new HashMap<>();
+            FrequencyHashSet<String> rolesCount = new FrequencyHashSet<>();
+            int usedSentences = 0;
+
+            for (Sentence sentence : exampleSentences) {
+                HashMap<Word, HashMap<String, Srl>> srlIndex = new HashMap<>();
+
+                for (Srl srl : sentence.getSrls()) {
+                    Word target = srl.getTarget().get(0);
+
+                    // Only verbs and nouns
+                    if (!target.getPos().toLowerCase().startsWith("v") && !target.getPos().toLowerCase()
+                            .startsWith("n")) {
+                        continue;
+                    }
+
+                    if (!srlIndex.containsKey(target)) {
+                        srlIndex.put(target, new HashMap<>());
+                    }
+                    srlIndex.get(target).put(srl.getSource(), srl);
+                }
+
+                for (Word word : srlIndex.keySet()) {
+                    if (srlIndex.get(word).size() > 1) {
+
+                        usedSentences++;
+
+                        Srl srlFrameNet = srlIndex.get(word).get("framenet");
+                        Srl srlMate = srlIndex.get(word).get("mate");
+
+                        String framenet = srlFrameNet.getLabel();
+                        String mate = srlMate.getLabel();
+
+                        boolean isVerb = true;
+                        if (word.getPos().toLowerCase().startsWith("n")) {
+                            isVerb = false;
+                        }
+
+                        boolean mappingExists = false;
+                        String frameGuess;
+
+                        if (isVerb) {
+                            frameGuess = outputMappingsForPredicates.get(OutputMapping.PBauto).get(mate);
+                            if (frameGuess != null && frameGuess.equals(framenet)) {
+                                mappingExists = true;
+                            }
+                            frameGuess = outputMappingsForPredicates.get(OutputMapping.PBtrivial).get(mate);
+                            if (frameGuess != null && frameGuess.equals(framenet)) {
+                                mappingExists = true;
+                            }
+                        } else {
+                            frameGuess = outputMappingsForPredicates.get(OutputMapping.NBauto).get(mate);
+                            if (frameGuess != null && frameGuess.equals(framenet)) {
+                                mappingExists = true;
+                            }
+                            frameGuess = outputMappingsForPredicates.get(OutputMapping.NBresource).get(mate);
+                            if (frameGuess != null && frameGuess.equals(framenet)) {
+                                mappingExists = true;
+                            }
+                        }
+
+                        if (mappingExists) {
+
+                            HashMap<Word, String> roleWordsMate = new HashMap<>();
+                            HashMap<Word, String> roleWordsFrameNet = new HashMap<>();
+
+                            // Mate
+                            for (eu.fbk.dkm.pikes.resources.util.corpus.Role role : srlMate.getRoles()) {
+                                Word roleHead = role.getSpan().get(0);
+                                String roleLabel = role.getLabel();
+                                roleLabel = roleLabel.replaceAll("R-", "");
+
+                                // Consider only core roles
+                                if (roleLabel.startsWith("AM-")) {
+                                    continue;
+                                }
+
+                                roleWordsMate.put(roleHead, roleLabel);
+                            }
+
+                            // FrameNet
+                            for (eu.fbk.dkm.pikes.resources.util.corpus.Role role : srlFrameNet.getRoles()) {
+                                Word roleHead = role.getSpan().get(0);
+                                String roleLabel = role.getLabel();
+                                roleWordsFrameNet.put(roleHead, roleLabel);
+                            }
+
+                            for (Word key : roleWordsMate.keySet()) {
+                                String prefix = isVerb ? "v-" : "n-";
+                                String mateCompressed =
+                                        prefix + mate + "@" + roleWordsMate.get(key).replaceAll("[aA]", "");
+                                rolesCount.add(mateCompressed);
+
+                                if (!rolesCountByType.containsKey(mateCompressed)) {
+                                    rolesCountByType.put(mateCompressed, new FrequencyHashSet<>());
+                                }
+
+                                String fnRole = roleWordsFrameNet.get(key);
+                                if (fnRole != null) {
+                                    fnRole = fnRole.toLowerCase();
+                                    String fnCompressed = framenet + "@" + fnRole;
+                                    rolesCountByType.get(mateCompressed).add(fnCompressed);
+                                } else {
+                                    rolesCountByType.get(mateCompressed).add("[none]");
+                                }
+                            }
+
+//                            for (eu.fbk.dkm.pikes.resources.util.corpus.Role role : srlFrameNet.getRoles()) {
+//                                Word roleHead = role.getSpan().get(0);
+//                                if (roleWords.containsKey(roleHead)) {
+//                                    String thisMateRole = mate + "@" + roleWords.get(roleHead);
+//                                    String thisFrameNetRole = framenet + "@" + role.getLabel();
+//
+//                                    if (!pbToFn.containsKey(thisMateRole)) {
+//                                        pbToFn.put(thisMateRole, new FrequencyHashSet<>());
+//                                    }
+//                                    pbToFn.get(thisMateRole).add(thisFrameNetRole);
+//                                }
+//                            }
+                        } else {
+                            // These *can* be good mappings
+                        }
+
+//                        if (!fnToPb.containsKey(framenet)) {
+//                            fnToPb.put(framenet, new FrequencyHashSet<>());
+//                        }
+//                        if (!pbToFn.containsKey(mate)) {
+//                            pbToFn.put(mate, new FrequencyHashSet<>());
+//                        }
+//
+//                        fnToPb.get(framenet).add(mate);
+//                        pbToFn.get(mate).add(framenet);
+                    }
+                }
+            }
+
+            LOGGER.info("Used sentences: {}", usedSentences);
+
+            // Evaluate and save
+            double okThreshold = 0.5;
+            int okMinFreq = 2;
+            HashMap<OutputMapping, HashMap<String, String>> outputMappingsForRolesFromExamples = new HashMap<>();
+            for (OutputMapping outputMapping : OutputMapping.values()) {
+                outputMappingsForRolesFromExamples.put(outputMapping, new HashMap<>());
+            }
+
+            for (double threshold = 0.5; threshold < 1; threshold += 0.1) {
+                for (int minFreq = 2; minFreq <= 10; minFreq++) {
+                    int trivialMappingsCount = 0;
+                    int correctMappingsCount = 0;
+                    int wrongMappingsCount = 0;
+
+                    HashMap<OutputMapping, HashMap<String, String>> outputMappingsForRolesFromExamplesTemp = new HashMap<>();
+                    for (OutputMapping outputMapping : OutputMapping.values()) {
+                        outputMappingsForRolesFromExamplesTemp.put(outputMapping, new HashMap<>());
+                    }
+
+                    for (String key : rolesCount.keySet()) {
+
+                        String candidate = rolesCountByType.get(key).mostFrequent();
+                        int freq = rolesCountByType.get(key).get(candidate);
+                        double ratio = 0.0;
+                        if (candidate != null && !candidate.equals("[none]")) {
+                            ratio = (double) freq / (double) rolesCount.get(key);
+                        } else {
+                            candidate = null;
+                        }
+                        if (ratio > threshold && freq >= minFreq) {
+                            String mate = key.substring(2);
+                            OutputMapping mapping = key.startsWith("v") ? OutputMapping.PBauto : OutputMapping.NBauto;
+                            outputMappingsForRolesFromExamplesTemp.get(mapping).put(mate, candidate);
+
+                            // Save one version
+                            if (Math.abs(okThreshold - threshold) < 0.01 && minFreq == okMinFreq) {
+                                outputMappingsForRolesFromExamples.get(mapping).put(mate, candidate);
+                            }
+
+                            String fnRole;
+
+                            switch (mapping) {
+                            case PBauto:
+                                fnRole = outputMappingsForRoles.get(OutputMapping.PBauto).get(mate);
+                                if (fnRole != null) {
+                                    trivialMappingsCount++;
+                                    if (fnRole.equals(candidate)) {
+                                        correctMappingsCount++;
+                                    } else {
+                                        wrongMappingsCount++;
+                                    }
+                                }
+                                break;
+                            case NBauto:
+                                fnRole = outputMappingsForRoles.get(OutputMapping.NBauto).get(mate);
+                                if (fnRole != null) {
+                                    trivialMappingsCount++;
+                                    if (fnRole.equals(candidate)) {
+                                        correctMappingsCount++;
+                                    } else {
+                                        wrongMappingsCount++;
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+
+//                    LOGGER.info("Trivial role mappings: {}", trivialMappingsCount);
+//                    LOGGER.info("Correct role mappings: {}", correctMappingsCount);
+//                    LOGGER.info("Wrong role mappings: {}", wrongMappingsCount);
+
+                    int tp = correctMappingsCount;
+                    int fp = wrongMappingsCount;
+                    int fn = outputMappingsForRoles.get(OutputMapping.PBauto).size() - trivialMappingsCount + fp;
+                    double precision = (double) tp / (double) (tp + fp);
+                    double recall = (double) tp / (double) (tp + fn);
+                    double f1 = 2 * (precision * recall) / (precision + recall);
+                    System.out.println(String.format(
+                                    "%5f %5d %5d %5d %5d %5d %5d %5f %5f %5f",
+                                    threshold,
+                                    minFreq,
+                                    outputMappingsForRolesFromExamplesTemp.get(OutputMapping.PBauto).size(),
+                                    outputMappingsForRolesFromExamplesTemp.get(OutputMapping.NBauto).size(),
+                                    trivialMappingsCount,
+                                    correctMappingsCount,
+                                    wrongMappingsCount,
+                                    precision,
+                                    recall,
+                                    f1
+                            )
+                    );
+                }
             }
 
             // Write files
+
             BufferedWriter writer;
             File outputFile;
 
@@ -689,6 +1216,8 @@ public class MergeMateFramenet {
                 }
             }
             writer.close();
+            outputFile = new File(outputPattern + "-frames.ser");
+            saveObjectToFile(outputMappingsForPredicates, outputFile);
 
             outputFile = new File(outputPattern + "-roles.tsv");
             LOGGER.info("Writing output file {}", outputFile.getName());
@@ -703,28 +1232,120 @@ public class MergeMateFramenet {
                 }
             }
             writer.close();
+            outputFile = new File(outputPattern + "-roles.ser");
+            saveObjectToFile(outputMappingsForRoles, outputFile);
 
-            LOGGER.info("*** STATISTICS ***");
+            if (outputMappingsForRolesFromExamples != null) {
+                outputFile = new File(outputPattern + "-roles-examples.tsv");
+                LOGGER.info("Writing output file {}", outputFile.getName());
+                writer = new BufferedWriter(new FileWriter(outputFile));
+                for (OutputMapping outputMapping : outputMappingsForRolesFromExamples.keySet()) {
+                    for (String key : outputMappingsForRolesFromExamples.get(outputMapping).keySet()) {
+                        String value = outputMappingsForRolesFromExamples.get(outputMapping).get(key);
 
-            LOGGER.info("PropBank trivial: {}", trivialCount);
-            LOGGER.info("PropBank non-trivial: {}", nonTrivialCount);
-            LOGGER.info("PropBank non-FrameBase: {}", noFrameBaseCount);
+                        writer.append(outputMapping.toString()).append('\t');
+                        writer.append(key).append('\t');
+                        writer.append(value).append('\n');
+                    }
+                }
+                writer.close();
+            }
 
-            LOGGER.info("NomBank (linked): {}", nbCount);
-            LOGGER.info("NomBank (unlinked): {}", unlinkedCount);
-            LOGGER.info("NomBank (total): {}", unlinkedCount + nbCount);
+            outputFile = new File(outputPattern + "-add.tsv");
+            LOGGER.info("Writing output file {}", outputFile.getName());
+            writer = new BufferedWriter(new FileWriter(outputFile));
+            for (OutputMapping outputMapping : outputMappingsForPredicatesAdd.keySet()) {
+                for (String key : outputMappingsForPredicatesAdd.get(outputMapping).keySet()) {
+                    String value = outputMappingsForPredicatesAdd.get(outputMapping).get(key);
 
-            LOGGER.info("PropBank (only with SemLink): {}", semlinkCounter);
+                    writer.append(outputMapping.toString()).append('\t');
+                    writer.append(key).append('\t');
+                    writer.append(value).append('\n');
+                }
+            }
+            writer.close();
+            outputFile = new File(outputPattern + "-add.ser");
+            saveObjectToFile(outputMappingsForPredicatesAdd, outputFile);
 
-            LOGGER.info("PropBank roles: {}", roleMappingCount);
+            if (saveFiles) {
+                outputFile = new File(outputPattern + "-lu-existingFrames.ser");
+                if (!outputFile.exists()) {
+                    LOGGER.info("Writing object file {}", outputFile.getName());
+                    saveObjectToFile(existingFrames, outputFile);
+                }
 
-            LOGGER.info("No WordNet relations: {}", emptyRelatedCount);
-            LOGGER.info("More than one frame: {}", nbGreaterCount);
-            LOGGER.info("Zero frames: {}", nbZeroCount);
+                outputFile = new File(outputPattern + "-lu-lus.ser");
+                if (!outputFile.exists()) {
+                    LOGGER.info("Writing object file {}", outputFile.getName());
+                    saveObjectToFile(lus, outputFile);
+                }
+
+                outputFile = new File(outputPattern + "-lu-exampleSentences.ser");
+                if (!outputFile.exists()) {
+                    LOGGER.info("Writing object file {}", outputFile.getName());
+                    saveObjectToFile(exampleSentences, outputFile);
+                }
+            }
 
         } catch (Exception e) {
             CommandLine.fail(e);
         }
+    }
+
+    private static Object loadObjectFromFile(File inputFile) throws IOException {
+        ObjectInputStream objectinputstream = null;
+        FileInputStream streamIn = null;
+        try {
+            streamIn = new FileInputStream(inputFile);
+            objectinputstream = new ObjectInputStream(streamIn);
+            return objectinputstream.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (objectinputstream != null) {
+                objectinputstream.close();
+            }
+        }
+        return null;
+    }
+
+    private static void saveObjectToFile(Object o, File outputFile) throws IOException {
+        ObjectOutputStream oos = null;
+        FileOutputStream fout = null;
+        try {
+            fout = new FileOutputStream(outputFile);
+            oos = new ObjectOutputStream(fout);
+            oos.writeObject(o);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (oos != null) {
+                oos.close();
+            }
+        }
+    }
+
+    private static List<Integer> getSpan(String text, LabelType label) {
+        List<Integer> ret = new ArrayList<>();
+
+        Integer start = label.getStart();
+        if (start == null) {
+            return null;
+        }
+
+        Integer end = label.getEnd();
+        String before = text.substring(0, start);
+        before = before.replaceAll("\\s+", " ");
+        int target = before.replaceAll("[^\\s]", "").length();
+        String inside = text.substring(start, end);
+        inside = inside.replaceAll("\\s+", " ");
+        int length = inside.replaceAll("[^\\s]", "").length() + 1;
+
+        for (int i = 0; i < length; i++) {
+            ret.add(target + i);
+        }
+
+        return ret;
     }
 
     private static HashMap<String, HashMap<String, Set>> getSenses(String name, File ontonotesFolder, String fnLemma,
@@ -764,7 +1385,7 @@ public class MergeMateFramenet {
                 if (sense.getMappings().getFn() != null) {
                     String[] fns = sense.getMappings().getFn().split(",");
                     for (String fn : fns) {
-                        fn = fn.trim();
+                        fn = fn.trim().toLowerCase();
                         if (fn.length() == 0) {
                             continue;
                         }
@@ -819,7 +1440,6 @@ public class MergeMateFramenet {
             boolean ignoreLemmaInFrameBaseMappings) {
 
         Collection<String> okFrames = new HashSet<>();
-        lemma = lemma.replace('+', ' ');
         for (String fnCandidate : fnCandidates) {
             String key = getFrameBaseKey(fnCandidate, lemma, type, ignoreLemmaInFrameBaseMappings);
             Collection<String> wnCandidatesForThisFrame = new HashSet<>(fbFramenetToWordNet.get(key));

@@ -261,4 +261,16 @@ public class LabelType {
         this.cBy = value;
     }
 
+    @Override public String toString() {
+        return "LabelType{" +
+                "name='" + name + '\'' +
+                ", start=" + start +
+                ", end=" + end +
+                ", fgColor='" + fgColor + '\'' +
+                ", bgColor='" + bgColor + '\'' +
+                ", itype='" + itype + '\'' +
+                ", feID=" + feID +
+                ", cBy='" + cBy + '\'' +
+                '}';
+    }
 }

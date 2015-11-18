@@ -1,5 +1,6 @@
 package eu.fbk.dkm.pikes.resources.util.corpus;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  * Created by alessio on 12/11/15.
  */
 
-public class Role {
+public class Role implements Serializable {
 
     private List<Word> span = new ArrayList<>();
     private String label;
