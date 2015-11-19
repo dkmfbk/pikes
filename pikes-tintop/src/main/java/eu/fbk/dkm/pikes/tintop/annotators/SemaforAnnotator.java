@@ -28,7 +28,7 @@ public class SemaforAnnotator implements Annotator {
         if (annotation.has(CoreAnnotations.SentencesAnnotation.class)) {
             for (CoreMap stanfordSentence : annotation.get(CoreAnnotations.SentencesAnnotation.class)) {
                 for (CoreLabel token : stanfordSentence.get(CoreAnnotations.TokensAnnotation.class)) {
-                    System.out.println(token.get(CoreAnnotations.TextAnnotation.class));
+//                    System.out.println(token.get(CoreAnnotations.TextAnnotation.class));
                 }
 
 //				List<String> forms = new ArrayList<>();

@@ -1124,7 +1124,7 @@ public class AnnotationPipeline {
                     conll.append(row.toString()).append("\n");
                 }
 
-                logger.info(conll.toString());
+                logger.debug("\n" + conll.toString());
 
                 try {
                     Semafor.SemaforResponse semaforResponse = semafor.tag(conll.toString());

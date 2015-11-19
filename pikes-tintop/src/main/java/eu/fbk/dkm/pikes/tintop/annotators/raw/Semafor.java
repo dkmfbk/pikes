@@ -1,14 +1,12 @@
 package eu.fbk.dkm.pikes.tintop.annotators.raw;
 
+import com.google.common.base.Charsets;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.util.HashMap;
@@ -24,6 +22,8 @@ import java.util.Properties;
  */
 
 public class Semafor {
+
+    //todo: add timeout as a parameter
 
     public static HashMap<String, String> conversionMap = new HashMap<>();
     static {
@@ -152,10 +152,19 @@ public class Semafor {
         String modifiedSentence;
         ObjectMapper mapper = new ObjectMapper();
 
+//        Socket clientSocket = new Socket(server, port);
+//        clientSocket.setSoTimeout(2000);
+//        DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
+//        BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+//        outToServer.writeBytes(text + '\n');
+//        modifiedSentence = inFromServer.readLine();
+
         Socket clientSocket = new Socket(server, port);
-        DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
+        clientSocket.setSoTimeout(20000);
+        Writer outToServer = new OutputStreamWriter(clientSocket.getOutputStream(), Charsets.UTF_8);
         BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        outToServer.writeBytes(text + '\n');
+        outToServer.write(text + '\n');
+        outToServer.flush();
         modifiedSentence = inFromServer.readLine();
 
         SemaforResponse response = mapper.readValue(modifiedSentence, SemaforResponse.class);
@@ -167,9 +176,10 @@ public class Semafor {
 
     public static void main(String[] args) {
 
-        Semafor semafor = new Semafor("dkm-server-1.fbk.eu", 11200);
+        Semafor semafor = new Semafor("dkm-server-1.fbk.eu", 19200);
         try {
-            String text = new String(Files.readAllBytes((new File("/Users/alessio/Desktop/semafor.conll")).toPath()));
+            String text = new String(Files.readAllBytes((new File("/Users/alessio/Desktop/prova.semafor")).toPath()), Charsets.UTF_8);
+            System.out.println(text);
             SemaforResponse tag = semafor.tag(text);
 
             System.out.println(tag);
