@@ -5,7 +5,6 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.*;
 import com.google.common.io.Resources;
-import com.sun.istack.internal.NotNull;
 import eu.fbk.rdfpro.util.Environment;
 import net.didion.jwnl.JWNL;
 import net.didion.jwnl.JWNLException;
@@ -154,7 +153,7 @@ public final class WordNet {
         getDictionary();
     }
 
-    @NotNull public static List<String> getSynsetsForLemma(String lemma, String pos) {
+    public static List<String> getSynsetsForLemma(String lemma, String pos) {
         try {
             synchronized (WordNet.class) {
                 IndexWord indexWord = getDictionary().lookupIndexWord(POS.getPOSForKey(pos), lemma);
