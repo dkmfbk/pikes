@@ -138,6 +138,12 @@ public class Tree implements Serializable { //?
 		    else if (termForm.equals("}")) { 
 			termForm = new String("-RCB-");
 		    }
+		    else if (termForm.equals("[")) {
+			    termForm = new String("-LSB-");
+		    }
+		    else if (termForm.equals("]")) {
+			    termForm = new String("-RSB-");
+		    }
 
 		    
 		    if (termForm.equals(tokens[i]) || termForm.contains(tokens[i])) {
