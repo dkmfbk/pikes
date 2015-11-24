@@ -1,24 +1,14 @@
 package eu.fbk.dkm.pikes.resources;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.util.Map;
-import java.util.Set;
-
 import com.google.common.base.Charsets;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Ordering;
+import com.google.common.collect.*;
 import com.google.common.io.Resources;
-
+import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.dkm.utils.CommandLine.Type;
+import eu.fbk.rdfpro.AbstractRDFHandler;
+import eu.fbk.rdfpro.RDFSource;
+import eu.fbk.rdfpro.RDFSources;
+import eu.fbk.rdfpro.util.Statements;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
@@ -26,12 +16,9 @@ import org.openrdf.model.vocabulary.RDFS;
 import org.openrdf.rio.RDFHandlerException;
 import org.slf4j.LoggerFactory;
 
-import eu.fbk.dkm.utils.CommandLine;
-import eu.fbk.dkm.utils.CommandLine.Type;
-import eu.fbk.rdfpro.AbstractRDFHandler;
-import eu.fbk.rdfpro.RDFSource;
-import eu.fbk.rdfpro.RDFSources;
-import eu.fbk.rdfpro.util.Statements;
+import java.io.*;
+import java.util.Map;
+import java.util.Set;
 
 public final class FrameBase {
 
@@ -43,11 +30,16 @@ public final class FrameBase {
 
     private static final Set<String> NAME_SET;
 
+    private static final Set<String> ROLES_SET;
+    private static final Set<String> PREDICATES_SET;
+
     static {
         try {
             final ImmutableMap.Builder<String, String> classBuilder = ImmutableMap.builder();
             final ImmutableMap.Builder<String, String> propertyBuilder = ImmutableMap.builder();
             final ImmutableSet.Builder<String> namesBuilder = ImmutableSet.builder();
+            final ImmutableSet.Builder<String> propertiesBuilder = ImmutableSet.builder();
+            final ImmutableSet.Builder<String> predicatesBuilder = ImmutableSet.builder();
 
             final BufferedReader reader = Resources.asCharSource(
                     FrameBase.class.getResource("FrameBase.tsv"), Charsets.UTF_8)
@@ -58,6 +50,11 @@ public final class FrameBase {
                 final String[] tokens = line.split("\t");
                 final String name = tokens[0];
                 namesBuilder.add(name);
+                if (name.startsWith("fe-")) {
+                    propertiesBuilder.add(name);
+                } else if (name.startsWith("frame-")) {
+                    predicatesBuilder.add(name);
+                }
                 for (int i = 1; i < tokens.length; ++i) {
                     final String key = tokens[i];
                     if (key.indexOf('@') >= 0) {
@@ -73,9 +70,27 @@ public final class FrameBase {
             PROPERTY_MAP = propertyBuilder.build();
             NAME_SET = namesBuilder.build();
 
+            ROLES_SET = propertiesBuilder.build();
+            PREDICATES_SET = predicatesBuilder.build();
+
         } catch (final IOException ex) {
             throw new Error("Cannot load eu.fbk.dkm.pikes.resources.FrameBase data", ex);
         }
+    }
+
+    public static Set<String> getRolesSet() {
+        return ROLES_SET;
+    }
+
+    public static Set<String> getPredicatesSet() {
+        return PREDICATES_SET;
+    }
+
+    public static URI uriFor(String name) {
+        if (name == null) {
+            return null;
+        }
+        return Statements.VALUE_FACTORY.createURI(NAMESPACE, name);
     }
 
     public static URI classFor(final String fnFrame, final String predicateLemma,
