@@ -28,8 +28,10 @@
         </menu>
 
         <menu name="Resources">
-            <item name="Simple English Wikipedia RDF" href="sew-rdf.html"/>
-            <item name="Evaluation (May 2015)" href="evaluation.html"/>
+            <item name="Mappings to FrameBase" href="mappings.html"/>
+            <item name="Evaluation w.r.t. FrameBase TBox" href="eval-framebase.html"/>
+            <item name="Evaluation w.r.t. predicate models TBox" href="eval-pm.html"/>
+            <item name="Evaluation w.r.t. Simple English Wikipedia" href="eval-sew.html"/>
         </menu>
 
         <menu name="Maven Reports" ref="reports" inherit="top"/>
@@ -59,9 +61,10 @@
             <bootstrapIcons>true</bootstrapIcons>
             <html5Anchor>true</html5Anchor>
             <markPageHeader>true</markPageHeader>
-            <absoluteResourceURL>${site-root}</absoluteResourceURL>
 
+            <!--<absoluteResourceURL>${site-root}</absoluteResourceURL>-->
             <!--<protocolRelativeURLs>true</protocolRelativeURLs>-->
+
             <skinAttribution>true</skinAttribution>
             <brand>
                 <name>
