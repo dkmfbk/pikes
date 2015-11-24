@@ -2,6 +2,7 @@ import ch.qos.logback.classic.Level;
 import com.google.common.base.Charsets;
 import com.google.common.collect.HashMultimap;
 import com.google.common.io.Files;
+import eu.fbk.dkm.pikes.resources.FrameBase;
 import eu.fbk.dkm.pikes.resources.WordNet;
 import eu.fbk.dkm.pikes.resources.util.corpus.Corpus;
 import eu.fbk.dkm.pikes.resources.util.corpus.Sentence;
@@ -21,6 +22,7 @@ import eu.fbk.dkm.pikes.resources.util.semlink.vnpb.PbvnTypemap;
 import eu.fbk.dkm.utils.CommandLine;
 import eu.fbk.dkm.utils.FrequencyHashSet;
 import net.didion.jwnl.data.PointerType;
+import org.openrdf.model.URI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,8 +53,13 @@ public class MergeMateFramenet {
     static final Pattern ONTONOTES_FILENAME_PATTERN = Pattern.compile("(.*)-([a-z]+)\\.xml");
     static final Pattern FRAMEBASE_PATTERN = Pattern
             .compile("^[^\\s]+\\s+[^\\s]+\\s+([^\\s]+)\\s+-\\s+(.+)\\s+-\\s+([a-z])#([0-9]+)$");
-    static final Pattern LU_PATTERN = Pattern.compile("^(.*)\\.([a-z]+)$");
     static final Pattern PB_PATTERN = Pattern.compile("^verb-((.*)\\.[0-9]+)$");
+
+    // Must contain frames including '-' (see README)
+    //todo: use a better method to add FrameNet links to FrameBase
+    static final Pattern FB_PREDICATES = Pattern.compile("^frame-(Chemical-sense_description|Non-commutative_process|Non-commutative_statement|[^-]*)-(.*)\\.([a-z]+)$");
+
+    static final Pattern FB_ROLES = Pattern.compile("^fe-(.*)-(.*)$");
 
     public enum OutputMapping {
         PBauto, NBauto, NBresource, PBtrivial
@@ -166,6 +173,7 @@ public class MergeMateFramenet {
                             CommandLine.Type.FILE_EXISTING, true, false, true)
                     .withOption(null, "ignore-lemma", "ignore lemma information")
                     .withOption(null, "save-files", "serialize big files")
+                    .withOption(null, "print-pr-table", "print precision/recall table")
                     .withOption("O", "output", "Output file prefix", "PREFIX",
                             CommandLine.Type.STRING, true, false, true)
                     .withOption(null, "enable-sl4p",
@@ -188,6 +196,7 @@ public class MergeMateFramenet {
 
             boolean enableSemLinkForPredicates = cmd.hasOption("enable-sl4p");
             boolean saveFiles = cmd.hasOption("save-files");
+            boolean printPRTable = cmd.hasOption("print-pr-table");
 
             boolean ignoreLemmaInFrameBaseMappings = cmd.hasOption("ignore-lemma");
 
@@ -216,6 +225,71 @@ public class MergeMateFramenet {
             JAXBContext semlinkPbContext = JAXBContext.newInstance(PbvnTypemap.class);
             Unmarshaller semlinkPbUnmarshaller = semlinkPbContext.createUnmarshaller();
 
+            BufferedWriter writer, writerFrames, writerRoles;
+            File outputFile, outputFileFrames, outputFileRoles;
+            outputFileFrames = new File(outputPattern + "-frames-ok.tsv");
+            outputFileRoles = new File(outputPattern + "-roles-ok.tsv");
+            writerFrames = new BufferedWriter(new FileWriter(outputFileFrames));
+            writerRoles = new BufferedWriter(new FileWriter(outputFileRoles));
+
+
+            // Trivial frames/roles from FrameBase
+
+            for (String predicate : FrameBase.getPredicatesSet()) {
+                Matcher matcher = FB_PREDICATES.matcher(predicate.trim());
+                if (!matcher.find()) {
+                    LOGGER.error("{} is not correctly formatted", predicate);
+                    continue;
+                }
+
+                URI fbURI = FrameBase.uriFor(predicate);
+                if (fbURI == null) {
+                    LOGGER.error("This should never happen!");
+                    LOGGER.debug(predicate);
+                    break;
+                }
+
+                String lemma = matcher.group(2).toLowerCase();
+                lemma = lemma.replaceAll("\\(\\(.*\\)\\)", "");
+                lemma = lemma.replaceAll("\\(", "");
+                lemma = lemma.replaceAll("\\)", "");
+                lemma = lemma.replace('_', ' ');
+                lemma = lemma.trim();
+                lemma = lemma.replace(' ', '_');
+
+                writerFrames.append("fn:");
+                writerFrames.append(matcher.group(1).toLowerCase()).append('\t');
+                writerFrames.append(lemma).append('\t');
+                writerFrames.append(matcher.group(3).toLowerCase()).append('\t');
+                writerFrames.append(fbURI.toString()).append('\n');
+            }
+            for (String role : FrameBase.getRolesSet()) {
+                Matcher matcher = FB_ROLES.matcher(role.trim());
+                if (!matcher.find()) {
+                    LOGGER.error("{} is not correctly formatted", role);
+                    continue;
+                }
+
+                URI fbURI = FrameBase.uriFor(role);
+                if (fbURI == null) {
+                    LOGGER.error("This should never happen!");
+                    LOGGER.debug(role);
+                    break;
+                }
+
+                String roleAt = matcher.group(1) + "@" + matcher.group(2);
+                roleAt = roleAt.toLowerCase();
+
+                writerRoles.append("fn:");
+                writerRoles.append(roleAt).append('\t');
+                writerRoles.append(fbURI.toString()).append('\n');
+            }
+
+//            writerFrames.close();
+//            writerRoles.close();
+//            System.exit(1);
+
+
             // closeMatch
 
             LOGGER.info("Loading closeMatches");
@@ -239,6 +313,7 @@ public class MergeMateFramenet {
                     nomBankToProbBankRoles.get(nbPredicate).put(matcher.group(2), matcher.group(4));
                 }
             }
+
 
             // SemLink
 
@@ -314,6 +389,9 @@ public class MergeMateFramenet {
                 framenetToVerbnet.put(frame, vnClass);
             }
 
+
+            // NomBank
+
             int nbSource = 0;
 
             LOGGER.info("Loading NomBank files");
@@ -362,6 +440,9 @@ public class MergeMateFramenet {
             LOGGER.info("Loaded {} rolesets with source", nbSource);
             LOGGER.info("Loaded {} frames without source", nbUnlinked.size());
 
+
+            // FrameNet LUs
+
             LOGGER.info("Loading LU files");
             int i = 0;
             HashMap<String, HashMultimap<String, String>> lus = new HashMap<>();
@@ -406,10 +487,6 @@ public class MergeMateFramenet {
                     }
                     String pos = posType.toString().toLowerCase();
                     String frame = lexUnit.getFrame().toLowerCase();
-
-//                if (!lemma.equals("muslim")) {
-//                    continue;
-//                }
 
                     // Get examples from parsed file
                     Corpus corpus = null;
@@ -513,6 +590,9 @@ public class MergeMateFramenet {
                 }
             }
 
+
+            // FrameBase
+
             LOGGER.info("Load FrameBase file");
             HashMultimap<String, String> fbFramenetToWordNet = HashMultimap.create();
 
@@ -542,8 +622,12 @@ public class MergeMateFramenet {
 //                System.out.println(key + " -> " + fbFramenetToWordNet.get(key));
 //            }
 
+
+            // PropBank
+
             LOGGER.info("Reading PropBank files");
             List<RolesetInfo> rolesets = new ArrayList<>();
+            Map<String, String> predicateToLemma = new HashMap<>();
 
             // Warning: this collects only verbs!
             for (File file : Files.fileTreeTraverser().preOrderTraversal(pbFolder)) {
@@ -594,6 +678,7 @@ public class MergeMateFramenet {
                         for (Object roleset : noteOrRoleset) {
                             if (roleset instanceof Roleset) {
                                 String rolesetID = ((Roleset) roleset).getId();
+                                predicateToLemma.put(rolesetID, lemma.replace('+', '_'));
 
                                 RolesetInfo rolesetInfo = new RolesetInfo(file, rolesetID, baseLemma, lemma, type,
                                         senses, luFrames, (Roleset) roleset, synsets);
@@ -604,7 +689,8 @@ public class MergeMateFramenet {
                 }
             }
 
-            // Looping rolesets
+
+            // Main loop
 
             int trivialCount = 0;
             int nonTrivialCount = 0;
@@ -926,7 +1012,7 @@ public class MergeMateFramenet {
                                         if (mappings != null) {
                                             if (mappings.get(n) != null) {
                                                 correctN = mappings.get(n);
-                                                System.out.println("Editing role...");
+                                                LOGGER.debug("Editing role...");
                                             }
                                         }
 
@@ -960,6 +1046,7 @@ public class MergeMateFramenet {
                 LOGGER.info("More than one frame: {}", nbGreaterCount);
                 LOGGER.info("Zero frames: {}", nbZeroCount);
             }
+
 
             // Parsing examples (exampleSentences)
 
@@ -1103,7 +1190,9 @@ public class MergeMateFramenet {
 
             LOGGER.info("Used sentences: {}", usedSentences);
 
+
             // Evaluate and save
+
             double okThreshold = 0.5;
             int okMinFreq = 2;
             HashMap<OutputMapping, HashMap<String, String>> outputMappingsForRolesFromExamples = new HashMap<>();
@@ -1175,33 +1264,33 @@ public class MergeMateFramenet {
 //                    LOGGER.info("Correct role mappings: {}", correctMappingsCount);
 //                    LOGGER.info("Wrong role mappings: {}", wrongMappingsCount);
 
-                    int tp = correctMappingsCount;
-                    int fp = wrongMappingsCount;
-                    int fn = outputMappingsForRoles.get(OutputMapping.PBauto).size() - trivialMappingsCount + fp;
-                    double precision = (double) tp / (double) (tp + fp);
-                    double recall = (double) tp / (double) (tp + fn);
-                    double f1 = 2 * (precision * recall) / (precision + recall);
-                    System.out.println(String.format(
-                                    "%5f %5d %5d %5d %5d %5d %5d %5f %5f %5f",
-                                    threshold,
-                                    minFreq,
-                                    outputMappingsForRolesFromExamplesTemp.get(OutputMapping.PBauto).size(),
-                                    outputMappingsForRolesFromExamplesTemp.get(OutputMapping.NBauto).size(),
-                                    trivialMappingsCount,
-                                    correctMappingsCount,
-                                    wrongMappingsCount,
-                                    precision,
-                                    recall,
-                                    f1
-                            )
-                    );
+                    if (printPRTable) {
+                        int tp = correctMappingsCount;
+                        int fp = wrongMappingsCount;
+                        int fn = outputMappingsForRoles.get(OutputMapping.PBauto).size() - trivialMappingsCount + fp;
+                        double precision = (double) tp / (double) (tp + fp);
+                        double recall = (double) tp / (double) (tp + fn);
+                        double f1 = 2 * (precision * recall) / (precision + recall);
+                        System.out.println(String.format(
+                                        "%5f %5d %5d %5d %5d %5d %5d %5f %5f %5f",
+                                        threshold,
+                                        minFreq,
+                                        outputMappingsForRolesFromExamplesTemp.get(OutputMapping.PBauto).size(),
+                                        outputMappingsForRolesFromExamplesTemp.get(OutputMapping.NBauto).size(),
+                                        trivialMappingsCount,
+                                        correctMappingsCount,
+                                        wrongMappingsCount,
+                                        precision,
+                                        recall,
+                                        f1
+                                )
+                        );
+                    }
                 }
             }
 
-            // Write files
 
-            BufferedWriter writer;
-            File outputFile;
+            // Write files
 
             outputFile = new File(outputPattern + "-frames.tsv");
             LOGGER.info("Writing output file {}", outputFile.getName());
@@ -1210,14 +1299,50 @@ public class MergeMateFramenet {
                 for (String key : outputMappingsForPredicates.get(outputMapping).keySet()) {
                     String value = outputMappingsForPredicates.get(outputMapping).get(key);
 
+                    URI fbURI = null;
+                    FrameBase.POS pos = FrameBase.POS.VERB;
+                    switch (outputMapping) {
+                    case NBauto:
+                    case NBresource:
+                        pos = FrameBase.POS.NOUN;
+                        break;
+                    }
+
+                    String lemma = predicateToLemma.get(key);
+                    if (lemma != null) {
+                        fbURI = FrameBase.classFor(value, lemma, pos);
+                    }
+                    if (fbURI == null) {
+                        lemma = key.substring(0, key.length() - 3);
+                        fbURI = FrameBase.classFor(value, lemma, pos);
+                    }
+
+                    // Should never happen
+                    if (fbURI == null) {
+                        LOGGER.error("This should never happen!");
+                        LOGGER.debug(value);
+                        LOGGER.debug(key);
+                        LOGGER.debug(key.substring(0, key.length() - 3));
+                        LOGGER.debug(lemma);
+                        break;
+                    }
+
                     writer.append(outputMapping.toString()).append('\t');
                     writer.append(key).append('\t');
                     writer.append(value).append('\n');
+
+                    writerFrames.append(outputMapping.toString().substring(0, 2).toLowerCase()).append(':');
+                    writerFrames.append(key).append('\t');
+                    writerFrames.append(lemma).append('\t');
+                    writerFrames.append(pos.getLetter()).append('\t');
+                    writerFrames.append(fbURI.toString()).append('\n');
                 }
             }
             writer.close();
-            outputFile = new File(outputPattern + "-frames.ser");
-            saveObjectToFile(outputMappingsForPredicates, outputFile);
+            if (saveFiles) {
+                outputFile = new File(outputPattern + "-frames.ser");
+                saveObjectToFile(outputMappingsForPredicates, outputFile);
+            }
 
             outputFile = new File(outputPattern + "-roles.tsv");
             LOGGER.info("Writing output file {}", outputFile.getName());
@@ -1226,14 +1351,33 @@ public class MergeMateFramenet {
                 for (String key : outputMappingsForRoles.get(outputMapping).keySet()) {
                     String value = outputMappingsForRoles.get(outputMapping).get(key);
 
+                    String[] parts = value.split("@");
+                    if (parts.length < 2) {
+                        LOGGER.error("This is impossible!");
+                        break;
+                    }
+                    URI fbURI = FrameBase.propertyFor(parts[0], parts[1]);
+                    if (fbURI == null) {
+                        LOGGER.error("This should never happen!");
+                        LOGGER.debug(key);
+                        LOGGER.debug(value);
+                        break;
+                    }
+
                     writer.append(outputMapping.toString()).append('\t');
                     writer.append(key).append('\t');
-                    writer.append(value).append('\n');
+                    writer.append(value).append('\t');
+
+                    writerRoles.append(outputMapping.toString().substring(0, 2).toLowerCase()).append(':');
+                    writerRoles.append(key).append('\t');
+                    writerRoles.append(fbURI.toString()).append('\n');
                 }
             }
             writer.close();
-            outputFile = new File(outputPattern + "-roles.ser");
-            saveObjectToFile(outputMappingsForRoles, outputFile);
+            if (saveFiles) {
+                outputFile = new File(outputPattern + "-roles.ser");
+                saveObjectToFile(outputMappingsForRoles, outputFile);
+            }
 
             if (outputMappingsForRolesFromExamples != null) {
                 outputFile = new File(outputPattern + "-roles-examples.tsv");
@@ -1243,9 +1387,26 @@ public class MergeMateFramenet {
                     for (String key : outputMappingsForRolesFromExamples.get(outputMapping).keySet()) {
                         String value = outputMappingsForRolesFromExamples.get(outputMapping).get(key);
 
+                        String[] parts = value.split("@");
+                        if (parts.length < 2) {
+                            LOGGER.error("This is impossible!");
+                            break;
+                        }
+                        URI fbURI = FrameBase.propertyFor(parts[0], parts[1]);
+                        if (fbURI == null) {
+                            LOGGER.error("This should never happen!");
+                            LOGGER.debug(key);
+                            LOGGER.debug(value);
+                            break;
+                        }
+
                         writer.append(outputMapping.toString()).append('\t');
                         writer.append(key).append('\t');
                         writer.append(value).append('\n');
+
+                        writerRoles.append(outputMapping.toString().substring(0, 2).toLowerCase()).append(':');
+                        writerRoles.append(key).append('\t');
+                        writerRoles.append(fbURI.toString()).append('\n');
                     }
                 }
                 writer.close();
@@ -1264,8 +1425,10 @@ public class MergeMateFramenet {
                 }
             }
             writer.close();
-            outputFile = new File(outputPattern + "-add.ser");
-            saveObjectToFile(outputMappingsForPredicatesAdd, outputFile);
+            if (saveFiles) {
+                outputFile = new File(outputPattern + "-add.ser");
+                saveObjectToFile(outputMappingsForPredicatesAdd, outputFile);
+            }
 
             if (saveFiles) {
                 outputFile = new File(outputPattern + "-lu-existingFrames.ser");
@@ -1286,6 +1449,9 @@ public class MergeMateFramenet {
                     saveObjectToFile(exampleSentences, outputFile);
                 }
             }
+
+            writerFrames.close();
+            writerRoles.close();
 
         } catch (Exception e) {
             CommandLine.fail(e);
