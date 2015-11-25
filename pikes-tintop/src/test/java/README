@@ -1,0 +1,6 @@
+Add
+frame-Means-recipe_((cooking)).n	means#recipe.n
+
+Get frames with -
+grep -horE 'frame="[^"]*-[^"]*"' *|sort|uniq|cut -d'=' -f2 | grep -oE '[^"]+'
+
