@@ -16,6 +16,11 @@
                 div.subfooter { padding-top: 20px!important; padding-bottom: 10px!important }
                 p.copyright { display: none }
             </style>
+
+            <link rel="icon"
+                  type="image/png"
+                  href="${site-root}/images/pikes-big.png" />
+
         </head>
 
         <menu name="About">
@@ -41,7 +46,7 @@
         <menu name="Links">
             <item name="GitHub project" href="https://github.com/dkmfbk/pikes"/>
             <item name="Issue tracker" href="https://github.com/dkmfbk/pikes/issues"/>
-            <!--<item name="Contact authors" href="mailto:rdfproATfbkDOTeu"/>-->
+            <item name="Contact authors" href="mailto:pikesATfbkDOTeu"/>
         </menu>
     </body>
 
@@ -62,14 +67,14 @@
             <html5Anchor>true</html5Anchor>
             <markPageHeader>true</markPageHeader>
 
-            <!--<absoluteResourceURL>${site-root}</absoluteResourceURL>-->
-            <!--<protocolRelativeURLs>true</protocolRelativeURLs>-->
+            <absoluteResourceURL>${site-root}</absoluteResourceURL>
+            <protocolRelativeURLs>true</protocolRelativeURLs>
 
             <skinAttribution>true</skinAttribution>
             <brand>
                 <name>
                     <![CDATA[
-                        <img src='http://pikes.fbk.eu/images/pikes.png' />
+                        <img src='${site-root}/images/pikes.png' />
                         <span>PIKES</span>
                     ]]>
                 </name>
@@ -95,10 +100,19 @@
             <bottomDescription quote="false">
                 <![CDATA[
                 Pikes is a suite for knowledge extraction developed within:<br/><br/>
-                <a href="http://dkm.fbk.eu/"><img src="http://pikes.fbk.eu/images/fbkdkm.png"/></a>&nbsp;&nbsp;
-                <a href="http://www.newsreader-project.eu/"><img src="http://pikes.fbk.eu/images/newsreader.png"/></a><br/>
+                <a href="http://dkm.fbk.eu/"><img src="${site-root}/images/fbkdkm.png"/></a>&nbsp;&nbsp;
+                <a href="http://www.newsreader-project.eu/"><img src="${site-root}/images/newsreader.png"/></a><br/>
 
-                <!-- Insert here Google Analytics -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-59727692-3', 'auto');
+  ga('send', 'pageview');
+
+</script>
                 ]]>
             </bottomDescription>
             <!--<shortTitle>generate</shortTitle>-->
