@@ -109,7 +109,7 @@
 
     <properties>
         <pikes-version>${project.version}</pikes-version>
-        <site.root>http://pikes.fbk.eu/</site.root>
+        <site.root>https://pikes.fbk.eu/</site.root>
     </properties>
 
     <modules>

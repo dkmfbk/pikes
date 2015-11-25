@@ -2,11 +2,11 @@
     <h1>
         <img src='images/pikes-big.png' alt='PIKES' title='PIKES' />
     </h1>
-    
+
     <p class='title2'>
         Pikes is a Knowledge Extraction Suite
     </p>
-                
+
     <p class='title2'>
         <!--<a class="btn btn-primary btn-large" href="install.html">Download</a>-->
         <a class="btn btn-primary btn-large" href="https://knowledgestore2.fbk.eu/pikes-demo/">Online demo</a>
@@ -37,4 +37,9 @@ entities.
 
 ### News
 
+- 2015-11-24 [Paper](https://dkm-static.fbk.eu/people/rospocher/files/pubs/2016sac.pdf) accepted at [SAC 2016](http://www.acm.org/conferences/sac/sac2016/) conference
+- 2015-08-07 [Demo](https://dkm-static.fbk.eu/people/rospocher/files/pubs/2015iswcdemo1.pdf) accepted at [ISWC 2015](http://iswc2015.semanticweb.org/) conference
+- 2015-07-08 Restyling of the [Try-it-out demo](https://knowledgestore2.fbk.eu/pikes-demo/)
+- 2015-07-06 New [Demo Video](http://www.youtube.com/watch?v=D0mcnUKc3sg)!
+- 2015-06-08 [Try-it-out demo](https://knowledgestore2.fbk.eu/pikes-demo/) available!
 - 2015-06-08 Version 0.1 has been released.
