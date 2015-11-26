@@ -11,16 +11,7 @@
 
     <body>
         <head>
-            <style>
-                footer { padding-top: 5px!important; padding-bottom: 5px!important; margin-top: 30px!important }
-                div.subfooter { padding-top: 20px!important; padding-bottom: 10px!important }
-                p.copyright { display: none }
-            </style>
-
-            <link rel="icon"
-                  type="image/png"
-                  href="${site-root}/images/pikes-big.png" />
-
+            <link rel="icon" type="image/png" href="${site-root}/images/pikes-big.png" />
         </head>
 
         <menu name="About">
