@@ -1,46 +1,23 @@
 Mappings to FrameBase
 ===
 
-This page contains a downloadable version of the mappings between PropBank/NomBank/FrameNet to FrameBase.
-We provide the mappings in two different formats (TSV and RDF).
+This page contains the downloadable versions of the mappings from [PropBank](https://verbs.colorado.edu/~mpalmer/projects/ace.html) (PB), [NomBank](http://nlp.cs.nyu.edu/meyers/NomBank.html) (NB) and [FrameNet](https://framenet.icsi.berkeley.edu/fndrupal/) (FN) predicates and arguments to [FrameBase](http://framebase.org/) classes and roles, both in TSV and RDF formats.
+These mappings are used by PIKES for extracting knowledge according to the FrameBase ontological schema.
 
-TSV (tab-separated values) colums are defined as follows:
+Mappings from FrameNet to FrameBase were generated straightforwardly exploiting the fact that FrameBase is derived from FrameNet; mappings from PropBank / NomBank to FrameBase were generated leveraging both existing manually-crafted mappings in [SemLink](https://verbs.colorado.edu/semlink/) and [OntoNotes frame files](https://verbs.colorado.edu/propbank/frame_downloads/Ontonote5frames.tar.gz) and by learning mappings from automatically annotated data (the details of the process are described in a paper under review).
 
-* predicate, lemma, POS, FrameBase URI (for predicates)
-* predicate **@** role, FrameBase URI (for roles)
+<h3>Predicate mappings</h3>
 
-<table>
+Each mapping relates a (PB/NB/FN predicate, lemma, POS-tag) triple to a FrameBase microframe class. Equivalent (as of `owl:equivalentClass`) microframe classes have been merged with only a representative class for each cluster being used as target for the mappings. Predicate mappings are provided in two formats:
 
-<thead>
-<tr>
-<th style="width: 50%">Dataset</th>
-<th style="width: 25%">TSV</th>
-<th style="width: 25%">RDF</th>
-</tr>
-</thead>
+  * [TSV predicate mappings](${site-download}20151124-mappings-frames-ok.tsv.gz), using four columns for: PB/NB/FN predicate ID, lemma, POS, FrameBase class URI.
+  * [RDF Turtle predicate mappings](${site-download}20151124-mappings-frames-ok.ttl.gz), where each mapping is a reified relation identified by a URI and described by properties `ks:predicate`, `ks:lemma`, `ks:pos`, and `ks:class` (`ks` prefix for `http://dkm.fbk.eu/ontologies/knowledgestore#`).
 
-<tbody>
 
-<tr>
-<td>Frame mappings</td>
-<td>
-<a href="${site-download}20151124-mappings-frames-ok.tsv.gz">tsv.gz</a>
-</td>
-<td>
-<a href="${site-download}20151124-mappings-frames-ok.rdf.gz">rdf.gz</a>
-</td>
-</tr>
+<h3>Argument mappings</h3>
 
-<tr>
-<td>Role mappings</td>
-<td>
-<a href="${site-download}20151124-mappings-roles-ok.tsv.gz">tsv.gz</a>
-</td>
-<td>
-<a href="${site-download}20151124-mappings-roles-ok.rdf.gz">rdf.gz</a>
-</td>
-</tr>
+Each mapping associates a predicate argument to a FrameBase property URI (predicate arguments are frame elements for FrameNet, and predicate / role pairs for PropBank and NomBank).
+Argument mappings are provided in two formats:
 
-</tbody>
-
-</table>
+  * [TSV argument mappings](${site-download}20151124-mappings-roles-ok.tsv.gz), using two columns: predicate **@** role, and FrameBase property URI.
+  * [RDF Turtle argument mappings](${site-download}20151124-mappings-roles-ok.ttl.gz), where each mapping is a reified relation identified by a URI and described by properties `ks:role` (pointing to the URI for the predicate argument as defined in [PreMOn](https://premon.fbk.eu/)), and `ks:property`.

@@ -24,7 +24,7 @@ The same 8 sentences used in [\[1\]](#eswc2013) have been used, with the minor e
 
 <table class="table table-striped table-bordered table-hover table-condensed">
 <thead>
-<tr><th rowspan="2">Sentence</th><th rowspan="2">Text</th><th rowspan="2" width="45px">Gold graph <i class="icon-download"></i></th><th rowspan="2" width="45px">FRED graph <i class="icon-download"></i></th><th colspan="2">PIKES graph <i class="icon-download"></i></th></tr>
+<tr><th rowspan="2">Sentence</th><th rowspan="2">Text</th><th rowspan="2" width="45px">Gold graph</th><th rowspan="2" width="45px">FRED graph</th><th colspan="2">PIKES graph</th></tr>
 <tr><th width="45px">SAC</th><th width="45px">latest</th></tr>
 </thead>
 <tbody>
@@ -294,12 +294,12 @@ The larger difference is due to PIKES recall being generally higher than FRED re
 
 <h3>References</h3>
 
-  1. <a id="eswc2013"/>
+  1. <span id="eswc2013"/>
      **A Comparison of Knowledge Extraction Tools for the Semantic Web.**<br/>
      By Aldo Gangemi.<br/>
      In ESWC 2013 Proceedings, Springer Berlin Heidelberg, volume 7882, pages 351-366, 2013.<br/>
      [\[online version\]](http://eswc-conferences.org/sites/default/files/papers2013/gangemi.pdf)
-  2. <a id="ekaw2012"/>
+  2. <span id="ekaw2012"/>
      **Knowledge Extraction Based on Discourse Representation Theory and Linguistic Frames.**<br/>
      By Valentina Presutti, Francesco Draicchio, Aldo Gangemi.<br/>
      In EKAW 2012 Proceedings, Springer-Verlag Berlin, pages 114-129, 2012.<br/>
