@@ -16,7 +16,7 @@
 
 ---------------------------------------
 
-### About
+<h3 class='no-before'>About</h3>
 
 **PIKES** is a Java-based suite that extracts knowledge from textual resources.
 The tool implements a rule-based strategy that reinterprets the output of semantic role labelling (SRL) tools in light
@@ -24,7 +24,7 @@ of other linguistic analyses, such as dependency parsing or co-reference resolut
 formalizing in RDF important linguistic aspects such as argument nominalization, frame-frame relations, and group
 entities.
 
-### Features
+<h3 class='no-before'>Features</h3>
 
 - Argument nominalization using SRL
 - Frame-frame relations extractions
@@ -35,7 +35,7 @@ entities.
 - REST API service included, built on top of [Grizzly](https://grizzly.java.net/)
 - Based on [Java 8](http://www.oracle.com/technetwork/java/javase/overview/java8-2100321.html) and [RDFpro](http://rdfpro.fbk.eu/)
 
-### News
+<h3 class='no-before'>News</h3>
 
 - 2015-11-24 [Paper](https://dkm-static.fbk.eu/people/rospocher/files/pubs/2016sac.pdf) accepted at [SAC 2016](http://www.acm.org/conferences/sac/sac2016/) conference
 - 2015-08-07 [Demo](https://dkm-static.fbk.eu/people/rospocher/files/pubs/2015iswcdemo1.pdf) accepted at [ISWC 2015](http://iswc2015.semanticweb.org/) conference
