@@ -1,0 +1,46 @@
+Mappings to FrameBase
+===
+
+This page contains a downloadable version of the mappings between PropBank/NomBank/FrameNet to FrameBase.
+We provide the mappings in two different formats (TSV and RDF).
+
+TSV (tab-separated values) colums are defined as follows:
+
+* predicate, lemma, POS, FrameBase URI (for predicates)
+* predicate **@** role, FrameBase URI (for roles)
+
+<table>
+
+<thead>
+<tr>
+<th style="width: 50%">Dataset</th>
+<th style="width: 25%">TSV</th>
+<th style="width: 25%">RDF</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>Frame mappings</td>
+<td>
+<a href="${site-download}20151124-mappings-frames-ok.tsv.gz">tsv.gz</a>
+</td>
+<td>
+<a href="${site-download}20151124-mappings-frames-ok.rdf.gz">rdf.gz</a>
+</td>
+</tr>
+
+<tr>
+<td>Role mappings</td>
+<td>
+<a href="${site-download}20151124-mappings-roles-ok.tsv.gz">tsv.gz</a>
+</td>
+<td>
+<a href="${site-download}20151124-mappings-roles-ok.rdf.gz">rdf.gz</a>
+</td>
+</tr>
+
+</tbody>
+
+</table>
