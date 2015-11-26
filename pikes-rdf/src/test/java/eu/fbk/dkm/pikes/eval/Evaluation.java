@@ -330,7 +330,7 @@ public final class Evaluation {
 
             final Stats triplesStats = Stats.aggregate(ImmutableList.of(labelledStats, typeStats,
                     linkingStats));
-            
+
             final StringBuilder out = new StringBuilder();
             emitSection(out, "NODES");
             out.append(nodeStats.getReport());
@@ -374,17 +374,17 @@ public final class Evaluation {
             return this.evaluation;
         }
 
-        private final String rowBegin = "";
-
-        private final String rowEnd = "";
-
-        private final String rowMid = " | ";
-
-        // private final String rowBegin = "<tr><td>";
+        //    private final String rowBegin = "";
         //
-        // private final String rowEnd = "</td></tr>";
+        //    private final String rowEnd = "";
         //
-        // private final String rowMid = "</td><td>";
+        //    private final String rowMid = " | ";
+
+        private final String rowBegin = "<tr><td>";
+
+        private final String rowEnd = "</td></tr>";
+
+        private final String rowMid = "</td><td>";
 
         private String escape(final String string) {
             return HtmlEscapers.htmlEscaper().escape(string);

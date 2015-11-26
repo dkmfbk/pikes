@@ -8,6 +8,7 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
+import com.google.common.xml.XmlEscapers;
 
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
@@ -80,6 +81,7 @@ public final class Yovisto {
             final Map<URI, String> ids = Maps.newHashMap();
 
             // Emit queries
+            int numResults = 0;
             final List<String> queryLines = Lists.newArrayList();
             for (final Resource query : model.filter(null, RDF.TYPE, SI_QUERY).subjects()) {
                 final String id = String.format("q%02d", model.filter(query, YV_QUERY_ID, null)
@@ -88,21 +90,25 @@ public final class Yovisto {
                 final String text = model.filter(query, NIF.IS_STRING, null).objectLiteral()
                         .stringValue();
                 final Map<Integer, String> resultMap = Maps.newHashMap();
+                final Map<String, Integer> rankMap = Maps.newHashMap();
                 for (final Value result : model.filter(query, SI_RESULT, null).objects()) {
-                    final int rank = model.filter((Resource) result, SI_RANK, null)
-                            .objectLiteral().intValue();
+                    final URI uri = (URI) result;
+                    final int num = Integer.parseInt(uri.getLocalName());
+                    final int rank = model.filter(uri, SI_RANK, null).objectLiteral().intValue();
                     final String documentId = String.format("d%03d",
-                            model.filter((Resource) result, YV_DOCUMENT_ID, null).objectLiteral()
-                                    .intValue());
-                    resultMap.put(rank, documentId);
+                            model.filter(uri, YV_DOCUMENT_ID, null).objectLiteral().intValue());
+                    resultMap.put(num, documentId);
+                    rankMap.put(documentId, rank);
                 }
                 final StringBuilder builder = new StringBuilder();
                 builder.append(id).append('\t').append(text).append("\t");
                 String separator = "";
-                for (final Integer rank : Ordering.natural().sortedCopy(resultMap.keySet())) {
-                    final String documentId = resultMap.get(rank);
-                    builder.append(separator).append(documentId);
+                for (final Integer num : Ordering.natural().sortedCopy(resultMap.keySet())) {
+                    final String documentId = resultMap.get(num);
+                    final Integer rank = rankMap.get(documentId);
+                    builder.append(separator).append(documentId).append(':').append(rank);
                     separator = ",";
+                    ++numResults;
                 }
                 queryLines.add(builder.toString());
                 final int index = query.stringValue().indexOf('#');
@@ -114,7 +120,9 @@ public final class Yovisto {
                     writer.write("<NAF xml:lang=\"en\" version=\"v3\">\n");
                     writer.write("  <nafHeader>\n");
                     writer.write("    <fileDesc creationtime=\"2015-07-09T00:00:00+00:00\" />\n");
-                    writer.write("    <public publicId=\"" + id + "\" uri=\"" + queryURI
+                    writer.write("    <public publicId=\""
+                            + XmlEscapers.xmlAttributeEscaper().escape(id) + "\" uri=\""
+                            + XmlEscapers.xmlAttributeEscaper().escape(queryURI.stringValue())
                             + "\"/>\n");
                     writer.write("  </nafHeader>\n");
                     writer.write("  <raw><![CDATA[");
@@ -129,6 +137,7 @@ public final class Yovisto {
                     writer.write("\n");
                 }
             }
+            LOGGER.info("Emitted {} queries with {} results", queryLines.size(), numResults);
 
             // Emit NAF documents
             for (final Resource document : model.filter(null, RDF.TYPE, YV_DOCUMENT).subjects()) {
@@ -148,8 +157,10 @@ public final class Yovisto {
                     writer.write("<NAF xml:lang=\"en\" version=\"v3\">\n");
                     writer.write("  <nafHeader>\n");
                     writer.write("    <fileDesc creationtime=\"2015-07-09T00:00:00+00:00\" title=\""
-                            + title + "\"/>\n");
-                    writer.write("    <public publicId=\"" + id + "\" uri=\"" + documentURI
+                            + XmlEscapers.xmlAttributeEscaper().escape(title) + "\"/>\n");
+                    writer.write("    <public publicId=\""
+                            + XmlEscapers.xmlAttributeEscaper().escape(id) + "\" uri=\""
+                            + XmlEscapers.xmlAttributeEscaper().escape(documentURI.stringValue())
                             + "\"/>\n");
                     writer.write("  </nafHeader>\n");
                     writer.write("  <raw><![CDATA[");

@@ -878,35 +878,43 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         final Map<Term, Predicate> matePredicates = Maps.newHashMap();
         final Map<Term, Predicate> semaforPredicates = Maps.newHashMap();
 
+        // Remove predicates with invalid head
+        for (final Predicate predicate : ImmutableList.copyOf(document.getPredicates())) {
+            if (NAFUtils.extractHead(document, predicate.getSpan()) == null) {
+                document.removeAnnotation(predicate);
+                LOGGER.warn("Removed {} without valid head term", predicate);
+            }
+        }
+
         // TODO: remove once fixed - normalize Semafor roles
-        //if (this.srlEnableSemafor) {
-        //    for (final Predicate predicate : document.getPredicates()) {
-        //        if (predicate.getId().startsWith("f_pr")
-        //                || "semafor".equalsIgnoreCase(predicate.getSource())) {
-        //            for (final Role role : predicate.getRoles()) {
-        //                role.setSemRole("");
-        //                final Term head = NAFUtils.extractHead(document, role.getSpan());
-        //                if (head != null) {
-        //                    final Span<Term> newSpan = KAFDocument.newTermSpan(Ordering.from(
-        //                            Term.OFFSET_COMPARATOR).sortedCopy(
-        //                            document.getTermsByDepAncestors(ImmutableList.of(head))));
-        //                    role.setSpan(newSpan);
+        //    if (this.srlEnableSemafor) {
+        //        for (final Predicate predicate : document.getPredicates()) {
+        //            if (predicate.getId().startsWith("f_pr")
+        //                    || "semafor".equalsIgnoreCase(predicate.getSource())) {
+        //                for (final Role role : predicate.getRoles()) {
+        //                    role.setSemRole("");
+        //                    final Term head = NAFUtils.extractHead(document, role.getSpan());
+        //                    if (head != null) {
+        //                        final Span<Term> newSpan = KAFDocument.newTermSpan(Ordering.from(
+        //                                Term.OFFSET_COMPARATOR).sortedCopy(
+        //                                document.getTermsByDepAncestors(ImmutableList.of(head))));
+        //                        role.setSpan(newSpan);
+        //                    }
         //                }
         //            }
         //        }
         //    }
-        //}
 
         // TODO: remove alignments from PM
-        //for (final Predicate predicate : document.getPredicates()) {
-        //    if (!predicate.getId().startsWith("f_pr")
-        //            && !"semafor".equalsIgnoreCase(predicate.getSource())) {
-        //        NAFUtils.removeRefs(predicate, "FrameNet", null);
-        //        for (final Role role : predicate.getRoles()) {
-        //            NAFUtils.removeRefs(role, "FrameNet", null);
+        //    for (final Predicate predicate : document.getPredicates()) {
+        //        if (!predicate.getId().startsWith("f_pr")
+        //                && !"semafor".equalsIgnoreCase(predicate.getSource())) {
+        //            NAFUtils.removeRefs(predicate, "FrameNet", null);
+        //            for (final Role role : predicate.getRoles()) {
+        //                NAFUtils.removeRefs(role, "FrameNet", null);
+        //            }
         //        }
         //    }
-        //}
 
         // Remove predicates from non-enabled tools (Mate, Semafor)
         for (final Predicate predicate : Lists.newArrayList(document.getPredicates())) {

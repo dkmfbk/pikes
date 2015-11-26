@@ -41,6 +41,7 @@ import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.LinkedHashModel;
+import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.model.vocabulary.DCTERMS;
 import org.openrdf.model.vocabulary.FOAF;
@@ -294,24 +295,29 @@ public final class RDFGenerator {
 
         private final File outputFile;
 
-        private Runner(final Corpus corpus, final RDFGenerator generator, final File outputFile) {
+        private final boolean intermediate;
+
+        private Runner(final Corpus corpus, final RDFGenerator generator, final File outputFile,
+                final boolean split) {
             this.corpus = corpus;
             this.generator = generator;
             this.outputFile = outputFile;
+            this.intermediate = split;
         }
 
         static Runner create(final String name, final String... args) {
-            final Options options = Options.parse("r,recursive|o,output!|m,merge|n,normalize|+",
-                    args);
+            final Options options = Options.parse(
+                    "r,recursive|o,output!|m,merge|n,normalize|i,intermediate|+", args);
             final File outputFile = options.getOptionArg("o", File.class);
             final boolean recursive = options.hasOption("r");
             final boolean merge = options.hasOption("m");
             final boolean normalize = options.hasOption("n");
+            final boolean intermediate = options.hasOption("i");
             final Corpus corpus = Corpus.create(recursive, options.getPositionalArgs(File.class));
             final RDFGenerator generator = RDFGenerator.builder()
                     .withProperties(Util.PROPERTIES, "eu.fbk.dkm.pikes.rdf.RDFGenerator")
                     .withMerging(merge).withNormalization(normalize).build();
-            return new Runner(corpus, generator, outputFile);
+            return new Runner(corpus, generator, outputFile, intermediate);
         }
 
         @Override
@@ -336,11 +342,12 @@ public final class RDFGenerator {
                     "Processed %d NAF files (%d NAF/s avg)", //
                     "Processed %d NAF files (%d NAF/s, %d NAF/s avg)");
 
-            final CountDownLatch latch = new CountDownLatch(Environment.getCores());
+            int numThreads = 1; // Environment.getCores()
+            final CountDownLatch latch = new CountDownLatch(numThreads);
             final AtomicInteger counter = new AtomicInteger(0);
             final AtomicInteger succeeded = new AtomicInteger(0);
             tracker.start();
-            for (int i = 0; i < Environment.getCores(); ++i) {
+            for (int i = 0; i < numThreads; ++i) { // Environment.getCores(); ++i) {
                 Environment.getPool().submit(new Runnable() {
 
                     @Override
@@ -364,6 +371,23 @@ public final class RDFGenerator {
                                             RDFHandlers.METHOD_START_RDF
                                                     | RDFHandlers.METHOD_END_RDF
                                                     | RDFHandlers.METHOD_CLOSE), 1);
+                                    if (Runner.this.intermediate) {
+                                        final String uri = document.getPublic().uri;
+                                        final String name;
+                                        final int num = Integer.parseInt(new URIImpl(uri)
+                                                .getLocalName());
+                                        if (uri.contains("query")) {
+                                            name = "q" + String.format("%02d", num);
+                                        } else {
+                                            name = "d" + String.format("%03d", num);
+                                        }
+                                        final File intermediateFile = new File(
+                                                Runner.this.outputFile.getParentFile(), name
+                                                        + ".tql.gz");
+                                        source.emit(
+                                                RDFHandlers.write(null, 1,
+                                                        intermediateFile.getAbsolutePath()), 1);
+                                    }
                                     succeeded.incrementAndGet();
                                 } catch (final Throwable ex) {
                                     LOGGER.error("Processing failed for " + docName, ex);
