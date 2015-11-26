@@ -1,0 +1,113 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
+@prefix pb: <eval:propbank#> .
+@prefix nb: <eval:nombank#> .
+@prefix vn: <eval:verbnet#> .
+@prefix fn: <eval:framenet#> .
+@prefix eval: <eval:schema#> .
+@prefix : <file:///eswc.3.ttl/> .
+
+
+# === TEXT ===
+
+<file:///eswc.3.ttl/> rdfs:label """
+    Its fighters, a small minority of the rebels, have the boldness and skill to storm fortified positions and lead other battalions to capture military bases and oil fields.""" .
+
+
+# === ENTITIES ===
+
+:fighters_v a eval:Node .
+:have a eval:Node .
+:storm a eval:Node .
+:lead a eval:Node .
+:capture a eval:Node .
+:other a eval:Node .
+
+:fighters a eval:Node .
+:its a eval:Node .
+:minority a eval:Node .
+:rebels a eval:Node .
+:positions a eval:Node .
+:battalions a eval:Node .
+:bases a eval:Node .
+:fields a eval:Node .
+:oil a eval:Node .
+:boldness a eval:Node .
+:skill a eval:Node .
+
+:small a eval:Node .
+:fortified a eval:Node .
+:military a eval:Node .
+
+
+# === COREFERENCE ===
+
+:fighters owl:sameAs :minority .
+
+
+# === LINKING ===
+
+
+# === FRAMES ===
+
+:fighters_v a nb:fighter.01 , pb:fight.01 , vn:meet-36.3-2 , fn:Irregular_combatants ; # should be fn:Hostile_encounter based on semlink, but does not match LU
+    nb:a0 :fighters ; pb:a0 :fighters ; vn:agent :fighters ; fn:combatant :fighters ;
+    fn:side1 :its .
+
+:minority a nb:minority.01 ;
+	nb:a1 :rebels ;
+	dul:hasQuality :small .
+
+:have a pb:have.03 , vn:own-100 , fn:Possession ; # no way to express the link to 'storm and lead'
+	pb:a0 :fighters ; vn:pivot :fighters ; fn:owner :fighters ;
+	pb:a1 :boldness ; vn:theme :boldness ; fn:possession :boldness ;
+    pb:a1 :skill ; vn:theme :skill ; fn:possession :skill .
+
+:skill a nb:skill.01 , fn:Expertise ;
+    fn:skill :skill .
+
+:storm a pb:storm.02 , fn:Attack ; # according to semlink should be fn:Self_motion (wrong)
+	pb:a0 :fighters ; fn:assailant :fighters ;
+	pb:a1 :positions ; fn:victim :positions ; fn:place :positions .
+
+:positions a fn:Locale_by_collocation ; # might be a nb:position.04 but the frame definition does not fit much
+    fn:inherent_purpose :fortified ; dul:hasQuality :fortified .
+
+:lead a pb:lead.03 , vn:force-59 , fn:Causation ;
+    pb:a0 :fighters ; vn:agent :fighters ; fn:cause :fighters ;
+    pb:a1 :battalions ; vn:patient :battalions ; fn:affected :battalions ;
+	pb:a2 :capture ; vn:result :capture ; fn:effect :capture .
+
+:other a fn:Increment ;
+    fn:added_set :battalions .
+
+:battalions a nb:battalion.01 .
+
+:capture a pb:capture.01 , vn:steal-10.5-1 , fn:Conquering ;
+	pb:a0 :battalions ; vn:agent :battalions ; fn:conqueror :battalions ;
+	pb:a1 :bases ; vn:theme :bases ; fn:theme :bases ;
+    pb:a1 :fields ; vn:theme :fields ; fn:theme :fields .
+
+:bases a nb:base.01 , fn:Locale_by_use ; # should be also pb:base.01 according to semlink, but does not fit much; might also be fn:Infrastructure but there are not many annotated examples for this;
+	nb:a1 :military ; fn:use :military ;
+    fn:locale :bases .
+
+:fields a nb:field.02 , fn:Locale_by_use ; # should be pb:produce.01 for propbank, but this would imply an argument nominalization for :fields which is not the case in nombank.
+	nb:a1 :oil ; fn:use :oil ;
+	fn:locale :fields .
+
+
+# === IRRELEVANT TRIPLES ===
+
+:skill eval:associableTo :storm .
+
+
+# === WRONG TRIPLES ===
+
+:boldness eval:notAssociableTo :skill .         # no coreference here
+:fighters_v eval:notAssociableTo :have .        # association is between :fighters and :have
+:skill eval:notAssociableTo :battalions .       # :skill associated to :storm and :lead
+:fighters_v eval:notAssociableTo :minority .    # coreference is between :fighters and :minority
+:its eval:notAssociableTo :fighters .           # :its associated to :fighetsr_v

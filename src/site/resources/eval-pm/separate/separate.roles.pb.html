@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Separate evaluation - Roles (PB)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+<h1>Separate evaluation - Roles (PB)</h1>
+<p>* irrelevant element returned by evaluated system, not considered as false positive</p>
+<table class="table table-striped table-bordered table-hover table-condensed">
+<thead>
+<tr><th width="10%">Sentence</th><th width="45%">Gold</th><th width="45%">PIKES</th></tr>
+</thead>
+<tbody>
+<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.1.ttl/&gt;</td><td>:approval pb:a0 :qaeda</td><td>:approval pb:a0 :Al_Qaeda</td></tr>
+<tr><td></td><td>:approval pb:a1 :group</td><td></td></tr>
+<tr><td></td><td>:approval pb:am-mnr :explicit</td><td></td></tr>
+<tr><td></td><td>:become pb:a1 :group</td><td>:become pb:a1 :group</td></tr>
+<tr><td></td><td>:become pb:a2 :forces</td><td></td></tr>
+<tr><td></td><td>:challenge pb:a0 :group</td><td></td></tr>
+<tr><td></td><td>:challenge pb:a1 :countries</td><td></td></tr>
+<tr><td></td><td>:challenge pb:a1 :states</td><td></td></tr>
+<tr><td></td><td>:challenge pb:am-mnr :stark</td><td></td></tr>
+<tr><td></td><td>:posing pb:a0 :group</td><td>:pose pb:a0 :group</td></tr>
+<tr><td></td><td>:posing pb:a1 :challenge</td><td>:pose pb:a1 :challenge</td></tr>
+<tr><td></td><td>:posing pb:a2 :countries</td><td></td></tr>
+<tr><td></td><td>:posing pb:a2 :states</td><td></td></tr>
+<tr><td></td><td>:support pb:a0 :countries</td><td>:support pb:a0 :country</td></tr>
+<tr><td></td><td>:support pb:a0 :states</td><td></td></tr>
+<tr><td></td><td>:support pb:a1 :rebels</td><td>:support pb:a1 :rebel_2</td></tr>
+<tr><td></td><td>:support_1 pb:a0 :countries</td><td></td></tr>
+<tr><td></td><td>:support_1 pb:a0 :states</td><td></td></tr>
+<tr><td></td><td>:support_1 pb:a1 :extremists</td><td></td></tr>
+<tr><td></td><td>:support_1 pb:neg :not</td><td></td></tr>
+<tr><td></td><td>:want pb:a0 :countries</td><td>:want pb:a0 :country</td></tr>
+<tr><td></td><td>:want pb:a0 :states</td><td></td></tr>
+<tr><td></td><td>:want pb:a1 :support</td><td>:want pb:a1 :support</td></tr>
+<tr><td></td><td>:want pb:a1 :support_1</td><td></td></tr>
+<tr><td></td><td></td><td>:approval pb:a0 :group</td></tr>
+<tr><td></td><td></td><td>* :approval pb:a1 :stamp</td></tr>
+<tr><td></td><td></td><td>* :become pb:a2 :one</td></tr>
+<tr><td></td><td></td><td>:support pb:a1 :extremist</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.2.ttl/&gt;</td><td>:donors_v pb:a0 :donors</td><td></td></tr>
+<tr><td></td><td>:donors_v pb:a1 :money</td><td></td></tr>
+<tr><td></td><td>:donors_v pb:a2 :group</td><td></td></tr>
+<tr><td></td><td>:flows pb:a1 :money</td><td>:flow pb:a1 &lt;entity:money&gt;</td></tr>
+<tr><td></td><td>:flows pb:am-dir :donors</td><td></td></tr>
+<tr><td></td><td>:flows pb:am-dir :group</td><td>:flow pb:am-dir :group</td></tr>
+<tr><td></td><td></td><td>:like-mind pb:a1 :donor</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.3.ttl/&gt;</td><td>:capture pb:a0 :battalions</td><td>:capture pb:a0 :battalion</td></tr>
+<tr><td></td><td>:capture pb:a1 :bases</td><td>:capture pb:a1 :basis</td></tr>
+<tr><td></td><td>:capture pb:a1 :fields</td><td>:capture pb:a1 :field</td></tr>
+<tr><td></td><td>:fighters_v pb:a0 :fighters</td><td></td></tr>
+<tr><td></td><td>:have pb:a0 :fighters</td><td>:have pb:a0 :fighter</td></tr>
+<tr><td></td><td>:have pb:a1 :boldness</td><td>:have pb:a1 :boldness</td></tr>
+<tr><td></td><td>:have pb:a1 :skill</td><td>:have pb:a1 :skill</td></tr>
+<tr><td></td><td>:lead pb:a0 :fighters</td><td></td></tr>
+<tr><td></td><td>:lead pb:a1 :battalions</td><td>:lead pb:a1 :battalion</td></tr>
+<tr><td></td><td>:lead pb:a2 :capture</td><td>:lead pb:a2 :capture</td></tr>
+<tr><td></td><td>:storm pb:a0 :fighters</td><td>:storm pb:a0 :fighter</td></tr>
+<tr><td></td><td>:storm pb:a1 :positions</td><td>:storm pb:a1 :position</td></tr>
+<tr><td></td><td></td><td>:field pb:a1 :oil</td></tr>
+<tr><td></td><td></td><td>:fortify pb:a1 :position</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.4.ttl/&gt;</td><td>:attract pb:a0 :they</td><td>:attract pb:a0 :they_2</td></tr>
+<tr><td></td><td>:attract pb:a1 :fighters</td><td>:attract pb:a1 :fighter</td></tr>
+<tr><td></td><td>:fighters_v pb:a0 :fighters</td><td></td></tr>
+<tr><td></td><td>:gather pb:a0 :they</td><td>:gather pb:a0 :they_2</td></tr>
+<tr><td></td><td>:gather pb:a1 :weapons</td><td>:gather pb:a1 :weapon</td></tr>
+<tr><td></td><td>:mount pb:a1 :successes</td><td>:mount pb:a1 :success</td></tr>
+<tr><td></td><td>:successes pb:a0 :their</td><td>:success pb:a0 :they</td></tr>
+<tr><td></td><td>:weapons_v pb:a2 :weapons</td><td></td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.5.ttl/&gt;</td><td>:contributed pb:a0 :which</td><td></td></tr>
+<tr><td></td><td>:contributed pb:a1 :fighters</td><td>:contribute pb:a1 :fighter</td></tr>
+<tr><td></td><td>:contributed pb:a1 :weapons</td><td>:contribute pb:a1 :weapon</td></tr>
+<tr><td></td><td>:fighters_v pb:a0 :fighters</td><td></td></tr>
+<tr><td></td><td>:insurgents_v pb:a0 :insurgents</td><td>:insurgent_2 pb:a0 :insurgent</td></tr>
+<tr><td></td><td>:is pb:a1 :group</td><td>:be pb:a1 :group</td></tr>
+<tr><td></td><td>:is pb:a2 :offshoot</td><td>:be pb:a2 :offshoot</td></tr>
+<tr><td></td><td>:offshoot_v pb:a1 :offshoot</td><td></td></tr>
+<tr><td></td><td>:offshoot_v pb:a2 :qaeda</td><td></td></tr>
+<tr><td></td><td>:say pb:a0 :insurgents</td><td>:say pb:a0 :insurgent</td></tr>
+<tr><td></td><td>:say pb:a0 :officials</td><td>:say pb:a0 :official</td></tr>
+<tr><td></td><td>:say pb:a1 :contributed</td><td></td></tr>
+<tr><td></td><td>:say pb:a1 :is</td><td>:say pb:a1 :be</td></tr>
+<tr><td></td><td>:weapons_v pb:a4 :weapons</td><td></td></tr>
+<tr><td></td><td></td><td>* :have pb:a0 :Al_Qaeda</td></tr>
+<tr><td></td><td></td><td>* :have pb:a1 :fighter</td></tr>
+<tr><td></td><td></td><td>* :have pb:a1 :weapon</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.6.ttl/&gt;</td><td>:efforts pb:a0 :front</td><td>:effort pb:a0 :Nusra_Front</td></tr>
+<tr><td></td><td>:efforts pb:am-loc :syria</td><td></td></tr>
+<tr><td></td><td>:favor_v pb:a1 :favor</td><td></td></tr>
+<tr><td></td><td>:favor_v pb:a2 :brothers</td><td></td></tr>
+<tr><td></td><td>:fought pb:a0 :brothers</td><td></td></tr>
+<tr><td></td><td>:fought pb:a2 :us</td><td></td></tr>
+<tr><td></td><td>:fought pb:am-loc :lands</td><td>:fight pb:am-loc :land</td></tr>
+<tr><td></td><td>:helped pb:a0 :he</td><td>:help pb:a0 :he</td></tr>
+<tr><td></td><td>:helped pb:a1 :lead</td><td>:help pb:a1 :lead</td></tr>
+<tr><td></td><td>:is pb:a1 :this</td><td></td></tr>
+<tr><td></td><td>:is pb:a2 :way</td><td></td></tr>
+<tr><td></td><td>:lead pb:a0 :he</td><td>:lead pb:a0 :he</td></tr>
+<tr><td></td><td>:lead pb:a1 :efforts</td><td>:lead pb:a1 :effort</td></tr>
+<tr><td></td><td>:returning pb:a1 :favor</td><td>:return pb:a1 :favor</td></tr>
+<tr><td></td><td>:returning pb:a2 :brothers</td><td></td></tr>
+<tr><td></td><td>:said_1 pb:a0 :veteran</td><td>:say_2 pb:a0 :veteran</td></tr>
+<tr><td></td><td>:said_1 pb:a1 :is</td><td></td></tr>
+<tr><td></td><td>:said_2 pb:a0 :who</td><td>:say pb:a0 :who</td></tr>
+<tr><td></td><td>:said_2 pb:a1 :helped</td><td>:say pb:a1 :help</td></tr>
+<tr><td></td><td></td><td>:favor pb:a1 :brother</td></tr>
+<tr><td></td><td></td><td>:fight pb:a1 :brother</td></tr>
+<tr><td></td><td></td><td>:fight pb:am-mnr :we_2</td></tr>
+<tr><td></td><td></td><td>:return pb:a4 :brother</td></tr>
+<tr><td></td><td></td><td>:say pb:a0 :Al_Qaeda</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.7.ttl/&gt;</td><td>:hopes pb:a0 :states</td><td>:hope pb:a0 :United_States</td></tr>
+<tr><td></td><td>:hopes pb:a1 :isolate</td><td>:hope pb:a1 :isolate</td></tr>
+<tr><td></td><td>:inheriting pb:a0 :it</td><td>:inherit pb:a0 :it</td></tr>
+<tr><td></td><td>:inheriting pb:a1 :syria_2</td><td>:inherit pb:a1 :Syria_2</td></tr>
+<tr><td></td><td>:isolate pb:a0 :states</td><td></td></tr>
+<tr><td></td><td>:isolate pb:a1 :group</td><td>:isolate pb:a1 :group</td></tr>
+<tr><td></td><td>:isolate pb:am-pnc :prevent</td><td></td></tr>
+<tr><td></td><td>:prevent pb:a0 :states</td><td>:prevent pb:a0 :United_States</td></tr>
+<tr><td></td><td>:prevent pb:a1 :it</td><td>:prevent pb:a1 :it</td></tr>
+<tr><td></td><td>:prevent pb:a2 :inheriting</td><td>:prevent pb:a2 :inherit</td></tr>
+<tr><td></td><td>:running pb:a1 :time</td><td></td></tr>
+<tr><td></td><td>:running pb:a2 :al-assad</td><td></td></tr>
+<tr><td></td><td>:sensing pb:a0 :states</td><td>:sense pb:a0 :United_States</td></tr>
+<tr><td></td><td>:sensing pb:a1 :running</td><td>:sense pb:a1 :run</td></tr>
+<tr><td></td><td></td><td>:run pb:a1 :Bashar_al-Assad</td></tr>
+<tr><td></td><td></td><td>* :run pb:am-mod :may</td></tr>
+<tr><td></td><td></td><td>:run pb:tmp :time</td></tr>
+<tr><td></td><td></td><td>* :sense pb:a1 :may</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.8.ttl/&gt;</td><td>:blacklist pb:a0 :it_1</td><td>:blacklist pb:a0 :it</td></tr>
+<tr><td></td><td>:blacklist pb:a1 :front</td><td>:blacklist pb:a1 :Nusra_Front</td></tr>
+<tr><td></td><td>:dealings pb:a0 :americans</td><td>:dealings pb:a0 :Americans</td></tr>
+<tr><td></td><td>:dealings pb:a1 :group</td><td>:dealings pb:a1 :group</td></tr>
+<tr><td></td><td>:government_v pb:a0 :government</td><td></td></tr>
+<tr><td></td><td>:have pb:a0 :americans</td><td>:have pb:a0 :Americans</td></tr>
+<tr><td></td><td>:have pb:a1 :dealings</td><td>:have pb:a1 :dealings</td></tr>
+<tr><td></td><td>:making pb:a0 :it_1</td><td>:make pb:a0 :it</td></tr>
+<tr><td></td><td>:making pb:a1 :have</td><td>:make pb:a1 :have</td></tr>
+<tr><td></td><td>:opposition_v pb:a0 :opposition</td><td></td></tr>
+<tr><td></td><td>:organize pb:a0 :opposition</td><td></td></tr>
+<tr><td></td><td>:organize pb:a1 :government</td><td>:organize pb:a1 :government</td></tr>
+<tr><td></td><td>:plans pb:a0 :it_1</td><td>:plan pb:a0 :it</td></tr>
+<tr><td></td><td>:plans pb:a1 :blacklist</td><td>:plan pb:a1 :blacklist</td></tr>
+<tr><td></td><td>:prompting pb:a0 :it_1</td><td></td></tr>
+<tr><td></td><td>:prompting pb:a1 :europe</td><td></td></tr>
+<tr><td></td><td>:prompting pb:a2 :sanctions</td><td></td></tr>
+<tr><td></td><td>:pushes pb:a0 :states</td><td>:push pb:a0 :United_States</td></tr>
+<tr><td></td><td>:pushes pb:a1 :opposition</td><td>:push pb:a1 :opposition</td></tr>
+<tr><td></td><td>:pushes pb:a2 :organize</td><td></td></tr>
+<tr><td></td><td>:sanctions_v pb:a0 :europe</td><td></td></tr>
+<tr><td></td><td>:sanctions_v pb:a1 :sanctions</td><td>:sanction_2 pb:a1 :sanction</td></tr>
+<tr><td></td><td></td><td>* :blacklist pb:a2 :organization</td></tr>
+<tr><td></td><td></td><td>:dealings pb:a1 &lt;attr:fiscal-1a&gt;</td></tr>
+<tr><td></td><td></td><td>* :make pb:a1 :it_2</td></tr>
+<tr><td></td><td></td><td>:make pb:a2 :illegal</td></tr>
+<tr><td></td><td></td><td>:prompt pb:a1 :sanction</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td colspan="2">Results</td><td>f1=0.673 p=0.819 r=0.571 tp=68 fp=15 fn=51</td></tr>
+</tbody>
+</table>

@@ -1,0 +1,313 @@
+@prefix fsem: <http://ontologydesignpatterns.org/cp/owl/semiotics.owl#> .
+@prefix fpos: <http://www.ontologydesignpatterns.org/ont/fred/pos.owl#> .
+@prefix fbox: <http://www.ontologydesignpatterns.org/ont/boxer/boxer.owl#> .
+@prefix fboxing: <http://www.ontologydesignpatterns.org/ont/boxer/boxing.owl#> .
+@prefix wni: <http://www.w3.org/2006/03/wn/wn30/instances/> .
+@prefix wns: <http://www.w3.org/2006/03/wn/wn30/schema/> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix xs: <http://www.w3.org/2001/XMLSchema#> .
+@prefix vnr: <http://www.ontologydesignpatterns.org/ont/vn/abox/role/> .
+@prefix vnc: <http://www.ontologydesignpatterns.org/ont/vn/data/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix nif: <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+<file:///eswc.5.ttl/docuverse> a nif:Context ;
+	nif:isString "The group is a direct offshoot of Al_Qaeda_in_Iraq, Iraqi officials and former Iraqi_insurgents say, which has contributed veteran fighters and weapons." .
+
+<file:///eswc.5.ttl/Al_qaeda_in_iraq> owl:sameAs dbpedia:Al-Qaeda_in_Iraq ;
+	dul:associatedWith <file:///eswc.5.ttl/official_1> ;
+	fbox:possibleType foaf:Organisation .
+
+<file:///eswc.5.ttl/Contribute> rdfs:subClassOf dul:Event ;
+	owl:equivalentClass vnc:Contribute_13020111 ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.5.ttl/Direct> fpos:boxerpos fpos:a .
+
+<file:///eswc.5.ttl/DirectOffshoot> a owl:Class ;
+	rdfs:subClassOf <file:///eswc.5.ttl/Offshoot> .
+
+<file:///eswc.5.ttl/Fighter> a owl:Class ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.5.ttl/Former> fpos:boxerpos fpos:a .
+
+<file:///eswc.5.ttl/FormerIraqi_insurgents> a owl:Class ;
+	rdfs:subClassOf <file:///eswc.5.ttl/Iraqi_insurgents> .
+
+<file:///eswc.5.ttl/Group> rdfs:subClassOf wni:supersense-noun_substance , dul:Collection ;
+	owl:equivalentClass wni:synset-group-noun-2 ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.5.ttl/Iraqi> fbox:possibleType dbo:Place .
+
+<file:///eswc.5.ttl/Iraqi_insurgents> a owl:Class ;
+	owl:equivalentClass dbpedia:Iraqi_insurgency ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.5.ttl/Official> fpos:boxerpos fpos:n .
+
+<file:///eswc.5.ttl/Offshoot> a owl:Class ;
+	rdfs:subClassOf dul:Situation , wni:supersense-noun_phenomenon ;
+	owl:equivalentClass wni:synset-outgrowth-noun-1 ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.5.ttl/Say> rdfs:subClassOf dul:Event ;
+	owl:equivalentClass vnc:Say_37070100 ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.5.ttl/Veteran> fpos:boxerpos fpos:a .
+
+<file:///eswc.5.ttl/VeteranFighter> a owl:Class ;
+	rdfs:subClassOf <file:///eswc.5.ttl/Fighter> .
+
+<file:///eswc.5.ttl/Weapon> a owl:Class ;
+	owl:equivalentClass <http://dbpedia.org/resource/Mortar_(weapon)> ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.5.ttl/contribute_1> a <file:///eswc.5.ttl/Contribute> ;
+	vnr:Agent <file:///eswc.5.ttl/thing_1> ;
+	fbox:temp_abut <file:///eswc.5.ttl/timeinterval_1> ;
+	vnr:Theme <file:///eswc.5.ttl/fighter_1> .
+
+<file:///eswc.5.ttl/coref> a owl:ObjectProperty .
+
+<file:///eswc.5.ttl/fighter_1> a <file:///eswc.5.ttl/VeteranFighter> , <file:///eswc.5.ttl/Weapon> ;
+	dul:hasQuality <file:///eswc.5.ttl/Veteran> .
+
+<file:///eswc.5.ttl/groupOf> a owl:ObjectProperty .
+
+<file:///eswc.5.ttl/group_1> a <file:///eswc.5.ttl/Group> , <file:///eswc.5.ttl/DirectOffshoot> ;
+	dul:hasQuality <file:///eswc.5.ttl/Direct> ;
+	<file:///eswc.5.ttl/groupOf> <file:///eswc.5.ttl/Al_qaeda_in_iraq> .
+
+<file:///eswc.5.ttl/iraqi_insurgents_1> a <file:///eswc.5.ttl/FormerIraqi_insurgents> ;
+	dul:hasQuality <file:///eswc.5.ttl/Former> .
+
+<file:///eswc.5.ttl/now_1> a fbox:Now ;
+	fbox:temp_included <file:///eswc.5.ttl/timeinterval_1> .
+
+<file:///eswc.5.ttl/official_1> a <file:///eswc.5.ttl/Official> ;
+	dul:associatedWith <file:///eswc.5.ttl/Iraqi> .
+
+<file:///eswc.5.ttl/say_1> a <file:///eswc.5.ttl/Say> ;
+	<file:///eswc.5.ttl/which> <file:///eswc.5.ttl/timeinterval_1> ;
+	fbox:temp_included <file:///eswc.5.ttl/now_1> ;
+	vnr:Agent <file:///eswc.5.ttl/iraqi_insurgents_1> .
+
+<file:///eswc.5.ttl/situation_1> a fboxing:Situation ;
+	fbox:temp_included <file:///eswc.5.ttl/now_1> ;
+	fboxing:involves <file:///eswc.5.ttl/Offshoot> , <file:///eswc.5.ttl/group_1> , <file:///eswc.5.ttl/DirectOffshoot> , <file:///eswc.5.ttl/Direct> .
+
+<file:///eswc.5.ttl/thing_1> a fbox:Thing .
+
+<file:///eswc.5.ttl/timeinterval_1> a dul:TimeInterval .
+
+<file:///eswc.5.ttl/which> a owl:ObjectProperty .
+
+<file:///eswc.5.ttl/offset_0_9_The+group> <file:///eswc.5.ttl/coref> <file:///eswc.5.ttl/offshoot_1> .
+
+<file:///eswc.5.ttl/offset_101_106_which> a nif:OffsetBasedString ;
+	rdfs:label "which" ;
+	nif:beginIndex "101"^^xs:nonNegativeInteger ;
+	nif:endIndex "106"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.5.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.5.ttl/Which> .
+
+<file:///eswc.5.ttl/offset_111_122_contributed> a nif:OffsetBasedString ;
+	rdfs:label "contributed" ;
+	nif:beginIndex "111"^^xs:nonNegativeInteger ;
+	nif:endIndex "122"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.5.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.5.ttl/Contribute> ;
+	fpos:pennpos fpos:VBN ;
+	fsem:denotes <file:///eswc.5.ttl/contribute_1> .
+
+<file:///eswc.5.ttl/offset_123_130_veteran> a nif:OffsetBasedString ;
+	rdfs:label "veteran" ;
+	nif:beginIndex "123"^^xs:nonNegativeInteger ;
+	nif:endIndex "130"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.5.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.5.ttl/Veteran> ;
+	fpos:pennpos fpos:JJ .
+
+<file:///eswc.5.ttl/offset_131_139_fighters> a nif:OffsetBasedString ;
+	rdfs:label "fighters" ;
+	nif:beginIndex "131"^^xs:nonNegativeInteger ;
+	nif:endIndex "139"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.5.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.5.ttl/Fighter> ;
+	fpos:pennpos fpos:NNS ;
+	fsem:denotes <file:///eswc.5.ttl/fighter_1> .
+
+<file:///eswc.5.ttl/offset_144_151_weapons> a nif:OffsetBasedString ;
+	rdfs:label "weapons" ;
+	nif:beginIndex "144"^^xs:nonNegativeInteger ;
+	nif:endIndex "151"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.5.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.5.ttl/Weapon> ;
+	fpos:pennpos fpos:NNS ;
+	fsem:denotes <file:///eswc.5.ttl/fighter_1> .
+
+<file:///eswc.5.ttl/offset_15_21_direct> a nif:OffsetBasedString ;
+	rdfs:label "direct" ;
+	nif:beginIndex "15"^^xs:nonNegativeInteger ;
+	nif:endIndex "21"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.5.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.5.ttl/Direct> ;
+	fpos:pennpos fpos:JJ .
+
+<file:///eswc.5.ttl/offset_15_30_direct+offshoot> a nif:OffsetBasedString ;
+	rdfs:label "Direct Offshoot" , "direct offshoot" ;
+	nif:beginIndex "15"^^xs:nonNegativeInteger ;
+	nif:endIndex "30"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.5.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.5.ttl/Offshoot> .
+
+<file:///eswc.5.ttl/offset_22_24_of> a nif:OffsetBasedString ;
+	rdfs:label "of" ;
+	nif:beginIndex "22"^^xs:nonNegativeInteger ;
+	nif:endIndex "24"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.5.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.5.ttl/Groupof> .
+
+<file:///eswc.5.ttl/offset_22_30_offshoot> a nif:OffsetBasedString ;
+	rdfs:label "offshoot" ;
+	nif:beginIndex "22"^^xs:nonNegativeInteger ;
+	nif:endIndex "30"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.5.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.5.ttl/Offshoot> ;
+	fpos:pennpos fpos:NN ;
+	fsem:denotes <file:///eswc.5.ttl/offshoot_1> .
+
+<file:///eswc.5.ttl/offset_34_50_Al_Qaeda_in_Iraq> a nif:OffsetBasedString ;
+	rdfs:label "Al_Qaeda_in_Iraq" ;
+	nif:beginIndex "34"^^xs:nonNegativeInteger ;
+	nif:endIndex "50"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.5.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.5.ttl/Al_qaeda_in_iraq> .
+
+<file:///eswc.5.ttl/offset_4_9_group> a nif:OffsetBasedString ;
+	rdfs:label "group" ;
+	nif:beginIndex "4"^^xs:nonNegativeInteger ;
+	nif:endIndex "9"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.5.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.5.ttl/Group> ;
+	fpos:pennpos fpos:NN ;
+	fsem:denotes <file:///eswc.5.ttl/group_1> .
+
+<file:///eswc.5.ttl/offset_50_51_%2C> a nif:OffsetBasedString ;
+	rdfs:label "," ;
+	nif:beginIndex "50"^^xs:nonNegativeInteger ;
+	nif:endIndex "51"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.5.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.5.ttl/Rel> .
+
+<file:///eswc.5.ttl/offset_52_57_Iraqi> a nif:OffsetBasedString ;
+	rdfs:label "Iraqi" ;
+	nif:beginIndex "52"^^xs:nonNegativeInteger ;
+	nif:endIndex "57"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.5.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.5.ttl/Iraqi> .
+
+<file:///eswc.5.ttl/offset_58_67_officials> a nif:OffsetBasedString ;
+	rdfs:label "officials" ;
+	nif:beginIndex "58"^^xs:nonNegativeInteger ;
+	nif:endIndex "67"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.5.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.5.ttl/Official> ;
+	fpos:pennpos fpos:NNS ;
+	fsem:denotes <file:///eswc.5.ttl/official_1> .
+
+<file:///eswc.5.ttl/offset_72_78_former> a nif:OffsetBasedString ;
+	rdfs:label "former" ;
+	nif:beginIndex "72"^^xs:nonNegativeInteger ;
+	nif:endIndex "78"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.5.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.5.ttl/Former> ;
+	fpos:pennpos fpos:JJ .
+
+<file:///eswc.5.ttl/offset_72_95_former+iraqi_insurgents> a nif:OffsetBasedString ;
+	rdfs:label "Former Iraqi_insurgents" , "former Iraqi_insurgents" ;
+	nif:beginIndex "72"^^xs:nonNegativeInteger ;
+	nif:endIndex "95"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.5.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.5.ttl/Iraqi_insurgents> .
+
+<file:///eswc.5.ttl/offset_79_84_Iraqi> a nif:OffsetBasedString ;
+	rdfs:label "Iraqi" ;
+	nif:beginIndex "79"^^xs:nonNegativeInteger ;
+	nif:endIndex "84"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.5.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.5.ttl/Iraqi> .
+
+<file:///eswc.5.ttl/offset_79_95_Iraqi_insurgents> a nif:OffsetBasedString ;
+	rdfs:label "Iraqi_insurgents" ;
+	nif:beginIndex "79"^^xs:nonNegativeInteger ;
+	nif:endIndex "95"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.5.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.5.ttl/Iraqi_insurgents> ;
+	fpos:pennpos fpos:NNS ;
+	fsem:denotes <file:///eswc.5.ttl/iraqi_insurgents_1> .
+
+<file:///eswc.5.ttl/offset_96_99_say> a nif:OffsetBasedString ;
+	rdfs:label "say" ;
+	nif:beginIndex "96"^^xs:nonNegativeInteger ;
+	nif:endIndex "99"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.5.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.5.ttl/Say> ;
+	fpos:pennpos fpos:VBP ;
+	fsem:denotes <file:///eswc.5.ttl/say_1> .
+
+fsem:denotes a owl:ObjectProperty .
+
+fsem:hasInterpretant a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#begins> a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#ends> a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#hasContent> a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#refersTo> a owl:ObjectProperty .
+
+fbox:Now fpos:boxerpos fpos:a .
+
+fbox:Thing fpos:boxerpos fpos:n .
+
+fbox:possibleType a owl:ObjectProperty .
+
+fbox:temp_abut a owl:ObjectProperty .
+
+fbox:temp_included a owl:ObjectProperty .
+
+fboxing:Situation fpos:boxerpos <file:///eswc.5.ttl/Situation> .
+
+fboxing:involves a owl:ObjectProperty .
+
+dul:TimeInterval fpos:boxerpos <file:///eswc.5.ttl/Timeinterval> .
+
+dul:associatedWith a owl:ObjectProperty .
+
+dul:hasQuality a owl:ObjectProperty .
+
+fpos:boxerpos a owl:ObjectProperty .
+
+fpos:pennpos a owl:ObjectProperty .
+
+vnr:Agent a owl:ObjectProperty .
+
+vnr:Theme a owl:ObjectProperty .
+
+wni:synset-group-noun-2 wns:gloss "(chemistry) two or more atoms bound together as a single unit and forming part of a molecule"@en-us .
+
+wni:synset-outgrowth-noun-1 wns:gloss "a natural consequence of development"@en-us .
+
+owl:equivalentClass a owl:ObjectProperty .
+
+rdfs:subClassOf a owl:ObjectProperty .

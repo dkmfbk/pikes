@@ -2,6 +2,8 @@ Evaluation using Simple English Wikipedia
 ===
 
 
+### Overview
+
 We applied PIKES to process a general domain corpus, namely a dump of the Simple English Wikipedia (SEW).
 SEW is a reduced version of Wikipedia, where each page is written using basic English words.
 The corpus, which consists of 109,242 text document containing a total of 1,584,406 sentences and 23,877,597 tokens, was chosen for its relatively large size and public availability.

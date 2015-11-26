@@ -1,0 +1,216 @@
+@prefix fsem: <http://ontologydesignpatterns.org/cp/owl/semiotics.owl#> .
+@prefix fpos: <http://www.ontologydesignpatterns.org/ont/fred/pos.owl#> .
+@prefix fbox: <http://www.ontologydesignpatterns.org/ont/boxer/boxer.owl#> .
+@prefix fboxing: <http://www.ontologydesignpatterns.org/ont/boxer/boxing.owl#> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
+@prefix xs: <http://www.w3.org/2001/XMLSchema#> .
+@prefix vnr: <http://www.ontologydesignpatterns.org/ont/vn/abox/role/> .
+@prefix vnc: <http://www.ontologydesignpatterns.org/ont/vn/data/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix nif: <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
+
+<file:///eswc.4.ttl/docuverse> a nif:Context ;
+	nif:isString "As their successes mount, they gather more weapons and attract more fighters." .
+
+<file:///eswc.4.ttl/Attract> rdfs:subClassOf dul:Event ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.4.ttl/Fighter> a owl:Class ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.4.ttl/Gather> rdfs:subClassOf dul:Event ;
+	owl:equivalentClass vnc:Gather_47052000 ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.4.ttl/More> fpos:boxerpos fpos:a .
+
+<file:///eswc.4.ttl/MoreFighter> rdfs:subClassOf <file:///eswc.4.ttl/Fighter> ;
+	a owl:Class .
+
+<file:///eswc.4.ttl/MoreWeapon> rdfs:subClassOf <file:///eswc.4.ttl/Weapon> ;
+	a owl:Class .
+
+<file:///eswc.4.ttl/Mount> rdfs:subClassOf dul:Event ;
+	owl:equivalentClass vnc:Mount_55050100 ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.4.ttl/Success> fpos:boxerpos fpos:n .
+
+<file:///eswc.4.ttl/Weapon> a owl:Class ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.4.ttl/as> a owl:ObjectProperty .
+
+<file:///eswc.4.ttl/attract_1> a <file:///eswc.4.ttl/Attract> ;
+	fbox:agent <file:///eswc.4.ttl/thing_2> ;
+	fbox:patient <file:///eswc.4.ttl/fighter_1> .
+
+<file:///eswc.4.ttl/coref> a owl:ObjectProperty .
+
+<file:///eswc.4.ttl/fighter_1> a <file:///eswc.4.ttl/MoreFighter> ;
+	dul:hasQuality <file:///eswc.4.ttl/More> .
+
+<file:///eswc.4.ttl/gather_1> a <file:///eswc.4.ttl/Gather> ;
+	vnr:Theme <file:///eswc.4.ttl/weapon_1> ;
+	fbox:temp_included <file:///eswc.4.ttl/now_1> ;
+	vnr:Agent <file:///eswc.4.ttl/thing_2> .
+
+<file:///eswc.4.ttl/mount_1> a <file:///eswc.4.ttl/Mount> ;
+	<file:///eswc.4.ttl/as> <file:///eswc.4.ttl/situation_1> ;
+	fbox:temp_included <file:///eswc.4.ttl/now_1> ;
+	vnr:Agent <file:///eswc.4.ttl/success_1> .
+
+<file:///eswc.4.ttl/now_1> a fbox:Now .
+
+<file:///eswc.4.ttl/situation_1> a fboxing:Situation ;
+	fboxing:involves <file:///eswc.4.ttl/fighter_1> , <file:///eswc.4.ttl/gather_1> , <file:///eswc.4.ttl/attract_1> , <file:///eswc.4.ttl/weapon_1> .
+
+<file:///eswc.4.ttl/successOf> a owl:ObjectProperty .
+
+<file:///eswc.4.ttl/success_1> a <file:///eswc.4.ttl/Success> ;
+	<file:///eswc.4.ttl/successOf> <file:///eswc.4.ttl/thing_1> .
+
+<file:///eswc.4.ttl/thing_1> a nif:OffsetBasedString , fbox:Thing ;
+	rdfs:label "they" ;
+	nif:beginIndex "26"^^xs:nonNegativeInteger ;
+	nif:endIndex "30"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.4.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.4.ttl/thing_2> ;
+	fsem:hasInterpretant owl:Thing ;
+	fpos:pennpos fpos:PRP .
+
+<file:///eswc.4.ttl/thing_2> a owl:Thing .
+
+<file:///eswc.4.ttl/weapon_1> a <file:///eswc.4.ttl/MoreWeapon> ;
+	dul:hasQuality <file:///eswc.4.ttl/More> .
+
+<file:///eswc.4.ttl/offset_0_2_As> a nif:OffsetBasedString ;
+	rdfs:label "As" ;
+	nif:beginIndex "0"^^xs:nonNegativeInteger ;
+	nif:endIndex "2"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.4.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.4.ttl/As> .
+
+<file:///eswc.4.ttl/offset_19_24_mount> a nif:OffsetBasedString ;
+	rdfs:label "mount" ;
+	nif:beginIndex "19"^^xs:nonNegativeInteger ;
+	nif:endIndex "24"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.4.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.4.ttl/mount_1> ;
+	fsem:hasInterpretant <file:///eswc.4.ttl/Mount> ;
+	fpos:pennpos fpos:VBP .
+
+<file:///eswc.4.ttl/offset_26_30_they> <file:///eswc.4.ttl/coref> <file:///eswc.4.ttl/thing_1> .
+
+<file:///eswc.4.ttl/offset_31_37_gather> a nif:OffsetBasedString ;
+	rdfs:label "gather" ;
+	nif:beginIndex "31"^^xs:nonNegativeInteger ;
+	nif:endIndex "37"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.4.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.4.ttl/gather_1> ;
+	fsem:hasInterpretant <file:///eswc.4.ttl/Gather> ;
+	fpos:pennpos fpos:VBP .
+
+<file:///eswc.4.ttl/offset_38_42_more> a nif:OffsetBasedString ;
+	rdfs:label "more" ;
+	nif:beginIndex "38"^^xs:nonNegativeInteger ;
+	nif:endIndex "42"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.4.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.4.ttl/More> ;
+	fpos:pennpos fpos:JJR .
+
+<file:///eswc.4.ttl/offset_3_8_their> a nif:OffsetBasedString ;
+	rdfs:label "their" ;
+	nif:beginIndex "3"^^xs:nonNegativeInteger ;
+	nif:endIndex "8"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.4.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.4.ttl/thing_1> ;
+	fsem:hasInterpretant <file:///eswc.4.ttl/Successof> .
+
+<file:///eswc.4.ttl/offset_43_50_weapons> a nif:OffsetBasedString ;
+	rdfs:label "weapons" ;
+	nif:beginIndex "43"^^xs:nonNegativeInteger ;
+	nif:endIndex "50"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.4.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.4.ttl/weapon_1> ;
+	fsem:hasInterpretant <file:///eswc.4.ttl/Weapon> ;
+	fpos:pennpos fpos:NNS .
+
+<file:///eswc.4.ttl/offset_55_62_attract> a nif:OffsetBasedString ;
+	rdfs:label "attract" ;
+	nif:beginIndex "55"^^xs:nonNegativeInteger ;
+	nif:endIndex "62"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.4.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.4.ttl/attract_1> ;
+	fsem:hasInterpretant <file:///eswc.4.ttl/Attract> ;
+	fpos:pennpos fpos:VB .
+
+<file:///eswc.4.ttl/offset_63_67_more> a nif:OffsetBasedString ;
+	rdfs:label "more" ;
+	nif:beginIndex "63"^^xs:nonNegativeInteger ;
+	nif:endIndex "67"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.4.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.4.ttl/More> ;
+	fpos:pennpos fpos:JJR .
+
+<file:///eswc.4.ttl/offset_68_76_fighters> a nif:OffsetBasedString ;
+	rdfs:label "fighters" ;
+	nif:beginIndex "68"^^xs:nonNegativeInteger ;
+	nif:endIndex "76"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.4.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.4.ttl/fighter_1> ;
+	fsem:hasInterpretant <file:///eswc.4.ttl/Fighter> ;
+	fpos:pennpos fpos:NNS .
+
+<file:///eswc.4.ttl/offset_9_18_successes> a nif:OffsetBasedString ;
+	rdfs:label "successes" ;
+	nif:beginIndex "9"^^xs:nonNegativeInteger ;
+	nif:endIndex "18"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.4.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.4.ttl/success_1> ;
+	fsem:hasInterpretant <file:///eswc.4.ttl/Success> ;
+	fpos:pennpos fpos:NNS .
+
+fsem:denotes a owl:ObjectProperty .
+
+fsem:hasInterpretant a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#begins> a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#ends> a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#hasContent> a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#refersTo> a owl:ObjectProperty .
+
+fbox:Now fpos:boxerpos fpos:a .
+
+fbox:Thing fpos:boxerpos fpos:n .
+
+fbox:agent a owl:ObjectProperty .
+
+fbox:patient a owl:ObjectProperty .
+
+fbox:temp_included a owl:ObjectProperty .
+
+fboxing:Situation fpos:boxerpos <file:///eswc.4.ttl/Situation> .
+
+fboxing:involves a owl:ObjectProperty .
+
+dul:hasQuality a owl:ObjectProperty .
+
+fpos:boxerpos a owl:ObjectProperty .
+
+fpos:pennpos a owl:ObjectProperty .
+
+vnr:Agent a owl:ObjectProperty .
+
+vnr:Theme a owl:ObjectProperty .
+
+owl:Thing fpos:boxerpos fpos:n .
+
+owl:equivalentClass a owl:ObjectProperty .
+
+rdfs:subClassOf a owl:ObjectProperty .

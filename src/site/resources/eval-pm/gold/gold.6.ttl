@@ -1,0 +1,146 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
+@prefix pb: <eval:propbank#> .
+@prefix nb: <eval:nombank#> .
+@prefix vn: <eval:verbnet#> .
+@prefix fn: <eval:framenet#> .
+@prefix eval: <eval:schema#> .
+@prefix : <file:///eswc.6.ttl/> .
+
+
+# === TEXT ===
+
+<file:///eswc.6.ttl/> rdfs:label """
+	`` This is just a simple way of returning the favor to our Syrian brothers that fought with us on the lands of Iraq, '' said a veteran of Al Qaeda in Iraq, who said he helped lead the Nusra Front 's efforts in Syria.""" .
+
+
+# === ENTITIES ===
+
+:is a eval:Node .
+:way a eval:Node .
+:returning a eval:Node .
+:favor_v a eval:Node.
+:brothers_v a eval:Node .
+:fought a eval:Node .
+:lands a eval:Node .
+:said_1 a eval:Node .
+:veteran_v a eval:Node .
+:said_2 a eval:Node .
+:helped a eval:Node .
+:lead a eval:Node .
+:efforts a eval:Node .
+
+:this a eval:Node .
+:favor a eval:Node .
+:our a eval:Node .
+:syrian a eval:Node .
+:brothers a eval:Node .
+:us a eval:Node .
+:iraq_1 a eval:Node .
+:veteran a eval:Node .
+:qaeda a eval:Node .
+:iraq_2 a eval:Node .
+:who a eval:Node .
+:he a eval:Node .
+:front a eval:Node .
+:syria a eval:Node .
+
+:simple a eval:Node .
+
+
+# === COREFERENCE ===
+
+:this owl:sameAs :way .
+:our owl:sameAs :us .
+:iraq_1 owl:sameAs :iraq_2 .
+:veteran owl:sameAs :who , :he .
+
+
+# === LINKING ===
+
+:iraq_1 owl:sameAs dbpedia:Iraq .
+:iraq_2 owl:sameAs dbpedia:Iraq .
+:qaeda owl:sameAs dbpedia:Al-Qaeda .
+:front owl:sameAs dbpedia:Al-Nusra_Front .
+:syria owl:sameAs dbpedia:Syria .
+
+
+# === FRAMES ===
+
+:way a nb:way.01 , fn:Means ;
+	nb:a1 :returning ; fn:purpose :returning ;
+    nb:a2 :simple ; fn:descriptor :simple .
+
+:returning a pb:return.02 , vn:contribute-13.2-2 ; # no appropriate frame for return.v LU (should be associated to frame Giving)
+	pb:a1 :favor ; vn:theme :favor ;
+	pb:a2 :brothers ; vn:recipient :brothers .
+
+:favor_v a nb:favor.02 , pb:give.01 , vn:give-13.1-1 ; # no LU in FN for favor.n, although fn:Giving for LU gift.n fits well
+    nb:a1 :favor ; pb:a1 :favor ; vn:theme :favor ;
+    nb:a2 :brothers ; pb:a2 :brothers ; vn:recipient :brothers .
+
+:brothers_v a nb:brother.01 , fn:Kinship ;
+	nb:a0 :brothers ; fn:alter :brothers ;
+    nb:a1 :our ; fn:ego :our ;
+	nb:am-loc :syrian ; fn:descriptor :syrian .
+
+:fought a pb:fight.01 , vn:battle-36.4-1 , fn:Hostile_encounter ;
+	pb:a0 :brothers ; vn:agent :brothers ; fn:side_1 :brothers ;
+    pb:a2 :us ; vn:co-agent :us ; fn:side_1 :us ;
+    pb:am-loc :lands ; fn:place :lands .
+
+:lands a nb:land.02 , fn:Political_locales ;
+	nb:a1 :iraq_1 ; fn:container_possessor :iraq_1 .
+
+:said_1 a pb:say.01 , vn:say-37.7-1 , fn:Statement ;
+    pb:a0 :veteran ; vn:agent :veteran ; fn:speaker :veteran ;
+    pb:a1 :is ; vn:topic :is ; fn:message :is .
+
+:veteran_v a nb:veteran.02 ; # no LU in FN for veteran.n
+	nb:a0 :veteran ;
+	nb:a2 :qaeda .
+    nb:am-loc :iraq_2 .
+
+:said_2 a pb:say.01 , vn:say-37.7-1 , fn:Statement ;
+	pb:a0 :who ; vn:agent :who ; fn:speaker :who ;
+	pb:a1 :helped ; vn:topic :helped ; fn:message :helped .
+
+:helped a pb:help.01 , vn:help-72-1 , fn:Assistance ;
+    pb:a0 :he ; vn:agent :he ; fn:helper :he ;
+    pb:a1 :lead ; vn:theme :lead ; fn:goal :lead .
+
+:lead a pb:lead.01 , vn:accompany-51.7 , fn:Leadership ;
+    pb:a0 :he ; vn:agent :he ; fn:leader :he ;
+	pb:a1 :efforts ; vn:theme :efforts ; fn:activity :efforts .
+
+:efforts a nb:effort.01 , pb:try.01 , vn:try-61 , fn:Attempt ;
+	nb:a0 :front ; pb:a0 :front ; vn:agent :front ; fn:agent :front ;
+	nb:am-loc :syria ; pb:am-loc :syria ; fn:place :syria .
+
+:is a pb:be.01 , vn:seem-109-1-1 ; # fn:Performers_and_roles covers playing a character
+	pb:a1 :this ; vn:theme :this ;
+	pb:a2 :way ; vn:attribute :way .
+
+
+# === IRRELEVANT TRIPLES ===
+
+:returning eval:associableTo :this .            # may also be considered an error (Fred)
+:syria eval:associableTo :syrian .
+:fought eval:associableTo :iraq_1 .             # exact association is between :fought and :land, but it is conceivable to link :fought to :iraq_1 (Fred)
+:he eval:associableTo :said_2 .                 # should be :who instead of :he, but the two corefer
+:simple eval:associableTo :this .               # should be :way (Fred)
+:iraq_2 eval:associableTo :qaeda .
+:lead eval:associableTo :said_2 .               # association is between :gelp and :said_2, but also :lead is something said
+
+
+# === WRONG TRIPLES ===
+
+:brothers_v eval:notAssociableTo :returning .   # association is between :brothers and :returning
+:veteran_v eval:notAssociableTo :said_1 .       # association is between :veteran and :said_1
+:qaeda eval:notAssociableTo :said_2 .           # association is between :who and :said_2
+:brothers_v eval:notAssociableTo :fought .      # association is between :brothers and :fought
+:brothers eval:notAssociableTo :favor .         # association is between :brothers and :favor_v
+:he eval:notAssociableTo :qaeda .               # no coreference between the two
+:lands eval:notAssociableTo :said_1 .           # no association here

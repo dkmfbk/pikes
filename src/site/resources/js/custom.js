@@ -45,3 +45,11 @@ $(window).load(function(){
 
     });
 });
+
+// Proper tab selection (adding back attributes removed by maven/reflow skin)
+$('.nav-tabs li a').attr('data-toggle', 'tab');
+$('.nav-tabs li a').click(function (e) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    $(this).tab('show');
+})

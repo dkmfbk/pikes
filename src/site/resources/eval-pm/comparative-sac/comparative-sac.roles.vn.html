@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Comparative evaluation - Roles (VN)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+<h1>Comparative evaluation - Roles (VN)</h1>
+<p>* irrelevant element returned by evaluated system, not considered as false positive</p>
+<table class="table table-striped table-bordered table-hover table-condensed">
+<thead>
+<tr><th width="10%">Sentence</th><th width="30%">Gold</th><th width="30%">FRED</th><th width="30%">PIKES</th></tr>
+</thead>
+<tbody>
+<tr style="border-top: 4px solid #dddddd"><td>S1</td><td>:posing vn:agent :group</td><td>:pose_1 vn:agent :group_1</td><td>:pose vn:agent :group</td></tr>
+<tr><td></td><td>:posing vn:recipient :countries</td><td>:pose_1 vn:recipient :united_states_1_countries</td><td></td></tr>
+<tr><td></td><td>:posing vn:recipient :states</td><td>:pose_1 vn:recipient :united_states_1_States</td><td></td></tr>
+<tr><td></td><td>:posing vn:topic :challenge</td><td></td><td>:pose vn:topic :challenge</td></tr>
+<tr><td></td><td>:support vn:agent :countries</td><td></td><td></td></tr>
+<tr><td></td><td>:support vn:agent :states</td><td></td><td></td></tr>
+<tr><td></td><td>:support vn:beneficiary :rebels</td><td></td><td></td></tr>
+<tr><td></td><td>:support_1 vn:agent :countries</td><td>:support_1 vn:agent :united_states_1_countries</td><td></td></tr>
+<tr><td></td><td>:support_1 vn:agent :states</td><td>:support_1 vn:agent :united_states_1_States</td><td></td></tr>
+<tr><td></td><td>:support_1 vn:beneficiary :extremists</td><td></td><td></td></tr>
+<tr><td></td><td>:want vn:pivot :countries</td><td></td><td></td></tr>
+<tr><td></td><td>:want vn:pivot :states</td><td></td><td></td></tr>
+<tr><td></td><td>:want vn:theme :support</td><td></td><td></td></tr>
+<tr><td></td><td>:want vn:theme :support_1</td><td>:want_1 vn:theme :support_1</td><td></td></tr>
+<tr><td></td><td></td><td>:become_1 vn:agent :group_1</td><td></td></tr>
+<tr><td></td><td></td><td>:become_1 vn:patient :uprising_1</td><td></td></tr>
+<tr><td></td><td></td><td>:pose_1 vn:theme :challenge_1</td><td></td></tr>
+<tr><td></td><td></td><td>:want_1 vn:experiencer :united_states_1_countries</td><td></td></tr>
+<tr><td></td><td></td><td>:want_1 vn:experiencer :united_states_1_States</td><td></td></tr>
+<tr><td></td><td></td><td></td><td>:support vn:experiencer :country</td></tr>
+<tr><td></td><td></td><td></td><td>:support vn:stimulus :extremist</td></tr>
+<tr><td></td><td></td><td></td><td>:support vn:stimulus :rebel_2</td></tr>
+<tr><td></td><td></td><td></td><td>:want vn:agent :country</td></tr>
+<tr><td></td><td></td><td></td><td>:want vn:result :support</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S2</td><td>:flows vn:theme :money</td><td>:flow_1 vn:theme :money_1</td><td>:flow vn:theme &lt;entity:money&gt;</td></tr>
+<tr><td></td><td></td><td>* :flow_1 vn:location :Nusra_front</td><td></td></tr>
+<tr><td></td><td></td><td>:flow_1 vn:location :group_1</td><td></td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S3</td><td>:capture vn:agent :battalions</td><td>:capture_1 vn:agent :battalion_1</td><td>:capture vn:agent :battalion</td></tr>
+<tr><td></td><td>:capture vn:theme :bases</td><td>:capture_1 vn:theme :military_bases_1</td><td>:capture vn:theme :basis</td></tr>
+<tr><td></td><td>:capture vn:theme :fields</td><td>:capture_1 vn:theme :oil_fields_1</td><td>:capture vn:theme :field</td></tr>
+<tr><td></td><td>:have vn:pivot :fighters</td><td></td><td>:have vn:pivot :fighter</td></tr>
+<tr><td></td><td>:have vn:theme :boldness</td><td></td><td>:have vn:theme :boldness</td></tr>
+<tr><td></td><td>:have vn:theme :skill</td><td></td><td>:have vn:theme :skill</td></tr>
+<tr><td></td><td>:lead vn:agent :fighters</td><td></td><td></td></tr>
+<tr><td></td><td>:lead vn:patient :battalions</td><td></td><td>:lead vn:patient :battalion</td></tr>
+<tr><td></td><td>:lead vn:result :capture</td><td></td><td>:lead vn:result :capture</td></tr>
+<tr><td></td><td></td><td>:fortify_1 vn:patient :storm_1_positions</td><td></td></tr>
+<tr><td></td><td></td><td>:have_1 vn:agent :fighter_1</td><td></td></tr>
+<tr><td></td><td></td><td>:have_1 vn:patient :boldness_1_boldness</td><td></td></tr>
+<tr><td></td><td></td><td>:have_1 vn:patient :boldness_1_skill</td><td></td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S4</td><td>:gather vn:agent :they</td><td>:gather_1 vn:agent :thing_2</td><td>:gather vn:agent :they_2</td></tr>
+<tr><td></td><td>:gather vn:theme :weapons</td><td>:gather_1 vn:theme :weapon_1</td><td>:gather vn:theme :weapon</td></tr>
+<tr><td></td><td>:mount vn:theme :successes</td><td></td><td>:mount vn:theme :success</td></tr>
+<tr><td></td><td></td><td>:attract_1 vn:agent :thing_2</td><td></td></tr>
+<tr><td></td><td></td><td>:attract_1 vn:patient :fighter_1</td><td></td></tr>
+<tr><td></td><td></td><td>:mount_1 vn:agent :success_1</td><td></td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S5</td><td>:contributed vn:agent :which</td><td></td><td></td></tr>
+<tr><td></td><td>:contributed vn:theme :fighters</td><td>:contribute_1 vn:theme :fighter_1_fighters</td><td></td></tr>
+<tr><td></td><td>:contributed vn:theme :weapons</td><td>:contribute_1 vn:theme :fighter_1_weapons</td><td></td></tr>
+<tr><td></td><td>:is vn:attribute :offshoot</td><td></td><td></td></tr>
+<tr><td></td><td>:is vn:theme :group</td><td></td><td></td></tr>
+<tr><td></td><td>:say vn:agent :insurgents</td><td>:say_1 vn:agent :iraqi_insurgents_1</td><td>:say vn:agent :insurgent</td></tr>
+<tr><td></td><td>:say vn:agent :officials</td><td></td><td>:say vn:agent :official</td></tr>
+<tr><td></td><td>:say vn:topic :contributed</td><td></td><td></td></tr>
+<tr><td></td><td>:say vn:topic :is</td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td>* :have vn:pivot :Al_Qaeda</td></tr>
+<tr><td></td><td></td><td></td><td>* :have vn:theme :fighter</td></tr>
+<tr><td></td><td></td><td></td><td>* :have vn:theme :weapon</td></tr>
+<tr><td></td><td></td><td></td><td>:say vn:theme :be</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S6</td><td>:fought vn:agent :brothers</td><td></td><td>:fight vn:agent :brother</td></tr>
+<tr><td></td><td>:fought vn:agent :us</td><td></td><td></td></tr>
+<tr><td></td><td>:helped vn:agent :he</td><td></td><td>:help vn:agent :he</td></tr>
+<tr><td></td><td>:helped vn:theme :lead</td><td></td><td>:help vn:theme :lead</td></tr>
+<tr><td></td><td>:is vn:attribute :way</td><td></td><td></td></tr>
+<tr><td></td><td>:is vn:theme :this</td><td></td><td></td></tr>
+<tr><td></td><td>:lead vn:agent :he</td><td>:lead_1 vn:agent :Al_qaeda_in_iraq_he</td><td>:lead vn:agent :he</td></tr>
+<tr><td></td><td>:lead vn:theme :efforts</td><td>:lead_1 vn:theme :effort_1</td><td>:lead vn:theme :effort</td></tr>
+<tr><td></td><td>:returning vn:recipient :brothers</td><td>:return_1 vn:recipient :brother_1</td><td></td></tr>
+<tr><td></td><td>:returning vn:theme :favor</td><td>:return_1 vn:theme :favor_1</td><td>:return vn:theme :favor</td></tr>
+<tr><td></td><td>:said_1 vn:agent :veteran</td><td>:say_1 vn:agent :veteran_1</td><td></td></tr>
+<tr><td></td><td>:said_1 vn:topic :is</td><td></td><td></td></tr>
+<tr><td></td><td>:said_2 vn:agent :who</td><td></td><td></td></tr>
+<tr><td></td><td>:said_2 vn:topic :helped</td><td></td><td></td></tr>
+<tr><td></td><td></td><td>:fight_1 vn:actor1 :brother_1</td><td></td></tr>
+<tr><td></td><td></td><td>:fight_1 vn:actor2 :person_2</td><td></td></tr>
+<tr><td></td><td></td><td>* :return_1 vn:agent :thing_1</td><td></td></tr>
+<tr><td></td><td></td><td>* :say_2 vn:agent :Al_qaeda_in_iraq_he</td><td></td></tr>
+<tr><td></td><td></td><td>* :say_2 vn:topic :lead_1</td><td></td></tr>
+<tr><td></td><td></td><td></td><td>:fight vn:topic :we_2</td></tr>
+<tr><td></td><td></td><td></td><td>:say_2 vn:agent :Al_Qaeda</td></tr>
+<tr><td></td><td></td><td></td><td>:say_2 vn:theme :help</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S7</td><td>:hopes vn:experiencer :states</td><td>:hope_1 vn:experiencer :united_states_1</td><td>:hope vn:experiencer :United_States</td></tr>
+<tr><td></td><td>:hopes vn:theme :isolate</td><td></td><td>:hope vn:theme :isolate</td></tr>
+<tr><td></td><td>:inheriting vn:agent :it</td><td></td><td>:inherit vn:agent :it</td></tr>
+<tr><td></td><td>:inheriting vn:theme :syria_2</td><td>:inherit_1 vn:theme :Syria_Syria_2</td><td>:inherit vn:theme :Syria_2</td></tr>
+<tr><td></td><td>:isolate vn:agent :states</td><td>:isolate_1 vn:agent :united_states_1</td><td></td></tr>
+<tr><td></td><td>:isolate vn:patient :group</td><td></td><td>:isolate vn:patient :group</td></tr>
+<tr><td></td><td>:prevent vn:agent :states</td><td></td><td>:prevent vn:agent :United_States</td></tr>
+<tr><td></td><td>:prevent vn:theme :inheriting</td><td></td><td>:prevent vn:theme :inherit</td></tr>
+<tr><td></td><td>:prevent vn:theme :it</td><td>:prevent_1 vn:theme :time_1_it</td><td>:prevent vn:theme :it</td></tr>
+<tr><td></td><td>:sensing vn:experiencer :states</td><td>:sense_1 vn:experiencer :united_states_1</td><td>:sense vn:experiencer :United_States</td></tr>
+<tr><td></td><td>:sensing vn:stimulus :running</td><td></td><td>:sense vn:stimulus :run</td></tr>
+<tr><td></td><td></td><td>* :be_1 vn:agent :time_1_time</td><td></td></tr>
+<tr><td></td><td></td><td>* :be_1 vn:theme :run_1</td><td></td></tr>
+<tr><td></td><td></td><td>:isolate_1 vn:theme :group_1</td><td></td></tr>
+<tr><td></td><td></td><td>* :prevent_1 vn:agent :group_1</td><td></td></tr>
+<tr><td></td><td></td><td>:run_1 vn:location :Syria_president</td><td></td></tr>
+<tr><td></td><td></td><td>:run_1 vn:theme :time_1_time</td><td></td></tr>
+<tr><td></td><td></td><td>* :sense_1 vn:stimulus :be_1</td><td></td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S8</td><td>:have vn:pivot :americans</td><td></td><td>:have vn:pivot :Americans</td></tr>
+<tr><td></td><td>:have vn:theme :dealings</td><td></td><td>:have vn:theme :dealings</td></tr>
+<tr><td></td><td>:making vn:agent :it_1</td><td></td><td>:make vn:agent :it</td></tr>
+<tr><td></td><td>:making vn:result :illegal</td><td></td><td></td></tr>
+<tr><td></td><td>:making vn:theme :have</td><td></td><td></td></tr>
+<tr><td></td><td>:organize vn:agent :opposition</td><td>:organize_1 vn:agent :syrian_opposition_1</td><td></td></tr>
+<tr><td></td><td>:organize vn:theme :government</td><td>:organize_1 vn:theme :government_1</td><td></td></tr>
+<tr><td></td><td>:plans vn:experiencer :it_1</td><td></td><td>:plan vn:experiencer :it</td></tr>
+<tr><td></td><td>:plans vn:theme :blacklist</td><td>:plan_1 vn:theme :blacklist_1</td><td>:plan vn:theme :blacklist</td></tr>
+<tr><td></td><td>:prompting vn:agent :it_1</td><td></td><td></td></tr>
+<tr><td></td><td>:prompting vn:patient :europe</td><td></td><td></td></tr>
+<tr><td></td><td>:prompting vn:result :sanctions</td><td></td><td></td></tr>
+<tr><td></td><td>:pushes vn:agent :states</td><td>:push_1 vn:agent :United_states</td><td>:push vn:agent :United_States</td></tr>
+<tr><td></td><td>:pushes vn:patient :opposition</td><td></td><td>:push vn:patient :opposition</td></tr>
+<tr><td></td><td>:pushes vn:result :organize</td><td></td><td></td></tr>
+<tr><td></td><td></td><td>* :blacklist_1 vn:agent :United_states</td><td></td></tr>
+<tr><td></td><td></td><td>:blacklist_1 vn:patient :Nusra_front</td><td></td></tr>
+<tr><td></td><td></td><td>:have_1 vn:agent :Americans</td><td></td></tr>
+<tr><td></td><td></td><td>:have_1 vn:patient :dealings_1</td><td></td></tr>
+<tr><td></td><td></td><td>* :make_1 vn:agent :United_states</td><td></td></tr>
+<tr><td></td><td></td><td>* :plan_1 vn:experiencer :United_states</td><td></td></tr>
+<tr><td></td><td></td><td>* :prompt_1 vn:agent :United_states</td><td></td></tr>
+<tr><td></td><td></td><td>:prompt_1 vn:patient :sanction_1</td><td></td></tr>
+<tr><td></td><td></td><td>:push_1 vn:destination :organize_1</td><td></td></tr>
+<tr><td></td><td></td><td></td><td>:dealings vn:agent :Americans</td></tr>
+<tr><td></td><td></td><td></td><td>:dealings vn:theme &lt;attr:fiscal-1a&gt;</td></tr>
+<tr><td></td><td></td><td></td><td>:dealings vn:theme :group</td></tr>
+<tr><td></td><td></td><td></td><td>:make vn:result :have</td></tr>
+<tr><td></td><td></td><td></td><td>* :make vn:result :it_2</td></tr>
+<tr><td></td><td></td><td></td><td>:organize vn:result :government</td></tr>
+<tr><td></td><td></td><td></td><td>:push vn:result :opposition</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td colspan="2">Results w.r.t. gold standard</td><td>f1=0.453 p=0.558 r=0.382 tp=29 fp=23 fn=47</td><td>f1=0.600 p=0.722 r=0.513 tp=39 fp=15 fn=37</td></tr>
+<tr><td colspan="2">Results w.r.t. union of correct answers</td><td>f1=0.563 p=0.558 r=0.569 tp=29 fp=23 fn=22</td><td>f1=0.743 p=0.722 r=0.765 tp=39 fp=15 fn=12</td></tr>
+</tbody>
+</table>

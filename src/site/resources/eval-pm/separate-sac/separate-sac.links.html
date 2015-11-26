@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Separate evaluation - DBpedia links</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+<h1>Separate evaluation - DBpedia links</h1>
+<p>* irrelevant element returned by evaluated system, not considered as false positive</p>
+<table class="table table-striped table-bordered table-hover table-condensed">
+<thead>
+<tr><th width="10%">Sentence</th><th width="45%">Gold</th><th width="45%">PIKES</th></tr>
+</thead>
+<tbody>
+<tr style="border-top: 4px solid #dddddd"><td>S1</td><td>:qaeda owl:sameAs dbpedia:Al-Qaeda</td><td>:Al_Qaeda owl:sameAs dbpedia:Al-Qaeda</td></tr>
+<tr><td></td><td>:states owl:sameAs dbpedia:United_States</td><td>:United_States owl:sameAs dbpedia:United_States</td></tr>
+<tr><td></td><td></td><td>:Syrian owl:sameAs dbpedia:Syria</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S2</td><td>:group owl:sameAs :front</td><td></td></tr>
+<tr><td></td><td></td><td>* :Nusra_Front owl:sameAs dbpedia:Al-Nusra_Front</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S5</td><td>:qaeda owl:sameAs dbpedia:Al-Qaeda</td><td>:Al_Qaeda owl:sameAs dbpedia:Al-Qaeda</td></tr>
+<tr><td></td><td></td><td>* :Iraq owl:sameAs dbpedia:Iraq</td></tr>
+<tr><td></td><td></td><td>:Iraqi owl:sameAs dbpedia:Iraq</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S6</td><td>:front owl:sameAs dbpedia:Al-Nusra_Front</td><td>:Nusra_Front owl:sameAs dbpedia:Al-Nusra_Front</td></tr>
+<tr><td></td><td>:iraq_1 owl:sameAs dbpedia:Iraq</td><td>:Iraq owl:sameAs dbpedia:Iraq</td></tr>
+<tr><td></td><td>:iraq_2 owl:sameAs dbpedia:Iraq</td><td>:Iraq_2 owl:sameAs dbpedia:Iraq</td></tr>
+<tr><td></td><td>:qaeda owl:sameAs dbpedia:Al-Qaeda</td><td></td></tr>
+<tr><td></td><td>:syria owl:sameAs dbpedia:Syria</td><td>:Syria owl:sameAs dbpedia:Syria</td></tr>
+<tr><td></td><td></td><td>:Al_Qaeda owl:sameAs dbpedia:Islamic_State_of_Iraq_and_the_Levant</td></tr>
+<tr><td></td><td></td><td>:Syrian owl:sameAs dbpedia:Syria</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S7</td><td>:al-assad owl:sameAs dbpedia:Bashar_al-Assad</td><td>:Bashar_al-Assad owl:sameAs dbpedia:Bashar_al-Assad</td></tr>
+<tr><td></td><td>:states owl:sameAs dbpedia:United_States</td><td>:United_States owl:sameAs dbpedia:United_States</td></tr>
+<tr><td></td><td>:syria_1 owl:sameAs dbpedia:Syria</td><td>:Syria owl:sameAs dbpedia:Syria</td></tr>
+<tr><td></td><td>:syria_2 owl:sameAs dbpedia:Syria</td><td>:Syria_2 owl:sameAs dbpedia:Syria</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S8</td><td>:americans owl:sameAs dbpedia:Americans</td><td></td></tr>
+<tr><td></td><td>:europe owl:sameAs dbpedia:European_Union</td><td></td></tr>
+<tr><td></td><td>:front owl:sameAs dbpedia:Al-Nusra_Front</td><td>:Nusra_Front owl:sameAs dbpedia:Al-Nusra_Front</td></tr>
+<tr><td></td><td>:opposition owl:sameAs dbpedia:Syrian_opposition</td><td></td></tr>
+<tr><td></td><td>:states owl:sameAs dbpedia:United_States</td><td>:United_States owl:sameAs dbpedia:United_States</td></tr>
+<tr><td></td><td></td><td>:Americans owl:sameAs dbpedia:United_States</td></tr>
+<tr><td></td><td></td><td>:Europe owl:sameAs dbpedia:Europe</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td colspan="2">Results</td><td>f1=0.703 p=0.684 r=0.722 tp=13 fp=6 fn=5</td></tr>
+</tbody>
+</table>

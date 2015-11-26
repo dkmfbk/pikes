@@ -1,0 +1,101 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
+@prefix pb: <eval:propbank#> .
+@prefix nb: <eval:nombank#> .
+@prefix vn: <eval:verbnet#> .
+@prefix fn: <eval:framenet#> .
+@prefix eval: <eval:schema#> .
+@prefix : <file:///eswc.7.ttl/> .
+
+
+# === TEXT ===
+
+<file:///eswc.7.ttl/> rdfs:label """
+	The United States, sensing that time may be running out for Syria president Bashar al-Assad, hopes to isolate the group to prevent it from inheriting Syria.""" .
+
+
+# === ENTITIES ===
+
+:sensing a eval:Node .
+:running a eval:Node .
+:president_v a eval:Node .
+:hopes a eval:Node .
+:isolate a eval:Node .
+:prevent a eval:Node .
+:inheriting a eval:Node .
+
+:states a eval:Node .
+:time a eval:Node .
+:syria_1 a eval:Node .
+:president a eval:Node .
+:al-assad a eval:Node .
+:group a eval:Node .
+:it a eval:Node .
+:syria_2 a eval:Node .
+
+
+# === COREFERENCE ===
+
+:syria_1 owl:sameAs :syria_2 .
+:it owl:sameAs :group .
+:al-assad owl:sameAs :president .
+
+
+# === LINKING ===
+
+:states owl:sameAs dbpedia:United_States .
+:al-assad owl:sameAs dbpedia:Bashar_al-Assad .
+:syria_1 owl:sameAs dbpedia:Syria .
+:syria_2 owl:sameAs dbpedia:Syria .
+
+
+# === FRAMES ===
+
+:sensing a pb:sense.01 , vn:see-30.1-1 , fn:Perception_experience ;
+	pb:a0 :states ; vn:experiencer :states ; fn:perceiver_passive :states ;
+	pb:a1 :running ; vn:stimulus :running ; fn:phenomenon :running .
+
+:running a pb:run.05 , fn:Expend_resource ;
+	pb:a1 :time ; fn:resource :time ;
+    pb:a2 :al-assad ; fn:agent :al-assad .
+
+:president_v a nb:president.01 , fn:Leadership ;
+	nb:a0 :president ; fn:leader :president ;
+	nb:a2 :syria_1 ; fn:governed :syria_1 .
+
+:hopes a pb:hope.01 , vn:wish-62 , fn:Desiring ;
+	pb:a0 :states ; vn:experiencer :states ; fn:experiencer :states ;
+	pb:a1 :isolate ; vn:theme :isolate ; fn:event :isolate .
+    # pb:am-adv ; fn:explanation :sensing . # pb:am-adv purely grammatical, fn:explanation rare and possibly more appropriate for :isolate
+
+:isolate a pb:isolate.01 , vn:concealment-16 ; # no LU in FN for isolate, although fn:Separating seems to fit
+    pb:a0 :states ; vn:agent :states ;
+    pb:a1 :group ; vn:patient :group ;
+    pb:am-pnc :prevent .
+
+:group a nb:group.01 ; fn:Organization .
+
+:prevent a pb:prevent.01 , vn:forbid-67 , fn:Thwarting ;
+	pb:a0 :states ; vn:agent :states ; 	fn:preventing_cause :states ;
+    pb:a1 :it ; vn:theme :it ; fn:protagonist :it ;
+    pb:a2 :inheriting ; vn:theme :inheriting ; fn:action :inheriting .
+
+:inheriting a pb:inherit.01 , vn:obtain-13.5.2 ; # no LU in FN for inherit.v, although fn:Getting seems to fit
+    pb:a0 :it ; vn:agent :it ;
+	pb:a1 :syria_2 ; vn:theme :syria_2 .
+
+
+# === IRRELEVANT TRIPLES ===
+
+:group eval:associableTo :prevent .                 # should be :it instead of :group, but the two corefer
+
+
+# === WRONG TRIPLES ===
+
+:al-assad eval:notAssociableTo :president_v .       # coreference is between :al-assad and :president
+:president_v eval:notAssociableTo :running .        # association is between :al-assad and :running (may accept also :president)
+:it eval:notAssociableTo :time .                    # no coreference between the two
+:president_v eval:notAssociableTo :syria_2 .        # association is between :president_v and :syria_2
+:it eval:notAssociableTo :states .                  # no coreference between the two

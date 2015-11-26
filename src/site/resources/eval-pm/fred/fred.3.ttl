@@ -1,0 +1,337 @@
+@prefix fsem: <http://ontologydesignpatterns.org/cp/owl/semiotics.owl#> .
+@prefix fpos: <http://www.ontologydesignpatterns.org/ont/fred/pos.owl#> .
+@prefix fbox: <http://www.ontologydesignpatterns.org/ont/boxer/boxer.owl#> .
+@prefix wni: <http://www.w3.org/2006/03/wn/wn30/instances/> .
+@prefix wns: <http://www.w3.org/2006/03/wn/wn30/schema/> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
+@prefix xs: <http://www.w3.org/2001/XMLSchema#> .
+@prefix vnr: <http://www.ontologydesignpatterns.org/ont/vn/abox/role/> .
+@prefix vnc: <http://www.ontologydesignpatterns.org/ont/vn/data/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix nif: <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+<file:///eswc.3.ttl/docuverse> a nif:Context ;
+	nif:isString "Its fighters, a small minority of the rebels, have the boldness and skill to storm fortified positions and lead other battalions to capture military_bases and oil_fields." .
+
+<file:///eswc.3.ttl/Battalion> fpos:boxerpos fpos:n .
+
+<file:///eswc.3.ttl/Boldness> rdfs:subClassOf wni:supersense-noun_attribute , <http://www.ontologydesignpatterns.org/ont/d0.owl#Characteristic> ;
+	owl:equivalentClass wni:synset-boldness-noun-1 ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.3.ttl/Capture> rdfs:subClassOf dul:Event ;
+	owl:equivalentClass vnc:Capture_10050000 ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.3.ttl/Fighter> fpos:boxerpos fpos:n .
+
+<file:///eswc.3.ttl/Fortify> rdfs:subClassOf dul:Event ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.3.ttl/Have> rdfs:subClassOf dul:Event ;
+	owl:equivalentClass vnc:Have_39040100 ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.3.ttl/Lead> fpos:boxerpos fpos:a .
+
+<file:///eswc.3.ttl/MilitaryBases> rdfs:subClassOf wni:supersense-noun_group , dul:Organization ;
+	owl:equivalentClass wni:synset-military-noun-1 .
+
+<file:///eswc.3.ttl/Military_bases> rdfs:subClassOf <file:///eswc.3.ttl/MilitaryBases> ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.3.ttl/Minority> a owl:Class ;
+	rdfs:subClassOf wni:supersense-noun_group , dul:Collection ;
+	owl:equivalentClass wni:synset-minority-noun-1 ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.3.ttl/OilFields> rdfs:subClassOf wni:supersense-noun_location , <http://www.ontologydesignpatterns.org/ont/d0.owl#Location> ;
+	owl:equivalentClass wni:synset-oilfield-noun-1 .
+
+<file:///eswc.3.ttl/Oil_fields> rdfs:subClassOf <file:///eswc.3.ttl/OilFields> ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.3.ttl/Position> fpos:boxerpos fpos:n .
+
+<file:///eswc.3.ttl/Rebel> fpos:boxerpos fpos:n .
+
+<file:///eswc.3.ttl/Skill> rdfs:subClassOf <http://www.ontologydesignpatterns.org/ont/d0.owl#Characteristic> , wni:supersense-noun_cognition ;
+	owl:equivalentClass wni:synset-skill-noun-2 ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.3.ttl/Small> fpos:boxerpos fpos:a .
+
+<file:///eswc.3.ttl/SmallMinority> a owl:Class ;
+	rdfs:subClassOf <file:///eswc.3.ttl/Minority> .
+
+<file:///eswc.3.ttl/Storm> fpos:boxerpos fpos:n .
+
+<file:///eswc.3.ttl/battalion_1> a <file:///eswc.3.ttl/Battalion> ;
+	dul:hasQuality <file:///eswc.3.ttl/Lead> .
+
+<file:///eswc.3.ttl/boldness_1> a <file:///eswc.3.ttl/Boldness> , <file:///eswc.3.ttl/Skill> ;
+	<file:///eswc.3.ttl/to> <file:///eswc.3.ttl/storm_1> , <file:///eswc.3.ttl/battalion_1> .
+
+<file:///eswc.3.ttl/capture_1> a <file:///eswc.3.ttl/Capture> ;
+	vnr:Theme <file:///eswc.3.ttl/military_bases_1> , <file:///eswc.3.ttl/oil_fields_1> ;
+	vnr:Agent <file:///eswc.3.ttl/battalion_1> .
+
+<file:///eswc.3.ttl/fighterOf> a owl:ObjectProperty .
+
+<file:///eswc.3.ttl/fighter_1> a <file:///eswc.3.ttl/Fighter> ;
+	dul:associatedWith <file:///eswc.3.ttl/minority_1> ;
+	<file:///eswc.3.ttl/fighterOf> <file:///eswc.3.ttl/neuter_1> .
+
+<file:///eswc.3.ttl/fortify_1> a <file:///eswc.3.ttl/Fortify> ;
+	fbox:patient <file:///eswc.3.ttl/storm_1> .
+
+<file:///eswc.3.ttl/have_1> a <file:///eswc.3.ttl/Have> ;
+	vnr:Patient <file:///eswc.3.ttl/boldness_1> ;
+	fbox:temp_included <file:///eswc.3.ttl/now_1> ;
+	vnr:Agent <file:///eswc.3.ttl/fighter_1> .
+
+<file:///eswc.3.ttl/military_bases_1> a <file:///eswc.3.ttl/Military_bases> .
+
+<file:///eswc.3.ttl/minority_1> a <file:///eswc.3.ttl/SmallMinority> ;
+	<file:///eswc.3.ttl/smallMinorityOf> <file:///eswc.3.ttl/rebel_1> ;
+	dul:hasQuality <file:///eswc.3.ttl/Small> .
+
+<file:///eswc.3.ttl/neuter_1> a fbox:Neuter .
+
+<file:///eswc.3.ttl/now_1> a fbox:Now .
+
+<file:///eswc.3.ttl/oil_fields_1> a <file:///eswc.3.ttl/Oil_fields> .
+
+<file:///eswc.3.ttl/rebel_1> a <file:///eswc.3.ttl/Rebel> .
+
+<file:///eswc.3.ttl/smallMinorityOf> a owl:ObjectProperty .
+
+<file:///eswc.3.ttl/storm_1> a <file:///eswc.3.ttl/Position> , <file:///eswc.3.ttl/Storm> .
+
+<file:///eswc.3.ttl/to> a owl:ObjectProperty .
+
+<file:///eswc.3.ttl/offset_0_3_Its> a nif:OffsetBasedString ;
+	rdfs:label "Its" ;
+	nif:beginIndex "0"^^xs:nonNegativeInteger ;
+	nif:endIndex "3"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.3.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.3.ttl/neuter_1> ;
+	fsem:hasInterpretant <file:///eswc.3.ttl/Fighterof> .
+
+<file:///eswc.3.ttl/offset_107_111_lead> a nif:OffsetBasedString ;
+	rdfs:label "lead" ;
+	nif:beginIndex "107"^^xs:nonNegativeInteger ;
+	nif:endIndex "111"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.3.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.3.ttl/Lead> ;
+	fpos:pennpos fpos:VB .
+
+<file:///eswc.3.ttl/offset_112_117_other> a nif:OffsetBasedString ;
+	rdfs:label "other" ;
+	nif:beginIndex "112"^^xs:nonNegativeInteger ;
+	nif:endIndex "117"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.3.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.3.ttl/Noteq> .
+
+<file:///eswc.3.ttl/offset_118_128_battalions> a nif:OffsetBasedString ;
+	rdfs:label "battalions" ;
+	nif:beginIndex "118"^^xs:nonNegativeInteger ;
+	nif:endIndex "128"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.3.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.3.ttl/battalion_1> ;
+	fsem:hasInterpretant <file:///eswc.3.ttl/Battalion> ;
+	fpos:pennpos fpos:NNS .
+
+<file:///eswc.3.ttl/offset_12_13_%2C> a nif:OffsetBasedString ;
+	rdfs:label "," ;
+	nif:beginIndex "12"^^xs:nonNegativeInteger ;
+	nif:endIndex "13"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.3.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.3.ttl/Rel> .
+
+<file:///eswc.3.ttl/offset_132_139_capture> a nif:OffsetBasedString ;
+	rdfs:label "capture" ;
+	nif:beginIndex "132"^^xs:nonNegativeInteger ;
+	nif:endIndex "139"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.3.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.3.ttl/capture_1> ;
+	fsem:hasInterpretant <file:///eswc.3.ttl/Capture> ;
+	fpos:pennpos fpos:VB .
+
+<file:///eswc.3.ttl/offset_140_154_military_bases> a nif:OffsetBasedString ;
+	rdfs:label "military_bases" ;
+	nif:beginIndex "140"^^xs:nonNegativeInteger ;
+	nif:endIndex "154"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.3.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.3.ttl/military_bases_1> ;
+	fsem:hasInterpretant <file:///eswc.3.ttl/Military_bases> ;
+	fpos:pennpos fpos:NNS .
+
+<file:///eswc.3.ttl/offset_159_169_oil_fields> a nif:OffsetBasedString ;
+	rdfs:label "oil_fields" ;
+	nif:beginIndex "159"^^xs:nonNegativeInteger ;
+	nif:endIndex "169"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.3.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.3.ttl/oil_fields_1> ;
+	fsem:hasInterpretant <file:///eswc.3.ttl/Oil_fields> ;
+	fpos:pennpos fpos:NNS .
+
+<file:///eswc.3.ttl/offset_16_21_small> a nif:OffsetBasedString ;
+	rdfs:label "small" ;
+	nif:beginIndex "16"^^xs:nonNegativeInteger ;
+	nif:endIndex "21"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.3.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.3.ttl/Small> ;
+	fpos:pennpos fpos:JJ .
+
+<file:///eswc.3.ttl/offset_16_30_small+minority> a nif:OffsetBasedString ;
+	rdfs:label "Small Minority" , "small minority" ;
+	nif:beginIndex "16"^^xs:nonNegativeInteger ;
+	nif:endIndex "30"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.3.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.3.ttl/Minority> .
+
+<file:///eswc.3.ttl/offset_22_30_minority> a nif:OffsetBasedString ;
+	rdfs:label "minority" ;
+	nif:beginIndex "22"^^xs:nonNegativeInteger ;
+	nif:endIndex "30"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.3.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.3.ttl/minority_1> ;
+	fsem:hasInterpretant <file:///eswc.3.ttl/Minority> ;
+	fpos:pennpos fpos:NN .
+
+<file:///eswc.3.ttl/offset_31_33_of> a nif:OffsetBasedString ;
+	rdfs:label "of" ;
+	nif:beginIndex "31"^^xs:nonNegativeInteger ;
+	nif:endIndex "33"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.3.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.3.ttl/Smallminorityof> .
+
+<file:///eswc.3.ttl/offset_38_44_rebels> a nif:OffsetBasedString ;
+	rdfs:label "rebels" ;
+	nif:beginIndex "38"^^xs:nonNegativeInteger ;
+	nif:endIndex "44"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.3.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.3.ttl/rebel_1> ;
+	fsem:hasInterpretant <file:///eswc.3.ttl/Rebel> ;
+	fpos:pennpos fpos:NNS .
+
+<file:///eswc.3.ttl/offset_46_50_have> a nif:OffsetBasedString ;
+	rdfs:label "have" ;
+	nif:beginIndex "46"^^xs:nonNegativeInteger ;
+	nif:endIndex "50"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.3.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.3.ttl/have_1> ;
+	fsem:hasInterpretant <file:///eswc.3.ttl/Have> ;
+	fpos:pennpos fpos:VBP .
+
+<file:///eswc.3.ttl/offset_4_12_fighters> a nif:OffsetBasedString ;
+	rdfs:label "fighters" ;
+	nif:beginIndex "4"^^xs:nonNegativeInteger ;
+	nif:endIndex "12"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.3.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.3.ttl/fighter_1> ;
+	fsem:hasInterpretant <file:///eswc.3.ttl/Fighter> ;
+	fpos:pennpos fpos:NNS .
+
+<file:///eswc.3.ttl/offset_55_63_boldness> a nif:OffsetBasedString ;
+	rdfs:label "boldness" ;
+	nif:beginIndex "55"^^xs:nonNegativeInteger ;
+	nif:endIndex "63"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.3.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.3.ttl/boldness_1> ;
+	fsem:hasInterpretant <file:///eswc.3.ttl/Boldness> ;
+	fpos:pennpos fpos:NN .
+
+<file:///eswc.3.ttl/offset_68_73_skill> a nif:OffsetBasedString ;
+	rdfs:label "skill" ;
+	nif:beginIndex "68"^^xs:nonNegativeInteger ;
+	nif:endIndex "73"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.3.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.3.ttl/boldness_1> ;
+	fsem:hasInterpretant <file:///eswc.3.ttl/Skill> ;
+	fpos:pennpos fpos:NN .
+
+<file:///eswc.3.ttl/offset_74_76_to> a nif:OffsetBasedString ;
+	rdfs:label "to" ;
+	nif:beginIndex "74"^^xs:nonNegativeInteger ;
+	nif:endIndex "76"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.3.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.3.ttl/To> .
+
+<file:///eswc.3.ttl/offset_77_82_storm> a nif:OffsetBasedString ;
+	rdfs:label "storm" ;
+	nif:beginIndex "77"^^xs:nonNegativeInteger ;
+	nif:endIndex "82"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.3.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.3.ttl/storm_1> ;
+	fsem:hasInterpretant <file:///eswc.3.ttl/Storm> ;
+	fpos:pennpos fpos:NN .
+
+<file:///eswc.3.ttl/offset_83_92_fortified> a nif:OffsetBasedString ;
+	rdfs:label "fortified" ;
+	nif:beginIndex "83"^^xs:nonNegativeInteger ;
+	nif:endIndex "92"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.3.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.3.ttl/fortify_1> ;
+	fsem:hasInterpretant <file:///eswc.3.ttl/Fortify> ;
+	fpos:pennpos fpos:VBN .
+
+<file:///eswc.3.ttl/offset_93_102_positions> a nif:OffsetBasedString ;
+	rdfs:label "positions" ;
+	nif:beginIndex "93"^^xs:nonNegativeInteger ;
+	nif:endIndex "102"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.3.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.3.ttl/storm_1> ;
+	fsem:hasInterpretant <file:///eswc.3.ttl/Position> ;
+	fpos:pennpos fpos:NNS .
+
+fsem:denotes a owl:ObjectProperty .
+
+fsem:hasInterpretant a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#begins> a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#ends> a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#hasContent> a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#refersTo> a owl:ObjectProperty .
+
+fbox:Neuter fpos:boxerpos fpos:a .
+
+fbox:Now fpos:boxerpos fpos:a .
+
+fbox:patient a owl:ObjectProperty .
+
+fbox:temp_included a owl:ObjectProperty .
+
+dul:associatedWith a owl:ObjectProperty .
+
+dul:hasQuality a owl:ObjectProperty .
+
+fpos:boxerpos a owl:ObjectProperty .
+
+fpos:pennpos a owl:ObjectProperty .
+
+vnr:Agent a owl:ObjectProperty .
+
+vnr:Patient a owl:ObjectProperty .
+
+vnr:Theme a owl:ObjectProperty .
+
+wni:synset-boldness-noun-1 wns:gloss "the trait of being willing to undertake things that involve risk or danger; \"the proposal required great boldness\"; \"the plan required great hardiness of heart\""@en-us .
+
+wni:synset-military-noun-1 wns:gloss "the military forces of a nation; \"their military is the largest in the region\"; \"the military machine is the same one we faced in 1991 but now it is weaker\""@en-us .
+
+wni:synset-minority-noun-1 wns:gloss "a group of people who differ racially or politically from a larger group of which it is a part"@en-us .
+
+wni:synset-oilfield-noun-1 wns:gloss "a region rich in petroleum deposits (especially one with producing oil wells)"@en-us .
+
+wni:synset-skill-noun-2 wns:gloss "ability to produce solutions in some problem domain; \"the skill of a well-trained boxer\"; \"the sweet science of pugilism\""@en-us .
+
+owl:equivalentClass a owl:ObjectProperty .
+
+rdfs:subClassOf a owl:ObjectProperty .

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Separate evaluation - Edges</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+<h1>Separate evaluation - Edges</h1>
+<p>* irrelevant element returned by evaluated system, not considered as false positive</p>
+<table class="table table-striped table-bordered table-hover table-condensed">
+<thead>
+<tr><th width="10%">Sentence</th><th width="45%">Gold</th><th width="45%">PIKES</th></tr>
+</thead>
+<tbody>
+<tr style="border-top: 4px solid #dddddd"><td>S1</td><td>(:approval, :explicit)</td><td></td></tr>
+<tr><td></td><td>(:approval, :group)</td><td>(:approval, :group)</td></tr>
+<tr><td></td><td>(:approval, :qaeda)</td><td>(:Al_Qaeda, :approval)</td></tr>
+<tr><td></td><td>(:become, :forces)</td><td></td></tr>
+<tr><td></td><td>(:become, :group)</td><td>(:become, :group)</td></tr>
+<tr><td></td><td>(:challenge, :countries)</td><td>(:challenge, :country)</td></tr>
+<tr><td></td><td>(:challenge, :group)</td><td>(:challenge, :group)</td></tr>
+<tr><td></td><td>(:challenge, :posing)</td><td>(:challenge, :pose)</td></tr>
+<tr><td></td><td>(:challenge, :stark)</td><td>(&lt;attr:blunt-4a&gt;, :challenge)</td></tr>
+<tr><td></td><td>(:challenge, :states)</td><td>(:United_States, :challenge)</td></tr>
+<tr><td></td><td>(:countries, :other)</td><td>(:country, :other)</td></tr>
+<tr><td></td><td>(:countries, :posing)</td><td></td></tr>
+<tr><td></td><td>(:countries, :support)</td><td>(:country, :support)</td></tr>
+<tr><td></td><td>(:countries, :support_1)</td><td></td></tr>
+<tr><td></td><td>(:countries, :want)</td><td>(:country, :want)</td></tr>
+<tr><td></td><td>(:extremists, :support_1)</td><td></td></tr>
+<tr><td></td><td>(:fighting, :forces)</td><td>(:fighting, :force)</td></tr>
+<tr><td></td><td>(:forces, :uprising)</td><td>(:force, :uprising)</td></tr>
+<tr><td></td><td>(:group, :lone)</td><td>(&lt;attr:alone(p)-2a&gt;, :group)</td></tr>
+<tr><td></td><td>(:group, :posing)</td><td>(:group, :pose)</td></tr>
+<tr><td></td><td>(:group, :rebel)</td><td>(:group, :rebel)</td></tr>
+<tr><td></td><td>(:group, :syrian)</td><td>(:Syrian, :group)</td></tr>
+<tr><td></td><td>(:not, :support_1)</td><td></td></tr>
+<tr><td></td><td>(:posing, :states)</td><td></td></tr>
+<tr><td></td><td>(:rebels, :support)</td><td>(:rebel_2, :support)</td></tr>
+<tr><td></td><td>(:states, :support)</td><td></td></tr>
+<tr><td></td><td>(:states, :support_1)</td><td></td></tr>
+<tr><td></td><td>(:states, :want)</td><td></td></tr>
+<tr><td></td><td>(:support, :want)</td><td>(:support, :want)</td></tr>
+<tr><td></td><td>(:support_1, :want)</td><td></td></tr>
+<tr><td></td><td></td><td>* (&lt;attr:about-7r&gt;, &lt;attr:about-7r_effective-1a&gt;)</td></tr>
+<tr><td></td><td></td><td>* (&lt;attr:about-7r_effective-1a&gt;, :force)</td></tr>
+<tr><td></td><td></td><td>* (&lt;entity:islamic&gt;, :extremist)</td></tr>
+<tr><td></td><td></td><td>* (:approval, :stamp)</td></tr>
+<tr><td></td><td></td><td>* (:become, :one)</td></tr>
+<tr><td></td><td></td><td>* (&lt;attr:explicit-1a&gt;, :stamp)</td></tr>
+<tr><td></td><td></td><td>(&lt;attr:not-1r&gt;, :extremist)</td></tr>
+<tr><td></td><td></td><td>(:extremist, :support)</td></tr>
+<tr><td></td><td></td><td>* (:force, :one)</td></tr>
+<tr><td></td><td></td><td>* (:group, :stamp)</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S2</td><td>(:abroad, :donors)</td><td>(&lt;attr:abroad-1r&gt;, :donor_2)</td></tr>
+<tr><td></td><td>(:donors, :donors_v)</td><td>(:donor, :donor_2)</td></tr>
+<tr><td></td><td>(:donors, :flows)</td><td></td></tr>
+<tr><td></td><td>(:donors, :like-minded)</td><td>(:donor_2, :like-mind)</td></tr>
+<tr><td></td><td>(:donors_v, :group)</td><td>(:donor, :group)</td></tr>
+<tr><td></td><td>(:donors_v, :money)</td><td></td></tr>
+<tr><td></td><td>(:flows, :group)</td><td>(:flow, :group)</td></tr>
+<tr><td></td><td>(:flows, :money)</td><td>(&lt;entity:money&gt;, :flow)</td></tr>
+<tr><td></td><td></td><td>(:donor, :like-mind)</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S3</td><td>(:bases, :capture)</td><td>(:basis, :capture)</td></tr>
+<tr><td></td><td>(:bases, :military)</td><td>(:basis, :military)</td></tr>
+<tr><td></td><td>(:battalions, :capture)</td><td>(:battalion, :capture)</td></tr>
+<tr><td></td><td>(:battalions, :lead)</td><td>(:battalion, :lead)</td></tr>
+<tr><td></td><td>(:battalions, :other)</td><td>(:battalion, :other)</td></tr>
+<tr><td></td><td>(:boldness, :have)</td><td>(:boldness, :have)</td></tr>
+<tr><td></td><td>(:capture, :fields)</td><td>(:capture, :field)</td></tr>
+<tr><td></td><td>(:capture, :lead)</td><td>(:capture, :lead)</td></tr>
+<tr><td></td><td>(:fields, :oil)</td><td>(:field, :oil)</td></tr>
+<tr><td></td><td>(:fighters, :fighters_v)</td><td>(:fighter, :fighter_2)</td></tr>
+<tr><td></td><td>(:fighters, :have)</td><td>(:fighter, :have)</td></tr>
+<tr><td></td><td>(:fighters, :lead)</td><td></td></tr>
+<tr><td></td><td>(:fighters, :minority)</td><td></td></tr>
+<tr><td></td><td>(:fighters, :storm)</td><td>(:fighter, :storm)</td></tr>
+<tr><td></td><td>(:fighters_v, :its)</td><td>(:fighter_2, :its)</td></tr>
+<tr><td></td><td>(:fortified, :positions)</td><td>(:fortify, :position)</td></tr>
+<tr><td></td><td>(:have, :skill)</td><td>(:have, :skill)</td></tr>
+<tr><td></td><td>(:minority, :rebels)</td><td>(:minority, :rebel)</td></tr>
+<tr><td></td><td>(:minority, :small)</td><td>(&lt;attr:small-1a&gt;, :minority)</td></tr>
+<tr><td></td><td>(:positions, :storm)</td><td>(:position, :storm)</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S4;</td><td>(:attract, :fighters)</td><td>(:attract, :fighter)</td></tr>
+<tr><td></td><td>(:attract, :they)</td><td>(:attract, :they_2)</td></tr>
+<tr><td></td><td>(:fighters, :fighters_v)</td><td>(:fighter, :fighter_2)</td></tr>
+<tr><td></td><td>(:gather, :they)</td><td>(:gather, :they_2)</td></tr>
+<tr><td></td><td>(:gather, :weapons)</td><td>(:gather, :weapon)</td></tr>
+<tr><td></td><td>(:mount, :successes)</td><td>(:mount, :success)</td></tr>
+<tr><td></td><td>(:successes, :their)</td><td>(:success, :they)</td></tr>
+<tr><td></td><td>(:their, :they)</td><td>(:they, :they_2)</td></tr>
+<tr><td></td><td>(:weapons, :weapons_v)</td><td>(:weapon, :weapon_2)</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S5</td><td>(:contributed, :fighters)</td><td>(:contribute, :fighter)</td></tr>
+<tr><td></td><td>(:contributed, :say)</td><td></td></tr>
+<tr><td></td><td>(:contributed, :weapons)</td><td>(:contribute, :weapon)</td></tr>
+<tr><td></td><td>(:contributed, :which)</td><td></td></tr>
+<tr><td></td><td>(:direct, :offshoot_v)</td><td>(&lt;attr:direct-3a&gt;, :offshoot_2)</td></tr>
+<tr><td></td><td>(:fighters, :fighters_v)</td><td>(:fighter, :fighter_2)</td></tr>
+<tr><td></td><td>(:fighters, :veteran)</td><td></td></tr>
+<tr><td></td><td>(:fighters_v, :veteran)</td><td>(:fighter_2, :veteran)</td></tr>
+<tr><td></td><td>(:former, :insurgents_v)</td><td>(&lt;attr:former(a)-1a&gt;, :insurgent_2)</td></tr>
+<tr><td></td><td>(:group, :is)</td><td>(:be, :group)</td></tr>
+<tr><td></td><td>(:group, :offshoot)</td><td></td></tr>
+<tr><td></td><td>(:insurgents, :insurgents_v)</td><td>(:insurgent, :insurgent_2)</td></tr>
+<tr><td></td><td>(:insurgents, :say)</td><td>(:insurgent, :say)</td></tr>
+<tr><td></td><td>(:insurgents_v, :iraqi_2)</td><td>(&lt;entity:iraqi&gt;, :insurgent_2)</td></tr>
+<tr><td></td><td>(:iraqi_1, :officials_v)</td><td>(:Iraqi, :official_2)</td></tr>
+<tr><td></td><td>(:is, :offshoot)</td><td>(:be, :offshoot)</td></tr>
+<tr><td></td><td>(:is, :say)</td><td>(:be, :say)</td></tr>
+<tr><td></td><td>(:officials, :officials_v)</td><td>(:official, :official_2)</td></tr>
+<tr><td></td><td>(:officials, :say)</td><td>(:official, :say)</td></tr>
+<tr><td></td><td>(:offshoot, :offshoot_v)</td><td>(:offshoot, :offshoot_2)</td></tr>
+<tr><td></td><td>(:offshoot_v, :qaeda)</td><td>(:Al_Qaeda, :offshoot_2)</td></tr>
+<tr><td></td><td>(:qaeda, :which)</td><td></td></tr>
+<tr><td></td><td>(:weapons, :weapons_v)</td><td>(:weapon, :weapon_2)</td></tr>
+<tr><td></td><td></td><td>* (:Al_Qaeda, :Iraq)</td></tr>
+<tr><td></td><td></td><td>(:contribute, :fighter_2)</td></tr>
+<tr><td></td><td></td><td>* (:fighter, :have)</td></tr>
+<tr><td></td><td></td><td>(:fighter_2, :weapon)</td></tr>
+<tr><td></td><td></td><td>(:group, :offshoot_2)</td></tr>
+<tr><td></td><td></td><td>* (:Al_Qaeda, :have)</td></tr>
+<tr><td></td><td></td><td>* (:have, :weapon)</td></tr>
+<tr><td></td><td></td><td>(:insurgent, :official_2)</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S6</td><td>(:brothers, :brothers_v)</td><td>(:brother, :brother_2)</td></tr>
+<tr><td></td><td>(:brothers, :favor_v)</td><td></td></tr>
+<tr><td></td><td>(:brothers, :fought)</td><td>(:brother, :fight)</td></tr>
+<tr><td></td><td>(:brothers, :returning)</td><td>(:brother, :return)</td></tr>
+<tr><td></td><td>(:brothers_v, :our)</td><td>(:brother_2, :we)</td></tr>
+<tr><td></td><td>(:brothers_v, :syrian)</td><td>(:Syrian, :brother_2)</td></tr>
+<tr><td></td><td>(:efforts, :front)</td><td>(:Nusra_Front, :effort)</td></tr>
+<tr><td></td><td>(:efforts, :lead)</td><td>(:effort, :lead)</td></tr>
+<tr><td></td><td>(:efforts, :syria)</td><td>(:Syria, :effort)</td></tr>
+<tr><td></td><td>(:favor, :favor_v)</td><td></td></tr>
+<tr><td></td><td>(:favor, :returning)</td><td>(:favor, :return)</td></tr>
+<tr><td></td><td>(:fought, :lands)</td><td></td></tr>
+<tr><td></td><td>(:fought, :us)</td><td>(:fight, :we_2)</td></tr>
+<tr><td></td><td>(:he, :helped)</td><td>(:he, :help)</td></tr>
+<tr><td></td><td>(:he, :lead)</td><td>(:he, :lead)</td></tr>
+<tr><td></td><td>(:he, :veteran)</td><td></td></tr>
+<tr><td></td><td>(:helped, :lead)</td><td>(:help, :lead)</td></tr>
+<tr><td></td><td>(:helped, :said_2)</td><td>(:help, :say_2)</td></tr>
+<tr><td></td><td>(:iraq_1, :iraq_2)</td><td>(:Iraq, :Iraq_2)</td></tr>
+<tr><td></td><td>(:iraq_1, :lands)</td><td>(:Iraq, :land)</td></tr>
+<tr><td></td><td>(:is, :said_1)</td><td></td></tr>
+<tr><td></td><td>(:is, :this)</td><td></td></tr>
+<tr><td></td><td>(:is, :way)</td><td>(:be, :way)</td></tr>
+<tr><td></td><td>(:our, :us)</td><td>(:we, :we_2)</td></tr>
+<tr><td></td><td>(:qaeda, :veteran_v)</td><td>(:Al_Qaeda, :veteran_2)</td></tr>
+<tr><td></td><td>(:returning, :way)</td><td>(:return, :way)</td></tr>
+<tr><td></td><td>(:said_1, :veteran)</td><td></td></tr>
+<tr><td></td><td>(:said_2, :who)</td><td>(:say_2, :who)</td></tr>
+<tr><td></td><td>(:simple, :way)</td><td>(&lt;attr:simple-1a&gt;, :way)</td></tr>
+<tr><td></td><td>(:this, :way)</td><td></td></tr>
+<tr><td></td><td>(:veteran, :veteran_v)</td><td>(:veteran, :veteran_2)</td></tr>
+<tr><td></td><td>(:veteran, :who)</td><td></td></tr>
+<tr><td></td><td></td><td>* (&lt;attr:merely-1r&gt;, :way)</td></tr>
+<tr><td></td><td></td><td>(:brother, :favor)</td></tr>
+<tr><td></td><td></td><td>(:brother_2, :fight)</td></tr>
+<tr><td></td><td></td><td>* (:Al_Qaeda, :Iraq_2)</td></tr>
+<tr><td></td><td></td><td>(:land, :say)</td></tr>
+<tr><td></td><td></td><td>(:Al_Qaeda, :say_2)</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S7</td><td>(:al-assad, :president)</td><td>(:Bashar_al-Assad, :president)</td></tr>
+<tr><td></td><td>(:al-assad, :running)</td><td>(:Bashar_al-Assad, :run)</td></tr>
+<tr><td></td><td>(:group, :isolate)</td><td>(:group, :isolate)</td></tr>
+<tr><td></td><td>(:group, :it)</td><td></td></tr>
+<tr><td></td><td>(:hopes, :isolate)</td><td>(:hope, :isolate)</td></tr>
+<tr><td></td><td>(:hopes, :states)</td><td>(:United_States, :hope)</td></tr>
+<tr><td></td><td>(:inheriting, :it)</td><td>(:inherit, :it)</td></tr>
+<tr><td></td><td>(:inheriting, :prevent)</td><td>(:inherit, :prevent)</td></tr>
+<tr><td></td><td>(:inheriting, :syria_2)</td><td>(:Syria_2, :inherit)</td></tr>
+<tr><td></td><td>(:isolate, :prevent)</td><td></td></tr>
+<tr><td></td><td>(:isolate, :states)</td><td></td></tr>
+<tr><td></td><td>(:it, :prevent)</td><td>(:it, :prevent)</td></tr>
+<tr><td></td><td>(:president, :president_v)</td><td>(:president, :president_2)</td></tr>
+<tr><td></td><td>(:president_v, :syria_1)</td><td>(:Syria, :president_2)</td></tr>
+<tr><td></td><td>(:prevent, :states)</td><td>(:United_States, :prevent)</td></tr>
+<tr><td></td><td>(:running, :sensing)</td><td>(:run, :sense)</td></tr>
+<tr><td></td><td>(:running, :time)</td><td>(:run, :time)</td></tr>
+<tr><td></td><td>(:sensing, :states)</td><td>(:United_States, :sense)</td></tr>
+<tr><td></td><td>(:syria_1, :syria_2)</td><td>(:Syria, :Syria_2)</td></tr>
+<tr><td></td><td></td><td>(:United_States, :it)</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S8</td><td>(:alternative, :government)</td><td>(:alternative, :government_2)</td></tr>
+<tr><td></td><td>(:americans, :dealings)</td><td>(:Americans, :dealings)</td></tr>
+<tr><td></td><td>(:americans, :have)</td><td>(:Americans, :have)</td></tr>
+<tr><td></td><td>(:americans, :making)</td><td></td></tr>
+<tr><td></td><td>(:blacklist, :front)</td><td>(:Nusra_Front, :blacklist)</td></tr>
+<tr><td></td><td>(:blacklist, :it_1)</td><td>(:blacklist, :it)</td></tr>
+<tr><td></td><td>(:blacklist, :plans)</td><td>(:blacklist, :plan)</td></tr>
+<tr><td></td><td>(:dealings, :financial)</td><td>(&lt;attr:fiscal-1a&gt;, :dealings)</td></tr>
+<tr><td></td><td>(:dealings, :group)</td><td>(:dealings, :group)</td></tr>
+<tr><td></td><td>(:dealings, :have)</td><td>(:dealings, :have)</td></tr>
+<tr><td></td><td>(:europe, :prompting)</td><td></td></tr>
+<tr><td></td><td>(:europe, :sanctions_v)</td><td>(:Europe, :sanction_2)</td></tr>
+<tr><td></td><td>(:front, :group)</td><td></td></tr>
+<tr><td></td><td>(:government, :government_v)</td><td></td></tr>
+<tr><td></td><td>(:government, :organize)</td><td>(:government, :organize)</td></tr>
+<tr><td></td><td>(:government, :viable)</td><td>(&lt;attr:feasible-1a&gt;, :government_2)</td></tr>
+<tr><td></td><td>(:have, :making)</td><td>(:have, :make)</td></tr>
+<tr><td></td><td>(:illegal, :making)</td><td>(&lt;attr:illegal-1a&gt;, :make)</td></tr>
+<tr><td></td><td>(:it_1, :making)</td><td>(:it, :make)</td></tr>
+<tr><td></td><td>(:it_1, :plans)</td><td>(:it, :plan)</td></tr>
+<tr><td></td><td>(:it_1, :prompting)</td><td></td></tr>
+<tr><td></td><td>(:it_1, :states)</td><td>(:United_States, :it)</td></tr>
+<tr><td></td><td>(:opposition, :opposition_v)</td><td></td></tr>
+<tr><td></td><td>(:opposition, :organize)</td><td>(:opposition, :organize)</td></tr>
+<tr><td></td><td>(:opposition, :pushes)</td><td>(:opposition, :push)</td></tr>
+<tr><td></td><td>(:opposition, :syrian)</td><td>(&lt;entity:syrian&gt;, :opposition)</td></tr>
+<tr><td></td><td>(:organization, :terrorist)</td><td>(:organization, :terrorist)</td></tr>
+<tr><td></td><td>(:organize, :pushes)</td><td></td></tr>
+<tr><td></td><td>(:prompting, :sanctions)</td><td>(:prompt, :sanction)</td></tr>
+<tr><td></td><td>(:pushes, :states)</td><td>(:United_States, :push)</td></tr>
+<tr><td></td><td>(:sanctions, :sanctions_v)</td><td>(:sanction, :sanction_2)</td></tr>
+<tr><td></td><td></td><td>* (&lt;attr:like-1a&gt;, :sanction_2)</td></tr>
+<tr><td></td><td></td><td>* (:blacklist, :organization)</td></tr>
+<tr><td></td><td></td><td>* (:it, :it_2)</td></tr>
+<tr><td></td><td></td><td>* (:it_2, :make)</td></tr>
+<tr><td></td><td></td><td>* (:United_States, :it_2)</td></tr>
+<tr><td></td><td></td><td>(:United_States, :opposition)</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td colspan="2">Results</td><td>f1=0.836 p=0.911 r=0.773 tp=133 fp=13 fn=39</td></tr>
+</tbody>
+</table>

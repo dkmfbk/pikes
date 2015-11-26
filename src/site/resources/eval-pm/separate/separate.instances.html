@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Separate evaluation - Instances</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+<h1>Separate evaluation - Instances</h1>
+<p>* irrelevant element returned by evaluated system, not considered as false positive</p>
+<table class="table table-striped table-bordered table-hover table-condensed">
+<thead>
+<tr><th width="10%">Sentence</th><th width="45%">Gold</th><th width="45%">PIKES</th></tr>
+</thead>
+<tbody>
+<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.1.ttl/&gt;</td><td>:approval</td><td>:approval</td></tr>
+<tr><td></td><td>:become</td><td>:become</td></tr>
+<tr><td></td><td>:challenge</td><td>:challenge</td></tr>
+<tr><td></td><td>:countries</td><td>:country_2, :country</td></tr>
+<tr><td></td><td>:explicit</td><td>:explicit</td></tr>
+<tr><td></td><td>:extremists</td><td>:extremist</td></tr>
+<tr><td></td><td>:fighting</td><td>:fighting</td></tr>
+<tr><td></td><td>:forces</td><td>:force</td></tr>
+<tr><td></td><td>:group</td><td>:group</td></tr>
+<tr><td></td><td>:lone</td><td>:lone</td></tr>
+<tr><td></td><td>:not</td><td>&lt;attr:not-1r&gt;</td></tr>
+<tr><td></td><td>:other</td><td>:other</td></tr>
+<tr><td></td><td>:posing</td><td>:pose</td></tr>
+<tr><td></td><td>:qaeda</td><td>:Al_Qaeda</td></tr>
+<tr><td></td><td>:rebel</td><td>:rebel</td></tr>
+<tr><td></td><td>:rebels</td><td>:rebel_2</td></tr>
+<tr><td></td><td>:stamp</td><td>:stamp</td></tr>
+<tr><td></td><td>:stark</td><td>&lt;attr:blunt-4a&gt;</td></tr>
+<tr><td></td><td>:states</td><td>:United_States</td></tr>
+<tr><td></td><td>:support</td><td>:support</td></tr>
+<tr><td></td><td>:support_1</td><td></td></tr>
+<tr><td></td><td>:syrian</td><td>:Syrian</td></tr>
+<tr><td></td><td>:uprising</td><td>:uprising</td></tr>
+<tr><td></td><td>:want</td><td>:want</td></tr>
+<tr><td></td><td></td><td>&lt;attr:about-7r&gt;</td></tr>
+<tr><td></td><td></td><td>&lt;entity:islamic&gt;</td></tr>
+<tr><td></td><td></td><td>:effective</td></tr>
+<tr><td></td><td></td><td>:one</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.2.ttl/&gt;</td><td>:abroad</td><td>&lt;attr:abroad-1r&gt;</td></tr>
+<tr><td></td><td>:donors</td><td>:donor_2</td></tr>
+<tr><td></td><td>:donors_v</td><td>:donor</td></tr>
+<tr><td></td><td>:flows</td><td>:flow</td></tr>
+<tr><td></td><td>:group</td><td>:group</td></tr>
+<tr><td></td><td>:like-minded</td><td>:like-mind</td></tr>
+<tr><td></td><td>:money</td><td>&lt;entity:money&gt;</td></tr>
+<tr><td></td><td></td><td>:Nusra_Front</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.3.ttl/&gt;</td><td>:bases</td><td>:basis</td></tr>
+<tr><td></td><td>:battalions</td><td>:battalion</td></tr>
+<tr><td></td><td>:boldness</td><td>:boldness</td></tr>
+<tr><td></td><td>:capture</td><td>:capture</td></tr>
+<tr><td></td><td>:fields</td><td>:field</td></tr>
+<tr><td></td><td>:fighters</td><td>:fighter</td></tr>
+<tr><td></td><td>:fighters_v</td><td>:fighter_2</td></tr>
+<tr><td></td><td>:fortified</td><td>:fortify</td></tr>
+<tr><td></td><td>:have</td><td>:have</td></tr>
+<tr><td></td><td>:its</td><td>:its</td></tr>
+<tr><td></td><td>:lead</td><td>:lead</td></tr>
+<tr><td></td><td>:military</td><td>:military</td></tr>
+<tr><td></td><td>:minority</td><td>:minority</td></tr>
+<tr><td></td><td>:oil</td><td>:oil_2, :oil</td></tr>
+<tr><td></td><td>:other</td><td>:other</td></tr>
+<tr><td></td><td>:positions</td><td>:position</td></tr>
+<tr><td></td><td>:rebels</td><td>:rebel</td></tr>
+<tr><td></td><td>:skill</td><td>:skill</td></tr>
+<tr><td></td><td>:small</td><td>:small</td></tr>
+<tr><td></td><td>:storm</td><td>:storm</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.4.ttl/&gt;</td><td>:attract</td><td>:attract</td></tr>
+<tr><td></td><td>:fighters</td><td>:fighter</td></tr>
+<tr><td></td><td>:fighters_v</td><td>:fighter_2</td></tr>
+<tr><td></td><td>:gather</td><td>:gather</td></tr>
+<tr><td></td><td>:mount</td><td>:mount</td></tr>
+<tr><td></td><td>:successes</td><td>:success</td></tr>
+<tr><td></td><td>:their</td><td>:they</td></tr>
+<tr><td></td><td>:they</td><td>:they_2</td></tr>
+<tr><td></td><td>:weapons</td><td>:weapon</td></tr>
+<tr><td></td><td>:weapons_v</td><td>:weapon_2</td></tr>
+<tr><td></td><td></td><td>:more</td></tr>
+<tr><td></td><td></td><td>:more_2</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.5.ttl/&gt;</td><td>:contributed</td><td>:contribute</td></tr>
+<tr><td></td><td>:direct</td><td>:direct</td></tr>
+<tr><td></td><td>:fighters</td><td>:fighter</td></tr>
+<tr><td></td><td>:fighters_v</td><td>:fighter_2</td></tr>
+<tr><td></td><td>:former</td><td>:former</td></tr>
+<tr><td></td><td>:group</td><td>:group_2, :group</td></tr>
+<tr><td></td><td>:insurgents</td><td>:insurgent</td></tr>
+<tr><td></td><td>:insurgents_v</td><td>:insurgent_2</td></tr>
+<tr><td></td><td>:iraqi_1</td><td>:Iraqi</td></tr>
+<tr><td></td><td>:iraqi_2</td><td>&lt;entity:iraqi&gt;</td></tr>
+<tr><td></td><td>:is</td><td>:be</td></tr>
+<tr><td></td><td>:officials</td><td>:official</td></tr>
+<tr><td></td><td>:officials_v</td><td>:official_2</td></tr>
+<tr><td></td><td>:offshoot</td><td>:offshoot</td></tr>
+<tr><td></td><td>:offshoot_v</td><td>:offshoot_2</td></tr>
+<tr><td></td><td>:qaeda</td><td>:Al_Qaeda</td></tr>
+<tr><td></td><td>:say</td><td>:say</td></tr>
+<tr><td></td><td>:veteran</td><td>:veteran</td></tr>
+<tr><td></td><td>:weapons</td><td>:weapon</td></tr>
+<tr><td></td><td>:weapons_v</td><td>:weapon_2</td></tr>
+<tr><td></td><td>:which</td><td></td></tr>
+<tr><td></td><td></td><td>:Iraq</td></tr>
+<tr><td></td><td></td><td>:have</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.6.ttl/&gt;</td><td>:brothers</td><td>:brother</td></tr>
+<tr><td></td><td>:brothers_v</td><td>:brother_2</td></tr>
+<tr><td></td><td>:efforts</td><td>:effort</td></tr>
+<tr><td></td><td>:favor</td><td>:favor</td></tr>
+<tr><td></td><td>:favor_v</td><td></td></tr>
+<tr><td></td><td>:fought</td><td>:fight</td></tr>
+<tr><td></td><td>:front</td><td>:Nusra_Front</td></tr>
+<tr><td></td><td>:he</td><td>:he</td></tr>
+<tr><td></td><td>:helped</td><td>:help</td></tr>
+<tr><td></td><td>:iraq_1</td><td>:Iraq</td></tr>
+<tr><td></td><td>:iraq_2</td><td>:Iraq_2</td></tr>
+<tr><td></td><td>:is</td><td></td></tr>
+<tr><td></td><td>:lands</td><td>:land</td></tr>
+<tr><td></td><td>:lead</td><td>:lead</td></tr>
+<tr><td></td><td>:our</td><td>:we</td></tr>
+<tr><td></td><td>:qaeda</td><td>:Al_Qaeda</td></tr>
+<tr><td></td><td>:returning</td><td>:return</td></tr>
+<tr><td></td><td>:said_1</td><td>:say_2</td></tr>
+<tr><td></td><td>:said_2</td><td>:say</td></tr>
+<tr><td></td><td>:simple</td><td>&lt;attr:simple-1a&gt;</td></tr>
+<tr><td></td><td>:syria</td><td>:Syria</td></tr>
+<tr><td></td><td>:syrian</td><td>:Syrian</td></tr>
+<tr><td></td><td>:this</td><td></td></tr>
+<tr><td></td><td>:us</td><td>:we_2</td></tr>
+<tr><td></td><td>:veteran</td><td>:veteran</td></tr>
+<tr><td></td><td>:veteran_v</td><td>:veteran_2</td></tr>
+<tr><td></td><td>:way</td><td>:way</td></tr>
+<tr><td></td><td>:who</td><td>:who</td></tr>
+<tr><td></td><td></td><td>&lt;attr:merely-1r&gt;</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.7.ttl/&gt;</td><td>:al-assad</td><td>:Bashar_al-Assad</td></tr>
+<tr><td></td><td>:group</td><td>:group</td></tr>
+<tr><td></td><td>:hopes</td><td>:hope</td></tr>
+<tr><td></td><td>:inheriting</td><td>:inherit</td></tr>
+<tr><td></td><td>:isolate</td><td>:isolate</td></tr>
+<tr><td></td><td>:it</td><td>:it</td></tr>
+<tr><td></td><td>:president</td><td>:president</td></tr>
+<tr><td></td><td>:president_v</td><td>:president_2</td></tr>
+<tr><td></td><td>:prevent</td><td>:prevent</td></tr>
+<tr><td></td><td>:running</td><td>:run</td></tr>
+<tr><td></td><td>:sensing</td><td>:sense</td></tr>
+<tr><td></td><td>:states</td><td>:United_States</td></tr>
+<tr><td></td><td>:syria_1</td><td>:Syria</td></tr>
+<tr><td></td><td>:syria_2</td><td>:Syria_2</td></tr>
+<tr><td></td><td>:time</td><td>:time, :time_2</td></tr>
+<tr><td></td><td></td><td>:may</td></tr>
+<tr><td></td><td></td><td>:out</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.8.ttl/&gt;</td><td>:alternative</td><td>:alternative</td></tr>
+<tr><td></td><td>:americans</td><td>:Americans</td></tr>
+<tr><td></td><td>:blacklist</td><td>:blacklist</td></tr>
+<tr><td></td><td>:dealings</td><td>:dealings</td></tr>
+<tr><td></td><td>:europe</td><td>:Europe</td></tr>
+<tr><td></td><td>:financial</td><td>&lt;attr:fiscal-1a&gt;</td></tr>
+<tr><td></td><td>:front</td><td>:Nusra_Front</td></tr>
+<tr><td></td><td>:government</td><td>:government</td></tr>
+<tr><td></td><td>:government_v</td><td>:government_2</td></tr>
+<tr><td></td><td>:group</td><td>:group_2, :group</td></tr>
+<tr><td></td><td>:have</td><td>:have</td></tr>
+<tr><td></td><td>:illegal</td><td>:illegal</td></tr>
+<tr><td></td><td>:it_1</td><td>:it</td></tr>
+<tr><td></td><td>:making</td><td>:make</td></tr>
+<tr><td></td><td>:opposition</td><td>:opposition</td></tr>
+<tr><td></td><td>:opposition_v</td><td></td></tr>
+<tr><td></td><td>:organization</td><td>:organization_2, :organization</td></tr>
+<tr><td></td><td>:organize</td><td>:organize</td></tr>
+<tr><td></td><td>:plans</td><td>:plan</td></tr>
+<tr><td></td><td>:prompting</td><td>:prompt</td></tr>
+<tr><td></td><td>:pushes</td><td>:push</td></tr>
+<tr><td></td><td>:sanctions</td><td>:sanction</td></tr>
+<tr><td></td><td>:sanctions_v</td><td>:sanction_2</td></tr>
+<tr><td></td><td>:states</td><td>:United_States</td></tr>
+<tr><td></td><td>:syrian</td><td>&lt;entity:syrian&gt;</td></tr>
+<tr><td></td><td>:terrorist</td><td>:terrorist_2, :terrorist</td></tr>
+<tr><td></td><td>:viable</td><td>&lt;attr:feasible-1a&gt;</td></tr>
+<tr><td></td><td></td><td>:it_2</td></tr>
+<tr><td></td><td></td><td>:similar</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td colspan="2">Results</td><td>f1=0.936 p=0.913 r=0.961 tp=146 fp=14 fn=6</td></tr>
+</tbody>
+</table>

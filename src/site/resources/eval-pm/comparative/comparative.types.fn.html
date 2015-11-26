@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Comparative evaluation - Types (FN)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+<h1>Comparative evaluation - Types (FN)</h1>
+<p>* irrelevant element returned by evaluated system, not considered as false positive</p>
+<table class="table table-striped table-bordered table-hover table-condensed">
+<thead>
+<tr><th width="10%">Sentence</th><th width="30%">Gold</th><th width="30%">FRED</th><th width="30%">PIKES</th></tr>
+</thead>
+<tbody>
+<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.1.ttl/&gt;</td><td>:become rdf:type fn:Becoming</td><td></td><td>:become rdf:type fn:Becoming</td></tr>
+<tr><td></td><td>:support rdf:type fn:Taking_sides</td><td></td><td></td></tr>
+<tr><td></td><td>:support_1 rdf:type fn:Taking_sides</td><td></td><td></td></tr>
+<tr><td></td><td>:want rdf:type fn:Desiring</td><td>:want_1 rdf:type fn:Desiring</td><td>:want rdf:type fn:Desiring</td></tr>
+<tr><td></td><td></td><td>:pose_1 rdf:type fn:Posing_as</td><td></td></tr>
+<tr><td></td><td></td><td></td><td>:pose rdf:type fn:Feigning</td></tr>
+<tr><td></td><td></td><td></td><td>:support rdf:type fn:Supporting</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.2.ttl/&gt;</td><td>:flows rdf:type fn:Fluidic_motion</td><td>:flow_1 rdf:type fn:Fluidic_motion</td><td>:flow rdf:type fn:Fluidic_motion</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.3.ttl/&gt;</td><td>:capture rdf:type fn:Conquering</td><td></td><td>:capture rdf:type fn:Conquering</td></tr>
+<tr><td></td><td>:have rdf:type fn:Possession</td><td>:have_1 rdf:type fn:Possession</td><td>:have rdf:type fn:Possession</td></tr>
+<tr><td></td><td>:lead rdf:type fn:Causation</td><td></td><td>:lead rdf:type fn:Causation</td></tr>
+<tr><td></td><td>:storm rdf:type fn:Attack</td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td>* :fortify rdf:type fn:Cause_change_of_strength</td></tr>
+<tr><td></td><td></td><td></td><td>:storm rdf:type fn:Weather</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.4.ttl/&gt;</td><td>:attract rdf:type fn:Cause_motion</td><td></td><td>:attract rdf:type fn:Cause_motion</td></tr>
+<tr><td></td><td>:gather rdf:type fn:Gathering_up</td><td></td><td></td></tr>
+<tr><td></td><td></td><td>:gather_1 rdf:type fn:Congregating</td><td></td></tr>
+<tr><td></td><td></td><td>:mount_1 rdf:type fn:Placing</td><td></td></tr>
+<tr><td></td><td></td><td></td><td>:gather rdf:type fn:Food_gathering</td></tr>
+<tr><td></td><td></td><td></td><td>:mount rdf:type fn:Natural_features</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.5.ttl/&gt;</td><td>:contributed rdf:type fn:Giving</td><td>:contribute_1 rdf:type fn:Giving</td><td>:contribute rdf:type fn:Giving</td></tr>
+<tr><td></td><td>:say rdf:type fn:Statement</td><td>:say_1 rdf:type fn:Statement</td><td>:say rdf:type fn:Statement</td></tr>
+<tr><td></td><td></td><td></td><td>* :have rdf:type fn:Possession</td></tr>
+<tr><td></td><td></td><td></td><td>:be rdf:type fn:Performers_and_roles</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.6.ttl/&gt;</td><td>:fought rdf:type fn:Hostile_encounter</td><td>:fight_1 rdf:type fn:Hostile_encounter</td><td>:fight rdf:type fn:Hostile_encounter</td></tr>
+<tr><td></td><td>:helped rdf:type fn:Assistance</td><td></td><td>:help rdf:type fn:Assistance</td></tr>
+<tr><td></td><td>:lead rdf:type fn:Leadership</td><td></td><td>:lead rdf:type fn:Leadership</td></tr>
+<tr><td></td><td>:said_1 rdf:type fn:Statement</td><td>:say_1 rdf:type fn:Statement</td><td>:say_2 rdf:type fn:Statement</td></tr>
+<tr><td></td><td>:said_2 rdf:type fn:Statement</td><td>:say_2 rdf:type fn:Statement</td><td>:say rdf:type fn:Statement</td></tr>
+<tr><td></td><td></td><td>:lead_1 rdf:type fn:Cotheme</td><td></td></tr>
+<tr><td></td><td></td><td>:return_1 rdf:type fn:Arriving</td><td></td></tr>
+<tr><td></td><td></td><td></td><td>:return rdf:type fn:Arriving</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.7.ttl/&gt;</td><td>:hopes rdf:type fn:Desiring</td><td>:hope_1 rdf:type fn:Desiring</td><td>:hope rdf:type fn:Desiring</td></tr>
+<tr><td></td><td>:prevent rdf:type fn:Thwarting</td><td></td><td></td></tr>
+<tr><td></td><td>:running rdf:type fn:Expend_resource</td><td></td><td></td></tr>
+<tr><td></td><td>:sensing rdf:type fn:Perception_experience</td><td>:sense_1 rdf:type fn:Perception_experience</td><td>:sense rdf:type fn:Perception_experience</td></tr>
+<tr><td></td><td></td><td>:prevent_1 rdf:type fn:Preventing</td><td></td></tr>
+<tr><td></td><td></td><td>:run_1 rdf:type fn:Self_motion</td><td></td></tr>
+<tr><td></td><td></td><td></td><td>:prevent rdf:type fn:Preventing</td></tr>
+<tr><td></td><td></td><td></td><td>:run rdf:type fn:Self_motion</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.8.ttl/&gt;</td><td>:have rdf:type fn:Possession</td><td>:have_1 rdf:type fn:Possession</td><td>:have rdf:type fn:Possession</td></tr>
+<tr><td></td><td>:making rdf:type fn:Causation</td><td></td><td></td></tr>
+<tr><td></td><td>:organize rdf:type fn:Making_arrangements</td><td></td><td></td></tr>
+<tr><td></td><td>:plans rdf:type fn:Purpose</td><td></td><td>:plan rdf:type fn:Purpose</td></tr>
+<tr><td></td><td>:prompting rdf:type fn:Cause_to_start</td><td></td><td>:prompt rdf:type fn:Cause_to_start</td></tr>
+<tr><td></td><td>:pushes rdf:type fn:Subjective_influence</td><td></td><td></td></tr>
+<tr><td></td><td></td><td>:make_1 rdf:type fn:Cooking_creation</td><td></td></tr>
+<tr><td></td><td></td><td>:push_1 rdf:type fn:Cause_motion</td><td></td></tr>
+<tr><td></td><td></td><td></td><td>:dealings rdf:type fn:Resolve_problem</td></tr>
+<tr><td></td><td></td><td></td><td>:make rdf:type fn:Arriving</td></tr>
+<tr><td></td><td></td><td></td><td>:push rdf:type fn:Cause_change_of_position_on_a_scale</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td colspan="2">Results w.r.t. gold standard</td><td>f1=0.458 p=0.550 r=0.393 tp=11 fp=9 fn=17</td><td>f1=0.644 p=0.613 r=0.679 tp=19 fp=12 fn=9</td></tr>
+<tr><td colspan="2">Results w.r.t. union of correct answers</td><td>f1=0.564 p=0.550 r=0.579 tp=11 fp=9 fn=8</td><td>f1=0.760 p=0.613 r=1.000 tp=19 fp=12 fn=0</td></tr>
+</tbody>
+</table>

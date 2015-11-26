@@ -29,9 +29,9 @@
 
         <menu name="Resources">
             <item name="Mappings to FrameBase" href="mappings.html"/>
-            <item name="Evaluation w.r.t. FrameBase TBox" href="eval-framebase.html"/>
-            <item name="Evaluation w.r.t. predicate models TBox" href="eval-pm.html"/>
-            <item name="Evaluation w.r.t. Simple English Wikipedia" href="eval-sew.html"/>
+            <item name="Evaluation using FrameBase TBox" href="eval-framebase.html"/>
+            <item name="Evaluation using predicate models TBox" href="eval-pm.html"/>
+            <item name="Evaluation using Simple English Wikipedia" href="eval-sew.html"/>
         </menu>
 
         <menu name="Maven Reports" ref="reports" inherit="top"/>
@@ -51,6 +51,7 @@
 
             <endContent>
                 ${site.topbar}
+                <script src="js/custom.js"></script>
             </endContent>
 
             <highlightJs>true</highlightJs>
@@ -86,8 +87,7 @@
 
             <bottomNav maxSpan="8">
                 <column>About</column>
-                <!--<column>Tool</column>-->
-                <!--<column>Libraries</column>-->
+                <column>Resources</column>
                 <column>Links</column>
             </bottomNav>
 

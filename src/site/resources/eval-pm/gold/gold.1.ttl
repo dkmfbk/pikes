@@ -1,0 +1,132 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
+@prefix pb: <eval:propbank#> .
+@prefix nb: <eval:nombank#> .
+@prefix vn: <eval:verbnet#> .
+@prefix fn: <eval:framenet#> .
+@prefix eval: <eval:schema#> .
+@prefix : <file:///eswc.1.ttl/> .
+
+
+# === TEXT ===
+
+<file:///eswc.1.ttl/> rdfs:label """
+	The lone Syrian rebel group with an explicit stamp of approval from Al Qaeda has become one of the uprising most effective fighting forces, posing a stark challenge to the United States and other countries that want to support the rebels but not Islamic extremists.""" .
+
+
+# === ENTITIES ===
+
+:group a eval:Node .
+:stamp a eval:Node .
+:approval a eval:Node .
+:become a eval:Node .
+:forces a eval:Node .
+:posing a eval:Node .
+:challenge a eval:Node .
+:want a eval:Node .
+:support a eval:Node .
+:support_1 a eval:Node .
+:countries a eval:Node .
+:other a eval:Node .
+
+:syrian a eval:Node .
+:qaeda a eval:Node .
+:states a eval:Node .
+:rebels a eval:Node .
+:extremists a eval:Node .
+
+:lone a eval:Node .
+:rebel a eval:Node .
+:explicit a eval:Node .
+:uprising a eval:Node .
+:fighting a eval:Node .
+:stark a eval:Node .
+:not a eval:Node .
+
+
+# === COREFERENCE ===
+
+
+# === LINKING ===
+
+:qaeda owl:sameAs dbpedia:Al-Qaeda .
+:states owl:sameAs dbpedia:United_States .
+
+#:extremists owl:sameAs dbpedia:Islamism . # might be, although dbpedia:Islamisms is more about a phenomenon while extremists is more about a group of people
+
+
+# === FRAMES ===
+
+:group a nb:group.01 , fn:Organization ;
+	nb:a1 :rebel ; fn:descriptor :rebel ;
+	nb:a1 :syrian ; fn:place :syrian ;
+	nb:a3 :lone ; fn:descriptor :lone .
+
+:stamp a nb:stamp.01.
+
+:approval a nb:approval.01 , pb:approve.01 , vn:allow-64 , fn:Grant_permission ;
+	nb:a0 :qaeda ; pb:a0 :qaeda ; vn:agent :qaeda ; fn:grantor :qaeda ;
+	nb:a1 :group ; pb:a1 :group ; vn:theme :group ;	fn:grantee :group ;
+	nb:am-mnr :explicit ; pb:am-mnr :explicit ; fn:manner :explicit .
+
+:become a pb:become.01 , fn:Becoming ;
+	pb:a1 :group ; fn:entity :group ;
+	pb:a2 :forces ;	fn:final_category :forces .
+
+:forces a nb:force.01 , fn:Military ;
+	nb:a1 :fighting ; fn:domain	:fighting ; # could also be fn:goal (if fighting seen as goal and not type of forces)
+	nb:a3 :uprising ; fn:descriptor	:uprising ;
+	fn:aggregate :forces ; fn:force :forces . # from fn:Aggregate which is parent of fn:Military
+
+:posing a pb:pose.02 , vn:transfer_mesg-37.1.1 ; # FN LU not appropriate; could also be vn:reflexive_appearance-48.1.2 (in which case :challenge is vn:theme) but this is forbidden by semlink
+	pb:a0 :group ; vn:agent :group ;
+	pb:a1 :challenge ; vn:topic :challenge ;
+	pb:a2 :states ; vn:recipient :states ;
+	pb:a2 :countries ; vn:recipient :countries .
+
+:challenge a nb:challenge.01 , pb:challenge.01 , fn:Competition ; # fn:Competition compatible with FN gold sentences; fn:Difficulty might fit but no way to represent :group (unless using implicit fn:Hindrance frame)
+	nb:a0 :group ; pb:a0 :group ; fn:Participant_1 :group ;
+	nb:a1 :states ; pb:a1 :states ; fn:Participant_2 :states ;
+    nb:a1 :countries ; pb:a1 :countries ; fn:Participant_2 :countries ;
+    nb:am-mnr :stark ; pb:am-mnr :stark .
+
+:want a pb:want.01 , vn:want-32.1-1-1 , fn:Desiring ;
+	pb:a0 :states  ; vn:pivot :states ; fn:experiencer :states ;
+	pb:a0 :countries ; vn:pivot :countries ; fn:experiencer :countries ;
+	pb:a1 :support ; vn:theme :support ; fn:event :support ;
+	pb:a1 :support_1 ; vn:theme :support_1 ; fn:event :support_1 .
+
+:support a pb:support.01 , fn:Taking_sides , vn:help-72 ; #this frame is splitted in two
+	pb:a0 :states ; vn:agent :states ; fn:cognizer :states ;
+	pb:a0 :countries ; vn:agent :countries ; fn:cognizer :countries ;
+	pb:a1 :rebels ;	vn:beneficiary :rebels ; fn:side :rebels .
+
+:support_1 a pb:support.01 , fn:Taking_sides , vn:help-72 ;
+	pb:a0 :states ; vn:agent :states ; fn:cognizer :states ;
+	pb:a0 :countries ; vn:agent :countries ; fn:cognizer :countries ;
+	pb:a1 :extremists ; vn:beneficiary :extremists ; fn:side :extremists ;
+	pb:neg :not .
+
+:countries a nb:country.01 , fn:Political_locales ;
+    nb:mod :other ; fn:descriptor :other .
+
+:other a fn:Increment ;
+    fn:added_set :countries ; # "other countries" for FN, where the entity (head) is "countries"
+    fn:class :countries .
+
+
+# === IRRELEVANT TRIPLES ===
+
+:group eval:associableTo :stamp .
+:approval eval:associableTo :stamp .
+:explicit eval:associableTo :stamp .
+
+
+# === WRONG TRIPLES ===
+
+:not eval:notAssociableTo :extremists .
+:support eval:notAssociableTo :extremists .
+:become eval:notAssociableTo :uprising .
+:countries eval:notAssociableTo :states .

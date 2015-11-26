@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Separate evaluation - Roles (FN)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+<h1>Separate evaluation - Roles (FN)</h1>
+<p>* irrelevant element returned by evaluated system, not considered as false positive</p>
+<table class="table table-striped table-bordered table-hover table-condensed">
+<thead>
+<tr><th width="10%">Sentence</th><th width="45%">Gold</th><th width="45%">PIKES</th></tr>
+</thead>
+<tbody>
+<tr style="border-top: 4px solid #dddddd"><td>S1</td><td>:approval fn:grantee :group</td><td></td></tr>
+<tr><td></td><td>:approval fn:grantor :qaeda</td><td>:approval fn:grantor :Al_Qaeda</td></tr>
+<tr><td></td><td>:approval fn:manner :explicit</td><td></td></tr>
+<tr><td></td><td>:become fn:entity :group</td><td></td></tr>
+<tr><td></td><td>:become fn:final_category :forces</td><td></td></tr>
+<tr><td></td><td>:challenge fn:Participant_1 :group</td><td></td></tr>
+<tr><td></td><td>:challenge fn:Participant_2 :countries</td><td></td></tr>
+<tr><td></td><td>:challenge fn:Participant_2 :states</td><td></td></tr>
+<tr><td></td><td>:countries fn:descriptor :other</td><td></td></tr>
+<tr><td></td><td>:forces fn:descriptor :uprising</td><td></td></tr>
+<tr><td></td><td>:forces fn:domain :fighting</td><td></td></tr>
+<tr><td></td><td>:group fn:descriptor :lone</td><td></td></tr>
+<tr><td></td><td>:group fn:descriptor :rebel</td><td></td></tr>
+<tr><td></td><td>:group fn:place :syrian</td><td></td></tr>
+<tr><td></td><td>:other fn:added_set :countries</td><td></td></tr>
+<tr><td></td><td>:other fn:class :countries</td><td></td></tr>
+<tr><td></td><td>:support fn:cognizer :countries</td><td>:support fn:cognizer :country</td></tr>
+<tr><td></td><td>:support fn:cognizer :states</td><td></td></tr>
+<tr><td></td><td>:support fn:side :rebels</td><td></td></tr>
+<tr><td></td><td>:support_1 fn:cognizer :countries</td><td></td></tr>
+<tr><td></td><td>:support_1 fn:cognizer :states</td><td></td></tr>
+<tr><td></td><td>:support_1 fn:side :extremists</td><td></td></tr>
+<tr><td></td><td>:want fn:event :support</td><td>:want fn:event :support</td></tr>
+<tr><td></td><td>:want fn:event :support_1</td><td></td></tr>
+<tr><td></td><td>:want fn:experiencer :countries</td><td></td></tr>
+<tr><td></td><td>:want fn:experiencer :states</td><td></td></tr>
+<tr><td></td><td></td><td>* :approval fn:action :stamp</td></tr>
+<tr><td></td><td></td><td>* :approval fn:grantee :stamp</td></tr>
+<tr><td></td><td></td><td>:approval fn:grantor :group</td></tr>
+<tr><td></td><td></td><td>:want fn:cause :country</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S2</td><td>:donors_v fn:recipient :group</td><td></td></tr>
+<tr><td></td><td>:donors_v fn:theme :donors</td><td></td></tr>
+<tr><td></td><td>:donors_v fn:theme :money</td><td></td></tr>
+<tr><td></td><td>:flows fn:fluid :money</td><td>:flow fn:fluid &lt;entity:money&gt;</td></tr>
+<tr><td></td><td>:flows fn:goal :group</td><td></td></tr>
+<tr><td></td><td>:flows fn:source :donors</td><td></td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S3</td><td>:bases fn:use :military</td><td></td></tr>
+<tr><td></td><td>:capture fn:conqueror :battalions</td><td></td></tr>
+<tr><td></td><td>:capture fn:theme :bases</td><td></td></tr>
+<tr><td></td><td>:capture fn:theme :fields</td><td></td></tr>
+<tr><td></td><td>:fields fn:use :oil</td><td></td></tr>
+<tr><td></td><td>:fighters_v fn:combatant :fighters</td><td></td></tr>
+<tr><td></td><td>:fighters_v fn:side1 :its</td><td></td></tr>
+<tr><td></td><td>:have fn:owner :fighters</td><td>:have fn:owner :fighter</td></tr>
+<tr><td></td><td>:have fn:possession :boldness</td><td>:have fn:possession :boldness</td></tr>
+<tr><td></td><td>:have fn:possession :skill</td><td>:have fn:possession :skill</td></tr>
+<tr><td></td><td>:lead fn:affected :battalions</td><td></td></tr>
+<tr><td></td><td>:lead fn:cause :fighters</td><td></td></tr>
+<tr><td></td><td>:lead fn:effect :capture</td><td></td></tr>
+<tr><td></td><td>:other fn:added_set :battalions</td><td></td></tr>
+<tr><td></td><td>:positions fn:inherent_purpose :fortified</td><td></td></tr>
+<tr><td></td><td>:storm fn:assailant :fighters</td><td></td></tr>
+<tr><td></td><td>:storm fn:place :positions</td><td></td></tr>
+<tr><td></td><td>:storm fn:victim :positions</td><td></td></tr>
+<tr><td></td><td></td><td>:field fn:created_entity :oil</td></tr>
+<tr><td></td><td></td><td>:lead fn:cause :capture</td></tr>
+<tr><td></td><td></td><td>:lead fn:effect :battalion</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S4</td><td>:attract fn:agent :they</td><td></td></tr>
+<tr><td></td><td>:attract fn:theme :fighters</td><td></td></tr>
+<tr><td></td><td>:fighters_v fn:combatant :fighters</td><td></td></tr>
+<tr><td></td><td>:gather fn:agent :they</td><td>:gather fn:agent :they_2</td></tr>
+<tr><td></td><td>:gather fn:individuals :weapons</td><td>:gather fn:individuals :weapon</td></tr>
+<tr><td></td><td>:successes fn:agent :their</td><td>:success fn:agent :they</td></tr>
+<tr><td></td><td>:weapons_v fn:weapon :weapons</td><td></td></tr>
+<tr><td></td><td></td><td>:gather fn:agent :weapon</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S5</td><td>:contributed fn:donor :which</td><td></td></tr>
+<tr><td></td><td>:contributed fn:theme :fighters</td><td></td></tr>
+<tr><td></td><td>:contributed fn:theme :weapons</td><td></td></tr>
+<tr><td></td><td>:fighters_v fn:combatant :fighters</td><td></td></tr>
+<tr><td></td><td>:fighters_v fn:descriptor :veteran</td><td></td></tr>
+<tr><td></td><td>:insurgents_v fn:place :iraqi_2</td><td></td></tr>
+<tr><td></td><td>:insurgents_v fn:rebel :insurgents</td><td></td></tr>
+<tr><td></td><td>:officials_v fn:governed :iraqi_1</td><td></td></tr>
+<tr><td></td><td>:officials_v fn:leader :officials</td><td></td></tr>
+<tr><td></td><td>:say fn:message :contributed</td><td></td></tr>
+<tr><td></td><td>:say fn:message :is</td><td>:say fn:message :be</td></tr>
+<tr><td></td><td>:say fn:speaker :insurgents</td><td>:say fn:speaker :insurgent</td></tr>
+<tr><td></td><td>:say fn:speaker :officials</td><td>:say fn:speaker :official</td></tr>
+<tr><td></td><td>:weapons_v fn:weapon :weapons</td><td></td></tr>
+<tr><td></td><td></td><td>* :have fn:owner :Al_Qaeda</td></tr>
+<tr><td></td><td></td><td>* :have fn:possession :fighter</td></tr>
+<tr><td></td><td></td><td>* :have fn:possession :weapon</td></tr>
+<tr><td></td><td></td><td>:say fn:topic :be</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S6</td><td>:brothers_v fn:alter :brothers</td><td></td></tr>
+<tr><td></td><td>:brothers_v fn:descriptor :syrian</td><td></td></tr>
+<tr><td></td><td>:brothers_v fn:ego :our</td><td></td></tr>
+<tr><td></td><td>:efforts fn:agent :front</td><td>:effort fn:agent :Nusra_Front</td></tr>
+<tr><td></td><td>:efforts fn:place :syria</td><td></td></tr>
+<tr><td></td><td>:fought fn:place :lands</td><td></td></tr>
+<tr><td></td><td>:fought fn:side_1 :brothers</td><td>:fight fn:side_1 :brother</td></tr>
+<tr><td></td><td>:fought fn:side_1 :us</td><td></td></tr>
+<tr><td></td><td>:helped fn:goal :lead</td><td>:help fn:goal :lead</td></tr>
+<tr><td></td><td>:helped fn:helper :he</td><td>:help fn:helper :he</td></tr>
+<tr><td></td><td>:lands fn:container_possessor :iraq_1</td><td></td></tr>
+<tr><td></td><td>:lead fn:activity :efforts</td><td></td></tr>
+<tr><td></td><td>:lead fn:leader :he</td><td></td></tr>
+<tr><td></td><td>:said_1 fn:message :is</td><td></td></tr>
+<tr><td></td><td>:said_1 fn:speaker :veteran</td><td></td></tr>
+<tr><td></td><td>:said_2 fn:message :helped</td><td>:say_2 fn:message :help</td></tr>
+<tr><td></td><td>:said_2 fn:speaker :who</td><td></td></tr>
+<tr><td></td><td>:way fn:descriptor :simple</td><td></td></tr>
+<tr><td></td><td>:way fn:purpose :returning</td><td></td></tr>
+<tr><td></td><td></td><td>:favor fn:dispute :brother</td></tr>
+<tr><td></td><td></td><td>:favor fn:side_1 :brother</td></tr>
+<tr><td></td><td></td><td>:favor fn:sides :brother</td></tr>
+<tr><td></td><td></td><td>:fight fn:side_2 :we_2</td></tr>
+<tr><td></td><td></td><td>:help fn:focal_entity :lead</td></tr>
+<tr><td></td><td></td><td>:lead fn:cotheme :effort</td></tr>
+<tr><td></td><td></td><td>:lead fn:theme :he</td></tr>
+<tr><td></td><td></td><td>:return fn:theme :favor</td></tr>
+<tr><td></td><td></td><td>:say_2 fn:speaker :Al_Qaeda</td></tr>
+<tr><td></td><td></td><td>:say_2 fn:topic :help</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S7</td><td>:hopes fn:event :isolate</td><td>:hope fn:event :isolate</td></tr>
+<tr><td></td><td>:hopes fn:experiencer :states</td><td>:hope fn:experiencer :United_States</td></tr>
+<tr><td></td><td>:president_v fn:governed :syria_1</td><td></td></tr>
+<tr><td></td><td>:president_v fn:leader :president</td><td></td></tr>
+<tr><td></td><td>:prevent fn:action :inheriting</td><td></td></tr>
+<tr><td></td><td>:prevent fn:preventing_cause :states</td><td>:prevent fn:preventing_cause :United_States</td></tr>
+<tr><td></td><td>:prevent fn:protagonist :it</td><td></td></tr>
+<tr><td></td><td>:running fn:agent :al-assad</td><td></td></tr>
+<tr><td></td><td>:running fn:resource :time</td><td></td></tr>
+<tr><td></td><td>:sensing fn:perceiver_passive :states</td><td>:sense fn:perceiver_passive :United_States</td></tr>
+<tr><td></td><td>:sensing fn:phenomenon :running</td><td>:sense fn:phenomenon :run</td></tr>
+<tr><td></td><td></td><td>:prevent fn:event :inherit</td></tr>
+<tr><td></td><td></td><td>:prevent fn:event :it</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td>S8</td><td>:government_v fn:leader :government</td><td></td></tr>
+<tr><td></td><td>:have fn:owner :americans</td><td>:have fn:owner :Americans</td></tr>
+<tr><td></td><td>:have fn:possession :dealings</td><td>:have fn:possession :dealings</td></tr>
+<tr><td></td><td>:making fn:actor :it_1</td><td></td></tr>
+<tr><td></td><td>:making fn:effect :have</td><td></td></tr>
+<tr><td></td><td>:making fn:effect :illegal</td><td></td></tr>
+<tr><td></td><td>:opposition_v fn:cognizer :opposition</td><td></td></tr>
+<tr><td></td><td>:organization fn:purpose :terrorist</td><td></td></tr>
+<tr><td></td><td>:organize fn:agent :opposition</td><td></td></tr>
+<tr><td></td><td>:organize fn:event :government</td><td></td></tr>
+<tr><td></td><td>:plans fn:agent :it_1</td><td>:plan fn:agent :it</td></tr>
+<tr><td></td><td>:plans fn:goal :blacklist</td><td>:plan fn:goal :blacklist</td></tr>
+<tr><td></td><td>:prompting fn:cause :it_1</td><td></td></tr>
+<tr><td></td><td>:prompting fn:effect :sanctions</td><td></td></tr>
+<tr><td></td><td>:pushes fn:action :organize</td><td></td></tr>
+<tr><td></td><td>:pushes fn:agent :states</td><td>:push fn:agent :United_States</td></tr>
+<tr><td></td><td>:pushes fn:cognizer :opposition</td><td></td></tr>
+<tr><td></td><td>:sanctions_v fn:avenger :europe</td><td></td></tr>
+<tr><td></td><td>:sanctions_v fn:punishment :sanctions</td><td></td></tr>
+<tr><td></td><td></td><td>:dealings fn:agent :Americans</td></tr>
+<tr><td></td><td></td><td>:dealings fn:agent &lt;attr:fiscal-1a&gt;</td></tr>
+<tr><td></td><td></td><td>:dealings fn:agent :group</td></tr>
+<tr><td></td><td></td><td>:make fn:cause :have</td></tr>
+<tr><td></td><td></td><td>:make fn:cause :it</td></tr>
+<tr><td></td><td></td><td>* :make fn:cause :it_2</td></tr>
+<tr><td></td><td></td><td>:plan fn:attribute :blacklist</td></tr>
+<tr><td></td><td></td><td>:plan fn:value :blacklist</td></tr>
+<tr><td></td><td></td><td>:push fn:difference :opposition</td></tr>
+<tr><td></td><td></td><td>:push fn:item :opposition</td></tr>
+<tr style="border-top: 4px solid #dddddd"><td colspan="2">Results</td><td>f1=0.318 p=0.500 r=0.233 tp=28 fp=28 fn=92</td></tr>
+</tbody>
+</table>
