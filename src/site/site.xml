@@ -19,8 +19,8 @@
             <item name="Pikes in a nutshell" href="overview.html"/>
             <item name="Representation model" href="model.html"/>
             <item name="Extraction pipeline" href="pipeline.html"/>
-            <item name="Team" href="team-list.html"/>
             <item name="Publications" href="publications.html"/>
+            <item name="Team" href="team-list.html"/>
         </menu>
 
         <menu name="Resources">
@@ -35,6 +35,8 @@
         <menu ref="parent" inherit="top"/>
 
         <menu name="Links">
+            <item name="Online demo" href="https://knowledgestore2.fbk.eu/pikes-demo/"/>
+            <item name="Video tour (YouTube)" href="https://www.youtube.com/watch?v=D0mcnUKc3sg"/>
             <item name="GitHub project" href="https://github.com/dkmfbk/pikes"/>
             <item name="Issue tracker" href="https://github.com/dkmfbk/pikes/issues"/>
             <item name="Contact authors" href="mailto:pikesATfbkDOTeu"/>
@@ -59,7 +61,7 @@
             <html5Anchor>true</html5Anchor>
             <markPageHeader>true</markPageHeader>
 
-            <absoluteResourceURL>${site-root}</absoluteResourceURL>
+	        <absoluteResourceURL>${site-root}</absoluteResourceURL>
             <protocolRelativeURLs>true</protocolRelativeURLs>
 
             <skinAttribution>true</skinAttribution>
@@ -83,8 +85,8 @@
 
             <bottomNav maxSpan="8">
                 <column>About</column>
-                <column>Resources</column>
                 <column>Links</column>
+                <column>Resources</column>
             </bottomNav>
 
             <breadcrumbs>false</breadcrumbs>
@@ -92,7 +94,14 @@
                 <![CDATA[
                 Pikes is a suite for knowledge extraction developed within:<br/><br/>
                 <a href="http://dkm.fbk.eu/"><img src="${site-root}/images/fbkdkm.png"/></a>&nbsp;&nbsp;
-                <a href="http://www.newsreader-project.eu/"><img src="${site-root}/images/newsreader.png"/></a><br/>
+                <a href="http://www.newsreader-project.eu/"><img src="${site-root}/images/newsreader.png"/></a><br/><br/>
+                <div>
+                    <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a>
+                    <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">PIKES web site</span> is licensed under the
+                    <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+                    PIKES software is licensed under <a href="http://www.gnu.org/licenses/gpl-3.0.en.html">GNU GPL v.3</a>.
+                </div>
+
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
