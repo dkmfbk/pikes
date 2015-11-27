@@ -1,0 +1,323 @@
+@prefix ks: <http://dkm.fbk.eu/ontologies/knowledgestore#> .
+@prefix xs: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix nif: <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix sumo: <http://www.ontologyportal.org/SUMO.owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix dbyago: <http://dbpedia.org/class/yago/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix sem: <http://semanticweb.cs.vu.nl/2009/11/sem/> .
+
+<file:///eswc.7.ttl/> a ks:Resource , ks:Text ;
+	dct:title "" ;
+	ks:hasMention <file:///eswc.7.ttl/char=93,98> , <file:///eswc.7.ttl/char=37,40;76,91> , <file:///eswc.7.ttl/char=139,149> , <file:///eswc.7.ttl/char=114,119> , <file:///eswc.7.ttl/char=123,130> , <file:///eswc.7.ttl/char=19,26> , <file:///eswc.7.ttl/char=93,98;102,109> , <file:///eswc.7.ttl/char=102,109> , <file:///eswc.7.ttl/char=76,91> , <file:///eswc.7.ttl/char=32,36> , <file:///eswc.7.ttl/char=4,17> , <file:///eswc.7.ttl/char=131,133> , <file:///eswc.7.ttl/char=44,51> , <file:///eswc.7.ttl/char=150,155> , <file:///eswc.7.ttl/char=60,65> , <file:///eswc.7.ttl/char=4,17;131,133> , <file:///eswc.7.ttl/char=60,65;150,155> , <file:///eswc.7.ttl/char=66,75> , <file:///eswc.7.ttl/char=37,40> , <file:///eswc.7.ttl/char=4,17;93,98> , <file:///eswc.7.ttl/char=66,91> , <file:///eswc.7.ttl/char=52,55;76,91> , <file:///eswc.7.ttl/char=123,133> , <file:///eswc.7.ttl/char=52,55> , <file:///eswc.7.ttl/char=60,75> ;
+	ks:annotatedWith <file:///eswc.7.ttl/.naf> ;
+	dct:creator "" ;
+	dct:created "2015-11-06T09:43:39+01:00" ;
+	ks:textHash "AludlpGQ4N1GkXaiEiZU8k" ;
+	dct:language <http://lexvo.org/id/iso639-3/eng> .
+
+ks:NAF%20filter.null dct:title "NAF filter" .
+
+ks:Stanford%20CoreNLP.null dct:title "Stanford CoreNLP" .
+
+ks:Anna%203.61.null dct:title "Anna 3.61" .
+
+<http://dkm.fbk.eu/ontologies/knowledgestore#Mate%20Tools%20(be.xx%20model).null> dct:title "Mate Tools (be.xx model)" .
+
+ks:Mate%20Tools.null dct:title "Mate Tools" .
+
+ks:DBpedia%20Spotlight.null dct:title "DBpedia Spotlight" .
+
+<file:///eswc.7.ttl/char=93,98> ks:lemma "hope" ;
+	a ks:Mention , ks:PredicateMention ;
+	nif:endIndex "98"^^xs:int ;
+	ks:sst <http://www.newsreader-project.eu/sst/verb.emotion> ;
+	nif:anchorOf "hopes" ;
+	nif:beginIndex "93"^^xs:int ;
+	ks:synset <http://www.newsreader-project.eu/syn/01811441-v> ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=37,40;76,91> a ks:CompoundString , ks:Mention , ks:ParticipationMention ;
+	nif:endIndex "91"^^xs:int ;
+	ks:componentSubString <file:///eswc.7.ttl/char=76,91> , <file:///eswc.7.ttl/char=37,40> ;
+	nif:anchorOf "may [...] Bashar al-Assad" ;
+	nif:beginIndex "37"^^xs:int ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=139,149> ks:lemma "inherit" ;
+	a ks:Mention , ks:PredicateMention ;
+	nif:endIndex "149"^^xs:int ;
+	ks:sst <http://www.newsreader-project.eu/sst/verb.possession> ;
+	nif:anchorOf "inheriting" ;
+	nif:beginIndex "139"^^xs:int ;
+	ks:synset <http://www.newsreader-project.eu/syn/02315525-v> ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=114,119> ks:lemma "group" ;
+	a ks:Mention , ks:PredicateMention , ks:ParticipationMention , ks:EntityMention ;
+	nif:endIndex "119"^^xs:int ;
+	ks:sst <http://www.newsreader-project.eu/sst/noun.Tops> ;
+	nif:anchorOf "group" ;
+	nif:beginIndex "114"^^xs:int ;
+	ks:synset <http://www.newsreader-project.eu/syn/00031264-n> ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=123,130> ks:lemma "prevent" ;
+	a ks:Mention , ks:PredicateMention ;
+	nif:endIndex "130"^^xs:int ;
+	ks:sst <http://www.newsreader-project.eu/sst/verb.social> ;
+	nif:anchorOf "prevent" ;
+	nif:beginIndex "123"^^xs:int ;
+	ks:synset <http://www.newsreader-project.eu/syn/02452885-v> ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/sense> a ks:Entity , sumo:Entity , sumo:Process , sumo:InternalChange , ks:Predicate , sumo:PsychologicalProcess , sem:Event , sumo:IntentionalPsychologicalProcess , sumo:IntentionalProcess , sumo:Physical , sumo:BiologicalProcess , <http://www.newsreader-project.eu/ontologies/framenet/Perception_experience> , <http://framebase.org/ns/frame-Perception_experience-sense.v> ;
+	rdfs:label "sensing" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.7.ttl/char=19,26> .
+
+<file:///eswc.7.ttl/char=19,26> ks:lemma "sense" ;
+	a ks:Mention , ks:PredicateMention ;
+	nif:endIndex "26"^^xs:int ;
+	ks:sst <http://www.newsreader-project.eu/sst/verb.cognition> ;
+	nif:anchorOf "sensing" ;
+	nif:beginIndex "19"^^xs:int ;
+	ks:synset <http://www.newsreader-project.eu/syn/00589469-v> ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=93,98;102,109> a ks:CompoundString , ks:Mention , ks:ParticipationMention ;
+	nif:endIndex "109"^^xs:int ;
+	ks:componentSubString <file:///eswc.7.ttl/char=93,98> , <file:///eswc.7.ttl/char=102,109> ;
+	nif:anchorOf "hopes [...] isolate" ;
+	nif:beginIndex "93"^^xs:int ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=102,109> ks:lemma "isolate" ;
+	a ks:Mention , ks:PredicateMention ;
+	nif:endIndex "109"^^xs:int ;
+	ks:sst <http://www.newsreader-project.eu/sst/verb.change> ;
+	nif:anchorOf "isolate" ;
+	nif:beginIndex "102"^^xs:int ;
+	ks:synset <http://www.newsreader-project.eu/syn/00494269-v> ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/.naf> a ks:Resource , ks:NAF ;
+	ks:layer ks:layer_deps , ks:layer_linked-entities , ks:layer_text , ks:layer_naf-filter , ks:layer_srl ;
+	dct:creator ks:NAF%20filter.null , ks:Stanford%20CoreNLP.null , ks:Anna%203.61.null , <http://dkm.fbk.eu/ontologies/knowledgestore#Mate%20Tools%20(be.xx%20model).null> , ks:Mate%20Tools.null , ks:DBpedia%20Spotlight.null ;
+	dct:created "2015-11-06T09:43:49.779+0100" ;
+	ks:version "v3" ;
+	dct:identifier "" ;
+	ks:annotationOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=76,91> a ks:Mention , ks:NameMention , ks:EntityMention ;
+	nif:endIndex "91"^^xs:int ;
+	nif:anchorOf "Bashar al-Assad" ;
+	nif:beginIndex "76"^^xs:int ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=32,36> ks:lemma "time" ;
+	a ks:Mention , ks:PredicateMention , ks:ParticipationMention , ks:EntityMention ;
+	nif:endIndex "36"^^xs:int ;
+	ks:sst <http://www.newsreader-project.eu/sst/noun.event> ;
+	nif:anchorOf "time" ;
+	nif:beginIndex "32"^^xs:int ;
+	ks:synset <http://www.newsreader-project.eu/syn/07309599-n> ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=4,17> a ks:Mention , ks:NameMention , ks:EntityMention ;
+	nif:endIndex "17"^^xs:int ;
+	nif:anchorOf "United States" ;
+	nif:beginIndex "4"^^xs:int ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=131,133> a ks:Mention , ks:EntityMention ;
+	nif:endIndex "133"^^xs:int ;
+	nif:anchorOf "it" ;
+	nif:beginIndex "131"^^xs:int ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=44,51> ks:lemma "run" ;
+	a ks:Mention , ks:PredicateMention ;
+	nif:endIndex "51"^^xs:int ;
+	ks:sst <http://www.newsreader-project.eu/sst/verb.contact> ;
+	nif:anchorOf "running" ;
+	nif:beginIndex "44"^^xs:int ;
+	ks:synset <http://www.newsreader-project.eu/syn/01525666-v> ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=150,155> a ks:Mention , ks:NameMention , ks:EntityMention ;
+	nif:endIndex "155"^^xs:int ;
+	nif:anchorOf "Syria" ;
+	nif:beginIndex "150"^^xs:int ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/Syria> a ks:Entity , <http://www.newsreader-project.eu/ontologies/LOCATION> ;
+	rdfs:label "Syria" ;
+	foaf:name "Syria" ;
+	owl:sameAs dbpedia:Syria , <file:///eswc.7.ttl/Syria_2> ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.7.ttl/char=60,65> .
+
+<file:///eswc.7.ttl/char=60,65> a ks:Mention , ks:NameMention , ks:EntityMention ;
+	nif:endIndex "65"^^xs:int ;
+	nif:anchorOf "Syria" ;
+	nif:beginIndex "60"^^xs:int ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=4,17;131,133> a ks:CompoundString , ks:Mention ;
+	nif:endIndex "133"^^xs:int ;
+	ks:componentSubString <file:///eswc.7.ttl/char=4,17> , <file:///eswc.7.ttl/char=131,133> ;
+	nif:anchorOf "United States [...] it" ;
+	nif:beginIndex "4"^^xs:int ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=60,65;150,155> a ks:CompoundString , ks:Mention ;
+	nif:endIndex "155"^^xs:int ;
+	ks:componentSubString <file:///eswc.7.ttl/char=150,155> , <file:///eswc.7.ttl/char=60,65> ;
+	nif:anchorOf "Syria [...] Syria" ;
+	nif:beginIndex "60"^^xs:int ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=66,75> ks:lemma "president" ;
+	a ks:Mention , ks:PredicateMention , ks:ParticipationMention , ks:EntityMention ;
+	nif:endIndex "75"^^xs:int ;
+	ks:sst <http://www.newsreader-project.eu/sst/noun.person> ;
+	nif:anchorOf "president" ;
+	nif:beginIndex "66"^^xs:int ;
+	ks:synset <http://www.newsreader-project.eu/syn/10467395-n> ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=37,40> a ks:Mention , ks:PredicateMention ;
+	nif:endIndex "40"^^xs:int ;
+	nif:anchorOf "may" ;
+	nif:beginIndex "37"^^xs:int ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=4,17;93,98> a ks:CompoundString , ks:Mention , ks:ParticipationMention ;
+	nif:endIndex "98"^^xs:int ;
+	ks:componentSubString <file:///eswc.7.ttl/char=93,98> , <file:///eswc.7.ttl/char=4,17> ;
+	nif:anchorOf "United States [...] hopes" ;
+	nif:beginIndex "4"^^xs:int ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/group> a ks:Entity , dbyago:Group100031264 ;
+	rdfs:label "group" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.7.ttl/char=114,119> .
+
+<file:///eswc.7.ttl/char=66,91> a ks:Mention ;
+	nif:endIndex "91"^^xs:int ;
+	nif:anchorOf "president Bashar al-Assad" ;
+	nif:beginIndex "66"^^xs:int ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/prevent> a ks:Entity , sumo:Entity , sumo:Process , ks:Predicate , sem:Event , sumo:Physical , <http://framebase.org/ns/frame-Preventing-avert.v> , <http://www.newsreader-project.eu/ontologies/framenet/Preventing> ;
+	rdfs:label "prevent" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.7.ttl/char=123,130> ;
+	<http://framebase.org/ns/fe-preventing-event> <file:///eswc.7.ttl/it> ;
+	<http://www.newsreader-project.eu/ontologies/framenet/event> <file:///eswc.7.ttl/it> .
+
+<file:///eswc.7.ttl/char=52,55;76,91> a ks:CompoundString , ks:Mention , ks:ParticipationMention ;
+	nif:endIndex "91"^^xs:int ;
+	ks:componentSubString <file:///eswc.7.ttl/char=76,91> , <file:///eswc.7.ttl/char=52,55> ;
+	nif:anchorOf "out [...] Bashar al-Assad" ;
+	nif:beginIndex "52"^^xs:int ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=123,133> a ks:Mention , ks:ParticipationMention ;
+	nif:endIndex "133"^^xs:int ;
+	nif:anchorOf "prevent it" ;
+	nif:beginIndex "123"^^xs:int ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/isolate> a ks:Entity , sumo:Entity , sumo:Process , ks:Predicate , sumo:Translocation , sem:Event , sumo:Motion , sumo:Physical , sumo:Removing , sumo:Transfer , <http://www.newsreader-project.eu/ontologies/propbank/isolate.01> ;
+	rdfs:label "isolate" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.7.ttl/char=102,109> .
+
+<file:///eswc.7.ttl/United_States> a ks:Entity , <http://www.newsreader-project.eu/ontologies/LOCATION> ;
+	foaf:name "United States" ;
+	owl:sameAs dbpedia:United_States ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.7.ttl/char=4,17> .
+
+<file:///eswc.7.ttl/char=52,55> a ks:Mention , ks:PredicateMention ;
+	nif:endIndex "55"^^xs:int ;
+	nif:anchorOf "out" ;
+	nif:beginIndex "52"^^xs:int ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/inherit> a ks:Entity , sumo:Entity , sumo:Process , ks:Predicate , sumo:Inheriting , sumo:SocialInteraction , sumo:Getting , sem:Event , sumo:IntentionalProcess , sumo:Physical , sumo:ChangeOfPossession , sumo:UnilateralGetting , <http://www.newsreader-project.eu/ontologies/propbank/inherit.01> ;
+	rdfs:label "inheriting" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.7.ttl/char=139,149> .
+
+<file:///eswc.7.ttl/may> a ks:Entity , ks:Predicate , sem:Event , <http://www.newsreader-project.eu/ontologies/framenet/Likelihood> ;
+	rdfs:label "may" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.7.ttl/char=37,40> ;
+	<http://framebase.org/ns/fe-likelihood-reason> <file:///eswc.7.ttl/Bashar_al-Assad> ;
+	<http://www.newsreader-project.eu/ontologies/framenet/reason> <file:///eswc.7.ttl/Bashar_al-Assad> .
+
+<file:///eswc.7.ttl/char=60,75> a ks:Mention ;
+	nif:endIndex "75"^^xs:int ;
+	nif:anchorOf "Syria president" ;
+	nif:beginIndex "60"^^xs:int ;
+	ks:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/Syria_2> a ks:Entity , <http://www.newsreader-project.eu/ontologies/LOCATION> ;
+	rdfs:label "Syria" ;
+	foaf:name "Syria" ;
+	owl:sameAs dbpedia:Syria ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.7.ttl/char=150,155> .
+
+<file:///eswc.7.ttl/time_2> a ks:Entity , sumo:Process , ks:Predicate , sem:Event , <http://www.newsreader-project.eu/ontologies/framenet/Measure_duration> , <http://framebase.org/ns/frame-Measure_duration-time.n> ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.7.ttl/char=32,36> ;
+	<http://www.newsreader-project.eu/ontologies/framenet/unit> <file:///eswc.7.ttl/time> ;
+	<http://framebase.org/ns/fe-measure_duration-unit> <file:///eswc.7.ttl/time> .
+
+<file:///eswc.7.ttl/hope> a ks:Entity , ks:Predicate , sem:Event , <http://framebase.org/ns/frame-Desiring-hope.v> , <http://www.newsreader-project.eu/ontologies/framenet/Desiring> ;
+	rdfs:label "hopes" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.7.ttl/char=93,98> ;
+	<http://framebase.org/ns/fe-desiring-event> <file:///eswc.7.ttl/isolate> ;
+	<http://www.newsreader-project.eu/ontologies/framenet/experiencer> <file:///eswc.7.ttl/United_States> ;
+	<http://www.newsreader-project.eu/ontologies/framenet/event> <file:///eswc.7.ttl/isolate> ;
+	<http://framebase.org/ns/fe-desiring-experiencer> <file:///eswc.7.ttl/United_States> .
+
+<file:///eswc.7.ttl/time> a ks:Entity , dbyago:Time107309599 ;
+	rdfs:label "time" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.7.ttl/char=32,36> .
+
+<file:///eswc.7.ttl/Bashar_al-Assad> a ks:Entity , <http://www.newsreader-project.eu/ontologies/PERSON> ;
+	rdfs:label "Bashar al-Assad" ;
+	ks:mod <file:///eswc.7.ttl/president> ;
+	foaf:name "Bashar al-Assad" ;
+	owl:sameAs dbpedia:Bashar_al-Assad ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.7.ttl/char=76,91> .
+
+<file:///eswc.7.ttl/out> a ks:Entity , ks:Predicate , sem:Event , <http://www.newsreader-project.eu/ontologies/framenet/Locative_relation> , <http://framebase.org/ns/frame-Locative_relation-out.prep> ;
+	rdfs:label "out" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.7.ttl/char=52,55> ;
+	<http://framebase.org/ns/fe-locative_relation-figure> <file:///eswc.7.ttl/Bashar_al-Assad> ;
+	<http://www.newsreader-project.eu/ontologies/framenet/figure> <file:///eswc.7.ttl/Bashar_al-Assad> .
+
+<file:///eswc.7.ttl/run> a ks:Entity , sumo:Entity , sumo:Process , ks:Predicate , sem:Event , sumo:Physical , <http://framebase.org/ns/frame-Self_motion-run.v> , <http://www.newsreader-project.eu/ontologies/framenet/Self_motion> ;
+	rdfs:label "running" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.7.ttl/char=44,51> .
+
+<file:///eswc.7.ttl/group_2> a ks:Entity , ks:Predicate , sem:Event , <http://www.newsreader-project.eu/ontologies/framenet/Aggregate> , <http://framebase.org/ns/frame-Aggregate-group.n> ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.7.ttl/char=114,119> ;
+	<http://framebase.org/ns/fe-aggregate-aggregate> <file:///eswc.7.ttl/group> ;
+	<http://www.newsreader-project.eu/ontologies/framenet/aggregate> <file:///eswc.7.ttl/group> .
+
+<file:///eswc.7.ttl/it> a ks:Entity ;
+	owl:sameAs <file:///eswc.7.ttl/United_States> ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.7.ttl/char=131,133> .
+
+<file:///eswc.7.ttl/president> a ks:Entity , dbyago:HeadOfState110164747 , <http://www.newsreader-project.eu/ontologies/PERSON> ;
+	rdfs:label "president" ;
+	rdfs:seeAlso dbpedia:President ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.7.ttl/char=66,75> .
+
+<file:///eswc.7.ttl/president_2> a ks:Entity , ks:Predicate , sem:Event , <http://www.newsreader-project.eu/ontologies/framenet/Leadership> ;
+	ks:mod <file:///eswc.7.ttl/Syria> ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.7.ttl/char=66,75> ;
+	<http://framebase.org/ns/fe-leadership-leader> <file:///eswc.7.ttl/president> ;
+	<http://www.newsreader-project.eu/ontologies/framenet/leader> <file:///eswc.7.ttl/president> .

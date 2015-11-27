@@ -1,0 +1,39 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix frb: <http://framebase.org/ns/> .
+@prefix eval: <eval:schema#> .
+@prefix : <file:///eswc.7.ttl/> .
+
+
+# === TEXT ===
+
+<file:///eswc.7.ttl/> rdfs:label """
+	The United States, sensing that time may be running out for Syria president Bashar al-Assad, hopes to isolate the group to prevent it from inheriting Syria.""" .
+
+
+# === FRAMES ===
+
+:sensing a frb:frame-Perception_experience-sense.v ;
+	frb:fe-Perception_experience-Perceiver_passive :states ;
+	frb:fe-Perception_experience-Phenomenon :running .
+
+:president_v a frb:frame-Leadership-preside.v ;
+	frb:fe-Leadership-Leader :president ;
+	frb:fe-Leadership-Governed :syria_1 .
+
+:hopes a frb:frame-Desiring-hope.v ;
+	frb:fe-Desiring-Experiencer :states ;
+	frb:fe-Desiring-Event :isolate .
+
+:group a frb:frame-Organization-group.n .
+
+:prevent a frb:frame-Thwarting-counter.v ;
+	frb:fe-Thwarting-Preventing_cause :states ;
+    frb:fe-Thwarting-Protagonist :it ;
+    frb:fe-Thwarting-Action :inheriting .
+
+
+# === IRRELEVANT TRIPLES ===
+
+:time eval:classifiableAs frb:frame-Measure_duration-time.n .

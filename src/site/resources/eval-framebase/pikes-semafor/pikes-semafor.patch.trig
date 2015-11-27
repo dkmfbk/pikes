@@ -1,0 +1,47 @@
+@prefix eval: <http://pikes.fbk.eu/ontologies/eval#> .
+
+eval:metadata {
+
+    <file:///eswc.1.ttl/char=108,122> eval:head <file:///eswc.1.ttl/effective> .
+    <file:///eswc.1.ttl/char=172,185> eval:head <file:///eswc.1.ttl/States> .
+    <file:///eswc.1.ttl/char=68,76> eval:head <file:///eswc.1.ttl/Qaeda> .
+
+    <file:///eswc.2.ttl/char=30,41> eval:head <file:///eswc.2.ttl/Front> .
+
+    <file:///eswc.5.ttl/char=34,42> eval:head <file:///eswc.5.ttl/Qaeda> .
+
+    <file:///eswc.6.ttl/char=138,146> eval:head <file:///eswc.6.ttl/Qaeda> .
+    <file:///eswc.6.ttl/char=184,195> eval:head <file:///eswc.6.ttl/Front> .
+
+    <file:///eswc.7.ttl/char=4,17> eval:head <file:///eswc.7.ttl/States> .
+    <file:///eswc.7.ttl/char=76,91> eval:head <file:///eswc.7.ttl/al-Assad> .
+
+    <file:///eswc.8.ttl/char=7,20> eval:head <file:///eswc.8.ttl/States> .
+    <file:///eswc.8.ttl/char=121,132> eval:head <file:///eswc.8.ttl/Front> .
+    <file:///eswc.8.ttl/char=162,171> eval:head <file:///eswc.8.ttl/making> .
+
+    <file:///eswc.1.ttl/> a eval:Sentence ;
+            rdfs:label "The lone Syrian rebel group with an explicit stamp of approval from Al Qaeda has become one of the uprising most effective fighting forces, posing a stark challenge to the United States and other countries that want to support the rebels but not Islamic extremists." .
+
+    <file:///eswc.2.ttl/> a eval:Sentence ;
+            rdfs:label "Money flows to the group, the Nusra Front, from like-minded donors abroad." .
+
+    <file:///eswc.3.ttl/> a eval:Sentence ;
+            rdfs:label "Its fighters, a small minority of the rebels, have the boldness and skill to storm fortified positions and lead other battalions to capture military bases and oil fields." .
+
+    <file:///eswc.4.ttl/> a eval:Sentence ;
+            rdfs:label "As their successes mount, they gather more weapons and attract more fighters." .
+
+    <file:///eswc.5.ttl/> a eval:Sentence ;
+            rdfs:label "The group is a direct offshoot of Al Qaeda in Iraq, Iraqi officials and former Iraqi insurgents say, which has contributed veteran fighters and weapons." .
+
+    <file:///eswc.6.ttl/> a eval:Sentence ;
+            rdfs:label "`` This is just a simple way of returning the favor to our Syrian brothers that fought with us on the lands of Iraq, '' said a veteran of Al Qaeda in Iraq, who said he helped lead the Nusra Front 's efforts in Syria." .
+
+    <file:///eswc.7.ttl/> a eval:Sentence ;
+            rdfs:label "The United States, sensing that time may be running out for Syria president Bashar al-Assad, hopes to isolate the group to prevent it from inheriting Syria." .
+
+    <file:///eswc.8.ttl/> a eval:Sentence ;
+            rdfs:label "As the United States pushes the Syrian opposition to organize a viable alternative government, it plans to blacklist the Nusra Front as a terrorist organization, making it illegal for Americans to have financial dealings with the group and prompting similar sanctions from Europe." .
+
+}

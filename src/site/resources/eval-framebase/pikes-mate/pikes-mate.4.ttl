@@ -1,0 +1,219 @@
+@prefix ks: <http://dkm.fbk.eu/ontologies/knowledgestore#> .
+@prefix nif: <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
+@prefix xs: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sumo: <http://www.ontologyportal.org/SUMO.owl#> .
+@prefix sem: <http://semanticweb.cs.vu.nl/2009/11/sem/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dbyago: <http://dbpedia.org/class/yago/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+<file:///eswc.4.ttl/> ks:hasMention <file:///eswc.4.ttl/char=3,8> , <file:///eswc.4.ttl/char=26,30> , <file:///eswc.4.ttl/char=31,37;43,50> , <file:///eswc.4.ttl/char=9,18> , <file:///eswc.4.ttl/char=68,76> , <file:///eswc.4.ttl/char=19,24;31,37> , <file:///eswc.4.ttl/char=19,24> , <file:///eswc.4.ttl/char=31,37> , <file:///eswc.4.ttl/char=3,8;26,30> , <file:///eswc.4.ttl/char=26,30;55,62> , <file:///eswc.4.ttl/char=3,18> , <file:///eswc.4.ttl/char=43,50> , <file:///eswc.4.ttl/char=55,62> , <file:///eswc.4.ttl/char=55,62;68,76> , <file:///eswc.4.ttl/char=9,24> , <file:///eswc.4.ttl/char=26,37> ;
+	dct:title "" ;
+	a ks:Resource , ks:Text ;
+	dct:creator "" ;
+	dct:language <http://lexvo.org/id/iso639-3/eng> ;
+	ks:annotatedWith <file:///eswc.4.ttl/.naf> ;
+	dct:created "2015-11-06T09:41:53+01:00" ;
+	ks:textHash "CgXnm3vwa6dBWJPGmSnrfN" .
+
+ks:NAF%20filter.null dct:title "NAF filter" .
+
+ks:DBpedia%20Spotlight.null dct:title "DBpedia Spotlight" .
+
+ks:Anna%203.61.null dct:title "Anna 3.61" .
+
+<http://dkm.fbk.eu/ontologies/knowledgestore#Mate%20Tools%20(be.xx%20model).null> dct:title "Mate Tools (be.xx model)" .
+
+ks:Mate%20Tools.null dct:title "Mate Tools" .
+
+ks:Stanford%20CoreNLP.null dct:title "Stanford CoreNLP" .
+
+<file:///eswc.4.ttl/char=3,8> ks:mentionOf <file:///eswc.4.ttl/> ;
+	nif:endIndex "8"^^xs:int ;
+	nif:beginIndex "3"^^xs:int ;
+	nif:anchorOf "their" ;
+	a ks:Mention , ks:EntityMention .
+
+<file:///eswc.4.ttl/they_2> a ks:Entity ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.4.ttl/char=26,30> .
+
+<file:///eswc.4.ttl/char=26,30> ks:mentionOf <file:///eswc.4.ttl/> ;
+	nif:endIndex "30"^^xs:int ;
+	nif:beginIndex "26"^^xs:int ;
+	nif:anchorOf "they" ;
+	a ks:Mention , ks:EntityMention .
+
+<file:///eswc.4.ttl/char=31,37;43,50> ks:mentionOf <file:///eswc.4.ttl/> ;
+	nif:endIndex "50"^^xs:int ;
+	ks:componentSubString <file:///eswc.4.ttl/char=31,37> , <file:///eswc.4.ttl/char=43,50> ;
+	nif:beginIndex "31"^^xs:int ;
+	nif:anchorOf "gather [...] weapons" ;
+	a ks:CompoundString , ks:ParticipationMention , ks:Mention .
+
+<file:///eswc.4.ttl/char=9,18> ks:mentionOf <file:///eswc.4.ttl/> ;
+	nif:endIndex "18"^^xs:int ;
+	nif:beginIndex "9"^^xs:int ;
+	nif:anchorOf "successes" ;
+	a ks:Mention , ks:EntityMention , ks:PredicateMention ;
+	ks:lemma "success" ;
+	ks:sst <http://www.newsreader-project.eu/sst/noun.act> ;
+	ks:synset <http://www.newsreader-project.eu/syn/00063652-n> ;
+	ks:plural true .
+
+<file:///eswc.4.ttl/fighter> a ks:Entity , dbyago:Combatant109939313 , <http://www.newsreader-project.eu/ontologies/PERSON> ;
+	rdfs:label "fighters" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.4.ttl/char=68,76> .
+
+<file:///eswc.4.ttl/char=68,76> ks:mentionOf <file:///eswc.4.ttl/> ;
+	nif:endIndex "76"^^xs:int ;
+	nif:beginIndex "68"^^xs:int ;
+	nif:anchorOf "fighters" ;
+	a ks:ParticipationMention , ks:Mention , ks:EntityMention , ks:PredicateMention ;
+	ks:lemma "fighter" ;
+	ks:sst <http://www.newsreader-project.eu/sst/noun.person> ;
+	ks:synset <http://www.newsreader-project.eu/syn/09939313-n> ;
+	ks:plural true .
+
+<file:///eswc.4.ttl/char=19,24;31,37> ks:mentionOf <file:///eswc.4.ttl/> ;
+	nif:endIndex "37"^^xs:int ;
+	ks:componentSubString <file:///eswc.4.ttl/char=19,24> , <file:///eswc.4.ttl/char=31,37> ;
+	nif:beginIndex "19"^^xs:int ;
+	nif:anchorOf "mount [...] gather" ;
+	a ks:CompoundString , ks:ParticipationMention , ks:Mention .
+
+<file:///eswc.4.ttl/char=19,24> ks:mentionOf <file:///eswc.4.ttl/> ;
+	nif:endIndex "24"^^xs:int ;
+	nif:beginIndex "19"^^xs:int ;
+	nif:anchorOf "mount" ;
+	a ks:Mention , ks:PredicateMention ;
+	ks:lemma "mount" ;
+	ks:sst <http://www.newsreader-project.eu/sst/verb.motion> ;
+	ks:synset <http://www.newsreader-project.eu/syn/01921964-v> .
+
+<file:///eswc.4.ttl/char=31,37> ks:mentionOf <file:///eswc.4.ttl/> ;
+	nif:endIndex "37"^^xs:int ;
+	nif:beginIndex "31"^^xs:int ;
+	nif:anchorOf "gather" ;
+	a ks:Mention , ks:PredicateMention ;
+	ks:lemma "gather" ;
+	ks:sst <http://www.newsreader-project.eu/sst/verb.social> ;
+	ks:synset <http://www.newsreader-project.eu/syn/02428924-v> .
+
+<file:///eswc.4.ttl/char=3,8;26,30> ks:mentionOf <file:///eswc.4.ttl/> ;
+	nif:endIndex "30"^^xs:int ;
+	ks:componentSubString <file:///eswc.4.ttl/char=3,8> , <file:///eswc.4.ttl/char=26,30> ;
+	nif:beginIndex "3"^^xs:int ;
+	nif:anchorOf "their [...] they" ;
+	a ks:CompoundString , ks:Mention .
+
+<file:///eswc.4.ttl/char=26,30;55,62> ks:mentionOf <file:///eswc.4.ttl/> ;
+	nif:endIndex "62"^^xs:int ;
+	ks:componentSubString <file:///eswc.4.ttl/char=26,30> , <file:///eswc.4.ttl/char=55,62> ;
+	nif:beginIndex "26"^^xs:int ;
+	nif:anchorOf "they [...] attract" ;
+	a ks:CompoundString , ks:ParticipationMention , ks:Mention .
+
+<file:///eswc.4.ttl/char=3,18> ks:mentionOf <file:///eswc.4.ttl/> ;
+	nif:endIndex "18"^^xs:int ;
+	nif:beginIndex "3"^^xs:int ;
+	nif:anchorOf "their successes" ;
+	a ks:ParticipationMention , ks:Mention .
+
+<file:///eswc.4.ttl/char=43,50> ks:mentionOf <file:///eswc.4.ttl/> ;
+	nif:endIndex "50"^^xs:int ;
+	nif:beginIndex "43"^^xs:int ;
+	nif:anchorOf "weapons" ;
+	a ks:ParticipationMention , ks:Mention , ks:EntityMention , ks:PredicateMention ;
+	ks:lemma "weapon" ;
+	ks:sst <http://www.newsreader-project.eu/sst/noun.artifact> ;
+	ks:synset <http://www.newsreader-project.eu/syn/04565375-n> ;
+	ks:plural true .
+
+<file:///eswc.4.ttl/gather> a ks:Entity , sumo:Entity , sumo:Process , sumo:Meeting , sem:Event , ks:Predicate , sumo:SocialInteraction , sumo:Physical , sumo:IntentionalProcess , <http://www.newsreader-project.eu/ontologies/framenet/Gathering_up> , <http://www.newsreader-project.eu/ontologies/propbank/gather.01> , <http://www.newsreader-project.eu/ontologies/verbnet/get-13.5.1> , <http://framebase.org/ns/frame-Gathering_up-gather.v> ;
+	sem:hasActor <file:///eswc.4.ttl/they_2> , <file:///eswc.4.ttl/weapon> ;
+	rdfs:label "gather" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.4.ttl/char=31,37> ;
+	<http://www.newsreader-project.eu/ontologies/verbnet/theme> <file:///eswc.4.ttl/weapon> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/gather.01_0> <file:///eswc.4.ttl/they_2> ;
+	<http://www.newsreader-project.eu/ontologies/verbnet/agent> <file:///eswc.4.ttl/they_2> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/adv> <file:///eswc.4.ttl/mount> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/gather.01_1> <file:///eswc.4.ttl/weapon> .
+
+<file:///eswc.4.ttl/mount> a ks:Entity , sumo:Entity , sumo:Process , sumo:Ambulating , sem:Event , ks:Predicate , sumo:BodyMotion , sumo:Motion , sumo:Physical , sumo:Walking , sumo:Translocation , <http://www.newsreader-project.eu/ontologies/verbnet/meander-47.7> , <http://www.newsreader-project.eu/ontologies/propbank/mount.02> ;
+	sem:hasActor <file:///eswc.4.ttl/success> ;
+	rdfs:label "mount" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.4.ttl/char=19,24> ;
+	<http://www.newsreader-project.eu/ontologies/verbnet/theme> <file:///eswc.4.ttl/success> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/mount.02_1> <file:///eswc.4.ttl/success> .
+
+<file:///eswc.4.ttl/char=55,62> ks:mentionOf <file:///eswc.4.ttl/> ;
+	nif:endIndex "62"^^xs:int ;
+	nif:beginIndex "55"^^xs:int ;
+	nif:anchorOf "attract" ;
+	a ks:Mention , ks:PredicateMention ;
+	ks:lemma "attract" ;
+	ks:sst <http://www.newsreader-project.eu/sst/verb.contact> ;
+	ks:synset <http://www.newsreader-project.eu/syn/01505254-v> .
+
+<file:///eswc.4.ttl/.naf> a ks:Resource , ks:NAF ;
+	ks:layer ks:layer_linked-entities , ks:layer_text , ks:layer_srl , ks:layer_naf-filter , ks:layer_deps ;
+	dct:creator ks:NAF%20filter.null , ks:DBpedia%20Spotlight.null , ks:Anna%203.61.null , <http://dkm.fbk.eu/ontologies/knowledgestore#Mate%20Tools%20(be.xx%20model).null> , ks:Mate%20Tools.null , ks:Stanford%20CoreNLP.null ;
+	dct:created "2015-11-06T09:42:12.146+0100" ;
+	dct:identifier "" ;
+	ks:annotationOf <file:///eswc.4.ttl/> ;
+	ks:version "v3" .
+
+<file:///eswc.4.ttl/char=55,62;68,76> ks:mentionOf <file:///eswc.4.ttl/> ;
+	nif:endIndex "76"^^xs:int ;
+	ks:componentSubString <file:///eswc.4.ttl/char=68,76> , <file:///eswc.4.ttl/char=55,62> ;
+	nif:beginIndex "55"^^xs:int ;
+	nif:anchorOf "attract [...] fighters" ;
+	a ks:CompoundString , ks:ParticipationMention , ks:Mention .
+
+<file:///eswc.4.ttl/weapon> a ks:Entity , dbyago:Weapon104565375 ;
+	rdfs:label "weapons" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.4.ttl/char=43,50> .
+
+<file:///eswc.4.ttl/char=9,24> ks:mentionOf <file:///eswc.4.ttl/> ;
+	nif:endIndex "24"^^xs:int ;
+	nif:beginIndex "9"^^xs:int ;
+	nif:anchorOf "successes mount" ;
+	a ks:ParticipationMention , ks:Mention .
+
+<file:///eswc.4.ttl/char=26,37> ks:mentionOf <file:///eswc.4.ttl/> ;
+	nif:endIndex "37"^^xs:int ;
+	nif:beginIndex "26"^^xs:int ;
+	nif:anchorOf "they gather" ;
+	a ks:ParticipationMention , ks:Mention .
+
+<file:///eswc.4.ttl/attract> a ks:Entity , sumo:Entity , sumo:Process , sem:Event , ks:Predicate , sumo:Physical , <http://www.newsreader-project.eu/ontologies/propbank/attract.01> , <http://framebase.org/ns/frame-Cause_motion-tug.v> , <http://www.newsreader-project.eu/ontologies/framenet/Cause_motion> ;
+	sem:hasActor <file:///eswc.4.ttl/they_2> , <file:///eswc.4.ttl/fighter> ;
+	rdfs:label "attract" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.4.ttl/char=55,62> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/attract.01_1> <file:///eswc.4.ttl/fighter> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/attract.01_0> <file:///eswc.4.ttl/they_2> .
+
+<file:///eswc.4.ttl/success> a ks:Entity , sumo:Entity , sumo:Abstract , sem:Event , ks:Predicate , dbyago:Success100063652 , sumo:RelationalAttribute , sumo:NormativeAttribute , sumo:Attribute , sumo:SubjectiveAssessmentAttribute , <http://www.newsreader-project.eu/ontologies/nombank/success.01> , <http://www.newsreader-project.eu/ontologies/propbank/succeed.01> , <http://www.newsreader-project.eu/ontologies/verbnet/succeed-74-1> ;
+	sem:hasActor <file:///eswc.4.ttl/they> ;
+	rdfs:label "successes" ;
+	ks:mod <file:///eswc.4.ttl/they> ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.4.ttl/char=9,18> ;
+	<http://www.newsreader-project.eu/ontologies/verbnet/agent> <file:///eswc.4.ttl/they> ;
+	<http://www.newsreader-project.eu/ontologies/nombank/success.01_0> <file:///eswc.4.ttl/they> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/succeed.01_0> <file:///eswc.4.ttl/they> .
+
+<file:///eswc.4.ttl/fighter_2> a ks:Entity , sem:Event , ks:Predicate , <http://www.newsreader-project.eu/ontologies/nombank/fighter.01> ;
+	sem:hasActor <file:///eswc.4.ttl/fighter> ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.4.ttl/char=68,76> ;
+	<http://www.newsreader-project.eu/ontologies/nombank/fighter.01_0> <file:///eswc.4.ttl/fighter> .
+
+<file:///eswc.4.ttl/weapon_2> a ks:Entity , sem:Event , ks:Predicate , <http://www.newsreader-project.eu/ontologies/nombank/weapon.01> ;
+	sem:hasActor <file:///eswc.4.ttl/weapon> ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.4.ttl/char=43,50> ;
+	<http://www.newsreader-project.eu/ontologies/nombank/weapon.01_2> <file:///eswc.4.ttl/weapon> .
+
+<file:///eswc.4.ttl/they> a ks:Entity ;
+	owl:sameAs <file:///eswc.4.ttl/they_2> ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.4.ttl/char=3,8> .

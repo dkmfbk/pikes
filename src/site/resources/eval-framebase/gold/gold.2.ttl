@@ -1,0 +1,27 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix frb: <http://framebase.org/ns/> .
+@prefix eval: <eval:schema#> .
+@prefix : <file:///eswc.2.ttl/> .
+
+
+# === TEXT ===
+
+<file:///eswc.2.ttl/> rdfs:label """
+	Money flows to the group, the Nusra Front, from like-minded donors abroad.""" .
+
+
+# === FRAMES ===
+
+:flows a frb:frame-Fluidic_motion-run.v ;
+	frb:fe-Fluidic_motion-Fluid :money ;
+	frb:fe-Fluidic_motion-Goal :group ;
+    frb:fe-Fluidic_motion-Source :donors .
+
+:group a frb:frame-Organization-group.n .
+
+:donors_v a frb:frame-Giving-gift.v ;
+	frb:fe-Giving-Theme :donors ;
+	frb:fe-Giving-Theme :money ;
+	frb:fe-Giving-Recipient :group .

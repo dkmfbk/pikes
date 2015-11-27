@@ -1,0 +1,41 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix frb: <http://framebase.org/ns/> .
+@prefix eval: <eval:schema#> .
+@prefix : <file:///eswc.5.ttl/> .
+
+
+# === TEXT ===
+
+<file:///eswc.5.ttl/> rdfs:label """
+	The group is a direct offshoot of Al Qaeda in Iraq, Iraqi officials and former Iraqi insurgents say, which has contributed veteran fighters and weapons.""" .
+
+
+# === FRAMES ===
+
+:group a frb:frame-Organization-group.n .
+
+:officials_v a frb:frame-Leadership-official.n ;
+	frb:fe-Leadership-Leader :officials ;
+	frb:fe-Leadership-Governed :iraqi_1 .
+
+:say a frb:frame-Statement-say.v ;
+	frb:fe-Statement-Speaker :insurgents ;
+    frb:fe-Statement-Speaker :officials ;
+	frb:fe-Statement-Message :is ;
+    frb:fe-Statement-Message :contributed .
+
+:contributed a frb:frame-Giving-gift.v ;
+    frb:fe-Giving-Donor :which ;
+	frb:fe-Giving-Theme :fighters ;
+    frb:fe-Giving-Theme :weapons .
+    frb:fe-Giving-Recipient :group .
+
+:weapons_v a frb:frame-Weapon-weapon.n ;
+	frb:fe-Weapon-Weapon :weapons .
+
+
+# === IRRELEVANT TRIPLES ===
+
+:former eval:classifiableAs frb:frame-Time_vector-former.a .

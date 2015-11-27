@@ -1,0 +1,71 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix frb: <http://framebase.org/ns/> .
+@prefix eval: <eval:schema#> .
+@prefix : <file:///eswc.1.ttl/> .
+
+
+# === TEXT ===
+
+<file:///eswc.1.ttl/> rdfs:label """
+	The lone Syrian rebel group with an explicit stamp of approval from Al Qaeda has become one of the uprising most effective fighting forces, posing a stark challenge to the United States and other countries that want to support the rebels but not Islamic extremists.""" .
+
+
+# === FRAMEBASE ===
+
+:group a frb:frame-Organization-group.n ;
+	frb:fe-Organization-Place :syrian ;
+	frb:fe-Organization-Descriptor :rebel ;
+	frb:fe-Organization-Descriptor :lone .
+
+:approval a frb:frame-Grant_permission-approval.n ;
+	frb:fe-Grant_permission-Grantor :qaeda ;
+	frb:fe-Grant_permission-Grantee :group ;
+	frb:fe-Grant_permission-Manner :explicit .
+
+:become a frb:frame-Becoming-get.v ;
+	frb:fe-Becoming-Entity :group ;
+	frb:fe-Becoming-Final_category :forces .
+
+:forces a frb:frame-Military-force.n ;
+	frb:fe-Military-Domain :fighting ;
+    frb:fe-Military-Descriptor :uprising ;
+	frb:fe-Military-Force :forces .
+
+:challenge a frb:frame-Competition-challenge.n ;
+	frb:fe-Competition-Participant_1 :group ;
+	frb:fe-Competition-Participant_2 :states ;
+    frb:fe-Competition-Participant_2 :countries .
+
+:want a frb:frame-Desiring-hope.v ;
+	frb:fe-Desiring-Experiencer :states ;
+	frb:fe-Desiring-Experiencer :countries ;
+	frb:fe-Desiring-Event :support ;
+	frb:fe-Desiring-Event :support_1 .
+
+:support a frb:frame-Taking_sides-back.v ; #this frame is splitted in two
+	frb:fe-Taking_sides-Cognizer :states ;
+	frb:fe-Taking_sides-Cognizer :countries ;
+	frb:fe-Taking_sides-Side :rebels .
+
+:support_1 a frb:frame-Taking_sides-back.v ;
+	frb:fe-Taking_sides-Cognizer :states ;
+	frb:fe-Taking_sides-Cognizer :countries ;
+	frb:fe-Taking_sides-Side :extremists .
+    # no way to represent negation of frame...
+
+:countries a frb:frame-Political_locales-state.n ;
+    frb:fe-Political_locales-Descriptor :other .
+
+:other a frb:frame-Increment-other.a ;
+    frb:fe-Increment-Added_set :countries ;
+    frb:fe-Increment-Class :countries .
+
+
+# === IRRELEVANT TRIPLES ===
+
+:explicit eval:classifiableAs frb:frame-Candidness-explicit.a .
+:fighting eval:classifiableAs frb:frame-Hostile_encounter-brawl.v .
+:lone eval:classifiableAs frb:frame-Sole_instance-lone.a .
+:uprising eval:classifiableAs frb:frame-Change_of_leadership-revolt.v .

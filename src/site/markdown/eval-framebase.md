@@ -96,19 +96,18 @@ PIKES graphs were obtained using the public demo of [PIKES](https://knowledgesto
 
 <h3 id="results">Evaluation results</h3>
 
-The table below reports the results of the evaluation for the three configuration, both against FrameBase type triples for frame instances (first three columns), FrameBase role triples (next three columns), and all triples undifferentiated (next three columns). The links under the 'Alignments' columns lead to separate reports showing how type and role triples from the gold standard and from PIKES have been matched in the evaluation.
+The table below reports the results of the evaluation for the three configuration, both against FrameBase type triples for frame instances (first three columns), FrameBase role triples (next three columns), and all triples undifferentiated (next three columns).
 
 As one could expect, F1 scores using Mate-tools are lower than the ones obtained using Semafor, reflecting the fact that the latter, being specifically designed for FrameNet SRL, is more suitable for use with FrameBase. However, the combination of both tools in PIKES leads to an increase of recall for role triples with respect to Semafor (or Mate-tools) alone. Note that precision scores for Mate-tools are on par with the ones for Semafor, with a gap in
 terms of recall that could be potentially addressed with further work on PropBank/NomBank to FrameBase mapping resources.
 
 <table class="table table-striped table-bordered table-hover table-condensed">
 <thead>
-<tr><th width="12%" rowspan="2">Configuration</th><th colspan="3">Type triples</th><th colspan="3">Role triples</th><th colspan="3">All triples</th><th colspan="2">Alignments</th></tr>
+<tr><th width="12%" rowspan="2">Configuration</th><th colspan="3">Type triples</th><th colspan="3">Role triples</th><th colspan="3">All triples</th></tr>
 <tr>
 <th width="8%">Precision</th><th width="8%">Recall</th><th width="8%">F1</th>
 <th width="8%">Precision</th><th width="8%">Recall</th><th width="8%">F1</th>
 <th width="8%">Precision</th><th width="8%">Recall</th><th width="8%">F1</th>
-<th width="8%">Types</th><th width="8%">Roles</th>
 </tr>
 </thead>
 <tbody>
@@ -117,24 +116,18 @@ terms of recall that could be potentially addressed with further work on PropBan
 <td>.617</td><td>.627</td><td>.622</td>
 <td>.603</td><td>.317</td><td>.415</td>
 <td>.610</td><td>.419</td><td>.497</td>
-<td><a href="eval-framebase/alignments/pikes-semafor.types.html">view</a></td>
-<td><a href="eval-framebase/alignments/pikes-semafor.roles.html">view</a></td>
 </tr>
 <tr>
 <td>Mate</td>
 <td>.792</td><td>.322</td><td>.458</td>
 <td>.633</td><td>.158</td><td>.253</td>
 <td>.704</td><td>.212</td><td>.326</td>
-<td><a href="eval-framebase/alignments/pikes-mate.types.html">view</a></td>
-<td><a href="eval-framebase/alignments/pikes-mate.roles.html">view</a></td>
 </tr>
 <tr>
 <td>Both</td>
 <td>.603</td><td>.644</td><td>.623</td>
 <td>.603</td><td>.392</td><td>.475</td>
 <td>.603</td><td>.475</td><td>.531</td>
-<td><a href="eval-framebase/alignments/pikes-both.types.html">view</a></td>
-<td><a href="eval-framebase/alignments/pikes-both.roles.html">view</a></td>
 </tr>
 </tbody>
 </table>
