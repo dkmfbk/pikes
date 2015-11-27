@@ -2,11 +2,11 @@ package eu.fbk.dkm.pikes.tintop.orchestrator;
 
 import com.google.common.io.Files;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import eu.fbk.dkm.utils.CommandLine;
 import eu.fbk.dkm.utils.FrequencyHashSet;
 import eu.fbk.rdfpro.util.IO;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 public class TintopOrchestrator {
 
-    static Logger logger = Logger.getLogger(TintopOrchestrator.class.getName());
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(TintopOrchestrator.class);
 
     private ArrayList<TintopServer> servers;
     private boolean fake;
@@ -220,29 +220,29 @@ public class TintopOrchestrator {
 //
 //		boolean fake = commandLine.hasOption("fake");
 
-        final eu.fbk.dkm.utils.CommandLine cmd = eu.fbk.dkm.utils.CommandLine
-                .parser()
-                .withName("./orchestrator")
-                .withHeader("Run the Tintop Orchestrator")
-                .withOption("i", "input", "Input folder", "FOLDER",
-                        eu.fbk.dkm.utils.CommandLine.Type.DIRECTORY_EXISTING, true, false, true)
-                .withOption("o", "output", "Output folder", "FOLDER",
-                        eu.fbk.dkm.utils.CommandLine.Type.DIRECTORY, true, false, true)
-                .withOption("l", "list", "Text file with list of server (one per line)", "FILE",
-                        eu.fbk.dkm.utils.CommandLine.Type.FILE_EXISTING, true, false, true)
-                .withOption("s", "skip", "Text file with list of file patterns to skip (one per line)", "FILE",
-                        eu.fbk.dkm.utils.CommandLine.Type.FILE_EXISTING, true, false, false)
-                .withOption("F", "fake", "Fake execution")
-                .withLogger(LoggerFactory.getLogger("eu.fbk")).parse(args);
-
-        File input = cmd.getOptionValue("input", File.class);
-        File output = cmd.getOptionValue("output", File.class);
-        File serverList = cmd.getOptionValue("list", File.class);
-        File skip = cmd.getOptionValue("skip", File.class);
-
-        boolean fake = cmd.hasOption("fake");
-
         try {
+            final eu.fbk.dkm.utils.CommandLine cmd = eu.fbk.dkm.utils.CommandLine
+                    .parser()
+                    .withName("./orchestrator")
+                    .withHeader("Run the Tintop Orchestrator")
+                    .withOption("i", "input", "Input folder", "FOLDER",
+                            eu.fbk.dkm.utils.CommandLine.Type.DIRECTORY_EXISTING, true, false, true)
+                    .withOption("o", "output", "Output folder", "FOLDER",
+                            eu.fbk.dkm.utils.CommandLine.Type.DIRECTORY, true, false, true)
+                    .withOption("l", "list", "Text file with list of server (one per line)", "FILE",
+                            eu.fbk.dkm.utils.CommandLine.Type.FILE_EXISTING, true, false, true)
+                    .withOption("s", "skip", "Text file with list of file patterns to skip (one per line)", "FILE",
+                            eu.fbk.dkm.utils.CommandLine.Type.FILE_EXISTING, true, false, false)
+                    .withOption("F", "fake", "Fake execution")
+                    .withLogger(LoggerFactory.getLogger("eu.fbk")).parse(args);
+
+            File input = cmd.getOptionValue("input", File.class);
+            File output = cmd.getOptionValue("output", File.class);
+            File serverList = cmd.getOptionValue("list", File.class);
+            File skip = cmd.getOptionValue("skip", File.class);
+
+            boolean fake = cmd.hasOption("fake");
+
             HashSet<String> skipPatterns = new HashSet<>();
             if (skip != null) {
                 BufferedReader reader = new BufferedReader(new FileReader(skip));
@@ -291,7 +291,7 @@ public class TintopOrchestrator {
             orchestrator.run(session);
 
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            CommandLine.fail(e);
         }
     }
 }
