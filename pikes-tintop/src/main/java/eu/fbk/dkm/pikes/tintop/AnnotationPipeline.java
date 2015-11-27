@@ -92,7 +92,7 @@ public class AnnotationPipeline {
         stanfordAnnotators.add("ner");
         stanfordAnnotators.add("parse");
         stanfordAnnotators.add("dcoref");
-        stanfordAnnotators.add("sentiment");
+//        stanfordAnnotators.add("sentiment");
         stanfordAnnotators.add("semafor");
     }
 
@@ -1197,7 +1197,7 @@ public class AnnotationPipeline {
 //				tree.label().setValue("TOP");
                 NAFdocument.addConstituencyString(tree.toString(), sentIndex + 1);
                 try {
-                    logger.info("Tree: " + tree.toString());
+                    logger.debug("Tree: " + tree.toString());
                     addHeads(tree);
                     NAFdocument.addConstituencyFromParentheses(tree.toString(), sentIndex + 1);
                 } catch (Exception e) {
