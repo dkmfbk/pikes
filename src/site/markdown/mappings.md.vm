@@ -10,8 +10,8 @@ Mappings from FrameNet to FrameBase were generated straightforwardly exploiting 
 
 Each mapping relates a (PB/NB/FN predicate, lemma, POS-tag) triple to a FrameBase microframe class. Equivalent (as of `owl:equivalentClass`) microframe classes have been merged with only a representative class for each cluster being used as target for the mappings. Predicate mappings are provided in two formats:
 
-  * [TSV predicate mappings](${site-download}20151124-mappings-frames-ok.tsv.gz), using four columns for: PB/NB/FN predicate ID, lemma, POS, FrameBase class URI.
-  * [RDF Turtle predicate mappings](${site-download}20151124-mappings-frames-ok.ttl.gz), where each mapping is a reified relation identified by a URI and described by properties `ks:predicate`, `ks:lemma`, `ks:pos`, and `ks:class` (`ks` prefix for `http://dkm.fbk.eu/ontologies/knowledgestore#`).
+  * [TSV predicate mappings](${site-download}20151124-mappings-predicates.tsv.gz), using four columns for: PB/NB/FN predicate ID, lemma, POS, FrameBase class URI.
+  * [RDF Turtle predicate mappings](${site-download}20151124-mappings-predicates.ttl.gz), where each mapping is a reified relation identified by a URI and described by properties `ks:predicate`, `ks:lemma`, `ks:pos`, and `ks:class` (`ks` prefix for `http://dkm.fbk.eu/ontologies/knowledgestore#`).
 
 
 <h3>Argument mappings</h3>
@@ -19,5 +19,5 @@ Each mapping relates a (PB/NB/FN predicate, lemma, POS-tag) triple to a FrameBas
 Each mapping associates a predicate argument to a FrameBase property URI (predicate arguments are frame elements for FrameNet, and predicate / role pairs for PropBank and NomBank).
 Argument mappings are provided in two formats:
 
-  * [TSV argument mappings](${site-download}20151124-mappings-roles-ok.tsv.gz), using two columns: predicate **@** role, and FrameBase property URI.
-  * [RDF Turtle argument mappings](${site-download}20151124-mappings-roles-ok.ttl.gz), where each mapping is a reified relation identified by a URI and described by properties `ks:role` (pointing to the URI for the predicate argument as defined in [PreMOn](https://premon.fbk.eu/)), and `ks:property`.
+  * [TSV argument mappings](${site-download}20151124-mappings-roles.tsv.gz), using two columns: predicate **@** role, and FrameBase property URI.
+  * [RDF Turtle argument mappings](${site-download}20151124-mappings-roles.ttl.gz), where each mapping is a reified relation identified by a URI and described by properties `ks:role` (pointing to the URI for the predicate argument as defined in [PreMOn](https://premon.fbk.eu/)), and `ks:property`.
