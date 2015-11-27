@@ -1,0 +1,57 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix frb: <http://framebase.org/ns/> .
+@prefix eval: <eval:schema#> .
+@prefix : <file:///eswc.3.ttl/> .
+
+
+# === TEXT ===
+
+<file:///eswc.3.ttl/> rdfs:label """
+    Its fighters, a small minority of the rebels, have the boldness and skill to storm fortified positions and lead other battalions to capture military bases and oil fields.""" .
+
+
+# === FRAMES ===
+
+:have a frb:frame-Possession-own.v ;
+	frb:fe-Possession-Owner :fighters ;
+	frb:fe-Possession-Possession :boldness ;
+    frb:fe-Possession-Possession :skill .
+
+:skill a frb:frame-Expertise-skill.n ;
+    frb:fe-Expertise-Skill :skill .
+
+:storm a frb:frame-Attack-storm.v ;
+	frb:fe-Attack-Assailant :fighters ;
+	frb:fe-Attack-Victim :positions ;
+    frb:fe-Attack-Place :positions .
+
+:lead a <http://framebase.org/ns/frame-Causation-lead_(to).v> ;
+    frb:fe-Causation-Cause :fighters ;
+    frb:fe-Causation-Affected :battalions ;
+	frb:fe-Causation-Effect :capture .
+
+:other a frb:frame-Increment-other.a ;
+    frb:fe-Increment-Added_set :battalions .
+
+:capture a frb:frame-Conquering-capture.v ;
+	frb:fe-Conquering-Conqueror :battalions ;
+	frb:fe-Conquering-Theme :bases ;
+    frb:fe-Conquering-Theme :fields .
+
+:bases a frb:frame-Locale_by_use-base.n ;
+	frb:fe-Locale_by_use-Use :military ;
+    frb:fe-Locale_by_use-Locale :bases .
+
+:fields a frb:frame-Locale_by_use-field.n ;
+	frb:fe-Locale_by_use-Use :oil ;
+	frb:fe-Locale_by_use-Locale :fields .
+
+
+# === IRRELEVANT TRIPLES ===
+
+:fortified eval:classifiableAs frb:frame-Cause_change_of_strength-fortify.v .
+:military eval:classifiableAs frb:frame-Military-military.a .
+:frame-Substance-oil.n eval:classifiableAs frb:frame-Substance-oil.n .
+:small eval:classifiableAs frb:frame-Dimension-small.a .

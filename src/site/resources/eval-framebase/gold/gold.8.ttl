@@ -1,0 +1,60 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix frb: <http://framebase.org/ns/> .
+@prefix eval: <eval:schema#> .
+@prefix : <file:///eswc.8.ttl/> .
+
+
+# === TEXT ===
+
+<file:///eswc.8.ttl/> rdfs:label """
+	As the United States pushes the Syrian opposition to organize a viable alternative government, it plans to blacklist the Nusra Front as a terrorist organization, making it illegal for Americans to have financial dealings with the group and prompting similar sanctions from Europe.""" .
+
+
+# === FRAMES ===
+
+:pushes a frb:frame-Subjective_influence-push.v ;
+	frb:fe-Subjective_influence-Agent :states ;
+	frb:fe-Subjective_influence-Cognizer :opposition ;
+    frb:fe-Subjective_influence-Action :organize .
+
+:opposition_v a <http://framebase.org/ns/frame-Taking_sides-opposition_((act)).n> ;
+    frb:fe-Taking_sides-Cognizer :opposition .
+
+:government_v a frb:frame-Leadership-rule.v ;
+	frb:fe-Leadership-Leader :government .
+
+:plans a frb:frame-Purpose-plan.v ;
+    frb:fe-Purpose-Agent :it_1 ;
+    frb:fe-Purpose-Goal :blacklist .
+
+:making a frb:frame-Causation-make.v ;
+    frb:fe-Causation-Actor :it_1 ;
+    frb:fe-Causation-Effect :have ;
+    frb:fe-Causation-Effect :illegal .
+
+:have a frb:frame-Possession-own.v ;
+    frb:fe-Possession-Owner :americans ;
+    frb:fe-Possession-Possession :dealings .
+
+:prompting a frb:frame-Cause_to_start-arouse.v ;
+    frb:fe-Cause_to_start-Cause :it_1 ;
+    frb:fe-Cause_to_start-Effect :sanctions .
+
+:sanctions_v a frb:frame-Revenge-sanction.n ;
+    frb:fe-Revenge-Avenger :europe ;
+	frb:fe-Revenge-Punishment :sanctions .
+
+:organization a frb:frame-Organization-brotherhood.n ;
+    frb:fe-Organization-Purpose :terrorist ;
+    frb:fe-Organization-Organization :organization .
+
+:group a frb:frame-Organization-group.n .
+
+
+# === IRRELEVANT TRIPLES ===
+
+:illegal eval:classifiableAs frb:frame-Legality-illegal.a .
+:terrorist eval:classifiableAs frb:frame-Terrorism-terrorism.n .
+:alternative eval:classifiableAs frb:frame-Possibilities-choice.n .
