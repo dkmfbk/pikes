@@ -631,11 +631,22 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                     }
                 }
                 if (!overlap) {
-                    entityToModify = document.newEntity(ImmutableList.of(span));
-                    entityToModify.setNamed(head.getMorphofeat().startsWith("NNP"));
-                    if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("Added linked " + (entityToModify.isNamed() ? "named " : "")
-                                + NAFUtils.toString(entityToModify));
+                    final boolean named = head.getMorphofeat().startsWith("NNP");
+                    boolean accept = named;
+                    if (!accept) {
+                        final String textStr = span.getStr().toLowerCase().replaceAll("\\s+", "_");
+                        final String entityStr = new URIImpl(le.getReference()).getLocalName()
+                                .toLowerCase();
+                        accept = textStr.equals(entityStr);
+                    }
+                    if (accept) {
+                        entityToModify = document.newEntity(ImmutableList.of(span));
+                        entityToModify.setNamed(head.getMorphofeat().startsWith("NNP"));
+                        if (LOGGER.isDebugEnabled()) {
+                            LOGGER.debug("Added linked "
+                                    + (entityToModify.isNamed() ? "named " : "")
+                                    + NAFUtils.toString(entityToModify));
+                        }
                     }
                 }
             }
