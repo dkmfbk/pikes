@@ -114,11 +114,15 @@ public final class Term implements Comparable<Term> {
 
     public static enum Layer {
 
+        RAW("raw"),
+
         STEM_TEXT("stem.text"),
 
         STEM_SYNONYM("stem.synonym"),
 
         STEM_RELATED("stem.related"),
+
+        STEM_SUBWORD("stem.subword"),
 
         LEMMA_TEXT("lemma.text"),
 
@@ -136,6 +140,8 @@ public final class Term implements Comparable<Term> {
 
         URI_CUSTOM("uri.custom"),
 
+        URI_RELATED("uri.related"),
+
         TYPE_YAGO("type.yago"),
 
         TYPE_SUMO("type.sumo"),
@@ -150,7 +156,9 @@ public final class Term implements Comparable<Term> {
 
         ROLE_PB("role.pb"),
 
-        ROLE_NB("role.nb");
+        ROLE_NB("role.nb"),
+
+        CONCEPT("concept");
 
         private final String id;
 

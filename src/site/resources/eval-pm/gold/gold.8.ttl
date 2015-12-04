@@ -1,11 +1,11 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix dbpedia: <http://dbpedia.org/resource/> .
-@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
 @prefix pb: <eval:propbank#> .
 @prefix nb: <eval:nombank#> .
 @prefix vn: <eval:verbnet#> .
 @prefix fn: <eval:framenet#> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
 @prefix eval: <eval:schema#> .
 @prefix : <file:///eswc.8.ttl/> .
 
@@ -13,7 +13,7 @@
 # === TEXT ===
 
 <file:///eswc.8.ttl/> rdfs:label """
-	As the United States pushes the Syrian opposition to organize a viable alternative government, it plans to blacklist the Nusra Front as a terrorist organization, making it illegal for Americans to have financial dealings with the group and prompting similar sanctions from Europe.""" .
+    As the United States pushes the Syrian opposition to organize a viable alternative government, it plans to blacklist the Nusra Front as a terrorist organization, making it illegal for Americans to have financial dealings with the group and prompting similar sanctions from Europe.""" .
 
 
 # === ENTITIES ===
@@ -61,14 +61,14 @@
 :front owl:sameAs dbpedia:Al-Nusra_Front .
 :opposition owl:sameAs dbpedia:Syrian_opposition .
 :states owl:sameAs dbpedia:United_States .
-:americans owl:sameAs dbpedia:Americans . # questionable
+:americans owl:sameAs dbpedia:Americans .
 
 
 # === FRAMES ===
 
 :pushes a pb:push.02 , vn:force-59 , fn:Subjective_influence ;
-	pb:a0 :states ; vn:agent :states ; fn:agent :states ;
-	pb:a1 :opposition ; vn:patient :opposition ; fn:cognizer :opposition ;
+    pb:a0 :states ; vn:agent :states ; fn:agent :states ;
+    pb:a1 :opposition ; vn:patient :opposition ; fn:cognizer :opposition ;
     pb:a2 :organize ; vn:result :organize ; fn:action :organize .
 
 :opposition_v a nb:opposition.01 , pb:oppose.01 , vn:amalgamate-22.2-3 , fn:Taking_sides ;
@@ -76,12 +76,12 @@
 
 :opposition dul:associatedWith :syrian .
 
-:organize a pb:organize.01 , vn:establish-55.5-1 , fn:Making_arrangements ;
-    pb:a0 :opposition ; vn:agent :opposition ; fn:agent :opposition ;
-    pb:a1 :government ; vn:theme :government ; fn:event :government .
+:organize a pb:organize.01 , vn:establish-55.5-1 ;
+    pb:a0 :opposition ; vn:agent :opposition ;
+    pb:a1 :government ; vn:theme :government .
 
 :government_v a nb:government.01 , pb:govern.01 , fn:Leadership ;
-	nb:a0 :government ; pb:a0 :government ; fn:leader :government .
+    nb:a0 :government ; pb:a0 :government ; fn:leader :government .
 
 :government dul:hasQuality :alternative , :viable .
 
@@ -90,9 +90,9 @@
     pb:a1 :blacklist ; vn:theme :blacklist ; fn:goal :blacklist .
     # pb:am-adv :pushes . # ignoed as purely grammatical; should be a temporal relation
 
-:blacklist a pb:blacklist.01 ; # looks like fn:Prohibiting but there is no LU for blacklist
+:blacklist a pb:blacklist.01 ;
     pb:a0 :it_1 ;
-	pb:a1 :front .
+    pb:a1 :front .
 
 :making a pb:make.02 , vn:dub-29.3 , fn:Causation ;
     pb:a0 :it_1 ; vn:agent :it_1 ; fn:actor :it_1 ;
@@ -104,9 +104,9 @@
     pb:a0 :americans ; vn:pivot :americans ; fn:owner :americans ;
     pb:a1 :dealings ; vn:theme :dealings ; fn:possession :dealings .
 
-:dealings a nb:dealing.01 , pb:deal.01 , vn:cope-83 ; # there is no FN LU for dealing, although fn:Make_agreement_on_action (fe: fn:party_1 :americans, fn:party_2 :group, fn:topic :financial) has related 'deal' LU
-	nb:a0 :americans ; pb:a0 :americans ; vn:agent :americans ;
-	nb:a1 :group ; pb:a1 :group ; vn:theme :group ;
+:dealings a nb:dealing.01 , pb:deal.01 , vn:cope-83 ;
+    nb:a0 :americans ; pb:a0 :americans ; vn:agent :americans ;
+    nb:a1 :group ; pb:a1 :group ; vn:theme :group ;
     nb:am-mnr :financial .
 
 :prompting a pb:prompt.02 , vn:force-59 , fn:Cause_to_start ;
@@ -116,27 +116,28 @@
 
 :sanctions_v a nb:sanction.01 , pb:impose.01 , vn:enforce-63 , fn:Revenge ;
     nb:a0 :europe ; pb:a0 :europe ; vn:agent :europe ; fn:avenger :europe ;
-	nb:a1 :sanctions ; pb:a1 :sanctions ; vn:theme :sanctions ; fn:punishment :sanctions .
+    nb:a1 :sanctions ; pb:a1 :sanctions ; vn:theme :sanctions ; fn:punishment :sanctions .
 
 :organization a nb:organization.01 , fn:organization ;
-    nb:a1 :terrorist ; fn:purpose :terrorist ; # could be also fn:descriptor
-    fn:organization :organization .
+    nb:a1 :terrorist ; fn:purpose :terrorist . # could be also fn:descriptor
 
 :group a nb:group.01 , fn:organization.
 
 
 # === IRRELEVANT TRIPLES ===
 
-:plans eval:associableTo :states .              # exact association is between :plans and :it, but :it and :states corefer
-:blacklist eval:associableTo :organization .    # association not possible in Framenet, but not wrong
-:prompting eval:associableTo :states .          # association should be between :it_1 and :prompting, but :it_1 and :states corefer
-:making eval:associableTo :states .             # association should be between :it_1 and :making, but :it_1 and :states corefer
-:prompting eval:associableTo :sanctions_v .     # perhaps what it is prompted is the sanctioning action
+# the following triples tell the evaluator which role/type triples, if found, should be ignored as irrelevant
+:plans eval:associableTo :states .
+:blacklist eval:associableTo :organization .
+:prompting eval:associableTo :states .
+:making eval:associableTo :states .
+:prompting eval:associableTo :sanctions_v .
 :americans :eval:associableTo :making .
-:blacklist eval:associableTo :states .          # association should be between :it_1 and :blacklist, but :it_1 and :states corefer
+:blacklist eval:associableTo :states .
 
 
 # === WRONG TRIPLES ===
 
-:opposition eval:notAssociableTo :states .      # no association between the two
-:illegal eval:notAssociableTo :states .         # no association between the two
+# the following triples tell the evaluator which role triples, if found, should be treated as errors
+:opposition eval:notAssociableTo :states .
+:illegal eval:notAssociableTo :states .

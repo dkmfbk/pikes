@@ -17,38 +17,44 @@
 <tr><th width="10%">Sentence</th><th width="30%">Gold</th><th width="30%">FRED</th><th width="30%">PIKES</th></tr>
 </thead>
 <tbody>
-<tr style="border-top: 4px solid #dddddd"><td>S1</td><td>:qaeda owl:sameAs dbpedia:Al-Qaeda</td><td>:Al_qaeda owl:sameAs dbpedia:Al-Qaeda</td><td>:Al_Qaeda owl:sameAs dbpedia:Al-Qaeda</td></tr>
-<tr><td></td><td>:states owl:sameAs dbpedia:United_States</td><td></td><td>:United_States owl:sameAs dbpedia:United_States</td></tr>
-<tr><td></td><td></td><td></td><td>:Syrian owl:sameAs dbpedia:Syria</td></tr>
-<tr style="border-top: 4px solid #dddddd"><td>S2</td><td>:group owl:sameAs :front</td><td></td><td></td></tr>
-<tr><td></td><td></td><td></td><td>* :Nusra_Front owl:sameAs dbpedia:Al-Nusra_Front</td></tr>
-<tr style="border-top: 4px solid #dddddd"><td>S5</td><td>:qaeda owl:sameAs dbpedia:Al-Qaeda</td><td></td><td>:Al_Qaeda owl:sameAs dbpedia:Al-Qaeda</td></tr>
-<tr><td></td><td></td><td>:Al_qaeda_in_iraq owl:sameAs dbpedia:Al-Qaeda_in_Iraq</td><td></td></tr>
-<tr><td></td><td></td><td></td><td>* :Iraq owl:sameAs dbpedia:Iraq</td></tr>
-<tr><td></td><td></td><td></td><td>:Iraqi owl:sameAs dbpedia:Iraq</td></tr>
-<tr style="border-top: 4px solid #dddddd"><td>S6</td><td>:front owl:sameAs dbpedia:Al-Nusra_Front</td><td></td><td>:Nusra_Front owl:sameAs dbpedia:Al-Nusra_Front</td></tr>
-<tr><td></td><td>:iraq_1 owl:sameAs dbpedia:Iraq</td><td>:Iraq_Iraq_1 owl:sameAs dbpedia:Iraq</td><td>:Iraq owl:sameAs dbpedia:Iraq</td></tr>
-<tr><td></td><td>:iraq_2 owl:sameAs dbpedia:Iraq</td><td>:Iraq_Iraq_2 owl:sameAs dbpedia:Iraq</td><td>:Iraq_2 owl:sameAs dbpedia:Iraq</td></tr>
-<tr><td></td><td>:qaeda owl:sameAs dbpedia:Al-Qaeda</td><td></td><td></td></tr>
-<tr><td></td><td>:syria owl:sameAs dbpedia:Syria</td><td>:Syria_Syria owl:sameAs dbpedia:Syria</td><td>:Syria owl:sameAs dbpedia:Syria</td></tr>
-<tr><td></td><td></td><td>:Al_qaeda_in_iraq_Qaeda owl:sameAs dbpedia:Al-Qaeda_in_Iraq</td><td></td></tr>
-<tr><td></td><td></td><td>:Syrian owl:sameAs dbpedia:Syria</td><td></td></tr>
-<tr><td></td><td></td><td></td><td>:Al_Qaeda owl:sameAs dbpedia:Islamic_State_of_Iraq_and_the_Levant</td></tr>
-<tr><td></td><td></td><td></td><td>:Syrian owl:sameAs dbpedia:Syria</td></tr>
-<tr style="border-top: 4px solid #dddddd"><td>S7</td><td>:al-assad owl:sameAs dbpedia:Bashar_al-Assad</td><td>:Bashar_al-assad_al-Assad owl:sameAs dbpedia:Bashar_al-Assad</td><td>:Bashar_al-Assad owl:sameAs dbpedia:Bashar_al-Assad</td></tr>
-<tr><td></td><td>:states owl:sameAs dbpedia:United_States</td><td></td><td>:United_States owl:sameAs dbpedia:United_States</td></tr>
-<tr><td></td><td>:syria_1 owl:sameAs dbpedia:Syria</td><td>:Syria_Syria_1 owl:sameAs dbpedia:Syria</td><td>:Syria owl:sameAs dbpedia:Syria</td></tr>
-<tr><td></td><td>:syria_2 owl:sameAs dbpedia:Syria</td><td>:Syria_Syria_2 owl:sameAs dbpedia:Syria</td><td>:Syria_2 owl:sameAs dbpedia:Syria</td></tr>
-<tr style="border-top: 4px solid #dddddd"><td>S8</td><td>:americans owl:sameAs dbpedia:Americans</td><td></td><td></td></tr>
-<tr><td></td><td>:europe owl:sameAs dbpedia:European_Union</td><td></td><td></td></tr>
-<tr><td></td><td>:front owl:sameAs dbpedia:Al-Nusra_Front</td><td></td><td>:Nusra_Front owl:sameAs dbpedia:Al-Nusra_Front</td></tr>
-<tr><td></td><td>:opposition owl:sameAs dbpedia:Syrian_opposition</td><td></td><td></td></tr>
-<tr><td></td><td>:states owl:sameAs dbpedia:United_States</td><td>:United_states owl:sameAs dbpedia:United_States</td><td>:United_States owl:sameAs dbpedia:United_States</td></tr>
-<tr><td></td><td></td><td>:Europe owl:sameAs dbpedia:Europe</td><td></td></tr>
-<tr><td></td><td></td><td>:Terrorist owl:sameAs dbpedia:Terrorism</td><td></td></tr>
-<tr><td></td><td></td><td></td><td>:Americans owl:sameAs dbpedia:United_States</td></tr>
-<tr><td></td><td></td><td></td><td>:Europe owl:sameAs dbpedia:Europe</td></tr>
-<tr style="border-top: 4px solid #dddddd"><td colspan="2">Results w.r.t. gold standard</td><td>f1=0.516 p=0.615 r=0.444 tp=8 fp=5 fn=10</td><td>f1=0.703 p=0.684 r=0.722 tp=13 fp=6 fn=5</td></tr>
-<tr><td colspan="2">Results w.r.t. union of correct answers</td><td>f1=0.615 p=0.615 r=0.615 tp=8 fp=5 fn=5</td><td>f1=0.813 p=0.684 r=1.000 tp=13 fp=6 fn=0</td></tr>
+<!-- sentence S1 -->
+<tr style="border-top: 4px solid #dddddd"><td>S1</td><td>:qaeda owl:sameAs dbpr:Al-Qaeda</td><td>:Al_qaeda owl:sameAs dbpr:Al-Qaeda</td><td>:Al_Qaeda owl:sameAs dbpr:Al-Qaeda</td></tr>
+<tr><td></td><td>:states owl:sameAs dbpr:United_States</td><td></td><td>:United_States owl:sameAs dbpr:United_States</td></tr>
+<tr><td></td><td></td><td></td><td>:Syrian owl:sameAs dbpr:Syria</td></tr>
+<!-- sentence S2 -->
+<tr style="border-top: 4px solid #dddddd"><td>S2</td><td>:front owl:sameAs dbpr:Al-Nusra_Front</td><td></td><td>:Nusra_Front owl:sameAs dbpr:Al-Nusra_Front</td></tr>
+<!-- sentence S5 -->
+<tr style="border-top: 4px solid #dddddd"><td>S5</td><td>:qaeda owl:sameAs dbpr:Al-Qaeda</td><td></td><td>:Al_Qaeda owl:sameAs dbpr:Al-Qaeda</td></tr>
+<tr><td></td><td></td><td>:Al_qaeda_in_iraq owl:sameAs dbpr:Al-Qaeda_in_Iraq</td><td></td></tr>
+<tr><td></td><td></td><td></td><td>* :Iraq owl:sameAs dbpr:Iraq</td></tr>
+<tr><td></td><td></td><td></td><td>:Iraqi owl:sameAs dbpr:Iraq</td></tr>
+<!-- sentence S6 -->
+<tr style="border-top: 4px solid #dddddd"><td>S6</td><td>:front owl:sameAs dbpr:Al-Nusra_Front</td><td></td><td>:Nusra_Front owl:sameAs dbpr:Al-Nusra_Front</td></tr>
+<tr><td></td><td>:iraq_1 owl:sameAs dbpr:Iraq</td><td>:Iraq_Iraq_1 owl:sameAs dbpr:Iraq</td><td>:Iraq owl:sameAs dbpr:Iraq</td></tr>
+<tr><td></td><td>:iraq_2 owl:sameAs dbpr:Iraq</td><td>:Iraq_Iraq_2 owl:sameAs dbpr:Iraq</td><td>:Iraq_2 owl:sameAs dbpr:Iraq</td></tr>
+<tr><td></td><td>:qaeda owl:sameAs dbpr:Al-Qaeda</td><td></td><td></td></tr>
+<tr><td></td><td>:syria owl:sameAs dbpr:Syria</td><td>:Syria_Syria owl:sameAs dbpr:Syria</td><td>:Syria owl:sameAs dbpr:Syria</td></tr>
+<tr><td></td><td></td><td>:Al_qaeda_in_iraq_Qaeda owl:sameAs dbpr:Al-Qaeda_in_Iraq</td><td></td></tr>
+<tr><td></td><td></td><td>:Syrian owl:sameAs dbpr:Syria</td><td></td></tr>
+<tr><td></td><td></td><td></td><td>:Al_Qaeda owl:sameAs dbpr:Islamic_State_of_Iraq_and_the_Levant</td></tr>
+<tr><td></td><td></td><td></td><td>:Syrian owl:sameAs dbpr:Syria</td></tr>
+<!-- sentence S7 -->
+<tr style="border-top: 4px solid #dddddd"><td>S7</td><td>:al-assad owl:sameAs dbpr:Bashar_al-Assad</td><td>:Bashar_al-assad_al-Assad owl:sameAs dbpr:Bashar_al-Assad</td><td>:Bashar_al-Assad owl:sameAs dbpr:Bashar_al-Assad</td></tr>
+<tr><td></td><td>:states owl:sameAs dbpr:United_States</td><td></td><td>:United_States owl:sameAs dbpr:United_States</td></tr>
+<tr><td></td><td>:syria_1 owl:sameAs dbpr:Syria</td><td>:Syria_Syria_1 owl:sameAs dbpr:Syria</td><td>:Syria owl:sameAs dbpr:Syria</td></tr>
+<tr><td></td><td>:syria_2 owl:sameAs dbpr:Syria</td><td>:Syria_Syria_2 owl:sameAs dbpr:Syria</td><td>:Syria_2 owl:sameAs dbpr:Syria</td></tr>
+<!-- sentence S8 -->
+<tr style="border-top: 4px solid #dddddd"><td>S8</td><td>:americans owl:sameAs dbpr:Americans</td><td></td><td></td></tr>
+<tr><td></td><td>:europe owl:sameAs dbpr:European_Union</td><td></td><td></td></tr>
+<tr><td></td><td>:front owl:sameAs dbpr:Al-Nusra_Front</td><td></td><td>:Nusra_Front owl:sameAs dbpr:Al-Nusra_Front</td></tr>
+<tr><td></td><td>:opposition owl:sameAs dbpr:Syrian_opposition</td><td></td><td></td></tr>
+<tr><td></td><td>:states owl:sameAs dbpr:United_States</td><td>:United_states owl:sameAs dbpr:United_States</td><td>:United_States owl:sameAs dbpr:United_States</td></tr>
+<tr><td></td><td></td><td>:Europe owl:sameAs dbpr:Europe</td><td></td></tr>
+<tr><td></td><td></td><td>:Terrorist owl:sameAs dbpr:Terrorism</td><td></td></tr>
+<tr><td></td><td></td><td></td><td>:Americans owl:sameAs dbpr:United_States</td></tr>
+<tr><td></td><td></td><td></td><td>:Europe owl:sameAs dbpr:Europe</td></tr>
+<!-- results -->
+<tr style="border-top: 4px solid #dddddd"><td colspan="2">Results w.r.t. gold standard</td><td>f1=0.516 p=0.615 r=0.444 tp=8 fp=5 fn=10</td><td>f1=0.737 p=0.700 r=0.778 tp=14 fp=6 fn=4</td></tr>
+<tr><td colspan="2">Results w.r.t. union of correct answers</td><td>f1=0.593 p=0.615 r=0.571 tp=8 fp=5 fn=6</td><td>f1=0.824 p=0.700 r=1.000 tp=14 fp=6 fn=0</td></tr>
 </tbody>
 </table>

@@ -1,11 +1,11 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix dbpedia: <http://dbpedia.org/resource/> .
-@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
 @prefix pb: <eval:propbank#> .
 @prefix nb: <eval:nombank#> .
 @prefix vn: <eval:verbnet#> .
 @prefix fn: <eval:framenet#> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
 @prefix eval: <eval:schema#> .
 @prefix : <file:///eswc.4.ttl/> .
 
@@ -13,7 +13,7 @@
 # === TEXT ===
 
 <file:///eswc.4.ttl/> rdfs:label """
-	As their successes mount, they gather more weapons and attract more fighters.""" .
+    As their successes mount, they gather more weapons and attract more fighters.""" .
 
 
 # === ENTITIES ===
@@ -42,24 +42,24 @@
 # === FRAMES ===
 
 :successes a nb:success.01 , pb:succeed.01 , vn:succeed-74-1 , fn:Success_or_failure ;
-	nb:a0 :their ; pb:a0 :their ; vn:agent :their ; fn:agent :their .
+    nb:a0 :their ; pb:a0 :their ; vn:agent :their ; fn:agent :their .
 
 :mount a pb:mount.02 , vn:meander-47.7 ;
-	pb:a1 :successes ; vn:theme :successes .
+    pb:a1 :successes ; vn:theme :successes .
 
 :gather a pb:gather.01 , vn:herd-47.5.2 , fn:Gathering_up ;
-	pb:a0 :they ; vn:agent :they ; fn:agent :they ;
+    pb:a0 :they ; vn:agent :they ; fn:agent :they ;
     pb:a1 :weapons ; vn:theme :weapons ; fn:individuals :weapons .
 
 :attract a pb:attract.01 , fn:Cause_motion ;
-	pb:a0 :they ; fn:agent :they ;
-	pb:a1 :fighters ; fn:theme :fighters .
+    pb:a0 :they ; fn:agent :they ;
+    pb:a1 :fighters ; fn:theme :fighters .
 
 :weapons_v a nb:weapon.01 , pb:defend.01 , vn:defend-85 , fn:Weapon ;
-	nb:a2 :weapons ; pb:a2 :weapons ; fn:weapon :weapons .
+    nb:a2 :weapons ; pb:a2 :weapons ; fn:weapon :weapons .
 
-:fighters_v a nb:fighter.01 , pb:fight.01 , vn:meet-36.3-2 , fn:Irregular_combatants ; # should be fn:Hostile_encounter for semlink
-	nb:a0 :fighters ; pb:a0 :fighters ; vn:agent :fighters ; fn:combatant :fighters .  # should be fn:sides for semlink
+:fighters_v a nb:fighter.01 , pb:fight.01 , vn:meet-36.3-2 ;
+    nb:a0 :fighters ; pb:a0 :fighters ; vn:agent :fighters .
 
 
 # === IRRELEVANT TRIPLES ===
@@ -67,5 +67,6 @@
 
 # === WRONG TRIPLES ===
 
-:attract eval:notAssociableTo :fighters_v .     # :attract associated to :fighters
-:gather eval:notAssociableTo :weapons_v .       # :gather associated to :weaepons
+# the following triples tell the evaluator which role triples, if found, should be treated as errors
+:attract eval:notAssociableTo :fighters_v .
+:gather eval:notAssociableTo :weapons_v .

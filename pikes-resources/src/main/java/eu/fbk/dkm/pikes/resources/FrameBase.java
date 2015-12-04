@@ -1,14 +1,24 @@
 package eu.fbk.dkm.pikes.resources;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.util.Map;
+import java.util.Set;
+
 import com.google.common.base.Charsets;
-import com.google.common.collect.*;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Ordering;
 import com.google.common.io.Resources;
-import eu.fbk.dkm.utils.CommandLine;
-import eu.fbk.dkm.utils.CommandLine.Type;
-import eu.fbk.rdfpro.AbstractRDFHandler;
-import eu.fbk.rdfpro.RDFSource;
-import eu.fbk.rdfpro.RDFSources;
-import eu.fbk.rdfpro.util.Statements;
+
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
@@ -16,9 +26,12 @@ import org.openrdf.model.vocabulary.RDFS;
 import org.openrdf.rio.RDFHandlerException;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.util.Map;
-import java.util.Set;
+import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.dkm.utils.CommandLine.Type;
+import eu.fbk.rdfpro.AbstractRDFHandler;
+import eu.fbk.rdfpro.RDFSource;
+import eu.fbk.rdfpro.RDFSources;
+import eu.fbk.rdfpro.util.Statements;
 
 public final class FrameBase {
 
@@ -86,7 +99,7 @@ public final class FrameBase {
         return PREDICATES_SET;
     }
 
-    public static URI uriFor(String name) {
+    public static URI uriFor(final String name) {
         if (name == null) {
             return null;
         }
@@ -116,6 +129,24 @@ public final class FrameBase {
             }
         }
         return Statements.VALUE_FACTORY.createURI(NAMESPACE, name);
+    }
+
+    public static boolean isMicroframe(final URI uri) {
+        if (!uri.getNamespace().equals(FrameBase.NAMESPACE)) {
+            return false;
+        }
+        final String str = uri.getLocalName();
+        final int index = str.lastIndexOf('.');
+        if (index < 0) {
+            return false;
+        }
+        for (int i = index + 1; i < str.length(); ++i) {
+            final char ch = str.charAt(i);
+            if (ch < 'a' || ch > 'z') {
+                return false;
+            }
+        }
+        return true;
     }
 
     private static String classKeyFor(final String fnFrame, final String predicateLemma,

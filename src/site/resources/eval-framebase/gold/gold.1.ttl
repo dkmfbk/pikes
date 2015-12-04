@@ -44,7 +44,7 @@
 	frb:fe-Desiring-Event :support ;
 	frb:fe-Desiring-Event :support_1 .
 
-:support a frb:frame-Taking_sides-back.v ; #this frame is splitted in two
+:support a frb:frame-Taking_sides-back.v ;
 	frb:fe-Taking_sides-Cognizer :states ;
 	frb:fe-Taking_sides-Cognizer :countries ;
 	frb:fe-Taking_sides-Side :rebels .
@@ -65,6 +65,7 @@
 
 # === IRRELEVANT TRIPLES ===
 
+# the following triples tell the evaluator which role/type triples, if found, should be ignored as irrelevant
 :explicit eval:classifiableAs frb:frame-Candidness-explicit.a .
 :fighting eval:classifiableAs frb:frame-Hostile_encounter-brawl.v .
 :lone eval:classifiableAs frb:frame-Sole_instance-lone.a .

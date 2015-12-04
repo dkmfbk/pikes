@@ -1,11 +1,11 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix dbpedia: <http://dbpedia.org/resource/> .
-@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
 @prefix pb: <eval:propbank#> .
 @prefix nb: <eval:nombank#> .
 @prefix vn: <eval:verbnet#> .
 @prefix fn: <eval:framenet#> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
 @prefix eval: <eval:schema#> .
 @prefix : <file:///eswc.2.ttl/> .
 
@@ -13,7 +13,7 @@
 # === TEXT ===
 
 <file:///eswc.2.ttl/> rdfs:label """
-	Money flows to the group, the Nusra Front, from like-minded donors abroad.""" .
+    Money flows to the group, the Nusra Front, from like-minded donors abroad.""" .
 
 
 # === ENTITIES ===
@@ -22,8 +22,8 @@
 :group a eval:Node .
 :donors_v a eval:Node .
 
-:front a eval:Node .
 :money a eval:Node .
+:front a eval:Node .
 :donors a eval:Node .
 
 :abroad a eval:Node .
@@ -43,16 +43,16 @@
 # === FRAMES ===
 
 :flows a pb:flow.01 , vn:entity_specific_modes_being-47.2 , fn:Fluidic_motion ;
-	pb:a1 :money ; vn:theme :money ; fn:fluid :money ;
-	pb:am-dir :group ; fn:goal :group ;
+    pb:a1 :money ; vn:theme :money ; fn:fluid :money ;
+    pb:am-dir :group ; fn:goal :group ;
     pb:am-dir :donors ; fn:source :donors .
 
 :group a nb:group.01 , fn:Organization .
 
 :donors_v a nb:donor.01 , pb:donate.01 , vn:contribute-13.2-1-1 , fn:Giving ;
-	nb:a0 :donors ; pb:a0 :donors ; vn:agent :donors ; fn:theme :donors ;
-	nb:a1 :money ; pb:a1 :money ; vn:theme :money ; fn:theme :money ;
-	nb:a2 :group ; pb:a2 :group ; vn:recipient :group ; fn:recipient :group .
+    nb:a0 :donors ; pb:a0 :donors ; vn:agent :donors ; fn:donor :donors ;
+    nb:a1 :money ; pb:a1 :money ; vn:theme :money ; fn:theme :money ;
+    nb:a2 :group ; pb:a2 :group ; vn:recipient :group ; fn:recipient :group .
 
 :donors
     dul:hasQuality :abroad ;

@@ -1,11 +1,11 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix dbpedia: <http://dbpedia.org/resource/> .
-@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
 @prefix pb: <eval:propbank#> .
 @prefix nb: <eval:nombank#> .
 @prefix vn: <eval:verbnet#> .
 @prefix fn: <eval:framenet#> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
 @prefix eval: <eval:schema#> .
 @prefix : <file:///eswc.3.ttl/> .
 
@@ -52,33 +52,31 @@
 
 # === FRAMES ===
 
-:fighters_v a nb:fighter.01 , pb:fight.01 , vn:meet-36.3-2 , fn:Irregular_combatants ; # should be fn:Hostile_encounter based on semlink, but does not match LU
-    nb:a0 :fighters ; pb:a0 :fighters ; vn:agent :fighters ; fn:combatant :fighters ;
-    fn:side1 :its .
+:fighters_v a nb:fighter.01 , pb:fight.01 , vn:meet-36.3-2 ;
+    nb:a0 :fighters ; pb:a0 :fighters ; vn:agent :fighters .
 
 :minority a nb:minority.01 ;
-	nb:a1 :rebels ;
-	dul:hasQuality :small .
+    nb:a1 :rebels ;
+    dul:hasQuality :small .
 
-:have a pb:have.03 , vn:own-100 , fn:Possession ; # no way to express the link to 'storm and lead'
-	pb:a0 :fighters ; vn:pivot :fighters ; fn:owner :fighters ;
-	pb:a1 :boldness ; vn:theme :boldness ; fn:possession :boldness ;
+:have a pb:have.03 , vn:own-100 , fn:Possession ;
+    pb:a0 :fighters ; vn:pivot :fighters ; fn:owner :fighters ;
+    pb:a1 :boldness ; vn:theme :boldness ; fn:possession :boldness ;
     pb:a1 :skill ; vn:theme :skill ; fn:possession :skill .
 
-:skill a nb:skill.01 , fn:Expertise ;
-    fn:skill :skill .
+:skill a nb:skill.01 , fn:Expertise .
 
-:storm a pb:storm.02 , fn:Attack ; # according to semlink should be fn:Self_motion (wrong)
-	pb:a0 :fighters ; fn:assailant :fighters ;
-	pb:a1 :positions ; fn:victim :positions ; fn:place :positions .
+:storm a pb:storm.02 , fn:Attack ;
+    pb:a0 :fighters ; fn:assailant :fighters ;
+    pb:a1 :positions ; fn:victim :positions .
 
-:positions a fn:Locale_by_collocation ; # might be a nb:position.04 but the frame definition does not fit much
+:positions a fn:Locale_by_collocation ;
     fn:inherent_purpose :fortified ; dul:hasQuality :fortified .
 
 :lead a pb:lead.03 , vn:force-59 , fn:Causation ;
     pb:a0 :fighters ; vn:agent :fighters ; fn:cause :fighters ;
     pb:a1 :battalions ; vn:patient :battalions ; fn:affected :battalions ;
-	pb:a2 :capture ; vn:result :capture ; fn:effect :capture .
+    pb:a2 :capture ; vn:result :capture ; fn:effect :capture .
 
 :other a fn:Increment ;
     fn:added_set :battalions .
@@ -86,28 +84,29 @@
 :battalions a nb:battalion.01 .
 
 :capture a pb:capture.01 , vn:steal-10.5-1 , fn:Conquering ;
-	pb:a0 :battalions ; vn:agent :battalions ; fn:conqueror :battalions ;
-	pb:a1 :bases ; vn:theme :bases ; fn:theme :bases ;
+    pb:a0 :battalions ; vn:agent :battalions ; fn:conqueror :battalions ;
+    pb:a1 :bases ; vn:theme :bases ; fn:theme :bases ;
     pb:a1 :fields ; vn:theme :fields ; fn:theme :fields .
 
-:bases a nb:base.01 , fn:Locale_by_use ; # should be also pb:base.01 according to semlink, but does not fit much; might also be fn:Infrastructure but there are not many annotated examples for this;
-	nb:a1 :military ; fn:use :military ;
-    fn:locale :bases .
+:bases a nb:base.01 , fn:Locale_by_use ;
+    nb:a1 :military ; fn:use :military .
 
-:fields a nb:field.02 , fn:Locale_by_use ; # should be pb:produce.01 for propbank, but this would imply an argument nominalization for :fields which is not the case in nombank.
-	nb:a1 :oil ; fn:use :oil ;
-	fn:locale :fields .
+:fields a nb:field.02 , fn:Locale_by_use ;
+    nb:a1 :oil ; fn:use :oil .
 
 
 # === IRRELEVANT TRIPLES ===
 
+# the following triples tell the evaluator which role/type triples, if found, should be ignored as irrelevant
 :skill eval:associableTo :storm .
+:small eval:associableTo :minority  .
 
 
 # === WRONG TRIPLES ===
 
-:boldness eval:notAssociableTo :skill .         # no coreference here
-:fighters_v eval:notAssociableTo :have .        # association is between :fighters and :have
-:skill eval:notAssociableTo :battalions .       # :skill associated to :storm and :lead
-:fighters_v eval:notAssociableTo :minority .    # coreference is between :fighters and :minority
-:its eval:notAssociableTo :fighters .           # :its associated to :fighetsr_v
+# the following triples tell the evaluator which role triples, if found, should be treated as errors
+:boldness eval:notAssociableTo :skill .
+:fighters_v eval:notAssociableTo :have .
+:skill eval:notAssociableTo :battalions .
+:fighters_v eval:notAssociableTo :minority .
+:its eval:notAssociableTo :fighters .

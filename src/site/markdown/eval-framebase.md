@@ -4,8 +4,8 @@ Evaluation using FrameBase TBox
 
 <h3 id="overview">Overview</h3>
 
-We evaluate the performances of PIKES as an ontology population approach for the [FrameBase](http://framebase.org/) ontological schema], reporting precision and recall against a manually annotated gold standard based on the text used in [\[1\]](#eswc2013) .
-We experiment with three different configuration of the linguistic feature extraction phase that differ for the Semantic Role Labeling (SRL) tools used:
+We evaluate the performances of PIKES as an ontology population approach for the [FrameBase](http://framebase.org/) ontological schema, reporting precision and recall against a manually annotated gold standard based on the text used in [\[1\]](#eswc2013) .
+We experiment with three different configurations of the linguistic feature extraction phase that differ for the Semantic Role Labeling (SRL) tools used:
 
   * [Semafor](http://www.cs.cmu.edu/~ark/SEMAFOR/) only, performing SRL w.r.t. [FrameNet](https://framenet.icsi.berkeley.edu/fndrupal/);
   * [Mate-tools](https://code.google.com/p/mate-tools/) only, performing SRL w.r.t. [PropBank](https://verbs.colorado.edu/~mpalmer/projects/ace.html) and [NomBank](http://nlp.cs.nyu.edu/meyers/NomBank.html); and,
@@ -113,21 +113,21 @@ terms of recall that could be potentially addressed with further work on PropBan
 <tbody>
 <tr>
 <td>Semafor</td>
-<td>.617</td><td>.627</td><td>.622</td>
-<td>.603</td><td>.317</td><td>.415</td>
-<td>.610</td><td>.419</td><td>.497</td>
+<td>.617</td><td>.698</td><td>.655</td>
+<td>.594</td><td>.352</td><td>.442</td>
+<td>.605</td><td>.466</td><td>.526</td>
 </tr>
 <tr>
 <td>Mate</td>
-<td>.792</td><td>.322</td><td>.458</td>
-<td>.633</td><td>.158</td><td>.253</td>
-<td>.704</td><td>.212</td><td>.326</td>
+<td>.792</td><td>.358</td><td>.494</td>
+<td>.633</td><td>.176</td><td>.275</td>
+<td>.704</td><td>.236</td><td>.353</td>
 </tr>
 <tr>
 <td>Both</td>
-<td>.603</td><td>.644</td><td>.623</td>
-<td>.603</td><td>.392</td><td>.475</td>
-<td>.603</td><td>.475</td><td>.531</td>
+<td>.603</td><td>.717</td><td>.655</td>
+<td>.595</td><td>.435</td><td>.503</td>
+<td>.599</td><td>.528</td><td>.561</td>
 </tr>
 </tbody>
 </table>

@@ -38,4 +38,5 @@
 
 # === IRRELEVANT TRIPLES ===
 
+# the following triples tell the evaluator which role/type triples, if found, should be ignored as irrelevant
 :former eval:classifiableAs frb:frame-Time_vector-former.a .

@@ -17,7 +17,8 @@
 <tr><th width="10%">Sentence</th><th width="30%">Gold</th><th width="30%">FRED</th><th width="30%">PIKES</th></tr>
 </thead>
 <tbody>
-<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.1.ttl/&gt;</td><td>:posing vn:agent :group</td><td>:pose_1 vn:agent :group_1</td><td>:pose vn:agent :group</td></tr>
+<!-- sentence S1 -->
+<tr style="border-top: 4px solid #dddddd"><td>S1</td><td>:posing vn:agent :group</td><td>:pose_1 vn:agent :group_1</td><td>:pose vn:agent :group</td></tr>
 <tr><td></td><td>:posing vn:recipient :countries</td><td>:pose_1 vn:recipient :united_states_1_countries</td><td></td></tr>
 <tr><td></td><td>:posing vn:recipient :states</td><td>:pose_1 vn:recipient :united_states_1_States</td><td></td></tr>
 <tr><td></td><td>:posing vn:topic :challenge</td><td></td><td>:pose vn:topic :challenge</td></tr>
@@ -41,10 +42,12 @@
 <tr><td></td><td></td><td></td><td>:support vn:stimulus :rebel_2</td></tr>
 <tr><td></td><td></td><td></td><td>:want vn:agent :country</td></tr>
 <tr><td></td><td></td><td></td><td>:want vn:result :support</td></tr>
-<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.2.ttl/&gt;</td><td>:flows vn:theme :money</td><td>:flow_1 vn:theme :money_1</td><td>:flow vn:theme &lt;entity:money&gt;</td></tr>
-<tr><td></td><td></td><td>* :flow_1 vn:location :Nusra_front</td><td></td></tr>
+<!-- sentence S2 -->
+<tr style="border-top: 4px solid #dddddd"><td>S2</td><td>:flows vn:theme :money</td><td>:flow_1 vn:theme :money_1</td><td>:flow vn:theme &lt;entity:money&gt;</td></tr>
+<tr><td></td><td></td><td>:flow_1 vn:location :Nusra_front</td><td></td></tr>
 <tr><td></td><td></td><td>:flow_1 vn:location :group_1</td><td></td></tr>
-<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.3.ttl/&gt;</td><td>:capture vn:agent :battalions</td><td>:capture_1 vn:agent :battalion_1</td><td>:capture vn:agent :battalion</td></tr>
+<!-- sentence S3 -->
+<tr style="border-top: 4px solid #dddddd"><td>S3</td><td>:capture vn:agent :battalions</td><td>:capture_1 vn:agent :battalion_1</td><td>:capture vn:agent :battalion</td></tr>
 <tr><td></td><td>:capture vn:theme :bases</td><td>:capture_1 vn:theme :military_bases_1</td><td>:capture vn:theme :basis</td></tr>
 <tr><td></td><td>:capture vn:theme :fields</td><td>:capture_1 vn:theme :oil_fields_1</td><td>:capture vn:theme :field</td></tr>
 <tr><td></td><td>:have vn:pivot :fighters</td><td></td><td>:have vn:pivot :fighter</td></tr>
@@ -57,13 +60,15 @@
 <tr><td></td><td></td><td>:have_1 vn:agent :fighter_1</td><td></td></tr>
 <tr><td></td><td></td><td>:have_1 vn:patient :boldness_1_boldness</td><td></td></tr>
 <tr><td></td><td></td><td>:have_1 vn:patient :boldness_1_skill</td><td></td></tr>
-<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.4.ttl/&gt;</td><td>:gather vn:agent :they</td><td>:gather_1 vn:agent :thing_2</td><td>:gather vn:agent :they_2</td></tr>
+<!-- sentence S4 -->
+<tr style="border-top: 4px solid #dddddd"><td>S4</td><td>:gather vn:agent :they</td><td>:gather_1 vn:agent :thing_2</td><td>:gather vn:agent :they_2</td></tr>
 <tr><td></td><td>:gather vn:theme :weapons</td><td>:gather_1 vn:theme :weapon_1</td><td>:gather vn:theme :weapon</td></tr>
 <tr><td></td><td>:mount vn:theme :successes</td><td></td><td>:mount vn:theme :success</td></tr>
 <tr><td></td><td></td><td>:attract_1 vn:agent :thing_2</td><td></td></tr>
 <tr><td></td><td></td><td>:attract_1 vn:patient :fighter_1</td><td></td></tr>
 <tr><td></td><td></td><td>:mount_1 vn:agent :success_1</td><td></td></tr>
-<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.5.ttl/&gt;</td><td>:contributed vn:agent :which</td><td></td><td></td></tr>
+<!-- sentence S5 -->
+<tr style="border-top: 4px solid #dddddd"><td>S5</td><td>:contributed vn:agent :which</td><td></td><td></td></tr>
 <tr><td></td><td>:contributed vn:theme :fighters</td><td>:contribute_1 vn:theme :fighter_1_fighters</td><td></td></tr>
 <tr><td></td><td>:contributed vn:theme :weapons</td><td>:contribute_1 vn:theme :fighter_1_weapons</td><td></td></tr>
 <tr><td></td><td>:is vn:attribute :offshoot</td><td></td><td></td></tr>
@@ -76,7 +81,8 @@
 <tr><td></td><td></td><td></td><td>* :have vn:theme :fighter</td></tr>
 <tr><td></td><td></td><td></td><td>* :have vn:theme :weapon</td></tr>
 <tr><td></td><td></td><td></td><td>:say vn:theme :be</td></tr>
-<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.6.ttl/&gt;</td><td>:fought vn:agent :brothers</td><td></td><td>:fight vn:agent :brother</td></tr>
+<!-- sentence S6 -->
+<tr style="border-top: 4px solid #dddddd"><td>S6</td><td>:fought vn:agent :brothers</td><td></td><td>:fight vn:agent :brother</td></tr>
 <tr><td></td><td>:fought vn:agent :us</td><td></td><td></td></tr>
 <tr><td></td><td>:helped vn:agent :he</td><td></td><td>:help vn:agent :he</td></tr>
 <tr><td></td><td>:helped vn:theme :lead</td><td></td><td>:help vn:theme :lead</td></tr>
@@ -97,7 +103,8 @@
 <tr><td></td><td></td><td>* :say_2 vn:topic :lead_1</td><td></td></tr>
 <tr><td></td><td></td><td></td><td>:say vn:agent :Al_Qaeda</td></tr>
 <tr><td></td><td></td><td></td><td>:say vn:theme :help</td></tr>
-<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.7.ttl/&gt;</td><td>:hopes vn:experiencer :states</td><td>:hope_1 vn:experiencer :united_states_1</td><td>:hope vn:experiencer :United_States</td></tr>
+<!-- sentence S7 -->
+<tr style="border-top: 4px solid #dddddd"><td>S7</td><td>:hopes vn:experiencer :states</td><td>:hope_1 vn:experiencer :united_states_1</td><td>:hope vn:experiencer :United_States</td></tr>
 <tr><td></td><td>:hopes vn:theme :isolate</td><td></td><td>:hope vn:theme :isolate</td></tr>
 <tr><td></td><td>:inheriting vn:agent :it</td><td></td><td>:inherit vn:agent :it</td></tr>
 <tr><td></td><td>:inheriting vn:theme :syria_2</td><td>:inherit_1 vn:theme :Syria_Syria_2</td><td>:inherit vn:theme :Syria_2</td></tr>
@@ -116,7 +123,8 @@
 <tr><td></td><td></td><td>:run_1 vn:theme :time_1_time</td><td></td></tr>
 <tr><td></td><td></td><td>* :sense_1 vn:stimulus :be_1</td><td></td></tr>
 <tr><td></td><td></td><td></td><td>* :sense vn:stimulus :may</td></tr>
-<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.8.ttl/&gt;</td><td>:have vn:pivot :americans</td><td></td><td>:have vn:pivot :Americans</td></tr>
+<!-- sentence S8 -->
+<tr style="border-top: 4px solid #dddddd"><td>S8</td><td>:have vn:pivot :americans</td><td></td><td>:have vn:pivot :Americans</td></tr>
 <tr><td></td><td>:have vn:theme :dealings</td><td></td><td>:have vn:theme :dealings</td></tr>
 <tr><td></td><td>:making vn:agent :it_1</td><td></td><td>:make vn:agent :it</td></tr>
 <tr><td></td><td>:making vn:result :illegal</td><td></td><td></td></tr>
@@ -147,7 +155,8 @@
 <tr><td></td><td></td><td></td><td>* :make vn:result :it_2</td></tr>
 <tr><td></td><td></td><td></td><td>:organize vn:result :government</td></tr>
 <tr><td></td><td></td><td></td><td>:push vn:result :opposition</td></tr>
-<tr style="border-top: 4px solid #dddddd"><td colspan="2">Results w.r.t. gold standard</td><td>f1=0.453 p=0.558 r=0.382 tp=29 fp=23 fn=47</td><td>f1=0.615 p=0.741 r=0.526 tp=40 fp=14 fn=36</td></tr>
-<tr><td colspan="2">Results w.r.t. union of correct answers</td><td>f1=0.563 p=0.558 r=0.569 tp=29 fp=23 fn=22</td><td>f1=0.762 p=0.741 r=0.784 tp=40 fp=14 fn=11</td></tr>
+<!-- results -->
+<tr style="border-top: 4px solid #dddddd"><td colspan="2">Results w.r.t. gold standard</td><td>f1=0.450 p=0.547 r=0.382 tp=29 fp=24 fn=47</td><td>f1=0.615 p=0.741 r=0.526 tp=40 fp=14 fn=36</td></tr>
+<tr><td colspan="2">Results w.r.t. union of correct answers</td><td>f1=0.558 p=0.547 r=0.569 tp=29 fp=24 fn=22</td><td>f1=0.762 p=0.741 r=0.784 tp=40 fp=14 fn=11</td></tr>
 </tbody>
 </table>
