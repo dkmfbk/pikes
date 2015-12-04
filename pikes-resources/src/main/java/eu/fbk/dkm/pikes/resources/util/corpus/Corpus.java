@@ -35,11 +35,15 @@ public class Corpus implements Iterable<Sentence>, Serializable {
     }
 
     public static Corpus readDocumentFromFile(String fileName, String sourceName) {
+        return readDocumentFromFile(new File(fileName), sourceName);
+    }
+
+    public static Corpus readDocumentFromFile(File file, String sourceName) {
 
         Corpus corpus = new Corpus();
 
         try {
-            List<String> lines = Files.readLines(new File(fileName), Charsets.UTF_8);
+            List<String> lines = Files.readLines(file, Charsets.UTF_8);
 
             // This is to avoid the last tour
             lines.add("");

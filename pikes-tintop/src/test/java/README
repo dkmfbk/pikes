@@ -4,3 +4,8 @@ frame-Means-recipe_((cooking)).n	means#recipe.n
 Get frames with -
 grep -horE 'frame="[^"]*-[^"]*"' *|sort|uniq|cut -d'=' -f2 | grep -oE '[^"]+'
 
+===
+To compile Stanford CoreNLP
+
+gradle assembleDist
+mvn install:install-file -Dfile=/Users/alessio/Documents/scripts/CoreNLP/build/libs/CoreNLP-3.4.1.jar -DgroupId=edu.stanford.nlp -DartifactId=stanford-corenlp -Dversion=3.5.2-FBK -Dpackaging=jar

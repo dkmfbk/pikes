@@ -255,9 +255,9 @@ public class StanfordTest {
 //			out.println("Sentence's keys: ");
 //			out.println(sentence.keySet());
 
-			Tree tree2 = sentence.get(SentimentCoreAnnotations.AnnotatedTree.class);
+			Tree tree2 = sentence.get(SentimentCoreAnnotations.SentimentAnnotatedTree.class);
 			System.out.println("Sentiment class name:");
-			System.out.println(sentence.get(SentimentCoreAnnotations.ClassName.class));
+//			System.out.println(sentence.get(SentimentCoreAnnotations.ClassName.class));
 			System.out.println(RNNCoreAnnotations.getPredictedClass(tree2));
 
 			ArrayList<CoreLabel> indexedTokens = new ArrayList<>();

@@ -5,7 +5,6 @@ import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
-import eu.fbk.dkm.pikes.tintop.AnnotationPipeline;
 import eu.fbk.dkm.pikes.tintop.annotators.AnnotatorUtils;
 import eu.fbk.dkm.utils.CommandLine;
 import is2fbk.data.SentenceData09;
@@ -21,14 +20,12 @@ import se.lth.cs.srl.corpus.Sentence;
 import se.lth.cs.srl.languages.Language;
 import se.lth.cs.srl.pipeline.Pipeline;
 
+import javax.annotation.Nullable;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import java.util.zip.ZipFile;
 
 /**
@@ -38,6 +35,34 @@ import java.util.zip.ZipFile;
 public class ParseMateSentences {
 
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ParseMateSentences.class);
+
+    public static Sentence createSentenceFromAnna33(SentenceData09 sentence, @Nullable List<String> lemmas) {
+        ArrayList<String> forms = new ArrayList<>(Arrays.asList(sentence.forms));
+        ArrayList<String> pos = new ArrayList<>(Arrays.asList(sentence.ppos));
+        ArrayList<String> feats = new ArrayList<>(Arrays.asList(sentence.pfeats));
+        forms.add(0, "<root>");
+        pos.add(0, "<root>");
+        feats.add(0, "<root>");
+
+        if (lemmas == null) {
+            if (sentence.lemmas != null) {
+                lemmas = new ArrayList<>(Arrays.asList(sentence.lemmas));
+            } else {
+                lemmas = new ArrayList<>(Arrays.asList(sentence.plemmas));
+            }
+            lemmas.add(0, "<root>");
+        }
+
+        Sentence s;
+        s = new Sentence(
+                forms.toArray(new String[forms.size()]),
+                lemmas.toArray(new String[lemmas.size()]),
+                pos.toArray(new String[pos.size()]),
+                feats.toArray(new String[feats.size()])
+        );
+        s.setHeadsAndDeprels(sentence.pheads, sentence.plabels);
+        return s;
+    }
 
     public static void main(String[] args) {
 
@@ -182,9 +207,8 @@ public class ParseMateSentences {
                                             // Anna
                                             SentenceData09 localSentenceData092 = mateParser
                                                     .apply(localSentenceData091);
-                                            Sentence mateSentence = AnnotationPipeline
-                                                    .createSentenceFromAnna33(localSentenceData092,
-                                                            lemmas);
+                                            Sentence mateSentence = createSentenceFromAnna33(localSentenceData092,
+                                                    lemmas);
 
                                             // Mate
                                             mateSrl.parseSentence(mateSentence);
@@ -200,7 +224,8 @@ public class ParseMateSentences {
                         }
                     }
 
-                    File outputFile = new File(outputDir.getAbsolutePath() + File.separator + file.getName() + ".conll");
+                    File outputFile = new File(
+                            outputDir.getAbsolutePath() + File.separator + file.getName() + ".conll");
                     Files.write(stringBuilder.toString(), outputFile, Charsets.UTF_8);
                 }
             }

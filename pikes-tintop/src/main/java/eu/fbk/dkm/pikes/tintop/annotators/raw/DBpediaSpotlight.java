@@ -25,7 +25,8 @@ public class DBpediaSpotlight {
 	static String urlAddress;
 	private Properties config = new Properties();
 
-	private String prefix = "dbps_";
+//	private String prefix = "dbps_";
+	private String prefix = "";
 
 	public DBpediaSpotlight() {
 		this(PipelineConfiguration.getInstance().getProperties());
@@ -60,13 +61,12 @@ public class DBpediaSpotlight {
 		LOGGER.debug("URL: " + urlAddress);
 		LOGGER.debug("Request: " + thisRequest);
 
-		boolean useProxy = config.getProperty(prefix + "use_proxy").equals("1");
-
+		boolean useProxy = config.getProperty(prefix + "use_proxy", "0").equals("1");
 
 		HttpURLConnection connection;
 
 		if (useProxy) {
-			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(config.getProperty(prefix + "proxy_url"), Integer.parseInt(config.getProperty(prefix + "proxy_port"))));
+			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(config.getProperty(prefix + "proxy_url", ""), Integer.parseInt(config.getProperty(prefix + "proxy_port", "0"))));
 			connection = (HttpURLConnection) serverAddress.openConnection(proxy);
 		}
 		else {

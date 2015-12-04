@@ -104,6 +104,65 @@ public class Sentence implements Iterable<Word>, Serializable {
         return srls;
     }
 
+    public String toConllString() {
+
+        Map<Integer, Srl> srlMap = new TreeMap<>();
+        for (Srl srl : srls) {
+            Word word = srl.getTarget().get(0);
+            srlMap.put(word.getId(), srl);
+        }
+
+        int additionalColumnsNo = 2 + srlMap.size();
+        String[][] additionalColumns = new String[getWords().size()][additionalColumnsNo];
+        for (int j = 0; j < getWords().size(); j++) {
+            for (int i = 0; i < additionalColumnsNo; i++) {
+                additionalColumns[j][i] = "_";
+            }
+        }
+
+        int roleIndex = 0;
+        for (Integer key : srlMap.keySet()) {
+            Srl srl = srlMap.get(key);
+
+            additionalColumns[key - 1][0] = "Y";
+            additionalColumns[key - 1][1] = srl.getLabel();
+
+            for (Role role : srl.getRoles()) {
+                int roleKey = role.getSpan().get(0).getId();
+                additionalColumns[roleKey - 1][2 + roleIndex] = role.getLabel();
+            }
+
+            roleIndex++;
+        }
+
+        StringBuilder builder = new StringBuilder();
+
+        int i = 0;
+        for (Word word : getWords()) {
+            builder.append(word.getId()).append("\t");
+            builder.append(word.getForm()).append("\t");
+            builder.append(word.getForm()).append("\t");
+            builder.append(word.getLemma()).append("\t");
+            builder.append(word.getPos()).append("\t");
+            builder.append(word.getPos()).append("\t");
+            builder.append("_").append("\t");
+            builder.append("_").append("\t");
+            builder.append(word.getDepParent()).append("\t");
+            builder.append(word.getDepParent()).append("\t");
+            builder.append(word.getDepLabel()).append("\t");
+            builder.append(word.getDepLabel());
+            for (String col : additionalColumns[i]) {
+                builder.append("\t").append(col);
+            }
+            builder.append("\n");
+
+            i++;
+        }
+        builder.append("\n");
+
+        return builder.toString();
+    }
+
     @Override public String toString() {
         StringBuilder builder = new StringBuilder();
 
