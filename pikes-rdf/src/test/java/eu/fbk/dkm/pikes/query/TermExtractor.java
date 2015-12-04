@@ -9,9 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.HashMultiset;
@@ -32,9 +34,11 @@ import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
-import org.openrdf.model.vocabulary.FOAF;
+import org.openrdf.model.impl.StatementImpl;
 import org.openrdf.model.vocabulary.RDF;
+import org.openrdf.model.vocabulary.RDFS;
 import org.openrdf.model.vocabulary.SESAME;
+import org.openrdf.model.vocabulary.SKOS;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.Rio;
 import org.slf4j.Logger;
@@ -69,19 +73,25 @@ public class TermExtractor {
     private static final Set<String> LUCENE_STOP_WORDS = ImmutableSet.of("a", "an", "and", "are",
             "as", "at", "be", "but", "by", "for", "if", "in", "into", "is", "it", "no", "not",
             "of", "on", "or", "such", "that", "the", "their", "then", "there", "these", "they",
-            "this", "to", "was", "will", "with");
+            "this", "to", "was", "will", "with", "'s"); // added 's
 
     private static final String NS_DBPEDIA = "http://dbpedia.org/resource/";
 
-    private static Map<String, Layer> TYPE_MAP = ImmutableMap.of(YagoTaxonomy.NAMESPACE,
+    private static final Map<String, Layer> TYPE_MAP = ImmutableMap.of(YagoTaxonomy.NAMESPACE,
             Layer.TYPE_YAGO, Sumo.NAMESPACE, Layer.TYPE_SUMO, FrameBase.NAMESPACE,
             Layer.PREDICATE_FRB, "http://www.newsreader-project.eu/ontologies/propbank/",
             Layer.PREDICATE_PB, "http://www.newsreader-project.eu/ontologies/nombank/",
             Layer.PREDICATE_NB);
 
-    private static Map<String, Layer> PROPERTY_MAP = ImmutableMap.of(FrameBase.NAMESPACE,
+    private static final Map<String, Layer> PROPERTY_MAP = ImmutableMap.of(FrameBase.NAMESPACE,
             Layer.ROLE_FRB, "http://www.newsreader-project.eu/ontologies/propbank/",
             Layer.ROLE_PB, "http://www.newsreader-project.eu/ontologies/nombank/", Layer.ROLE_NB);
+
+    private static final Set<String> RECURSIVE_ENRICHMENT_NAMESPACES = ImmutableSet.of(
+            YagoTaxonomy.NAMESPACE, FrameBase.NAMESPACE, Sumo.NAMESPACE);
+
+    private static final Map<String, String> CONCEPT_MAP = ImmutableMap.of(YagoTaxonomy.NAMESPACE,
+            "dbyago", FrameBase.NAMESPACE, "frb", NS_DBPEDIA, "dbpedia", "entity:", "entity");
 
     private final KeyQuadSource enrichmentIndex;
 
@@ -93,11 +103,11 @@ public class TermExtractor {
                     .withName("pikes-tex")
                     .withOption("i", "index", "use index at PATH for URI enrichment", "PATH",
                             CommandLine.Type.FILE, true, false, false)
-                    .withOption("r", "recursive", "whether to recurse into input directories")
-                    .withOption("o", "output", "output base name", "PATH",
-                            CommandLine.Type.STRING, true, false, true)
-                    .withHeader("parses the Yovisto file and emits NAF files for each document")
-                    .parse(args);
+                            .withOption("r", "recursive", "whether to recurse into input directories")
+                            .withOption("o", "output", "output base name", "PATH",
+                                    CommandLine.Type.STRING, true, false, true)
+                                    .withHeader("parses the Yovisto file and emits NAF files for each document")
+                                    .parse(args);
 
             // Extract options
             final boolean recursive = cmd.hasOption("r");
@@ -112,32 +122,39 @@ public class TermExtractor {
                 LOGGER.info("Loaded enrichment index at {}", index);
             }
 
-            // Perform the extraction
+            // Perform the extraction and write the results
             final TermExtractor extractor = new TermExtractor(enrichmentIndex);
-            final List<Term> terms = extractor.extract(files, recursive);
-
-            // Write results
             try (Writer writer = IO.utf8Writer(IO.buffer(IO.write(output.getAbsolutePath())))) {
-                final Multiset<Term> termSet = HashMultiset.create(terms);
-                for (final Term term : Ordering.natural().sortedCopy(termSet.elementSet())) {
-                    writer.append(term.getDocument());
-                    writer.append("\t");
-                    writer.append(term.getLayer().getID());
-                    writer.append("\t");
-                    writer.append(term.getToken());
-                    writer.append("\t");
-                    writer.append(Integer.toString(termSet.count(term)));
-                    if (!term.getAttributes().isEmpty()) {
-                        for (final String key : Ordering.natural().sortedCopy(
-                                term.getAttributes().keySet())) {
-                            writer.append("\t");
-                            writer.append(key);
-                            writer.append("=");
-                            writer.append(term.getAttributes().get(key));
-                        }
-                    }
-                    writer.write("\n");
-                }
+                extractor.extract(
+                        files,
+                        recursive,
+                        (final List<Term> terms) -> {
+                            try {
+                                final Multiset<Term> termSet = HashMultiset.create(terms);
+                                for (final Term term : Ordering.natural().sortedCopy(
+                                        termSet.elementSet())) {
+                                    writer.append(term.getDocument());
+                                    writer.append("\t");
+                                    writer.append(term.getLayer().getID());
+                                    writer.append("\t");
+                                    writer.append(term.getToken());
+                                    writer.append("\t");
+                                    writer.append(Integer.toString(termSet.count(term)));
+                                    if (!term.getAttributes().isEmpty()) {
+                                        for (final String key : Ordering.natural().sortedCopy(
+                                                term.getAttributes().keySet())) {
+                                            writer.append("\t");
+                                            writer.append(key);
+                                            writer.append("=");
+                                            writer.append(term.getAttributes().get(key));
+                                        }
+                                    }
+                                    writer.write("\n");
+                                }
+                            } catch (final IOException ex) {
+                                Throwables.propagate(ex);
+                            }
+                        });
             }
 
             // Release enrichment index, if used
@@ -155,8 +172,8 @@ public class TermExtractor {
         this.enrichmentIndex = enrichmentIndex;
     }
 
-    public List<Term> extract(final Iterable<File> files, final boolean recursive)
-            throws IOException {
+    public void extract(final Iterable<File> files, final boolean recursive,
+            final Consumer<List<Term>> sink) throws IOException {
 
         // Expand file list if recursive
         final List<File> allFiles = Lists.newArrayList(files);
@@ -188,12 +205,12 @@ public class TermExtractor {
 
         // Process each annotation / RDF file pair, aggregating the results
         int pairs = 0;
-        final List<Term> result = Lists.newArrayList();
         for (final String basename : Ordering.natural().sortedCopy(annotationFiles.keySet())) {
             final File annotationFile = annotationFiles.get(basename);
             final File modelFile = modelFiles.get(basename);
             if (annotationFile != null && modelFile != null) {
-                result.addAll(extract(annotationFile, modelFile));
+                final List<Term> result = extract(annotationFile, modelFile);
+                sink.accept(result);
                 ++pairs;
             }
         }
@@ -201,8 +218,15 @@ public class TermExtractor {
         // Log after processing
         LOGGER.info("Processing of {} file pairs completed in {} ms", pairs,
                 System.currentTimeMillis() - ts);
+    }
 
-        // Return resulting terms
+    public List<Term> extract(final Iterable<File> files, final boolean recursive)
+            throws IOException {
+
+        final List<Term> result = Lists.newArrayList();
+        extract(files, recursive, (final List<Term> t) -> {
+            result.addAll(t);
+        });
         return result;
     }
 
@@ -261,7 +285,10 @@ public class TermExtractor {
                     }
                 }
                 final int numTriplesBefore = quadModel.size();
-                this.enrichmentIndex.getRecursive(uris, null, RDFHandlers.wrap(quadModel));
+                this.enrichmentIndex.getRecursive(uris, (final Value v) -> {
+                    return v instanceof URI && //
+                            RECURSIVE_ENRICHMENT_NAMESPACES.contains(((URI) v).getNamespace());
+                }, RDFHandlers.wrap(quadModel));
                 LOGGER.debug("Enriched {} URIs with {} triples", uris.size(), quadModel.size()
                         - numTriplesBefore);
             }
@@ -270,7 +297,7 @@ public class TermExtractor {
             final int numTriplesBefore = quadModel.size();
             RDFProcessors.rdfs(RDFSources.wrap(ImmutableList.copyOf(quadModel)), SESAME.NIL, true,
                     true, "rdfs4a", "rdfs4b", "rdfs8").apply(RDFSources.NIL,
-                    RDFHandlers.wrap(quadModel), 1);
+                            RDFHandlers.wrap(quadModel), 1);
             LOGGER.debug("Inferred {} triples (total {})", quadModel.size() - numTriplesBefore,
                     quadModel.size());
 
@@ -290,30 +317,143 @@ public class TermExtractor {
             final Collection<Term> terms) {
 
         // Emit terms for URIs
+        final List<URI> entities = Lists.newArrayList();
+        final Set<URI> knownEntities = Sets.newHashSet();
         for (final Resource entity : model.filter(null, RDF.TYPE, KS.ENTITY).subjects()) {
             if (entity instanceof URI) {
                 final URI uri = (URI) entity;
+                entities.add(uri);
                 if (uri.getNamespace().equals(NS_DBPEDIA)) {
                     terms.add(new Term(documentID, Layer.URI_DBPEDIA, uri.getLocalName()));
-                } else if (model.contains(uri, FOAF.NAME, null)) {
-                    terms.add(new Term(documentID, Layer.URI_CUSTOM, uri.getLocalName()));
+                    knownEntities.add(uri);
+                }
+                // TODO: entity:XXX treated as anonymous instances
+                //                else if (model.contains(uri, FOAF.NAME, null)) {
+                //                    terms.add(new Term(documentID, Layer.URI_CUSTOM, uri.getLocalName()));
+                //                    knownEntities.add(uri);
+                //                }
+            }
+        }
+
+        // Emit related entities TODO
+        //        for (final URI entity : entities) {
+        //            for (final Value related : model.filter(entity, SKOS.RELATED, null).objects()) {
+        //                if (related instanceof URI) {
+        //                    final URI uri = (URI) related;
+        //                    if (uri.getNamespace().equals(NS_DBPEDIA)) {
+        //                        terms.add(new Term(documentID, Layer.URI_RELATED, uri.getLocalName()));
+        //                    }
+        //                }
+        //            }
+        //        }
+
+        // Emit types / predicates
+        for (final URI entity : entities) {
+            final Set<URI> types = Sets.newHashSet();
+            for (final Value type : model.filter(entity, RDF.TYPE, null).objects()) {
+                if (type instanceof URI) {
+                    types.add((URI) type);
+                }
+            }
+            final Set<URI> parents = Sets.newHashSet();
+            for (final URI type : types) {
+                if (!FrameBase.isMicroframe(type)) {
+                    for (final Value parentType : model.filter(type, RDFS.SUBCLASSOF, null)
+                            .objects()) {
+                        if (parentType instanceof URI && !parentType.equals(type)) {
+                            parents.add((URI) parentType);
+                        }
+                    }
+                }
+            }
+            final Set<URI> directTypes = Sets.difference(types, parents);
+            for (final URI type : types) {
+                final Layer typeLayer = TYPE_MAP.get(type.getNamespace());
+                if (typeLayer != null) {
+                    if (directTypes.contains(type)) {
+                        terms.add(new Term(documentID, typeLayer, type.getLocalName()));
+                    } else {
+                        terms.add(new Term(documentID, typeLayer, type.getLocalName(),
+                                "inherited", true));
+                    }
                 }
             }
         }
 
-        // Emit terms for types and properties
-        for (final Statement stmt : model) {
-            final URI p = stmt.getPredicate();
-            final Value o = stmt.getObject();
-            final Layer propertyLayer = PROPERTY_MAP.get(p.getNamespace());
-            if (propertyLayer != null) {
-                terms.add(new Term(documentID, propertyLayer, p.getLocalName()));
+        // Emit roles
+        for (final URI entity : entities) {
+            final Set<Statement> stmts = Sets.newHashSet(model.filter(entity, null, null));
+            final Set<Statement> parentStmts = Sets.newHashSet();
+            for (final Statement stmt : stmts) {
+                final URI pred = stmt.getPredicate();
+                final Value obj = stmt.getObject();
+                for (final Value parentPred : model.filter(pred, RDFS.SUBPROPERTYOF, null)
+                        .objects()) {
+                    if (parentPred instanceof URI && !parentPred.equals(pred)) {
+                        parentStmts.add(new StatementImpl(entity, (URI) parentPred, obj));
+                    }
+                }
             }
-            if (p.equals(RDF.TYPE) && o instanceof URI) {
-                final URI uri = (URI) o;
-                final Layer typeLayer = TYPE_MAP.get(uri.getNamespace());
-                if (typeLayer != null) {
-                    terms.add(new Term(documentID, typeLayer, uri.getLocalName()));
+            final Set<Statement> directStmts = Sets.difference(stmts, parentStmts);
+            for (final Statement stmt : stmts) {
+                final URI uri = stmt.getPredicate();
+                final Layer propertyLayer = PROPERTY_MAP.get(uri.getNamespace());
+                if (propertyLayer != null) {
+                    if (directStmts.contains(stmt)) {
+                        terms.add(new Term(documentID, propertyLayer, uri.getLocalName()));
+                    } else {
+                        terms.add(new Term(documentID, propertyLayer, uri.getLocalName(),
+                                "inherited", true));
+                    }
+                }
+            }
+        }
+
+        // Emit concepts
+        for (final URI entity : entities) {
+            final Set<URI> concepts = Sets.newHashSet();
+            final Set<URI> directConcepts = Sets.newHashSet();
+            final List<URI> queue = Lists.newLinkedList();
+            if (knownEntities.contains(entity)) {
+                directConcepts.add(entity);
+            } else {
+                for (final Value type : model.filter(entity, RDF.TYPE, null).objects()) {
+                    if (type instanceof URI
+                            && CONCEPT_MAP.containsKey(((URI) type).getNamespace())) {
+                        directConcepts.add((URI) type);
+                    }
+                }
+                for (final URI type : ImmutableList.copyOf(directConcepts)) {
+                    if (!FrameBase.isMicroframe(type)) {
+                        final Set<Value> parents = Sets.newHashSet(model.filter(type,
+                                RDFS.SUBCLASSOF, null).objects());
+                        parents.remove(type);
+                        directConcepts.removeAll(parents);
+                    }
+                }
+            }
+            concepts.addAll(directConcepts);
+            queue.addAll(directConcepts);
+            while (!queue.isEmpty()) {
+                final URI uri = queue.remove(0);
+                for (final Value parent : model.filter(uri, SKOS.BROADER, null).objects()) {
+                    if (parent instanceof URI) {
+                        final URI parentURI = (URI) parent;
+                        if (CONCEPT_MAP.containsKey(parentURI.getNamespace())
+                                && !concepts.contains(parentURI)) {
+                            concepts.add(parentURI);
+                            queue.add(parentURI);
+                        }
+                    }
+                }
+            }
+            for (final URI concept : concepts) {
+                final String prefix = CONCEPT_MAP.get(concept.getNamespace());
+                final String name = prefix + ":" + concept.getLocalName();
+                if (directConcepts.contains(concept)) {
+                    terms.add(new Term(documentID, Layer.CONCEPT, name));
+                } else {
+                    terms.add(new Term(documentID, Layer.CONCEPT, name, "inherited", true));
                 }
             }
         }
@@ -322,18 +462,38 @@ public class TermExtractor {
     private void extract(final String documentID, final KAFDocument document,
             final Collection<Term> terms) {
 
+        // Emit raw text term
+        terms.add(new Term(documentID, Layer.RAW, document.getRawText().replace('\n', ' ')
+                .replace('\r', ' ').replace('\t', ' ')));
+
+        // Iterate over all the tokens in the document
         for (final ixa.kaflib.Term term : document.getTerms()) {
 
-            final String wf = term.getStr();
+            // Extract lower case token
+            final String wf = term.getStr().trim();
+
+            // Apply stop word filter
             if (!isValidTerm(wf)) {
                 continue;
             }
 
-            final String lemma = term.getLemma();
-            final String stem = Stemming.stem("en", wf);
+            // Emit stem term
+            final String stem = Stemming.stem("en", wf.toLowerCase());
             terms.add(new Term(documentID, Layer.STEM_TEXT, stem));
+
+            // Emit lemma term
+            final String lemma = term.getLemma().toLowerCase();
             terms.add(new Term(documentID, Layer.LEMMA_TEXT, lemma));
 
+            // Emit subwords terms
+            for (final String subWord : SubWordExtractor.extract(wf)) {
+                if (isValidTerm(subWord)) {
+                    final String subWordStem = Stemming.stem("en", subWord.toLowerCase());
+                    terms.add(new Term(documentID, Layer.STEM_SUBWORD, subWordStem));
+                }
+            }
+
+            // Extract WordNet POS (n, v, a, r)
             final String pos = term.getMorphofeat();
             final String wnPos;
             if (pos.startsWith("NN")) {
@@ -348,6 +508,7 @@ public class TermExtractor {
                 wnPos = null;
             }
 
+            // Emit synset terms
             if (wnPos != null) {
                 final List<String> synsets = WordNet.getSynsetsForLemma(lemma, wnPos);
                 if (!synsets.isEmpty()) {
@@ -419,7 +580,8 @@ public class TermExtractor {
     }
 
     private static boolean isValidTerm(final String wf) {
-        if (!LUCENE_STOP_WORDS.contains(wf.toLowerCase())) {
+        if (wf.length() >= 2 && wf.length() <= 200
+                && !LUCENE_STOP_WORDS.contains(wf.toLowerCase())) {
             for (int i = 0; i < wf.length(); ++i) {
                 if (Character.isLetterOrDigit(wf.charAt(i))) {
                     return true;
@@ -470,6 +632,106 @@ public class TermExtractor {
             ext = extStart < 0 ? "" : location.substring(extStart, extEnd);
         }
         return ext;
+    }
+
+    private static final class SubWordExtractor {
+
+        // Taken from WordDelimiterFilter
+
+        private static final int LOWER = 0x01;
+
+        private static final int UPPER = 0x02;
+
+        private static final int DIGIT = 0x04;
+
+        private static final int SUBWORD_DELIM = 0x08;
+
+        private static final int ALPHA = LOWER | UPPER;
+
+        private static final byte[] WORD_DELIM_TABLE;
+
+        static {
+            final byte[] tab = new byte[256];
+            for (int i = 0; i < 256; i++) {
+                byte code = 0;
+                if (Character.isLowerCase(i)) {
+                    code |= LOWER;
+                } else if (Character.isUpperCase(i)) {
+                    code |= UPPER;
+                } else if (Character.isDigit(i)) {
+                    code |= DIGIT;
+                }
+                if (code == 0) {
+                    code = SUBWORD_DELIM;
+                }
+                tab[i] = code;
+            }
+            WORD_DELIM_TABLE = tab;
+        }
+
+        private static int charType(final int ch) {
+            if (ch < WORD_DELIM_TABLE.length) {
+                return WORD_DELIM_TABLE[ch];
+            } else if (Character.isLowerCase(ch)) {
+                return LOWER;
+            } else if (Character.isLetter(ch)) {
+                return UPPER;
+            } else {
+                return SUBWORD_DELIM;
+            }
+        }
+
+        static Set<String> extract(final String token) {
+            final List<String> subTokens = Lists.newArrayList();
+            final int len = token.length();
+            if (len != 0) {
+                int start = 0;
+                int type = charType(token.charAt(start));
+                while (start < len) {
+                    while ((type & SUBWORD_DELIM) != 0 && ++start < len) {
+                        type = charType(token.charAt(start));
+                    }
+                    int pos = start;
+                    int lastType = type;
+                    while (pos < len) {
+                        if (type != lastType && ((lastType & UPPER) == 0 || (type & LOWER) == 0)) {
+                            subTokens.add(token.substring(start, pos));
+                            break;
+                        }
+                        if (++pos >= len) {
+                            subTokens.add(token.substring(start, pos));
+                            break;
+                        }
+                        lastType = type;
+                        type = charType(token.charAt(pos));
+                    }
+                    start = pos;
+                }
+                final int numtok = subTokens.size();
+                if (numtok > 1) {
+                    subTokens.add(Joiner.on("").join(subTokens));
+                    String tok = subTokens.get(0);
+                    boolean isWord = (charType(tok.charAt(0)) & ALPHA) != 0;
+                    boolean wasWord = isWord;
+                    for (int i = 0; i < numtok;) {
+                        int j;
+                        for (j = i + 1; j < numtok; j++) {
+                            wasWord = isWord;
+                            tok = subTokens.get(j);
+                            isWord = (charType(tok.charAt(0)) & ALPHA) != 0;
+                            if (isWord != wasWord) {
+                                break;
+                            }
+                        }
+                        subTokens.add(Joiner.on("").join(subTokens.subList(i, j)));
+                        i = j;
+                    }
+                }
+            }
+            subTokens.add(token);
+            return ImmutableSet.copyOf(subTokens);
+        }
+
     }
 
 }
