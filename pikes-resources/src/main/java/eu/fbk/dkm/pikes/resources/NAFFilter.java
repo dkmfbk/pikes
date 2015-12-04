@@ -255,12 +255,18 @@ public final class NAFFilter implements Consumer<KAFDocument> {
             applyTermSenseCompletion(document);
         }
 
-        // Entity-level filtering
+        // Entity-level / Linking filtering
         if (this.entityRemoveOverlaps) {
             applyEntityRemoveOverlaps(document);
         }
         if (this.entitySpanFixing) {
             applyEntitySpanFixing(document);
+        }
+        if (this.linkingCompletion) {
+            applyLinkingCompletion(document);
+        }
+        if (this.linkingFixing) {
+            applyLinkingFixing(document);
         }
         if (this.entityAddition) {
             applyEntityAddition(document);
@@ -293,14 +299,6 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         }
         if (this.srlRoleLinking) {
             applySRLRoleLinking(document);
-        }
-
-        // Linking filtering
-        if (this.linkingCompletion) {
-            applyLinkingCompletion(document);
-        }
-        if (this.linkingFixing) {
-            applyLinkingFixing(document);
         }
 
         // Coref-level filtering
@@ -437,7 +435,6 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                     NAFUtils.setRef(term, yagoRef);
                     LOGGER.debug("Added Yago mapping: " + NAFUtils.toString(term) + " -> yago:"
                             + yagoID);
-
                 }
             }
         }
@@ -616,16 +613,39 @@ public final class NAFFilter implements Consumer<KAFDocument> {
             }
 
             // Apply the sense to entities with same head where it is missing
+            Entity entityToModify = null;
             for (final Entity entity : document.getEntitiesByTerm(head)) {
                 if (head.equals(document.getTermsHead(entity.getTerms()))) {
-                    if (NAFUtils.getRef(entity, le.getResource(), le.getReference()) == null) {
-                        final ExternalRef ref = document.newExternalRef(le.getResource(),
-                                le.getReference());
-                        ref.setConfidence((float) le.getConfidence());
-                        NAFUtils.addRef(entity, ref);
-                        LOGGER.debug("Added ref '" + ref + "' to " + NAFUtils.toString(entity));
+                    entityToModify = entity;
+                }
+            }
+            if (entityToModify == null) {
+                final Span<Term> span = KAFDocument.newTermSpan(document.getTermsByWFs(le.getWFs()
+                        .getTargets()));
+                boolean overlap = false;
+                for (final Term term : span.getTargets()) {
+                    final List<Entity> overlappingEntities = document.getEntitiesByTerm(term);
+                    if (overlappingEntities != null && !overlappingEntities.isEmpty()) {
+                        overlap = true;
+                        break;
                     }
                 }
+                if (!overlap) {
+                    entityToModify = document.newEntity(ImmutableList.of(span));
+                    entityToModify.setNamed(head.getMorphofeat().startsWith("NNP"));
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("Added linked " + (entityToModify.isNamed() ? "named " : "")
+                                + NAFUtils.toString(entityToModify));
+                    }
+                }
+            }
+            if (entityToModify != null
+                    && NAFUtils.getRef(entityToModify, le.getResource(), le.getReference()) == null) {
+                final ExternalRef ref = document.newExternalRef(le.getResource(),
+                        le.getReference());
+                ref.setConfidence((float) le.getConfidence());
+                NAFUtils.addRef(entityToModify, ref);
+                LOGGER.debug("Added ref '" + ref + "' to " + NAFUtils.toString(entityToModify));
             }
 
             // Apply the sense to predicates with same head where it is missing

@@ -342,7 +342,7 @@ public final class RDFGenerator {
                     "Processed %d NAF files (%d NAF/s avg)", //
                     "Processed %d NAF files (%d NAF/s, %d NAF/s avg)");
 
-            int numThreads = 1; // Environment.getCores()
+            final int numThreads = 1; // Environment.getCores()
             final CountDownLatch latch = new CountDownLatch(numThreads);
             final AtomicInteger counter = new AtomicInteger(0);
             final AtomicInteger succeeded = new AtomicInteger(0);
@@ -856,7 +856,7 @@ public final class RDFGenerator {
             // Extract type information (type URI, whether timex or attribute) based on NER tag
             String type = entity.getType();
             type = type == null ? null : type.toLowerCase();
-            final Collection<URI> typeURIs = RDFGenerator.this.typeMap.get("entity." + type);
+            // final Collection<URI> typeURIs = RDFGenerator.this.typeMap.get("entity." + type);
             final boolean isLinked = !entity.getExternalRefs().isEmpty();
             final boolean isProperty = "money".equals(type) || "cardinal".equals(type)
                     || "ordinal".equals(type) || "percent".equals(type) || "language".equals(type)
@@ -917,15 +917,20 @@ public final class RDFGenerator {
             // Handle the case the <entity> is an attribute of some anonymous instance
             if (isProperty) {
                 emitEntityAttributes(entity, entityURI, mentionURI);
-            }
+            } else {
 
-            // Handle the case the <entity> is an ontological instance itself
-            if (!typeURIs.isEmpty()) {
-                if (entity.isNamed()) {
+                // TODO: originally the following check was enforced
+                //                if (!typeURIs.isEmpty()) {
+                //                }
+
+                // Handle the case the <entity> is an ontological instance itself
+                final boolean named = entity.isNamed() || "romanticism".equalsIgnoreCase(label)
+                        || "operant conditioning chamber".equalsIgnoreCase(label); // TODO
+                if (named) {
                     emitFact(entityURI, FOAF.NAME, label, mentionURI, null);
                     emitMeta(mentionURI, RDF.TYPE, KS.NAME_MENTION);
                 }
-                final URI property = entity.isNamed() ? OWL.SAMEAS : RDFS.SEEALSO;
+                final URI property = named ? OWL.SAMEAS : RDFS.SEEALSO;
                 for (final ExternalRef ref : entity.getExternalRefs()) {
                     try {
                         final URI refURI = FACTORY.createURI(Util.cleanIRI(ref.getReference()));
@@ -1255,6 +1260,12 @@ public final class RDFGenerator {
             // Add properties from the SEM ontology
             String semRole = role.getSemRole();
             if (semRole != null && !semRole.equals("")) {
+
+                // TODO Drop R-AX
+                if (semRole.startsWith("R-")) {
+                    return;
+                }
+
                 semRole = semRole.toLowerCase();
                 final int index = semRole.lastIndexOf('-');
                 if (index >= 0) {

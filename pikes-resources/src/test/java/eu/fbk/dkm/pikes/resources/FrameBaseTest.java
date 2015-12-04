@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 
+import org.openrdf.model.URI;
+
 import eu.fbk.dkm.pikes.resources.FrameBase.POS;
 
 public class FrameBaseTest {
@@ -19,6 +21,11 @@ public class FrameBaseTest {
             System.out.println("  " + role + " -> "
                     + FrameBase.propertyFor(frame, role).getLocalName());
         }
+        for (final String synsetID : WordNet.getSynsetsForLemma("romanticism", "n")) {
+            final URI uri = YagoTaxonomy.getDBpediaYagoURI(synsetID);
+            if (uri != null) {
+                System.out.println("--> " + uri);
+            }
+        }
     }
-
 }
