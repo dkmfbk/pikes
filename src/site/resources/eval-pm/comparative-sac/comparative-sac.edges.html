@@ -17,6 +17,7 @@
 <tr><th width="10%">Sentence</th><th width="30%">Gold</th><th width="30%">FRED</th><th width="30%">PIKES</th></tr>
 </thead>
 <tbody>
+<!-- sentence S1 -->
 <tr style="border-top: 4px solid #dddddd"><td>S1</td><td>(:approval, :explicit)</td><td></td><td></td></tr>
 <tr><td></td><td>(:approval, :group)</td><td></td><td>(:approval, :group)</td></tr>
 <tr><td></td><td>(:approval, :qaeda)</td><td>(:Al_qaeda, :approval_1)</td><td>(:Al_Qaeda, :approval)</td></tr>
@@ -65,6 +66,7 @@
 <tr><td></td><td></td><td></td><td>(:extremist, :support)</td></tr>
 <tr><td></td><td></td><td></td><td>* (:force, :one)</td></tr>
 <tr><td></td><td></td><td></td><td>* (:group, :stamp)</td></tr>
+<!-- sentence S2 -->
 <tr style="border-top: 4px solid #dddddd"><td>S2</td><td>(:abroad, :donors)</td><td>(:Abroad, :donor_1)</td><td>(&lt;attr:abroad-1r&gt;, :donor)</td></tr>
 <tr><td></td><td>(:donors, :flows)</td><td>(:donor_1, :flow_1)</td><td></td></tr>
 <tr><td></td><td>(:donors, :group)</td><td></td><td>(:donor, :group)</td></tr>
@@ -72,7 +74,9 @@
 <tr><td></td><td>(:donors, :money)</td><td></td><td></td></tr>
 <tr><td></td><td>(:flows, :group)</td><td>(:flow_1, :group_1)</td><td>(:flow, :group)</td></tr>
 <tr><td></td><td>(:flows, :money)</td><td>(:flow_1, :money_1)</td><td>(&lt;entity:money&gt;, :flow)</td></tr>
-<tr><td></td><td></td><td>* (:Nusra_front, :flow_1)</td><td></td></tr>
+<tr><td></td><td>(:front, :group)</td><td></td><td></td></tr>
+<tr><td></td><td></td><td>(:Nusra_front, :flow_1)</td><td></td></tr>
+<!-- sentence S3 -->
 <tr style="border-top: 4px solid #dddddd"><td>S3</td><td>(:bases, :capture)</td><td>(:capture_1, :military_bases_1)</td><td>(:basis, :capture)</td></tr>
 <tr><td></td><td>(:bases, :military)</td><td></td><td>(:basis, :military)</td></tr>
 <tr><td></td><td>(:battalions, :capture)</td><td>(:battalion_1, :capture_1)</td><td>(:battalion, :capture)</td></tr>
@@ -83,7 +87,6 @@
 <tr><td></td><td>(:capture, :lead)</td><td></td><td>(:capture, :lead)</td></tr>
 <tr><td></td><td>(:fields, :oil)</td><td></td><td>(:field, :oil)</td></tr>
 <tr><td></td><td>(:fighters, :have)</td><td>(:fighter_1, :have_1)</td><td>(:fighter, :have)</td></tr>
-<tr><td></td><td>(:fighters, :its)</td><td>(:fighter_1, :neuter_1)</td><td></td></tr>
 <tr><td></td><td>(:fighters, :lead)</td><td></td><td></td></tr>
 <tr><td></td><td>(:fighters, :minority)</td><td>(:fighter_1, :minority_1)</td><td></td></tr>
 <tr><td></td><td>(:fighters, :storm)</td><td></td><td>(:fighter, :storm)</td></tr>
@@ -94,7 +97,9 @@
 <tr><td></td><td>(:positions, :storm)</td><td>(:storm_1_positions, :storm_1_storm)</td><td>(:position, :storm)</td></tr>
 <tr><td></td><td></td><td>(:battalion_1, :boldness_1_skill)</td><td></td></tr>
 <tr><td></td><td></td><td>(:boldness_1_boldness, :boldness_1_skill)</td><td></td></tr>
+<tr><td></td><td></td><td>(:fighter_1, :neuter_1)</td><td></td></tr>
 <tr><td></td><td></td><td>* (:boldness_1_skill, :storm_1_storm)</td><td></td></tr>
+<!-- sentence S4 -->
 <tr style="border-top: 4px solid #dddddd"><td>S4</td><td>(:attract, :fighters)</td><td>(:attract_1, :fighter_1)</td><td>(:attract, :fighter)</td></tr>
 <tr><td></td><td>(:attract, :they)</td><td>(:attract_1, :thing_2)</td><td>(:attract, :they_2)</td></tr>
 <tr><td></td><td>(:gather, :they)</td><td>(:gather_1, :thing_2)</td><td>(:gather, :they_2)</td></tr>
@@ -105,6 +110,7 @@
 <tr><td></td><td></td><td>* (:More_more_1, :More_more_2)</td><td></td></tr>
 <tr><td></td><td></td><td>* (:More_more_1, :weapon_1)</td><td></td></tr>
 <tr><td></td><td></td><td>* (:More_more_2, :fighter_1)</td><td></td></tr>
+<!-- sentence S5 -->
 <tr style="border-top: 4px solid #dddddd"><td>S5</td><td>(:contributed, :fighters)</td><td>(:contribute_1, :fighter_1_fighters)</td><td>(:contribute, :fighter)</td></tr>
 <tr><td></td><td>(:contributed, :say)</td><td></td><td></td></tr>
 <tr><td></td><td>(:contributed, :weapons)</td><td>(:contribute_1, :fighter_1_weapons)</td><td>(:contribute, :weapon)</td></tr>
@@ -133,6 +139,7 @@
 <tr><td></td><td></td><td></td><td>* (:Al_Qaeda, :have)</td></tr>
 <tr><td></td><td></td><td></td><td>* (:have, :weapon)</td></tr>
 <tr><td></td><td></td><td></td><td>(:insurgent, :official)</td></tr>
+<!-- sentence S6 -->
 <tr style="border-top: 4px solid #dddddd"><td>S6</td><td>(:brothers, :favor)</td><td></td><td>(:brother, :favor)</td></tr>
 <tr><td></td><td>(:brothers, :fought)</td><td>(:brother_1, :fight_1)</td><td>(:brother, :fight)</td></tr>
 <tr><td></td><td>(:brothers, :our)</td><td>(:brother_1, :person_1)</td><td>(:brother, :we)</td></tr>
@@ -174,6 +181,7 @@
 <tr><td></td><td></td><td></td><td>* (:Al_Qaeda, :Iraq_2)</td></tr>
 <tr><td></td><td></td><td></td><td>(:land, :say)</td></tr>
 <tr><td></td><td></td><td></td><td>(:Al_Qaeda, :say_2)</td></tr>
+<!-- sentence S7 -->
 <tr style="border-top: 4px solid #dddddd"><td>S7</td><td>(:al-assad, :president)</td><td>(:Bashar_al-assad_al-Assad, :Syria_president), (:Bashar_al-assad_al-Assad, :Bashar_al-assad_president)</td><td>(:Bashar_al-Assad, :president)</td></tr>
 <tr><td></td><td>(:al-assad, :running)</td><td></td><td>(:Bashar_al-Assad, :run)</td></tr>
 <tr><td></td><td>(:group, :isolate)</td><td>(:group_1, :isolate_1)</td><td>(:group, :isolate)</td></tr>
@@ -201,6 +209,7 @@
 <tr><td></td><td></td><td>(:Syria_president, :run_1)</td><td></td></tr>
 <tr><td></td><td></td><td>(:Syria_Syria_2, :Syria_president)</td><td></td></tr>
 <tr><td></td><td></td><td></td><td>(:United_States, :it)</td></tr>
+<!-- sentence S8 -->
 <tr style="border-top: 4px solid #dddddd"><td>S8</td><td>(:alternative, :government)</td><td></td><td>(:alternative, :government)</td></tr>
 <tr><td></td><td>(:americans, :dealings)</td><td></td><td>(:Americans, :dealings)</td></tr>
 <tr><td></td><td>(:americans, :have)</td><td>(:Americans, :have_1)</td><td>(:Americans, :have)</td></tr>
@@ -241,7 +250,8 @@
 <tr><td></td><td></td><td></td><td>* (:it_2, :make)</td></tr>
 <tr><td></td><td></td><td></td><td>* (:United_States, :it_2)</td></tr>
 <tr><td></td><td></td><td></td><td>(:United_States, :opposition)</td></tr>
-<tr style="border-top: 4px solid #dddddd"><td colspan="2">Results w.r.t. gold standard</td><td>f1=0.688 p=0.888 r=0.561 tp=87 fp=11 fn=68</td><td>f1=0.844 p=0.937 r=0.768 tp=119 fp=8 fn=36</td></tr>
-<tr><td colspan="2">Results w.r.t. union of correct answers</td><td>f1=0.747 p=0.888 r=0.644 tp=87 fp=11 fn=48</td><td>f1=0.908 p=0.937 r=0.881 tp=119 fp=8 fn=16</td></tr>
+<!-- results -->
+<tr style="border-top: 4px solid #dddddd"><td colspan="2">Results w.r.t. gold standard</td><td>f1=0.677 p=0.869 r=0.555 tp=86 fp=13 fn=69</td><td>f1=0.844 p=0.937 r=0.768 tp=119 fp=8 fn=36</td></tr>
+<tr><td colspan="2">Results w.r.t. union of correct answers</td><td>f1=0.738 p=0.869 r=0.642 tp=86 fp=13 fn=48</td><td>f1=0.912 p=0.937 r=0.888 tp=119 fp=8 fn=15</td></tr>
 </tbody>
 </table>

@@ -51,7 +51,8 @@
 
 # === IRRELEVANT TRIPLES ===
 
+# the following triples tell the evaluator which role/type triples, if found, should be ignored as irrelevant
 :fortified eval:classifiableAs frb:frame-Cause_change_of_strength-fortify.v .
 :military eval:classifiableAs frb:frame-Military-military.a .
-:frame-Substance-oil.n eval:classifiableAs frb:frame-Substance-oil.n .
+:oil eval:classifiableAs frb:frame-Substance-oil.n .
 :small eval:classifiableAs frb:frame-Dimension-small.a .

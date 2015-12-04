@@ -1,11 +1,11 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix dbpedia: <http://dbpedia.org/resource/> .
-@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
 @prefix pb: <eval:propbank#> .
 @prefix nb: <eval:nombank#> .
 @prefix vn: <eval:verbnet#> .
 @prefix fn: <eval:framenet#> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
 @prefix eval: <eval:schema#> .
 @prefix : <file:///eswc.5.ttl/> .
 
@@ -13,7 +13,7 @@
 # === TEXT ===
 
 <file:///eswc.5.ttl/> rdfs:label """
-	The group is a direct offshoot of Al Qaeda in Iraq, Iraqi officials and former Iraqi insurgents say, which has contributed veteran fighters and weapons.""" .
+    The group is a direct offshoot of Al Qaeda in Iraq, Iraqi officials and former Iraqi insurgents say, which has contributed veteran fighters and weapons.""" .
 
 
 # === ENTITIES ===
@@ -60,58 +60,58 @@
 :group a nb:group.01 ; fn:Organization .
 
 :offshoot_v a nb:offshoot.01 , pb:spin.02 ;
-	nb:a0 :offshoot ; pb:a1 :offshoot ;
-	nb:a1 :qaeda ; pb:a2 :qaeda ;
-	nb:am-mnr :direct .
+    nb:a0 :offshoot ; pb:a1 :offshoot ;
+    nb:a1 :qaeda ; pb:a2 :qaeda ;
+    nb:am-mnr :direct .
 
 :officials_v a nb:official.01 , fn:Leadership ;
-	nb:a0 :officials ; fn:leader :officials ;
-	nb:a2 :iraqi_1 ; fn:governed :iraqi_1 .
+    nb:a0 :officials ; fn:leader :officials ;
+    nb:a2 :iraqi_1 ; fn:governed :iraqi_1 .
 
-:insurgents_v a nb:insurgent.01 , pb:rebel.01 , vn:conspire-71 , fn:Rebellion ;
-	nb:a0 :insurgents ; pb:a0 :insurgents ; vn:agent :insurgents ; fn:rebel :insurgents ;
-    nb:a1 :iraqi_2 ; fn:place :iraqi_2 ;
+:insurgents_v a nb:insurgent.01 , pb:rebel.01 , vn:conspire-71 ;
+    nb:a0 :insurgents ; pb:a0 :insurgents ; vn:agent :insurgents ;
+    nb:a1 :iraqi_2 ;
     nb:am-tmp :former .
 
 :say a pb:say.01 , vn:say-37.7-1 , fn:Statement ;
-	pb:a0 :insurgents ; vn:agent :insurgents ; fn:speaker :insurgents ;
+    pb:a0 :insurgents ; vn:agent :insurgents ; fn:speaker :insurgents ;
     pb:a0 :officials ; vn:agent :officials ; fn:speaker :officials ;
-	pb:a1 :is ; vn:topic :is ; fn:message :is ;
+    pb:a1 :is ; vn:topic :is ; fn:message :is ;
     pb:a1 :contributed ; vn:topic :contributed ; fn:message :contributed .
 
 :contributed a pb:contribute.01 , vn:contribute-13.2-1-1 , fn:Giving ;
     pb:a0 :which ; vn:agent :which ; fn:donor :which ;
-	pb:a1 :fighters ; vn:theme :fighters ; fn:theme :fighters ;
+    pb:a1 :fighters ; vn:theme :fighters ; fn:theme :fighters ;
     pb:a1 :weapons ; vn:theme :weapons ; fn:theme :weapons .
-    # pb:a2 :group ; vn:recipient :group ; fn:recipient :group . # somehow implied by text, omitted as not explicit
 
-:is a pb:be.01 , vn:seem-109-1-1 ; # fn:Performers_and_roles not appropriate as it means playing a character
-	pb:a1 :group ; vn:theme :group ;
-	pb:a2 :offshoot ; vn:attribute :offshoot .
+:is a pb:be.01 , vn:seem-109-1-1 ;
+    pb:a1 :group ; vn:theme :group ;
+    pb:a2 :offshoot ; vn:attribute :offshoot .
 
-:fighters_v a nb:fighter.01 , pb:fight.01 , fn:Irregular_combatants ;
-	nb:a0 :fighters ; pb:a0 :fighters ; vn:agent :fighters ; fn:combatant :fighters ;
-    fn:descriptor :veteran .
+:fighters_v a nb:fighter.01 , pb:fight.01 ;
+    nb:a0 :fighters ; pb:a0 :fighters ; vn:agent :fighters .
 
 :fighters dul:hasQuality :veteran .
 
 :weapons_v a nb:weapon.01 , pb:defend.01 , vn:defend-85 , fn:Weapon ;
-	nb:a2 :weapons ; pb:a4 :weapons ; fn:weapon :weapons .
+    nb:a2 :weapons ; pb:a4 :weapons ; fn:weapon :weapons .
 
 
 # === IRRELEVANT TRIPLES ===
 
-:direct eval:associableTo :group .              # could be also seen as an error, as it is the :offshoot to be :direct (this is from Fred)
+# the following triples tell the evaluator which role/type triples, if found, should be ignored as irrelevant
+:direct eval:associableTo :group .
 :iraqi_1 eval:associableTo :iraqi_2 .
 :group eval:associableTo :qaeda .
 
 
 # === WRONG TRIPLES ===
 
-:fighters eval:notAssociableTo :weapons .       # no coreference between the two
-:fighters_v eval:notAssociableTo :weapons .     # no relation between the two
-:insurgents eval:notAssociableTo :officials_v . # no relation between the two
-:officials_v eval:notAssociableTo :qaeda .      # no association
-:group eval:notAssociableTo :offshoot_v .       # association is between :group and :offshoot_v
-:insurgents_v eval:notAssociableTo :say .       # association is between :insurgents and :say
-:contributed eval:notAssociableTo :fighters_v . # association is between :fighters and :contributed
+# the following triples tell the evaluator which role triples, if found, should be treated as errors
+:fighters eval:notAssociableTo :weapons .
+:fighters_v eval:notAssociableTo :weapons .
+:insurgents eval:notAssociableTo :officials_v .
+:officials_v eval:notAssociableTo :qaeda .
+:group eval:notAssociableTo :offshoot_v .
+:insurgents_v eval:notAssociableTo :say .
+:contributed eval:notAssociableTo :fighters_v .

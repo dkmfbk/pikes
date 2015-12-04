@@ -55,6 +55,7 @@
 
 # === IRRELEVANT TRIPLES ===
 
+# the following triples tell the evaluator which role/type triples, if found, should be ignored as irrelevant
 :illegal eval:classifiableAs frb:frame-Legality-illegal.a .
 :terrorist eval:classifiableAs frb:frame-Terrorism-terrorism.n .
 :alternative eval:classifiableAs frb:frame-Possibilities-choice.n .

@@ -17,7 +17,8 @@
 <tr><th width="10%">Sentence</th><th width="45%">Gold</th><th width="45%">PIKES</th></tr>
 </thead>
 <tbody>
-<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.1.ttl/&gt;</td><td>(:approval, :explicit)</td><td></td></tr>
+<!-- sentence S1 -->
+<tr style="border-top: 4px solid #dddddd"><td>S1</td><td>(:approval, :explicit)</td><td></td></tr>
 <tr><td></td><td>(:approval, :group)</td><td>(:approval, :group)</td></tr>
 <tr><td></td><td>(:approval, :qaeda)</td><td>(:Al_Qaeda, :approval)</td></tr>
 <tr><td></td><td>(:become, :forces)</td><td></td></tr>
@@ -53,13 +54,14 @@
 <tr><td></td><td></td><td>* (:become, :one)</td></tr>
 <tr><td></td><td></td><td>* (:effective, :force)</td></tr>
 <tr><td></td><td></td><td>* (:effective, :group)</td></tr>
-<tr><td></td><td></td><td>* (:explicit, :group)</td></tr>
+<tr><td></td><td></td><td>(:explicit, :group)</td></tr>
 <tr><td></td><td></td><td>* (:explicit, :stamp)</td></tr>
 <tr><td></td><td></td><td>(&lt;attr:not-1r&gt;, :extremist)</td></tr>
 <tr><td></td><td></td><td>(:extremist, :support)</td></tr>
 <tr><td></td><td></td><td>* (:force, :one)</td></tr>
 <tr><td></td><td></td><td>* (:group, :stamp)</td></tr>
-<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.2.ttl/&gt;</td><td>(:abroad, :donors)</td><td>(&lt;attr:abroad-1r&gt;, :donor_2)</td></tr>
+<!-- sentence S2 -->
+<tr style="border-top: 4px solid #dddddd"><td>S2</td><td>(:abroad, :donors)</td><td>(&lt;attr:abroad-1r&gt;, :donor_2)</td></tr>
 <tr><td></td><td>(:donors, :donors_v)</td><td>(:donor, :donor_2)</td></tr>
 <tr><td></td><td>(:donors, :flows)</td><td></td></tr>
 <tr><td></td><td>(:donors, :like-minded)</td><td>(:donor_2, :like-mind)</td></tr>
@@ -67,9 +69,10 @@
 <tr><td></td><td>(:donors_v, :money)</td><td></td></tr>
 <tr><td></td><td>(:flows, :group)</td><td>(:flow, :group)</td></tr>
 <tr><td></td><td>(:flows, :money)</td><td>(&lt;entity:money&gt;, :flow)</td></tr>
-<tr><td></td><td></td><td>* (:Nusra_Front, :group)</td></tr>
+<tr><td></td><td>(:front, :group)</td><td>(:Nusra_Front, :group)</td></tr>
 <tr><td></td><td></td><td>(:donor, :like-mind)</td></tr>
-<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.3.ttl/&gt;</td><td>(:bases, :capture)</td><td>(:basis, :capture)</td></tr>
+<!-- sentence S3 -->
+<tr style="border-top: 4px solid #dddddd"><td>S3</td><td>(:bases, :capture)</td><td>(:basis, :capture)</td></tr>
 <tr><td></td><td>(:bases, :military)</td><td>(:basis, :military)</td></tr>
 <tr><td></td><td>(:battalions, :capture)</td><td>(:battalion, :capture)</td></tr>
 <tr><td></td><td>(:battalions, :lead)</td><td>(:battalion, :lead)</td></tr>
@@ -83,14 +86,15 @@
 <tr><td></td><td>(:fighters, :lead)</td><td>(:fighter, :lead)</td></tr>
 <tr><td></td><td>(:fighters, :minority)</td><td></td></tr>
 <tr><td></td><td>(:fighters, :storm)</td><td>(:fighter, :storm)</td></tr>
-<tr><td></td><td>(:fighters_v, :its)</td><td>(:fighter_2, :its)</td></tr>
 <tr><td></td><td>(:fortified, :positions)</td><td>(:fortify, :position)</td></tr>
 <tr><td></td><td>(:have, :skill)</td><td>(:have, :skill)</td></tr>
 <tr><td></td><td>(:minority, :rebels)</td><td>(:minority, :rebel)</td></tr>
 <tr><td></td><td>(:minority, :small)</td><td>(:minority, :small)</td></tr>
 <tr><td></td><td>(:positions, :storm)</td><td>(:position, :storm)</td></tr>
+<tr><td></td><td></td><td>(:fighter_2, :its)</td></tr>
 <tr><td></td><td></td><td>* (:skill, :storm)</td></tr>
-<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.4.ttl/&gt;</td><td>(:attract, :fighters)</td><td>(:attract, :fighter)</td></tr>
+<!-- sentence S4 -->
+<tr style="border-top: 4px solid #dddddd"><td>S4</td><td>(:attract, :fighters)</td><td>(:attract, :fighter)</td></tr>
 <tr><td></td><td>(:attract, :they)</td><td>(:attract, :they_2)</td></tr>
 <tr><td></td><td>(:fighters, :fighters_v)</td><td>(:fighter, :fighter_2)</td></tr>
 <tr><td></td><td>(:gather, :they)</td><td>(:gather, :they_2)</td></tr>
@@ -103,14 +107,14 @@
 <tr><td></td><td></td><td>* (:fighter_2, :more_2)</td></tr>
 <tr><td></td><td></td><td>* (:more, :weapon)</td></tr>
 <tr><td></td><td></td><td>* (:more, :weapon_2)</td></tr>
-<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.5.ttl/&gt;</td><td>(:contributed, :fighters)</td><td>(:contribute, :fighter)</td></tr>
+<!-- sentence S5 -->
+<tr style="border-top: 4px solid #dddddd"><td>S5</td><td>(:contributed, :fighters)</td><td>(:contribute, :fighter)</td></tr>
 <tr><td></td><td>(:contributed, :say)</td><td></td></tr>
 <tr><td></td><td>(:contributed, :weapons)</td><td>(:contribute, :weapon)</td></tr>
 <tr><td></td><td>(:contributed, :which)</td><td></td></tr>
 <tr><td></td><td>(:direct, :offshoot_v)</td><td>(:direct, :offshoot_2)</td></tr>
 <tr><td></td><td>(:fighters, :fighters_v)</td><td>(:fighter, :fighter_2)</td></tr>
 <tr><td></td><td>(:fighters, :veteran)</td><td></td></tr>
-<tr><td></td><td>(:fighters_v, :veteran)</td><td>(:fighter_2, :veteran)</td></tr>
 <tr><td></td><td>(:former, :insurgents_v)</td><td>(:former, :insurgent_2)</td></tr>
 <tr><td></td><td>(:group, :is)</td><td>(:be, :group)</td></tr>
 <tr><td></td><td>(:group, :offshoot)</td><td></td></tr>
@@ -129,13 +133,15 @@
 <tr><td></td><td></td><td>* (:Al_Qaeda, :Iraq)</td></tr>
 <tr><td></td><td></td><td>(:contribute, :fighter_2)</td></tr>
 <tr><td></td><td></td><td>* (:fighter, :have)</td></tr>
+<tr><td></td><td></td><td>(:fighter_2, :veteran)</td></tr>
 <tr><td></td><td></td><td>(:fighter_2, :weapon)</td></tr>
 <tr><td></td><td></td><td>(:be, :former)</td></tr>
 <tr><td></td><td></td><td>(:group, :offshoot_2)</td></tr>
 <tr><td></td><td></td><td>* (:Al_Qaeda, :have)</td></tr>
 <tr><td></td><td></td><td>* (:have, :weapon)</td></tr>
 <tr><td></td><td></td><td>(:insurgent, :official_2)</td></tr>
-<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.6.ttl/&gt;</td><td>(:brothers, :brothers_v)</td><td>(:brother, :brother_2)</td></tr>
+<!-- sentence S6 -->
+<tr style="border-top: 4px solid #dddddd"><td>S6</td><td>(:brothers, :brothers_v)</td><td>(:brother, :brother_2)</td></tr>
 <tr><td></td><td>(:brothers, :favor_v)</td><td></td></tr>
 <tr><td></td><td>(:brothers, :fought)</td><td>(:brother, :fight)</td></tr>
 <tr><td></td><td>(:brothers, :returning)</td><td>(:brother, :return)</td></tr>
@@ -162,7 +168,7 @@
 <tr><td></td><td>(:qaeda, :veteran_v)</td><td>(:Al_Qaeda, :veteran_2)</td></tr>
 <tr><td></td><td>(:returning, :way)</td><td>(:return, :way)</td></tr>
 <tr><td></td><td>(:said_1, :veteran)</td><td>(:say_2, :veteran)</td></tr>
-<tr><td></td><td>(:said_2, :who)</td><td>(:say, :who)</td></tr>
+<tr><td></td><td>(:said_2, :who)</td><td></td></tr>
 <tr><td></td><td>(:simple, :way)</td><td>(&lt;attr:simple-1a&gt;, :way)</td></tr>
 <tr><td></td><td>(:this, :way)</td><td></td></tr>
 <tr><td></td><td>(:veteran, :veteran_v)</td><td>(:veteran, :veteran_2)</td></tr>
@@ -175,7 +181,8 @@
 <tr><td></td><td></td><td>(:Iraq_2, :say)</td></tr>
 <tr><td></td><td></td><td>(:lead, :return)</td></tr>
 <tr><td></td><td></td><td>(:Al_Qaeda, :say)</td></tr>
-<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.7.ttl/&gt;</td><td>(:al-assad, :president)</td><td>(:Bashar_al-Assad, :president)</td></tr>
+<!-- sentence S7 -->
+<tr style="border-top: 4px solid #dddddd"><td>S7</td><td>(:al-assad, :president)</td><td>(:Bashar_al-Assad, :president)</td></tr>
 <tr><td></td><td>(:al-assad, :running)</td><td>(:Bashar_al-Assad, :run)</td></tr>
 <tr><td></td><td>(:group, :isolate)</td><td>(:group, :isolate)</td></tr>
 <tr><td></td><td>(:group, :it)</td><td></td></tr>
@@ -199,7 +206,8 @@
 <tr><td></td><td></td><td>(:United_States, :it)</td></tr>
 <tr><td></td><td></td><td>* (:may, :run)</td></tr>
 <tr><td></td><td></td><td>* (:may, :sense)</td></tr>
-<tr style="border-top: 4px solid #dddddd"><td>&lt;file:///eswc.8.ttl/&gt;</td><td>(:alternative, :government)</td><td></td></tr>
+<!-- sentence S8 -->
+<tr style="border-top: 4px solid #dddddd"><td>S8</td><td>(:alternative, :government)</td><td></td></tr>
 <tr><td></td><td>(:americans, :dealings)</td><td>(:Americans, :dealings)</td></tr>
 <tr><td></td><td>(:americans, :have)</td><td>(:Americans, :have)</td></tr>
 <tr><td></td><td>(:americans, :making)</td><td></td></tr>
@@ -240,6 +248,7 @@
 <tr><td></td><td></td><td>* (:United_States, :it_2)</td></tr>
 <tr><td></td><td></td><td>(:United_States, :opposition)</td></tr>
 <tr><td></td><td></td><td>* (:sanction_2, :similar)</td></tr>
-<tr style="border-top: 4px solid #dddddd"><td colspan="2">Results</td><td>f1=0.834 p=0.883 r=0.791 tp=136 fp=18 fn=36</td></tr>
+<!-- results -->
+<tr style="border-top: 4px solid #dddddd"><td colspan="2">Results w.r.t. gold standard</td><td>f1=0.822 p=0.865 r=0.784 tp=134 fp=21 fn=37</td></tr>
 </tbody>
 </table>
