@@ -252,6 +252,8 @@ public final class Evaluation {
 
         private final Map<URI, URI> sentenceMap;
 
+        private final Map<URI, String> sentenceLabels;
+
         private final List<String> systems;
 
         private final Multimap<URI, Relation> ignorableRelations;
@@ -260,8 +262,6 @@ public final class Evaluation {
 
         private final Multimap<URI, Relation> ignorableTypes;
 
-        private final String separator;
-
         private final Evaluation evaluation;
 
         Evaluator(final Iterable<Statement> alignedStmts, final boolean simplified) {
@@ -269,16 +269,25 @@ public final class Evaluation {
             this.model = alignedStmts instanceof QuadModel ? (QuadModel) alignedStmts : QuadModel
                     .create(alignedStmts);
 
+            final Set<URI> sentenceURIs = Sets.newHashSet();
             this.systemMap = Maps.newHashMap();
             this.sentenceMap = Maps.newHashMap();
             for (final Resource graphID : this.model.filter(null, RDF.TYPE, EVAL.KNOWLEDGE_GRAPH,
                     EVAL.METADATA).subjects()) {
-                this.systemMap.put((URI) graphID,
-                        this.model.filter(graphID, DCTERMS.CREATOR, null, //
-                                EVAL.METADATA).objectLiteral().stringValue());
-                this.sentenceMap.put((URI) graphID,
-                        this.model.filter(graphID, DCTERMS.SOURCE, null, //
-                                EVAL.METADATA).objectURI());
+                final String system = this.model.filter(graphID, DCTERMS.CREATOR, null, //
+                        EVAL.METADATA).objectLiteral().stringValue();
+                final URI sentenceURI = this.model.filter(graphID, DCTERMS.SOURCE, null, //
+                        EVAL.METADATA).objectURI();
+                this.systemMap.put((URI) graphID, system);
+                this.sentenceMap.put((URI) graphID, sentenceURI);
+                sentenceURIs.add(sentenceURI);
+            }
+
+            this.sentenceLabels = Maps.newHashMap();
+            int index = 1;
+            for (final URI sentenceURI : Ordering.from(Statements.valueComparator()).sortedCopy(
+                    sentenceURIs)) {
+                this.sentenceLabels.put(sentenceURI, "S" + index++);
             }
 
             this.systems = Lists.newArrayList(Sets.newHashSet(this.systemMap.values()));
@@ -305,28 +314,38 @@ public final class Evaluation {
                 }
             }
 
-            this.separator = "\n" + Strings.repeat("-", 30 + 63 * (this.systems.size() + 1));
-
             final Stats nodeStats = nodeEvaluation();
             final Stats unlabelledStats = unlabelledEvaluation();
 
-            final Set<String> labelledNS = simplified ? namespacesFor("vn", "owl")
-                    : namespacesFor("vn", "fn", "pb", "nb", "owl");
-            final Stats labelledStats = labelledEvaluation(labelledNS);
+            final Set<String> labelledPrefixes = simplified ? ImmutableSet.of("vn", "owl")
+                    : ImmutableSet.of("vn", "fn", "pb", "nb", "owl");
+            final Set<String> labelledNS = namespacesFor(labelledPrefixes.toArray(new String[] {}));
+            final Stats labelledStats = labelledEvaluation(labelledNS, "Labelled");
             final Map<String, Stats> labelledStatsByNS = Maps.newHashMap();
-            for (final String ns : labelledNS) {
-                labelledStatsByNS.put(ns, labelledEvaluation(ImmutableSet.of(ns)));
+            for (final String prefix : labelledPrefixes) {
+                final String ns = Util.NAMESPACES.uriFor(prefix);
+                labelledStatsByNS.put(
+                        ns,
+                        labelledEvaluation(
+                                ImmutableSet.of(ns),
+                                prefix.equals("owl") ? "owl:sameAs" : "Roles ("
+                                        + prefix.toUpperCase() + ")"));
             }
 
-            final Set<String> typeNS = simplified ? namespacesFor("vn", "fn") : namespacesFor(
-                    "vn", "fn", "pb", "nb");
-            final Stats typeStats = attributeEvaluation(RDF.TYPE, typeNS);
+            final Set<String> typePrefixes = simplified ? ImmutableSet.of("vn", "fn")
+                    : ImmutableSet.of("vn", "fn", "pb", "nb");
+            final Set<String> typeNS = namespacesFor(typePrefixes.toArray(new String[] {}));
+            final Stats typeStats = attributeEvaluation(RDF.TYPE, typeNS, "Types");
             final Map<String, Stats> typeStatsByNS = Maps.newHashMap();
-            for (final String ns : typeNS) {
-                typeStatsByNS.put(ns, attributeEvaluation(RDF.TYPE, ImmutableSet.of(ns)));
+            for (final String prefix : typePrefixes) {
+                final String ns = Util.NAMESPACES.uriFor(prefix);
+                typeStatsByNS.put(
+                        ns,
+                        attributeEvaluation(RDF.TYPE, ImmutableSet.of(ns),
+                                "Types (" + prefix.toUpperCase() + ")"));
             }
 
-            final Stats linkingStats = attributeEvaluation(OWL.SAMEAS, null);
+            final Stats linkingStats = attributeEvaluation(OWL.SAMEAS, null, "DBpedia links");
 
             final Stats triplesStats = Stats.aggregate(ImmutableList.of(labelledStats, typeStats,
                     linkingStats));
@@ -336,14 +355,14 @@ public final class Evaluation {
             out.append(nodeStats.getReport());
             emitSection(out, "UNLABELLED");
             out.append(unlabelledStats.getReport());
-            emitSection(out, "LABELLED (ALL)");
-            out.append(labelledStats.getReport());
+            //            emitSection(out, "LABELLED (ALL)");
+            //            out.append(labelledStats.getReport());
             for (final String ns : labelledNS) {
                 emitSection(out, "LABELLED (" + Util.NAMESPACES.prefixFor(ns).toUpperCase() + ")");
                 out.append(labelledStatsByNS.get(ns).getReport());
             }
-            emitSection(out, "TYPES (ALL)");
-            out.append(typeStats.getReport());
+            //            emitSection(out, "TYPES (ALL)");
+            //            out.append(typeStats.getReport());
             for (final String ns : typeNS) {
                 emitSection(out, "TYPES (" + Util.NAMESPACES.prefixFor(ns).toUpperCase() + ")");
                 out.append(typeStatsByNS.get(ns).getReport());
@@ -373,18 +392,6 @@ public final class Evaluation {
         Evaluation get() {
             return this.evaluation;
         }
-
-        //    private final String rowBegin = "";
-        //
-        //    private final String rowEnd = "";
-        //
-        //    private final String rowMid = " | ";
-
-        private final String rowBegin = "<tr><td>";
-
-        private final String rowEnd = "</td></tr>";
-
-        private final String rowMid = "</td><td>";
 
         private String escape(final String string) {
             return HtmlEscapers.htmlEscaper().escape(string);
@@ -417,19 +424,20 @@ public final class Evaluation {
 
             final Map<String, PrecisionRecall.Evaluator> goldEvaluators = initPR();
             final Map<String, PrecisionRecall.Evaluator> unionEvaluators = initPR();
-            emitHeader(out);
+            emitHeader(out, "Instances");
 
             String sentenceURICell = "";
             for (final URI sentenceURI : Util.VALUE_ORDERING.sortedCopy(nodesTable.rowKeySet())) {
                 final Multimap<String, URI> alignedNodes = HashMultimap.create();
-                sentenceURICell = Util.format(null, sentenceURI);
-                out.append(this.separator);
+                sentenceURICell = this.sentenceLabels.get(sentenceURI);
+                out.append("\n<!-- sentence " + escape(sentenceURICell) + " -->");
                 final List<URI> goldNodes = Util.VALUE_ORDERING.sortedCopy(nodesTable.get(
                         sentenceURI, "gold"));
+                String style = " style=\"border-top: 4px solid #dddddd\"";
                 for (final URI goldNode : goldNodes) {
-                    out.append(String.format("\n" + this.rowBegin + "%-30s" + this.rowMid
-                            + "%-60s", escape(sentenceURICell),
-                            escape(Util.format(sentenceURI, goldNode))));
+                    out.append(String.format("\n<tr%s><td>%s</td><td>%s", style,
+                            escape(sentenceURICell), escape(Util.format(sentenceURI, goldNode))));
+                    style = "";
                     sentenceURICell = "";
                     for (final String system : this.systems) {
                         final Multimap<URI, URI> alignments = alignmentTable.get(sentenceURI,
@@ -443,10 +451,10 @@ public final class Evaluation {
                             unionEvaluators.get(system).addTP(1);
                             alignedNodes.putAll(system, testNodes);
                         }
-                        out.append(String.format(this.rowMid + "%-60s",
+                        out.append(String.format("</td><td>%s",
                                 escape(Util.format(sentenceURI, testNodes.toArray()))));
                     }
-                    out.append(this.rowEnd);
+                    out.append("</td></tr>");
                 }
                 for (final String system : this.systems) {
                     final Set<URI> testNodes = Sets
@@ -455,14 +463,13 @@ public final class Evaluation {
                     goldEvaluators.get(system).addFP(testNodes.size());
                     unionEvaluators.get(system).addFP(testNodes.size());
                     for (final URI testNode : Util.VALUE_ORDERING.sortedCopy(testNodes)) {
-                        out.append(String.format("\n" + this.rowBegin + "%30s" + this.rowMid
-                                + "%60s", "", ""));
+                        out.append("\n<tr><td></td><td>");
                         for (final String s : this.systems) {
-                            out.append(String.format(this.rowMid + "%-60s",
+                            out.append(String.format("</td><td>%s",
                                     s.equals(system) ? escape(Util.format(sentenceURI, testNode))
                                             : ""));
                         }
-                        out.append(this.rowEnd);
+                        out.append("</td></tr>");
                     }
                 }
                 final Set<URI> union = Sets.newHashSet();
@@ -513,19 +520,20 @@ public final class Evaluation {
 
             final Map<String, PrecisionRecall.Evaluator> goldEvaluators = initPR();
             final Map<String, PrecisionRecall.Evaluator> unionEvaluators = initPR();
-            emitHeader(out);
+            emitHeader(out, "Edges");
 
             String sentenceURICell = "";
             for (final URI sentenceURI : Util.VALUE_ORDERING.sortedCopy(relationTable.rowKeySet())) {
 
-                sentenceURICell = Util.format(null, sentenceURI);
-                out.append(this.separator);
+                sentenceURICell = this.sentenceLabels.get(sentenceURI);
+                out.append("\n<!-- sentence " + escape(sentenceURICell) + " -->");
 
+                String style = " style=\"border-top: 4px solid #dddddd\"";
                 final List<Relation> goldRelations = relationTable.get(sentenceURI, "gold");
                 for (final Relation goldRelation : Ordering.natural().sortedCopy(goldRelations)) {
-                    out.append(String.format("\n" + this.rowBegin + "%-30s" + this.rowMid
-                            + "%-60s", escape(sentenceURICell),
-                            escape(goldRelation.toString(sentenceURI))));
+                    out.append(String.format("\n<tr%s><td>%s</td><td>%s", style,
+                            escape(sentenceURICell), escape(goldRelation.toString(sentenceURI))));
+                    style = "";
                     sentenceURICell = "";
                     for (final String system : this.systems) {
                         final Multimap<Relation, Relation> alignments = getMultimap(mappingTable,
@@ -538,10 +546,10 @@ public final class Evaluation {
                             goldEvaluators.get(system).addTP(1);
                             unionEvaluators.get(system).addTP(1);
                         }
-                        out.append(String.format(this.rowMid + "%-60s",
+                        out.append(String.format("</td><td>%s",
                                 escape(Util.format(sentenceURI, testRelations.toArray()))));
                     }
-                    out.append(this.rowEnd);
+                    out.append("</td></tr>");
                 }
 
                 final Set<Relation> unknownRelations = Sets.newHashSet();
@@ -564,16 +572,15 @@ public final class Evaluation {
                                 goldEvaluators.get(system).addFP(1);
                                 unionEvaluators.get(system).addFP(1);
                             }
-                            out.append(String.format("\n" + this.rowBegin + "%30s" + this.rowMid
-                                    + "%60s", "", ""));
+                            out.append(String.format("\n<tr><td></td><td>"));
                             for (final String s : this.systems) {
                                 out.append(String.format(
-                                        this.rowMid + "%-60s",
+                                        "</td><td>%s",
                                         !s.equals(system) ? "" : (ignore ? "* " : "")
                                                 + escape(Util.format(sentenceURI,
                                                         multimap.get(keyRelation).toArray()))));
                             }
-                            out.append(this.rowEnd);
+                            out.append("</td></tr>");
                         }
                     }
                 }
@@ -602,7 +609,7 @@ public final class Evaluation {
             return new Stats(goldPRs, unionPRs, out.toString());
         }
 
-        private Stats labelledEvaluation(@Nullable final Set<String> namespaces) {
+        private Stats labelledEvaluation(@Nullable final Set<String> namespaces, final String type) {
 
             final StringBuilder out = new StringBuilder();
 
@@ -638,20 +645,21 @@ public final class Evaluation {
 
             final Map<String, PrecisionRecall.Evaluator> goldEvaluators = initPR();
             final Map<String, PrecisionRecall.Evaluator> unionEvaluators = initPR();
-            emitHeader(out);
+            emitHeader(out, type);
 
             String sentenceURICell = "";
             for (final URI sentenceURI : Util.VALUE_ORDERING.sortedCopy(stmtTable.rowKeySet())) {
 
-                sentenceURICell = Util.format(null, sentenceURI);
-                out.append(this.separator);
+                sentenceURICell = this.sentenceLabels.get(sentenceURI);
+                out.append("\n<!-- sentence " + escape(sentenceURICell) + " -->");
 
+                String style = " style=\"border-top: 4px solid #dddddd\"";
                 final List<Statement> goldStmts = MoreObjects.firstNonNull(
                         stmtTable.get(sentenceURI, "gold"), ImmutableList.<Statement>of());
                 for (final Statement goldStmt : Util.STMT_ORDERING.sortedCopy(goldStmts)) {
-                    out.append(String.format("\n" + this.rowBegin + "%-30s" + this.rowMid
-                            + "%-60s", escape(sentenceURICell),
-                            escape(Util.format(sentenceURI, goldStmt))));
+                    out.append(String.format("\n<tr%s><td>%s</td><td>%s", style,
+                            escape(sentenceURICell), escape(Util.format(sentenceURI, goldStmt))));
+                    style = "";
                     sentenceURICell = "";
                     for (final String system : this.systems) {
                         final Multimap<Statement, Statement> alignments = getMultimap(
@@ -664,10 +672,10 @@ public final class Evaluation {
                             goldEvaluators.get(system).addTP(1);
                             unionEvaluators.get(system).addTP(1);
                         }
-                        out.append(String.format(this.rowMid + "%-60s",
+                        out.append(String.format("</td><td>%s",
                                 escape(Util.format(sentenceURI, testStmts.toArray()))));
                     }
-                    out.append(this.rowEnd);
+                    out.append("</td></tr>");
                 }
 
                 final Set<Statement> goldStmtSet = ImmutableSet.copyOf(goldStmts);
@@ -688,16 +696,15 @@ public final class Evaluation {
                                 goldEvaluators.get(system).addFP(1);
                                 unionEvaluators.get(system).addFP(1);
                             }
-                            out.append(String.format("\n" + this.rowBegin + "%30s" + this.rowMid
-                                    + "%60s", "", ""));
+                            out.append(String.format("\n<tr><td>%s</td><td>%s", "", ""));
                             for (final String s : this.systems) {
                                 out.append(String.format(
-                                        this.rowMid + "%-60s",
+                                        "</td><td>%s",
                                         !s.equals(system) ? "" : (ignore ? "* " : "")
                                                 + escape(Util.format(sentenceURI,
                                                         multimap.get(keyStmt).toArray()))));
                             }
-                            out.append(this.rowEnd);
+                            out.append("</td></tr>");
                         }
                     }
                 }
@@ -722,7 +729,7 @@ public final class Evaluation {
         }
 
         private Stats attributeEvaluation(@Nullable final URI predicate,
-                @Nullable final Set<String> valueNS) {
+                @Nullable final Set<String> valueNS, final String type) {
 
             final StringBuilder out = new StringBuilder();
 
@@ -756,20 +763,21 @@ public final class Evaluation {
 
             final Map<String, PrecisionRecall.Evaluator> goldEvaluators = initPR();
             final Map<String, PrecisionRecall.Evaluator> unionEvaluators = initPR();
-            emitHeader(out);
+            emitHeader(out, type);
 
             String sentenceURICell = "";
             for (final URI sentenceURI : Util.VALUE_ORDERING.sortedCopy(stmtTable.rowKeySet())) {
 
-                sentenceURICell = Util.format(null, sentenceURI);
-                out.append(this.separator);
+                sentenceURICell = this.sentenceLabels.get(sentenceURI);
+                out.append("\n<!-- sentence " + escape(sentenceURICell) + " -->");
 
+                String style = " style=\"border-top: 4px solid #dddddd\"";
                 final List<Statement> goldStmts = MoreObjects.firstNonNull(
                         stmtTable.get(sentenceURI, "gold"), ImmutableList.<Statement>of());
                 for (final Statement goldStmt : Util.STMT_ORDERING.sortedCopy(goldStmts)) {
-                    out.append(String.format("\n" + this.rowBegin + "%-30s" + this.rowMid
-                            + "%-60s", escape(sentenceURICell),
-                            escape(Util.format(sentenceURI, goldStmt))));
+                    out.append(String.format("\n<tr%s><td>%s</td><td>%s", style,
+                            escape(sentenceURICell), escape(Util.format(sentenceURI, goldStmt))));
+                    style = "";
                     sentenceURICell = "";
                     for (final String system : this.systems) {
                         final Multimap<Statement, Statement> alignments = getMultimap(
@@ -782,10 +790,10 @@ public final class Evaluation {
                             goldEvaluators.get(system).addTP(1);
                             unionEvaluators.get(system).addTP(1);
                         }
-                        out.append(String.format(this.rowMid + "%-60s",
+                        out.append(String.format("</td><td>%s",
                                 escape(Util.format(sentenceURI, testStmts.toArray()))));
                     }
-                    out.append(this.rowEnd);
+                    out.append("</td></tr>");
                 }
 
                 final Set<Statement> goldStmtSet = ImmutableSet.copyOf(goldStmts);
@@ -805,16 +813,15 @@ public final class Evaluation {
                                 goldEvaluators.get(system).addFP(1);
                                 unionEvaluators.get(system).addFP(1);
                             }
-                            out.append(String.format("\n" + this.rowBegin + "%30s" + this.rowMid
-                                    + "%60s", "", ""));
+                            out.append(String.format("\n<tr><td></td><td>"));
                             for (final String s : this.systems) {
                                 out.append(String.format(
-                                        this.rowMid + "%-60s",
+                                        "</td><td>%s",
                                         !s.equals(system) ? "" : (ignore ? "* " : "")
                                                 + escape(Util.format(sentenceURI,
                                                         multimap.get(keyStmt).toArray()))));
                             }
-                            out.append(this.rowEnd);
+                            out.append("</td></tr>");
                         }
                     }
                 }
@@ -859,31 +866,62 @@ public final class Evaluation {
             out.append(String.format("\n\n\n\n=== %s ===\n\n\n", name));
         }
 
-        private void emitHeader(final StringBuilder out) {
-            out.append(String.format("%-30s | %-60s", "sentence", "gold"));
+        private void emitHeader(final StringBuilder out, final String type) {
+
+            final String title = (this.systems.size() <= 1 ? "Separate" : "Comparative")
+                    + " evaluation - " + type;
+
+            out.append("<!DOCTYPE html>");
+            out.append("\n<html>");
+            out.append("\n<head>");
+            out.append("\n<title>").append(title).append("</title>");
+            out.append("\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
+            out.append("\n<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css\">");
+            out.append("\n<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css\">");
+            out.append("\n<script src=\"https://code.jquery.com/jquery-1.11.3.min.js\"></script>");
+            out.append("\n<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js\"></script>");
+            out.append("\n</head>");
+            out.append("\n<body>");
+            out.append("\n<div class=\"container\">");
+            out.append("\n<h1>").append(title).append("</h1>");
+            out.append("\n<p>* irrelevant element returned by evaluated system, not considered as false positive</p>");
+
+            final String width = (90 / (this.systems.size() + 1)) + "%";
+            out.append("\n<table class=\"table table-striped table-bordered table-hover table-condensed\">");
+            out.append("\n<thead>");
+            out.append("\n<tr><th width=\"10%\">Sentence</th><th width=\"").append(width)
+                    .append("\">Gold");
             for (final String system : this.systems) {
-                out.append(String.format(" | %-60s", system));
+                out.append("</th><th width=\"").append(width).append("\">")
+                        .append(system.toUpperCase());
             }
+            out.append("</th></tr>");
+            out.append("\n</thead>");
+            out.append("\n<tbody>");
         }
 
         private void emitPR(final StringBuilder out,
                 @Nullable final Map<String, PrecisionRecall> goldPRs,
                 @Nullable final Map<String, PrecisionRecall> unionPRs) {
-            out.append(this.separator);
+            out.append("\n<!-- results -->");
             if (goldPRs != null) {
-                out.append(String.format("\n%" + 93 + "s", "gold p/r   "));
+                out.append("\n<tr style=\"border-top: 4px solid #dddddd\"><td colspan=\"2\">Results w.r.t. gold standard");
                 for (final String system : this.systems) {
                     final PrecisionRecall pr = goldPRs.get(system);
-                    out.append(String.format(" | %-60s", Util.format(null, pr)));
+                    out.append(String.format("</td><td>%s", escape(Util.format(null, pr))));
                 }
+                out.append("</td></tr>");
             }
-            if (goldPRs != null) {
-                out.append(String.format("\n%" + 93 + "s", "union p/r   "));
+            if (unionPRs != null && this.systems.size() > 1) {
+                out.append("\n<tr><td colspan=\"2\">Results w.r.t. union of correct answers");
                 for (final String system : this.systems) {
                     final PrecisionRecall pr = unionPRs.get(system);
-                    out.append(String.format(" | %-60s", Util.format(null, pr)));
+                    out.append(String.format("</td><td>%s", escape(Util.format(null, pr))));
                 }
+                out.append("</td></tr>");
             }
+            out.append("\n</tbody>");
+            out.append("\n</table>");
         }
 
         private void emitStatsHeader(final StringBuilder out, final List<String> systems) {
