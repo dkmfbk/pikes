@@ -211,7 +211,7 @@ PIKES exhibits better precision and recall than FRED for all the considered comp
 <tr><td style="padding-left: 2em">types (VN)</td><td>31</td><td>.593</td><td>.516</td><td>.552</td><td>.667</td><td>.581</td><td>.621</td><td><a href="eval-pm/comparative-sac/comparative-sac.types.vn.html">view</a></td></tr>
 <tr><td style="padding-left: 2em">types (FN)</td><td>26</td><td>.550</td><td>.423</td><td>.478</td><td>.762</td><td>.615</td><td>.681</td><td><a href="eval-pm/comparative-sac/comparative-sac.types.fn.html">view</a></td></tr>
 <tr><td style="padding-left: 2em">roles (VN)</td><td>76</td><td>.547</td><td>.382</td><td>.450</td><td>.722</td><td>.513</td><td>.600</td><td><a href="eval-pm/comparative-sac/comparative-sac.roles.vn.html">view</a></td></tr>
-<tr><td style="padding-left: 2em"><tt>owl:sameAs</tt></td><td>15</td><td>.333</td><td>.345</td><td>.357</td><td>.714</td><td>.333</td><td>.455</td><td><a href="eval-pm/comparative-sac/comparative-sac.sameas.html">view</a></td></tr>
+<tr><td style="padding-left: 2em"><tt>owl:sameAs</tt></td><td>15</td><td>.357</td><td>.333</td><td>.345</td><td>.714</td><td>.333</td><td>.455</td><td><a href="eval-pm/comparative-sac/comparative-sac.sameas.html">view</a></td></tr>
 <tr><td>Edges</td><td>155</td><td>.869</td><td>.555</td><td>.677</td><td>.937</td><td>.768</td><td>.844</td><td><a href="eval-pm/comparative-sac/comparative-sac.edges.html">view</a></td></tr>
 </tbody>
 </table>
