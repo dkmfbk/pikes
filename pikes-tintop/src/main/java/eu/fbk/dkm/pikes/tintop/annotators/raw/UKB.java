@@ -74,7 +74,7 @@ public class UKB {
 		backupTerms.put(thisID, term);
 	}
 
-	public void run(ArrayList<HashMap<String, String>> terms) throws IOException {
+	synchronized public void run(ArrayList<HashMap<String, String>> terms) throws IOException {
 
 		HashMap<String, HashMap<String, String>> backupTerms = new HashMap<>();
 

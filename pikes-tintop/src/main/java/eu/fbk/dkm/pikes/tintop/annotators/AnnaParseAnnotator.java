@@ -62,17 +62,10 @@ public class AnnaParseAnnotator implements Annotator {
 
 				List<CoreLabel> tokens = stanfordSentence.get(CoreAnnotations.TokensAnnotation.class);
 
-//				System.out.println(tokens.size());
-//				System.out.println(localSentenceData092.pfeats.length);
-//				System.out.println(Arrays.toString(localSentenceData092.plabels));
-//				System.out.println(Arrays.toString(localSentenceData092.pheads));
-
 				for (int i = 0; i < tokens.size(); i++) {
 					CoreLabel token = tokens.get(i);
 					token.set(CoreAnnotations.CoNLLDepTypeAnnotation.class, localSentenceData092.plabels[i]);
 					token.set(CoreAnnotations.CoNLLDepParentIndexAnnotation.class, localSentenceData092.pheads[i] - 1);
-//					DepPair pair = new DepPair(localSentenceData092.plabels[i], localSentenceData092.pheads[i]);
-//					token.set(PikesAnnotations.ConllParserAnnotation.class, pair);
 				}
 			}
 		}

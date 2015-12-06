@@ -1,15 +1,18 @@
 package eu.fbk.dkm.pikes.tintop.annotators;
 
+import edu.cmu.cs.lti.ark.fn.Semafor;
+import edu.cmu.cs.lti.ark.fn.data.prep.formats.Sentence;
+import edu.cmu.cs.lti.ark.fn.data.prep.formats.Token;
+import edu.cmu.cs.lti.ark.fn.parsing.SemaforParseResult;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.Annotator;
 import edu.stanford.nlp.util.CoreMap;
+import eu.fbk.dkm.pikes.resources.Intensities;
+import eu.fbk.dkm.pikes.tintop.annotators.models.SemaforModel;
 
-import java.io.File;
-import java.util.Collections;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by alessio on 06/05/15.
@@ -17,9 +20,11 @@ import java.util.Set;
 
 public class SemaforAnnotator implements Annotator {
 
+    private Semafor parser;
+
     public SemaforAnnotator(String annotatorName, Properties props) {
-//        File semaforPort = new File(props.getProperty(annotatorName + ".port"));
-//		parser = AnnaParseModel.getInstance(posModel).getParser();
+        String semaforModelDir = props.getProperty(annotatorName + ".model_dir");
+        parser = SemaforModel.getInstance(semaforModelDir).getParser();
     }
 
     @Override
@@ -27,48 +32,65 @@ public class SemaforAnnotator implements Annotator {
 
         if (annotation.has(CoreAnnotations.SentencesAnnotation.class)) {
             for (CoreMap stanfordSentence : annotation.get(CoreAnnotations.SentencesAnnotation.class)) {
-                for (CoreLabel token : stanfordSentence.get(CoreAnnotations.TokensAnnotation.class)) {
-//                    System.out.println(token.get(CoreAnnotations.TextAnnotation.class));
+
+                List<Token> sentenceTokens = new ArrayList<>();
+
+                List<CoreLabel> get = stanfordSentence.get(CoreAnnotations.TokensAnnotation.class);
+                DepParseInfo depParseInfo = stanfordSentence.get(PikesAnnotations.MstParserAnnotation.class);
+                for (int i = 0; i < get.size(); i++) {
+                    CoreLabel token = get.get(i);
+                    String form = token.get(CoreAnnotations.TextAnnotation.class);
+                    String pos = token.get(CoreAnnotations.PartOfSpeechAnnotation.class);
+                    String lemma = token.get(CoreAnnotations.LemmaAnnotation.class);
+
+                    Integer head = depParseInfo.getDepParents().get(i + 1);
+                    String rel = depParseInfo.getDepLabels().get(i + 1);
+
+                    Token fnToken = new Token(form, pos, head, rel);
+                    fnToken.setLemma(lemma);
+                    sentenceTokens.add(fnToken);
+
                 }
 
-//				List<String> forms = new ArrayList<>();
-//				List<String> poss = new ArrayList<>();
-//				List<String> lemmas = new ArrayList<>();
+                Sentence sentence = new Sentence(sentenceTokens);
+
+                try {
+                    SemaforParseResult results = parser.parseSentence(sentence);
+                    stanfordSentence.set(PikesAnnotations.SemaforAnnotation.class, results);
+
+//                    String json = results.toJson();
+//                    System.out.println(json);
 //
-//				forms.add("<root>");
-//				poss.add("<root>");
-//				lemmas.add("<root>");
-//
-//				for (CoreLabel token : stanfordSentence.get(CoreAnnotations.TokensAnnotation.class)) {
-//					String form = token.get(CoreAnnotations.TextAnnotation.class);
-//					String pos = token.get(CoreAnnotations.PartOfSpeechAnnotation.class);
-//					String lemma = token.get(CoreAnnotations.LemmaAnnotation.class);
-//
-//					form = AnnotatorUtils.codeToParenthesis(form);
-//					lemma = AnnotatorUtils.codeToParenthesis(lemma);
-//					pos = AnnotatorUtils.codeToParenthesis(pos);
-//
-//					forms.add(form);
-//					poss.add(pos);
-//					lemmas.add(lemma);
-//				}
-//
-//				SentenceData09 localSentenceData091 = new SentenceData09();
-//				localSentenceData091.init(forms.toArray(new String[forms.size()]));
-//				localSentenceData091.setPPos(poss.toArray(new String[poss.size()]));
-//
-//				SentenceData09 localSentenceData092;
-//				synchronized (this) {
-//					localSentenceData092 = parser.apply(localSentenceData091);
-//				}
-//
-//				List<CoreLabel> tokens = stanfordSentence.get(CoreAnnotations.TokensAnnotation.class);
-//
-//				for (int i = 0; i < tokens.size(); i++) {
-//					CoreLabel token = tokens.get(i);
-//					token.set(CoreAnnotations.CoNLLDepTypeAnnotation.class, localSentenceData092.plabels[i]);
-//					token.set(CoreAnnotations.CoNLLDepParentIndexAnnotation.class, localSentenceData092.pheads[i] - 1);
-//				}
+//                    for (SemaforParseResult.Frame frame : results.frames) {
+//                        System.out.println(frame.target.name);
+//                        System.out.println("---");
+//                        for (SemaforParseResult.Frame.Span span : frame.target.spans) {
+//                            System.out.println(span.start);
+//                            System.out.println(span.end);
+//                            System.out.println(span.text);
+//                        }
+//                        System.out.println("---");
+//                        for (SemaforParseResult.Frame.ScoredRoleAssignment annotationSet : frame.annotationSets) {
+//                            System.out.println(annotationSet.rank);
+//                            System.out.println(annotationSet.score);
+//                            System.out.println("--");
+//                            for (SemaforParseResult.Frame.NamedSpanSet frameElement : annotationSet.frameElements) {
+//                                System.out.println(frameElement.name);
+//                                System.out.println("-");
+//                                for (SemaforParseResult.Frame.Span span : frameElement.spans) {
+//                                    System.out.println(span.start);
+//                                    System.out.println(span.end);
+//                                    System.out.println(span.text);
+//                                }
+//                            }
+//                            System.out.println("--");
+//                        }
+//                        System.out.println("---");
+//                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         } else {
             throw new RuntimeException("unable to find words/tokens in: " + annotation);
@@ -78,11 +100,11 @@ public class SemaforAnnotator implements Annotator {
 
     @Override
     public Set<Requirement> requirementsSatisfied() {
-        return Collections.singleton(PikesAnnotations.CONLLPARSE_REQUIREMENT);
+        return Collections.singleton(PikesAnnotations.SEMAFOR_REQUIREMENT);
     }
 
     @Override
     public Set<Requirement> requires() {
-        return TOKENIZE_SSPLIT_PARSE;
+        return Collections.singleton(PikesAnnotations.MSTPARSE_REQUIREMENT);
     }
 }

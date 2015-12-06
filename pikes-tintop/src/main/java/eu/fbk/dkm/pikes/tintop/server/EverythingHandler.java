@@ -57,6 +57,7 @@ public class EverythingHandler extends AbstractHandler {
 		doc = pipeline.parseFromString(doc.toString(), annotators);
 
 		String viewString;
+		viewString = doc.toString();
 		try {
 
 			HashMap<String, Object> demoProperties = new HashMap<>();

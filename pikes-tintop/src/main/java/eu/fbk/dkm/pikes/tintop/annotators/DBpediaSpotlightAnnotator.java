@@ -22,7 +22,6 @@ public class DBpediaSpotlightAnnotator implements Annotator {
 
 	public DBpediaSpotlightAnnotator(String annotatorName, Properties props) {
 		Properties newProps = AnnotatorUtils.stanfordConvertedProperties(props, annotatorName);
-		System.out.println(newProps);
 		tagger = new DBpediaSpotlight(newProps);
 	}
 
@@ -44,10 +43,13 @@ public class DBpediaSpotlightAnnotator implements Annotator {
 		HashMap<Integer, AnnotatedEntity> index = new HashMap<>();
 		for (DBpediaSpotlightTag tag : tags) {
 			AnnotatedEntity entity = new AnnotatedEntity(tag);
+			entities.add(entity);
 			for (int i = entity.getStartIndex(); i < entity.getEndIndex(); i++) {
 				index.put(i, entity);
 			}
 		}
+
+		annotation.set(PikesAnnotations.DBpediaSpotlightAnnotations.class, entities);
 
 		if (annotation.has(CoreAnnotations.SentencesAnnotation.class)) {
 			for (CoreMap sentence : annotation.get(CoreAnnotations.SentencesAnnotation.class)) {
