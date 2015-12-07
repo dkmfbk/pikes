@@ -1,10 +1,7 @@
 package ixa.kaflib;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**  */
 public class Tree implements Serializable { //?
@@ -49,7 +46,7 @@ public class Tree implements Serializable { //?
 	String[] tokens = Tree.tokenize(parOut);
 	Tree.check(tokens);
         HashMap<Integer, Integer> parMatching = Tree.matchParentheses(tokens);
-	HashMap<Integer, Term> termMatching = Tree.matchTerms(tokens, kaf.getTerms());
+	HashMap<Integer, Term> termMatching = Tree.matchTerms(tokens, kaf.getSentenceTerms(sentence));
 	// behin-behineko irtenbidea errorea ekiditeko: hutsa itzuli
 	if (termMatching.size() == 0) {
 	    return;
@@ -167,7 +164,7 @@ public class Tree implements Serializable { //?
 			}
 			if (!matched) {
 			    //throw new Exception("Can't perform parentheses=>NAF at constituency (tok_id: " + terms.get(nextTerm).getId()  + ", [" + termForm + "] != [" + tokens[i] + "])");
-			    throw new Exception("Can't perform parentheses=>NAF at constituency: form \"" + tokens[i] + "\" not found in the KAF document.");
+				throw new Exception("Can't perform parentheses=>NAF at constituency: form \"" + tokens[i] + "\" not found in the KAF document.");
 			}
 		    }
 		}
