@@ -20,10 +20,14 @@ import java.util.*;
 public class MstParserAnnotator implements Annotator {
 
 	MstParser parser;
+	int maxLen = -1;
 
 	public MstParserAnnotator(String annotatorName, Properties props) {
 		String server = props.getProperty(annotatorName + ".server");
 		Integer port = Integer.parseInt(props.getProperty(annotatorName + ".port"));
+		if (props.containsKey(annotatorName + ".maxlen")) {
+			maxLen = Integer.parseInt(props.getProperty(annotatorName + ".maxlen"));
+		}
 		parser = new MstParser(server, port);
 	}
 
@@ -32,6 +36,9 @@ public class MstParserAnnotator implements Annotator {
 		if (annotation.has(CoreAnnotations.SentencesAnnotation.class)) {
 			for (CoreMap sentence : annotation.get(CoreAnnotations.SentencesAnnotation.class)) {
 				List<CoreLabel> tokens = sentence.get(CoreAnnotations.TokensAnnotation.class);
+				if (maxLen > 0 && tokens.size() > maxLen) {
+					continue;
+				}
 
 				ArrayList<String> forms = new ArrayList<>();
 				ArrayList<String> poss = new ArrayList<>();

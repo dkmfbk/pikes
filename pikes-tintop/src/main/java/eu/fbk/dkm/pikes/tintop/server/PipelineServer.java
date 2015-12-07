@@ -38,7 +38,18 @@ public class PipelineServer {
 			System.exit(1);
 		}
 
+		int timeoutInSeconds = -1;
+		try {
+			if (pipeline.getConfig().getProperty("timeout") != null) {
+				timeoutInSeconds = Integer.parseInt(pipeline.getConfig().getProperty("timeout"));
+				logger.info("Timeout set to: " + timeoutInSeconds);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		HttpServer httpServer = HttpServer.createSimpleServer(host, new Integer(port).intValue());
+		httpServer.getServerConfiguration().setSessionTimeoutSeconds(timeoutInSeconds);
 		httpServer.getServerConfiguration().addHttpHandler(new NafHandler(pipeline), "/naf");
 		httpServer.getServerConfiguration().addHttpHandler(new NafVisualizeHandler(pipeline), "/view");
 		httpServer.getServerConfiguration().addHttpHandler(new NafGenerateHandler(pipeline), "/text");

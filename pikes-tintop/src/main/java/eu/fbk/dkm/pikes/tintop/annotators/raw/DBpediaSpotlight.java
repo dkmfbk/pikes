@@ -21,98 +21,100 @@ import java.util.*;
 
 public class DBpediaSpotlight {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(DBpediaSpotlight.class);
-	static String urlAddress;
-	private Properties config = new Properties();
+    private static final Logger LOGGER = LoggerFactory.getLogger(DBpediaSpotlight.class);
+    static String urlAddress;
+    private Properties config = new Properties();
 
-//	private String prefix = "dbps_";
-	private String prefix = "";
+    //	private String prefix = "dbps_";
+    private String prefix = "";
 
-	public DBpediaSpotlight() {
-		this(PipelineConfiguration.getInstance().getProperties());
-	}
+    public DBpediaSpotlight() {
+        this(PipelineConfiguration.getInstance().getProperties());
+    }
 
-	public DBpediaSpotlight(Properties properties) {
-		config = properties;
-		urlAddress = config.getProperty(prefix + "address");
-	}
+    public DBpediaSpotlight(Properties properties) {
+        config = properties;
+        urlAddress = config.getProperty(prefix + "address");
+    }
 
-	public List<DBpediaSpotlightTag> tag(String text) throws Exception {
+    public List<DBpediaSpotlightTag> tag(String text) throws Exception {
 
-		String thisRequest = "";
-		String fromServer = null;
+        String thisRequest = "";
+        String fromServer = null;
 
-		ArrayList<DBpediaSpotlightTag> ret = new ArrayList<>();
+        ArrayList<DBpediaSpotlightTag> ret = new ArrayList<>();
 
-		Map<String, String> pars = new HashMap<>();
-		pars.put("confidence", config.getProperty(prefix + "min_confidence"));
-		pars.put("text", text);
+        Map<String, String> pars = new HashMap<>();
+        pars.put("confidence", config.getProperty(prefix + "min_confidence"));
+        pars.put("text", text);
 
-		for (String key : pars.keySet()) {
-			String value = pars.get(key);
-			try {
-				thisRequest += "&" + key + "=" + URLEncoder.encode(value, "utf-8");
-			} catch (Exception e) {
-				LOGGER.error(e.getMessage());
-			}
-		}
+        for (String key : pars.keySet()) {
+            String value = pars.get(key);
+            try {
+                thisRequest += "&" + key + "=" + URLEncoder.encode(value, "utf-8");
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage());
+            }
+        }
 
-		URL serverAddress = new URL(urlAddress);
-		LOGGER.debug("URL: " + urlAddress);
-		LOGGER.debug("Request: " + thisRequest);
+        URL serverAddress = new URL(urlAddress);
+        LOGGER.debug("URL: " + urlAddress);
+        LOGGER.debug("Request: " + thisRequest);
 
-		boolean useProxy = config.getProperty(prefix + "use_proxy", "0").equals("1");
+        boolean useProxy = config.getProperty(prefix + "use_proxy", "0").equals("1");
 
-		HttpURLConnection connection;
+        HttpURLConnection connection;
 
-		if (useProxy) {
-			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(config.getProperty(prefix + "proxy_url", ""), Integer.parseInt(config.getProperty(prefix + "proxy_port", "0"))));
-			connection = (HttpURLConnection) serverAddress.openConnection(proxy);
-		}
-		else {
-			connection = (HttpURLConnection) serverAddress.openConnection();
-		}
+        if (useProxy) {
+            Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(config.getProperty(prefix + "proxy_url", ""),
+                    Integer.parseInt(config.getProperty(prefix + "proxy_port", "0"))));
+            connection = (HttpURLConnection) serverAddress.openConnection(proxy);
+        } else {
+            connection = (HttpURLConnection) serverAddress.openConnection();
+        }
 
-		connection.setRequestMethod("POST");
-		connection.setConnectTimeout(Integer.parseInt(config.getProperty(prefix + "timeout")));
-		connection.setRequestProperty("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
-		connection.setRequestProperty("Accept", "application/json");
-		connection.setDoOutput(true);
-		connection.getOutputStream().write(thisRequest.getBytes(CharEncoding.UTF_8));
-		connection.connect();
+        connection.setRequestMethod("POST");
+        connection.setConnectTimeout(Integer.parseInt(config.getProperty(prefix + "timeout")));
+        connection.setRequestProperty("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+        connection.setRequestProperty("Accept", "application/json");
+        connection.setDoOutput(true);
+        connection.getOutputStream().write(thisRequest.getBytes(CharEncoding.UTF_8));
+        connection.connect();
 
-		// read the result from the server
-		BufferedReader rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-		StringBuilder sb = new StringBuilder();
-		while ((fromServer = rd.readLine()) != null) {
-			sb.append(fromServer + '\n');
-		}
+        // read the result from the server
+        BufferedReader rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuilder sb = new StringBuilder();
+        while ((fromServer = rd.readLine()) != null) {
+            sb.append(fromServer + '\n');
+        }
 
-		ObjectMapper mapper = new ObjectMapper();
-		Map<String, Object> userData = mapper.readValue(sb.toString(), Map.class);
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> userData = mapper.readValue(sb.toString(), Map.class);
 
-		ArrayList<LinkedHashMap> annotation = (ArrayList<LinkedHashMap>) userData.get(new String("Resources"));
-		if (annotation != null) {
-			for (LinkedHashMap keyword : annotation) {
-				String originalText = (String) keyword.get("@surfaceForm");
-				DBpediaSpotlightTag tag = new DBpediaSpotlightTag(
-						Integer.parseInt((String) keyword.get("@offset")),
-						(String) keyword.get("@URI"),
-						Double.parseDouble((String) keyword.get("@similarityScore")),
-						originalText,
-						originalText.length()
-				);
-				ret.add(tag);
+        ArrayList<LinkedHashMap> annotation = (ArrayList<LinkedHashMap>) userData.get(new String("Resources"));
+        if (annotation != null) {
+            for (LinkedHashMap keyword : annotation) {
+                String originalText = (String) keyword.get("@surfaceForm");
+                if (originalText != null) {
+                    DBpediaSpotlightTag tag = new DBpediaSpotlightTag(
+                            Integer.parseInt((String) keyword.get("@offset")),
+                            (String) keyword.get("@URI"),
+                            Double.parseDouble((String) keyword.get("@similarityScore")),
+                            originalText,
+                            originalText.length()
+                    );
+                    ret.add(tag);
+                }
 //			System.out.println(tag);
-			}
-		}
+            }
+        }
 //		System.out.println(annotation);
 //		System.out.println(userData);
 
-		return ret;
-	}
+        return ret;
+    }
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 //		CommandLineWithLogger commandLineWithLogger = new CommandLineWithLogger();
 //
 //		CommandLine commandLine = null;
@@ -130,5 +132,5 @@ public class DBpediaSpotlight {
 //			e.printStackTrace();
 //			LOGGER.error(e.getMessage());
 //		}
-	}
+    }
 }

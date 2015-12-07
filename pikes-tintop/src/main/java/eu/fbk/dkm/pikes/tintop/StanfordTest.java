@@ -255,10 +255,10 @@ public class StanfordTest {
 //			out.println("Sentence's keys: ");
 //			out.println(sentence.keySet());
 
-			Tree tree2 = sentence.get(SentimentCoreAnnotations.SentimentAnnotatedTree.class);
+//			Tree tree2 = sentence.get(SentimentCoreAnnotations.SentimentAnnotatedTree.class);
 			System.out.println("Sentiment class name:");
 //			System.out.println(sentence.get(SentimentCoreAnnotations.ClassName.class));
-			System.out.println(RNNCoreAnnotations.getPredictedClass(tree2));
+//			System.out.println(RNNCoreAnnotations.getPredictedClass(tree2));
 
 			ArrayList<CoreLabel> indexedTokens = new ArrayList<>();
 			HashMap<Word, CoreLabel> indexedWords = new HashMap<>();
@@ -270,20 +270,20 @@ public class StanfordTest {
 			System.out.println(indexedTokens);
 
 			int i = -1;
-			for (Tree t : tree2.getLeaves()) {
-				i++;
-
-				List<Word> words = t.yieldWords();
-				for (Word w : words) {
-					indexedWords.put(w, indexedTokens.get(i));
-				}
-			}
-
-			Iterator<Tree> treeIterator = tree2.iterator();
-			while (treeIterator.hasNext()) {
-				Tree tree = treeIterator.next();
-				System.out.println(((CoreLabel) tree.label()).get(RNNCoreAnnotations.PredictedClass.class));
-			}
+//			for (Tree t : tree2.getLeaves()) {
+//				i++;
+//
+//				List<Word> words = t.yieldWords();
+//				for (Word w : words) {
+//					indexedWords.put(w, indexedTokens.get(i));
+//				}
+//			}
+//
+//			Iterator<Tree> treeIterator = tree2.iterator();
+//			while (treeIterator.hasNext()) {
+//				Tree tree = treeIterator.next();
+//				System.out.println(((CoreLabel) tree.label()).get(RNNCoreAnnotations.PredictedClass.class));
+//			}
 		}
 
 

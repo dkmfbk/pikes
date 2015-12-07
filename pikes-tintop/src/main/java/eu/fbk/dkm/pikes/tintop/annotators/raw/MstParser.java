@@ -7,9 +7,8 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -53,42 +52,51 @@ public class MstParser {
         return tag(sb.toString().trim());
     }
 
-    public DepParseInfo tag(String text) throws Exception {
+    synchronized public DepParseInfo tag(String text) throws Exception {
 
         String modifiedSentence;
 
         Socket clientSocket = new Socket(server, port);
-        DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
+        OutputStreamWriter writer = new OutputStreamWriter(clientSocket.getOutputStream());
         BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        outToServer.writeBytes(text + '\n' + '*' + '\n');
-        modifiedSentence = inFromServer.readLine();
+        writer.write(text + '\n' + '*' + '\n');
+        writer.flush();
 
-        String[] parts = modifiedSentence.split("\\s+");
         HashMap<Integer, Integer> depParents = new HashMap<>();
         HashMap<Integer, String> depLabels = new HashMap<>();
 
+        try {
+            modifiedSentence = inFromServer.readLine();
+
+            String[] parts = modifiedSentence.split("\\s+");
+
 //        ArrayList<HashMap<String, String>> res = new ArrayList<>();
-        int i = 0;
-        int id = 0;
-        while (i < parts.length) {
+            int i = 0;
+            int id = 0;
+            while (i < parts.length) {
 
-            int unit = i % 10;
-            int dec = (i - unit) / 10;
+                int unit = i % 10;
+                int dec = (i - unit) / 10;
 
-            if (unit == 0) {
-                id = Integer.parseInt(parts[i]);
+                if (unit == 0) {
+                    id = Integer.parseInt(parts[i]);
+                }
+
+                if (unit == 6) {
+                    depParents.put(id, Integer.parseInt(parts[i]));
+                }
+                if (unit == 7) {
+                    depLabels.put(id, parts[i]);
+                }
+                i++;
             }
 
-            if (unit == 6) {
-                depParents.put(id, Integer.parseInt(parts[i]));
-            }
-            if (unit == 7) {
-                depLabels.put(id, parts[i]);
-            }
-            i++;
+        } catch (Exception e) {
+            LOGGER.error("Error in text: {}", text);
         }
-
-        clientSocket.close();
+        finally {
+            clientSocket.close();
+        }
 
         return new DepParseInfo(depParents, depLabels);
 
@@ -104,9 +112,10 @@ public class MstParser {
 
     public static void main(String[] args) {
 
-        MstParser mstParser = new MstParser("dkm-server-1.fbk.eu", 19201);
+        MstParser mstParser = new MstParser("dkm-server-1.fbk.eu", 6201);
         try {
-            String text = "My_PRP$ kitchen_NN no_RB longer_RB smells_VBZ ._.";
+            String text = "Andrija_NNP Mohorovičić_NNP and_CC the_DT Mohorovičić_NNP Discontinuity_NNP ._.";
+            System.out.println(text);
             DepParseInfo tag = mstParser.tag(text);
             System.out.println(tag);
 //            SemaforResponse tag = semafor.tag(text);

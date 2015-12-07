@@ -142,6 +142,7 @@ public class AnnotationPipeline {
         sPr.setProperty("customAnnotatorClass.dbps", "eu.fbk.dkm.pikes.tintop.annotators.DBpediaSpotlightAnnotator");
         sPr.setProperty("customAnnotatorClass.mate", "eu.fbk.dkm.pikes.tintop.annotators.MateSrlAnnotator");
         sPr.setProperty("customAnnotatorClass.mst_parse", "eu.fbk.dkm.pikes.tintop.annotators.MstParserAnnotator");
+        sPr.setProperty("customAnnotatorClass.ner_custom", "eu.fbk.dkm.pikes.tintop.annotators.NERCustomAnnotator");
 
         Properties stanfordFromConfig = AnnotatorUtils.stanfordConvertedProperties(config, "stanford");
         sPr.putAll(stanfordFromConfig);

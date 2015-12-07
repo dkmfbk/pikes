@@ -37,6 +37,10 @@ public class SemaforAnnotator implements Annotator {
 
                 List<CoreLabel> get = stanfordSentence.get(CoreAnnotations.TokensAnnotation.class);
                 DepParseInfo depParseInfo = stanfordSentence.get(PikesAnnotations.MstParserAnnotation.class);
+                if (depParseInfo == null) {
+                    continue;
+                }
+
                 for (int i = 0; i < get.size(); i++) {
                     CoreLabel token = get.get(i);
                     String form = token.get(CoreAnnotations.TextAnnotation.class);
@@ -49,7 +53,6 @@ public class SemaforAnnotator implements Annotator {
                     Token fnToken = new Token(form, pos, head, rel);
                     fnToken.setLemma(lemma);
                     sentenceTokens.add(fnToken);
-
                 }
 
                 Sentence sentence = new Sentence(sentenceTokens);
@@ -57,37 +60,6 @@ public class SemaforAnnotator implements Annotator {
                 try {
                     SemaforParseResult results = parser.parseSentence(sentence);
                     stanfordSentence.set(PikesAnnotations.SemaforAnnotation.class, results);
-
-//                    String json = results.toJson();
-//                    System.out.println(json);
-//
-//                    for (SemaforParseResult.Frame frame : results.frames) {
-//                        System.out.println(frame.target.name);
-//                        System.out.println("---");
-//                        for (SemaforParseResult.Frame.Span span : frame.target.spans) {
-//                            System.out.println(span.start);
-//                            System.out.println(span.end);
-//                            System.out.println(span.text);
-//                        }
-//                        System.out.println("---");
-//                        for (SemaforParseResult.Frame.ScoredRoleAssignment annotationSet : frame.annotationSets) {
-//                            System.out.println(annotationSet.rank);
-//                            System.out.println(annotationSet.score);
-//                            System.out.println("--");
-//                            for (SemaforParseResult.Frame.NamedSpanSet frameElement : annotationSet.frameElements) {
-//                                System.out.println(frameElement.name);
-//                                System.out.println("-");
-//                                for (SemaforParseResult.Frame.Span span : frameElement.spans) {
-//                                    System.out.println(span.start);
-//                                    System.out.println(span.end);
-//                                    System.out.println(span.text);
-//                                }
-//                            }
-//                            System.out.println("--");
-//                        }
-//                        System.out.println("---");
-//                    }
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
