@@ -97,8 +97,8 @@ public class TintopClient {
         try {
             final eu.fbk.dkm.utils.CommandLine cmd = eu.fbk.dkm.utils.CommandLine
                     .parser()
-                    .withName("./orchestrator")
-                    .withHeader("Run the Tintop Orchestrator")
+                    .withName("./tintop-client")
+                    .withHeader("Run the Tintop Client")
                     .withOption("i", "input", "Input file", "FILE",
                             CommandLine.Type.FILE_EXISTING, true, false, true)
                     .withOption("s", "server", "Server address", "URL:PORT",

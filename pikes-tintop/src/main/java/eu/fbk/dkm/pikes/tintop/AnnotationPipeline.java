@@ -6,6 +6,7 @@ import com.machinelinking.api.client.Topic;
 import edu.cmu.cs.lti.ark.fn.parsing.SemaforParseResult;
 import edu.stanford.nlp.dcoref.CorefChain;
 import edu.stanford.nlp.dcoref.CorefCoreAnnotations;
+import edu.stanford.nlp.ling.CoreAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
@@ -346,6 +347,10 @@ public class AnnotationPipeline {
                 CoreLabel stanfordToken = tokens.get(i);
 
                 // Dependencies
+                if (!stanfordToken.has(CoreAnnotations.CoNLLDepParentIndexAnnotation.class)) {
+                    continue;
+                }
+
                 int head = stanfordToken.get(CoreAnnotations.CoNLLDepParentIndexAnnotation.class);
                 head++;
                 String depRel = stanfordToken.get(CoreAnnotations.CoNLLDepTypeAnnotation.class);
@@ -785,68 +790,70 @@ public class AnnotationPipeline {
                 }
             }
 
-            SemaforParseResult semaforParseResult = stanfordSentence.get(PikesAnnotations.SemaforAnnotation.class);
-            ObjectMapper mapper = new ObjectMapper();
-            Semafor.SemaforResponse semaforResponse = mapper
-                    .readValue(semaforParseResult.toJson(), Semafor.SemaforResponse.class);
-            for (Semafor.SemaforFrame semaforFrame : semaforResponse.getFrames()) {
-                Semafor.SemaforAnnotation semaforTarget = semaforFrame.getTarget();
-                if (semaforTarget == null) {
-                    continue;
-                }
-                String frameName = semaforTarget.getName();
-
-                if (semaforTarget.getSpans().size() == 0) {
-                    continue;
-                }
-                if (semaforFrame.getAnnotationSets().size() == 0) {
-                    continue;
-                }
-
-                Semafor.SemaforSpan semaforSpan = semaforTarget.getSpans().get(0);
-                Semafor.SemaforSet semaforAnnotation = semaforFrame.getAnnotationSets().get(0);
-
-                Span<Term> termSpan = KAFDocument.newTermSpan();
-                for (int i = semaforSpan.getStart(); i < semaforSpan.getEnd(); i++) {
-                    termSpan.addTarget(terms.get(i));
-                }
-
-                if (termSpan.size() == 0) {
-                    continue;
-                }
-
-                Predicate predicate = NAFdocument.newPredicate(termSpan);
-                predicate.setSource("semafor");
-                predicate.setConfidence(semaforAnnotation.getScore());
-                predicate.addExternalRef(NAFdocument.createExternalRef("FrameNet", frameName));
-                predicate.setId("f_" + predicate.getId());
-
-                for (Semafor.SemaforAnnotation frameAnnotation : semaforAnnotation.getFrameElements()) {
-                    Semafor.SemaforSpan roleSpan = frameAnnotation.getSpans().get(0);
-                    String roleName = frameAnnotation.getName();
-
-                    Span<Term> roleTermSpan = KAFDocument.newTermSpan();
-                    for (int i = roleSpan.getStart(); i < roleSpan.getEnd(); i++) {
-                        roleTermSpan.addTarget(terms.get(i));
+            if (stanfordSentence.has(PikesAnnotations.SemaforAnnotation.class)) {
+                SemaforParseResult semaforParseResult = stanfordSentence.get(PikesAnnotations.SemaforAnnotation.class);
+                ObjectMapper mapper = new ObjectMapper();
+                Semafor.SemaforResponse semaforResponse = mapper
+                        .readValue(semaforParseResult.toJson(), Semafor.SemaforResponse.class);
+                for (Semafor.SemaforFrame semaforFrame : semaforResponse.getFrames()) {
+                    Semafor.SemaforAnnotation semaforTarget = semaforFrame.getTarget();
+                    if (semaforTarget == null) {
+                        continue;
                     }
+                    String frameName = semaforTarget.getName();
 
-                    if (roleTermSpan.size() == 0) {
+                    if (semaforTarget.getSpans().size() == 0) {
+                        continue;
+                    }
+                    if (semaforFrame.getAnnotationSets().size() == 0) {
                         continue;
                     }
 
-                    Predicate.Role role = NAFdocument.newRole(predicate, "", roleTermSpan);
-                    final Term head = NAFUtils.extractHead(NAFdocument, role.getSpan());
-                    if (head != null) {
-                        final Span<Term> newSpan = KAFDocument
-                                .newTermSpan(Ordering.from(Term.OFFSET_COMPARATOR).sortedCopy(
-                                        NAFdocument.getTermsByDepAncestors(ImmutableList.of(head))));
-                        role.setSpan(newSpan);
-                    }
-                    role.addExternalRef(
-                            NAFdocument.createExternalRef("FrameNet", frameName + "@" + roleName));
-                    predicate.addRole(role);
-                }
+                    Semafor.SemaforSpan semaforSpan = semaforTarget.getSpans().get(0);
+                    Semafor.SemaforSet semaforAnnotation = semaforFrame.getAnnotationSets().get(0);
 
+                    Span<Term> termSpan = KAFDocument.newTermSpan();
+                    for (int i = semaforSpan.getStart(); i < semaforSpan.getEnd(); i++) {
+                        termSpan.addTarget(terms.get(i));
+                    }
+
+                    if (termSpan.size() == 0) {
+                        continue;
+                    }
+
+                    Predicate predicate = NAFdocument.newPredicate(termSpan);
+                    predicate.setSource("semafor");
+                    predicate.setConfidence(semaforAnnotation.getScore());
+                    predicate.addExternalRef(NAFdocument.createExternalRef("FrameNet", frameName));
+                    predicate.setId("f_" + predicate.getId());
+
+                    for (Semafor.SemaforAnnotation frameAnnotation : semaforAnnotation.getFrameElements()) {
+                        Semafor.SemaforSpan roleSpan = frameAnnotation.getSpans().get(0);
+                        String roleName = frameAnnotation.getName();
+
+                        Span<Term> roleTermSpan = KAFDocument.newTermSpan();
+                        for (int i = roleSpan.getStart(); i < roleSpan.getEnd(); i++) {
+                            roleTermSpan.addTarget(terms.get(i));
+                        }
+
+                        if (roleTermSpan.size() == 0) {
+                            continue;
+                        }
+
+                        Predicate.Role role = NAFdocument.newRole(predicate, "", roleTermSpan);
+                        final Term head = NAFUtils.extractHead(NAFdocument, role.getSpan());
+                        if (head != null) {
+                            final Span<Term> newSpan = KAFDocument
+                                    .newTermSpan(Ordering.from(Term.OFFSET_COMPARATOR).sortedCopy(
+                                            NAFdocument.getTermsByDepAncestors(ImmutableList.of(head))));
+                            role.setSpan(newSpan);
+                        }
+                        role.addExternalRef(
+                                NAFdocument.createExternalRef("FrameNet", frameName + "@" + roleName));
+                        predicate.addRole(role);
+                    }
+
+                }
             }
 
             // Constituency
@@ -858,7 +865,9 @@ public class AnnotationPipeline {
                     addHeads(tree);
                     NAFdocument.addConstituencyFromParentheses(tree.toString(), sentIndex + 1);
                 } catch (Exception e) {
+                    logger.info("Tree: " + tree.toString());
                     logger.warn(e.getMessage());
+                    e.printStackTrace();
                 }
             }
 
