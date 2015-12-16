@@ -103,11 +103,11 @@ public class TermExtractor {
                     .withName("pikes-tex")
                     .withOption("i", "index", "use index at PATH for URI enrichment", "PATH",
                             CommandLine.Type.FILE, true, false, false)
-                            .withOption("r", "recursive", "whether to recurse into input directories")
-                            .withOption("o", "output", "output base name", "PATH",
-                                    CommandLine.Type.STRING, true, false, true)
-                                    .withHeader("parses the Yovisto file and emits NAF files for each document")
-                                    .parse(args);
+                    .withOption("r", "recursive", "whether to recurse into input directories")
+                    .withOption("o", "output", "output base name", "PATH",
+                            CommandLine.Type.STRING, true, false, true)
+                    .withHeader("parses the Yovisto file and emits NAF files for each document")
+                    .parse(args);
 
             // Extract options
             final boolean recursive = cmd.hasOption("r");
@@ -297,7 +297,7 @@ public class TermExtractor {
             final int numTriplesBefore = quadModel.size();
             RDFProcessors.rdfs(RDFSources.wrap(ImmutableList.copyOf(quadModel)), SESAME.NIL, true,
                     true, "rdfs4a", "rdfs4b", "rdfs8").apply(RDFSources.NIL,
-                            RDFHandlers.wrap(quadModel), 1);
+                    RDFHandlers.wrap(quadModel), 1);
             LOGGER.debug("Inferred {} triples (total {})", quadModel.size() - numTriplesBefore,
                     quadModel.size());
 
@@ -414,24 +414,25 @@ public class TermExtractor {
             final Set<URI> concepts = Sets.newHashSet();
             final Set<URI> directConcepts = Sets.newHashSet();
             final List<URI> queue = Lists.newLinkedList();
-            if (knownEntities.contains(entity)) {
-                directConcepts.add(entity);
-            } else {
-                for (final Value type : model.filter(entity, RDF.TYPE, null).objects()) {
-                    if (type instanceof URI
-                            && CONCEPT_MAP.containsKey(((URI) type).getNamespace())) {
-                        directConcepts.add((URI) type);
-                    }
-                }
-                for (final URI type : ImmutableList.copyOf(directConcepts)) {
-                    if (!FrameBase.isMicroframe(type)) {
-                        final Set<Value> parents = Sets.newHashSet(model.filter(type,
-                                RDFS.SUBCLASSOF, null).objects());
-                        parents.remove(type);
-                        directConcepts.removeAll(parents);
-                    }
+
+            for (final Value type : model.filter(entity, RDF.TYPE, null).objects()) {
+                if (type instanceof URI && CONCEPT_MAP.containsKey(((URI) type).getNamespace())) {
+                    directConcepts.add((URI) type);
                 }
             }
+            for (final URI type : ImmutableList.copyOf(directConcepts)) {
+                if (!FrameBase.isMicroframe(type)) {
+                    final Set<Value> parents = Sets.newHashSet(model.filter(type, RDFS.SUBCLASSOF,
+                            null).objects());
+                    parents.remove(type);
+                    directConcepts.removeAll(parents);
+                }
+            }
+
+            if (knownEntities.contains(entity)) {
+                directConcepts.add(entity);
+            }
+
             concepts.addAll(directConcepts);
             queue.addAll(directConcepts);
             while (!queue.isEmpty()) {
