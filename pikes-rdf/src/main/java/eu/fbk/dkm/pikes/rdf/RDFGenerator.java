@@ -2,6 +2,7 @@ package eu.fbk.dkm.pikes.rdf;
 
 import java.io.File;
 import java.lang.reflect.Array;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -41,7 +42,6 @@ import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.LinkedHashModel;
-import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.model.vocabulary.DCTERMS;
 import org.openrdf.model.vocabulary.FOAF;
@@ -360,6 +360,7 @@ public final class RDFGenerator {
                                 }
                                 String docName = null;
                                 try {
+                                    final Path path = Runner.this.corpus.file(i);
                                     final KAFDocument document = Runner.this.corpus.get(i);
                                     docName = document.getPublic().publicId;
                                     MDC.put("context", docName);
@@ -372,15 +373,9 @@ public final class RDFGenerator {
                                                     | RDFHandlers.METHOD_END_RDF
                                                     | RDFHandlers.METHOD_CLOSE), 1);
                                     if (Runner.this.intermediate) {
-                                        final String uri = document.getPublic().uri;
-                                        final String name;
-                                        final int num = Integer.parseInt(new URIImpl(uri)
-                                                .getLocalName());
-                                        if (uri.contains("query")) {
-                                            name = "q" + String.format("%02d", num);
-                                        } else {
-                                            name = "d" + String.format("%03d", num);
-                                        }
+                                        String name = path.getFileName().toString();
+                                        int index = name.indexOf(".naf");
+                                        name = name.substring(0, index);
                                         final File intermediateFile = new File(
                                                 Runner.this.outputFile.getParentFile(), name
                                                         + ".tql.gz");
