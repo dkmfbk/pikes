@@ -1,5 +1,26 @@
 package eu.fbk.dkm.pikes.naflib;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.AbstractSet;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.Spliterator;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
+import javax.annotation.Nullable;
+
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
@@ -7,22 +28,14 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.UnmodifiableIterator;
-import eu.fbk.dkm.utils.Util;
-import eu.fbk.rdfpro.util.IO;
-import ixa.kaflib.KAFDocument;
+import com.google.common.io.ByteStreams;
+
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nullable;
-import java.io.File;
-import java.io.Reader;
-import java.io.Serializable;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import ixa.kaflib.KAFDocument;
+
+import eu.fbk.dkm.utils.Util;
+import eu.fbk.rdfpro.util.IO;
 
 public final class Corpus implements Iterable<KAFDocument>, Serializable {
 
@@ -94,6 +107,28 @@ public final class Corpus implements Iterable<KAFDocument>, Serializable {
         return this.files.length == 0;
     }
 
+    public Path file(final Object key) {
+        try {
+            int index;
+            if (key instanceof Number) {
+                index = ((Number) key).intValue();
+            } else if (key instanceof File) {
+                index = Arrays.binarySearch(this.files, ((File) key).toPath());
+            } else if (key instanceof Path) {
+                index = Arrays.binarySearch(this.files, key);
+            } else {
+                index = Arrays.binarySearch(this.files, Paths.get(key.toString()));
+            }
+            if (index < 0 || index >= this.files.length) {
+                throw new IllegalArgumentException("No file in this corpus for " + key);
+            }
+            return this.files[index];
+
+        } catch (final Throwable ex) {
+            throw Throwables.propagate(ex);
+        }
+    }
+
     public KAFDocument get(final Object key) {
         try {
             int index;
@@ -110,13 +145,18 @@ public final class Corpus implements Iterable<KAFDocument>, Serializable {
                 throw new IllegalArgumentException("No file in this corpus for " + key);
             }
             final Path file = this.files[index];
+
             KAFDocument document = null;
-            try (Reader reader = IO.utf8Reader(IO.buffer(IO.read(file.toString())))) {
-                document = KAFDocument.createFromStream(reader);
+            try (InputStream stream = IO.read(file.toString())) {
+                byte[] bytes;
+                bytes = ByteStreams.toByteArray(stream);
+                document = KAFDocument.createFromStream(IO.utf8Reader(new ByteArrayInputStream(
+                        bytes)));
             } catch (final Throwable ex) {
                 LOGGER.warn("Failed to parse document " + file, ex);
                 return null;
             }
+
             final String relativePath = file.toString().substring(path().toString().length());
             document.getPublic().publicId = relativePath;
             if ("http://www.example.com".equals(document.getPublic().uri)) {
