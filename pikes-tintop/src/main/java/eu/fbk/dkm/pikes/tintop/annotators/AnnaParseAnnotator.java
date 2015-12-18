@@ -19,16 +19,25 @@ import java.util.*;
 public class AnnaParseAnnotator implements Annotator {
 
 	private Parser parser;
+	int maxLen = -1;
 
 	public AnnaParseAnnotator(String annotatorName, Properties props) {
 		File posModel = new File(props.getProperty(annotatorName + ".model"));
 		parser = AnnaParseModel.getInstance(posModel).getParser();
+		if (props.containsKey(annotatorName + ".maxlen")) {
+			maxLen = Integer.parseInt(props.getProperty(annotatorName + ".maxlen"));
+		}
 	}
 
 	@Override
 	public void annotate(Annotation annotation) {
 		if (annotation.has(CoreAnnotations.SentencesAnnotation.class)) {
 			for (CoreMap stanfordSentence : annotation.get(CoreAnnotations.SentencesAnnotation.class)) {
+				List<CoreLabel> tokens = stanfordSentence.get(CoreAnnotations.TokensAnnotation.class);
+				if (maxLen > 0 && tokens.size() > maxLen) {
+					continue;
+				}
+
 				List<String> forms = new ArrayList<>();
 				List<String> poss = new ArrayList<>();
 				List<String> lemmas = new ArrayList<>();
@@ -37,7 +46,7 @@ public class AnnaParseAnnotator implements Annotator {
 				poss.add("<root>");
 				lemmas.add("<root>");
 
-				for (CoreLabel token : stanfordSentence.get(CoreAnnotations.TokensAnnotation.class)) {
+				for (CoreLabel token : tokens) {
 					String form = token.get(CoreAnnotations.TextAnnotation.class);
 					String pos = token.get(CoreAnnotations.PartOfSpeechAnnotation.class);
 					String lemma = token.get(CoreAnnotations.LemmaAnnotation.class);
@@ -59,8 +68,6 @@ public class AnnaParseAnnotator implements Annotator {
 				synchronized (this) {
 					localSentenceData092 = parser.apply(localSentenceData091);
 				}
-
-				List<CoreLabel> tokens = stanfordSentence.get(CoreAnnotations.TokensAnnotation.class);
 
 				for (int i = 0; i < tokens.size(); i++) {
 					CoreLabel token = tokens.get(i);

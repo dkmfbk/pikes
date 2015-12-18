@@ -18,22 +18,26 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * Created by alessio on 27/11/15.
+ *
+ * Warning: two empty documents in LA051090 (LA051090-0221 and LA051090-0222)
  */
 
-public class FT {
+public class LATIMES {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FT.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LATIMES.class);
     private static String DEFAULT_URL = "http://document/%s";
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-
-    private static Pattern TITLE_PATTERN = Pattern.compile("FT [A-Za-z0-9- ]+ / (\\([^\\(\\)]*\\))?(.*)");
+    private static DateFormat format = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
+    private static Pattern datePattern = Pattern.compile("^([a-zA-Z]+\\s+[0-9]+,\\s+[0-9]+)");
 
     public static void main(String[] args) {
 
@@ -41,8 +45,8 @@ public class FT {
 
             final CommandLine cmd = CommandLine
                     .parser()
-                    .withName("ft-extractor")
-                    .withHeader("Extract FT documents from TREC dataset and save them in NAF format")
+                    .withName("latimes-extractor")
+                    .withHeader("Extract LATIMES documents from TREC dataset and save them in NAF format")
                     .withOption("i", "input", "Input folder", "FOLDER", CommandLine.Type.DIRECTORY_EXISTING, true,
                             false, true)
                     .withOption("o", "output", "Output folder", "FOLDER", CommandLine.Type.DIRECTORY, true, false, true)
@@ -65,6 +69,9 @@ public class FT {
 
             for (final File file : Files.fileTreeTraverser().preOrderTraversal(inputDir)) {
                 if (!file.isFile()) {
+                    continue;
+                }
+                if (file.getName().startsWith(".")) {
                     continue;
                 }
 
@@ -101,33 +108,48 @@ public class FT {
         for (Element element : JOOX.$(doc).find("DOC")) {
             Element docnoElement = JOOX.$(element).find("DOCNO").get(0);
             Element dateElement = JOOX.$(element).find("DATE").get(0);
+            Element correctionDateElement = JOOX.$(element).find("CORRECTION-DATE").get(0);
             Element headlineElement = JOOX.$(element).find("HEADLINE").get(0);
+
             Element textElement = JOOX.$(element).find("TEXT").get(0);
+            Element graphicElement = JOOX.$(element).find("GRAPHIC").get(0);
+            Element correctionElement = JOOX.$(element).find("CORRECTION").get(0);
 
             // Incrementing also in case of errors
             i++;
             File outputFile = new File(outputFilePattern + "-" + i + ".naf");
 
-            if (textElement == null) {
-                LOGGER.error("TEXT is null");
-                continue;
+            String text = "";
+            if (textElement != null) {
+                text += textElement.getTextContent().trim() + "\n";
+            }
+            if (graphicElement != null) {
+                text += graphicElement.getTextContent().trim() + "\n";
+            }
+            if (correctionElement != null) {
+                text += correctionElement.getTextContent().trim() + "\n";
             }
 
-            String text = textElement.getTextContent().trim();
+            text = text.trim();
+
+            String headline = "";
+            if (headlineElement != null) {
+                headline = headlineElement.getTextContent().trim();
+            }
 
             String docno = "";
             if (docnoElement != null) {
                 docno = docnoElement.getTextContent().trim();
             }
 
+            if (text.length() == 0 && headline.length() == 0) {
+                LOGGER.error("TEXT and HEADLINE are both empty ({})", docno);
+                continue;
+            }
+
             String date = "";
             if (dateElement != null) {
                 date = dateElement.getTextContent().trim();
-            }
-
-            String headline = "";
-            if (headlineElement != null) {
-                headline = headlineElement.getTextContent().trim();
             }
 
             if (docno.equals("")) {
@@ -138,22 +160,27 @@ public class FT {
 
             headline = headline.replace('\n', ' ');
             headline = headline.replaceAll("\\s+", " ");
-            text = text.replace('\n', ' ');
-            text = text.replaceAll("\\s+", " ");
 
-            Matcher matcher = TITLE_PATTERN.matcher(headline);
+            Date thisDate = null;
+            Matcher matcher = datePattern.matcher(date);
             if (matcher.find()) {
-                headline = matcher.group(2).trim();
+                try {
+                    thisDate = format.parse(matcher.group(1));
+                } catch (Exception e) {
+                    // ignored
+                }
             }
-
-            Calendar.Builder builder = new Calendar.Builder();
-            try {
-                builder.setDate(1900 + Integer.parseInt(date.substring(0, 2)), Integer.parseInt(date.substring(2, 4)),
-                        Integer.parseInt(date.substring(4)));
-            } catch (NumberFormatException e) {
-                LOGGER.error(e.getMessage());
+            if (thisDate == null && correctionDateElement != null) {
+                date = correctionDateElement.getTextContent().trim();
+                matcher = datePattern.matcher(date);
+                if (matcher.find()) {
+                    try {
+                        thisDate = format.parse(matcher.group(1));
+                    } catch (Exception e) {
+                        // ignored
+                    }
+                }
             }
-            Calendar calendar = builder.build();
 
             text = headline + "\n\n" + text;
 
@@ -162,7 +189,9 @@ public class FT {
 
             KAFDocument.FileDesc fileDesc = document.createFileDesc();
             fileDesc.title = headline;
-            fileDesc.creationtime = sdf.format(calendar.getTime());
+            if (thisDate != null) {
+                fileDesc.creationtime = sdf.format(thisDate);
+            }
             KAFDocument.Public aPublic = document.createPublic();
             aPublic.uri = url;
             aPublic.publicId = docno;

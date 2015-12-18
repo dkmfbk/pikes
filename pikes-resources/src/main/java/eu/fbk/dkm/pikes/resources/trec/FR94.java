@@ -25,15 +25,17 @@ import java.util.regex.Pattern;
 
 /**
  * Created by alessio on 27/11/15.
+ *
+ * Warning: some files are too big for the JDK
+ * - FR941202.2
+ *
+ * Solution: pass -DentityExpansionLimit=0 to the Java command
  */
 
-public class FT {
+public class FR94 {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FT.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FR94.class);
     private static String DEFAULT_URL = "http://document/%s";
-    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-
-    private static Pattern TITLE_PATTERN = Pattern.compile("FT [A-Za-z0-9- ]+ / (\\([^\\(\\)]*\\))?(.*)");
 
     public static void main(String[] args) {
 
@@ -41,8 +43,8 @@ public class FT {
 
             final CommandLine cmd = CommandLine
                     .parser()
-                    .withName("ft-extractor")
-                    .withHeader("Extract FT documents from TREC dataset and save them in NAF format")
+                    .withName("fr94-extractor")
+                    .withHeader("Extract FR94 documents from TREC dataset and save them in NAF format")
                     .withOption("i", "input", "Input folder", "FOLDER", CommandLine.Type.DIRECTORY_EXISTING, true,
                             false, true)
                     .withOption("o", "output", "Output folder", "FOLDER", CommandLine.Type.DIRECTORY, true, false, true)
@@ -67,6 +69,9 @@ public class FT {
                 if (!file.isFile()) {
                     continue;
                 }
+                if (file.getName().startsWith(".")) {
+                    continue;
+                }
 
                 String outputTemplate = outputDir.getAbsolutePath() + File.separator + file.getName();
                 File newFolder = new File(outputTemplate);
@@ -86,6 +91,63 @@ public class FT {
         LOGGER.info("Input file: {}", inputFile);
 
         StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("<?xml version=\"1.0\"?>\n"
+                + "<!DOCTYPE tutorials [\n");
+        stringBuffer.append("<!ENTITY hyph \"-\">\n");
+        stringBuffer.append("<!ENTITY blank \" \">\n");
+        stringBuffer.append("<!ENTITY sect \" \">\n");
+        stringBuffer.append("<!ENTITY para \" \">\n");
+        stringBuffer.append("<!ENTITY cir \" \">\n");
+        stringBuffer.append("<!ENTITY rsquo \" \">\n");
+        stringBuffer.append("<!ENTITY mu \" \">\n");
+        stringBuffer.append("<!ENTITY times \" \">\n");
+        stringBuffer.append("<!ENTITY bull \" \">\n");
+        stringBuffer.append("<!ENTITY ge \">=\">\n");
+        stringBuffer.append("<!ENTITY reg \" \">\n");
+        stringBuffer.append("<!ENTITY cent \" \">\n");
+        stringBuffer.append("<!ENTITY amp \" \">\n");
+        stringBuffer.append("<!ENTITY gt \">\">\n");
+        stringBuffer.append("<!ENTITY lt \"<\">\n");
+        stringBuffer.append("<!ENTITY acirc \"a\">\n");
+        stringBuffer.append("<!ENTITY ncirc \"n\">\n");
+        stringBuffer.append("<!ENTITY atilde \"a\">\n");
+        stringBuffer.append("<!ENTITY ntilde \"n\">\n");
+        stringBuffer.append("<!ENTITY otilde \"o\">\n");
+        stringBuffer.append("<!ENTITY utilde \"u\">\n");
+        stringBuffer.append("<!ENTITY aacute \"a\">\n");
+        stringBuffer.append("<!ENTITY cacute \"c\">\n");
+        stringBuffer.append("<!ENTITY eacute \"e\">\n");
+        stringBuffer.append("<!ENTITY Eacute \"E\">\n");
+        stringBuffer.append("<!ENTITY Gacute \"G\">\n");
+        stringBuffer.append("<!ENTITY iacute \"i\">\n");
+        stringBuffer.append("<!ENTITY lacute \"l\">\n");
+        stringBuffer.append("<!ENTITY nacute \"n\">\n");
+        stringBuffer.append("<!ENTITY oacute \"o\">\n");
+        stringBuffer.append("<!ENTITY pacute \"p\">\n");
+        stringBuffer.append("<!ENTITY racute \"r\">\n");
+        stringBuffer.append("<!ENTITY sacute \"s\">\n");
+        stringBuffer.append("<!ENTITY uacute \"u\">\n");
+        stringBuffer.append("<!ENTITY ocirc \"o\">\n");
+        stringBuffer.append("<!ENTITY auml \"a\">\n");
+        stringBuffer.append("<!ENTITY euml \"e\">\n");
+        stringBuffer.append("<!ENTITY Euml \"E\">\n");
+        stringBuffer.append("<!ENTITY iuml \"i\">\n");
+        stringBuffer.append("<!ENTITY Iuml \"I\">\n");
+        stringBuffer.append("<!ENTITY Kuml \"K\">\n");
+        stringBuffer.append("<!ENTITY Ouml \"O\">\n");
+        stringBuffer.append("<!ENTITY ouml \"o\">\n");
+        stringBuffer.append("<!ENTITY uuml \"u\">\n");
+        stringBuffer.append("<!ENTITY Ccedil \"C\">\n");
+        stringBuffer.append("<!ENTITY ccedil \"c\">\n");
+        stringBuffer.append("<!ENTITY agrave \"a\">\n");
+        stringBuffer.append("<!ENTITY Agrave \"A\">\n");
+        stringBuffer.append("<!ENTITY egrave \"e\">\n");
+        stringBuffer.append("<!ENTITY Egrave \"E\">\n");
+        stringBuffer.append("<!ENTITY igrave \"i\">\n");
+        stringBuffer.append("<!ENTITY Ograve \"O\">\n");
+        stringBuffer.append("<!ENTITY ograve \"o\">\n");
+        stringBuffer.append("<!ENTITY ugrave \"u\">\n");
+        stringBuffer.append("]>\n");
         stringBuffer.append("<ROOT>\n");
         stringBuffer.append(Files.toString(inputFile, Charsets.UTF_8));
         stringBuffer.append("\n</ROOT>\n");
@@ -100,8 +162,6 @@ public class FT {
         int i = 0;
         for (Element element : JOOX.$(doc).find("DOC")) {
             Element docnoElement = JOOX.$(element).find("DOCNO").get(0);
-            Element dateElement = JOOX.$(element).find("DATE").get(0);
-            Element headlineElement = JOOX.$(element).find("HEADLINE").get(0);
             Element textElement = JOOX.$(element).find("TEXT").get(0);
 
             // Incrementing also in case of errors
@@ -120,49 +180,20 @@ public class FT {
                 docno = docnoElement.getTextContent().trim();
             }
 
-            String date = "";
-            if (dateElement != null) {
-                date = dateElement.getTextContent().trim();
-            }
-
-            String headline = "";
-            if (headlineElement != null) {
-                headline = headlineElement.getTextContent().trim();
-            }
-
             if (docno.equals("")) {
                 LOGGER.error("DOCNO is empty");
             }
 
             String url = String.format(urlTemplate, docno);
 
-            headline = headline.replace('\n', ' ');
-            headline = headline.replaceAll("\\s+", " ");
-            text = text.replace('\n', ' ');
-            text = text.replaceAll("\\s+", " ");
-
-            Matcher matcher = TITLE_PATTERN.matcher(headline);
-            if (matcher.find()) {
-                headline = matcher.group(2).trim();
-            }
-
-            Calendar.Builder builder = new Calendar.Builder();
-            try {
-                builder.setDate(1900 + Integer.parseInt(date.substring(0, 2)), Integer.parseInt(date.substring(2, 4)),
-                        Integer.parseInt(date.substring(4)));
-            } catch (NumberFormatException e) {
-                LOGGER.error(e.getMessage());
-            }
-            Calendar calendar = builder.build();
-
-            text = headline + "\n\n" + text;
+            text = text.replaceAll("([^\\n])\\n([^\\n])", "$1 $2");
+            text = text.replaceAll("\\n+([a-z])", " $1");
 
             KAFDocument document = new KAFDocument("en", "v3");
             document.setRawText(text);
 
             KAFDocument.FileDesc fileDesc = document.createFileDesc();
-            fileDesc.title = headline;
-            fileDesc.creationtime = sdf.format(calendar.getTime());
+            fileDesc.title = docno;
             KAFDocument.Public aPublic = document.createPublic();
             aPublic.uri = url;
             aPublic.publicId = docno;

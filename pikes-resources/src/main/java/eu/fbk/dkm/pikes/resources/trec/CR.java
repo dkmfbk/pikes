@@ -20,20 +20,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by alessio on 27/11/15.
+ *
+ * Warning: some files contain invalid XML characters
+ * - CR93H87
+ * - CR93H100
  */
 
-public class FT {
+public class CR {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FT.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CR.class);
     private static String DEFAULT_URL = "http://document/%s";
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-
-    private static Pattern TITLE_PATTERN = Pattern.compile("FT [A-Za-z0-9- ]+ / (\\([^\\(\\)]*\\))?(.*)");
 
     public static void main(String[] args) {
 
@@ -41,8 +41,8 @@ public class FT {
 
             final CommandLine cmd = CommandLine
                     .parser()
-                    .withName("ft-extractor")
-                    .withHeader("Extract FT documents from TREC dataset and save them in NAF format")
+                    .withName("cr-extractor")
+                    .withHeader("Extract CR documents from TREC dataset and save them in NAF format")
                     .withOption("i", "input", "Input folder", "FOLDER", CommandLine.Type.DIRECTORY_EXISTING, true,
                             false, true)
                     .withOption("o", "output", "Output folder", "FOLDER", CommandLine.Type.DIRECTORY, true, false, true)
@@ -65,6 +65,9 @@ public class FT {
 
             for (final File file : Files.fileTreeTraverser().preOrderTraversal(inputDir)) {
                 if (!file.isFile()) {
+                    continue;
+                }
+                if (file.getName().startsWith(".")) {
                     continue;
                 }
 
@@ -101,19 +104,17 @@ public class FT {
         for (Element element : JOOX.$(doc).find("DOC")) {
             Element docnoElement = JOOX.$(element).find("DOCNO").get(0);
             Element dateElement = JOOX.$(element).find("DATE").get(0);
-            Element headlineElement = JOOX.$(element).find("HEADLINE").get(0);
-            Element textElement = JOOX.$(element).find("TEXT").get(0);
+            Element headlineElement = JOOX.$(element).find("TTL").get(0);
 
             // Incrementing also in case of errors
             i++;
             File outputFile = new File(outputFilePattern + "-" + i + ".naf");
 
-            if (textElement == null) {
+            String text = JOOX.$(element).find("TEXT").content();
+            if (text == null || text.length() == 0) {
                 LOGGER.error("TEXT is null");
                 continue;
             }
-
-            String text = textElement.getTextContent().trim();
 
             String docno = "";
             if (docnoElement != null) {
@@ -138,13 +139,6 @@ public class FT {
 
             headline = headline.replace('\n', ' ');
             headline = headline.replaceAll("\\s+", " ");
-            text = text.replace('\n', ' ');
-            text = text.replaceAll("\\s+", " ");
-
-            Matcher matcher = TITLE_PATTERN.matcher(headline);
-            if (matcher.find()) {
-                headline = matcher.group(2).trim();
-            }
 
             Calendar.Builder builder = new Calendar.Builder();
             try {
@@ -156,6 +150,11 @@ public class FT {
             Calendar calendar = builder.build();
 
             text = headline + "\n\n" + text;
+
+            text = text.replaceAll("<TTL>.*</TTL>", "");
+            text = text.replaceAll("<FLD001>.*</FLD001>", "");
+            text = text.replaceAll("<FLD[0-9]{3}>.*?</FLD[0-9]{3}>", "");
+            text = text.replaceAll("</?[A-Za-z]+>", "");
 
             KAFDocument document = new KAFDocument("en", "v3");
             document.setRawText(text);

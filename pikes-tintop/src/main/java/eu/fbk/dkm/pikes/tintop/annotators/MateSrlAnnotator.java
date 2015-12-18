@@ -81,7 +81,14 @@ public class MateSrlAnnotator implements Annotator {
         if (annotation.has(CoreAnnotations.SentencesAnnotation.class)) {
             for (CoreMap stanfordSentence : annotation.get(CoreAnnotations.SentencesAnnotation.class)) {
 
-                Sentence sentence = createMateSentence(stanfordSentence);
+                Sentence sentence;
+                try {
+                    sentence = createMateSentence(stanfordSentence);
+                } catch (Exception e) {
+                    // NullPointerException
+                    continue;
+                }
+
                 labeler.parseSentence(sentence);
 
                 for (Word word : sentence) {

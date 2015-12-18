@@ -958,7 +958,7 @@ public class AnnotationPipeline {
                         .withOpinionLinking(false, false).build()
                         .filter(NAFdocument);
             } catch (Exception e) {
-                logger.error(e.getMessage());
+                logger.error("Error applying NAF filter");
             }
             linguisticProcessor.setEndTimestamp();
             NAFdocument.addLinguisticProcessor(linguisticProcessor.getLayer(), linguisticProcessor);
@@ -989,7 +989,7 @@ public class AnnotationPipeline {
         try {
             logger.info("Document: " + NAFdocument.getFileDesc().filename);
             logger.info("Title: " + NAFdocument.getFileDesc().title);
-            logger.debug("Text: " + NAFdocument.getRawText());
+//            logger.debug("Text: " + NAFdocument.getRawText());
         } catch (Exception e) {
             logger.error(e.getMessage());
         }

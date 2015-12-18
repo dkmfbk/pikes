@@ -372,17 +372,17 @@ public final class RDFGenerator {
                                                     | RDFHandlers.METHOD_END_RDF
                                                     | RDFHandlers.METHOD_CLOSE), 1);
                                     if (Runner.this.intermediate) {
-                                        final String uri = document.getPublic().uri;
-                                        final String name;
-                                        final int num = Integer.parseInt(new URIImpl(uri)
-                                                .getLocalName());
-                                        if (uri.contains("query")) {
-                                            name = "q" + String.format("%02d", num);
-                                        } else {
-                                            name = "d" + String.format("%03d", num);
-                                        }
+//                                        final String uri = document.getPublic().uri;
+//                                        final String name;
+//                                        final int num = Integer.parseInt(new URIImpl(uri)
+//                                                .getLocalName());
+//                                        if (uri.contains("query")) {
+//                                            name = "q" + String.format("%02d", num);
+//                                        } else {
+//                                            name = "d" + String.format("%03d", num);
+//                                        }
                                         final File intermediateFile = new File(
-                                                Runner.this.outputFile.getParentFile(), name
+                                                Runner.this.outputFile.getParentFile(), "wes2015." + docName
                                                         + ".tql.gz");
                                         source.emit(
                                                 RDFHandlers.write(null, 1,

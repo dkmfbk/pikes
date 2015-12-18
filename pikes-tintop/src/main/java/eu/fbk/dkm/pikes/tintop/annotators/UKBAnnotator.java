@@ -8,6 +8,7 @@ import edu.stanford.nlp.util.ArraySet;
 import edu.stanford.nlp.util.CoreMap;
 import eu.fbk.dkm.pikes.tintop.annotators.models.UKBModel;
 import eu.fbk.dkm.pikes.tintop.annotators.raw.UKB;
+import eu.fbk.dkm.pikes.tintop.annotators.raw.UKB_MT;
 
 import java.io.IOException;
 import java.util.*;
@@ -18,7 +19,7 @@ import java.util.*;
 
 public class UKBAnnotator implements Annotator {
 
-	private UKB tagger;
+	private UKB_MT tagger;
 
 	public UKBAnnotator(String annotatorName, Properties props) {
 		Properties newProps = AnnotatorUtils.stanfordConvertedProperties(props, annotatorName);

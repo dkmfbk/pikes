@@ -5,14 +5,13 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import eu.fbk.dkm.utils.CommandLine;
 import eu.fbk.dkm.utils.FrequencyHashSet;
 import eu.fbk.rdfpro.util.IO;
+import ixa.kaflib.KAFDocument;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.jdom2.JDOMException;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.Writer;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -28,14 +27,20 @@ import java.util.concurrent.TimeUnit;
 public class TintopOrchestrator {
 
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(TintopOrchestrator.class);
+    static final private int DEFAULT_MAX_ERR_ON_FILE = 5;
+    static final private int DEFAULT_MAX_SIZE = 50000;
 
     private ArrayList<TintopServer> servers;
     private boolean fake;
     private String fileCache = null;
     public static String[] DEFAULT_EXTENSIONS = new String[] { "xml", "naf" };
 
-    private int MAX_ERR_ON_FILE = 5;
+    private int skipped = 0;
+
     private FrequencyHashSet<String> fileOnError = new FrequencyHashSet<>();
+
+    private int maxErrOnFile = DEFAULT_MAX_ERR_ON_FILE;
+    private int maxSize = DEFAULT_MAX_SIZE;
 
     public class RunnableTintopClient extends TintopClient implements Runnable {
 
@@ -92,7 +97,7 @@ public class TintopOrchestrator {
                     }
 
                 } catch (final Throwable ex) {
-                    logger.error(ex.getMessage());
+                    logger.error(filename + " --- " + ex.getMessage());
                     markFileAsNotDone(filename);
 
                     try {
@@ -112,6 +117,22 @@ public class TintopOrchestrator {
         this.fake = fake;
     }
 
+    public int getMaxErrOnFile() {
+        return maxErrOnFile;
+    }
+
+    public void setMaxErrOnFile(int maxErrOnFile) {
+        this.maxErrOnFile = maxErrOnFile;
+    }
+
+    public int getMaxSize() {
+        return maxSize;
+    }
+
+    public void setMaxSize(int maxSize) {
+        this.maxSize = maxSize;
+    }
+
     private File getOutputFile(File inputFile, TintopSession session) {
         String outputFile = session.getOutput().getAbsolutePath() + inputFile.getAbsolutePath()
                 .substring(session.getInput().getAbsolutePath().length());
@@ -120,11 +141,11 @@ public class TintopOrchestrator {
 
     synchronized public void markFileAsNotDone(String filename) {
         fileOnError.add(filename);
-        if (fileOnError.get(filename) <= MAX_ERR_ON_FILE) {
+        if (fileOnError.get(filename) <= maxErrOnFile) {
             fileCache = filename;
 
         } else {
-            logger.warn(String.format("File %s skipped, more than %d errors", filename, MAX_ERR_ON_FILE));
+            logger.warn(String.format("File %s skipped, more than %d errors", filename, DEFAULT_MAX_ERR_ON_FILE));
         }
     }
 
@@ -149,13 +170,43 @@ public class TintopOrchestrator {
             logger.debug("Output file: " + outputFile);
 
             if (outputFile.exists()) {
-                logger.debug("File exists: " + file);
+                logger.debug("Skipping file (it exists): " + file);
                 continue fIter;
             }
 
             for (String p : session.getSkipPatterns()) {
                 if (file.toString().contains(p)) {
-                    logger.debug("Skipping file: " + file);
+                    logger.debug("Skipping file (skip pattern): " + file);
+                    continue fIter;
+                }
+            }
+
+            if (maxSize > 0 && file.length() > maxSize) {
+                logger.debug("Skipping file (too big): " + file);
+                skipped++;
+                continue fIter;
+            }
+
+            // File is empty
+            if (file.length() < 1000) {
+                try {
+                    KAFDocument document = KAFDocument.createFromFile(file);
+                    if (document.getRawText() == null || document.getRawText().trim().length() == 0) {
+                        logger.info("File is empty: " + file);
+                        logger.info("Writing empty file " + outputFile);
+                        Files.createParentDirs(outputFile);
+                        try (Writer w = IO.utf8Writer(IO.buffer(IO.write(outputFile.getAbsolutePath())))) {
+                            w.write(document.toString());
+                        }
+                        continue fIter;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    skipped++;
+                    continue fIter;
+                } catch (JDOMException e) {
+                    e.printStackTrace();
+                    skipped++;
                     continue fIter;
                 }
             }
@@ -233,6 +284,12 @@ public class TintopOrchestrator {
                             eu.fbk.dkm.utils.CommandLine.Type.FILE_EXISTING, true, false, true)
                     .withOption("s", "skip", "Text file with list of file patterns to skip (one per line)", "FILE",
                             eu.fbk.dkm.utils.CommandLine.Type.FILE_EXISTING, true, false, false)
+                    .withOption("m", "max-fail",
+                            String.format("Max fails on a single file to skip (default %d)", DEFAULT_MAX_ERR_ON_FILE),
+                            "INT", CommandLine.Type.INTEGER, true, false, false)
+                    .withOption("z", "max-size",
+                            String.format("Max size of a NAF empty file (default %d)", DEFAULT_MAX_SIZE),
+                            "INT", CommandLine.Type.INTEGER, true, false, false)
                     .withOption("F", "fake", "Fake execution")
                     .withLogger(LoggerFactory.getLogger("eu.fbk")).parse(args);
 
@@ -240,6 +297,9 @@ public class TintopOrchestrator {
             File output = cmd.getOptionValue("output", File.class);
             File serverList = cmd.getOptionValue("list", File.class);
             File skip = cmd.getOptionValue("skip", File.class);
+
+            Integer maxFail = cmd.getOptionValue("max-fail", Integer.class, DEFAULT_MAX_ERR_ON_FILE);
+            Integer maxSize = cmd.getOptionValue("max-size", Integer.class, DEFAULT_MAX_SIZE);
 
             boolean fake = cmd.hasOption("fake");
 
@@ -286,9 +346,13 @@ public class TintopOrchestrator {
             Iterator<File> fileIterator = FileUtils.iterateFiles(input, extensions, true);
 
             TintopOrchestrator orchestrator = new TintopOrchestrator(tintopServers, fake);
+            orchestrator.setMaxErrOnFile(maxFail);
+            orchestrator.setMaxSize(maxSize);
 
             TintopSession session = new TintopSession(input, output, fileIterator, skipPatterns);
             orchestrator.run(session);
+
+            logger.info("Skipped: {}", orchestrator.skipped);
 
         } catch (Exception e) {
             CommandLine.fail(e);

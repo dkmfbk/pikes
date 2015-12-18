@@ -5,10 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -66,35 +66,45 @@ public class MstParser {
         HashMap<Integer, String> depLabels = new HashMap<>();
 
         try {
-            modifiedSentence = inFromServer.readLine();
+            while ((modifiedSentence = inFromServer.readLine()) != null) {
 
-            String[] parts = modifiedSentence.split("\\s+");
-
-//        ArrayList<HashMap<String, String>> res = new ArrayList<>();
-            int i = 0;
-            int id = 0;
-            while (i < parts.length) {
-
-                int unit = i % 10;
-                int dec = (i - unit) / 10;
-
-                if (unit == 0) {
-                    id = Integer.parseInt(parts[i]);
+                modifiedSentence = modifiedSentence.trim();
+                if (modifiedSentence.length() == 0) {
+                    continue;
                 }
 
-                if (unit == 6) {
-                    depParents.put(id, Integer.parseInt(parts[i]));
+                String[] parts = modifiedSentence.split("\\s+");
+
+                if (parts.length >= 8) {
+                    int id = Integer.parseInt(parts[0]);
+                    depParents.put(id, Integer.parseInt(parts[6]));
+                    depLabels.put(id, parts[7]);
                 }
-                if (unit == 7) {
-                    depLabels.put(id, parts[i]);
-                }
-                i++;
+
+//                int i = 0;
+//                int id = 0;
+//                while (i < parts.length) {
+//
+//                    int unit = i % 10;
+//                    int dec = (i - unit) / 10;
+//
+//                    if (unit == 0) {
+//                        id = Integer.parseInt(parts[i]);
+//                    }
+//
+//                    if (unit == 6) {
+//                        depParents.put(id, Integer.parseInt(parts[i]));
+//                    }
+//                    if (unit == 7) {
+//                        depLabels.put(id, parts[i]);
+//                    }
+//                    i++;
+//                }
             }
-
         } catch (Exception e) {
             LOGGER.error("Error in text: {}", text);
-        }
-        finally {
+            e.printStackTrace();
+        } finally {
             clientSocket.close();
         }
 
@@ -112,7 +122,7 @@ public class MstParser {
 
     public static void main(String[] args) {
 
-        MstParser mstParser = new MstParser("dkm-server-1.fbk.eu", 6201);
+        MstParser mstParser = new MstParser("localhost", 8012);
         try {
             String text = "Andrija_NNP Mohorovičić_NNP and_CC the_DT Mohorovičić_NNP Discontinuity_NNP ._.";
             System.out.println(text);

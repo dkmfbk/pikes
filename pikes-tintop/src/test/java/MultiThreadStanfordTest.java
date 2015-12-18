@@ -22,7 +22,8 @@ public class MultiThreadStanfordTest {
     //    private static String annotators = "tokenize, ssplit, pos, lemma, ner, conll_parse, mate, parse, dcoref";
     //    private static String annotators = "tokenize, ssplit, pos, lemma, mst_parse, semafor";
     private static String annotators = "tokenize, ssplit, pos, lemma, ner_custom, parse, dcoref";
-    private static File nafFolder = new File("/Users/alessio/Desktop/elastic/naf/");
+//    private static String annotators = "tokenize";
+    private static File nafFolder = new File("/Users/alessio/Desktop/elastic/naf-stronzi/");
     private static Properties props = new Properties();
     static StanfordCoreNLP loadPipeline;
 
