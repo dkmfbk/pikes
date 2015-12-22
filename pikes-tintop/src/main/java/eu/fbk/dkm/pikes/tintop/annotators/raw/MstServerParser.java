@@ -8,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,13 +19,13 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 
-public class MstParser {
+public class MstServerParser {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MstParser.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MstServerParser.class);
     private int port;
     private String server;
 
-    public MstParser(String server, int port) {
+    public MstServerParser(String server, int port) {
         this.port = port;
         this.server = server;
     }
@@ -80,26 +79,6 @@ public class MstParser {
                     depParents.put(id, Integer.parseInt(parts[6]));
                     depLabels.put(id, parts[7]);
                 }
-
-//                int i = 0;
-//                int id = 0;
-//                while (i < parts.length) {
-//
-//                    int unit = i % 10;
-//                    int dec = (i - unit) / 10;
-//
-//                    if (unit == 0) {
-//                        id = Integer.parseInt(parts[i]);
-//                    }
-//
-//                    if (unit == 6) {
-//                        depParents.put(id, Integer.parseInt(parts[i]));
-//                    }
-//                    if (unit == 7) {
-//                        depLabels.put(id, parts[i]);
-//                    }
-//                    i++;
-//                }
             }
         } catch (Exception e) {
             LOGGER.error("Error in text: {}", text);
@@ -109,20 +88,11 @@ public class MstParser {
         }
 
         return new DepParseInfo(depParents, depLabels);
-
-//        System.out.println(Arrays.toString(parts));
-//        System.out.println(depLabels);
-//        System.out.println(depParents);
-
-//        SemaforResponse response = mapper.readValue(modifiedSentence, SemaforResponse.class);
-
-//        return null;
-
     }
 
     public static void main(String[] args) {
 
-        MstParser mstParser = new MstParser("localhost", 8012);
+        MstServerParser mstParser = new MstServerParser("localhost", 8012);
         try {
             String text = "Andrija_NNP Mohorovičić_NNP and_CC the_DT Mohorovičić_NNP Discontinuity_NNP ._.";
             System.out.println(text);

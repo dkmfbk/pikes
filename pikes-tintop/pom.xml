@@ -24,37 +24,6 @@
 
     <dependencies>
 
-        <!-- TEST -->
-        <dependency>
-            <groupId>HTMLdownload</groupId>
-            <artifactId>HTMLdownload</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jodd</groupId>
-            <artifactId>jodd-lagarto</artifactId>
-            <version>3.4.7</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-core</artifactId>
-            <version>2.9.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jsoup</groupId>
-            <artifactId>jsoup</artifactId>
-            <version>1.7.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>eu.fbk.dkm.mstparser</groupId>
-            <artifactId>mstparser</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
         <!-- PRODUCTION -->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -72,8 +41,8 @@
         <dependency>
             <groupId>edu.stanford.nlp</groupId>
             <artifactId>stanford-corenlp</artifactId>
-            <version>3.5.2-FBK</version>
-            <!--<version>3.5.2</version>-->
+            <!--<version>3.5.2-FBK</version>-->
+            <version>3.5.2</version>
         </dependency>
         <dependency>
             <groupId>edu.stanford.nlp</groupId>

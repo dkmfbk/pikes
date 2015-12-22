@@ -4,12 +4,8 @@ import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.Annotator;
-import edu.stanford.nlp.util.ArraySet;
 import edu.stanford.nlp.util.CoreMap;
-import eu.fbk.dkm.pikes.tintop.annotators.raw.AnnotatedEntity;
-import eu.fbk.dkm.pikes.tintop.annotators.raw.DBpediaSpotlight;
-import eu.fbk.dkm.pikes.tintop.annotators.raw.DBpediaSpotlightTag;
-import eu.fbk.dkm.pikes.tintop.annotators.raw.MstParser;
+import eu.fbk.dkm.pikes.tintop.annotators.raw.MstServerParser;
 
 import java.util.*;
 
@@ -17,18 +13,18 @@ import java.util.*;
  * Created by alessio on 06/05/15.
  */
 
-public class MstParserAnnotator implements Annotator {
+public class MstServerParserAnnotator implements Annotator {
 
-	MstParser parser;
+	MstServerParser parser;
 	int maxLen = -1;
 
-	public MstParserAnnotator(String annotatorName, Properties props) {
+	public MstServerParserAnnotator(String annotatorName, Properties props) {
 		String server = props.getProperty(annotatorName + ".server");
 		Integer port = Integer.parseInt(props.getProperty(annotatorName + ".port"));
 		if (props.containsKey(annotatorName + ".maxlen")) {
 			maxLen = Integer.parseInt(props.getProperty(annotatorName + ".maxlen"));
 		}
-		parser = new MstParser(server, port);
+		parser = new MstServerParser(server, port);
 	}
 
 	@Override
@@ -52,11 +48,6 @@ public class MstParserAnnotator implements Annotator {
 				try {
 					DepParseInfo depParseInfo = parser.tag(forms, poss);
 					sentence.set(PikesAnnotations.MstParserAnnotation.class, depParseInfo);
-
-//					for (int i = 0; i < tokens.size(); i++) {
-//						int head = depParseInfo.getDepParents().get(i + 1);
-//						String parseLabel = depParseInfo.getDepLabels().get(i + 1);
-//					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
