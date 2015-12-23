@@ -913,7 +913,7 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         for (final Predicate predicate : ImmutableList.copyOf(document.getPredicates())) {
             if (NAFUtils.extractHead(document, predicate.getSpan()) == null) {
                 document.removeAnnotation(predicate);
-                LOGGER.warn("Removed {} without valid head term", predicate);
+                LOGGER.debug("Removed {} without valid head term", predicate);
             }
         }
 
@@ -1200,7 +1200,7 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                     }
                     if (!valid) {
                         predicate.removeRole(role);
-                        LOGGER.warn("Removed " + NAFUtils.toString(role) + " for "
+                        LOGGER.debug("Removed " + NAFUtils.toString(role) + " for "
                                 + NAFUtils.toString(predicate) + " (mandatory " + mandatoryArgs
                                 + ", optional " + optionalArgs + ")");
                     }

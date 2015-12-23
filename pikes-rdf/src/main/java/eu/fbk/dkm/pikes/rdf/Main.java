@@ -57,7 +57,7 @@ public final class Main {
         showHelp |= index == args.length;
 
         try {
-            for (final String name : new String[] { "eu.fbk", "org.openrdf" }) {
+            for (final String name : new String[] { "eu.fbk.dkm", "org.openrdf" }) {
                 final Logger logger = LoggerFactory.getLogger(name);
                 final Class<?> levelClass = Class.forName("ch.qos.logback.classic.Level");
                 final Class<?> loggerClass = Class.forName("ch.qos.logback.classic.Logger");
