@@ -50,7 +50,7 @@ class ReadWriteManager {
             out.flush();
             out.close();
         } catch (Exception e) {
-            System.out.println("Error writing to file");
+            System.err.println(String.format("Error in writing file %s: %s", filename, e.getMessage()));
         }
     }
 
