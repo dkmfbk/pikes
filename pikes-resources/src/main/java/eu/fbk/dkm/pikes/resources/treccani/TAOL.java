@@ -33,7 +33,7 @@ public class TAOL {
                             CommandLine.Type.DIRECTORY_EXISTING, true, false, true)
                     .withOption("o", "output", "Output folder", "FOLDER",
                             CommandLine.Type.DIRECTORY, true, false, true)
-                    .withOption("p", "prefix", String.format("Prefix (default $s)", DEFAULT_PREFIX), "PREFIX",
+                    .withOption("p", "prefix", String.format("Prefix (default %s)", DEFAULT_PREFIX), "PREFIX",
                             CommandLine.Type.STRING, true, false, false)
                     .withLogger(LoggerFactory.getLogger("eu.fbk")).parse(args);
 
