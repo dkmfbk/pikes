@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.AbstractSet;
@@ -76,6 +77,10 @@ public final class Corpus implements Iterable<KAFDocument>, Serializable {
         final List<Path> files = Util.fileMatch(paths, ImmutableList.of(".naf", ".naf.gz",
                 ".naf.bz2", ".naf.xz", ".xml", ".xml.gz", ".xml.bz2", ".xml.xz"), recursive);
 
+        for (int i = 0; i < files.size(); ++i) {
+            files.set(i, files.get(i).toAbsolutePath().normalize());
+        }
+
         if (files.isEmpty()) {
             return EMPTY;
         } else {
@@ -94,7 +99,11 @@ public final class Corpus implements Iterable<KAFDocument>, Serializable {
             for (final Path file : this.files) {
                 prefix = Strings.commonPrefix(prefix, file.toString());
             }
-            this.path = Paths.get(prefix);
+            Path path = Paths.get(prefix);
+            if (!Files.exists(path) || !Files.isDirectory(path)) {
+                path = path.getParent();
+            }
+            this.path = path.toAbsolutePath().normalize();
         }
         return this.path;
     }
@@ -144,7 +153,7 @@ public final class Corpus implements Iterable<KAFDocument>, Serializable {
             if (index < 0 || index >= this.files.length) {
                 throw new IllegalArgumentException("No file in this corpus for " + key);
             }
-            final Path file = this.files[index];
+            final Path file = this.files[index].toAbsolutePath();
 
             KAFDocument document = null;
             try (InputStream stream = IO.read(file.toString())) {

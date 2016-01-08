@@ -99,6 +99,7 @@ import eu.fbk.rdfpro.RDFSources;
 import eu.fbk.rdfpro.util.Environment;
 import eu.fbk.rdfpro.util.Hash;
 import eu.fbk.rdfpro.util.Options;
+import eu.fbk.rdfpro.util.QuadModel;
 import eu.fbk.rdfpro.util.Statements;
 import eu.fbk.rdfpro.util.Tracker;
 
@@ -301,7 +302,7 @@ public final class RDFGenerator {
                 final boolean split) {
             this.corpus = corpus;
             this.generator = generator;
-            this.outputFile = outputFile;
+            this.outputFile = outputFile.getAbsoluteFile();
             this.intermediate = split;
         }
 
@@ -330,60 +331,88 @@ public final class RDFGenerator {
                     .withSRLPreprocess(true, true, true).build();
 
             final RDFHandler writer;
-            try {
-                Files.createParentDirs(this.outputFile);
-                writer = RDFHandlers.write(null, 1, Runner.this.outputFile.getAbsolutePath());
-                writer.startRDF();
-            } catch (final Throwable ex) {
-                throw new RuntimeException(ex);
+            if (!this.intermediate) {
+                try {
+                    Files.createParentDirs(this.outputFile);
+                    writer = RDFHandlers.write(null, 1, Runner.this.outputFile.getAbsolutePath());
+                    writer.startRDF();
+                } catch (final Throwable ex) {
+                    throw new RuntimeException(ex);
+                }
+            } else {
+                writer = null;
             }
 
             final Tracker tracker = new Tracker(LOGGER, null, //
                     "Processed %d NAF files (%d NAF/s avg)", //
                     "Processed %d NAF files (%d NAF/s, %d NAF/s avg)");
 
-            final int numThreads = 1; // Environment.getCores()
+            final int numThreads = Environment.getCores();
             final CountDownLatch latch = new CountDownLatch(numThreads);
             final AtomicInteger counter = new AtomicInteger(0);
             final AtomicInteger succeeded = new AtomicInteger(0);
             tracker.start();
-            for (int i = 0; i < numThreads; ++i) { // Environment.getCores(); ++i) {
+            for (int i = 0; i < numThreads; ++i) {
                 Environment.getPool().submit(new Runnable() {
 
                     @Override
                     public void run() {
                         try {
+                            final Path outBase = Runner.this.outputFile.toPath().getParent()
+                                    .toAbsolutePath().normalize();
                             while (true) {
                                 final int i = counter.getAndIncrement();
                                 if (i >= Runner.this.corpus.size()) {
                                     break;
                                 }
                                 String docName = null;
+
+                                final Path path = Runner.this.corpus.file(i);
+
+                                Path output = null;
+                                if (Runner.this.intermediate) {
+                                    try {
+                                        final Path base = Runner.this.corpus.path();
+                                        final Path relative = base.toAbsolutePath().relativize(
+                                                path.toAbsolutePath());
+                                        String name = relative.toString();
+                                        final int index = name.indexOf(".naf");
+                                        name = name.substring(0, index) + ".tql.gz";
+                                        output = outBase.resolve(name);
+                                        if (java.nio.file.Files.exists(output)) {
+                                            LOGGER.info("Skipping {}", path);
+                                            succeeded.incrementAndGet();
+                                            tracker.increment();
+                                            continue;
+                                        }
+                                    } catch (final Throwable ex) {
+                                        LOGGER.error("Could not compute output file name", ex);
+                                    }
+                                }
+
+                                LOGGER.info("Processing {}", path);
+
                                 try {
-                                    final Path path = Runner.this.corpus.file(i);
                                     final KAFDocument document = Runner.this.corpus.get(i);
                                     docName = document.getPublic().publicId;
                                     MDC.put("context", docName);
                                     filter.filter(document);
                                     final RDFSource source = RDFSources.wrap(Runner.this.generator
                                             .generate(document, null));
-                                    Files.createParentDirs(Runner.this.outputFile);
-                                    source.emit(RDFHandlers.ignoreMethods(writer,
-                                            RDFHandlers.METHOD_START_RDF
-                                                    | RDFHandlers.METHOD_END_RDF
-                                                    | RDFHandlers.METHOD_CLOSE), 1);
-                                    if (Runner.this.intermediate) {
-                                        String name = path.getFileName().toString();
-                                        int index = name.indexOf(".naf");
-                                        name = name.substring(0, index);
-                                        final File intermediateFile = new File(
-                                                Runner.this.outputFile.getParentFile(), "wes2015." + docName
-                                                        + ".tql.gz");
-                                        source.emit(
-                                                RDFHandlers.write(null, 1,
-                                                        intermediateFile.getAbsolutePath()), 1);
+
+                                    if (!Runner.this.intermediate) {
+                                        source.emit(RDFHandlers.ignoreMethods(writer,
+                                                RDFHandlers.METHOD_START_RDF
+                                                        | RDFHandlers.METHOD_END_RDF
+                                                        | RDFHandlers.METHOD_CLOSE), 1);
+                                    } else {
+                                        java.nio.file.Files.createDirectories(output.getParent());
+                                        source.emit(RDFHandlers.write(null, 1, output
+                                                .toAbsolutePath().toString()), 1);
                                     }
+
                                     succeeded.incrementAndGet();
+
                                 } catch (final Throwable ex) {
                                     LOGGER.error("Processing failed for " + docName, ex);
                                 } finally {
@@ -400,7 +429,9 @@ public final class RDFGenerator {
             }
             try {
                 latch.await();
-                writer.endRDF();
+                if (!this.intermediate) {
+                    writer.endRDF();
+                }
             } catch (final InterruptedException ex) {
                 Thread.currentThread().interrupt();
             } catch (final RDFHandlerException ex) {
@@ -418,7 +449,7 @@ public final class RDFGenerator {
 
         private final RDFHandler handler;
 
-        private final Set<Statement> statements;
+        private final QuadModel statements;
 
         private final BiMap<String, String> mintedURIs;
 
@@ -437,7 +468,7 @@ public final class RDFGenerator {
 
             this.baseURI = baseURI;
             this.handler = handler;
-            this.statements = Sets.newHashSet();
+            this.statements = QuadModel.create();
             this.mintedURIs = HashBiMap.create();
             this.document = document;
             this.documentURI = FACTORY.createURI(Util.cleanIRI(document.getPublic().uri));
@@ -799,7 +830,7 @@ public final class RDFGenerator {
                         timexURI = interval.toRDF(this.handler,
                                 RDFGenerator.this.owltimeNamespace, null);
                     } else {
-                        LOGGER.warn("Could not represent date/time value '" + timex.getValue()
+                        LOGGER.debug("Could not represent date/time value '" + timex.getValue()
                                 + "' of " + NAFUtils.toString(timex));
                     }
                 } else if (type.equals("duration")) {
@@ -813,7 +844,7 @@ public final class RDFGenerator {
                         emitFact(timexURI, OWLTIME.HAS_DURATION_DESCRIPTION, durationURI,
                                 mentionURI, null);
                     } else {
-                        LOGGER.warn("Could not represent duration value '" + timex.getValue()
+                        LOGGER.debug("Could not represent duration value '" + timex.getValue()
                                 + "' of " + NAFUtils.toString(timex));
                     }
                 } else {
@@ -1527,7 +1558,7 @@ public final class RDFGenerator {
                                 Double.parseDouble(s.substring(index)), mention, null);
                     }
                 } catch (final NumberFormatException ex) {
-                    LOGGER.warn("Could not process normalized value: " + valueRef.getReference());
+                    LOGGER.debug("Could not process normalized value: " + valueRef.getReference());
                 }
             }
         }

@@ -1,0 +1,29 @@
+<configuration>
+
+    <appender
+        name="STDOUT"
+        class="ch.qos.logback.core.ConsoleAppender">
+        <withJansi>true</withJansi>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>TRACE</level>
+        </filter>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{HH:mm:ss.SSS}\(%.-1level\) %msg %n%rEx{full}</pattern>
+        </encoder>
+    </appender>
+
+    <root level="WARN">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+    <logger
+        name="eu.fbk.dkm.pikes.rdf.RDFGenerator"
+        level="INFO" />
+
+    <logger
+        name="status"
+        additivity="false"
+        level="INFO">
+    </logger>
+
+</configuration>
