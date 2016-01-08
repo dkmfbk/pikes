@@ -5,6 +5,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -32,7 +33,10 @@ public class TintopClient {
 
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(TintopClient.class);
 
+    static public Integer DEFAULT_TIMEOUT = 60000;
+
     protected TintopServer server;
+    private Integer timeout;
     private boolean fake = false;
 
     public void setFake(boolean fake) {
@@ -45,11 +49,23 @@ public class TintopClient {
     }
 
     public TintopClient(TintopServer server) {
+        this(server, DEFAULT_TIMEOUT);
+    }
+
+    public TintopClient(TintopServer server, Integer timeout) {
         this.server = server;
+        this.timeout = timeout;
     }
 
     public String call(String text) throws URISyntaxException, IOException {
-        CloseableHttpClient httpclient = HttpClients.createDefault();
+
+        RequestConfig defaultRequestConfig = RequestConfig.custom()
+                .setSocketTimeout(timeout)
+                .setConnectTimeout(timeout)
+                .setConnectionRequestTimeout(timeout)
+                .build();
+
+        CloseableHttpClient httpclient = HttpClients.custom().setDefaultRequestConfig(defaultRequestConfig).build();
         URI uri = new URIBuilder()
                 .setScheme(server.getProtocol())
                 .setHost(server.getHost())
@@ -63,11 +79,7 @@ public class TintopClient {
 
             List<NameValuePair> nameValuePairs = new ArrayList<>(1);
             nameValuePairs.add(new BasicNameValuePair("naf", text));
-            logger.debug(nameValuePairs.toString());
-//			StringEntity se = new StringEntity(text, ContentType.APPLICATION_XML);
-//			httpPost.setEntity(se);
             UrlEncodedFormEntity form = new UrlEncodedFormEntity(nameValuePairs, "UTF-8");
-//			form.setContentEncoding(HTTP.UTF_8);
             httpPost.setEntity(form);
 
             try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
@@ -103,14 +115,17 @@ public class TintopClient {
                             CommandLine.Type.FILE_EXISTING, true, false, true)
                     .withOption("s", "server", "Server address", "URL:PORT",
                             CommandLine.Type.STRING, true, false, true)
+                    .withOption("t", "timeout", String.format("Timeout (default %d ms)", DEFAULT_TIMEOUT),
+                            "milliseconds", CommandLine.Type.INTEGER, true, false, false)
                     .withLogger(LoggerFactory.getLogger("eu.fbk")).parse(args);
 
             String serverUrl = cmd.getOptionValue("server", String.class);
             File inputFile = cmd.getOptionValue("input", File.class);
+            Integer timeout = cmd.getOptionValue("timeout", Integer.class, DEFAULT_TIMEOUT);
 
             URL url = new URL(serverUrl);
             TintopServer server = new TintopServer(url);
-            TintopClient client = new TintopClient(server);
+            TintopClient client = new TintopClient(server, timeout);
 
             String whole = FileUtils.readFileToString(inputFile);
             System.out.println(client.call(whole));

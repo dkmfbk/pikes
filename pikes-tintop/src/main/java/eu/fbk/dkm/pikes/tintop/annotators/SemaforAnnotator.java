@@ -21,9 +21,13 @@ import java.util.*;
 public class SemaforAnnotator implements Annotator {
 
     private Semafor parser;
+    int maxLen = -1;
 
     public SemaforAnnotator(String annotatorName, Properties props) {
         String semaforModelDir = props.getProperty(annotatorName + ".model_dir");
+        if (props.containsKey(annotatorName + ".maxlen")) {
+            maxLen = Integer.parseInt(props.getProperty(annotatorName + ".maxlen"));
+        }
         parser = SemaforModel.getInstance(semaforModelDir).getParser();
     }
 
@@ -33,16 +37,20 @@ public class SemaforAnnotator implements Annotator {
         if (annotation.has(CoreAnnotations.SentencesAnnotation.class)) {
             for (CoreMap stanfordSentence : annotation.get(CoreAnnotations.SentencesAnnotation.class)) {
 
+                List<CoreLabel> tokens = stanfordSentence.get(CoreAnnotations.TokensAnnotation.class);
+                if (maxLen > 0 && tokens.size() > maxLen) {
+                    continue;
+                }
+
                 List<Token> sentenceTokens = new ArrayList<>();
 
-                List<CoreLabel> get = stanfordSentence.get(CoreAnnotations.TokensAnnotation.class);
                 DepParseInfo depParseInfo = stanfordSentence.get(PikesAnnotations.MstParserAnnotation.class);
                 if (depParseInfo == null) {
                     continue;
                 }
 
-                for (int i = 0; i < get.size(); i++) {
-                    CoreLabel token = get.get(i);
+                for (int i = 0; i < tokens.size(); i++) {
+                    CoreLabel token = tokens.get(i);
                     String form = token.get(CoreAnnotations.TextAnnotation.class);
                     String pos = token.get(CoreAnnotations.PartOfSpeechAnnotation.class);
                     String lemma = token.get(CoreAnnotations.LemmaAnnotation.class);

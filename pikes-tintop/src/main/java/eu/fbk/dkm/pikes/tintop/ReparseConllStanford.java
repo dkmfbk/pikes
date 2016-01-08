@@ -1,17 +1,23 @@
 package eu.fbk.dkm.pikes.tintop;
 
+import ch.qos.logback.classic.Level;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.semgraph.SemanticGraph;
-import edu.stanford.nlp.semgraph.SemanticGraphCoreAnnotations;
+import edu.stanford.nlp.semgraph.SemanticGraphFactory;
+import edu.stanford.nlp.trees.*;
 import edu.stanford.nlp.util.CoreMap;
+import edu.stanford.nlp.util.Filters;
 import eu.fbk.dkm.pikes.resources.util.corpus.Corpus;
 import eu.fbk.dkm.pikes.resources.util.corpus.Sentence;
 import eu.fbk.dkm.pikes.resources.util.corpus.Word;
 import eu.fbk.dkm.pikes.tintop.annotators.DepParseInfo;
+import eu.fbk.dkm.pikes.tintop.util.RemoveLoopsInConll;
+import eu.fbk.dkm.utils.CommandLine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import scala.actors.threadpool.AtomicInteger;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -29,10 +35,25 @@ public class ReparseConllStanford {
 
     public static void main(String[] args) {
 
-        File inputFile = new File(args[0]);
-        File outputFile = new File(args[1]);
-
         try {
+            final eu.fbk.dkm.utils.CommandLine cmd = eu.fbk.dkm.utils.CommandLine
+                    .parser()
+                    .withName("./reparse-conll")
+                    .withHeader(
+                            "Parse a document in CoNLL format with Stanford Parser, then save it in CoNLL format again")
+                    .withOption("i", "input", "Input file", "FILE",
+                            CommandLine.Type.FILE_EXISTING, true, false, true)
+                    .withOption("o", "output", "Output file", "FILE",
+                            CommandLine.Type.FILE, true, false, true)
+                    .withOption("k", "keep-loops", "Keep loops (by default they will be removed)")
+                    .withLogger(LoggerFactory.getLogger("eu.fbk")).parse(args);
+            ((ch.qos.logback.classic.Logger) LoggerFactory.getLogger("edu.stanford")).setLevel(Level.ERROR);
+
+            File inputFile = cmd.getOptionValue("input", File.class);
+            File outputFile = cmd.getOptionValue("output", File.class);
+
+            boolean keepLoops = cmd.hasOption("keep-loops");
+
             BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
 
             Properties stanfordProps = new Properties();
@@ -41,11 +62,12 @@ public class ReparseConllStanford {
             stanfordProps.setProperty("ssplit.eolonly", "true");
             stanfordProps.setProperty("parse.keepPunct", "true");
 
-            StanfordCoreNLP cachedPipeline = new StanfordCoreNLP(stanfordProps);
-
             Corpus conll2009 = Corpus.readDocumentFromFile(inputFile, "conll2009");
+            AtomicInteger removedSentences = new AtomicInteger(0);
+            AtomicInteger totalSentences = new AtomicInteger(0);
 
             conll2009.getSentences().parallelStream().forEach((Sentence sentence) -> {
+                totalSentences.incrementAndGet();
                 StanfordCoreNLP pipeline = new StanfordCoreNLP(stanfordProps);
 
                 StringBuilder stanfordSentenceBuilder = new StringBuilder();
@@ -61,8 +83,12 @@ public class ReparseConllStanford {
 
                 CoreMap coreMap = annotation.get(CoreAnnotations.SentencesAnnotation.class).get(0);
 
-                SemanticGraph dependencies = coreMap
-                        .get(SemanticGraphCoreAnnotations.BasicDependenciesAnnotation.class);
+                Tree tree = coreMap.get(TreeCoreAnnotations.TreeAnnotation.class);
+                GrammaticalStructure grammaticalStructure = new EnglishGrammaticalStructure(tree,
+                        Filters.acceptFilter(), new CollinsHeadFinder());
+                SemanticGraph dependencies = SemanticGraphFactory
+                        .makeFromTree(grammaticalStructure, SemanticGraphFactory.Mode.BASIC,
+                                GrammaticalStructure.Extras.NONE, true, null);
                 DepParseInfo info = new DepParseInfo(dependencies);
 
                 for (Integer id : info.getDepParents().keySet()) {
@@ -72,112 +98,32 @@ public class ReparseConllStanford {
                     sentence.getWords().get(id - 1).setDepLabel(info.getDepLabels().get(id));
                 }
 
-                synchronized (writer) {
-                    try {
-                        writer.append(sentence.toConllString());
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                boolean writeIt = true;
+                if (!keepLoops) {
+                    writeIt = RemoveLoopsInConll.sentenceIsLoopFree(sentence);
+                }
+
+                if (writeIt) {
+                    synchronized (writer) {
+                        try {
+                            writer.append(sentence.toConllString());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
+                }
+                else {
+                    removedSentences.incrementAndGet();
                 }
             });
 
-//            for (Sentence sentence : conll2009) {
-//
-//                StringBuilder stanfordSentenceBuilder = new StringBuilder();
-//
-//                for (Word word : sentence) {
-//                    stanfordSentenceBuilder.append(" ").append(word.getForm().replaceAll("\\s+", "_"));
-//                }
-//
-//                String stanfordSentence = stanfordSentenceBuilder.toString().trim();
-//
-//                Annotation annotation = new Annotation(stanfordSentence);
-//                pipeline.annotate(annotation);
-//
-//                CoreMap coreMap = annotation.get(CoreAnnotations.SentencesAnnotation.class).get(0);
-//
-//                SemanticGraph dependencies = coreMap
-//                        .get(SemanticGraphCoreAnnotations.BasicDependenciesAnnotation.class);
-//                DepParseInfo info = new DepParseInfo(dependencies);
-//
-//                for (Integer id : info.getDepParents().keySet()) {
-//                    sentence.getWords().get(id - 1).setDepParent(info.getDepParents().get(id));
-//                }
-//                for (Integer id : info.getDepLabels().keySet()) {
-//                    sentence.getWords().get(id - 1).setDepLabel(info.getDepLabels().get(id));
-//                }
-//
-//            }
+            LOGGER.info("Total sentences: {}", totalSentences);
+            LOGGER.info("Removed sentences: {}", removedSentences);
 
             writer.close();
 
-//            Properties props = new Properties();
-//            props.setProperty("annotators", "tokenize, ssplit, lemma");
-//            props.setProperty("enforceRequirements", "false");
-//
-//            StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
-//
-//            String sentText = "They_PRP are_VBP hunting_VBG dogs_NNS ._.";
-//            String simpleText = "They are hunting dogs .";
-//
-//            List<CoreLabel> sentence = new ArrayList<>();
-//
-//            String[] parts = sentText.split("\\s");
-//            for (String p : parts) {
-//                String[] split = p.split("_");
-//                CoreLabel clToken = new CoreLabel();
-//                clToken.setValue(split[0]);
-//                clToken.setWord(split[0]);
-//                clToken.setOriginalText(split[0]);
-//                clToken.set(CoreAnnotations.PartOfSpeechAnnotation.class, split[1]);
-//                sentence.add(clToken);
-//            }
-//
-//            Annotation s = new Annotation(simpleText);
-//            s.set(CoreAnnotations.TokensAnnotation.class, sentence);
-//            s.set(CoreAnnotations.TokenBeginAnnotation.class, 0);
-//            int tokenOffset = sentence.size();
-//            s.set(CoreAnnotations.TokenEndAnnotation.class, tokenOffset);
-//            s.set(CoreAnnotations.SentenceIndexAnnotation.class, sentence.size());
-//
-//            List<CoreMap> sentences = new ArrayList<>();
-//            sentences.add(s);
-//
-//            pipeline.annotate(s);
-//
-//            System.out.println(sentText);
-//            System.out.println();
-//
-//            List<CoreLabel> tokens = s.get(CoreAnnotations.TokensAnnotation.class);
-//
-//            for (CoreLabel token : tokens) {
-//                System.out.println(token);
-//                System.out.println(token.get(CoreAnnotations.PartOfSpeechAnnotation.class));
-//                System.out.println();
-//            }
-//
         } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.error(e.getMessage());
+            CommandLine.fail(e);
         }
-
-//        String onlyText = "G. W. Bush and Bono are very strong supporters of the fight of HIV in Africa. Their March 2002 meeting resulted in a 5 billion dollar aid.";
-//        Annotation s = new Annotation(onlyText);
-//
-//        Annotation myDoc = new Annotation(s);
-//        pipeline.annotate(myDoc);
-//
-//        List<CoreMap> sents = myDoc.get(CoreAnnotations.SentencesAnnotation.class);
-//        for (CoreMap thisSent : sents) {
-//            SemanticGraph dependencies = thisSent.get(SemanticGraphCoreAnnotations.BasicDependenciesAnnotation.class);
-//            DepParseInfo info = new DepParseInfo(dependencies);
-//
-//            System.out.println(info.getDepParents().size());
-//            System.out.println(info.getDepLabels().size());
-//
-//            System.out.println(dependencies);
-//
-//			}
-
     }
 }

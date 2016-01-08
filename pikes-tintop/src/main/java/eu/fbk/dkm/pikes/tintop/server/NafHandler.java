@@ -29,7 +29,14 @@ public class NafHandler extends AbstractHandler {
 		super.service(request, response);
 
 		String naf = request.getParameter("naf");
-		KAFDocument doc = pipeline.parseFromString(naf);
+		KAFDocument doc;
+
+		try {
+			doc = pipeline.parseFromString(naf);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(e);
+		}
 
 		logger.trace(doc.toString());
 

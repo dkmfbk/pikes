@@ -10,6 +10,7 @@ import edu.stanford.nlp.semgraph.SemanticGraph;
 import edu.stanford.nlp.semgraph.SemanticGraphCoreAnnotations;
 import edu.stanford.nlp.util.CoreMap;
 import eu.fbk.dkm.pikes.tintop.annotators.DepParseInfo;
+import eu.fbk.dkm.pikes.tintop.annotators.PikesAnnotations;
 import org.joox.JOOX;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,10 +34,11 @@ import java.util.TreeMap;
 public class ParseFullTextWithStanford {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ParseFullTextWithStanford.class);
-    private static final String fullTextPath = "/Users/alessio/Documents/Resources/fndata-1.6/fulltext";
-    private static final String outputFile1 = "/Users/alessio/Documents/Resources/fndata-1.6/semafor.all.lemma.tags";
-    private static final String outputFile2 = "/Users/alessio/Documents/Resources/fndata-1.6/semafor.frame.elements";
-    private static String annotators = "tokenize, ssplit, fake_pos, lemma, parse";
+    private static String annotatorsPattern = "tokenize, ssplit, %s, lemma, %s";
+
+    /*
+    Todo: use pos from Stanford, as POS from FrameNet is not consistent
+     */
 
     static class SpanInformation {
 
@@ -47,6 +49,14 @@ public class ParseFullTextWithStanford {
             this.label = label;
             this.start = start;
             this.end = end;
+        }
+
+        @Override public String toString() {
+            return "SpanInformation{" +
+                    "label='" + label + '\'' +
+                    ", start=" + start +
+                    ", end=" + end +
+                    '}';
         }
     }
 
@@ -68,9 +78,42 @@ public class ParseFullTextWithStanford {
         public void addRole(SpanInformation role) {
             this.roles.add(role);
         }
+
+        @Override public String toString() {
+            return "FrameInformation{" +
+                    "target=" + target +
+                    ", roles=" + roles +
+                    ", luName='" + luName + '\'' +
+                    ", frameName='" + frameName + '\'' +
+                    '}';
+        }
     }
 
+    /**
+     * Parse examples in FrameNet lus files and save them in Semafor format.
+     * <p>
+     * Arguments:
+     * - FrameNet LUs folder
+     * - Parsing output file (semafor.all.lemma.tags)
+     * - Frames output file (semafor.frame.elements)
+     * - POS (original vs. Stanford): fake_pos, pos
+     *
+     * @param args List of arguments (see above)
+     */
     public static void main(String[] args) {
+
+        if (args.length < 5) {
+            LOGGER.error("Five arguments needed: "
+                    + "fullTextPath, outputFile (parsing), outputFile (frames), posAnnotator, parseAnnotator");
+        }
+
+        String fullTextPath = args[0];
+        String outputFile1 = args[1];
+        String outputFile2 = args[2];
+        String posAnnotator = args[3];
+        String parseAnnotator = args[4];
+
+        String annotators = String.format(annotatorsPattern, posAnnotator, parseAnnotator);
 
         try {
 
@@ -83,10 +126,19 @@ public class ParseFullTextWithStanford {
             Properties props = new Properties();
             props.setProperty("annotators", annotators);
             props.setProperty("customAnnotatorClass.fake_pos", "eu.fbk.dkm.pikes.tintop.annotators.FakePosAnnotator");
+            props.setProperty("customAnnotatorClass.mst_server",
+                    "eu.fbk.dkm.pikes.tintop.annotators.MstServerParserAnnotator");
+
             props.setProperty("tokenize.whitespace", "true");
             props.setProperty("ssplit.eolonly", "true");
 
+            props.setProperty("mst_server.host", "localhost");
+            props.setProperty("mst_server.port", "8012");
+
             StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
+
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 
             int sentNo = -1;
             for (final File file : Files.fileTreeTraverser().preOrderTraversal(fullTextFile)) {
@@ -102,15 +154,12 @@ public class ParseFullTextWithStanford {
 
                 LOGGER.info("File: {}", file.getName());
 
-                DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
                 Document doc = dBuilder.parse(file);
 
                 for (Element sentenceElement : JOOX.$(doc).find("sentence")) {
                     String sentenceID = sentenceElement.getAttribute("ID");
 
                     TreeMap<Integer, String> pos = new TreeMap<>();
-                    TreeMap<Integer, Integer> ids = new TreeMap<>();
                     Element textElement = JOOX.$(sentenceElement).find("text").get(0);
                     String text = textElement.getTextContent();
                     LOGGER.trace(text);
@@ -163,12 +212,10 @@ public class ParseFullTextWithStanford {
                         }
                     }
 
-                    int id = 0;
                     stringBuffer = new StringBuffer();
                     for (Integer key : pos.keySet()) {
                         String value = pos.get(key);
                         stringBuffer.append(value).append(" ");
-                        ids.put(key, id++);
                     }
 
                     Annotation s;
@@ -183,7 +230,7 @@ public class ParseFullTextWithStanford {
                     }
 
                     sentNo++;
-                    int size = pos.size();
+                    int size = s.get(CoreAnnotations.TokensAnnotation.class).size();
 
                     String[] tokens = new String[size];
                     String[] poss = new String[size];
@@ -191,13 +238,22 @@ public class ParseFullTextWithStanford {
                     String[] depParents = new String[size];
                     String[] lemmas = new String[size];
 
+                    TreeMap<Integer, Integer> ids = new TreeMap<>();
                     for (CoreMap sentence : s.get(CoreAnnotations.SentencesAnnotation.class)) {
-                        SemanticGraph dependencies = sentence.get(
-                                SemanticGraphCoreAnnotations.BasicDependenciesAnnotation.class);
-                        DepParseInfo info = new DepParseInfo(dependencies);
+
+                        DepParseInfo info;
+
+                        if (parseAnnotator.equals("parse")) {
+                            SemanticGraph dependencies = sentence.get(
+                                    SemanticGraphCoreAnnotations.BasicDependenciesAnnotation.class);
+                            info = new DepParseInfo(dependencies);
+                        } else {
+                            info = sentence.get(PikesAnnotations.MstParserAnnotation.class);
+                        }
 
                         for (Integer tokenID : info.getDepParents().keySet()) {
-                            depParents[tokenID - 1] = Integer.toString(info.getDepParents().get(tokenID));
+                            int parent = info.getDepParents().get(tokenID);
+                            depParents[tokenID - 1] = Integer.toString(parent);
                         }
                         for (Integer tokenID : info.getDepLabels().keySet()) {
                             depLabels[tokenID - 1] = info.getDepLabels().get(tokenID);
@@ -209,6 +265,8 @@ public class ParseFullTextWithStanford {
                             tokens[i] = token.get(CoreAnnotations.TextAnnotation.class);
                             poss[i] = token.get(CoreAnnotations.PartOfSpeechAnnotation.class);
                             lemmas[i] = token.get(CoreAnnotations.LemmaAnnotation.class);
+
+                            ids.put(token.beginPosition(), i);
                         }
                     }
 
@@ -238,7 +296,7 @@ public class ParseFullTextWithStanford {
 
                             frameBuffer.append("\n");
                         } catch (Exception e) {
-                            LOGGER.warn("Skipped frame: {}" + frame.frameName);
+                            LOGGER.warn("Skipped frame: {}", frame.frameName);
                             continue;
                         }
 

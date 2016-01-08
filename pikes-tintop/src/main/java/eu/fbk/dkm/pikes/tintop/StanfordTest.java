@@ -10,12 +10,13 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.semgraph.SemanticGraph;
 import edu.stanford.nlp.semgraph.SemanticGraphCoreAnnotations;
 import edu.stanford.nlp.semgraph.SemanticGraphEdge;
-import edu.stanford.nlp.trees.CollinsHeadFinder;
-import edu.stanford.nlp.trees.HeadFinder;
-import edu.stanford.nlp.trees.Tree;
+import edu.stanford.nlp.semgraph.SemanticGraphFactory;
+import edu.stanford.nlp.trees.*;
 import edu.stanford.nlp.util.ArrayCoreMap;
 import edu.stanford.nlp.util.CoreMap;
+import edu.stanford.nlp.util.Filters;
 import eu.fbk.dkm.pikes.tintop.annotators.DepParseInfo;
+import eu.fbk.dkm.pikes.tintop.annotators.PikesAnnotations;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -118,114 +119,31 @@ public class StanfordTest {
     public static void main(String[] args) {
 
         Properties props = new Properties();
-        props.setProperty("annotators", "tokenize, ssplit, pos, parse");
-//		props.setProperty("annotators", "tokenize, ssplit, dbps");
-//		props.setProperty("tokenize.whitespace", "true");
-//		props.setProperty("ssplit.eolonly", "true");
-//		props.setProperty("ssplit.newlineIsSentenceBreak", "true");
-
-//		props.setProperty("customAnnotatorClass.anna_pos","org.fbk.dkm.nlp.pipeline.annotators.AnnaPosAnnotator");
-//		props.setProperty("customAnnotatorClass.tt_pos","org.fbk.dkm.nlp.pipeline.annotators.TreeTaggerPosAnnotator");
-//		props.setProperty("customAnnotatorClass.ukb","org.fbk.dkm.nlp.pipeline.annotators.UKBAnnotator");
-
-//		props.setProperty("customAnnotatorClass.simple_pos", "org.fbk.dkm.nlp.pipeline.annotators.SimplePosAnnotator");
-//		props.setProperty("customAnnotatorClass.conll_parse", "org.fbk.dkm.nlp.pipeline.annotators.AnnaParseAnnotator");
-//		props.setProperty("customAnnotatorClass.dbps", "org.fbk.dkm.nlp.pipeline.annotators.DBpediaSpotlightAnnotator");
-//		props.setProperty("customAnnotatorClass.conll_srl", "org.fbk.dkm.nlp.pipeline.annotators.MateSrlAnnotator");
-//
-//		props.setProperty("conll_parse.model", "/Users/alessio/Documents/tintop/retrain-anna-20140819.model");
-//
-//		props.setProperty("conll_srl.model", "/Users/alessio/Documents/tintop/retrain-srl-20140818.model");
-//
-//		props.setProperty("dbps.address", "https://knowledgestore2.fbk.eu/dbps/rest/annotate");
-//		props.setProperty("dbps.use_proxy", "0");
-//		props.setProperty("dbps.proxy_url", "proxy.fbk.eu");
-//		props.setProperty("dbps.proxy_port", "3128");
-//		props.setProperty("dbps.min_confidence", "0.33");
-//		props.setProperty("dbps.timeout", "2000");
-
-//		try {
-//			ZipFile zipFile;
-//			zipFile = new ZipFile(props.getProperty("conll_srl.model"));
-//			SemanticRoleLabeler mateSrl = Pipeline.fromZipFile(zipFile);
-//			zipFile.close();
-//			Language.setLanguage(Language.L.valueOf("eng"));
-//		} catch (Exception e) {
-//			LOGGER.error(e.getMessage());
-//		}
-//
-//		System.exit(1);
-
-//		props.setProperty("ukb.folder","ukb/");
-//		props.setProperty("ukb.model","models/wnet30_wnet30g_rels.bin");
-//		props.setProperty("ukb.dict","models/wnet30_dict.txt");
-
-//		props.setProperty("anna_pos.model", "/Users/alessio/Desktop/CoNLL2009-ST-English-ALL.anna-3.3.postagger.model");
-//		props.setProperty("tt_pos.home", "/Users/alessio/Desktop/treetagger");
-//		props.setProperty("tt_pos.model", "/Users/alessio/Desktop/treetagger/lib/english-utf8.par");
-
-//		System.out.println("Load first annotator");
-//		StanfordCoreNLP pipeline_pre = new StanfordCoreNLP(props);
-//
-//		// ---
+        props.setProperty("annotators", "tokenize, ssplit, pos, depparse");
+		props.setProperty("customAnnotatorClass.anna_fake","eu.fbk.dkm.pikes.tintop.annotators.FakeAnnaParserAnnotator");
+		props.setProperty("customAnnotatorClass.mate","eu.fbk.dkm.pikes.tintop.annotators.MateSrlAnnotator");
+		props.setProperty("mate.model","/Users/alessio/Desktop/elastic/stanford.model");
 
         System.out.println("Loading other annotators");
         StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
 
-        String onlyText = "G. W. Bush and Bono are very strong supporters of the fight of HIV in Africa. Their March 2002 meeting resulted in a 5 billion dollar aid.";
-        Annotation s = new Annotation(onlyText);
+        String onlyText = "G. W. Bush and Bono are very strong supporters of the fight of HIV in Africa.";
+        Annotation annotation = new Annotation(onlyText);
+        pipeline.annotate(annotation);
 
-        Annotation myDoc = new Annotation(s);
-        pipeline.annotate(myDoc);
-
-        List<CoreMap> sents = myDoc.get(CoreAnnotations.SentencesAnnotation.class);
+        List<CoreMap> sents = annotation.get(CoreAnnotations.SentencesAnnotation.class);
         for (CoreMap thisSent : sents) {
-
-            SemanticGraph dependencies = thisSent.get(SemanticGraphCoreAnnotations.BasicDependenciesAnnotation.class);
-            DepParseInfo info = new DepParseInfo(dependencies);
-
-            System.out.println(info.getDepParents().size());
-            System.out.println(info.getDepLabels().size());
-
-            System.out.println(dependencies);
-
-//			System.out.println(dependencies.getFirstRoot().index());
-//			System.out.println(dependencies.getChildren(dependencies.getFirstRoot()));
-//			System.out.println(dependencies);
-
-//			ArrayCoreMap sentenceCoreMap = (ArrayCoreMap) thisSent;
-//			List<CoreLabel> tokens = sentenceCoreMap.get(CoreAnnotations.TokensAnnotation.class);
+            Tree tree = thisSent.get(TreeCoreAnnotations.TreeAnnotation.class);
+            GrammaticalStructure grammaticalStructure = new EnglishGrammaticalStructure(tree, Filters.acceptFilter(), new CollinsHeadFinder());
+            SemanticGraph semanticGraph = SemanticGraphFactory
+                    .makeFromTree(grammaticalStructure, SemanticGraphFactory.Mode.BASIC,
+                            GrammaticalStructure.Extras.NONE, true, null);
+            System.out.println(semanticGraph);
+//            List<CoreLabel> tokens = sentenceCoreMap.get(CoreAnnotations.TokensAnnotation.class);
 //			for (CoreLabel token : tokens) {
 //				System.out.println(token);
-//				System.out.println(token.get(CoreAnnotations.PartOfSpeechAnnotation.class));
-//				System.out.println(token.get(CoreAnnotations.LemmaAnnotation.class));
-//				System.out.println(token.get(PikesAnnotations.SimplePosAnnotation.class));
-//				System.out.println(token.get(CoreAnnotations.CoNLLDepTypeAnnotation.class));
-//				System.out.println(token.get(CoreAnnotations.CoNLLDepParentIndexAnnotation.class));
-//				System.out.println(token.get(PikesAnnotations.DBpediaSpotlightAnnotation.class));
-//				System.out.println();
 //			}
         }
-
-//			System.out.println(s);
-
-//			pipeline.annotate(doc);
-//
-//			CoreLabel clToken = new CoreLabel();
-//			clToken.setValue("They");
-//			clToken.setWord("This");
-//			clToken.setOriginalText(stringToken);
-//			clToken.set(CoreAnnotations.PartOfSpeechAnnotation.class, "VBG");
-//
-//			List<CoreMap> sents = doc.get(CoreAnnotations.SentencesAnnotation.class);
-//			for (CoreMap s : sents) {
-//				ArrayCoreMap sentence = (ArrayCoreMap) s;
-//				List<CoreLabel> tokens = sentence.get(CoreAnnotations.TokensAnnotation.class);
-//				for (CoreLabel token : tokens) {
-//					System.out.println(token);
-//					System.out.println(token.get(CoreAnnotations.PartOfSpeechAnnotation.class));
-//				}
-//			}
 
         System.exit(1);
 

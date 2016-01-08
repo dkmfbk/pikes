@@ -29,6 +29,7 @@ public class TintopOrchestrator {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(TintopOrchestrator.class);
     static final private int DEFAULT_MAX_ERR_ON_FILE = 5;
     static final private int DEFAULT_MAX_SIZE = 50000;
+    static final private int DEFAULT_SLEEPING_TIME = 60000;
 
     private ArrayList<TintopServer> servers;
     private boolean fake;
@@ -41,6 +42,8 @@ public class TintopOrchestrator {
 
     private int maxErrOnFile = DEFAULT_MAX_ERR_ON_FILE;
     private int maxSize = DEFAULT_MAX_SIZE;
+    private int timeout = TintopClient.DEFAULT_TIMEOUT;
+    private int sleepingTime = DEFAULT_SLEEPING_TIME;
 
     public class RunnableTintopClient extends TintopClient implements Runnable {
 
@@ -54,11 +57,12 @@ public class TintopOrchestrator {
             super(server);
             super.setFake(fake);
             this.session = session;
+            setTimeout(timeout);
         }
 
         @Override
         public void run() {
-            Thread.currentThread().setName(server.getShortName());
+            Thread.currentThread().setName(server.getId() + " - " + server.getShortName());
 
             while (true) {
                 String filename = null;
@@ -93,7 +97,6 @@ public class TintopOrchestrator {
                         try (Writer w = IO.utf8Writer(IO.buffer(IO.write(outputFile.getAbsolutePath())))) {
                             w.write(naf);
                         }
-//						FileUtils.writeStringToFile(outputFile, naf, "UTF-8");
                     }
 
                 } catch (final Throwable ex) {
@@ -102,7 +105,7 @@ public class TintopOrchestrator {
 
                     try {
                         logger.info("Sleeping...");
-                        Thread.sleep(10000);
+                        Thread.sleep(sleepingTime);
                     } catch (Exception e) {
                         logger.error(e.getMessage());
                     }
@@ -131,6 +134,22 @@ public class TintopOrchestrator {
 
     public void setMaxSize(int maxSize) {
         this.maxSize = maxSize;
+    }
+
+    public int getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
+    }
+
+    public int getSleepingTime() {
+        return sleepingTime;
+    }
+
+    public void setSleepingTime(int sleepingTime) {
+        this.sleepingTime = sleepingTime;
     }
 
     private File getOutputFile(File inputFile, TintopSession session) {
@@ -182,7 +201,7 @@ public class TintopOrchestrator {
             }
 
             if (maxSize > 0 && file.length() > maxSize) {
-                logger.debug("Skipping file (too big): " + file);
+                logger.debug("Skipping file (too big, " + file.length() + "): " + file);
                 skipped++;
                 continue fIter;
             }
@@ -240,36 +259,6 @@ public class TintopOrchestrator {
     }
 
     public static void main(String[] args) {
-//		CommandLineWithLogger commandLineWithLogger = new CommandLineWithLogger();
-//
-//		commandLineWithLogger.addOption(
-//				OptionBuilder.withDescription("Input folder").isRequired().hasArg().withArgName("folder").withLongOpt("input").create("i"));
-//		commandLineWithLogger.addOption(
-//				OptionBuilder.withDescription("Output folder").isRequired().hasArg().withArgName("folder").withLongOpt("output").create("o"));
-//		commandLineWithLogger.addOption(
-//				OptionBuilder.withDescription("Server list").isRequired().hasArg().withArgName("file").withLongOpt("list").create("l"));
-//
-//		commandLineWithLogger.addOption(
-//				OptionBuilder.withDescription("Skip patterns").hasArg().withArgName("file").withLongOpt("skip").create("s"));
-//		commandLineWithLogger.addOption(OptionBuilder
-//				.withDescription(String.format("Input extensions (default %s)", Arrays.toString(DEFAULT_EXTENSIONS))).hasArgs().withLongOpt("extensions").create("e"));
-//		commandLineWithLogger.addOption(OptionBuilder.withDescription("Fake execution").withLongOpt("fake").create("F"));
-//
-//		CommandLine commandLine = null;
-//		try {
-//			commandLine = commandLineWithLogger.getCommandLine(args);
-//			PropertyConfigurator.configure(commandLineWithLogger.getLoggerProps());
-//		} catch (Exception e) {
-//			System.exit(1);
-//		}
-//
-//		String inputFolder = commandLine.getOptionValue("input");
-//		String outputFolder = commandLine.getOptionValue("output");
-//		String skipPatternsFile = commandLine.getOptionValue("skip");
-//		String serverList = commandLine.getOptionValue("list");
-//		String[] extensions = commandLine.getOptionValues("extensions");
-//
-//		boolean fake = commandLine.hasOption("fake");
 
         try {
             final eu.fbk.dkm.utils.CommandLine cmd = eu.fbk.dkm.utils.CommandLine
@@ -290,6 +279,12 @@ public class TintopOrchestrator {
                     .withOption("z", "max-size",
                             String.format("Max size of a NAF empty file (default %d)", DEFAULT_MAX_SIZE),
                             "INT", CommandLine.Type.INTEGER, true, false, false)
+                    .withOption("t", "timeout",
+                            String.format("Timeout in ms (default %d)", TintopClient.DEFAULT_TIMEOUT),
+                            "INT", CommandLine.Type.INTEGER, true, false, false)
+                    .withOption(null, "sleeping-time",
+                            String.format("Sleeping time for servers in ms (default %d)", DEFAULT_SLEEPING_TIME),
+                            "INT", CommandLine.Type.INTEGER, true, false, false)
                     .withOption("F", "fake", "Fake execution")
                     .withLogger(LoggerFactory.getLogger("eu.fbk")).parse(args);
 
@@ -300,6 +295,8 @@ public class TintopOrchestrator {
 
             Integer maxFail = cmd.getOptionValue("max-fail", Integer.class, DEFAULT_MAX_ERR_ON_FILE);
             Integer maxSize = cmd.getOptionValue("max-size", Integer.class, DEFAULT_MAX_SIZE);
+            Integer timeout = cmd.getOptionValue("timeout", Integer.class, TintopClient.DEFAULT_TIMEOUT);
+            Integer sleepingTime = cmd.getOptionValue("sleeping-time", Integer.class, DEFAULT_SLEEPING_TIME);
 
             boolean fake = cmd.hasOption("fake");
 
@@ -348,6 +345,8 @@ public class TintopOrchestrator {
             TintopOrchestrator orchestrator = new TintopOrchestrator(tintopServers, fake);
             orchestrator.setMaxErrOnFile(maxFail);
             orchestrator.setMaxSize(maxSize);
+            orchestrator.setTimeout(timeout);
+            orchestrator.setSleepingTime(sleepingTime);
 
             TintopSession session = new TintopSession(input, output, fileIterator, skipPatterns);
             orchestrator.run(session);

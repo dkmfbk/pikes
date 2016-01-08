@@ -11,82 +11,97 @@ import java.net.URL;
 
 public class TintopServer {
 
-	static Logger logger = Logger.getLogger(TintopServer.class.getName());
+    static Logger logger = Logger.getLogger(TintopServer.class.getName());
 
-	private String protocol;
-	private String host;
-	private String path;
-	private int port;
-	
-	public TintopServer(URL url) {
-		this.protocol = url.getProtocol();
-		this.host = url.getHost();
-		this.port = url.getPort();
-		this.path = url.getPath();
-	}
-	
-	public TintopServer(String line) throws IOException {
-		String[] parts = line.split("\\s+");
-		if (parts.length != 4) {
-			throw new IOException("Invalid line");
-		}
-		this.protocol = parts[0].trim();
-		this.host = parts[1].trim();
-		this.port = Integer.parseInt(parts[2].trim());
-		this.path = parts[3].trim();
-	}
+    private String protocol;
+    private String host;
+    private String path;
+    private int port;
 
-	public TintopServer(String protocol, String host, String path, int port) {
-		this.protocol = protocol;
-		this.host = host;
-		this.path = path;
-		this.port = port;
-	}
+    private int id;
 
-	public String getProtocol() {
-		return protocol;
-	}
+    public TintopServer(URL url) {
+        this(url, (int) (Math.random() * 32000 + 1));
+    }
 
-	public void setProtocol(String protocol) {
-		this.protocol = protocol;
-	}
+    public TintopServer(URL url, int id) {
+        this.protocol = url.getProtocol();
+        this.host = url.getHost();
+        this.port = url.getPort();
+        this.path = url.getPath();
+        this.id = id;
+    }
 
-	public String getHost() {
-		return host;
-	}
+    public TintopServer(String line) throws IOException {
+        String[] parts = line.split("\\s+");
+        if (parts.length != 4) {
+            throw new IOException("Invalid line");
+        }
+        this.protocol = parts[0].trim();
+        this.host = parts[1].trim();
+        this.port = Integer.parseInt(parts[2].trim());
+        this.path = parts[3].trim();
+    }
 
-	public void setHost(String host) {
-		this.host = host;
-	}
+    public TintopServer(String protocol, String host, String path, int port) {
+        this.protocol = protocol;
+        this.host = host;
+        this.path = path;
+        this.port = port;
+    }
 
-	public String getPath() {
-		return path;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setPath(String path) {
-		this.path = path;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public int getPort() {
-		return port;
-	}
+    public String getProtocol() {
+        return protocol;
+    }
 
-	public void setPort(int port) {
-		this.port = port;
-	}
-	
-	public String getShortName() {
-		return String.format("%s://%s:%d%s", protocol, host, port, path);
-		
-	}
+    public void setProtocol(String protocol) {
+        this.protocol = protocol;
+    }
 
-	@Override
-	public String toString() {
-		return "TintopServer{" +
-				"protocol='" + protocol + '\'' +
-				", host='" + host + '\'' +
-				", path='" + path + '\'' +
-				", port=" + port +
-				'}';
-	}
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public String getShortName() {
+        return String.format("%s://%s:%d%s", protocol, host, port, path);
+
+    }
+
+    @Override
+    public String toString() {
+        return "TintopServer{" +
+                "protocol='" + protocol + '\'' +
+                ", host='" + host + '\'' +
+                ", path='" + path + '\'' +
+                ", port=" + port +
+                '}';
+    }
 }
