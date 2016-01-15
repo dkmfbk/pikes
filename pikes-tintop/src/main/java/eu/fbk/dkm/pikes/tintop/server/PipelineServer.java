@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.glassfish.grizzly.http.server.HttpServer;
 
+import javax.annotation.Nullable;
 import java.util.Date;
 
 /**
@@ -26,7 +27,7 @@ public class PipelineServer {
 	public static final String DEFAULT_HOST = "localhost";
 	public static final String DEFAULT_PORT = "8011";
 
-	public PipelineServer(String host, String port, String configFile) {
+	public PipelineServer(String host, String port, @Nullable String configFile) {
 		logger.info("starting " + host + "\t" + port + " (" + new Date() + ")...");
 
 		AnnotationPipeline pipeline = null;
@@ -81,7 +82,7 @@ public class PipelineServer {
 
 		commandLineWithLogger.addOption(OptionBuilder.withArgName("host").hasArg().withDescription("host name").withLongOpt("host").create("o"));
 		commandLineWithLogger.addOption(OptionBuilder.withArgName("port").hasArg().withDescription("host port").withLongOpt("port").create("p"));
-		commandLineWithLogger.addOption(OptionBuilder.withArgName("file").isRequired().hasArg().withDescription("configuration file").withLongOpt("config").create("c"));
+		commandLineWithLogger.addOption(OptionBuilder.withArgName("file").hasArg().withDescription("configuration file").withLongOpt("config").create("c"));
 
 		CommandLine commandLine = null;
 		try {

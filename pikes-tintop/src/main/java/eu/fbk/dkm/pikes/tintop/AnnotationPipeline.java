@@ -30,6 +30,7 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import se.lth.cs.srl.corpus.Word;
 
+import javax.annotation.Nullable;
 import java.io.*;
 import java.util.*;
 
@@ -62,10 +63,12 @@ public class AnnotationPipeline {
     private Properties defaultConfig = new Properties();
 //    private Properties sPr = new Properties();
 
-    public AnnotationPipeline(String configFile) throws IOException {
-        InputStream input = new FileInputStream(configFile);
+    public AnnotationPipeline(@Nullable String configFile) throws IOException {
         defaultConfig = new Properties();
-        defaultConfig.load(input);
+        if (configFile != null) {
+            InputStream input = new FileInputStream(configFile);
+            defaultConfig.load(input);
+        }
         defaultConfig.putAll(Defaults.classProperties());
         Defaults.setNotPresent(defaultConfig);
 
