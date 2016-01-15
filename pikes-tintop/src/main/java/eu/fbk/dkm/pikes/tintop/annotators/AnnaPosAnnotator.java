@@ -24,7 +24,7 @@ public class AnnaPosAnnotator implements Annotator {
 	private Tagger tagger;
 
 	public AnnaPosAnnotator(String annotatorName, Properties props) {
-		File posModel = new File(props.getProperty(annotatorName + ".model"));
+		File posModel = new File(props.getProperty(annotatorName + ".model", Defaults.ANNA_POS_MODEL));
 		tagger = AnnaPosModel.getInstance(posModel).getTagger();
 	}
 

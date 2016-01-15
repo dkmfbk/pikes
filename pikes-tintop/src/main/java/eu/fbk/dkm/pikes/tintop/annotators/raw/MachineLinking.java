@@ -1,5 +1,6 @@
 package eu.fbk.dkm.pikes.tintop.annotators.raw;
 
+import eu.fbk.dkm.pikes.tintop.annotators.Defaults;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.util.*;
@@ -15,13 +16,11 @@ import java.util.*;
 public class MachineLinking extends Linking {
 
     private static String LABEL = "ml-annotate";
-
-    public MachineLinking() {
-        super();
-    }
+    private Double minWeight;
 
     public MachineLinking(Properties properties) {
-        super(properties);
+        super(properties, properties.getProperty("address"));
+        minWeight = Defaults.getDouble(config.getProperty("min_confidence"), Defaults.ML_CONFIDENCE);
     }
 
     @Override
@@ -31,7 +30,7 @@ public class MachineLinking extends Linking {
         Map<String, String> pars;
 
         pars = new HashMap<>();
-        pars.put("min_weight", config.getProperty("min_confidence"));
+        pars.put("min_weight", minWeight.toString());
         pars.put("disambiguation", "1");
         pars.put("topic", "1");
         pars.put("include_text", "0");

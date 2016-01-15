@@ -1,15 +1,14 @@
 package eu.fbk.dkm.pikes.tintop.annotators.raw;
 
+import eu.fbk.dkm.pikes.tintop.annotators.Defaults;
 import eu.fbk.dkm.pikes.tintop.annotators.UKBResourcePool;
-import eu.fbk.dkm.pikes.tintop.server.ResourcePool;
-import eu.fbk.dkm.pikes.tintop.util.PikesProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Properties;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,39 +22,27 @@ public class UKB_MT {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UKB_MT.class);
 
-    private Map config = new PikesProperties();
     private UKBResourcePool resourcePool = null;
+    private Properties config;
 
     private int numOfRestarts = 0;
-    private final int DEFAULT_MAX_NUM_OF_RESTARTS = 50;
     private int maxNumOfRestarts;
 
-    public UKB_MT(Map properties) throws IOException {
+    public UKB_MT(Properties properties) throws IOException {
         this.config = properties;
         init();
     }
 
     private void init() throws IOException {
-        String baseDir = (String) config.get("folder");
+        String baseDir = config.getProperty("folder", Defaults.UKB_FOLDER);
         if (!baseDir.endsWith(File.separator)) {
             baseDir += File.separator;
         }
 
-        String model = (String) config.get("model");
-        String dict = (String) config.get("dict");
-
-        Integer numResources = null;
-        try {
-            numResources = Integer.parseInt((String) config.get("instances"));
-        } catch (Exception e) {
-            numResources = ResourcePool.MAX_RESOURCES;
-        }
-
-        try {
-            maxNumOfRestarts = Integer.parseInt((String) config.get("restarts"));
-        } catch (Exception e) {
-            maxNumOfRestarts = DEFAULT_MAX_NUM_OF_RESTARTS;
-        }
+        String model = config.getProperty("model", Defaults.UKB_MODEL);
+        String dict = config.getProperty("dict", Defaults.UKB_DICT);
+        int numResources = Defaults.getInteger(config.getProperty("instances"), Defaults.UKB_MAX_INSTANCES);
+        maxNumOfRestarts = Defaults.getInteger(config.getProperty("restarts"), Defaults.UKB_MAX_NUM_OF_RESTARTS);
 
         LOGGER.info("Loading UKB with {} instances", numResources);
         resourcePool = new UKBResourcePool(model, dict, baseDir, numResources);

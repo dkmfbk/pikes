@@ -19,14 +19,12 @@ import java.util.*;
 public class AnnaParseAnnotator implements Annotator {
 
 	private Parser parser;
-	int maxLen = -1;
+	int maxLen;
 
 	public AnnaParseAnnotator(String annotatorName, Properties props) {
-		File posModel = new File(props.getProperty(annotatorName + ".model"));
+		File posModel = new File(props.getProperty(annotatorName + ".model", Defaults.ANNA_PARSE_MODEL));
 		parser = AnnaParseModel.getInstance(posModel).getParser();
-		if (props.containsKey(annotatorName + ".maxlen")) {
-			maxLen = Integer.parseInt(props.getProperty(annotatorName + ".maxlen"));
-		}
+		maxLen = Defaults.getInteger(props.getProperty(annotatorName + ".maxlen"), Defaults.MAXLEN);
 	}
 
 	@Override

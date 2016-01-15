@@ -74,7 +74,7 @@ public class NERCustomAnnotator extends SentenceAnnotator {
         this(NERClassifierCombiner.createNERClassifierCombiner(name, properties), false,
                 PropertiesUtils.getInt(properties, name + ".nthreads", PropertiesUtils.getInt(properties, "nthreads", 1)),
                 PropertiesUtils.getLong(properties, name + ".maxtime", -1),
-                PropertiesUtils.getInt(properties, name + ".maxlength", Integer.MAX_VALUE));
+                PropertiesUtils.getInt(properties, name + ".maxlength", Defaults.MAXLEN));
     }
 
     @Override
@@ -104,6 +104,8 @@ public class NERCustomAnnotator extends SentenceAnnotator {
     @Override
     public void doOneSentence(Annotation annotation, CoreMap sentence) {
         List<CoreLabel> tokens = sentence.get(CoreAnnotations.TokensAnnotation.class);
+
+        // --- Added check (Alessio)
         if (maxSentenceLength > 0 && tokens.size() > maxSentenceLength) {
 
             // For compatibility with dcoref
@@ -113,6 +115,8 @@ public class NERCustomAnnotator extends SentenceAnnotator {
             }
             return;
         }
+        // ---
+
         List<CoreLabel> output; // only used if try assignment works.
         try {
             output = this.ner.classifySentenceWithGlobalInformation(tokens, annotation, sentence);

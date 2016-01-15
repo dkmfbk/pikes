@@ -20,13 +20,11 @@ import java.util.*;
 public class UKBAnnotator implements Annotator {
 
 	private UKB_MT tagger;
-	int maxLen = -1;
+	int maxLen;
 
 	public UKBAnnotator(String annotatorName, Properties props) {
 		Properties newProps = AnnotatorUtils.stanfordConvertedProperties(props, annotatorName);
-		if (props.containsKey(annotatorName + ".maxlen")) {
-			maxLen = Integer.parseInt(props.getProperty(annotatorName + ".maxlen"));
-		}
+		maxLen = Defaults.getInteger(newProps.getProperty("maxlen"), Defaults.MAXLEN);
 		try {
 			tagger = UKBModel.getInstance(newProps).getTagger();
 		} catch (IOException e) {

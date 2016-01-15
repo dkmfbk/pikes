@@ -21,13 +21,11 @@ import java.util.*;
 public class SemaforAnnotator implements Annotator {
 
     private Semafor parser;
-    int maxLen = -1;
+    int maxLen;
 
     public SemaforAnnotator(String annotatorName, Properties props) {
-        String semaforModelDir = props.getProperty(annotatorName + ".model_dir");
-        if (props.containsKey(annotatorName + ".maxlen")) {
-            maxLen = Integer.parseInt(props.getProperty(annotatorName + ".maxlen"));
-        }
+        String semaforModelDir = props.getProperty(annotatorName + ".model_dir", Defaults.SEMAFOR_MODEL_DIR);
+        maxLen = Defaults.getInteger(props.getProperty(annotatorName + ".model_dir"), Defaults.MAXLEN);
         parser = SemaforModel.getInstance(semaforModelDir).getParser();
     }
 

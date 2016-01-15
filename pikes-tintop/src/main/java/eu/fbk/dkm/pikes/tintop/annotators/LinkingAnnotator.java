@@ -21,7 +21,6 @@ public class LinkingAnnotator implements Annotator {
     Linking tagger;
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(LinkingAnnotator.class);
 
-    private static String DEFAULT_ANNOTATOR = "dbpedia-candidates";
     private static HashMap<String, Class<? extends Linking>> annotators = new HashMap<>();
 
     static {
@@ -33,7 +32,7 @@ public class LinkingAnnotator implements Annotator {
     public LinkingAnnotator(String annotatorName, Properties props) throws Exception {
         Properties newProps = AnnotatorUtils.stanfordConvertedProperties(props, annotatorName);
 
-        String annotator = newProps.getProperty("annotator", DEFAULT_ANNOTATOR);
+        String annotator = newProps.getProperty("annotator", Defaults.DBPS_ANNOTATOR);
         Class<? extends Linking> myClass = annotators.get(annotator);
         Constructor<? extends Linking> myConstructor = myClass.getConstructor(Properties.class);
         tagger = myConstructor.newInstance(newProps);

@@ -1,5 +1,6 @@
 package eu.fbk.dkm.pikes.tintop.annotators.raw;
 
+import eu.fbk.dkm.pikes.tintop.annotators.Defaults;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
@@ -16,17 +17,14 @@ import java.util.*;
 public class DBpediaSpotlightCandidates extends Linking {
 
     private static String LABEL = "dbpedia-candidates";
-    private static Double DEFAULT_FIRST_ATTEMPT_CONFIDENCE = .5;
     private String firstAttemptConfidence;
-
-    public DBpediaSpotlightCandidates() {
-        super();
-    }
+    private String confidence;
 
     public DBpediaSpotlightCandidates(Properties properties) {
-        super(properties);
+        super(properties, properties.getProperty("address", Defaults.DBPS_ADDRESS) + "/candidates");
         firstAttemptConfidence = properties
-                .getProperty("first_confidence", DEFAULT_FIRST_ATTEMPT_CONFIDENCE.toString());
+                .getProperty("first_confidence", Double.toString(Defaults.DBPSC_FIRST_CONFIDENCE));
+        confidence = properties.getProperty("min_confidence", Double.toString(Defaults.DBPSC_MIN_CONFIDENCE));
     }
 
     private List<LinkingTag> attempt(Map<String, String> pars) throws IOException {
@@ -85,7 +83,6 @@ public class DBpediaSpotlightCandidates extends Linking {
             offsets.add(tag.getOffset());
         }
 
-        String confidence = config.getProperty("min_confidence");
         LOGGER.debug("Second attempt with confidence {}", confidence);
         pars = new HashMap<>();
         pars.put("confidence", confidence);

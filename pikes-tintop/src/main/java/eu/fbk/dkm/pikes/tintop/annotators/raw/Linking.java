@@ -1,10 +1,12 @@
 package eu.fbk.dkm.pikes.tintop.annotators.raw;
 
+import eu.fbk.dkm.pikes.tintop.annotators.Defaults;
 import eu.fbk.dkm.pikes.tintop.util.PipelineConfiguration;
 import org.apache.commons.lang3.CharEncoding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nullable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -30,13 +32,9 @@ public abstract class Linking {
     protected Properties config = new Properties();
     protected Boolean extractTypes = true;
 
-    public Linking() {
-        this(PipelineConfiguration.getInstance().getProperties());
-    }
-
-    public Linking(Properties properties) {
+    public Linking(Properties properties, String address) {
         config = properties;
-        urlAddress = config.getProperty("address");
+        urlAddress = address;
         if (properties.getProperty("extract_types", "1").equals("0")) {
             extractTypes = false;
         }

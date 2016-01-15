@@ -7,7 +7,6 @@ import edu.stanford.nlp.pipeline.Annotator;
 import edu.stanford.nlp.util.CoreMap;
 import eu.fbk.dkm.pikes.tintop.annotators.models.MateSrlBeModel;
 import eu.fbk.dkm.pikes.tintop.annotators.models.MateSrlModel;
-import org.jdom2.output.support.SAXOutputProcessor;
 import se.lth.cs.srl.SemanticRoleLabeler;
 import se.lth.cs.srl.corpus.Predicate;
 import se.lth.cs.srl.corpus.Sentence;
@@ -26,17 +25,18 @@ public class MateSrlAnnotator implements Annotator {
 
     private SemanticRoleLabeler labeler;
     private SemanticRoleLabeler labelerBe = null;
+    int maxLen;
 
     public MateSrlAnnotator(String annotatorName, Properties props) {
-        File model;
 
-        model = new File(props.getProperty(annotatorName + ".model"));
-        labeler = MateSrlModel.getInstance(model).getLabeler();
+        String model = props.getProperty(annotatorName + ".model", Defaults.MATE_MODEL);
+        maxLen = Defaults.getInteger(props.getProperty(annotatorName + ".maxlen"), Defaults.MAXLEN);
+        String modelBe = props.getProperty(annotatorName + ".model_be", Defaults.MATE_MODEL_BE);
 
-        String modelBe = props.getProperty(annotatorName + ".model_be");
+        labeler = MateSrlModel.getInstance(new File(model)).getLabeler();
+
         if (modelBe != null) {
-            model = new File(modelBe);
-            labelerBe = MateSrlBeModel.getInstance(model).getLabeler();
+            labelerBe = MateSrlBeModel.getInstance(new File(modelBe)).getLabeler();
         }
     }
 

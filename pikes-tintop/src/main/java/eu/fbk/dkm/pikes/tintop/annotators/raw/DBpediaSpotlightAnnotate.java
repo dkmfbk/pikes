@@ -2,6 +2,7 @@ package eu.fbk.dkm.pikes.tintop.annotators.raw;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
+import eu.fbk.dkm.pikes.tintop.annotators.Defaults;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.File;
@@ -19,12 +20,8 @@ public class DBpediaSpotlightAnnotate extends Linking {
 
     private static String LABEL = "dbpedia-annotate";
 
-    public DBpediaSpotlightAnnotate() {
-        super();
-    }
-
     public DBpediaSpotlightAnnotate(Properties properties) {
-        super(properties);
+        super(properties, properties.getProperty("address", Defaults.DBPS_ADDRESS) + "/annotate");
     }
 
     public List<LinkingTag> tag(String text) throws Exception {
