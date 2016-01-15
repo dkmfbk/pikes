@@ -55,13 +55,15 @@ public class AnnotationPipeline {
 
     private Properties defaultConfig = new Properties();
 
-    public AnnotationPipeline(@Nullable String configFile) throws IOException {
+    public AnnotationPipeline(@Nullable File configFile, @Nullable Properties additionalProperties) throws IOException {
         defaultConfig = new Properties();
         if (configFile != null) {
             InputStream input = new FileInputStream(configFile);
             defaultConfig.load(input);
+            input.close();
         }
         defaultConfig.putAll(Defaults.classProperties());
+        defaultConfig.putAll(additionalProperties);
         Defaults.setNotPresent(defaultConfig);
 
         for (Models model : Models.values()) {

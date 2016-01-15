@@ -1,16 +1,18 @@
 package eu.fbk.dkm.pikes.tintop.server;
 
 import eu.fbk.dkm.pikes.tintop.AnnotationPipeline;
-import eu.fbk.dkm.pikes.tintop.CommandLineWithLogger;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.OptionBuilder;
-import org.apache.http.protocol.HTTP;
+import eu.fbk.dkm.pikes.tintop.orchestrator.TintopOrchestrator;
+import eu.fbk.dkm.utils.CommandLine;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.glassfish.grizzly.http.server.HttpServer;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
+import java.io.File;
+import java.io.StringReader;
 import java.util.Date;
+import java.util.List;
+import java.util.Properties;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,79 +24,98 @@ import java.util.Date;
 
 public class PipelineServer {
 
-	static Logger logger = Logger.getLogger(PipelineServer.class.getName());
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(PipelineServer.class);
 
-	public static final String DEFAULT_HOST = "localhost";
-	public static final String DEFAULT_PORT = "8011";
+    public static final String DEFAULT_HOST = "localhost";
+    public static final Integer DEFAULT_PORT = 8011;
 
-	public PipelineServer(String host, String port, @Nullable String configFile) {
-		logger.info("starting " + host + "\t" + port + " (" + new Date() + ")...");
+    public PipelineServer(String host, Integer port) {
+        this(host, port, null, null);
+    }
 
-		AnnotationPipeline pipeline = null;
-		try {
-			pipeline = new AnnotationPipeline(configFile);
-			pipeline.loadModels();
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error(e.getMessage());
-			System.exit(1);
-		}
+    public PipelineServer(String host, Integer port, @Nullable File configFile) {
+        this(host, port, configFile, null);
+    }
 
-		int timeoutInSeconds = -1;
-		try {
-			if (pipeline.getDefaultConfig().getProperty("timeout") != null) {
-				timeoutInSeconds = Integer.parseInt(pipeline.getDefaultConfig().getProperty("timeout"));
-				logger.info("Timeout set to: " + timeoutInSeconds);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+    public PipelineServer(String host, Integer port, @Nullable File configFile,
+            @Nullable Properties additionalProperties) {
+        logger.info("starting " + host + "\t" + port + " (" + new Date() + ")...");
 
-		HttpServer httpServer = HttpServer.createSimpleServer(host, new Integer(port).intValue());
-		httpServer.getServerConfiguration().setSessionTimeoutSeconds(timeoutInSeconds);
-		httpServer.getServerConfiguration().setMaxPostSize(4194304);
-		httpServer.getServerConfiguration().addHttpHandler(new NafHandler(pipeline), "/naf");
-		httpServer.getServerConfiguration().addHttpHandler(new NafVisualizeHandler(pipeline), "/view");
-		httpServer.getServerConfiguration().addHttpHandler(new NafGenerateHandler(pipeline), "/text");
-		httpServer.getServerConfiguration().addHttpHandler(new EverythingHandler(pipeline), "/all");
-		httpServer.getServerConfiguration().addHttpHandler(new Text2NafHandler(pipeline), "/text2naf");
-		httpServer.getServerConfiguration().addHttpHandler(new TriplesHandler(pipeline), "/text2rdf");
+        AnnotationPipeline pipeline = null;
+        try {
+            pipeline = new AnnotationPipeline(configFile, additionalProperties);
+            pipeline.loadModels();
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            System.exit(1);
+        }
 
-		try {
-			httpServer.start();
-			Thread.currentThread().join();
-		} catch (Exception e) {
-			logger.error("error running " + host + ":" + port);
-			logger.error(e);
-		}
-	}
+        int timeoutInSeconds = -1;
+        try {
+            if (pipeline.getDefaultConfig().getProperty("timeout") != null) {
+                timeoutInSeconds = Integer.parseInt(pipeline.getDefaultConfig().getProperty("timeout"));
+                logger.info("Timeout set to: " + timeoutInSeconds);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-	public static void main(String[] args) {
-		CommandLineWithLogger commandLineWithLogger = new CommandLineWithLogger();
+        HttpServer httpServer = HttpServer.createSimpleServer(host, port);
+        httpServer.getServerConfiguration().setSessionTimeoutSeconds(timeoutInSeconds);
+        httpServer.getServerConfiguration().setMaxPostSize(4194304);
+        httpServer.getServerConfiguration().addHttpHandler(new NafHandler(pipeline), "/naf");
+        httpServer.getServerConfiguration().addHttpHandler(new NafVisualizeHandler(pipeline), "/view");
+        httpServer.getServerConfiguration().addHttpHandler(new NafGenerateHandler(pipeline), "/text");
+        httpServer.getServerConfiguration().addHttpHandler(new EverythingHandler(pipeline), "/all");
+        httpServer.getServerConfiguration().addHttpHandler(new Text2NafHandler(pipeline), "/text2naf");
+        httpServer.getServerConfiguration().addHttpHandler(new TriplesHandler(pipeline), "/text2rdf");
 
-		commandLineWithLogger.addOption(OptionBuilder.withArgName("host").hasArg().withDescription("host name").withLongOpt("host").create("o"));
-		commandLineWithLogger.addOption(OptionBuilder.withArgName("port").hasArg().withDescription("host port").withLongOpt("port").create("p"));
-		commandLineWithLogger.addOption(OptionBuilder.withArgName("file").hasArg().withDescription("configuration file").withLongOpt("config").create("c"));
+        try {
+            httpServer.start();
+            Thread.currentThread().join();
+        } catch (Exception e) {
+            logger.error("error running " + host + ":" + port);
+        }
+    }
 
-		CommandLine commandLine = null;
-		try {
-			commandLine = commandLineWithLogger.getCommandLine(args);
-			PropertyConfigurator.configure(commandLineWithLogger.getLoggerProps());
-		} catch (Exception e) {
-			System.exit(1);
-		}
+    public static void main(String[] args) {
 
-		String host = commandLine.getOptionValue("host");
-		if (host == null) {
-			host = DEFAULT_HOST;
-		}
-		String port = commandLine.getOptionValue("port");
-		if (port == null) {
-			port = DEFAULT_PORT;
-		}
+        try {
+            final CommandLine cmd = CommandLine
+                    .parser()
+                    .withName("./tintop-server")
+                    .withHeader("Run the Tintop Server")
+                    .withOption("c", "config", "Configuration file", "FILE", CommandLine.Type.FILE_EXISTING, true,
+                            false, false)
+                    .withOption("p", "port", String.format("Host port (default %d)", DEFAULT_PORT), "NUM",
+                            CommandLine.Type.INTEGER, true, false, false)
+                    .withOption("h", "host", String.format("Host address (default %s)", DEFAULT_HOST), "NUM",
+                            CommandLine.Type.STRING, true, false, false)
+                    .withOption(null, "properties", "Additional properties", "PROPS", CommandLine.Type.STRING, true,
+                            true, false)
+                    .withLogger(LoggerFactory.getLogger("eu.fbk")).parse(args);
 
-		String configFile = commandLine.getOptionValue("config");
-		new PipelineServer(host, port, configFile);
+            String host = cmd.getOptionValue("host", String.class, DEFAULT_HOST);
+            Integer port = cmd.getOptionValue("port", Integer.class, DEFAULT_PORT);
+            File configFile = cmd.getOptionValue("config", File.class);
 
-	}
+            List<String> addProperties = cmd.getOptionValues("properties", String.class);
+
+            Properties additionalProps = new Properties();
+            for (String property : addProperties) {
+                try {
+                    additionalProps.load(new StringReader(property));
+                } catch (Exception e) {
+                    logger.warn(e.getMessage());
+                }
+            }
+
+            PipelineServer pipelineServer = new PipelineServer(host, port, configFile, additionalProps);
+
+        } catch (Exception e) {
+            CommandLine.fail(e);
+        }
+
+    }
 }
