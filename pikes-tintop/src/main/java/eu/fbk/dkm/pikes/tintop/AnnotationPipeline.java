@@ -23,12 +23,9 @@ import eu.fbk.dkm.pikes.tintop.annotators.raw.LinkingTag;
 import eu.fbk.dkm.pikes.tintop.annotators.raw.Semafor;
 import eu.fbk.dkm.pikes.tintop.util.NER2SSTtagset;
 import eu.fbk.dkm.pikes.tintop.util.NerEntity;
-import eu.fbk.dkm.pikes.tintop.util.PipelineConfiguration;
 import ixa.kaflib.*;
 import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.enums.Enum;
 import org.apache.log4j.Logger;
-import org.apache.xpath.operations.Mod;
 import org.codehaus.jackson.map.ObjectMapper;
 import se.lth.cs.srl.corpus.Word;
 
@@ -47,7 +44,8 @@ public class AnnotationPipeline {
 
     static Logger logger = Logger.getLogger(AnnotationPipeline.class.getName());
 
-    enum Models { ONTONOTES, WORDNET, PREDICATE_MATRIX}
+    enum Models {ONTONOTES, WORDNET, PREDICATE_MATRIX}
+
     HashMap<Models, Boolean> modelsLoaded = new HashMap<>();
 
     private PredicateMatrix PM;
@@ -64,7 +62,9 @@ public class AnnotationPipeline {
 //    private Properties sPr = new Properties();
 
     public AnnotationPipeline(String configFile) throws IOException {
-        defaultConfig = PipelineConfiguration.getInstance(configFile).getProperties();
+        InputStream input = new FileInputStream(configFile);
+        defaultConfig = new Properties();
+        defaultConfig.load(input);
 
         for (Models model : Models.values()) {
             modelsLoaded.put(model, false);
