@@ -136,6 +136,7 @@ public final class RDFGenerator {
             .put("nombank", "http://www.newsreader-project.eu/ontologies/nombank/")
             .put("framenet", "http://www.newsreader-project.eu/ontologies/framenet/")
             .put("verbnet", "http://www.newsreader-project.eu/ontologies/verbnet/")
+            .put("eso", "http://www.newsreader-project.eu/domain-ontology#")
             .put("framebase", "http://framebase.org/ns/") //
             .put("attribute", "attr:")
             // TODO: change this namespace
@@ -376,7 +377,10 @@ public final class RDFGenerator {
                                         final Path relative = base.toAbsolutePath().relativize(
                                                 path.toAbsolutePath());
                                         String name = relative.toString();
-                                        final int index = name.indexOf(".naf");
+                                        int index = name.indexOf(".naf");
+                                        if (index < 0) {
+                                            index = name.indexOf(".xml");
+                                        }
                                         name = name.substring(0, index) + ".tql.gz";
                                         output = outBase.resolve(name);
                                         if (java.nio.file.Files.exists(output)) {
@@ -1352,6 +1356,10 @@ public final class RDFGenerator {
 
             // Add path properties
             final String path = extractPath(predHead, argHead);
+            if (path == null) {
+                LOGGER.debug("Could not compute dependency path from " + predHead.getId() + " to "
+                        + argHead.getId());
+            }
             if (!Strings.isNullOrEmpty(path)) {
                 properties.add(mintRefURI("conn", path));
             }
@@ -1724,6 +1732,9 @@ public final class RDFGenerator {
             }
 
             final List<Dep> path = this.document.getDepPath(from, to);
+            if (path == null) {
+                return null;
+            }
 
             for (final Iterator<Dep> i = path.iterator(); i.hasNext();) {
                 final Dep dep = i.next();
