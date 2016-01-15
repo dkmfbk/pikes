@@ -43,14 +43,21 @@ class ReadWriteManager {
      * Writes the content of a given KAFDocument to a file.
      */
     static void save(KAFDocument kaf, String filename) {
+        File file = new File(filename);
+        save(kaf, file);
+    }
+
+    /**
+     * Writes the content of a given KAFDocument to a file.
+     */
+    static void save(KAFDocument kaf, File file) {
         try {
-            File file = new File(filename);
             Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF8"));
             out.write(kafToStr(kaf));
             out.flush();
             out.close();
         } catch (Exception e) {
-            System.err.println(String.format("Error in writing file %s: %s", filename, e.getMessage()));
+            System.err.println(String.format("Error in writing file %s: %s", file.getAbsolutePath(), e.getMessage()));
         }
     }
 
@@ -915,16 +922,20 @@ class ReadWriteManager {
                     LinkedEntity e = kaf.newLinkedEntity(id, span);
                     e.setResource(getOptAttribute("resource", entityElem));
                     e.setReference(getOptAttribute("reference", entityElem));
+
+                    String spotted = getOptAttribute("spotted", entityElem);
+                    e.setSpotted(spotted != null && spotted.equals("true"));
+
                     String confidence = getOptAttribute("confidence", entityElem);
                     if (confidence != null) {
                         e.setConfidence(Double.parseDouble(confidence));
                     }
-                    Element topicsElem = entityElem.getChild("topics");
-                    if (topicsElem != null) {
-                        for (Element topicElem : topicsElem.getChildren("topic")) {
+                    Element typesElem = entityElem.getChild("types");
+                    if (typesElem != null) {
+                        for (Element topicElem : typesElem.getChildren("type")) {
+                            String category = getAttribute("source", topicElem);
                             String label = getAttribute("label", topicElem);
-                            float probability = Float.parseFloat(getAttribute("probability", topicElem));
-                            e.addTopic(new SimpleTopic(probability, label));
+                            e.addType(category, label);
                         }
                     }
                 }
@@ -1589,6 +1600,7 @@ class ReadWriteManager {
                 lEnt.setAttribute("resource", e.getResource());
                 lEnt.setAttribute("reference", e.getReference());
                 lEnt.setAttribute("confidence", Double.toString(e.getConfidence()));
+                lEnt.setAttribute("spotted", e.isSpotted().toString());
 
                 Comment spanComment = new Comment(e.getSpanStr());
                 lEnt.addContent(spanComment);
@@ -1600,15 +1612,17 @@ class ReadWriteManager {
                 }
                 lEnt.addContent(spanElem);
 
-                if (e.getTopics().size() > 0) {
-                    Element topicsElement = new Element("topics");
-                    for (SimpleTopic t : e.getTopics()) {
-                        Element topicElement = new Element("topic");
-                        topicElement.setAttribute("label", t.getLabel());
-                        topicElement.setAttribute("probability", Float.toString(t.getProbability()));
-                        topicsElement.addContent(topicElement);
+                if (e.getTypes().size() > 0) {
+                    Element typesElement = new Element("types");
+                    for (String category : e.getTypes().keySet()) {
+                        for (String type : e.getTypes().get(category)) {
+                            Element typeElement = new Element("type");
+                            typeElement.setAttribute("source", category);
+                            typeElement.setAttribute("label", type);
+                            typesElement.addContent(typeElement);
+                        }
                     }
-                    lEnt.addContent(topicsElement);
+                    lEnt.addContent(typesElement);
                 }
 
                 linkedEntityElement.addContent(lEnt);

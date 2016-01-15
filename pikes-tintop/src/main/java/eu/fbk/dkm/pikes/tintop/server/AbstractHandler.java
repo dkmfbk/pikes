@@ -26,11 +26,11 @@ import java.util.regex.Pattern;
 
 public class AbstractHandler extends HttpHandler {
 
-	public final static Pattern ANNOTATOR_PATTERN = Pattern.compile("^annotator_(.*)");
+//	public final static Pattern ANNOTATOR_PATTERN = Pattern.compile("^annotator_(.*)");
 	public final static Pattern META_PATTERN = Pattern.compile("^meta_(.*)");
 	protected AnnotationPipeline pipeline;
 
-	protected HashSet<String> annotators = new HashSet<>();
+//	protected HashSet<String> annotators = new HashSet<>();
 	protected HashMap<String, String> meta = new HashMap<>();
 
 	static Logger logger = Logger.getLogger(AbstractHandler.class.getName());
@@ -50,10 +50,10 @@ public class AbstractHandler extends HttpHandler {
 
 			Matcher matcher;
 
-			matcher = ANNOTATOR_PATTERN.matcher(parameterLabel);
-			if (matcher.find()) {
-				annotators.add(matcher.group(1));
-			}
+//			matcher = ANNOTATOR_PATTERN.matcher(parameterLabel);
+//			if (matcher.find()) {
+//				annotators.add(matcher.group(1));
+//			}
 
 			matcher = META_PATTERN.matcher(parameterLabel);
 			if (matcher.find()) {
@@ -63,7 +63,7 @@ public class AbstractHandler extends HttpHandler {
 		}
 
 		if (meta.get("uri") == null || meta.get("uri").length() == 0) {
-			meta.put("uri", pipeline.getConfig().getProperty("default_uri"));
+			meta.put("uri", pipeline.getDefaultConfig().getProperty("default_uri"));
 		}
 	}
 

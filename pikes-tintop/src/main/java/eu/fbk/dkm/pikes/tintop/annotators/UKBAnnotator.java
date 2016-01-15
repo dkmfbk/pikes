@@ -20,9 +20,13 @@ import java.util.*;
 public class UKBAnnotator implements Annotator {
 
 	private UKB_MT tagger;
+	int maxLen = -1;
 
 	public UKBAnnotator(String annotatorName, Properties props) {
 		Properties newProps = AnnotatorUtils.stanfordConvertedProperties(props, annotatorName);
+		if (props.containsKey(annotatorName + ".maxlen")) {
+			maxLen = Integer.parseInt(props.getProperty(annotatorName + ".maxlen"));
+		}
 		try {
 			tagger = UKBModel.getInstance(newProps).getTagger();
 		} catch (IOException e) {
@@ -35,6 +39,9 @@ public class UKBAnnotator implements Annotator {
 		if (annotation.has(CoreAnnotations.SentencesAnnotation.class)) {
 			for (CoreMap sentence : annotation.get(CoreAnnotations.SentencesAnnotation.class)) {
 				List<CoreLabel> tokens = sentence.get(CoreAnnotations.TokensAnnotation.class);
+				if (maxLen > 0 && tokens.size() > maxLen) {
+					continue;
+				}
 
 				ArrayList<HashMap<String, String>> terms = new ArrayList<>();
 				for (CoreLabel token : tokens) {

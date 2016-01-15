@@ -45,7 +45,7 @@ public class TriplesHandler extends AbstractHandler {
 		String host = request.getHeader("x-forwarded-for");
 
 		String referer = request.getHeader("referer");
-		String okReferer = pipeline.getConfig().getProperty("back_referer");
+		String okReferer = pipeline.getDefaultConfig().getProperty("back_referer");
 
 		boolean backLink = false;
 		if (referer != null && okReferer != null && referer.equals(okReferer)) {
@@ -61,7 +61,7 @@ public class TriplesHandler extends AbstractHandler {
 
 		KAFDocument doc = text2naf(text, meta);
 
-		doc = pipeline.parseFromString(doc.toString(), annotators);
+		doc = pipeline.parseFromString(doc.toString());
 
 		String viewString;
 		try {
@@ -72,8 +72,8 @@ public class TriplesHandler extends AbstractHandler {
 				demoProperties.put("renderer.template.backlink", "javascript:history.back();");
 			}
 			else {
-				demoProperties.put("renderer.template.backlink", pipeline.getConfig().getProperty("back_alt_link"));
-				demoProperties.put("renderer.template.backlabel", pipeline.getConfig().getProperty("back_alt_text"));
+				demoProperties.put("renderer.template.backlink", pipeline.getDefaultConfig().getProperty("back_alt_link"));
+				demoProperties.put("renderer.template.backlabel", pipeline.getDefaultConfig().getProperty("back_alt_text"));
 			}
 
 			boolean fusion = request.getParameter("rdf_fusion") != null;
@@ -82,7 +82,7 @@ public class TriplesHandler extends AbstractHandler {
 			demoProperties.put("generator.fusion", fusion);
 			demoProperties.put("generator.normalization", normalization);
 
-			NAFFilter filter = NAFFilter.builder().withProperties(pipeline.getConfig(), "filter").build();
+			NAFFilter filter = NAFFilter.builder().withProperties(pipeline.getDefaultConfig(), "filter").build();
 			RDFGenerator generator = RDFGenerator.builder().withProperties(demoProperties, "generator").build();
 //			Renderer renderer = Renderer.builder().withProperties(demoProperties, "renderer").build();
 

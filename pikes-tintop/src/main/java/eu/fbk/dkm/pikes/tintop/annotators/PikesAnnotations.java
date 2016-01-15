@@ -2,10 +2,9 @@ package eu.fbk.dkm.pikes.tintop.annotators;
 
 import edu.cmu.cs.lti.ark.fn.parsing.SemaforParseResult;
 import edu.stanford.nlp.ling.CoreAnnotation;
-import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotator;
 import edu.stanford.nlp.util.ErasureUtils;
-import eu.fbk.dkm.pikes.tintop.annotators.raw.AnnotatedEntity;
+import eu.fbk.dkm.pikes.tintop.annotators.raw.LinkingTag;
 import se.lth.cs.srl.corpus.Predicate;
 import se.lth.cs.srl.corpus.Word;
 
@@ -66,17 +65,17 @@ public class PikesAnnotations {
         }
     }
 
-    public static class DBpediaSpotlightAnnotation implements CoreAnnotation<AnnotatedEntity> {
+    public static class DBpediaSpotlightAnnotation implements CoreAnnotation<LinkingTag> {
 
-        @Override public Class<AnnotatedEntity> getType() {
-            return AnnotatedEntity.class;
+        @Override public Class<LinkingTag> getType() {
+            return LinkingTag.class;
         }
     }
 
-    public static class DBpediaSpotlightAnnotations implements CoreAnnotation<List<AnnotatedEntity>> {
+    public static class LinkingAnnotations implements CoreAnnotation<List<LinkingTag>> {
 
-        @Override public Class<List<AnnotatedEntity>> getType() {
-            return ErasureUtils.<Class<List<AnnotatedEntity>>> uncheckedCast(List.class);
+        @Override public Class<List<LinkingTag>> getType() {
+            return ErasureUtils.<Class<List<LinkingTag>>>uncheckedCast(List.class);
         }
     }
 

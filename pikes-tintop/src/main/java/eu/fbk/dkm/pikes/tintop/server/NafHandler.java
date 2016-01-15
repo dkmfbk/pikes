@@ -6,6 +6,8 @@ import org.apache.log4j.Logger;
 import org.glassfish.grizzly.http.server.Request;
 import org.glassfish.grizzly.http.server.Response;
 
+import java.io.File;
+
 /**
  * Created with IntelliJ IDEA.
  * User: alessio
@@ -16,30 +18,34 @@ import org.glassfish.grizzly.http.server.Response;
 
 public class NafHandler extends AbstractHandler {
 
-	static Logger logger = Logger.getLogger(NafHandler.class.getName());
+    static Logger logger = Logger.getLogger(NafHandler.class.getName());
 
-	public NafHandler(AnnotationPipeline pipeline) {
-		super(pipeline);
-	}
+    public NafHandler(AnnotationPipeline pipeline) {
+        super(pipeline);
+    }
 
-	@Override
-	public void service(Request request, Response response) throws Exception {
+    @Override
+    public void service(Request request, Response response) throws Exception {
 
-		logger.debug("Starting service");
-		super.service(request, response);
+        logger.debug("Starting service");
+        super.service(request, response);
 
-		String naf = request.getParameter("naf");
-		KAFDocument doc;
+        String naf = request.getParameter("naf");
+        KAFDocument doc;
 
-		try {
-			doc = pipeline.parseFromString(naf);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new Exception(e);
-		}
+        try {
+            doc = pipeline.parseFromString(naf);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception(e);
+        }
 
-		logger.trace(doc.toString());
+        File temp = File.createTempFile("temp-file-name", ".tmp");
+        logger.info("Created temp file " + temp.getAbsolutePath());
+        doc.save(temp);
 
-		writeOutput(response, "text/xml", doc.toString());
-	}
+        logger.trace(doc.toString());
+
+        writeOutput(response, "text/xml", doc.toString());
+    }
 }

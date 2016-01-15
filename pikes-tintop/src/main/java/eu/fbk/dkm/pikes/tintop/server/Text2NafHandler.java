@@ -26,7 +26,7 @@ public class Text2NafHandler extends AbstractHandler {
 
 		String text = request.getParameter("text");
 		KAFDocument doc = text2naf(text, meta);
-		doc = pipeline.parseFromNAF(doc, annotators);
+		doc = pipeline.parseFromNAF(doc);
 
 		writeOutput(response, "text/xml", doc.toString());
 	}

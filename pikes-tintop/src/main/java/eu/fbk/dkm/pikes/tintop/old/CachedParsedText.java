@@ -3,7 +3,7 @@ package eu.fbk.dkm.pikes.tintop.old;
 import com.machinelinking.api.client.AnnotationResponse;
 import edu.stanford.nlp.dcoref.CorefChain;
 import edu.stanford.nlp.util.CoreMap;
-import eu.fbk.dkm.pikes.tintop.annotators.raw.DBpediaSpotlightTag;
+import eu.fbk.dkm.pikes.tintop.annotators.raw.LinkingTag;
 import ixa.kaflib.LinguisticProcessor;
 import org.apache.log4j.Logger;
 import se.lth.cs.srl.corpus.Sentence;
@@ -29,7 +29,7 @@ public class CachedParsedText implements Serializable {
 	List<Sentence> mate, mateBe;
 	Map<Integer, CorefChain> coreference;
 	AnnotationResponse ml;
-	List<DBpediaSpotlightTag> dbpTags;
+	List<LinkingTag> dbpTags;
 	List<LinguisticProcessor> lps = new ArrayList<>();
 
 	public List<LinguisticProcessor> getLps() {
@@ -44,11 +44,11 @@ public class CachedParsedText implements Serializable {
 		this.lps.add(l);
 	}
 
-	public List<DBpediaSpotlightTag> getDbpTags() {
+	public List<LinkingTag> getDbpTags() {
 		return dbpTags;
 	}
 
-	public void setDbpTags(List<DBpediaSpotlightTag> dbpTags) {
+	public void setDbpTags(List<LinkingTag> dbpTags) {
 		this.dbpTags = dbpTags;
 	}
 

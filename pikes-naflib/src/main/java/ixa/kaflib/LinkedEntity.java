@@ -1,7 +1,10 @@
 package ixa.kaflib;
 
+import org.openrdf.query.algebra.Str;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Linked Entity in the text.
@@ -19,8 +22,9 @@ public class LinkedEntity {
 	private String resource;
 	private String reference;
 	private double confidence;
+	private Boolean spotted;
 
-	private ArrayList<SimpleTopic> topics = new ArrayList();
+	private HashMap<String, HashSet<String>> types = new HashMap<>();
 
 	/**
 	 * Mentions to the same entity (at least one required)
@@ -36,9 +40,6 @@ public class LinkedEntity {
 		if (mentions.size() < 1) {
 			throw new IllegalStateException("LinkedEntity must contain at least one reference span");
 		}
-//		if (mentions.get(0).size() < 1) {
-//			throw new IllegalStateException("LinkedEntity' reference's spans must contain at least one target");
-//		}
 		this.linkedEntityId = linkedEntityId;
 		this.mentions = mentions;
 	}
@@ -51,32 +52,6 @@ public class LinkedEntity {
 
 		String id = linkedEntity.getId();
 		this.mentions = linkedEntity.getWFs();
-//		for (Span<WF> span : linkedEntity.getSpans()) {
-//			List<WF> targets = span.getTargets();
-//			List<WF> copiedTargets = new ArrayList<WF>();
-//			for (WF wf : targets) {
-//				WF copiedWF = WFs.get(wf.getId());
-//				if (copiedWF == null) {
-//					throw new IllegalStateException("Term not found when copying " + id);
-//				}
-//				copiedTargets.add(copiedWF);
-//			}
-//			if (span.hasHead()) {
-//				WF copiedHead = WFs.get(span.getHead().getId());
-//				this.mentions.add(new Span<WF>(copiedTargets, copiedHead));
-//			}
-//			else {
-//				this.mentions.add(new Span<WF>(copiedTargets));
-//			}
-//		}
-	}
-
-	public ArrayList<SimpleTopic> getTopics() {
-		return topics;
-	}
-
-	public void addTopic(SimpleTopic topic) {
-		topics.add(topic);
 	}
 
 	public String getResource() {
@@ -122,6 +97,28 @@ public class LinkedEntity {
 		return str;
 	}
 
+	public void addType(String category, String type) {
+		if (types.get(category) == null) {
+			types.put(category, new HashSet<>());
+		}
+		types.get(category).add(type);
+	}
+
+	public HashMap<String, HashSet<String>> getTypes() {
+		return types;
+	}
+
+	public void setTypes(HashMap<String, HashSet<String>> types) {
+		this.types = types;
+	}
+
+	public Boolean isSpotted() {
+		return spotted;
+	}
+
+	public void setSpotted(Boolean spotted) {
+		this.spotted = spotted;
+	}
 
 	/**
 	 * Returns the term targets of the first span. When targets of other spans are needed getReferences() method should be used.

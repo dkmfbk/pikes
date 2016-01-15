@@ -1449,6 +1449,15 @@ public class KAFDocument implements Serializable {
 		ReadWriteManager.save(this, filename);
 	}
 
+	/**
+	 * Saves the KAF document to an XML file.
+	 *
+	 * @param filename name of the file in which the document will be saved.
+	 */
+	public void save(File file) {
+		ReadWriteManager.save(this, file);
+	}
+
 	public String toString() {
 		return ReadWriteManager.kafToStr(this);
 	}

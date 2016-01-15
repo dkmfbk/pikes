@@ -4,6 +4,7 @@ import eu.fbk.dkm.pikes.tintop.AnnotationPipeline;
 import eu.fbk.dkm.pikes.tintop.CommandLineWithLogger;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.OptionBuilder;
+import org.apache.http.protocol.HTTP;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.glassfish.grizzly.http.server.HttpServer;
@@ -40,8 +41,8 @@ public class PipelineServer {
 
 		int timeoutInSeconds = -1;
 		try {
-			if (pipeline.getConfig().getProperty("timeout") != null) {
-				timeoutInSeconds = Integer.parseInt(pipeline.getConfig().getProperty("timeout"));
+			if (pipeline.getDefaultConfig().getProperty("timeout") != null) {
+				timeoutInSeconds = Integer.parseInt(pipeline.getDefaultConfig().getProperty("timeout"));
 				logger.info("Timeout set to: " + timeoutInSeconds);
 			}
 		} catch (Exception e) {
@@ -50,6 +51,7 @@ public class PipelineServer {
 
 		HttpServer httpServer = HttpServer.createSimpleServer(host, new Integer(port).intValue());
 		httpServer.getServerConfiguration().setSessionTimeoutSeconds(timeoutInSeconds);
+		httpServer.getServerConfiguration().setMaxPostSize(4194304);
 		httpServer.getServerConfiguration().addHttpHandler(new NafHandler(pipeline), "/naf");
 		httpServer.getServerConfiguration().addHttpHandler(new NafVisualizeHandler(pipeline), "/view");
 		httpServer.getServerConfiguration().addHttpHandler(new NafGenerateHandler(pipeline), "/text");
