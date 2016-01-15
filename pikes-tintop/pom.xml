@@ -54,7 +54,7 @@
             <artifactId>stanford-corenlp</artifactId>
             <classifier>models</classifier>
             <version>3.5.2</version>
-            <scope>provided</scope>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.annolab.tt4j</groupId>

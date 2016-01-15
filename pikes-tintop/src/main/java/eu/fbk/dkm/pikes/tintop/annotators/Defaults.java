@@ -10,8 +10,8 @@ import java.util.Properties;
 
 public class Defaults {
 
-    private static String[] booleanTrue = new String[] {"yes", "1", "y"};
-    private static String[] booleanFalse = new String[] {"no", "0", "n"};
+    private static String[] booleanTrue = new String[] { "yes", "1", "y" };
+    private static String[] booleanFalse = new String[] { "no", "0", "n" };
 
     public static Integer getInteger(@Nullable String value, int defaultValue) {
         try {
@@ -51,20 +51,27 @@ public class Defaults {
 
     public static Properties classProperties() {
         Properties ret = new Properties();
-        ret.setProperty("stanford.customAnnotatorClass.simple_pos", "eu.fbk.dkm.pikes.tintop.annotators.SimplePosAnnotator");
+        ret.setProperty("stanford.customAnnotatorClass.simple_pos",
+                "eu.fbk.dkm.pikes.tintop.annotators.SimplePosAnnotator");
         ret.setProperty("stanford.customAnnotatorClass.ukb", "eu.fbk.dkm.pikes.tintop.annotators.UKBAnnotator");
-        ret.setProperty("stanford.customAnnotatorClass.conll_parse", "eu.fbk.dkm.pikes.tintop.annotators.AnnaParseAnnotator");
+        ret.setProperty("stanford.customAnnotatorClass.conll_parse",
+                "eu.fbk.dkm.pikes.tintop.annotators.AnnaParseAnnotator");
         ret.setProperty("stanford.customAnnotatorClass.semafor", "eu.fbk.dkm.pikes.tintop.annotators.SemaforAnnotator");
         ret.setProperty("stanford.customAnnotatorClass.mate", "eu.fbk.dkm.pikes.tintop.annotators.MateSrlAnnotator");
-        ret.setProperty("stanford.customAnnotatorClass.mst_fake", "eu.fbk.dkm.pikes.tintop.annotators.FakeMstParserAnnotator");
-        ret.setProperty("stanford.customAnnotatorClass.ner_custom", "eu.fbk.dkm.pikes.tintop.annotators.NERCustomAnnotator");
+        ret.setProperty("stanford.customAnnotatorClass.mst_fake",
+                "eu.fbk.dkm.pikes.tintop.annotators.FakeMstParserAnnotator");
+        ret.setProperty("stanford.customAnnotatorClass.ner_custom",
+                "eu.fbk.dkm.pikes.tintop.annotators.NERCustomAnnotator");
         ret.setProperty("stanford.customAnnotatorClass.dbps", "eu.fbk.dkm.pikes.tintop.annotators.LinkingAnnotator");
         ret.setProperty("stanford.customAnnotatorClass.ml", "eu.fbk.dkm.pikes.tintop.annotators.LinkingAnnotator");
 
         // Unused
-        ret.setProperty("stanford.customAnnotatorClass.anna_pos", "eu.fbk.dkm.pikes.tintop.annotators.AnnaPosAnnotator");
-        ret.setProperty("stanford.customAnnotatorClass.mst_server", "eu.fbk.dkm.pikes.tintop.annotators.MstServerParserAnnotator");
-        ret.setProperty("stanford.customAnnotatorClass.anna_fake", "eu.fbk.dkm.pikes.tintop.annotators.FakeAnnaParserAnnotator");
+        ret.setProperty("stanford.customAnnotatorClass.anna_pos",
+                "eu.fbk.dkm.pikes.tintop.annotators.AnnaPosAnnotator");
+        ret.setProperty("stanford.customAnnotatorClass.mst_server",
+                "eu.fbk.dkm.pikes.tintop.annotators.MstServerParserAnnotator");
+        ret.setProperty("stanford.customAnnotatorClass.anna_fake",
+                "eu.fbk.dkm.pikes.tintop.annotators.FakeAnnaParserAnnotator");
         return ret;
     }
 
@@ -103,6 +110,10 @@ public class Defaults {
 
     public static void setNotPresent(Properties config) {
         config.setProperty("stanford.annotators", config.getProperty("stanford.annotators", ANNOTATORS));
+        config.setProperty("stanford.ner_custom.maxlength",
+                config.getProperty("stanford.ner_custom.maxlength", Integer.toString(MAXLEN)));
+        config.setProperty("stanford.parse.maxlen",
+                config.getProperty("stanford.parse.maxlen", Integer.toString(MAXLEN)));
         config.setProperty("default_uri", config.getProperty("default_uri", DEFAULT_URI));
         config.setProperty("max_text_len", getInteger(config.getProperty("max_text_len"), MAX_TEXT_LEN).toString());
     }

@@ -53,15 +53,7 @@ public class AnnotationPipeline {
     private PredicateMatrix PM;
     private VerbNetStatisticsExtractor statisticsExtractor = null;
 
-//    boolean enablePM = false;
-//    boolean enableNafFilter = false;
-//    boolean enableOntoNotesFilter = false;
-//    boolean enableEntityAssignment = false;
-
-//    private boolean modelsLoaded = false;
-
     private Properties defaultConfig = new Properties();
-//    private Properties sPr = new Properties();
 
     public AnnotationPipeline(@Nullable String configFile) throws IOException {
         defaultConfig = new Properties();
@@ -162,22 +154,14 @@ public class AnnotationPipeline {
         Properties properties = getDefaultConfig();
         properties.putAll(merge);
 
-        String maxTextLen = properties.getProperty("max_text_len", "1000");
+        String maxTextLen = properties.getProperty("max_text_len");
         int limit = Integer.parseInt(maxTextLen);
         if (text.length() > limit) {
             throw new Exception(String.format("Input too long (%d chars, limit is %d)", text.length(), limit));
         }
 
-//        if (properties.getProperty())
-//        stanford.ner_custom.maxlength = 200
-//        stanford.parse.maxlen = 100
-
         loadModels(properties);
         Properties stanfordConfig = AnnotatorUtils.stanfordConvertedProperties(properties, "stanford");
-        stanfordConfig.setProperty("ner_custom.maxlength",
-                Defaults.getInteger(stanfordConfig.getProperty("ner_custom.maxlength"), Defaults.MAXLEN).toString());
-        stanfordConfig.setProperty("parse.maxlen",
-                Defaults.getInteger(stanfordConfig.getProperty("parse.maxlen"), Defaults.MAXLEN).toString());
 
         boolean enablePM = Defaults.getBoolean(properties.getProperty("enable_predicate_matrix"), false);
         boolean enableNafFilter = Defaults.getBoolean(properties.getProperty("enable_naf_filter"), false);
