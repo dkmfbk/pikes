@@ -26,7 +26,7 @@ public abstract class Linking {
     private static final Integer DEFAULT_TIMEOUT = 2000;
 
     private String urlAddress;
-    protected Properties config = new Properties();
+    private Properties config = new Properties();
     protected Boolean extractTypes = true;
 
     public Linking(Properties properties, String address) {

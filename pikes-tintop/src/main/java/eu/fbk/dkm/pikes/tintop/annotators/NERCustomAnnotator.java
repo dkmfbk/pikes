@@ -11,7 +11,10 @@ import edu.stanford.nlp.util.PropertiesUtils;
 import edu.stanford.nlp.util.RuntimeInterruptedException;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Properties;
+import java.util.Set;
 
 /**
  * This class will add NER information to an
@@ -42,14 +45,12 @@ public class NERCustomAnnotator extends SentenceAnnotator {
     }
 
     public NERCustomAnnotator(boolean verbose)
-            throws IOException, ClassNotFoundException
-    {
+            throws IOException, ClassNotFoundException {
         this(new NERClassifierCombiner(new Properties()), verbose);
     }
 
     public NERCustomAnnotator(boolean verbose, String... classifiers)
-            throws IOException, ClassNotFoundException
-    {
+            throws IOException, ClassNotFoundException {
         this(new NERClassifierCombiner(classifiers), verbose);
     }
 
@@ -72,9 +73,10 @@ public class NERCustomAnnotator extends SentenceAnnotator {
 
     public NERCustomAnnotator(String name, Properties properties) {
         this(NERClassifierCombiner.createNERClassifierCombiner(name, properties), false,
-                PropertiesUtils.getInt(properties, name + ".nthreads", PropertiesUtils.getInt(properties, "nthreads", 1)),
+                PropertiesUtils
+                        .getInt(properties, name + ".nthreads", PropertiesUtils.getInt(properties, "nthreads", 1)),
                 PropertiesUtils.getLong(properties, name + ".maxtime", -1),
-                PropertiesUtils.getInt(properties, name + ".maxlength", Defaults.MAXLEN));
+                PropertiesUtils.getInt(properties, name + ".maxlength", Integer.MAX_VALUE));
     }
 
     @Override
@@ -130,7 +132,11 @@ public class NERCustomAnnotator extends SentenceAnnotator {
             boolean first = true;
             System.err.print("NERCombinerAnnotator direct output: [");
             for (CoreLabel w : output) {
-                if (first) { first = false; } else { System.err.print(", "); }
+                if (first) {
+                    first = false;
+                } else {
+                    System.err.print(", ");
+                }
                 System.err.print(w.toString());
             }
         }
@@ -154,7 +160,9 @@ public class NERCustomAnnotator extends SentenceAnnotator {
                 String neTag = output.get(i).get(CoreAnnotations.NamedEntityTagAnnotation.class);
                 String normNeTag = output.get(i).get(CoreAnnotations.NormalizedNamedEntityTagAnnotation.class);
                 tokens.get(i).setNER(neTag);
-                if (normNeTag != null) tokens.get(i).set(CoreAnnotations.NormalizedNamedEntityTagAnnotation.class, normNeTag);
+                if (normNeTag != null) {
+                    tokens.get(i).set(CoreAnnotations.NormalizedNamedEntityTagAnnotation.class, normNeTag);
+                }
                 NumberSequenceClassifier.transferAnnotations(output.get(i), tokens.get(i));
             }
 

@@ -18,6 +18,7 @@ import edu.stanford.nlp.util.IntPair;
 import eu.fbk.dkm.pikes.resources.*;
 import eu.fbk.dkm.pikes.resources.ontonotes.VerbNetStatisticsExtractor;
 import eu.fbk.dkm.pikes.tintop.annotators.AnnotatorUtils;
+import eu.fbk.dkm.pikes.tintop.annotators.Defaults;
 import eu.fbk.dkm.pikes.tintop.annotators.PikesAnnotations;
 import eu.fbk.dkm.pikes.tintop.annotators.raw.LinkingTag;
 import eu.fbk.dkm.pikes.tintop.annotators.raw.Semafor;
@@ -65,6 +66,8 @@ public class AnnotationPipeline {
         InputStream input = new FileInputStream(configFile);
         defaultConfig = new Properties();
         defaultConfig.load(input);
+        defaultConfig.putAll(Defaults.classProperties());
+        Defaults.setNotPresent(defaultConfig);
 
         for (Models model : Models.values()) {
             modelsLoaded.put(model, false);
@@ -105,9 +108,9 @@ public class AnnotationPipeline {
 
     public void loadModels(Properties properties) throws Exception {
 
-        boolean enablePM = properties.getProperty("enable_predicate_matrix", "0").equals("1");
-        boolean enableNafFilter = properties.getProperty("enable_naf_filter", "0").equals("1");
-        boolean enableOntoNotesFilter = properties.getProperty("enable_on_filter", "0").equals("1");
+        boolean enablePM = Defaults.getBoolean(properties.getProperty("enable_predicate_matrix"), false);
+        boolean enableNafFilter = Defaults.getBoolean(properties.getProperty("enable_naf_filter"), false);
+        boolean enableOntoNotesFilter = Defaults.getBoolean(properties.getProperty("enable_on_filter"), false);
 
         logger.info("Loading Stanford CoreNLP");
 
@@ -118,7 +121,7 @@ public class AnnotationPipeline {
 
         if (enablePM && !modelsLoaded.get(Models.PREDICATE_MATRIX)) {
             logger.info("Loading Predicate Matrix");
-            PM = new PredicateMatrix(properties.getProperty("predicate_matrix"));
+            PM = new PredicateMatrix(properties.getProperty("predicate_matrix", Defaults.PREDICATE_MATRIX));
             modelsLoaded.put(Models.PREDICATE_MATRIX, true);
         }
 
@@ -126,7 +129,7 @@ public class AnnotationPipeline {
 
         if (enableNafFilter && !modelsLoaded.get(Models.WORDNET)) {
             logger.info("Loading WordNet for NAF filter");
-            WordNet.setPath(properties.getProperty("naf_filter_wordnet_path"));
+            WordNet.setPath(properties.getProperty("naf_filter_wordnet_path", Defaults.WN_DICT));
             WordNet.init();
             modelsLoaded.put(Models.WORDNET, true);
         }
@@ -138,7 +141,7 @@ public class AnnotationPipeline {
             statisticsExtractor = new VerbNetStatisticsExtractor();
 //			statisticsExtractor.loadDir(config.getProperty("on_folder"));
 //			statisticsExtractor.loadFrequencies();
-            statisticsExtractor.loadFrequencies(properties.getProperty("on_frequencies"));
+            statisticsExtractor.loadFrequencies(properties.getProperty("on_frequencies", Defaults.ON_FREQUENCIES));
             modelsLoaded.put(Models.ONTONOTES, true);
         }
     }
@@ -153,25 +156,33 @@ public class AnnotationPipeline {
         text = StringEscapeUtils.unescapeHtml(text);
         LinguisticProcessor linguisticProcessor;
 
-        Properties config = getDefaultConfig();
-        config.putAll(merge);
+        Properties properties = getDefaultConfig();
+        properties.putAll(merge);
 
-        String maxTextLen = config.getProperty("max_text_len", "1000");
+        String maxTextLen = properties.getProperty("max_text_len", "1000");
         int limit = Integer.parseInt(maxTextLen);
         if (text.length() > limit) {
             throw new Exception(String.format("Input too long (%d chars, limit is %d)", text.length(), limit));
         }
 
-        loadModels(config);
-        Properties stanfordFromConfig = AnnotatorUtils.stanfordConvertedProperties(config, "stanford");
+//        if (properties.getProperty())
+//        stanford.ner_custom.maxlength = 200
+//        stanford.parse.maxlen = 100
 
-        boolean enablePM = config.getProperty("enable_predicate_matrix", "0").equals("1");
-        boolean enableNafFilter = config.getProperty("enable_naf_filter", "0").equals("1");
-        boolean enableOntoNotesFilter = config.getProperty("enable_on_filter", "0").equals("1");
-        boolean enableEntityAssignment = config.getProperty("enable_entity_assignment", "0").equals("1");
+        loadModels(properties);
+        Properties stanfordConfig = AnnotatorUtils.stanfordConvertedProperties(properties, "stanford");
+        stanfordConfig.setProperty("ner_custom.maxlength",
+                Defaults.getInteger(stanfordConfig.getProperty("ner_custom.maxlength"), Defaults.MAXLEN).toString());
+        stanfordConfig.setProperty("parse.maxlen",
+                Defaults.getInteger(stanfordConfig.getProperty("parse.maxlen"), Defaults.MAXLEN).toString());
+
+        boolean enablePM = Defaults.getBoolean(properties.getProperty("enable_predicate_matrix"), false);
+        boolean enableNafFilter = Defaults.getBoolean(properties.getProperty("enable_naf_filter"), false);
+        boolean enableOntoNotesFilter = Defaults.getBoolean(properties.getProperty("enable_on_filter"), false);
+        boolean enableEntityAssignment = Defaults.getBoolean(properties.getProperty("enable_entity_assignment"), false);
 
         // Load pipeline
-        Properties thisSessionProps = new Properties(stanfordFromConfig);
+        Properties thisSessionProps = new Properties(stanfordConfig);
         StanfordCoreNLP thisPipeline = new StanfordCoreNLP(thisSessionProps);
 
         // Stanford

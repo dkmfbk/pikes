@@ -20,7 +20,7 @@ public class MachineLinking extends Linking {
 
     public MachineLinking(Properties properties) {
         super(properties, properties.getProperty("address"));
-        minWeight = Defaults.getDouble(config.getProperty("min_confidence"), Defaults.ML_CONFIDENCE);
+        minWeight = Defaults.getDouble(properties.getProperty("min_confidence"), Defaults.ML_CONFIDENCE);
     }
 
     @Override

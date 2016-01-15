@@ -19,9 +19,11 @@ import java.util.*;
 public class DBpediaSpotlightAnnotate extends Linking {
 
     private static String LABEL = "dbpedia-annotate";
+    private String confidence;
 
     public DBpediaSpotlightAnnotate(Properties properties) {
         super(properties, properties.getProperty("address", Defaults.DBPS_ADDRESS) + "/annotate");
+        confidence = properties.getProperty("min_confidence", Double.toString(Defaults.DBPS_MIN_CONFIDENCE));
     }
 
     public List<LinkingTag> tag(String text) throws Exception {
@@ -29,7 +31,7 @@ public class DBpediaSpotlightAnnotate extends Linking {
         ArrayList<LinkingTag> ret = new ArrayList<>();
 
         Map<String, String> pars = new HashMap<>();
-        pars.put("confidence", config.getProperty("min_confidence"));
+        pars.put("confidence", confidence);
         pars.put("text", text);
 
         Map<String, Object> userData;

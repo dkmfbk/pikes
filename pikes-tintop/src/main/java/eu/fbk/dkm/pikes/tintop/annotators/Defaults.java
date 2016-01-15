@@ -2,6 +2,7 @@ package eu.fbk.dkm.pikes.tintop.annotators;
 
 import javax.annotation.Nullable;
 import java.io.File;
+import java.util.Properties;
 
 /**
  * Created by alessio on 15/01/16.
@@ -48,14 +49,36 @@ public class Defaults {
         }
     }
 
+    public static Properties classProperties() {
+        Properties ret = new Properties();
+        ret.setProperty("stanford.customAnnotatorClass.simple_pos", "eu.fbk.dkm.pikes.tintop.annotators.SimplePosAnnotator");
+        ret.setProperty("stanford.customAnnotatorClass.ukb", "eu.fbk.dkm.pikes.tintop.annotators.UKBAnnotator");
+        ret.setProperty("stanford.customAnnotatorClass.conll_parse", "eu.fbk.dkm.pikes.tintop.annotators.AnnaParseAnnotator");
+        ret.setProperty("stanford.customAnnotatorClass.semafor", "eu.fbk.dkm.pikes.tintop.annotators.SemaforAnnotator");
+        ret.setProperty("stanford.customAnnotatorClass.mate", "eu.fbk.dkm.pikes.tintop.annotators.MateSrlAnnotator");
+        ret.setProperty("stanford.customAnnotatorClass.mst_fake", "eu.fbk.dkm.pikes.tintop.annotators.FakeMstParserAnnotator");
+        ret.setProperty("stanford.customAnnotatorClass.ner_custom", "eu.fbk.dkm.pikes.tintop.annotators.NERCustomAnnotator");
+        ret.setProperty("stanford.customAnnotatorClass.dbps", "eu.fbk.dkm.pikes.tintop.annotators.LinkingAnnotator");
+        ret.setProperty("stanford.customAnnotatorClass.ml", "eu.fbk.dkm.pikes.tintop.annotators.LinkingAnnotator");
+
+        // Unused
+        ret.setProperty("stanford.customAnnotatorClass.anna_pos", "eu.fbk.dkm.pikes.tintop.annotators.AnnaPosAnnotator");
+        ret.setProperty("stanford.customAnnotatorClass.mst_server", "eu.fbk.dkm.pikes.tintop.annotators.MstServerParserAnnotator");
+        ret.setProperty("stanford.customAnnotatorClass.anna_fake", "eu.fbk.dkm.pikes.tintop.annotators.FakeAnnaParserAnnotator");
+        return ret;
+    }
+
     public static final String MODEL_FOLDER = "models" + File.separator;
+    public static final String DEFAULT_URI = "http://untitled/";
     public static final int MAXLEN = 200;
+    public static final int MAX_TEXT_LEN = 1000;
+    public static final String ANNOTATORS = "tokenize, ssplit, dbps, pos, simple_pos, lemma, ukb, ner_custom, parse, conll_parse, mst_fake, mate, semafor, dcoref";
 
     public static final int UKB_MAX_NUM_OF_RESTARTS = 50;
     public static final int UKB_MAX_INSTANCES = 10;
     public static final String UKB_FOLDER = "ukb" + File.separator;
-    public static final String UKB_MODEL = MODEL_FOLDER + "wnet30_wnet30g_rels.bin";
-    public static final String UKB_DICT = MODEL_FOLDER + "wnet30_dict.txt";
+    public static final String UKB_MODEL = "models/wnet30_wnet30g_rels.bin";
+    public static final String UKB_DICT = "models/wnet30_dict.txt";
 
     public static final String SEMAFOR_MODEL_DIR = MODEL_FOLDER + "semafor" + File.separator;
 
@@ -72,4 +95,15 @@ public class Defaults {
     public static final double DBPSC_FIRST_CONFIDENCE = 0.5;
     public static final double DBPS_MIN_CONFIDENCE = 0.33;
     public static final double ML_CONFIDENCE = 0.5;
+
+    public static final String PREDICATE_MATRIX = MODEL_FOLDER + "PredicateMatrix.txt";
+    public static final String WN_DICT = MODEL_FOLDER + "wn-3.0-dict" + File.separator;
+
+    public static final String ON_FREQUENCIES = MODEL_FOLDER + "on-frequencies.tsv";
+
+    public static void setNotPresent(Properties config) {
+        config.setProperty("stanford.annotators", config.getProperty("stanford.annotators", ANNOTATORS));
+        config.setProperty("default_uri", config.getProperty("default_uri", DEFAULT_URI));
+        config.setProperty("max_text_len", getInteger(config.getProperty("max_text_len"), MAX_TEXT_LEN).toString());
+    }
 }
