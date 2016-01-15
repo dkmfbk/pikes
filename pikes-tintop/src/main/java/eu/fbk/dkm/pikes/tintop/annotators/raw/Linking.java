@@ -1,12 +1,9 @@
 package eu.fbk.dkm.pikes.tintop.annotators.raw;
 
-import eu.fbk.dkm.pikes.tintop.annotators.Defaults;
-import eu.fbk.dkm.pikes.tintop.util.PipelineConfiguration;
 import org.apache.commons.lang3.CharEncoding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nullable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
