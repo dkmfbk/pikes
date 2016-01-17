@@ -104,7 +104,7 @@ public class Defaults {
     public static final double ML_CONFIDENCE = 0.5;
 
     public static final String PREDICATE_MATRIX = MODEL_FOLDER + "PredicateMatrix.txt";
-    public static final String WN_DICT = "wn-3.0-dict" + File.separator;
+    public static final String WN_DICT = "wordnet" + File.separator;
 
     public static final String ON_FREQUENCIES = MODEL_FOLDER + "on-frequencies.tsv";
 
