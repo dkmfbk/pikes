@@ -105,9 +105,9 @@ public class AnnotationPipeline {
 
     public void loadModels(Properties properties) throws Exception {
 
-        boolean enablePM = Defaults.getBoolean(properties.getProperty("enable_predicate_matrix"), true);
-        boolean enableNafFilter = Defaults.getBoolean(properties.getProperty("enable_naf_filter"), true);
-        boolean enableOntoNotesFilter = Defaults.getBoolean(properties.getProperty("enable_on_filter"), true);
+        boolean enablePM = Defaults.getBoolean(properties.getProperty("enable_predicate_matrix"), false);
+        boolean enableNafFilter = Defaults.getBoolean(properties.getProperty("enable_naf_filter"), false);
+        boolean enableOntoNotesFilter = Defaults.getBoolean(properties.getProperty("enable_on_filter"), false);
 
         logger.info("Loading Stanford CoreNLP");
 
