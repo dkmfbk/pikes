@@ -40,9 +40,9 @@ public class NafHandler extends AbstractHandler {
             throw new Exception(e);
         }
 
-        File temp = File.createTempFile("temp-file-name", ".tmp");
-        logger.info("Created temp file " + temp.getAbsolutePath());
-        doc.save(temp);
+//        File temp = File.createTempFile("temp-file-name", ".tmp");
+//        logger.info("Created temp file " + temp.getAbsolutePath());
+//        doc.save(temp);
 
         logger.trace(doc.toString());
 
