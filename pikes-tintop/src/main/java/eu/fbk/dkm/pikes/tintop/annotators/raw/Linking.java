@@ -86,7 +86,6 @@ public abstract class Linking {
             }
 
         } catch (Throwable e) {
-            e.printStackTrace();
             LOGGER.error("Linking error: {}", e.getMessage());
         }
         LOGGER.debug("Request ended");

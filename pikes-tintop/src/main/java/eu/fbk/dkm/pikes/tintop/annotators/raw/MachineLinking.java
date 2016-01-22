@@ -1,8 +1,11 @@
 package eu.fbk.dkm.pikes.tintop.annotators.raw;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 import eu.fbk.dkm.pikes.tintop.annotators.Defaults;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -40,6 +43,7 @@ public class MachineLinking extends Linking {
         pars.put("app_key", "0");
         pars.put("text", text);
 
+        LOGGER.debug("Text length: {}", text.length());
         LOGGER.debug("Pars: {}", pars);
 
         Map<String, Object> userData;
@@ -89,9 +93,11 @@ public class MachineLinking extends Linking {
         properties.setProperty("min_confidence", "0.5");
         properties.setProperty("timeout", "2000");
 
+        String fileName = args[0];
+
         MachineLinking s = new MachineLinking(properties);
         try {
-            String text = "First documented in the 13th century, Berlin was the capital of the Kingdom of Prussia (1701–1918), the German Empire (1871–1918), the Weimar Republic (1919–33) and the Third Reich (1933–45).";
+            String text = Files.toString(new File(fileName), Charsets.UTF_8);
             List<LinkingTag> tags = s.tag(text);
             for (LinkingTag tag : tags) {
                 System.out.println(tag);
