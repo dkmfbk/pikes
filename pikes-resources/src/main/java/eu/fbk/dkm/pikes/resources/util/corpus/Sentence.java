@@ -1,5 +1,7 @@
 package eu.fbk.dkm.pikes.resources.util.corpus;
 
+import com.google.common.collect.HashMultimap;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -54,6 +56,42 @@ public class Sentence implements Iterable<Word>, Serializable {
         }
 
         return ret;
+    }
+
+    /**
+     * Given a word, it gives the list of descendants.
+     *
+     * @param i the index (from 1 to n) of the Word
+     * @return the ist of ancestors
+     */
+    public Set<Integer> getDescendants(int i) {
+        Set<Integer> ret = new HashSet<>();
+
+        HashMultimap<Integer, Integer> children = HashMultimap.create();
+        for (Word word : this) {
+            if (word.getDepParent() > 0) {
+                children.put(word.getDepParent(), word.getId());
+            }
+        }
+
+        int noLoop = 0;
+        addChildren(children, ret, i, noLoop);
+
+        return ret;
+    }
+
+    public void addChildren(HashMultimap<Integer, Integer> map, Set<Integer> ret, Integer parent, int noLoop) {
+        if (noLoop > LOOP_STOP) {
+            return;
+        }
+
+        ret.add(parent);
+        Set<Integer> children = map.get(parent);
+        ret.addAll(children);
+        for (Integer child : children) {
+            addChildren(map, ret, child, noLoop + 1);
+        }
+
     }
 
     public Integer searchHead(List<Integer> span) {
