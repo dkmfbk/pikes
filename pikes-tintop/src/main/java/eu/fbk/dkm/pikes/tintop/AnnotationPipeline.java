@@ -181,6 +181,7 @@ public class AnnotationPipeline {
         Annotation document = new Annotation(text);
         document.set(CoreAnnotations.DocDateAnnotation.class, NAFdocument.getFileDesc().creationtime);
         thisPipeline.annotate(document);
+        logger.info(thisPipeline.timingInformation());
         linguisticProcessor.setEndTimestamp();
         NAFdocument.addLinguisticProcessor(linguisticProcessor.getLayer(), linguisticProcessor);
         Map<Integer, CorefChain> coreferenceGraph = document.get(CorefCoreAnnotations.CorefChainAnnotation.class);
