@@ -7,6 +7,7 @@ Please cite the following paper, if you use PIKES in a scientific publication:
     By Francesco Corcoglioniti, Marco Rospocher, Alessio Palmero Aprosio.<br/>
     In Proc. of ACM Symposium on Applied Computing (SAC'16), 2016 (to appear).<br/>
     [\[bib\]](https://dkm-static.fbk.eu/people/rospocher/bibtexbrowser.php?key=2016sac&amp;bib=my_pub.bib)
+    [\[pre-print/mirror\]](https://dkm-static.fbk.eu/people/rospocher/files/pubs/2016sac.pdf)
 
 Other papers:
 
