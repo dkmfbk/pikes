@@ -12,9 +12,9 @@ public class Timex3 implements TLinkReferable, Serializable {
     /** Timex3's type (required)*/
     private String type;
 
-    private Term beginPoint;
-    
-    private Term endPoint;
+    private Timex3 beginPoint;
+
+    private Timex3 endPoint;
 
     private String quant;
 
@@ -109,11 +109,11 @@ public class Timex3 implements TLinkReferable, Serializable {
 	return this.beginPoint != null;
     }
 
-    public Term getBeginPoint() {
+    public Timex3 getBeginPoint() {
 	return this.beginPoint;
     }
 
-    public void setBeginPoint(Term beginPoint) {
+    public void setBeginPoint(Timex3 beginPoint) {
 	this.beginPoint = beginPoint;
     }
 
@@ -121,11 +121,11 @@ public class Timex3 implements TLinkReferable, Serializable {
 	return this.endPoint != null;
     }
 
-    public Term getEndPoint() {
+    public Timex3 getEndPoint() {
 	return this.endPoint;
     }
 
-    public void setEndPoint(Term endPoint) {
+    public void setEndPoint(Timex3 endPoint) {
 	this.endPoint = endPoint;
     }
 
@@ -284,7 +284,7 @@ public class Timex3 implements TLinkReferable, Serializable {
     public void addWF(WF wf, boolean isHead) {
 	this.mentions.get(0).addTarget(wf, isHead);
     }
-    
+
     public List<Span<WF>> getSpans() {
 	return this.mentions;
     }
