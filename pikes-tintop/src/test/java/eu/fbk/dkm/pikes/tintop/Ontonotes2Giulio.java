@@ -68,6 +68,9 @@ public class Ontonotes2Giulio {
                     if (s != null) {
                         stringBuffer.append(s);
                     }
+                    else {
+                        stringBuffer.append("-");
+                    }
                     stringBuffer.append('\t');
                 }
 
