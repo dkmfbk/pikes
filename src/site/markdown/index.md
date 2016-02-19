@@ -37,7 +37,7 @@ entities.
 
 <h3 class='no-before'>News</h3>
 
-- 2015-11-24 Paper accepted at [SAC 2016](http://www.acm.org/conferences/sac/sac2016/) conference, SWA track
+- 2015-11-24 [Paper](https://dkm-static.fbk.eu/people/rospocher/files/pubs/2016sac.pdf) accepted at [SAC 2016](http://www.acm.org/conferences/sac/sac2016/) conference, SWA track
 - 2015-08-07 [Demo](https://dkm-static.fbk.eu/people/rospocher/files/pubs/2015iswcdemo1.pdf) accepted at [ISWC 2015](http://iswc2015.semanticweb.org/) conference
 - 2015-07-08 Restyling of the [Try-it-out demo](https://knowledgestore2.fbk.eu/pikes-demo/)
 - 2015-07-06 New [Demo Video](http://www.youtube.com/watch?v=D0mcnUKc3sg)!
