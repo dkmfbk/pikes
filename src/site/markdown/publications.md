@@ -9,6 +9,16 @@ Please cite the following paper, if you use PIKES in a scientific publication:
     [\[bib\]](https://dkm-static.fbk.eu/people/rospocher/bibtexbrowser.php?key=2016sac&amp;bib=my_pub.bib)
     [\[pre-print/mirror\]](https://dkm-static.fbk.eu/people/rospocher/files/pubs/2016sac.pdf)
 
+<br/>
+
+Papers describing applications exploiting PIKES:
+
+  * **Knowledge Extraction for Information Retrieval**<br/>
+    By Francesco Corcoglioniti, Mauro Dragoni, Marco Rospocher, and Alessio Palmero Aprosio.<br/>
+    In Proceedings of the 13th European Semantic Web Conference (ESWC2016), Anissaras, Crete, Greece, May 29-June 2, 2016<br/>
+    [\[bib\]](https://dkm-static.fbk.eu/people/rospocher/bibtexbrowser.php?key=2016eswc&amp;bib=my_pub.bib)
+    [\[pre-print/mirror\]](https://dkm-static.fbk.eu/people/rospocher/files/pubs/2016eswc.pdf)
+
 Other papers:
 
   * **Extracting Knowledge from Text with PIKES**<br/>

@@ -30,6 +30,10 @@
             <item name="Evaluation using Simple English Wikipedia" href="eval-sew.html"/>
         </menu>
 
+        <menu name="Applications">
+            <item name="Using PIKES for Information Retrieval" href="ke4ir.html"/>
+        </menu>
+
         <menu name="Maven Reports" ref="reports" inherit="top"/>
         <menu ref="modules" inherit="top"/>
         <menu ref="parent" inherit="top"/>
@@ -81,12 +85,13 @@
               <tocTopMax>6</tocTopMax>
               <tocTopFlatten>false</tocTopFlatten>
             -->
-            <topNav>About|Resources|Maven Reports|Modules|Parent Project|Links</topNav>
+            <topNav>About|Resources|Applications|Maven Reports|Modules|Parent Project|Links</topNav>
 
             <bottomNav maxSpan="8">
                 <column>About</column>
                 <column>Links</column>
                 <column>Resources</column>
+                <column>Applications</column>
             </bottomNav>
 
             <breadcrumbs>false</breadcrumbs>
