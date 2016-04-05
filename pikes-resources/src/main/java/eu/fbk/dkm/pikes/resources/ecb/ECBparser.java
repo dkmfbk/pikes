@@ -22,7 +22,7 @@ public class ECBparser {
 
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ECBparser.class);
-    private static final String DEFAULT_PREFIX = "http://dkm.fbk.eu/pikes/dataset/ecb/";
+    private static final String DEFAULT_PREFIX = "http://dkm.fbk.eu/pikes/dataset/ecb";
 
     public static void main(String[] args) {
         try {
@@ -63,7 +63,13 @@ public class ECBparser {
                     continue;
                 }
 
-                String url = prefix+file.getName();
+                String path = file.getParentFile().toString();
+                String folder = path.substring(path.lastIndexOf("/"));
+                String local_name = folder+File.separator+file.getName();
+
+                //System.out.println(prefix+folder+File.separator+file.getName());
+
+                String url = prefix+local_name;
                 String id = "" + i;
                 String title = "";
 
@@ -88,7 +94,7 @@ public class ECBparser {
                 documentPublic.publicId = id;
 
                 KAFDocument.FileDesc documentFileDesc = document.createFileDesc();
-                documentFileDesc.filename = file.getName();
+                documentFileDesc.filename = local_name;
                 documentFileDesc.title = title;
 
                 StringBuffer finalContent = new StringBuffer();
