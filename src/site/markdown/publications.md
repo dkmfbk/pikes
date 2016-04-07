@@ -8,6 +8,7 @@ Please cite the following paper, if you use PIKES in a scientific publication:
     In Proc. of ACM Symposium on Applied Computing (SAC'16), 2016 (to appear).<br/>
     [\[bib\]](https://dkm-static.fbk.eu/people/rospocher/bibtexbrowser.php?key=2016sac&amp;bib=my_pub.bib)
     [\[pre-print/mirror\]](https://dkm-static.fbk.eu/people/rospocher/files/pubs/2016sac.pdf)
+    [\[slides\]](https://dkm-static.fbk.eu/people/rospocher/files/slides/2016sac_slides.pdf)
 
 <br/>
 
