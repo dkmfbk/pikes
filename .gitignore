@@ -5,3 +5,7 @@ mytests
 *.sh
 dkm-commandlist.txt
 *.iml
+*/.classpath
+*/.project
+*/.settings
+
