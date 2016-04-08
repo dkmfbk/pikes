@@ -29,7 +29,7 @@ public class ConvertForSolr {
 
     public static void main(String[] args) {
 
-        String nafFolder = "/Users/alessio/Documents/Resources/wes/wes2015.naf";
+        String nafFolder = "/Users/alessio/Documents/Resources/wes/new";
         String xmlFolder = "/Users/alessio/Documents/Resources/wes/xml-no-title";
         String[] extensions = new String[] { "naf" };
 
