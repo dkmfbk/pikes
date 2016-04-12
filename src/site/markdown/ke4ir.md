@@ -81,14 +81,16 @@ Below we provide all the input, output and intermediate data involved in the eva
     * spreadsheet with performances (and top 10 results with their scores) of each query, for each significant layer combination (data related to Table 4) - [results_queries.ods](https://knowledgestore.fbk.eu/files/ke4ir/results_queries.ods) (292 KB)
     * spreadsheet with rankings returned by each query considering one semantic layer at a time, with scores obtained before applying layer weight w(l(t)); data not used in the paper but possibly useful to further compare layers' performances - [results_rankings.ods](https://knowledgestore.fbk.eu/files/ke4ir/results_rankings.ods) (212 KB)
     * CSV file with performances averaged over all queries, measured by varying the total weight assigned to semantic layers in 0.01 steps (data related to Figure 2) - [results_semantic_weight_analysis.csv](https://knowledgestore.fbk.eu/files/ke4ir/results_semantic_weight_analysis.csv) (576 KB)
+    * TSV with retrieval performances using SOLR (slightly worse than our textual baseline) - [solr_result.tsv](https://knowledgestore.fbk.eu/files/ke4ir/result_solr.tsv) (3 KB)
   <br/>
 If all you want is to reproduce our results as quickly as possible, we provide a zipped folder with the minimum required data (NLP annotations and enriched graphs for documents and queries, relevance judgments): [ke4ir_evaluation.zip](https://knowledgestore.fbk.eu/files/ke4ir/ke4ir_evaluation.zip) (206 MB)
 
 Instructions:
 
-  * download and extract the [tarball file](https://knowledgestore.fbk.eu/files/ke4ir/ke4ir_evaluation.zip) containing the data folder
+  * download and extract the [ZIP file](https://knowledgestore.fbk.eu/files/ke4ir/ke4ir_evaluation.zip) containing the data folder
   * download the [precompiled binaries](https://knowledgestore.fbk.eu/files/ke4ir/ke4ir.tar.gz) of the evaluation infrastructure
-  * in a shell, execute `ke4ir-eval /path/to/data/folder/ke4ir.properties`
+  * in a shell, execute `ke4ir-eval -p /path/to/data/folder/ke4ir.properties`
+  * you should get an output similar to [this one](https://knowledgestore.fbk.eu/files/ke4ir/ke4ir_evaluation.output.txt), ending with a table reporting the values of several metrics for different layer combinations
 
 Requirements:
 
