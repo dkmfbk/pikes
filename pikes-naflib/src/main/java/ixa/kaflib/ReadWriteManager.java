@@ -370,6 +370,7 @@ class ReadWriteManager {
                 List<Element> corefElems = elem.getChildren();
                 for (Element corefElem : corefElems) {
                     String coId = getAttribute("id", corefElem);
+                    String clusterId = getOptAttribute("cluster", corefElem);
                     List<Element> spanElems = corefElem.getChildren("span");
                     if (spanElems.size() < 1) {
                         throw new IllegalStateException(
@@ -399,6 +400,9 @@ class ReadWriteManager {
                     String corefType = getOptAttribute("type", corefElem);
                     if (corefType != null) {
                         newCoref.setType(corefType);
+                    }
+                    if (clusterId != null) {
+                        newCoref.setCluster(clusterId);
                     }
                     List<Element> externalReferencesElems = corefElem.getChildren("externalReferences");
                     if (externalReferencesElems.size() > 0) {
@@ -1472,6 +1476,9 @@ class ReadWriteManager {
                 corefElem.setAttribute("id", coref.getId());
                 if (coref.hasType()) {
                     corefElem.setAttribute("type", coref.getType());
+                }
+                if (coref.hasCluster()) {
+                    corefElem.setAttribute("cluster", coref.getCluster());
                 }
                 for (Span<Term> span : coref.getSpans()) {
                     Comment spanComment = new Comment(coref.getSpanStr(span));

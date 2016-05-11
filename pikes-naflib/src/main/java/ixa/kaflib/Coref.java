@@ -14,6 +14,16 @@ public class Coref implements Serializable {
     /** (optional) */
     private String type;
 
+	public String getCluster() {
+		return cluster;
+	}
+
+	public void setCluster(String cluster) {
+		this.cluster = cluster;
+	}
+
+	private String cluster;
+
     /** Mentions to the same entity (at least one required) */
     private List<Span<Term>> mentions;
 
@@ -69,6 +79,10 @@ public class Coref implements Serializable {
 
     public boolean hasType() {
 	return this.type != null;
+    }
+
+    public boolean hasCluster() {
+	return this.cluster != null;
     }
 
     public String getType() {
