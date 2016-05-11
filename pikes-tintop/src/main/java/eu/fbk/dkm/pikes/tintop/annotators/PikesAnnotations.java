@@ -65,6 +65,13 @@ public class PikesAnnotations {
         }
     }
 
+    public static class MorphoAnnotation implements CoreAnnotation<String> {
+
+        @Override public Class<String> getType() {
+            return String.class;
+        }
+    }
+
     public static class DBpediaSpotlightAnnotation implements CoreAnnotation<LinkingTag> {
 
         @Override public Class<LinkingTag> getType() {
