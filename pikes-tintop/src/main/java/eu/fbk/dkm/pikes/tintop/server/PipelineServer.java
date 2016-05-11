@@ -4,7 +4,10 @@ import eu.fbk.dkm.pikes.tintop.AnnotationPipeline;
 import eu.fbk.dkm.pikes.tintop.orchestrator.TintopOrchestrator;
 import eu.fbk.dkm.utils.CommandLine;
 import org.apache.log4j.Logger;
+import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
+import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.grizzly.http.server.StaticHttpHandler;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
@@ -70,6 +73,14 @@ public class PipelineServer {
         httpServer.getServerConfiguration().addHttpHandler(new EverythingHandler(pipeline), "/all");
         httpServer.getServerConfiguration().addHttpHandler(new Text2NafHandler(pipeline), "/text2naf");
         httpServer.getServerConfiguration().addHttpHandler(new TriplesHandler(pipeline), "/text2rdf");
+
+        httpServer.getServerConfiguration().addHttpHandler(
+                new CLStaticHttpHandler(HttpServer.class.getClassLoader(), "webdemo/"), "/demo/");
+
+        // Fix
+        // see: http://stackoverflow.com/questions/35123194/jersey-2-render-swagger-static-content-correctly-without-trailing-slash
+        httpServer.getServerConfiguration().addHttpHandler(
+                new CLStaticHttpHandler(HttpServer.class.getClassLoader(), "webdemo/static/"), "/static/");
 
         try {
             httpServer.start();

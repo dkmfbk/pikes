@@ -12,14 +12,14 @@ function submitForm(form) {
     var output = $('form#sendText input[name=outputformat]:checked').val();
     console.log(output);
 
-    var action = "api/all";
+    var action = "/all";
     switch (output) {
         case "output_rdf":
-        action = "api/text2rdf";
+        action = "/text2rdf";
         break;
 
         case "output_naf":
-        action = "api/text2naf";
+        action = "/text2naf";
         break;
     }
 
