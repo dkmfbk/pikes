@@ -1,8 +1,7 @@
-package eu.fbk.dkm.pikes.tintop.orchestrator;
+package eu.fbk.dkm.pikes.tintopclient;
 
 import com.google.common.io.Files;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import eu.fbk.dkm.pikes.tintop.AnnotationPipeline;
 import eu.fbk.dkm.utils.CommandLine;
 import eu.fbk.dkm.utils.FrequencyHashSet;
 import eu.fbk.rdfpro.util.IO;
@@ -10,79 +9,61 @@ import ixa.kaflib.KAFDocument;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.jdom2.JDOMException;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by alessio on 19/01/16.
+ * Created by alessio on 25/02/15.
  */
 
-public class FolderOrchestrator {
+public class TintopOrchestrator {
 
-    private static final Logger logger = LoggerFactory.getLogger(FolderOrchestrator.class);
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(TintopOrchestrator.class);
     static final private int DEFAULT_MAX_ERR_ON_FILE = 5;
     static final private int DEFAULT_MAX_SIZE = 50000;
-    static final private int DEFAULT_SIZE = 10;
     static final private int DEFAULT_SLEEPING_TIME = 60000;
+
+    private ArrayList<TintopServer> servers;
+    private boolean fake;
+    private String fileCache = null;
+    public static String[] DEFAULT_EXTENSIONS = new String[] { "xml", "naf" };
+
+    private int skipped = 0;
+
+    private FrequencyHashSet<String> fileOnError = new FrequencyHashSet<>();
 
     private int maxErrOnFile = DEFAULT_MAX_ERR_ON_FILE;
     private int maxSize = DEFAULT_MAX_SIZE;
-    private FrequencyHashSet<String> fileOnError = new FrequencyHashSet<>();
-    private String fileCache = null;
-    private int skipped = 0;
-    public static String[] DEFAULT_EXTENSIONS = new String[] { "xml", "naf" };
+    private int timeout = TintopClient.DEFAULT_TIMEOUT;
+    private int sleepingTime = DEFAULT_SLEEPING_TIME;
 
-    public FolderOrchestrator() {
-    }
-
-    public int getMaxErrOnFile() {
-        return maxErrOnFile;
-    }
-
-    public void setMaxErrOnFile(int maxErrOnFile) {
-        this.maxErrOnFile = maxErrOnFile;
-    }
-
-    public int getMaxSize() {
-        return maxSize;
-    }
-
-    public void setMaxSize(int maxSize) {
-        this.maxSize = maxSize;
-    }
-
-    synchronized public void markFileAsNotDone(String filename) {
-        fileOnError.add(filename);
-        if (fileOnError.get(filename) <= maxErrOnFile) {
-            fileCache = filename;
-
-        } else {
-            logger.warn(String.format("File %s skipped, more than %d errors", filename, DEFAULT_MAX_ERR_ON_FILE));
-        }
-    }
-
-    public class LocalTintopClient implements Runnable {
+    public class RunnableTintopClient extends TintopClient implements Runnable {
 
         TintopSession session;
-        AnnotationPipeline pipeline;
 
-        public LocalTintopClient(TintopSession session, AnnotationPipeline pipeline) {
+        public RunnableTintopClient(TintopServer server, TintopSession session) {
+            this(server, session, false);
+        }
+
+        public RunnableTintopClient(TintopServer server, TintopSession session, boolean fake) {
+            super(server);
+            super.setFake(fake);
             this.session = session;
-            this.pipeline = pipeline;
+            setTimeout(timeout);
         }
 
         @Override
         public void run() {
+            Thread.currentThread().setName(server.getId() + " - " + server.getShortName());
+
             while (true) {
                 String filename = null;
                 try {
@@ -108,17 +89,7 @@ public class FolderOrchestrator {
                     String whole = IOUtils.toString(reader);
                     reader.close();
 
-                    KAFDocument doc;
-
-                    String naf;
-                    try {
-                        doc = pipeline.parseFromString(whole);
-                        naf = doc.toString();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        throw new Exception(e);
-                    }
-
+                    String naf = call(whole);
                     logger.debug(naf);
                     if (naf != null) {
                         logger.info("Writing file " + outputFile);
@@ -134,7 +105,7 @@ public class FolderOrchestrator {
 
                     try {
                         logger.info("Sleeping...");
-                        Thread.sleep(DEFAULT_SLEEPING_TIME);
+                        Thread.sleep(sleepingTime);
                     } catch (Exception e) {
                         logger.error(e.getMessage());
                     }
@@ -144,10 +115,57 @@ public class FolderOrchestrator {
 
     }
 
+    public TintopOrchestrator(ArrayList<TintopServer> servers, boolean fake) {
+        this.servers = servers;
+        this.fake = fake;
+    }
+
+    public int getMaxErrOnFile() {
+        return maxErrOnFile;
+    }
+
+    public void setMaxErrOnFile(int maxErrOnFile) {
+        this.maxErrOnFile = maxErrOnFile;
+    }
+
+    public int getMaxSize() {
+        return maxSize;
+    }
+
+    public void setMaxSize(int maxSize) {
+        this.maxSize = maxSize;
+    }
+
+    public int getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
+    }
+
+    public int getSleepingTime() {
+        return sleepingTime;
+    }
+
+    public void setSleepingTime(int sleepingTime) {
+        this.sleepingTime = sleepingTime;
+    }
+
     private File getOutputFile(File inputFile, TintopSession session) {
         String outputFile = session.getOutput().getAbsolutePath() + inputFile.getAbsolutePath()
                 .substring(session.getInput().getAbsolutePath().length());
         return new File(outputFile);
+    }
+
+    synchronized public void markFileAsNotDone(String filename) {
+        fileOnError.add(filename);
+        if (fileOnError.get(filename) <= maxErrOnFile) {
+            fileCache = filename;
+
+        } else {
+            logger.warn(String.format("File %s skipped, more than %d errors", filename, DEFAULT_MAX_ERR_ON_FILE));
+        }
     }
 
     synchronized public String getNextFile(TintopSession session) {
@@ -218,14 +236,14 @@ public class FolderOrchestrator {
         return null;
     }
 
-    public void run(TintopSession session, AnnotationPipeline pipeline, int size) {
-        logger.info(String.format("Started process with %d server(s)", size));
+    public void run(TintopSession session) {
+        logger.info(String.format("Started process with %d server(s)", servers.size()));
 
         final ThreadFactory factory = new ThreadFactoryBuilder().setDaemon(true).setNameFormat("client-%02d").build();
         final ExecutorService executor = Executors.newCachedThreadPool(factory);
         try {
-            for (int i = 0; i < size; i++) {
-                executor.submit(new LocalTintopClient(session, pipeline));
+            for (TintopServer server : servers) {
+                executor.submit(new RunnableTintopClient(server, session, fake));
             }
 
             executor.shutdown();
@@ -241,16 +259,19 @@ public class FolderOrchestrator {
     }
 
     public static void main(String[] args) {
+
         try {
             final eu.fbk.dkm.utils.CommandLine cmd = eu.fbk.dkm.utils.CommandLine
                     .parser()
-                    .withName("./orchestrator-folder")
-                    .withHeader("Run the Tintop Orchestrator in a particular folder")
+                    .withName("./orchestrator")
+                    .withHeader("Run the Tintop Orchestrator")
                     .withOption("i", "input", "Input folder", "FOLDER",
                             eu.fbk.dkm.utils.CommandLine.Type.DIRECTORY_EXISTING, true, false, true)
                     .withOption("o", "output", "Output folder", "FOLDER",
                             eu.fbk.dkm.utils.CommandLine.Type.DIRECTORY, true, false, true)
-                    .withOption(null, "skip", "Text file with list of file patterns to skip (one per line)", "FILE",
+                    .withOption("l", "list", "Text file with list of server (one per line)", "FILE",
+                            eu.fbk.dkm.utils.CommandLine.Type.FILE_EXISTING, true, false, true)
+                    .withOption("s", "skip", "Text file with list of file patterns to skip (one per line)", "FILE",
                             eu.fbk.dkm.utils.CommandLine.Type.FILE_EXISTING, true, false, false)
                     .withOption("m", "max-fail",
                             String.format("Max fails on a single file to skip (default %d)", DEFAULT_MAX_ERR_ON_FILE),
@@ -258,33 +279,26 @@ public class FolderOrchestrator {
                     .withOption("z", "max-size",
                             String.format("Max size of a NAF empty file (default %d)", DEFAULT_MAX_SIZE),
                             "INT", CommandLine.Type.INTEGER, true, false, false)
-                    .withOption("s", "size",
-                            String.format("Number of threads (default %d)", DEFAULT_SIZE),
+                    .withOption("t", "timeout",
+                            String.format("Timeout in ms (default %d)", TintopClient.DEFAULT_TIMEOUT),
                             "INT", CommandLine.Type.INTEGER, true, false, false)
-                    .withOption("c", "config", "Configuration file", "FILE", CommandLine.Type.FILE_EXISTING, true,
-                            false, false)
-                    .withOption(null, "properties", "Additional properties", "PROPS", CommandLine.Type.STRING, true,
-                            true, false)
+                    .withOption(null, "sleeping-time",
+                            String.format("Sleeping time for servers in ms (default %d)", DEFAULT_SLEEPING_TIME),
+                            "INT", CommandLine.Type.INTEGER, true, false, false)
+                    .withOption("F", "fake", "Fake execution")
                     .withLogger(LoggerFactory.getLogger("eu.fbk")).parse(args);
 
             File input = cmd.getOptionValue("input", File.class);
             File output = cmd.getOptionValue("output", File.class);
+            File serverList = cmd.getOptionValue("list", File.class);
             File skip = cmd.getOptionValue("skip", File.class);
-            File configFile = cmd.getOptionValue("config", File.class);
 
             Integer maxFail = cmd.getOptionValue("max-fail", Integer.class, DEFAULT_MAX_ERR_ON_FILE);
             Integer maxSize = cmd.getOptionValue("max-size", Integer.class, DEFAULT_MAX_SIZE);
-            Integer size = cmd.getOptionValue("size", Integer.class, DEFAULT_SIZE);
+            Integer timeout = cmd.getOptionValue("timeout", Integer.class, TintopClient.DEFAULT_TIMEOUT);
+            Integer sleepingTime = cmd.getOptionValue("sleeping-time", Integer.class, DEFAULT_SLEEPING_TIME);
 
-            List<String> addProperties = cmd.getOptionValues("properties", String.class);
-            Properties additionalProps = new Properties();
-            for (String property : addProperties) {
-                try {
-                    additionalProps.load(new StringReader(property));
-                } catch (Exception e) {
-                    logger.warn(e.getMessage());
-                }
-            }
+            boolean fake = cmd.hasOption("fake");
 
             HashSet<String> skipPatterns = new HashSet<>();
             if (skip != null) {
@@ -309,41 +323,38 @@ public class FolderOrchestrator {
                 }
             }
 
-            AnnotationPipeline pipeline = null;
-            try {
-                pipeline = new AnnotationPipeline(configFile, additionalProps);
-                pipeline.loadModels();
-            } catch (Exception e) {
-                e.printStackTrace();
-                logger.error(e.getMessage());
-                System.exit(1);
+            ArrayList<TintopServer> tintopServers = new ArrayList<>();
+            BufferedReader reader = new BufferedReader(new FileReader(serverList));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                line = line.trim();
+                if (line.length() == 0 || line.startsWith("#")) {
+                    continue;
+                }
+                try {
+                    TintopServer c = new TintopServer(line.trim());
+                    tintopServers.add(c);
+                } catch (Exception e) {
+                    // ignore
+                }
             }
-
-            FolderOrchestrator orchestrator = new FolderOrchestrator();
-            orchestrator.setMaxErrOnFile(maxFail);
-            orchestrator.setMaxSize(maxSize);
 
             String[] extensions = DEFAULT_EXTENSIONS;
             Iterator<File> fileIterator = FileUtils.iterateFiles(input, extensions, true);
 
+            TintopOrchestrator orchestrator = new TintopOrchestrator(tintopServers, fake);
+            orchestrator.setMaxErrOnFile(maxFail);
+            orchestrator.setMaxSize(maxSize);
+            orchestrator.setTimeout(timeout);
+            orchestrator.setSleepingTime(sleepingTime);
+
             TintopSession session = new TintopSession(input, output, fileIterator, skipPatterns);
-            orchestrator.run(session, pipeline, size);
+            orchestrator.run(session);
 
             logger.info("Skipped: {}", orchestrator.skipped);
-
-//            String naf = request.getParameter("naf");
-//            KAFDocument doc;
-//
-//            try {
-//                doc = pipeline.parseFromString(naf);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                throw new Exception(e);
-//            }
 
         } catch (Exception e) {
             CommandLine.fail(e);
         }
-
     }
 }

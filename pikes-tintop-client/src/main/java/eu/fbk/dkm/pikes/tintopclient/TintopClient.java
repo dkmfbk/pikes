@@ -1,4 +1,4 @@
-package eu.fbk.dkm.pikes.tintop.orchestrator;
+package eu.fbk.dkm.pikes.tintopclient;
 
 import eu.fbk.dkm.utils.CommandLine;
 import org.apache.commons.io.FileUtils;
