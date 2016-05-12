@@ -1,4 +1,4 @@
-package eu.fbk.dkm.pikes.tintop.orchestrator;
+package eu.fbk.dkm.pikes.tintopclient;
 
 import org.apache.log4j.Logger;
 

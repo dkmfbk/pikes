@@ -1,13 +1,10 @@
 package eu.fbk.dkm.pikes.tintop.server;
 
 import eu.fbk.dkm.pikes.tintop.AnnotationPipeline;
-import eu.fbk.dkm.pikes.tintop.orchestrator.TintopOrchestrator;
 import eu.fbk.dkm.utils.CommandLine;
-import org.apache.log4j.Logger;
 import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
-import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
-import org.glassfish.grizzly.http.server.StaticHttpHandler;
+import org.glassfish.grizzly.http.server.NetworkListener;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
@@ -29,7 +26,7 @@ public class PipelineServer {
 
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(PipelineServer.class);
 
-    public static final String DEFAULT_HOST = "localhost";
+    public static final String DEFAULT_HOST = "0.0.0.0";
     public static final Integer DEFAULT_PORT = 8011;
 
     public PipelineServer(String host, Integer port) {
@@ -64,7 +61,11 @@ public class PipelineServer {
             e.printStackTrace();
         }
 
-        HttpServer httpServer = HttpServer.createSimpleServer(host, port);
+//        HttpServer httpServer = HttpServer.createSimpleServer(null, host, port);
+        final HttpServer httpServer = new HttpServer();
+        NetworkListener nl = new NetworkListener("pikes-web", host, port);
+        httpServer.addListener(nl);
+
         httpServer.getServerConfiguration().setSessionTimeoutSeconds(timeoutInSeconds);
         httpServer.getServerConfiguration().setMaxPostSize(4194304);
         httpServer.getServerConfiguration().addHttpHandler(new NafHandler(pipeline), "/naf");
@@ -75,12 +76,12 @@ public class PipelineServer {
         httpServer.getServerConfiguration().addHttpHandler(new TriplesHandler(pipeline), "/text2rdf");
 
         httpServer.getServerConfiguration().addHttpHandler(
-                new CLStaticHttpHandler(HttpServer.class.getClassLoader(), "webdemo/"), "/demo/");
+                new CLStaticHttpHandler(HttpServer.class.getClassLoader(), "webdemo/"), "/");
 
         // Fix
         // see: http://stackoverflow.com/questions/35123194/jersey-2-render-swagger-static-content-correctly-without-trailing-slash
-        httpServer.getServerConfiguration().addHttpHandler(
-                new CLStaticHttpHandler(HttpServer.class.getClassLoader(), "webdemo/static/"), "/static/");
+//        httpServer.getServerConfiguration().addHttpHandler(
+//                new CLStaticHttpHandler(HttpServer.class.getClassLoader(), "webdemo/static/"), "/static/");
 
         try {
             httpServer.start();

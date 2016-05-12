@@ -119,6 +119,7 @@
         <module>pikes-tintop</module>
         <module>pikes-raid</module>
         <module>pikes-rdf</module>
+        <module>pikes-tintop-client</module>
     </modules>
 
 </project>

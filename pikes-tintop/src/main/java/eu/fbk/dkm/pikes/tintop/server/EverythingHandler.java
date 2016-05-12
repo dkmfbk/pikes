@@ -41,9 +41,13 @@ public class EverythingHandler extends AbstractHandler {
 		String okReferer = pipeline.getDefaultConfig().getProperty("back_referer");
 
 		boolean backLink = false;
-		if (referer != null && okReferer != null && referer.equals(okReferer)) {
+		if (okReferer != null || referer != null) {
 			backLink = true;
 		}
+
+//		if (referer != null && okReferer != null && referer.equals(okReferer)) {
+//			backLink = true;
+//		}
 
 		String text = request.getParameter("text");
 
