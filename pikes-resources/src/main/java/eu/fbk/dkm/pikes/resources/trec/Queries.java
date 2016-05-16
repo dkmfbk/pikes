@@ -92,7 +92,7 @@ public class Queries {
 
                 saveFile(outputFolder.getAbsolutePath() + "/keyword/" + number + ".naf", title, number, urlTemplate);
                 saveFile(outputFolder.getAbsolutePath() + "/desc/" + number + ".naf", desc, number, urlTemplate);
-                saveFile(outputFolder.getAbsolutePath() + "/keyword_desc/" + number + ".naf", title+".\n"+desc, number, urlTemplate);
+                saveFile(outputFolder.getAbsolutePath() + "/keyword_desc/" + number + ".naf", title+"\n\n"+desc, number, urlTemplate);
 
             }
 
