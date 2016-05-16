@@ -349,7 +349,7 @@ public class ConvertDocs {
             }
 
 
-            if (cleaned_text.equals(text_to_clean)) System.out.println("POSSIBLE PROBLEM IN CLEANING HTML :" + ID_str);
+            if (cleaned_text.equals(text_to_clean)) System.out.println("POSSIBLE PROBLEM IN CLEANING HTML: " + ID_str);
             if (cleaned_text.contains("</") || cleaned_text.contains("/>"))
                 System.out.println("POSSIBLE HTML TAGS IN: " + ID_str);
 
