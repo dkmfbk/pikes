@@ -13,7 +13,7 @@ import java.util.*;
  * Created by alessio on 06/05/15.
  */
 
-public class TP_LemmaAnnotator implements Annotator {
+public class ITA_LemmaAnnotator implements Annotator {
 
     static class LemmaProperty {
 
@@ -54,7 +54,7 @@ public class TP_LemmaAnnotator implements Annotator {
 
     FstanRunner runner;
 
-    public TP_LemmaAnnotator(String annotatorName, Properties props) {
+    public ITA_LemmaAnnotator(String annotatorName, Properties props) {
         String command = props.getProperty(annotatorName + ".fstan_command");
         String model = props.getProperty(annotatorName + ".fstan_model");
         runner = new FstanRunner(command, model);
@@ -223,11 +223,7 @@ public class TP_LemmaAnnotator implements Annotator {
                 }
             }
 
-//            System.out.println(tokenList);
             ArrayList<String[]> results = runner.run(tokenList);
-//            for (String[] result : results) {
-//                System.out.println(Arrays.toString(result));
-//            }
 
             int i = 0;
             for (CoreMap sentence : annotation.get(CoreAnnotations.SentencesAnnotation.class)) {

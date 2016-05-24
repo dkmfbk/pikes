@@ -14,11 +14,11 @@ import java.util.*;
  * Created by alessio on 06/05/15.
  */
 
-public class TP_TokenAnnotator implements Annotator {
+public class ITA_TokenAnnotator implements Annotator {
 
     TokenPro tokenPro = null;
 
-    public TP_TokenAnnotator(String annotatorName, Properties props) {
+    public ITA_TokenAnnotator(String annotatorName, Properties props) {
         String confFolder = props.getProperty(annotatorName + ".conf_folder");
         tokenPro = new TokenPro(confFolder);
     }

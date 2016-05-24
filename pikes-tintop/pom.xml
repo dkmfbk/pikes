@@ -31,6 +31,12 @@
 
         <!-- PRODUCTION -->
         <dependency>
+            <groupId>org.fbk.cit.hlt</groupId>
+            <artifactId>thewikimachine</artifactId>
+            <version>LATEST</version>
+        </dependency>
+
+        <dependency>
             <groupId>edu.stanford.nlp</groupId>
             <artifactId>stanford-corenlp</artifactId>
             <version>3.6.0</version>
@@ -53,7 +59,7 @@
             <groupId>edu.stanford.nlp</groupId>
             <artifactId>stanford-corenlp</artifactId>
             <classifier>models</classifier>
-            <version>3.5.2</version>
+            <version>3.6.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
