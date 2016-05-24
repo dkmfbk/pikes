@@ -88,6 +88,8 @@ public class TokenPro {
                         thisSent = new ArrayList<>();
                     } else {
                         CoreLabel token = factory.makeToken(wTemp, wTemp, position, wTemp.length());
+                        token.setIndex(thisSent.size() + 1);
+                        token.setSentIndex(out.size());
                         thisSent.add(token);
                     }
 

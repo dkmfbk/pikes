@@ -22,15 +22,24 @@ public class StanfordTest {
     private static void printOutput(Annotation annotation) {
         List<CoreMap> sents = annotation.get(CoreAnnotations.SentencesAnnotation.class);
         for (CoreMap thisSent : sents) {
+
+            System.out.println();
+            System.out.println(thisSent.get(CoreAnnotations.SentenceIndexAnnotation.class));
+            System.out.println();
+
             List<CoreLabel> tokens = thisSent.get(CoreAnnotations.TokensAnnotation.class);
             for (CoreLabel token : tokens) {
                 System.out.println(token);
+                System.out.println(token.index());
+                System.out.println(token.sentIndex());
                 System.out.println(token.get(CoreAnnotations.PartOfSpeechAnnotation.class));
                 System.out.println(token.get(CoreAnnotations.LemmaAnnotation.class));
                 System.out.println(token.get(CoreAnnotations.NamedEntityTagAnnotation.class));
                 System.out.println();
             }
+
             System.out.println("---");
+            System.out.println();
         }
     }
 
@@ -58,7 +67,7 @@ public class StanfordTest {
         ITApipeline.annotate(annotation);
         printOutput(annotation);
 
-        System.exit(1);
+//        System.exit(1);
 
         props = new Properties();
         props.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner");

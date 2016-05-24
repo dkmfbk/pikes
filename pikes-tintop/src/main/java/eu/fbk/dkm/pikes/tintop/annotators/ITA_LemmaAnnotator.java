@@ -225,9 +225,9 @@ public class ITA_LemmaAnnotator implements Annotator {
                     String originalToken = token.get(CoreAnnotations.TextAnnotation.class);
 
                     LemmaProperty lemmaProperty = getFstanPos(originalToken, pos);
-                    System.out.println(originalToken);
-                    System.out.println(lemmaProperty);
-                    System.out.println(lemmaProperty.getLemma());
+//                    System.out.println(originalToken);
+//                    System.out.println(lemmaProperty);
+//                    System.out.println(lemmaProperty.getLemma());
 
                     list.add(lemmaProperty);
                     tokenList.add(lemmaProperty.getLemma());

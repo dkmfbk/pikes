@@ -55,7 +55,6 @@ public class ITA_TokenAnnotator implements Annotator {
                 tokenIndex += sentence.size();
                 sent.set(CoreAnnotations.TokenEndAnnotation.class, tokenIndex);
 
-
                 sentences.add(sent);
                 tokens.addAll(sentence);
             }
