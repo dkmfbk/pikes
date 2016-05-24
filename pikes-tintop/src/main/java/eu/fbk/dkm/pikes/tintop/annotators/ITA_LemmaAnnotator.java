@@ -50,6 +50,14 @@ public class ITA_LemmaAnnotator implements Annotator {
         public void setToLower(boolean toLower) {
             this.toLower = toLower;
         }
+
+        @Override public String toString() {
+            return "LemmaProperty{" +
+                    "pos='" + pos + '\'' +
+                    ", toLower=" + toLower +
+                    ", lemma='" + lemma + '\'' +
+                    '}';
+        }
     }
 
     FstanRunner runner;
@@ -216,7 +224,10 @@ public class ITA_LemmaAnnotator implements Annotator {
                     String pos = token.get(CoreAnnotations.PartOfSpeechAnnotation.class);
                     String originalToken = token.get(CoreAnnotations.TextAnnotation.class);
 
-                    LemmaProperty lemmaProperty = getFstanPos(originalToken.toLowerCase(), pos);
+                    LemmaProperty lemmaProperty = getFstanPos(originalToken, pos);
+                    System.out.println(originalToken);
+                    System.out.println(lemmaProperty);
+                    System.out.println(lemmaProperty.getLemma());
 
                     list.add(lemmaProperty);
                     tokenList.add(lemmaProperty.getLemma());
@@ -234,8 +245,14 @@ public class ITA_LemmaAnnotator implements Annotator {
                     res.add(results.get(i));
                     LemmaProperty lemmaProperty = list.get(i);
 
-                    ArrayList<String> strings = runner.get(lemmaProperty.getLemma(), lemmaProperty.getPos(), res);
-                    String lemma = strings.get(0);
+                    ArrayList<String> strings = null;
+                    if (lemmaProperty.getPos() != null) {
+                        strings = runner.get(lemmaProperty.getLemma(), lemmaProperty.getPos(), res);
+                    }
+                    String lemma = lemmaProperty.getLemma();
+                    if (strings != null) {
+                        lemma = strings.get(0);
+                    }
                     if (lemmaProperty.isToLower()) {
                         lemma = lemma.toLowerCase();
                     }
