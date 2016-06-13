@@ -1,4 +1,4 @@
-package eu.fbk.dkm.pikes.tintop.annotators;
+package eu.fbk.dkm.pikes.tintop.ita.annotators;
 
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;

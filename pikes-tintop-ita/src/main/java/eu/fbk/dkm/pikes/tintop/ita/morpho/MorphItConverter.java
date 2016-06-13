@@ -3,7 +3,6 @@ package eu.fbk.dkm.pikes.tintop.ita.morpho;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import eu.fbk.dkm.utils.CommandLine;
-import org.openrdf.query.algebra.Str;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +10,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

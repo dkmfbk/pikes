@@ -5,12 +5,12 @@ import eu.fbk.dkm.pikes.resources.util.corpus.Sentence;
 import eu.fbk.dkm.pikes.resources.util.corpus.Word;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import scala.actors.threadpool.AtomicInteger;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by alessio on 28/12/15.

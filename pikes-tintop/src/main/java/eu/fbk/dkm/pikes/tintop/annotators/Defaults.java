@@ -10,8 +10,8 @@ import java.util.Properties;
 
 public class Defaults {
 
-    private static String[] booleanTrue = new String[] { "yes", "1", "y" };
-    private static String[] booleanFalse = new String[] { "no", "0", "n" };
+    private static String[] booleanTrue = new String[] { "yes", "1", "y", "true" };
+    private static String[] booleanFalse = new String[] { "no", "0", "n", "false" };
 
     public static Integer getInteger(@Nullable String value, int defaultValue) {
         try {

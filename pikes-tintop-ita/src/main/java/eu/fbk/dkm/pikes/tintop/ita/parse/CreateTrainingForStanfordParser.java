@@ -27,8 +27,8 @@ public class CreateTrainingForStanfordParser {
 //        String input = args[0];
 //        String output = args[1];
 
-        String input = "/Users/alessio/Documents/Resources/universal-dependencies-1.2/UD_Italian/it-ud-test.conllu";
-        String output = "/Users/alessio/Documents/Resources/universal-dependencies-1.2/UD_Italian/it-ud-test.conllu.parse.stanford";
+        String input = "/Users/alessio/Documents/Resources/universal-dependencies-1.2/UD_Italian/it-ud-dev.conllu";
+        String output = "/Users/alessio/Documents/Resources/universal-dependencies-1.2/UD_Italian/it-ud-dev.conllu.parse.stanford";
 
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(output));
@@ -216,6 +216,10 @@ public class CreateTrainingForStanfordParser {
             writer.append(map.get("form").toString()).append("\t");
             writer.append(map.get("lemma").toString()).append("\t");
             writer.append(map.get("pos").toString()).append("\t");
+            writer.append(map.get("pos").toString()).append("\t");
+            writer.append("_").append("\t");
+            writer.append(Integer.toString(parseParent)).append("\t");
+            writer.append(map.get("parseLabel").toString()).append("\t");
             writer.append(Integer.toString(parseParent)).append("\t");
             writer.append(map.get("parseLabel").toString()).append("\n");
         }

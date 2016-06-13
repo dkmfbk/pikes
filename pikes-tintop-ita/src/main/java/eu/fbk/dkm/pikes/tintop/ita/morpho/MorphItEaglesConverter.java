@@ -5,7 +5,6 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.io.Files;
 import eu.fbk.dkm.utils.CommandLine;
 import eu.fbk.dkm.utils.FrequencyHashSet;
-import org.openrdf.query.algebra.Str;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,8 +17,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static org.fbk.cit.hlt.core.lsa.InverseVocabulary.logger;
 
 /**
  * Created by alessio on 18/05/16.
@@ -370,7 +367,8 @@ public class MorphItEaglesConverter {
 
             writer.close();
         } catch (Exception e) {
-            logger.error(e.getMessage());
+//            logger.error(e.getMessage());
+            e.printStackTrace();
         }
     }
 }

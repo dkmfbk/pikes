@@ -1,4 +1,4 @@
-package eu.fbk.dkm.pikes.tintop.annotators;
+package eu.fbk.dkm.pikes.tintop.ita.annotators;
 
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
@@ -6,11 +6,8 @@ import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.Annotator;
 import edu.stanford.nlp.util.ArrayCoreMap;
 import edu.stanford.nlp.util.CoreMap;
-import eu.fbk.dkm.pikes.tintop.ita.token.TokenPro;
 
 import java.util.*;
-
-import static org.json.zip.JSONzip.end;
 
 /**
  * Created by alessio on 06/05/15.
@@ -18,11 +15,11 @@ import static org.json.zip.JSONzip.end;
 
 public class ITA_TokenAnnotator implements Annotator {
 
-    TokenPro tokenPro = null;
+    eu.fbk.dkm.pikes.tintop.ita.token.TokenPro tokenPro = null;
 
     public ITA_TokenAnnotator(String annotatorName, Properties props) {
         String confFolder = props.getProperty(annotatorName + ".conf_folder");
-        tokenPro = new TokenPro(confFolder);
+        tokenPro = new eu.fbk.dkm.pikes.tintop.ita.token.TokenPro(confFolder);
     }
 
     @Override
@@ -45,6 +42,10 @@ public class ITA_TokenAnnotator implements Annotator {
                 }
 
                 CoreMap sent = new ArrayCoreMap(1);
+                for (CoreLabel coreLabel : sentence) {
+                    coreLabel.setSentIndex(sIndex);
+                }
+
                 sent.set(CoreAnnotations.TokensAnnotation.class, sentence);
 
                 sent.set(CoreAnnotations.SentenceIndexAnnotation.class, sIndex++);

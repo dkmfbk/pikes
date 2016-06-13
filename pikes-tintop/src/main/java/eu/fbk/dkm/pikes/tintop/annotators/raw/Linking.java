@@ -1,6 +1,6 @@
 package eu.fbk.dkm.pikes.tintop.annotators.raw;
 
-import org.apache.commons.lang3.CharEncoding;
+import org.apache.commons.lang.CharEncoding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

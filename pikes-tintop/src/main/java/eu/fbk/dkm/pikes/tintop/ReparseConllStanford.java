@@ -17,13 +17,13 @@ import eu.fbk.dkm.pikes.tintop.util.RemoveLoopsInConll;
 import eu.fbk.dkm.utils.CommandLine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import scala.actors.threadpool.AtomicInteger;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by alessio on 26/02/15.

@@ -3,6 +3,11 @@
  */
 package eu.fbk.dkm.pikes.tintop.ita.token;
 
+import eu.fbk.dkm.pikes.tintop.ita.token.Tokenizer.SplittingRules.CharSplitter.GeneralRules.Char;
+import eu.fbk.dkm.pikes.tintop.ita.token.Tokenizer.SplittingRules.CharSplitter.LanguageRest;
+import eu.fbk.dkm.pikes.tintop.ita.token.Tokenizer.SplittingRules.KnownWordsList.LanguageRes;
+import eu.fbk.dkm.pikes.tintop.ita.token.Tokenizer.SplittingRules.KnownWordsList.LanguageRes.Expression;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -10,6 +15,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Iterator;
@@ -32,7 +38,7 @@ public class LexparsConfig {
     BitSet charids = new BitSet();
     BitSet gensplitrules = new BitSet();
     Pattern knownWordsListPatterns = null;
-    ArrayList<Tokenizer.SplittingRules.KnownWordsList.LanguageRes.Expression> knownWordsList = new ArrayList<Tokenizer.SplittingRules.KnownWordsList.LanguageRes.Expression>();
+    ArrayList<Expression> knownWordsList = new ArrayList<Expression>();
 
     Pattern endOfSentencePatterns = null;
     Pattern abbreviationPatterns = null;
@@ -41,16 +47,17 @@ public class LexparsConfig {
         this.readConfigFile(conf_folder);
         // collect the splitting chars
         charids = myTokenizer.getSplittingRules().getCharSplitter().getGeneralRules().getCharIds();
-        Iterator<Tokenizer.SplittingRules.CharSplitter.LanguageRest> langRest = myTokenizer.getSplittingRules()
-                .getCharSplitter().getLanguageRest().iterator();
+        Iterator<LanguageRest> langRest = myTokenizer.getSplittingRules().getCharSplitter().getLanguageRest()
+                .iterator();
         while (langRest.hasNext()) {
-            Tokenizer.SplittingRules.CharSplitter.LanguageRest langRestmp = langRest.next();
+            LanguageRest langRestmp = langRest.next();
             String languages[] = { langRestmp.getId() };
             if (checkLang(language, languages)) {
-                Iterator<Tokenizer.SplittingRules.CharSplitter.LanguageRest.Char> langchl = langRestmp.getChar()
-                        .iterator();
+                Iterator<eu.fbk.dkm.pikes.tintop.ita.token.Tokenizer.SplittingRules.CharSplitter.LanguageRest.Char> langchl = langRestmp
+                        .getChar().iterator();
                 while (langchl.hasNext()) {
-                    Tokenizer.SplittingRules.CharSplitter.LanguageRest.Char langchtmp = langchl.next();
+                    eu.fbk.dkm.pikes.tintop.ita.token.Tokenizer.SplittingRules.CharSplitter.LanguageRest.Char langchtmp = langchl
+                            .next();
                     charids.set(langchtmp.getId());
 
                 }
@@ -58,25 +65,24 @@ public class LexparsConfig {
         }
 
         // collect the splitting rules
-        Iterator<Tokenizer.SplittingRules.GeneralSplittingRules.Char> chrl = myTokenizer.getSplittingRules()
-                .getGeneralSplittingRules().getChar().iterator();
+        Iterator<eu.fbk.dkm.pikes.tintop.ita.token.Tokenizer.SplittingRules.GeneralSplittingRules.Char> chrl = myTokenizer
+                .getSplittingRules().getGeneralSplittingRules().getChar().iterator();
         while (chrl.hasNext()) {
-            Tokenizer.SplittingRules.GeneralSplittingRules.Char chrtmp = chrl.next();
+            eu.fbk.dkm.pikes.tintop.ita.token.Tokenizer.SplittingRules.GeneralSplittingRules.Char chrtmp = chrl.next();
             gensplitrules.set(chrtmp.getId());
         }
 
         StringBuffer patterns = new StringBuffer();
-        Iterator<Tokenizer.SplittingRules.KnownWordsList.LanguageRes> langRes = myTokenizer.getSplittingRules()
-                .getKnownWordsList().getLanguageRes().iterator();
-        Tokenizer.SplittingRules.KnownWordsList.LanguageRes langRestmp;
-        Iterator<Tokenizer.SplittingRules.KnownWordsList.LanguageRes.Expression> iter;
+        Iterator<LanguageRes> langRes = myTokenizer.getSplittingRules().getKnownWordsList().getLanguageRes().iterator();
+        LanguageRes langRestmp;
+        Iterator<Expression> iter;
         while (langRes.hasNext()) {
             langRestmp = langRes.next();
             String languages[] = { langRestmp.getId() };
             if (checkLang(language, languages)) {
                 iter = langRestmp.getExpression().iterator();
                 while (iter.hasNext()) {
-                    Tokenizer.SplittingRules.KnownWordsList.LanguageRes.Expression expr = iter.next();
+                    Expression expr = iter.next();
                     patterns.append("|").append(expr.getFind());
                     knownWordsList.add(expr);
                 }
@@ -90,19 +96,19 @@ public class LexparsConfig {
 
         //collect the end of sentence patterns
         patterns.setLength(0);
-        ListIterator<Tokenizer.EndSentenceChars.LanguageRes> ewcl = myTokenizer.getEndSentenceChars().getLanguageRes()
-                .listIterator();
+        ListIterator<eu.fbk.dkm.pikes.tintop.ita.token.Tokenizer.EndSentenceChars.LanguageRes> ewcl = myTokenizer
+                .getEndSentenceChars().getLanguageRes().listIterator();
         while (ewcl.hasNext()) {
-            Tokenizer.EndSentenceChars.LanguageRes ewcltmp = ewcl
+            eu.fbk.dkm.pikes.tintop.ita.token.Tokenizer.EndSentenceChars.LanguageRes ewcltmp = ewcl
                     .next();
             String languages[] = { ewcltmp.getId() };
             if (checkLang(language, languages)) {
-                ListIterator<Tokenizer.EndSentenceChars.LanguageRes.Expression> eexp = ewcltmp
+                ListIterator<eu.fbk.dkm.pikes.tintop.ita.token.Tokenizer.EndSentenceChars.LanguageRes.Expression> eexp = ewcltmp
                         .getExpression().listIterator();
                 while (eexp.hasNext()) {
                     patterns.append("|").append(eexp.next().getFind());
                 }
-                ListIterator<Tokenizer.EndSentenceChars.LanguageRes.Char> charl = ewcltmp
+                ListIterator<eu.fbk.dkm.pikes.tintop.ita.token.Tokenizer.EndSentenceChars.LanguageRes.Char> charl = ewcltmp
                         .getChar().listIterator();
                 while (charl.hasNext()) {
                     patterns.append("|").append("\\").append(String.valueOf((char) charl.next().getId()));
@@ -114,17 +120,18 @@ public class LexparsConfig {
         }
 
         //abbreviations
-        ListIterator<Tokenizer.AbbreviationList.LanguageRes> langl =
+        ListIterator<eu.fbk.dkm.pikes.tintop.ita.token.Tokenizer.AbbreviationList.LanguageRes> langl =
                 myTokenizer.getAbbreviationList().getLanguageRes().listIterator();
         while (langl.hasNext()) {
-            Tokenizer.AbbreviationList.LanguageRes langtmp = langl.next();
+            eu.fbk.dkm.pikes.tintop.ita.token.Tokenizer.AbbreviationList.LanguageRes langtmp = langl.next();
             String languages[] = { langtmp.getId() };
             if (checkLang(language, languages)) {
                 StringBuffer abbrs = new StringBuffer();
-                ListIterator<Tokenizer.AbbreviationList.LanguageRes.Expression> expl = langtmp
+                ListIterator<eu.fbk.dkm.pikes.tintop.ita.token.Tokenizer.AbbreviationList.LanguageRes.Expression> expl = langtmp
                         .getExpression().listIterator();
                 while (expl.hasNext()) {
-                    Tokenizer.AbbreviationList.LanguageRes.Expression exptmp = expl.next();
+                    eu.fbk.dkm.pikes.tintop.ita.token.Tokenizer.AbbreviationList.LanguageRes.Expression exptmp = expl
+                            .next();
                     abbrs.append("|").append(exptmp.getFind().replaceAll("\\.", "\\\\."));
                 }
 
@@ -170,7 +177,7 @@ public class LexparsConfig {
         if (knownWordsListPatterns != null) {
             Matcher matcher = knownWordsListPatterns.matcher(str);
             if (matcher.find()) {
-                for (Tokenizer.SplittingRules.KnownWordsList.LanguageRes.Expression expr : knownWordsList) {
+                for (Expression expr : knownWordsList) {
                     try {
                         //System.err.println("=> (" + str + ") " +expr.getFind());
                         Pattern pattern = Pattern.compile(expr.getFind());
@@ -222,10 +229,9 @@ public class LexparsConfig {
     }
 
     public String structAbbWithcharSplitterRule(String word, String lang) {
-        Iterator<Tokenizer.SplittingRules.CharSplitter.GeneralRules.Char> chrl = myTokenizer.getSplittingRules()
-                .getCharSplitter().getGeneralRules().getChar().iterator();
+        Iterator<Char> chrl = myTokenizer.getSplittingRules().getCharSplitter().getGeneralRules().getChar().iterator();
         while (chrl.hasNext()) {
-            Tokenizer.SplittingRules.CharSplitter.GeneralRules.Char chrtmp = chrl.next();
+            Char chrtmp = chrl.next();
             char a = (char) chrtmp.getId();
             String tmp = String.valueOf(a);
             //System.err.println(word+"="+tmp+"=");
@@ -234,16 +240,16 @@ public class LexparsConfig {
 
         }
 
-        Iterator<Tokenizer.SplittingRules.CharSplitter.LanguageRest> langResl = myTokenizer.getSplittingRules()
-                .getCharSplitter().getLanguageRest().iterator();
+        Iterator<LanguageRest> langResl = myTokenizer.getSplittingRules().getCharSplitter().getLanguageRest()
+                .iterator();
         while (langResl.hasNext()) {
-            Tokenizer.SplittingRules.CharSplitter.LanguageRest langRestmp = langResl.next();
+            LanguageRest langRestmp = langResl.next();
             String languages[] = { langRestmp.getId() };
             if (checkLang(lang, languages)) {
-                Iterator<Tokenizer.SplittingRules.CharSplitter.LanguageRest.Char> langchl = langRestmp
+                Iterator<eu.fbk.dkm.pikes.tintop.ita.token.Tokenizer.SplittingRules.CharSplitter.LanguageRest.Char> langchl = langRestmp
                         .getChar().iterator();
                 while (langchl.hasNext()) {
-                    Tokenizer.SplittingRules.CharSplitter.LanguageRest.Char langchtmp = langchl
+                    eu.fbk.dkm.pikes.tintop.ita.token.Tokenizer.SplittingRules.CharSplitter.LanguageRest.Char langchtmp = langchl
                             .next();
                     char a = (char) langchtmp.getId();
                     String tmp = String.valueOf(a);
@@ -286,10 +292,15 @@ public class LexparsConfig {
     void readConfigFile(String conf_folder) throws JAXBException, IOException {
         JAXBContext jc = JAXBContext.newInstance("eu.fbk.dkm.pikes.tintop.ita.token");
         Unmarshaller unmarshaller = jc.createUnmarshaller();
-        File overwrittenFile = new File(conf_folder + "/tokenization.xml");
+        URL url = getClass().getResource("/conf/tokenization.xml");
+        File overwrittenFile = new File(conf_folder + File.separator + "tokenization.xml");
+
         if (overwrittenFile.exists() && overwrittenFile.isFile()) {
-            myTokenizer = (Tokenizer) unmarshaller
-                    .unmarshal(new InputStreamReader(new FileInputStream(conf_folder + "/tokenization.xml"), "UTF-8"));
+            myTokenizer = (Tokenizer) unmarshaller.unmarshal(
+                    new InputStreamReader(new FileInputStream(overwrittenFile),
+                            "UTF-8"));
+        } else if (url != null) {
+            myTokenizer = (Tokenizer) unmarshaller.unmarshal(new InputStreamReader(url.openStream(), "UTF-8"));
         } else {
             System.err.println("Error: tokenization.xml file not found!");
         }

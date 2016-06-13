@@ -1,4 +1,4 @@
-package eu.fbk.dkm.pikes.tintop.ita.token;
+package eu.fbk.dkm.pikes.tintop.ita.token_old;
 
 /**
  * User: Mohammad Qwaider and Christian Girardi
@@ -57,6 +57,7 @@ public class TokenPro {
             } else {
                 tempTokens = tokenize(line, position, tokenposition);
             }
+
             position += line.length() + 1;
 
             wordlp = tempTokens.listIterator();
@@ -87,9 +88,8 @@ public class TokenPro {
                         out.add(thisSent);
                         thisSent = new ArrayList<>();
                     } else {
-                        CoreLabel token = factory.makeToken(wTemp, wTemp, position, wTemp.length());
+                        CoreLabel token = factory.makeToken(wTemp, wTemp, tokenposition.get(i), wTemp.length());
                         token.setIndex(thisSent.size() + 1);
-                        token.setSentIndex(out.size());
                         thisSent.add(token);
                     }
 
@@ -122,6 +122,9 @@ public class TokenPro {
     }
 
     public LinkedList<String> tokenize(String line, int position, List<Integer> tokenposition) {
+        System.out.println(tokenposition);
+        System.out.println(position);
+
         char ch;
         boolean splittedchar = false;
         line = " " + line;
@@ -138,9 +141,11 @@ public class TokenPro {
         String stopword = "";
         while (true) {
             if (matcher != null && matcher.find()) {
+                System.err.println("line "+charPosition + "/"+matcher.start()+" "+line);
                 subline = line.substring(charPosition, matcher.start());
                 stopword = matcher.group().trim();
                 charPosition = matcher.end();
+                System.err.println("1>> "+charPosition+" [["+stopword+"]] "+ subline);
             } else {
                 subline = line.substring(charPosition, line.length());
                 stopword = "";
@@ -209,6 +214,9 @@ public class TokenPro {
                 break;
             }
         }
+
+        System.out.println(tokenposition);
+        System.out.println(position);
 
         return tempTokens;
     }

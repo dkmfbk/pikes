@@ -178,18 +178,18 @@ import java.util.List;
 @XmlRootElement(name = "tokenizer")
 public class Tokenizer {
 
-    protected Tokenizer.Languages languages;
-    protected Tokenizer.SplittingRules splittingRules;
-    protected Tokenizer.AbbreviationList abbreviationList;
-    protected Tokenizer.EndSentenceChars endSentenceChars;
+    protected Languages languages;
+    protected SplittingRules splittingRules;
+    protected AbbreviationList abbreviationList;
+    protected EndSentenceChars endSentenceChars;
 
     /**
      * Gets the value of the languages property.
      *
      * @return possible object is
-     * {@link Tokenizer.Languages }
+     * {@link Languages }
      */
-    public Tokenizer.Languages getLanguages() {
+    public Languages getLanguages() {
         return languages;
     }
 
@@ -197,9 +197,9 @@ public class Tokenizer {
      * Sets the value of the languages property.
      *
      * @param value allowed object is
-     *              {@link Tokenizer.Languages }
+     *              {@link Languages }
      */
-    public void setLanguages(Tokenizer.Languages value) {
+    public void setLanguages(Languages value) {
         this.languages = value;
     }
 
@@ -207,9 +207,9 @@ public class Tokenizer {
      * Gets the value of the splittingRules property.
      *
      * @return possible object is
-     * {@link Tokenizer.SplittingRules }
+     * {@link SplittingRules }
      */
-    public Tokenizer.SplittingRules getSplittingRules() {
+    public SplittingRules getSplittingRules() {
         return splittingRules;
     }
 
@@ -217,9 +217,9 @@ public class Tokenizer {
      * Sets the value of the splittingRules property.
      *
      * @param value allowed object is
-     *              {@link Tokenizer.SplittingRules }
+     *              {@link SplittingRules }
      */
-    public void setSplittingRules(Tokenizer.SplittingRules value) {
+    public void setSplittingRules(SplittingRules value) {
         this.splittingRules = value;
     }
 
@@ -257,7 +257,7 @@ public class Tokenizer {
     public static class Languages {
 
         @XmlElement(required = true)
-        protected List<Tokenizer.Languages.Language> language;
+        protected List<Language> language;
 
         /**
          * Gets the value of the language property.
@@ -277,11 +277,11 @@ public class Tokenizer {
          * <p>
          * <p>
          * Objects of the following type(s) are allowed in the list
-         * {@link Tokenizer.Languages.Language }
+         * {@link Language }
          */
-        public List<Tokenizer.Languages.Language> getLanguage() {
+        public List<Language> getLanguage() {
             if (language == null) {
-                language = new ArrayList<Tokenizer.Languages.Language>();
+                language = new ArrayList<Language>();
             }
             return this.language;
         }
@@ -468,17 +468,17 @@ public class Tokenizer {
     })
     public static class SplittingRules {
 
-        protected Tokenizer.SplittingRules.GeneralSplittingRules generalSplittingRules;
-        protected Tokenizer.SplittingRules.KnownWordsList knownWordsList;
-        protected Tokenizer.SplittingRules.CharSplitter charSplitter;
+        protected GeneralSplittingRules generalSplittingRules;
+        protected KnownWordsList knownWordsList;
+        protected CharSplitter charSplitter;
 
         /**
          * Gets the value of the generalSplittingRules property.
          *
          * @return possible object is
-         * {@link Tokenizer.SplittingRules.GeneralSplittingRules }
+         * {@link GeneralSplittingRules }
          */
-        public Tokenizer.SplittingRules.GeneralSplittingRules getGeneralSplittingRules() {
+        public GeneralSplittingRules getGeneralSplittingRules() {
             return generalSplittingRules;
         }
 
@@ -486,9 +486,9 @@ public class Tokenizer {
          * Sets the value of the generalSplittingRules property.
          *
          * @param value allowed object is
-         *              {@link Tokenizer.SplittingRules.GeneralSplittingRules }
+         *              {@link GeneralSplittingRules }
          */
-        public void setGeneralSplittingRules(Tokenizer.SplittingRules.GeneralSplittingRules value) {
+        public void setGeneralSplittingRules(GeneralSplittingRules value) {
             this.generalSplittingRules = value;
         }
 
@@ -496,9 +496,9 @@ public class Tokenizer {
          * Gets the value of the knownWordsList property.
          *
          * @return possible object is
-         * {@link Tokenizer.SplittingRules.KnownWordsList }
+         * {@link KnownWordsList }
          */
-        public Tokenizer.SplittingRules.KnownWordsList getKnownWordsList() {
+        public KnownWordsList getKnownWordsList() {
             return knownWordsList;
         }
 
@@ -506,9 +506,9 @@ public class Tokenizer {
          * Sets the value of the knownWordsList property.
          *
          * @param value allowed object is
-         *              {@link Tokenizer.SplittingRules.KnownWordsList }
+         *              {@link KnownWordsList }
          */
-        public void setKnownWordsList(Tokenizer.SplittingRules.KnownWordsList value) {
+        public void setKnownWordsList(KnownWordsList value) {
             this.knownWordsList = value;
         }
 
@@ -516,9 +516,9 @@ public class Tokenizer {
          * Gets the value of the charSplitter property.
          *
          * @return possible object is
-         * {@link Tokenizer.SplittingRules.CharSplitter }
+         * {@link CharSplitter }
          */
-        public Tokenizer.SplittingRules.CharSplitter getCharSplitter() {
+        public CharSplitter getCharSplitter() {
             return charSplitter;
         }
 
@@ -526,9 +526,9 @@ public class Tokenizer {
          * Sets the value of the charSplitter property.
          *
          * @param value allowed object is
-         *              {@link Tokenizer.SplittingRules.CharSplitter }
+         *              {@link CharSplitter }
          */
-        public void setCharSplitter(Tokenizer.SplittingRules.CharSplitter value) {
+        public void setCharSplitter(CharSplitter value) {
             this.charSplitter = value;
         }
 
@@ -599,17 +599,17 @@ public class Tokenizer {
         })
         public static class CharSplitter {
 
-            protected Tokenizer.SplittingRules.CharSplitter.GeneralRules generalRules;
+            protected GeneralRules generalRules;
             @XmlElement(required = true)
-            protected List<Tokenizer.SplittingRules.CharSplitter.LanguageRest> languageRest;
+            protected List<LanguageRest> languageRest;
 
             /**
              * Gets the value of the generalRules property.
              *
              * @return possible object is
-             * {@link Tokenizer.SplittingRules.CharSplitter.GeneralRules }
+             * {@link GeneralRules }
              */
-            public Tokenizer.SplittingRules.CharSplitter.GeneralRules getGeneralRules() {
+            public GeneralRules getGeneralRules() {
                 return generalRules;
             }
 
@@ -617,9 +617,9 @@ public class Tokenizer {
              * Sets the value of the generalRules property.
              *
              * @param value allowed object is
-             *              {@link Tokenizer.SplittingRules.CharSplitter.GeneralRules }
+             *              {@link GeneralRules }
              */
-            public void setGeneralRules(Tokenizer.SplittingRules.CharSplitter.GeneralRules value) {
+            public void setGeneralRules(GeneralRules value) {
                 this.generalRules = value;
             }
 
@@ -641,11 +641,11 @@ public class Tokenizer {
              * <p>
              * <p>
              * Objects of the following type(s) are allowed in the list
-             * {@link Tokenizer.SplittingRules.CharSplitter.LanguageRest }
+             * {@link LanguageRest }
              */
-            public List<Tokenizer.SplittingRules.CharSplitter.LanguageRest> getLanguageRest() {
+            public List<LanguageRest> getLanguageRest() {
                 if (languageRest == null) {
-                    languageRest = new ArrayList<Tokenizer.SplittingRules.CharSplitter.LanguageRest>();
+                    languageRest = new ArrayList<LanguageRest>();
                 }
                 return this.languageRest;
             }
@@ -684,7 +684,7 @@ public class Tokenizer {
             public static class GeneralRules {
 
                 @XmlElement(name = "char", required = true)
-                protected List<Tokenizer.SplittingRules.CharSplitter.GeneralRules.Char> _char;
+                protected List<Char> _char;
 
                 /**
                  * Gets the value of the char property.
@@ -704,11 +704,11 @@ public class Tokenizer {
                  * <p>
                  * <p>
                  * Objects of the following type(s) are allowed in the list
-                 * {@link Tokenizer.SplittingRules.CharSplitter.GeneralRules.Char }
+                 * {@link Char }
                  */
-                public List<Tokenizer.SplittingRules.CharSplitter.GeneralRules.Char> getChar() {
+                public List<Char> getChar() {
                     if (_char == null) {
-                        _char = new ArrayList<Tokenizer.SplittingRules.CharSplitter.GeneralRules.Char>();
+                        _char = new ArrayList<Char>();
                     }
                     return this._char;
                 }
@@ -866,7 +866,7 @@ public class Tokenizer {
             public static class LanguageRest {
 
                 @XmlElement(name = "char", required = true)
-                protected List<Tokenizer.SplittingRules.CharSplitter.LanguageRest.Char> _char;
+                protected List<Char> _char;
                 @XmlAttribute(name = "id", required = true)
                 @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
                 @XmlSchemaType(name = "normalizedString")
@@ -890,11 +890,11 @@ public class Tokenizer {
                  * <p>
                  * <p>
                  * Objects of the following type(s) are allowed in the list
-                 * {@link Tokenizer.SplittingRules.CharSplitter.LanguageRest.Char }
+                 * {@link Char }
                  */
-                public List<Tokenizer.SplittingRules.CharSplitter.LanguageRest.Char> getChar() {
+                public List<Char> getChar() {
                     if (_char == null) {
-                        _char = new ArrayList<Tokenizer.SplittingRules.CharSplitter.LanguageRest.Char>();
+                        _char = new ArrayList<Char>();
                     }
                     return this._char;
                 }
@@ -1060,7 +1060,7 @@ public class Tokenizer {
         public static class GeneralSplittingRules {
 
             @XmlElement(name = "char", required = true)
-            protected List<Tokenizer.SplittingRules.GeneralSplittingRules.Char> _char;
+            protected List<Char> _char;
 
             /**
              * Gets the value of the char property.
@@ -1080,11 +1080,11 @@ public class Tokenizer {
              * <p>
              * <p>
              * Objects of the following type(s) are allowed in the list
-             * {@link Tokenizer.SplittingRules.GeneralSplittingRules.Char }
+             * {@link Char }
              */
-            public List<Tokenizer.SplittingRules.GeneralSplittingRules.Char> getChar() {
+            public List<Char> getChar() {
                 if (_char == null) {
-                    _char = new ArrayList<Tokenizer.SplittingRules.GeneralSplittingRules.Char>();
+                    _char = new ArrayList<Char>();
                 }
                 return this._char;
             }
@@ -1239,7 +1239,7 @@ public class Tokenizer {
         public static class KnownWordsList {
 
             @XmlElement(required = true)
-            protected List<Tokenizer.SplittingRules.KnownWordsList.LanguageRes> languageRes;
+            protected List<LanguageRes> languageRes;
 
             /**
              * Gets the value of the languageRes property.
@@ -1259,11 +1259,11 @@ public class Tokenizer {
              * <p>
              * <p>
              * Objects of the following type(s) are allowed in the list
-             * {@link Tokenizer.SplittingRules.KnownWordsList.LanguageRes }
+             * {@link LanguageRes }
              */
-            public List<Tokenizer.SplittingRules.KnownWordsList.LanguageRes> getLanguageRes() {
+            public List<LanguageRes> getLanguageRes() {
                 if (languageRes == null) {
-                    languageRes = new ArrayList<Tokenizer.SplittingRules.KnownWordsList.LanguageRes>();
+                    languageRes = new ArrayList<LanguageRes>();
                 }
                 return this.languageRes;
             }
@@ -1303,7 +1303,7 @@ public class Tokenizer {
             public static class LanguageRes {
 
                 @XmlElement(required = true)
-                protected List<Tokenizer.SplittingRules.KnownWordsList.LanguageRes.Expression> expression;
+                protected List<Expression> expression;
                 @XmlAttribute(name = "id", required = true)
                 @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
                 @XmlSchemaType(name = "normalizedString")
@@ -1327,11 +1327,11 @@ public class Tokenizer {
                  * <p>
                  * <p>
                  * Objects of the following type(s) are allowed in the list
-                 * {@link Tokenizer.SplittingRules.KnownWordsList.LanguageRes.Expression }
+                 * {@link Expression }
                  */
-                public List<Tokenizer.SplittingRules.KnownWordsList.LanguageRes.Expression> getExpression() {
+                public List<Expression> getExpression() {
                     if (expression == null) {
-                        expression = new ArrayList<Tokenizer.SplittingRules.KnownWordsList.LanguageRes.Expression>();
+                        expression = new ArrayList<Expression>();
                     }
                     return this.expression;
                 }
@@ -1482,9 +1482,9 @@ public class Tokenizer {
      * Gets the value of the abbreviationList property.
      *
      * @return possible object is
-     * {@link Tokenizer.AbbreviationList }
+     * {@link AbbreviationList }
      */
-    public Tokenizer.AbbreviationList getAbbreviationList() {
+    public AbbreviationList getAbbreviationList() {
         return abbreviationList;
     }
 
@@ -1492,9 +1492,9 @@ public class Tokenizer {
      * Sets the value of the abbreviationList property.
      *
      * @param value allowed object is
-     *              {@link Tokenizer.AbbreviationList }
+     *              {@link AbbreviationList }
      */
-    public void setAbbreviationList(Tokenizer.AbbreviationList value) {
+    public void setAbbreviationList(AbbreviationList value) {
         this.abbreviationList = value;
     }
 
@@ -1502,9 +1502,9 @@ public class Tokenizer {
      * Gets the value of the ndSentenceChars property.
      *
      * @return possible object is
-     * {@link Tokenizer.EndSentenceChars }
+     * {@link EndSentenceChars }
      */
-    public Tokenizer.EndSentenceChars getEndSentenceChars() {
+    public EndSentenceChars getEndSentenceChars() {
         return endSentenceChars;
     }
 
@@ -1512,9 +1512,9 @@ public class Tokenizer {
      * Sets the value of the endSentenceChars property.
      *
      * @param value allowed object is
-     *              {@link Tokenizer.EndSentenceChars }
+     *              {@link EndSentenceChars }
      */
-    public void setEndSentenceChars(Tokenizer.EndSentenceChars value) {
+    public void setEndSentenceChars(EndSentenceChars value) {
         this.endSentenceChars = value;
     }
 
@@ -1562,7 +1562,7 @@ public class Tokenizer {
     public static class AbbreviationList {
 
         @XmlElement(required = true)
-        protected List<Tokenizer.AbbreviationList.LanguageRes> languageRes;
+        protected List<LanguageRes> languageRes;
 
         /**
          * Gets the value of the languageRes property.
@@ -1582,11 +1582,11 @@ public class Tokenizer {
          * <p>
          * <p>
          * Objects of the following type(s) are allowed in the list
-         * {@link Tokenizer.AbbreviationList.LanguageRes }
+         * {@link LanguageRes }
          */
-        public List<Tokenizer.AbbreviationList.LanguageRes> getLanguageRes() {
+        public List<LanguageRes> getLanguageRes() {
             if (languageRes == null) {
-                languageRes = new ArrayList<Tokenizer.AbbreviationList.LanguageRes>();
+                languageRes = new ArrayList<LanguageRes>();
             }
             return this.languageRes;
         }
@@ -1626,7 +1626,7 @@ public class Tokenizer {
         public static class LanguageRes {
 
             @XmlElement(required = true)
-            protected List<Tokenizer.AbbreviationList.LanguageRes.Expression> expression;
+            protected List<Expression> expression;
             @XmlElement(required = true)
             @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
             @XmlSchemaType(name = "normalizedString")
@@ -1654,11 +1654,11 @@ public class Tokenizer {
              * <p>
              * <p>
              * Objects of the following type(s) are allowed in the list
-             * {@link Tokenizer.AbbreviationList.LanguageRes.Expression }
+             * {@link Expression }
              */
-            public List<Tokenizer.AbbreviationList.LanguageRes.Expression> getExpression() {
+            public List<Expression> getExpression() {
                 if (expression == null) {
-                    expression = new ArrayList<Tokenizer.AbbreviationList.LanguageRes.Expression>();
+                    expression = new ArrayList<Expression>();
                 }
                 return this.expression;
             }
@@ -1838,7 +1838,7 @@ public class Tokenizer {
     public static class EndSentenceChars {
 
         @XmlElement(required = true)
-        protected List<Tokenizer.EndSentenceChars.LanguageRes> languageRes;
+        protected List<LanguageRes> languageRes;
 
         /**
          * Gets the value of the languageRes property.
@@ -1858,11 +1858,11 @@ public class Tokenizer {
          * <p>
          * <p>
          * Objects of the following type(s) are allowed in the list
-         * {@link Tokenizer.EndSentenceChars.LanguageRes }
+         * {@link LanguageRes }
          */
-        public List<Tokenizer.EndSentenceChars.LanguageRes> getLanguageRes() {
+        public List<LanguageRes> getLanguageRes() {
             if (languageRes == null) {
-                languageRes = new ArrayList<Tokenizer.EndSentenceChars.LanguageRes>();
+                languageRes = new ArrayList<LanguageRes>();
             }
             return this.languageRes;
         }
@@ -1912,9 +1912,9 @@ public class Tokenizer {
         public static class LanguageRes {
 
             @XmlElement(required = true)
-            protected List<Tokenizer.EndSentenceChars.LanguageRes.Expression> expression;
+            protected List<Expression> expression;
             @XmlElement(name = "char", required = true)
-            protected List<Tokenizer.EndSentenceChars.LanguageRes.Char> _char;
+            protected List<Char> _char;
             @XmlAttribute(name = "id", required = true)
             @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
             @XmlSchemaType(name = "normalizedString")
@@ -1938,11 +1938,11 @@ public class Tokenizer {
              * <p>
              * <p>
              * Objects of the following type(s) are allowed in the list
-             * {@link Tokenizer.EndSentenceChars.LanguageRes.Expression }
+             * {@link Expression }
              */
-            public List<Tokenizer.EndSentenceChars.LanguageRes.Expression> getExpression() {
+            public List<Expression> getExpression() {
                 if (expression == null) {
-                    expression = new ArrayList<Tokenizer.EndSentenceChars.LanguageRes.Expression>();
+                    expression = new ArrayList<Expression>();
                 }
                 return this.expression;
             }
@@ -1965,11 +1965,11 @@ public class Tokenizer {
              * <p>
              * <p>
              * Objects of the following type(s) are allowed in the list
-             * {@link Tokenizer.EndSentenceChars.LanguageRes.Char }
+             * {@link Char }
              */
-            public List<Tokenizer.EndSentenceChars.LanguageRes.Char> getChar() {
+            public List<Char> getChar() {
                 if (_char == null) {
-                    _char = new ArrayList<Tokenizer.EndSentenceChars.LanguageRes.Char>();
+                    _char = new ArrayList<Char>();
                 }
                 return this._char;
             }

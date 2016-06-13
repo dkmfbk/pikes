@@ -37,7 +37,7 @@ public class MachineLinking extends Linking {
         pars.put("disambiguation", "1");
         pars.put("topic", "1");
         pars.put("include_text", "0");
-        pars.put("image", "0");
+        pars.put("image", "1");
         pars.put("class", "1");
         pars.put("app_id", "0");
         pars.put("app_key", "0");
@@ -54,11 +54,14 @@ public class MachineLinking extends Linking {
 
         LinkedHashMap annotation = (LinkedHashMap) userData.get(new String("annotation"));
         if (annotation != null) {
+            String lang = annotation.get("lang").toString();
+            String language = (lang == null || lang.equals("en")) ? "" : lang + ".";
             ArrayList<LinkedHashMap> keywords = (ArrayList<LinkedHashMap>) annotation.get(new String("keyword"));
             if (keywords != null) {
                 for (LinkedHashMap keyword : keywords) {
                     LinkedHashMap sense = (LinkedHashMap) keyword.get("sense");
                     ArrayList dbpClass = (ArrayList) keyword.get("class");
+                    ArrayList<LinkedHashMap> images = (ArrayList<LinkedHashMap>) keyword.get("image");
                     ArrayList<LinkedHashMap> ngrams = (ArrayList<LinkedHashMap>) keyword.get("ngram");
                     for (LinkedHashMap ngram : ngrams) {
                         String originalText = (String) ngram.get("form");
@@ -69,12 +72,23 @@ public class MachineLinking extends Linking {
 
                         LinkingTag tag = new LinkingTag(
                                 start,
-                                String.format("http://dbpedia.org/resource/%s", (String) sense.get("page")),
+                                String.format("http://" + language + "dbpedia.org/resource/%s",
+                                        (String) sense.get("page")),
                                 Double.parseDouble(keyword.get("rel").toString()),
                                 originalText,
                                 end - start,
                                 LABEL
                         );
+
+                        //todo: add to conf
+                        if (images != null && images.size() > 0) {
+                            try {
+                                tag.setImage(images.get(0).get("image").toString());
+                            } catch (Exception e) {
+                                // ignored
+                            }
+                        }
+
                         if (extractTypes) {
                             tag.addTypesFromML(dbpClass);
                         }

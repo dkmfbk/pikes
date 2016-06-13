@@ -120,6 +120,7 @@
         <module>pikes-raid</module>
         <module>pikes-rdf</module>
         <module>pikes-tintop-client</module>
+        <module>pikes-tintop-ita</module>
     </modules>
 
 </project>

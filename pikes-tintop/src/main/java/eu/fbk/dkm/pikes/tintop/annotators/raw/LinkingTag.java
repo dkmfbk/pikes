@@ -30,6 +30,7 @@ public class LinkingTag implements Serializable {
     private int length;
     private String source;
     private boolean spotted = true;
+    private String image;
 
     private HashMap<Category, HashSet<String>> types = new HashMap<>();
 
@@ -40,6 +41,14 @@ public class LinkingTag implements Serializable {
         this.originalText = originalText;
         this.length = length;
         this.source = source;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getOriginalText() {
