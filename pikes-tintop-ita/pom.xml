@@ -80,6 +80,11 @@
             <groupId>org.fbk.cit.hlt</groupId>
             <artifactId>core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.ahocorasick</groupId>
+            <artifactId>ahocorasick</artifactId>
+            <version>0.3.0</version>
+        </dependency>
 
         <!-- Log stuff -->
         <dependency>

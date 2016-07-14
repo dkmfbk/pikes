@@ -172,7 +172,7 @@ public class SimpServer {
         httpServer.getServerConfiguration().addHttpHandler(new SimpHandler(pipeline, glossario, easyWords), "/simp");
 
         httpServer.getServerConfiguration().addHttpHandler(
-                new CLStaticHttpHandler(HttpServer.class.getClassLoader(), "webdemo-ita/"), "/");
+                new CLStaticHttpHandler(HttpServer.class.getClassLoader(), "webdemo-ita-old/"), "/");
         httpServer.getServerConfiguration().addHttpHandler(
                 new CLStaticHttpHandler(HttpServer.class.getClassLoader(), "webdemo/"), "/lib/");
 
