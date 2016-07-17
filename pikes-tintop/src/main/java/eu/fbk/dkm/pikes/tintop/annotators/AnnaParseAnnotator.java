@@ -19,12 +19,14 @@ import java.util.*;
 public class AnnaParseAnnotator implements Annotator {
 
 	private Parser parser;
-	int maxLen;
+	private int maxLen;
+	private String language;
 
 	public AnnaParseAnnotator(String annotatorName, Properties props) {
 		File posModel = new File(props.getProperty(annotatorName + ".model", Defaults.ANNA_PARSE_MODEL));
 		parser = AnnaParseModel.getInstance(posModel).getParser();
 		maxLen = Defaults.getInteger(props.getProperty(annotatorName + ".maxlen"), Defaults.MAXLEN);
+		language = props.getProperty(annotatorName + ".language", "en");
 	}
 
 	@Override
@@ -47,6 +49,12 @@ public class AnnaParseAnnotator implements Annotator {
 				for (CoreLabel token : tokens) {
 					String form = token.get(CoreAnnotations.TextAnnotation.class);
 					String pos = token.get(CoreAnnotations.PartOfSpeechAnnotation.class);
+					if (language.equals("es")) {
+						if (!pos.equals("sn")) {
+							pos = pos.substring(0, 1);
+							pos = pos.toLowerCase();
+						}
+					}
 					String lemma = token.get(CoreAnnotations.LemmaAnnotation.class);
 
 					form = AnnotatorUtils.codeToParenthesis(form);

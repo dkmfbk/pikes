@@ -29,7 +29,7 @@ public class ParseGlossario {
             final CommandLine cmd = CommandLine
                     .parser()
                     .withName("./convert-glossario")
-                    .withHeader("Convert che raw file for glossario")
+                    .withHeader("Convert the raw file for glossario")
                     .withOption("i", "input-path", "Original file with glossario", "FILE",
                             CommandLine.Type.FILE_EXISTING, true, false, true)
                     .withOption("o", "output-path", "Converted file", "FILE",

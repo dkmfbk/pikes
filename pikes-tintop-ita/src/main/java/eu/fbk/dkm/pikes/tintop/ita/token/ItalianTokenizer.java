@@ -209,10 +209,6 @@ public class ItalianTokenizer {
             isCurrentCharLetterOrDigit = Character.isLetterOrDigit(currentChar);
             isPreviousCharLetterOrDigit = previousChar != null && Character.isLetterOrDigit(previousChar);
 
-            if (currentChar == CharacterTable.LINE_FEED) {
-                isNewLine.setValue(true);
-            }
-
             if (isCurrentCharLetterOrDigit) {
                 if (!isPreviousCharLetterOrDigit) {
                     start = i;
@@ -232,6 +228,10 @@ public class ItalianTokenizer {
                         addToken(tokenGroup, i, i + 1, charString, isNewLine, lastToken);
                     }
                 }
+            }
+
+            if (currentChar == CharacterTable.LINE_FEED) {
+                isNewLine.setValue(true);
             }
 
             previousChar = currentChar;
@@ -257,7 +257,6 @@ public class ItalianTokenizer {
         if (lastToken != null && lastToken.getEnd() != 0) {
             int endLast = lastToken.getEnd();
             spaces = lastToken.getSpaceOffset();
-//            System.out.println("TOKEN: " + charString + " --- " + start + " --- " + endLast + " --- " + spaces);
             if (start == endLast) {
                 spaces++;
             } else {
@@ -368,7 +367,7 @@ public class ItalianTokenizer {
                 merging = false;
             }
 
-            if (token.getNormForm().equals(CharacterTable.APOSTROPHE)) {
+            if (token.getNormForm().equals("'")) {
 
                 Token prevToken = null,
                         nextToken = null;
@@ -395,7 +394,7 @@ public class ItalianTokenizer {
                 else if (prevToken != null &&
                         Character.isLetter(prevToken.getForm().charAt(prevToken.getForm().length() - 1)) &&
                         !token.isPreceedBySpace() &&
-                        (nextToken == null || !nextToken.getNormForm().equals(CharacterTable.APOSTROPHE))) {
+                        (nextToken == null || !nextToken.getNormForm().equals("'"))) {
                     CoreLabel lastToken = temp.get(temp.size() - 1);
                     start = lastToken.beginPosition();
                     temp.remove(temp.size() - 1);
@@ -405,7 +404,7 @@ public class ItalianTokenizer {
                 else if (nextToken != null &&
                         Character.isLetter(nextToken.getForm().charAt(0)) &&
                         !nextToken.isPreceedBySpace() &&
-                        (prevToken == null || !prevToken.getNormForm().equals(CharacterTable.APOSTROPHE))) {
+                        (prevToken == null || !prevToken.getNormForm().equals("'"))) {
                     merging = true;
                 }
             }
