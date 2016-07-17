@@ -8,4 +8,4 @@ dkm-commandlist.txt
 */.classpath
 */.project
 */.settings
-
+*.versionsBackup
