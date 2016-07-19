@@ -986,6 +986,16 @@ class AnnotationContainer implements Serializable {
 			case constituency:
 				this.trees.clear();
 				break;
+			case timeExpressions:
+				this.timeExpressions.clear();
+				break;
+			case linkedEntities:
+				this.linkedEntities.clear();
+				break;
+			case constituencyStrings:
+				//this.constituencyStrings.clear();
+				this.unknownLayers.clear();
+				break;
 			default:
 				throw new IllegalArgumentException("Wrong layer");
 		}
@@ -1062,7 +1072,7 @@ class AnnotationContainer implements Serializable {
         } else if (annotation instanceof LinkedEntity) {
             LinkedEntity entity = (LinkedEntity) annotation;
             linkedEntities.remove(entity);
-            if (entity.getWFs() != null) {
+			if (entity.getWFs() != null) {
                 for (WF wf : entity.getWFs().getTargets()) {
                     unindexAnnotation(entity, wf.getId(), linkedEntitiesIndexedByWF);
                 }
@@ -1096,8 +1106,7 @@ class AnnotationContainer implements Serializable {
                     this.predicatesIndexedBySent);
 
         } else if (annotation instanceof Tree) {
-            throw new UnsupportedOperationException();
-
+			throw new UnsupportedOperationException();
         } else if (annotation instanceof Element) {
             throw new UnsupportedOperationException();
         }

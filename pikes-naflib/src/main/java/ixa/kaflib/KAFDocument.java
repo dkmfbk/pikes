@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 public class KAFDocument implements Serializable {
 
     public enum Layer {
-        text, terms, marks, deps, chunks, entities, properties, categories, coreferences, opinions, relations, srl, constituency;
+        text, terms, marks, deps, chunks, entities, properties, categories, coreferences, opinions, relations, srl, constituency, timeExpressions, linkedEntities, constituencyStrings;
     }
 
     public class FileDesc implements Serializable {
