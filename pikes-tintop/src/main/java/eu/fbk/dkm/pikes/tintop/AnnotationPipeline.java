@@ -155,27 +155,14 @@ public class AnnotationPipeline {
         }
     }
 
-    public void annotateStanford(Properties properties, StanfordCoreNLP thisPipeline, String text,
-            KAFDocument NAFdocument)
+    public void annotateStanford(Properties properties, Annotation document, KAFDocument NAFdocument)
             throws IOException {
-
-        LinguisticProcessor linguisticProcessor;
 
         boolean enablePM = Defaults.getBoolean(properties.getProperty("enable_predicate_matrix"), false);
         boolean enableNafFilter = Defaults.getBoolean(properties.getProperty("enable_naf_filter"), false);
         boolean enableOntoNotesFilter = Defaults.getBoolean(properties.getProperty("enable_on_filter"), false);
         boolean enableEntityAssignment = Defaults.getBoolean(properties.getProperty("enable_entity_assignment"), false);
 
-        // Stanford
-        logger.info("Annotating with Stanford CoreNLP");
-        linguisticProcessor = new LinguisticProcessor("text", "Stanford CoreNLP");
-        linguisticProcessor.setBeginTimestamp();
-        Annotation document = new Annotation(text);
-        document.set(CoreAnnotations.DocDateAnnotation.class, NAFdocument.getFileDesc().creationtime);
-        thisPipeline.annotate(document);
-        logger.info(thisPipeline.timingInformation());
-        linguisticProcessor.setEndTimestamp();
-        NAFdocument.addLinguisticProcessor(linguisticProcessor.getLayer(), linguisticProcessor);
         Map<Integer, CorefChain> coreferenceGraph = document.get(CorefCoreAnnotations.CorefChainAnnotation.class);
 
         // Add tmx0
@@ -913,7 +900,7 @@ public class AnnotationPipeline {
         // NAF filter
         if (enableNafFilter) {
             logger.info("Applying NAF filter");
-            linguisticProcessor = new LinguisticProcessor("naf-filter", "NAF filter");
+            LinguisticProcessor linguisticProcessor = new LinguisticProcessor("naf-filter", "NAF filter");
             linguisticProcessor.setBeginTimestamp();
             try {
                 NAFFilter.builder(false)
@@ -953,7 +940,18 @@ public class AnnotationPipeline {
         Properties thisSessionProps = new Properties(stanfordConfig);
         StanfordCoreNLP thisPipeline = new StanfordCoreNLP(thisSessionProps);
 
-        annotateStanford(properties, thisPipeline, text, NAFdocument);
+        // Stanford
+        logger.info("Annotating with Stanford CoreNLP");
+        LinguisticProcessor linguisticProcessor = new LinguisticProcessor("text", "Stanford CoreNLP");
+        linguisticProcessor.setBeginTimestamp();
+        Annotation document = new Annotation(text);
+        document.set(CoreAnnotations.DocDateAnnotation.class, NAFdocument.getFileDesc().creationtime);
+        thisPipeline.annotate(document);
+        logger.info(thisPipeline.timingInformation());
+        linguisticProcessor.setEndTimestamp();
+        NAFdocument.addLinguisticProcessor(linguisticProcessor.getLayer(), linguisticProcessor);
+
+        annotateStanford(properties, document, NAFdocument);
 
         logger.info("Parsing finished");
         return NAFdocument;
