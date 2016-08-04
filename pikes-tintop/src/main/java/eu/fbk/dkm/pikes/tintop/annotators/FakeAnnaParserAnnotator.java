@@ -54,6 +54,6 @@ public class FakeAnnaParserAnnotator implements Annotator {
 
     @Override
     public Set<Requirement> requires() {
-        return Collections.unmodifiableSet(new ArraySet(new Annotator.Requirement[]{TOKENIZE_REQUIREMENT, SSPLIT_REQUIREMENT, LEMMA_REQUIREMENT, PARSE_REQUIREMENT}));
+        return TOKENIZE_SSPLIT_POS_DEPPARSE;
     }
 }
