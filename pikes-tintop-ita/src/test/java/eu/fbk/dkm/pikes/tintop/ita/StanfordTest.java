@@ -67,20 +67,23 @@ public class StanfordTest {
 
     public static void main(String[] args) throws IOException {
 
-        byte[] file = Files.readAllBytes((new File("/Users/alessio/Desktop/milano.txt")).toPath());
+        byte[] file = Files.readAllBytes((new File("/Volumes/LEXAR/Resources/postag-ita/it-ud-train.text")).toPath());
         String ITAtext = new String(file);
 
-        ITAtext = "Roma – L'imperatore Adriano fa erigere il suo mausoleo, che diventerà Castel Sant'Angelo\n"
-                + "\n"
-                + "Composizione dell'Apocalisse di Pietro (greca)\n"
-                + "\n"
-                + "Altri progetti\n";
+//        ITAtext = "Roma – L'imperatore Adriano fa erigere il suo mausoleo, che diventerà Castel Sant'Angelo\n"
+//                + "\n"
+//                + "Composizione dell'Apocalisse di Pietro (greca)\n"
+//                + "\n"
+//                + "Altri progetti\n";
         Properties props;
         Annotation annotation;
 
         props = new Properties();
-        props.setProperty("annotators", "ita_toksent, pos, ita_morpho, ita_lemma, ner, depparse");
-        props.setProperty("ita_toksent.newlineIsSentenceBreak", "1");
+//        props.setProperty("annotators", "ita_toksent, pos, ita_morpho, ita_lemma, ner, depparse");
+        props.setProperty("annotators", "tokenize, ssplit, pos, ita_morpho, ita_lemma, ner");
+        props.setProperty("tokenize.whitespace", "true");
+        props.setProperty("ssplit.eolonly", "true");
+//        props.setProperty("ita_toksent.newlineIsSentenceBreak", "1");
 
         props.setProperty("pos.model", "/Users/alessio/Documents/Resources/ita-models/italian5.tagger");
         props.setProperty("ner.model",
@@ -88,12 +91,10 @@ public class StanfordTest {
         props.setProperty("depparse.model", "/Users/alessio/Documents/Resources/ita-models/parser-model-1.txt.gz");
         props.setProperty("ner.useSUTime", "0");
 
-        props.setProperty("customAnnotatorClass.ita_toksent", "eu.fbk.dkm.pikes.tintop.ita.annotators.ItalianTokenizerAnnotator");
+//        props.setProperty("customAnnotatorClass.ita_toksent", "eu.fbk.dkm.pikes.tintop.ita.annotators.ItalianTokenizerAnnotator");
         props.setProperty("customAnnotatorClass.ita_lemma", "eu.fbk.dh.digimorph.annotator.DigiLemmaAnnotator");
         props.setProperty("customAnnotatorClass.ita_morpho", "eu.fbk.dh.digimorph.annotator.DigiMorphAnnotator");
         props.setProperty("ita_morpho.model", "/Users/alessio/Documents/Resources/ita-models/italian.db");
-
-        props.setProperty("annotators", "ita_toksent");
 
         StanfordCoreNLP ITApipeline = new StanfordCoreNLP(props);
         annotation = new Annotation(ITAtext);

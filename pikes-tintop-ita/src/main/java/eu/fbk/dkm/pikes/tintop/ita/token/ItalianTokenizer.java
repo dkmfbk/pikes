@@ -45,11 +45,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created with IntelliJ IDEA.
- * User: giuliano
- * Date: 1/16/13
- * Time: 9:51 AM
- * To change this templatePageCounter use File | Settings | File Templates.
+ * Written by Alessio Palmero Aprosio
+ *
+ * partially based on HardTokenizer, part of the twm-lib package,
+ * written by Claudio Giuliano and Alessio Palmero Aprosio.
  */
 public class ItalianTokenizer {
 

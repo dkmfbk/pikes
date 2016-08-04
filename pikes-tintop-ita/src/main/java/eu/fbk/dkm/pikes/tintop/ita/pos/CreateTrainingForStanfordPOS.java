@@ -1,5 +1,6 @@
 package eu.fbk.dkm.pikes.tintop.ita.pos;
 
+import eu.fbk.dkm.utils.CommandLine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,19 +21,57 @@ public class CreateTrainingForStanfordPOS {
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateTrainingForStanfordPOS.class);
 
     public static void main(String[] args) {
-//        String input = args[0];
-//        String output = args[1];
-
-        String input = "/Users/alessio/Documents/Resources/universal-dependencies-1.2/UD_Italian/it-ud-test.conllu";
-        String output = "/Users/alessio/Documents/Resources/universal-dependencies-1.2/UD_Italian/it-ud-test.conllu.stanford";
 
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(output));
+            final CommandLine cmd = CommandLine
+                    .parser()
+                    .withName("./create-pos-training")
+                    .withHeader("Create training for Stanford POS tagger")
+                    .withOption("i", "input", "Input file", "FILE",
+                            CommandLine.Type.FILE_EXISTING, true, false, true)
+                    .withOption("o", "output", "Output file", "FILE",
+                            CommandLine.Type.FILE_EXISTING, true, false, true)
+                    .withOption("t", "only-tokens", "Output file for tokens", "FILE",
+                            CommandLine.Type.FILE_EXISTING, true, false, false)
+                    .withOption("p", "only-pos", "Output file for pos", "FILE",
+                            CommandLine.Type.FILE_EXISTING, true, false, false)
+                    .withOption("x", "text", "Output text", "FILE",
+                            CommandLine.Type.FILE_EXISTING, true, false, false)
+                    .withOption("c", "conll", "Output in CoNLL format", "FILE",
+                            CommandLine.Type.FILE_EXISTING, true, false, false)
+                    .withLogger(LoggerFactory.getLogger("eu.fbk")).parse(args);
 
-            List<String> lines = Files.readAllLines((new File(input)).toPath());
+            File input = cmd.getOptionValue("input", File.class);
+            File output = cmd.getOptionValue("output", File.class);
+            File onlyTokens = cmd.getOptionValue("only-tokens", File.class);
+            File onlyPos = cmd.getOptionValue("only-pos", File.class);
+            File onlyText = cmd.getOptionValue("text", File.class);
+            File conll = cmd.getOptionValue("conll", File.class);
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter(output));
+            BufferedWriter tokensWriter = null;
+            BufferedWriter posWriter = null;
+            BufferedWriter textWriter = null;
+            BufferedWriter conllWriter = null;
+
+            if (onlyTokens != null) {
+                tokensWriter = new BufferedWriter(new FileWriter(onlyTokens));
+            }
+            if (onlyPos != null) {
+                posWriter = new BufferedWriter(new FileWriter(onlyPos));
+            }
+            if (onlyText != null) {
+                textWriter = new BufferedWriter(new FileWriter(onlyText));
+            }
+            if (conll != null) {
+                conllWriter = new BufferedWriter(new FileWriter(conll));
+            }
+
+            List<String> lines = Files.readAllLines(input.toPath());
             StringBuffer lineBuffer = new StringBuffer();
 
             String multiToken = null;
+            String multiLemma = null;
             StringBuffer multiPos = new StringBuffer();
             Pattern fromPattern = Pattern.compile("^([0-9]+)");
             Pattern endPattern = Pattern.compile("([0-9]+)$");
@@ -49,38 +88,35 @@ public class CreateTrainingForStanfordPOS {
                 if (line.length() == 0) {
                     writer.append(lineBuffer.toString().trim());
                     writer.append("\n");
-//                    System.out.println(lineBuffer.toString().trim());
                     lineBuffer = new StringBuffer();
+
+                    if (tokensWriter != null) {
+                        tokensWriter.append("<eos>\n");
+                    }
+                    if (posWriter != null) {
+                        posWriter.append("<eos>\n");
+                    }
+                    if (textWriter != null) {
+                        textWriter.append("\n");
+                    }
+                    if (conllWriter != null) {
+                        conllWriter.append("\n");
+                    }
+
                     continue;
-//                    System.exit(1);
                 }
-//                    if (tokens.size() > 0) {
-//
-//                        System.out.println(tokens);
-//                        System.out.println(poss);
-//
-//                        tokens = new HashMap<>();
-//                        poss = new HashMap<>();
-//
-////                        StringBuffer buffer = new StringBuffer();
-////                        buffer.append(token);
-////                        buffer.append("_");
-////                        buffer.append(pos);
-////                        buffer.append(" ");
-////                        lineBuffer.append(buffer.toString());
-//                    }
-//
-//                    continue;
 
                 String[] parts = line.split("\\s+");
 
                 String id = parts[0];
                 String token = parts[1];
+                String lemma = parts[2];
                 String pos = parts[4];
                 Integer numericId = null;
 
                 if (id.contains("-")) {
                     multiToken = token;
+                    multiLemma = lemma;
                     multiPos = new StringBuffer();
                     Matcher matcher;
 
@@ -112,9 +148,24 @@ public class CreateTrainingForStanfordPOS {
                         buffer.append(multiPos.toString());
                         buffer.append(" ");
                         lineBuffer.append(buffer.toString());
+                        if (tokensWriter != null) {
+                            tokensWriter.append(multiToken).append("\n");
+                        }
+                        if (posWriter != null) {
+                            posWriter.append(multiPos).append("\n");
+                        }
+                        if (textWriter != null) {
+                            textWriter.append(multiToken).append(" ");
+                        }
+                        if (conllWriter != null) {
+                            conllWriter.append(multiToken).append("\t")
+                                    .append(multiLemma).append("\t")
+                                    .append(multiPos).append("\n");
+                        }
 
                         multiPos = new StringBuffer();
                         multiToken = null;
+                        multiLemma = null;
                         end = null;
                         from = null;
                     }
@@ -134,15 +185,54 @@ public class CreateTrainingForStanfordPOS {
                 buffer.append(" ");
                 lineBuffer.append(buffer.toString());
 
+                if (tokensWriter != null) {
+                    tokensWriter.append(token).append("\n");
+                }
+                if (posWriter != null) {
+                    posWriter.append(pos).append("\n");
+                }
+                if (textWriter != null) {
+                    textWriter.append(token).append(" ");
+                }
+                if (conllWriter != null) {
+                    conllWriter.append(token).append("\t")
+                            .append(lemma).append("\t")
+                            .append(pos).append("\n");
+                }
+
             }
 
             writer.append(lineBuffer.toString().trim());
             writer.append("\n");
+            if (tokensWriter != null) {
+                tokensWriter.append("\n");
+            }
+            if (posWriter != null) {
+                posWriter.append("\n");
+            }
+            if (textWriter != null) {
+                textWriter.append("\n");
+            }
+            if (conllWriter != null) {
+                conllWriter.append("\n");
+            }
 
             writer.close();
+            if (tokensWriter != null) {
+                tokensWriter.close();
+            }
+            if (posWriter != null) {
+                posWriter.close();
+            }
+            if (textWriter != null) {
+                textWriter.close();
+            }
+            if (conllWriter != null) {
+                conllWriter.close();
+            }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            CommandLine.fail(e);
         }
     }
 }
