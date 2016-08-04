@@ -55,6 +55,8 @@ public class AnnotationPipeline {
 
     private Properties defaultConfig = new Properties();
 
+    private Map<String, String> nerMap = new HashMap<>();
+
     public AnnotationPipeline(@Nullable File configFile, @Nullable Properties additionalProperties) throws IOException {
         defaultConfig = new Properties();
         if (configFile != null) {
@@ -63,12 +65,22 @@ public class AnnotationPipeline {
             input.close();
         }
         defaultConfig.putAll(Defaults.classProperties());
-        defaultConfig.putAll(additionalProperties);
+        if (additionalProperties != null) {
+            defaultConfig.putAll(additionalProperties);
+        }
         Defaults.setNotPresent(defaultConfig);
 
         for (Models model : Models.values()) {
             modelsLoaded.put(model, false);
         }
+    }
+
+    public void addToNerMap(String key, String value) {
+        nerMap.put(key, value);
+    }
+
+    public void deleteFromNerMap(String key) {
+        nerMap.remove(key);
     }
 
     public Properties getDefaultConfig() {
@@ -143,36 +155,16 @@ public class AnnotationPipeline {
         }
     }
 
-    private KAFDocument parseAll(KAFDocument NAFdocument) throws Exception {
-        return parseAll(NAFdocument, new Properties());
-    }
+    public void annotateStanford(Properties properties, StanfordCoreNLP thisPipeline, String text,
+            KAFDocument NAFdocument)
+            throws IOException {
 
-    private KAFDocument parseAll(KAFDocument NAFdocument, Properties merge) throws Exception {
-
-        String text = NAFdocument.getRawText();
-        text = StringEscapeUtils.unescapeHtml(text);
         LinguisticProcessor linguisticProcessor;
-
-        Properties properties = getDefaultConfig();
-        properties.putAll(merge);
-
-        String maxTextLen = properties.getProperty("max_text_len");
-        int limit = Integer.parseInt(maxTextLen);
-        if (text.length() > limit) {
-            throw new Exception(String.format("Input too long (%d chars, limit is %d)", text.length(), limit));
-        }
-
-        loadModels(properties);
-        Properties stanfordConfig = AnnotatorUtils.stanfordConvertedProperties(properties, "stanford");
 
         boolean enablePM = Defaults.getBoolean(properties.getProperty("enable_predicate_matrix"), false);
         boolean enableNafFilter = Defaults.getBoolean(properties.getProperty("enable_naf_filter"), false);
         boolean enableOntoNotesFilter = Defaults.getBoolean(properties.getProperty("enable_on_filter"), false);
         boolean enableEntityAssignment = Defaults.getBoolean(properties.getProperty("enable_entity_assignment"), false);
-
-        // Load pipeline
-        Properties thisSessionProps = new Properties(stanfordConfig);
-        StanfordCoreNLP thisPipeline = new StanfordCoreNLP(thisSessionProps);
 
         // Stanford
         logger.info("Annotating with Stanford CoreNLP");
@@ -280,6 +272,9 @@ public class AnnotationPipeline {
                 allTerms.add(thisTerm);
 
                 String ne = stanfordToken.get(CoreAnnotations.NamedEntityTagAnnotation.class);
+                if (nerMap.containsKey(ne)) {
+                    ne = nerMap.get(ne);
+                }
                 String normVal = stanfordToken.getString(CoreAnnotations.NormalizedNamedEntityTagAnnotation.class);
                 if (ne != null) {
                     if (ne.equals("O")) {
@@ -694,7 +689,7 @@ public class AnnotationPipeline {
                         String argument = predicate.getArgMap().get(w);
                         Predicate.Role newRole = NAFdocument.newRole(newPred, argument, thisTermSpanForRole);
 
-                        if (enablePM) {
+                        if (enablePM && PM != null && statisticsExtractor != null) {
 
                             // VerbNet
                             ArrayList<String> vnThematicRoles = PM.getVNThematicRoles(sense + ":" + argument);
@@ -931,6 +926,34 @@ public class AnnotationPipeline {
             linguisticProcessor.setEndTimestamp();
             NAFdocument.addLinguisticProcessor(linguisticProcessor.getLayer(), linguisticProcessor);
         }
+    }
+
+    private KAFDocument parseAll(KAFDocument NAFdocument) throws Exception {
+        return parseAll(NAFdocument, new Properties());
+    }
+
+    private KAFDocument parseAll(KAFDocument NAFdocument, Properties merge) throws Exception {
+
+        String text = NAFdocument.getRawText();
+        text = StringEscapeUtils.unescapeHtml(text);
+
+        Properties properties = getDefaultConfig();
+        properties.putAll(merge);
+
+        String maxTextLen = properties.getProperty("max_text_len");
+        int limit = Integer.parseInt(maxTextLen);
+        if (text.length() > limit) {
+            throw new Exception(String.format("Input too long (%d chars, limit is %d)", text.length(), limit));
+        }
+
+        loadModels(properties);
+        Properties stanfordConfig = AnnotatorUtils.stanfordConvertedProperties(properties, "stanford");
+
+        // Load pipeline
+        Properties thisSessionProps = new Properties(stanfordConfig);
+        StanfordCoreNLP thisPipeline = new StanfordCoreNLP(thisSessionProps);
+
+        annotateStanford(properties, thisPipeline, text, NAFdocument);
 
         logger.info("Parsing finished");
         return NAFdocument;
