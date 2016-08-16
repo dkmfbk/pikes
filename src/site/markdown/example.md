@@ -122,16 +122,16 @@ graph:competitors { instance:competitors      a ks:Instance, dbyago:Rival1105330
                                               framebase:fe-Competition-Participants instance:competitors;
                                               <i>framebase:fe-Frame-Participants instance:competitors</i> }
 
-<i style="color:green">graph:g1 { instance:competitors_pred  framebase:fe-Competition-Participants instance:trump, instance:clinton;</i>
-                                      <i style="color:green">framebase:fe-Frame-Participants instance:trump, instance:clinton.</i>
-           <i style="color:green">instance:trump</i>             <i style="color:green">a dbyago:Rival110533013, dbyago:Contestant109613191, dbyago:Person100007846,</i>
-                                        <i style="color:green">dbyago:CausalAgent100007347, dbyago:Organism100004475, dbyago:YagoLegalActor,</i>
-                                        <i style="color:green">dbyago:PhysicalEntity10000193, dbyago:LivingThing100004258, dbyago:YagoLegalActorGeo,</i>
-                                        <i style="color:green">dbyago:Whole100003553, dbyago:Object100002684.</i>
-           <i style="color:green">instance:clinton</i>           <i style="color:green">a dbyago:Rival110533013, dbyago:Contestant109613191, dbyago:Person100007846,</i>
-                                        <i style="color:green">dbyago:CausalAgent100007347, dbyago:Organism100004475, dbyago:YagoLegalActor,</i>
-                                        <i style="color:green">dbyago:PhysicalEntity10000193, dbyago:LivingThing100004258, dbyago:YagoLegalActorGeo,</i>
-                                        <i style="color:green">dbyago:Whole100003553, dbyago:Object100002684. }</i>
+<i><b>graph:g1 { instance:competitors_pred  framebase:fe-Competition-Participants instance:trump, instance:clinton;</b></i>
+                                      <i><b>framebase:fe-Frame-Participants instance:trump, instance:clinton.</b></i>
+           <i><b>instance:trump</b></i>             <i><b>a dbyago:Rival110533013, dbyago:Contestant109613191, dbyago:Person100007846,</b></i>
+                                        <i><b>dbyago:CausalAgent100007347, dbyago:Organism100004475, dbyago:YagoLegalActor,</b></i>
+                                        <i><b>dbyago:PhysicalEntity10000193, dbyago:LivingThing100004258, dbyago:YagoLegalActorGeo,</b></i>
+                                        <i><b>dbyago:Whole100003553, dbyago:Object100002684.</b></i>
+           <i><b>instance:clinton</b></i>           <i><b>a dbyago:Rival110533013, dbyago:Contestant109613191, dbyago:Person100007846,</b></i>
+                                        <i><b>dbyago:CausalAgent100007347, dbyago:Organism100004475, dbyago:YagoLegalActor,</b></i>
+                                        <i><b>dbyago:PhysicalEntity10000193, dbyago:LivingThing100004258, dbyago:YagoLegalActorGeo,</b></i>
+                                        <i><b>dbyago:Whole100003553, dbyago:Object100002684. }</b></i>
 
 graph:competitors_whitehouse    { instance:competitors_pred framebase:fe-Competition-Prize instance:whitehouse;
                                                             <i>framebase:fe-Frame-Prize instance:whitehouse</i> }
@@ -140,15 +140,15 @@ graph:trump_clinton_competitors { instance:competitors ks:includes instance:trum
 mention:trump       ks:denotes instance:trump;            ks:expresses graph:trump.
 mention:clinton     ks:denotes instance:clinton;          ks:expresses graph:clinton.
 mention:whitehouse  ks:denotes instance:whitehouse;       ks:expresses graph:whitehouse.
-mention:competitors ks:denotes instance:competitors, <i style="color:green">instance:trump, instance:clinton</i>;
+mention:competitors ks:denotes instance:competitors, <i><b>instance:trump, instance:clinton</b></i>;
                     ks:implies instance:competitors_pred;
-                    ks:expresses graph:competitors, <i style="color:green">graph:g1</i>.
+                    ks:expresses graph:competitors, <i><b>graph:g1</b></i>.
 
 mention:competitors_whitehouse    ks:expresses graph:competitors_whitehouse.
-mention:trump_clinton_competitors ks:expresses graph:trump_clinton_competitors, <i style="color:green">graph:g1</i>.
+mention:trump_clinton_competitors ks:expresses graph:trump_clinton_competitors, <i><b>graph:g1</b></i>.
 </pre>
 
-As can be seen in the RDF above, inference mainly amounts to materializing super-classes and super-properties (due to limited expressivity of Yago and FrameBase TBoxes, which are essentially class and property hierarchies). The newly added triples highlighted in green derive from the rules propagating triples on group instances (`instance:competitors`) to the instances they include (`instance:trump` and `instance:clinton`). As the evaluation of rules is iterative until fix-point, these propagated triples include also the super-classes and super-properties inferred for the group entity. In the future, we expect to include (at least) domain and range axioms in the TBox by mapping selectional constraints in predicate models (FrameNet, VerbNet), so to materialize class membership triples for frame arguments.
+As can be seen, inference mainly amounts to materializing super-classes and super-properties (due to limited expressivity of Yago and FrameBase TBoxes, which are essentially class and property hierarchies). In the RDF above, the newly added triples written in <i><b>bold italics</b></i> derive from the rules propagating triples on group instances (`instance:competitors`) to the instances they include (`instance:trump` and `instance:clinton`). As the evaluation of rules is iterative until fix-point, these propagated triples include also the super-classes and super-properties inferred for the group entity. In the future, we expect to include (at least) domain and range axioms in the TBox by mapping selectional constraints in predicate models (FrameNet, VerbNet), so to materialize class membership triples for frame arguments.
 
 
 **Smushing** -- Smushing replaces URIs linked by `owl:sameAs` triples with a unique representative URI, which in PIKES is chosen (if possible) from DBpedia. The result of smushing for our example is reported below (new/modified triples in <i>italics</i>). Previously generated instance URIs `instance:trump`, `instance:clinton`, `instance:whitehouse` are discarded in favor of the corresponding DBpedia URIs, which are chose as representative URIs.
