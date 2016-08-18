@@ -37,6 +37,7 @@ entities.
 
 <h3 class='no-before'>News</h3>
 
+- 2016-08-18 [Paper](https://dkm-static.fbk.eu/people/rospocher/files/pubs/2016tkde.pdf) accepted at [IEEE TKDE](https://www.computer.org/web/tkde) journal
 - 2016-03-18 Added [Using PIKES for Information Retrieval](ke4ir.html) section
 - 2016-02-23 [Paper](https://dkm-static.fbk.eu/people/rospocher/files/pubs/2016eswc.pdf) on using PIKES for Information Retrieval accepted at [ESWC 2016](http://2016.eswc-conferences.org/) conference
 - 2015-11-24 [Paper](https://dkm-static.fbk.eu/people/rospocher/files/pubs/2016sac.pdf) accepted at [SAC 2016](http://www.acm.org/conferences/sac/sac2016/) conference, SWA track
