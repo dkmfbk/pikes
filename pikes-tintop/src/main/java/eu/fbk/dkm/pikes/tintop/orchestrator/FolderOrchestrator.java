@@ -114,7 +114,7 @@ public class FolderOrchestrator {
                     try {
                         doc = pipeline.parseFromString(whole);
                         naf = doc.toString();
-                    } catch (Exception e) {
+                    } catch (Throwable e) {
                         e.printStackTrace();
                         throw new Exception(e);
                     }

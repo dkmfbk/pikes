@@ -35,10 +35,6 @@ public class StripNAF {
             File inputFolder = cmd.getOptionValue("input-folder", File.class);
             File outputFolder = cmd.getOptionValue("output-folder", File.class);
 
-            if (!outputFolder.exists()) {
-                outputFolder.mkdirs();
-            }
-
             for (final File file : Files.fileTreeTraverser().preOrderTraversal(inputFolder)) {
                 if (!file.isFile()) {
                     continue;
@@ -51,25 +47,41 @@ public class StripNAF {
                     continue;
                 }
 
-                try (Reader reader = IO.utf8Reader(IO.buffer(IO.read(file.getAbsoluteFile().toString())))) {
-                    try {
-                        KAFDocument document = KAFDocument.createFromStream(reader);
+                //System.out.print("Processing: "+file.getAbsoluteFile().toString());
+                File outputFile = new File(file.getAbsoluteFile().toString().replace(inputFolder.getAbsolutePath(),outputFolder.getAbsolutePath()));
 
-                        for (removeLayer layer : removeLayer.values()) {
-                            document.removeLayer(KAFDocument.Layer.valueOf(layer.toString()));
+                if (!outputFile.exists()) {
+
+                    try (Reader reader = IO.utf8Reader(IO.buffer(IO.read(file.getAbsoluteFile().toString())))) {
+                        try {
+
+                            //System.out.print(" WORKING");
+
+                            KAFDocument document = KAFDocument.createFromStream(reader);
+                            reader.close();
+
+                            //System.out.println("Processing: "+file.getAbsoluteFile().toString());
+
+                            for (removeLayer layer : removeLayer.values()) {
+                                document.removeLayer(KAFDocument.Layer.valueOf(layer.toString()));
+                            }
+
+                            Files.createParentDirs(outputFile);
+                            try (Writer w = IO.utf8Writer(IO.buffer(IO.write(outputFile.getAbsolutePath())))) {
+                                w.write(document.toString());
+                                w.close();
+                                //System.out.print(" SAVED");
+
+                            }
+
+                            System.out.println("");
+
+                        } catch (Exception e) {
+
                         }
-
-                        File outputFile = new File(file.getAbsoluteFile().toString().replace(inputFolder.getAbsolutePath(),outputFolder.getAbsolutePath()));
-                        Files.createParentDirs(outputFile);
-                        try (Writer w = IO.utf8Writer(IO.buffer(IO.write(outputFile.getAbsolutePath())))) {
-                            w.write(document.toString());
-                        }
-
-                    } catch (Exception e) {
 
                     }
-
-                }
+                } //else System.out.println(" SKIPPED");
 
             }
         } catch (FileNotFoundException e) {
