@@ -35,3 +35,4 @@ Papers describing applications exploiting PIKES:
     In Proceedings of the 13th European Semantic Web Conference (ESWC2016), Anissaras, Crete, Greece, May 29-June 2, 2016<br/>
     [\[bib\]](https://dkm-static.fbk.eu/people/rospocher/bibtexbrowser.php?key=2016eswc&amp;bib=my_pub.bib)
     [\[pre-print/mirror\]](https://dkm-static.fbk.eu/people/rospocher/files/pubs/2016eswc.pdf)
+    [\[slides\]](https://dkm-static.fbk.eu/people/rospocher/files/slides/2016eswc_slides.pdf)
