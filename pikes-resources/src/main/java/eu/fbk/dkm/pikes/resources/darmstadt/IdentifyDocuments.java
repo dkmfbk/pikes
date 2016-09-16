@@ -2,7 +2,7 @@ package eu.fbk.dkm.pikes.resources.darmstadt;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import eu.fbk.dkm.pikes.naflib.Corpus;
 import ixa.kaflib.KAFDocument;
 import org.slf4j.LoggerFactory;

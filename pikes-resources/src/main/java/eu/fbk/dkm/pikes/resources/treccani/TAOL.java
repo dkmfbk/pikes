@@ -1,7 +1,7 @@
 package eu.fbk.dkm.pikes.resources.treccani;
 
 import com.google.common.io.Files;
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import ixa.kaflib.KAFDocument;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.joox.JOOX;

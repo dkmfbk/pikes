@@ -16,7 +16,7 @@ import org.openrdf.query.BindingSet;
 import org.openrdf.query.MalformedQueryException;
 import org.openrdf.query.algebra.TupleExpr;
 
-import eu.fbk.dkm.utils.eval.PrecisionRecall;
+import eu.fbk.utils.eval.PrecisionRecall;
 import eu.fbk.rdfpro.util.Algebra;
 import eu.fbk.rdfpro.util.Namespaces;
 import eu.fbk.rdfpro.util.QuadModel;

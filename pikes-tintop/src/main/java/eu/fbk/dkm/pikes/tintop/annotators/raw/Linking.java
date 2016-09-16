@@ -25,7 +25,7 @@ public abstract class Linking {
     protected static final Logger LOGGER = LoggerFactory.getLogger(Linking.class);
     private static final Integer DEFAULT_TIMEOUT = 2000;
 
-    private String urlAddress;
+    protected String urlAddress;
     private Properties config = new Properties();
     protected Boolean extractTypes = true;
 
@@ -38,6 +38,10 @@ public abstract class Linking {
     }
 
     protected String request(Map<String, String> pars) throws IOException {
+        return request(pars, null);
+    }
+
+    protected String request(Map<String, String> pars, String customAddress) throws IOException {
         String thisRequest = "";
         String fromServer = null;
 
@@ -50,8 +54,13 @@ public abstract class Linking {
             }
         }
 
-        URL serverAddress = new URL(urlAddress);
-        LOGGER.debug("URL: " + urlAddress);
+        URL serverAddress;
+        if (customAddress != null) {
+            serverAddress = new URL(customAddress);
+        } else {
+            serverAddress = new URL(urlAddress);
+        }
+        LOGGER.debug("URL: " + serverAddress);
         LOGGER.trace("Request: " + thisRequest);
 
         boolean useProxy = config.getProperty("use_proxy", "0").equals("1");

@@ -7,6 +7,7 @@ import edu.stanford.nlp.pipeline.Annotator;
 import edu.stanford.nlp.util.ArraySet;
 import edu.stanford.nlp.util.CoreMap;
 import eu.fbk.dkm.pikes.tintop.annotators.raw.*;
+import eu.fbk.utils.core.PropertiesUtils;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
@@ -30,7 +31,7 @@ public class LinkingAnnotator implements Annotator {
     }
 
     public LinkingAnnotator(String annotatorName, Properties props) throws Exception {
-        Properties newProps = AnnotatorUtils.stanfordConvertedProperties(props, annotatorName);
+        Properties newProps = PropertiesUtils.dotConvertedProperties(props, annotatorName);
 
         String annotator = newProps.getProperty("annotator", Defaults.DBPS_ANNOTATOR);
         Class<? extends Linking> myClass = annotators.get(annotator);

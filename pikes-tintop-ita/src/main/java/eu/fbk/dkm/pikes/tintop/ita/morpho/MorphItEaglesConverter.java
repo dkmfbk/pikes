@@ -3,8 +3,8 @@ package eu.fbk.dkm.pikes.tintop.ita.morpho;
 import com.google.common.base.Charsets;
 import com.google.common.collect.HashMultimap;
 import com.google.common.io.Files;
-import eu.fbk.dkm.utils.CommandLine;
-import eu.fbk.dkm.utils.FrequencyHashSet;
+import eu.fbk.utils.core.CommandLine;
+import eu.fbk.utils.core.FrequencyHashSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

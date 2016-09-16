@@ -3,7 +3,7 @@ package eu.fbk.dkm.pikes.resources.darmstadt;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import eu.fbk.dkm.pikes.resources.NAFFilter;
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import ixa.kaflib.KAFDocument;
 import ixa.kaflib.Opinion;
 import ixa.kaflib.Span;

@@ -31,8 +31,19 @@
             <artifactId>jsr305</artifactId>
         </dependency>
         <dependency>
-            <groupId>eu.fbk.dkm.utils</groupId>
-            <artifactId>utils</artifactId>
+            <groupId>eu.fbk.utils</groupId>
+            <artifactId>utils-svm</artifactId>
+            <version>${utils-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.fbk.utils</groupId>
+            <artifactId>utils-eval</artifactId>
+            <version>${utils-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.fbk.utils</groupId>
+            <artifactId>utils-core</artifactId>
+            <version>${utils-version}</version>
         </dependency>
         <dependency>
             <groupId>eu.fbk.rdfpro</groupId>

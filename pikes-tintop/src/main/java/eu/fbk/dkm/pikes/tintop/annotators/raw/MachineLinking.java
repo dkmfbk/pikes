@@ -6,6 +6,7 @@ import eu.fbk.dkm.pikes.tintop.annotators.Defaults;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -24,6 +25,36 @@ public class MachineLinking extends Linking {
     public MachineLinking(Properties properties) {
         super(properties, properties.getProperty("address"));
         minWeight = Defaults.getDouble(properties.getProperty("min_confidence"), Defaults.ML_CONFIDENCE);
+    }
+
+    public String lang(String text) throws IOException {
+
+        // todo: this is really bad!
+        String address = urlAddress.replace("annotate", "lang");
+
+        Map<String, String> pars;
+
+        pars = new HashMap<>();
+        pars.put("include_text", "0");
+        pars.put("app_id", "0");
+        pars.put("app_key", "0");
+        pars.put("text", text);
+
+        LOGGER.debug("Text length: {}", text.length());
+        LOGGER.debug("Pars: {}", pars);
+
+        Map<String, Object> userData;
+        String output = request(pars, address);
+
+        ObjectMapper mapper = new ObjectMapper();
+        userData = mapper.readValue(output, Map.class);
+        LinkedHashMap annotation = (LinkedHashMap) userData.get(new String("annotation"));
+        if (annotation != null) {
+            String lang = annotation.get("lang").toString();
+            return lang;
+        }
+
+        return null;
     }
 
     @Override

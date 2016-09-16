@@ -8,7 +8,7 @@ import eu.fbk.dkm.pikes.raid.Extractor;
 import eu.fbk.dkm.pikes.raid.Trainer;
 import eu.fbk.dkm.pikes.resources.NAFUtils;
 import eu.fbk.dkm.pikes.resources.WordNet;
-import eu.fbk.dkm.utils.Util;
+import eu.fbk.utils.svm.Util;
 import ixa.kaflib.KAFDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

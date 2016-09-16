@@ -5,7 +5,7 @@ import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonWriter;
 import eu.fbk.dkm.pikes.tintop.ita.simpserver.GlossarioEntry;
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -2,7 +2,7 @@ package eu.fbk.dkm.pikes.resources.trec;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import ixa.kaflib.KAFDocument;
 import org.joox.JOOX;
 import org.slf4j.Logger;

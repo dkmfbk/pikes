@@ -1,6 +1,6 @@
 package eu.fbk.dkm.pikes.raid;
 
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;

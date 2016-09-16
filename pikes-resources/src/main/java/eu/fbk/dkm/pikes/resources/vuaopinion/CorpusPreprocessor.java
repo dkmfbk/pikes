@@ -1,6 +1,6 @@
 package eu.fbk.dkm.pikes.resources.vuaopinion;
 
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import ixa.kaflib.KAFDocument;
 import ixa.kaflib.WF;
 import org.apache.commons.io.FileUtils;

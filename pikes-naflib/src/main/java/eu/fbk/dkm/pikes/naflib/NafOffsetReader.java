@@ -5,13 +5,13 @@ import java.io.File;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
+import eu.fbk.utils.core.EasySpan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ixa.kaflib.KAFDocument;
 
-import eu.fbk.dkm.utils.CommandLine;
-import eu.fbk.dkm.utils.EasySpan;
+import eu.fbk.utils.core.CommandLine;
 
 /**
  * Created by alessio on 25/03/15.

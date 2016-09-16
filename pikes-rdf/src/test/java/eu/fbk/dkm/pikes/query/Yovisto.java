@@ -23,8 +23,8 @@ import org.openrdf.model.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eu.fbk.dkm.utils.CommandLine;
-import eu.fbk.dkm.utils.vocab.NIF;
+import eu.fbk.utils.core.CommandLine;
+import eu.fbk.utils.vocab.NIF;
 import eu.fbk.rdfpro.RDFSources;
 import eu.fbk.rdfpro.util.IO;
 import eu.fbk.rdfpro.util.QuadModel;

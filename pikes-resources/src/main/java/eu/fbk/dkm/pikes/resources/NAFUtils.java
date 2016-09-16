@@ -26,6 +26,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 
+import eu.fbk.utils.core.Range;
 import ixa.kaflib.Coref;
 import ixa.kaflib.Dep;
 import ixa.kaflib.Entity;
@@ -43,7 +44,6 @@ import ixa.kaflib.Term;
 import ixa.kaflib.Timex3;
 import ixa.kaflib.WF;
 
-import eu.fbk.dkm.utils.Range;
 import eu.fbk.rdfpro.util.IO;
 
 public final class NAFUtils {

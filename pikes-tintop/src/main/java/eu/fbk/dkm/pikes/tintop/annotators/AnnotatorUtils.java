@@ -36,21 +36,6 @@ public class AnnotatorUtils {
         return input;
     }
 
-    public static Properties stanfordConvertedProperties(Properties originalProperties, String prefix) {
-        Properties ret = new Properties();
-
-        for (Map.Entry<Object, Object> entry : originalProperties.entrySet()) {
-            if (entry.getKey() instanceof String) {
-                if (((String) entry.getKey()).startsWith(prefix)) {
-                    String newKey = ((String) entry.getKey()).substring(prefix.length() + 1);
-                    ret.put(newKey, entry.getValue());
-                }
-            }
-        }
-
-        return ret;
-    }
-
     public static String getSimplePos(String pos) {
         String simplePos = POStagset.tagset.get(pos.toUpperCase());
         if (simplePos == null) {

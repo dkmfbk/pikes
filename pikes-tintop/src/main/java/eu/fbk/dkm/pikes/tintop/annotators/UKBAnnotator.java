@@ -7,8 +7,8 @@ import edu.stanford.nlp.pipeline.Annotator;
 import edu.stanford.nlp.util.ArraySet;
 import edu.stanford.nlp.util.CoreMap;
 import eu.fbk.dkm.pikes.tintop.annotators.models.UKBModel;
-import eu.fbk.dkm.pikes.tintop.annotators.raw.UKB;
 import eu.fbk.dkm.pikes.tintop.annotators.raw.UKB_MT;
+import eu.fbk.utils.core.PropertiesUtils;
 
 import java.io.IOException;
 import java.util.*;
@@ -23,7 +23,7 @@ public class UKBAnnotator implements Annotator {
 	int maxLen;
 
 	public UKBAnnotator(String annotatorName, Properties props) {
-		Properties newProps = AnnotatorUtils.stanfordConvertedProperties(props, annotatorName);
+		Properties newProps = PropertiesUtils.dotConvertedProperties(props, annotatorName);
 		maxLen = Defaults.getInteger(newProps.getProperty("maxlen"), Defaults.MAXLEN);
 		try {
 			tagger = UKBModel.getInstance(newProps).getTagger();

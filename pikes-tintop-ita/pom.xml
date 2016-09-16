@@ -55,10 +55,6 @@
             <!--<version>2.2.7</version>-->
         <!--</dependency>-->
         <dependency>
-            <groupId>eu.fbk.dkm.utils</groupId>
-            <artifactId>utils</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
         </dependency>
@@ -107,7 +103,11 @@
             <version>1.2.17</version>
             <scope>runtime</scope>
         </dependency>
-
+        <dependency>
+            <groupId>eu.fbk.utils</groupId>
+            <artifactId>utils-core</artifactId>
+            <version>${utils-version}</version>
+        </dependency>
     </dependencies>
 
     <profiles>

@@ -109,6 +109,7 @@
 
     <properties>
         <pikes-version>${project.version}</pikes-version>
+        <utils-version>2.1-SNAPSHOT</utils-version>
         <site.root>http://pikes.fbk.eu/</site.root>
         <site-download>https://knowledgestore.fbk.eu/files/pikes/latest/</site-download>
     </properties>

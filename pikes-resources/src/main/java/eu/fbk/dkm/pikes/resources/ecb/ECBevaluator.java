@@ -2,7 +2,7 @@ package eu.fbk.dkm.pikes.resources.ecb;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.io.Files;
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import ixa.kaflib.Coref;
 import ixa.kaflib.KAFDocument;
 import ixa.kaflib.Span;

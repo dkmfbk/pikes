@@ -5,9 +5,9 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.*;
 import com.google.common.io.Resources;
-import eu.fbk.dkm.utils.CommandLine;
-import eu.fbk.dkm.utils.CommandLine.Type;
-import eu.fbk.dkm.utils.StaxParser;
+import eu.fbk.utils.core.CommandLine;
+import eu.fbk.utils.core.CommandLine.Type;
+import eu.fbk.utils.core.StaxParser;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;

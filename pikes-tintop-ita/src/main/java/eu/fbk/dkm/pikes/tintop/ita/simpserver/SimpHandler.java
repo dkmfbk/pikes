@@ -10,7 +10,7 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
 import eu.fbk.dkm.pikes.tintop.annotators.PikesAnnotations;
 import eu.fbk.dkm.pikes.tintop.annotators.raw.LinkingTag;
-import eu.fbk.dkm.utils.FrequencyHashSet;
+import eu.fbk.utils.core.FrequencyHashSet;
 import org.apache.log4j.Logger;
 import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.Request;

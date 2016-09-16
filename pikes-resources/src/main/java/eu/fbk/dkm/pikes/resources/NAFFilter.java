@@ -33,6 +33,8 @@ import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.io.Resources;
 
+import eu.fbk.utils.svm.Util;
+import eu.fbk.utils.vocab.SUMO;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.URIImpl;
 import org.slf4j.Logger;
@@ -55,8 +57,6 @@ import ixa.kaflib.Term;
 import ixa.kaflib.Timex3;
 import ixa.kaflib.WF;
 
-import eu.fbk.dkm.utils.Util;
-import eu.fbk.dkm.utils.vocab.SUMO;
 
 /**
  * A filter for the post-processing of a NAF document.

@@ -1,7 +1,7 @@
 package eu.fbk.dkm.pikes.resources.mpqa;
 
 import com.google.common.io.Files;
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import ixa.kaflib.KAFDocument;
 import org.openrdf.model.impl.URIImpl;
 import org.slf4j.LoggerFactory;

@@ -84,8 +84,8 @@ public class Defaults {
     public static final int UKB_MAX_NUM_OF_RESTARTS = 50;
     public static final int UKB_MAX_INSTANCES = 10;
     public static final String UKB_FOLDER = "ukb" + File.separator;
-    public static final String UKB_MODEL = "models/wnet30_wnet30g_rels.bin";
-    public static final String UKB_DICT = "models/wnet30_dict.txt";
+    public static final String UKB_MODEL = MODEL_FOLDER + "wnet30_wnet30g_rels.bin";
+    public static final String UKB_DICT = MODEL_FOLDER + "wnet30_dict.txt";
 
     public static final String SEMAFOR_MODEL_DIR = MODEL_FOLDER + "semafor" + File.separator;
 

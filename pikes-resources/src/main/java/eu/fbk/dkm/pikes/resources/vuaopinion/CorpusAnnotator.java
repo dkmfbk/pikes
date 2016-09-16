@@ -1,7 +1,7 @@
 package eu.fbk.dkm.pikes.resources.vuaopinion;
 
 import eu.fbk.dkm.pikes.resources.NAFFilter;
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import ixa.kaflib.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;

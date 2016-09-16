@@ -1,7 +1,7 @@
 package eu.fbk.dkm.pikes.resources.mpqa;
 
 import eu.fbk.dkm.pikes.resources.NAFFilter;
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import ixa.kaflib.KAFDocument;
 import ixa.kaflib.Opinion;
 import ixa.kaflib.Term;

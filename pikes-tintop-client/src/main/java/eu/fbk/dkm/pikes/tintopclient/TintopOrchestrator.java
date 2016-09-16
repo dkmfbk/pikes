@@ -2,9 +2,9 @@ package eu.fbk.dkm.pikes.tintopclient;
 
 import com.google.common.io.Files;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import eu.fbk.dkm.utils.CommandLine;
-import eu.fbk.dkm.utils.FrequencyHashSet;
 import eu.fbk.rdfpro.util.IO;
+import eu.fbk.utils.core.CommandLine;
+import eu.fbk.utils.core.FrequencyHashSet;
 import ixa.kaflib.KAFDocument;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -261,18 +261,18 @@ public class TintopOrchestrator {
     public static void main(String[] args) {
 
         try {
-            final eu.fbk.dkm.utils.CommandLine cmd = eu.fbk.dkm.utils.CommandLine
+            final CommandLine cmd = CommandLine
                     .parser()
                     .withName("./orchestrator")
                     .withHeader("Run the Tintop Orchestrator")
                     .withOption("i", "input", "Input folder", "FOLDER",
-                            eu.fbk.dkm.utils.CommandLine.Type.DIRECTORY_EXISTING, true, false, true)
+                            CommandLine.Type.DIRECTORY_EXISTING, true, false, true)
                     .withOption("o", "output", "Output folder", "FOLDER",
-                            eu.fbk.dkm.utils.CommandLine.Type.DIRECTORY, true, false, true)
+                            CommandLine.Type.DIRECTORY, true, false, true)
                     .withOption("l", "list", "Text file with list of server (one per line)", "FILE",
-                            eu.fbk.dkm.utils.CommandLine.Type.FILE_EXISTING, true, false, true)
+                            CommandLine.Type.FILE_EXISTING, true, false, true)
                     .withOption("s", "skip", "Text file with list of file patterns to skip (one per line)", "FILE",
-                            eu.fbk.dkm.utils.CommandLine.Type.FILE_EXISTING, true, false, false)
+                            CommandLine.Type.FILE_EXISTING, true, false, false)
                     .withOption("m", "max-fail",
                             String.format("Max fails on a single file to skip (default %d)", DEFAULT_MAX_ERR_ON_FILE),
                             "INT", CommandLine.Type.INTEGER, true, false, false)

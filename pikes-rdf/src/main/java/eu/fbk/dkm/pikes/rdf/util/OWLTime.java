@@ -2,7 +2,7 @@ package eu.fbk.dkm.pikes.rdf.util;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import eu.fbk.dkm.utils.vocab.OWLTIME;
+import eu.fbk.utils.vocab.OWLTIME;
 import eu.fbk.rdfpro.util.Statements;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;

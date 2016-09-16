@@ -1,6 +1,6 @@
 package eu.fbk.dkm.pikes.tintop.ita.pos;
 
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
