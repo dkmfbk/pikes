@@ -1,4 +1,4 @@
-package eu.fbk.dkm.pikes.tintop.annotators;
+package eu.fbk.dkm.pikes.depparseannotation;
 
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
@@ -6,9 +6,7 @@ import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.Annotator;
 import edu.stanford.nlp.semgraph.SemanticGraph;
 import edu.stanford.nlp.semgraph.SemanticGraphCoreAnnotations;
-import edu.stanford.nlp.util.ArraySet;
 import edu.stanford.nlp.util.CoreMap;
-import eu.fbk.dkm.pikes.depparseannotation.DepParseInfo;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,29 +19,36 @@ import static eu.fbk.dkm.pikes.depparseannotation.DepparseAnnotations.CONLLPARSE
  * Created by alessio on 06/05/15.
  */
 
-public class FakeAnnaParserAnnotator implements Annotator {
+public class StanfordToConllDepsAnnotator implements Annotator {
 
-    public FakeAnnaParserAnnotator(String annotatorName, Properties props) {
+    public StanfordToConllDepsAnnotator(String annotatorName, Properties props) {
 
     }
 
     @Override
     public void annotate(Annotation annotation) {
         if (annotation.has(CoreAnnotations.SentencesAnnotation.class)) {
+            int sentOffset = 0;
             for (CoreMap sentence : annotation.get(CoreAnnotations.SentencesAnnotation.class)) {
                 SemanticGraph dependencies = sentence.get(
                         SemanticGraphCoreAnnotations.BasicDependenciesAnnotation.class);
                 DepParseInfo info = new DepParseInfo(dependencies);
-                System.out.println(info);
+                List<CoreLabel> tokens = sentence.get(CoreAnnotations.TokensAnnotation.class);
                 if (dependencies != null) {
-                    List<CoreLabel> tokens = sentence.get(CoreAnnotations.TokensAnnotation.class);
                     for (int i = 0; i < tokens.size(); i++) {
                         CoreLabel token = tokens.get(i);
-                        token.set(CoreAnnotations.CoNLLDepTypeAnnotation.class, info.getDepLabels().get(i + 1));
-                        token.set(CoreAnnotations.CoNLLDepParentIndexAnnotation.class,
-                                info.getDepParents().get(i + 1) - 1);
+                        int j = i + sentOffset;
+
+                        String label = info.getDepLabels().get(j + 1);
+                        int head = info.getDepParents().get(j + 1) - 1 - sentOffset;
+                        if (head < -1) {
+                            head = -1;
+                        }
+                        token.set(CoreAnnotations.CoNLLDepTypeAnnotation.class, label);
+                        token.set(CoreAnnotations.CoNLLDepParentIndexAnnotation.class, head);
                     }
                 }
+                sentOffset += tokens.size();
             }
         } else {
             throw new RuntimeException("unable to find words/tokens in: " + annotation);
@@ -57,6 +62,6 @@ public class FakeAnnaParserAnnotator implements Annotator {
 
     @Override
     public Set<Requirement> requires() {
-        return Collections.unmodifiableSet(new ArraySet(new Annotator.Requirement[]{TOKENIZE_REQUIREMENT, SSPLIT_REQUIREMENT, LEMMA_REQUIREMENT, PARSE_REQUIREMENT}));
+        return TOKENIZE_SSPLIT_POS_DEPPARSE;
     }
 }

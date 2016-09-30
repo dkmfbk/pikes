@@ -12,7 +12,7 @@ import edu.stanford.nlp.util.Filters;
 import eu.fbk.dkm.pikes.resources.util.corpus.Corpus;
 import eu.fbk.dkm.pikes.resources.util.corpus.Sentence;
 import eu.fbk.dkm.pikes.resources.util.corpus.Word;
-import eu.fbk.dkm.pikes.tintop.annotators.DepParseInfo;
+import eu.fbk.dkm.pikes.depparseannotation.DepParseInfo;
 import eu.fbk.dkm.pikes.tintop.util.RemoveLoopsInConll;
 import eu.fbk.utils.core.CommandLine;
 import org.slf4j.Logger;

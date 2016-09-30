@@ -62,8 +62,8 @@ public class Defaults {
                 "eu.fbk.dkm.pikes.tintop.annotators.FakeMstParserAnnotator");
         ret.setProperty("stanford.customAnnotatorClass.ner_custom",
                 "eu.fbk.dkm.pikes.tintop.annotators.NERCustomAnnotator");
-        ret.setProperty("stanford.customAnnotatorClass.dbps", "eu.fbk.dkm.pikes.tintop.annotators.LinkingAnnotator");
-        ret.setProperty("stanford.customAnnotatorClass.ml", "eu.fbk.dkm.pikes.tintop.annotators.LinkingAnnotator");
+        ret.setProperty("stanford.customAnnotatorClass.dbps", "eu.fbk.dkm.pikes.twm.LinkingAnnotator");
+        ret.setProperty("stanford.customAnnotatorClass.ml", "eu.fbk.dkm.pikes.twm.LinkingAnnotator");
 
         // Unused
         ret.setProperty("stanford.customAnnotatorClass.anna_pos",
@@ -101,7 +101,6 @@ public class Defaults {
     public static final double DBPSC_MIN_CONFIDENCE = 0.01;
     public static final double DBPSC_FIRST_CONFIDENCE = 0.5;
     public static final double DBPS_MIN_CONFIDENCE = 0.33;
-    public static final double ML_CONFIDENCE = 0.5;
 
     public static final String PREDICATE_MATRIX = MODEL_FOLDER + "PredicateMatrix.txt";
     public static final String WN_DICT = "wordnet" + File.separator;

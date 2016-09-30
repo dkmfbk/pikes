@@ -9,7 +9,8 @@ import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.Annotator;
 import edu.stanford.nlp.util.CoreMap;
-import eu.fbk.dkm.pikes.resources.Intensities;
+import eu.fbk.dkm.pikes.depparseannotation.DepParseInfo;
+import eu.fbk.dkm.pikes.depparseannotation.DepparseAnnotations;
 import eu.fbk.dkm.pikes.tintop.annotators.models.SemaforModel;
 
 import java.util.*;
@@ -42,7 +43,7 @@ public class SemaforAnnotator implements Annotator {
 
                 List<Token> sentenceTokens = new ArrayList<>();
 
-                DepParseInfo depParseInfo = stanfordSentence.get(PikesAnnotations.MstParserAnnotation.class);
+                DepParseInfo depParseInfo = stanfordSentence.get(DepparseAnnotations.MstParserAnnotation.class);
                 if (depParseInfo == null) {
                     continue;
                 }

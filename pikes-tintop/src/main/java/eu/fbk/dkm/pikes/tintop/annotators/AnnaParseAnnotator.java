@@ -12,6 +12,8 @@ import is2fbk.parser.Parser;
 import java.io.File;
 import java.util.*;
 
+import static eu.fbk.dkm.pikes.depparseannotation.DepparseAnnotations.CONLLPARSE_REQUIREMENT;
+
 /**
  * Created by alessio on 06/05/15.
  */
@@ -90,7 +92,7 @@ public class AnnaParseAnnotator implements Annotator {
 
 	@Override
 	public Set<Requirement> requirementsSatisfied() {
-		return Collections.singleton(PikesAnnotations.CONLLPARSE_REQUIREMENT);
+		return Collections.singleton(CONLLPARSE_REQUIREMENT);
 	}
 
 	@Override

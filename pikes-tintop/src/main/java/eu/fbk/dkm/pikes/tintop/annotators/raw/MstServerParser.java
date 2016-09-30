@@ -1,6 +1,6 @@
 package eu.fbk.dkm.pikes.tintop.annotators.raw;
 
-import eu.fbk.dkm.pikes.tintop.annotators.DepParseInfo;
+import eu.fbk.dkm.pikes.depparseannotation.DepParseInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

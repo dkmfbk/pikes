@@ -17,6 +17,8 @@ import java.util.Collections;
 import java.util.Properties;
 import java.util.Set;
 
+import static eu.fbk.dkm.pikes.depparseannotation.DepparseAnnotations.CONLLPARSE_REQUIREMENT;
+
 /**
  * Created by alessio on 06/05/15.
  */
@@ -147,6 +149,6 @@ public class MateSrlAnnotator implements Annotator {
 
     @Override
     public Set<Requirement> requires() {
-        return Collections.singleton(PikesAnnotations.CONLLPARSE_REQUIREMENT);
+        return Collections.singleton(CONLLPARSE_REQUIREMENT);
     }
 }
