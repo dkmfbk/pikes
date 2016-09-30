@@ -8,7 +8,7 @@ import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
 import eu.fbk.dkm.pikes.tintop.annotators.AnnotatorUtils;
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import is2fbk.data.SentenceData09;
 import is2fbk.parser.Options;
 import is2fbk.parser.Parser;

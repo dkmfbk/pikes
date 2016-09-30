@@ -1,6 +1,5 @@
-package eu.fbk.dkm.pikes.tintop.annotators.raw;
+package eu.fbk.dkm.pikes.twm;
 
-import eu.fbk.dkm.pikes.tintop.annotators.Defaults;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
@@ -19,12 +18,14 @@ public class DBpediaSpotlightCandidates extends Linking {
     private static String LABEL = "dbpedia-candidates";
     private String firstAttemptConfidence;
     private String confidence;
+    public static final double DBPSC_MIN_CONFIDENCE = 0.01;
+    public static final double DBPSC_FIRST_CONFIDENCE = 0.5;
 
     public DBpediaSpotlightCandidates(Properties properties) {
-        super(properties, properties.getProperty("address", Defaults.DBPS_ADDRESS) + "/candidates");
+        super(properties, properties.getProperty("address", DBpediaSpotlightAnnotate.DBPS_ADDRESS) + "/candidates");
         firstAttemptConfidence = properties
-                .getProperty("first_confidence", Double.toString(Defaults.DBPSC_FIRST_CONFIDENCE));
-        confidence = properties.getProperty("min_confidence", Double.toString(Defaults.DBPSC_MIN_CONFIDENCE));
+                .getProperty("first_confidence", Double.toString(DBPSC_FIRST_CONFIDENCE));
+        confidence = properties.getProperty("min_confidence", Double.toString(DBPSC_MIN_CONFIDENCE));
     }
 
     private List<LinkingTag> attempt(Map<String, String> pars) throws IOException {

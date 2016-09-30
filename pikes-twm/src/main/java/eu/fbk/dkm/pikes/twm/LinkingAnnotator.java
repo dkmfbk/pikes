@@ -1,4 +1,4 @@
-package eu.fbk.dkm.pikes.tintop.annotators;
+package eu.fbk.dkm.pikes.twm;
 
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
@@ -6,9 +6,9 @@ import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.Annotator;
 import edu.stanford.nlp.util.ArraySet;
 import edu.stanford.nlp.util.CoreMap;
-import eu.fbk.dkm.pikes.tintop.annotators.raw.*;
-import org.slf4j.LoggerFactory;
+import eu.fbk.utils.core.PropertiesUtils;
 
+import java.io.EOFException;
 import java.lang.reflect.Constructor;
 import java.util.*;
 
@@ -19,7 +19,7 @@ import java.util.*;
 public class LinkingAnnotator implements Annotator {
 
     Linking tagger;
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(LinkingAnnotator.class);
+    public static final String DBPS_ANNOTATOR = "dbpedia-candidates";
 
     private static HashMap<String, Class<? extends Linking>> annotators = new HashMap<>();
 
@@ -30,9 +30,9 @@ public class LinkingAnnotator implements Annotator {
     }
 
     public LinkingAnnotator(String annotatorName, Properties props) throws Exception {
-        Properties newProps = AnnotatorUtils.stanfordConvertedProperties(props, annotatorName);
+        Properties newProps = PropertiesUtils.dotConvertedProperties(props, annotatorName);
 
-        String annotator = newProps.getProperty("annotator", Defaults.DBPS_ANNOTATOR);
+        String annotator = newProps.getProperty("annotator", DBPS_ANNOTATOR);
         Class<? extends Linking> myClass = annotators.get(annotator);
         Constructor<? extends Linking> myConstructor = myClass.getConstructor(Properties.class);
         tagger = myConstructor.newInstance(newProps);
@@ -48,12 +48,14 @@ public class LinkingAnnotator implements Annotator {
         List<LinkingTag> tags = new ArrayList<>();
         try {
             tags = tagger.tag(text);
+        } catch (EOFException e) {
+            e.printStackTrace();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        List<LinkingTag> annotatedEntities = annotation.get(PikesAnnotations.LinkingAnnotations.class);
-        List<LinkingTag> entities = new ArrayList<>();
+        List<LinkingTag> annotatedEntities = annotation.get(TWMAnnotations.LinkingAnnotations.class);
+        LinkingList<LinkingTag> entities = new LinkingList<>();
         if (annotatedEntities != null) {
             entities.addAll(annotatedEntities);
         }
@@ -67,7 +69,7 @@ public class LinkingAnnotator implements Annotator {
             }
         }
 
-        annotation.set(PikesAnnotations.LinkingAnnotations.class, entities);
+        annotation.set(TWMAnnotations.LinkingAnnotations.class, entities);
 
         if (annotation.has(CoreAnnotations.SentencesAnnotation.class)) {
             for (CoreMap sentence : annotation.get(CoreAnnotations.SentencesAnnotation.class)) {
@@ -85,7 +87,7 @@ public class LinkingAnnotator implements Annotator {
                     }
 
                     if (startEntity.equals(endEntity)) {
-                        token.set(PikesAnnotations.DBpediaSpotlightAnnotation.class, startEntity);
+                        token.set(TWMAnnotations.DBpediaSpotlightAnnotation.class, startEntity);
                     }
                 }
             }
@@ -97,11 +99,11 @@ public class LinkingAnnotator implements Annotator {
     @Override
     public Set<Requirement> requirementsSatisfied() {
         return Collections.unmodifiableSet(
-                new ArraySet<Requirement>(PikesAnnotations.DBPS_REQUIREMENT, PikesAnnotations.LINKING_REQUIREMENT));
+                new ArraySet<Requirement>(TWMAnnotations.DBPS_REQUIREMENT, TWMAnnotations.LINKING_REQUIREMENT));
     }
 
     @Override
     public Set<Requirement> requires() {
-        return TOKENIZE_AND_SSPLIT;
+        return Annotator.TOKENIZE_AND_SSPLIT;
     }
 }

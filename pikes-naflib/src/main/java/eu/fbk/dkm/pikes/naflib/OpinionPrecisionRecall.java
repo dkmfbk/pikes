@@ -2,10 +2,10 @@ package eu.fbk.dkm.pikes.naflib;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.*;
-import eu.fbk.dkm.utils.Util;
-import eu.fbk.dkm.utils.eval.ConfusionMatrix;
-import eu.fbk.dkm.utils.eval.PrecisionRecall;
-import eu.fbk.dkm.utils.eval.SetPrecisionRecall;
+import eu.fbk.utils.eval.ConfusionMatrix;
+import eu.fbk.utils.eval.PrecisionRecall;
+import eu.fbk.utils.eval.SetPrecisionRecall;
+import eu.fbk.utils.svm.Util;
 import ixa.kaflib.KAFDocument;
 import ixa.kaflib.Opinion;
 import ixa.kaflib.Opinion.OpinionExpression;

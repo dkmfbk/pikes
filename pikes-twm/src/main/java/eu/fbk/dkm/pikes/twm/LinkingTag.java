@@ -1,7 +1,6 @@
-package eu.fbk.dkm.pikes.tintop.annotators.raw;
+package eu.fbk.dkm.pikes.twm;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import eu.fbk.dh.tint.json.JSONable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,9 +16,11 @@ import java.util.LinkedHashMap;
  * To change this template use File | Settings | File Templates.
  */
 
-public class LinkingTag implements Serializable {
+public class LinkingTag implements Serializable, JSONable {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LinkingTag.class);
+    @Override public String getName() {
+        return "linking";
+    }
 
     public enum Category {DBPEDIA, SCHEMA}
 
@@ -30,6 +31,7 @@ public class LinkingTag implements Serializable {
     private int length;
     private String source;
     private boolean spotted = true;
+    private String image;
 
     private HashMap<Category, HashSet<String>> types = new HashMap<>();
 
@@ -40,6 +42,14 @@ public class LinkingTag implements Serializable {
         this.originalText = originalText;
         this.length = length;
         this.source = source;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getOriginalText() {

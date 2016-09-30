@@ -1,7 +1,7 @@
 package eu.fbk.dkm.pikes.resources.trec;
 
 import com.google.common.base.Charsets;
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import org.apache.commons.io.FileUtils;
 import org.joox.JOOX;
 import org.slf4j.Logger;

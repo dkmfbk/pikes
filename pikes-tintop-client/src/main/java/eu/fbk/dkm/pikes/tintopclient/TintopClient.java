@@ -1,6 +1,6 @@
 package eu.fbk.dkm.pikes.tintopclient;
 
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
@@ -107,7 +107,7 @@ public class TintopClient {
 
     public static void main(String[] args) {
         try {
-            final eu.fbk.dkm.utils.CommandLine cmd = eu.fbk.dkm.utils.CommandLine
+            final CommandLine cmd = CommandLine
                     .parser()
                     .withName("./tintop-client")
                     .withHeader("Run the Tintop Client")

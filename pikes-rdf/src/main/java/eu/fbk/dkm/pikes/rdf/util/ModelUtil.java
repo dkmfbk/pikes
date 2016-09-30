@@ -1,9 +1,9 @@
 package eu.fbk.dkm.pikes.rdf.util;
 
 import com.google.common.collect.*;
-import eu.fbk.dkm.utils.vocab.GAF;
-import eu.fbk.dkm.utils.vocab.KS;
-import eu.fbk.dkm.utils.vocab.NIF;
+import eu.fbk.utils.vocab.GAF;
+import eu.fbk.utils.vocab.KS;
+import eu.fbk.utils.vocab.NIF;
 import eu.fbk.rdfpro.util.QuadModel;
 import eu.fbk.rdfpro.util.Statements;
 import org.openrdf.model.*;

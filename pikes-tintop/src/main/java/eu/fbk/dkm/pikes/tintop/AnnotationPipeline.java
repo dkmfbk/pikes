@@ -20,10 +20,12 @@ import eu.fbk.dkm.pikes.resources.ontonotes.VerbNetStatisticsExtractor;
 import eu.fbk.dkm.pikes.tintop.annotators.AnnotatorUtils;
 import eu.fbk.dkm.pikes.tintop.annotators.Defaults;
 import eu.fbk.dkm.pikes.tintop.annotators.PikesAnnotations;
-import eu.fbk.dkm.pikes.tintop.annotators.raw.LinkingTag;
 import eu.fbk.dkm.pikes.tintop.annotators.raw.Semafor;
 import eu.fbk.dkm.pikes.tintop.util.NER2SSTtagset;
 import eu.fbk.dkm.pikes.tintop.util.NerEntity;
+import eu.fbk.dkm.pikes.twm.LinkingTag;
+import eu.fbk.dkm.pikes.twm.TWMAnnotations;
+import eu.fbk.utils.core.PropertiesUtils;
 import ixa.kaflib.*;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
@@ -123,7 +125,7 @@ public class AnnotationPipeline {
 
         logger.info("Loading Stanford CoreNLP");
 
-        Properties stanfordFromConfig = AnnotatorUtils.stanfordConvertedProperties(properties, "stanford");
+        Properties stanfordFromConfig = PropertiesUtils.dotConvertedProperties(properties, "stanford");
         StanfordCoreNLP stanfordPipeline = new StanfordCoreNLP(stanfordFromConfig);
 
         // Predicate Matrix
@@ -184,8 +186,8 @@ public class AnnotationPipeline {
         ArrayList<WF> allTokens = new ArrayList<>();
         HashMap<Integer, HashSet<LinkingTag>> keywords = new HashMap<>();
 
-        if (document.has(PikesAnnotations.LinkingAnnotations.class)) {
-            for (LinkingTag e : document.get(PikesAnnotations.LinkingAnnotations.class)) {
+        if (document.has(TWMAnnotations.LinkingAnnotations.class)) {
+            for (LinkingTag e : document.get(TWMAnnotations.LinkingAnnotations.class)) {
                 int start = e.getOffset();
                 if (keywords.get(start) == null) {
                     keywords.put(start, new HashSet<LinkingTag>());
@@ -934,7 +936,7 @@ public class AnnotationPipeline {
         }
 
         loadModels(properties);
-        Properties stanfordConfig = AnnotatorUtils.stanfordConvertedProperties(properties, "stanford");
+        Properties stanfordConfig = PropertiesUtils.dotConvertedProperties(properties, "stanford");
 
         // Load pipeline
         Properties thisSessionProps = new Properties(stanfordConfig);

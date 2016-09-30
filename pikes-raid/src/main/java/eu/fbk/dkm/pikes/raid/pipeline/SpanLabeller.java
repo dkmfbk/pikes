@@ -16,6 +16,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 
+import eu.fbk.utils.core.Range;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,14 +29,13 @@ import ixa.kaflib.Span;
 import ixa.kaflib.Term;
 
 import eu.fbk.dkm.pikes.resources.NAFUtils;
-import eu.fbk.dkm.utils.Range;
-import eu.fbk.dkm.utils.eval.ConfusionMatrix;
-import eu.fbk.dkm.utils.eval.PrecisionRecall;
-import eu.fbk.dkm.utils.eval.SetPrecisionRecall;
-import eu.fbk.dkm.utils.svm.Classifier;
-import eu.fbk.dkm.utils.svm.FeatureStats;
-import eu.fbk.dkm.utils.svm.LabelledVector;
-import eu.fbk.dkm.utils.svm.Vector;
+import eu.fbk.utils.eval.ConfusionMatrix;
+import eu.fbk.utils.eval.PrecisionRecall;
+import eu.fbk.utils.eval.SetPrecisionRecall;
+import eu.fbk.utils.svm.Classifier;
+import eu.fbk.utils.svm.FeatureStats;
+import eu.fbk.utils.svm.LabelledVector;
+import eu.fbk.utils.svm.Vector;
 
 public final class SpanLabeller {
 

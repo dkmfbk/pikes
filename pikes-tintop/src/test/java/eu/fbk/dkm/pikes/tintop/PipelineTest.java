@@ -10,5 +10,6 @@ public class PipelineTest {
 
     public static void main(String[] args) {
         PipelineServer.main(args);
+
     }
 }

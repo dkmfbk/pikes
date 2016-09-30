@@ -3,7 +3,7 @@ package eu.fbk.dkm.pikes.raid;
 import eu.fbk.dkm.pikes.naflib.Corpus;
 import eu.fbk.dkm.pikes.raid.mdfsa.APIManager;
 import eu.fbk.dkm.pikes.resources.mpqa.CorpusAnnotator;
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import ixa.kaflib.KAFDocument;
 import ixa.kaflib.Opinion;
 import ixa.kaflib.Span;

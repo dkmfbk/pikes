@@ -2,7 +2,7 @@ package eu.fbk.dkm.pikes.resources.goodbadfor;
 
 import eu.fbk.dkm.pikes.resources.mpqa.Record;
 import eu.fbk.dkm.pikes.resources.mpqa.RecordSet;
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import ixa.kaflib.KAFDocument;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;

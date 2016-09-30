@@ -22,7 +22,7 @@ import com.google.common.io.Resources;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.URIImpl;
 
-import eu.fbk.dkm.utils.vocab.SUMO;
+import eu.fbk.utils.vocab.SUMO;
 
 public final class Sumo {
 

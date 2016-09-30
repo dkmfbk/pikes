@@ -9,7 +9,8 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.semgraph.SemanticGraph;
 import edu.stanford.nlp.semgraph.SemanticGraphCoreAnnotations;
 import edu.stanford.nlp.util.CoreMap;
-import eu.fbk.dkm.pikes.tintop.annotators.DepParseInfo;
+import eu.fbk.dkm.pikes.depparseannotation.DepParseInfo;
+import eu.fbk.dkm.pikes.depparseannotation.DepparseAnnotations;
 import eu.fbk.dkm.pikes.tintop.annotators.PikesAnnotations;
 import org.joox.JOOX;
 import org.slf4j.Logger;
@@ -248,7 +249,7 @@ public class ParseFullTextWithStanford {
                                     SemanticGraphCoreAnnotations.BasicDependenciesAnnotation.class);
                             info = new DepParseInfo(dependencies);
                         } else {
-                            info = sentence.get(PikesAnnotations.MstParserAnnotation.class);
+                            info = sentence.get(DepparseAnnotations.MstParserAnnotation.class);
                         }
 
                         for (Integer tokenID : info.getDepParents().keySet()) {

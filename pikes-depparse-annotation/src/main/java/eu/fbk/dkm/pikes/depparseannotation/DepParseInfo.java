@@ -1,11 +1,9 @@
-package eu.fbk.dkm.pikes.tintop.annotators;
+package eu.fbk.dkm.pikes.depparseannotation;
 
 import edu.stanford.nlp.ling.IndexedWord;
 import edu.stanford.nlp.semgraph.SemanticGraph;
 import edu.stanford.nlp.semgraph.SemanticGraphEdge;
 import edu.stanford.nlp.util.Generics;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 import java.util.*;
 
@@ -38,7 +36,8 @@ public class DepParseInfo {
             depParents.put(target.index(), edge.getSource().index());
             depLabels.put(target.index(), edge.getRelation().toString());
 
-            sb.append(space(2 * offset)).append("-> ").append(target).append(" (").append(edge.getRelation()).append(")\n");
+            sb.append(space(2 * offset)).append("-> ").append(target).append(" (").append(edge.getRelation())
+                    .append(")\n");
 
             if (!used.contains(target)) { // recurse
                 recToString(target, sb, offset + 1, used, dependencies, depLabels, depParents);

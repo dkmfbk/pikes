@@ -1,8 +1,8 @@
 package eu.fbk.dkm.pikes.resources.boxer;
 
 import eu.fbk.dkm.pikes.resources.mpqa.CorpusAnnotator;
-import eu.fbk.dkm.utils.CommandLine;
-import eu.fbk.dkm.utils.eval.PrecisionRecall;
+import eu.fbk.utils.core.CommandLine;
+import eu.fbk.utils.eval.PrecisionRecall;
 import ixa.kaflib.ExternalRef;
 import ixa.kaflib.KAFDocument;
 import ixa.kaflib.Predicate;
