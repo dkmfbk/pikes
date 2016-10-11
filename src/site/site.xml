@@ -19,7 +19,9 @@
             <item name="Pikes in a nutshell" href="overview.html"/>
             <item name="Representation model" href="model.html"/>
             <item name="Extraction pipeline" href="pipeline.html"/>
+            <item name="Example" href="example.html"/>
             <item name="Publications" href="publications.html"/>
+            <item name="Presentations" href="presentations.html"/>
             <item name="Team" href="team-list.html"/>
         </menu>
 
@@ -65,7 +67,7 @@
             <html5Anchor>true</html5Anchor>
             <markPageHeader>true</markPageHeader>
 
-	        <absoluteResourceURL>${site-root}</absoluteResourceURL>
+            <absoluteResourceURL>${site-root}</absoluteResourceURL>
             <protocolRelativeURLs>true</protocolRelativeURLs>
 
             <skinAttribution>true</skinAttribution>
@@ -140,6 +142,9 @@
                 <pipeline>
                     <highlightJs>false</highlightJs>
                 </pipeline>
+                <example>
+                    <highlightJs>false</highlightJs>
+                </example>
             </pages>
         </reflowSkin>
     </custom>
