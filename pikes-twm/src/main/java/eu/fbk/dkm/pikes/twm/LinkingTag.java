@@ -1,7 +1,5 @@
 package eu.fbk.dkm.pikes.twm;
 
-import eu.fbk.dh.tint.json.JSONable;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,11 +14,7 @@ import java.util.LinkedHashMap;
  * To change this template use File | Settings | File Templates.
  */
 
-public class LinkingTag implements Serializable, JSONable {
-
-    @Override public String getName() {
-        return "linking";
-    }
+public class LinkingTag implements Serializable {
 
     public enum Category {DBPEDIA, SCHEMA}
 

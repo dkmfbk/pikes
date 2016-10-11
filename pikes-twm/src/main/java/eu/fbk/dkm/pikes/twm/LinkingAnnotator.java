@@ -55,7 +55,7 @@ public class LinkingAnnotator implements Annotator {
         }
 
         List<LinkingTag> annotatedEntities = annotation.get(TWMAnnotations.LinkingAnnotations.class);
-        LinkingList<LinkingTag> entities = new LinkingList<>();
+        List<LinkingTag> entities = new ArrayList<>();
         if (annotatedEntities != null) {
             entities.addAll(annotatedEntities);
         }

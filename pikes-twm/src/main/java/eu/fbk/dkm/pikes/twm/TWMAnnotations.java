@@ -3,6 +3,7 @@ package eu.fbk.dkm.pikes.twm;
 import edu.stanford.nlp.ling.CoreAnnotation;
 import edu.stanford.nlp.pipeline.Annotator;
 import edu.stanford.nlp.util.ErasureUtils;
+import eu.fbk.dh.tint.json.JSONLabel;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class TWMAnnotations {
     public static final String PIKES_LINKING = "linking";
     public static final Annotator.Requirement LINKING_REQUIREMENT = new Annotator.Requirement(PIKES_LINKING);
 
+    @JSONLabel("linking")
     public static class DBpediaSpotlightAnnotation implements CoreAnnotation<LinkingTag> {
 
         @Override public Class<LinkingTag> getType() {
@@ -25,10 +27,11 @@ public class TWMAnnotations {
         }
     }
 
-    public static class LinkingAnnotations implements CoreAnnotation<LinkingList<LinkingTag>> {
+    @JSONLabel("linkings")
+    public static class LinkingAnnotations implements CoreAnnotation<List<LinkingTag>> {
 
-        @Override public Class<LinkingList<LinkingTag>> getType() {
-            return ErasureUtils.<Class<LinkingList<LinkingTag>>>uncheckedCast(List.class);
+        @Override public Class<List<LinkingTag>> getType() {
+            return ErasureUtils.<Class<List<LinkingTag>>>uncheckedCast(List.class);
         }
     }
 
