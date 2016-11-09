@@ -9,7 +9,7 @@
     <parent>
         <artifactId>pikes</artifactId>
         <groupId>eu.fbk.pikes</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -42,6 +42,7 @@
         <dependency>
             <groupId>eu.fbk.pikes</groupId>
             <artifactId>pikes-naflib</artifactId>
+            <version>${pikes-version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -91,10 +92,12 @@
         <dependency>
             <groupId>eu.fbk.rdfpro</groupId>
             <artifactId>rdfpro-core</artifactId>
+            <version>${rdfpro-version}</version>
         </dependency>
         <dependency>
             <groupId>eu.fbk.rdfpro</groupId>
             <artifactId>rdfpro-tql</artifactId>
+            <version>${rdfpro-version}</version>
         </dependency>
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
@@ -103,6 +106,7 @@
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>xml-apis</groupId>

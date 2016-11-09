@@ -4,11 +4,11 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import eu.fbk.dkm.pikes.naflib.Corpus;
 import eu.fbk.dkm.pikes.resources.*;
+import eu.fbk.utils.analysis.stemmer.Stemmer;
+import eu.fbk.utils.analysis.stemmer.StemmerFactory;
 import eu.fbk.utils.core.ArrayUtils;
 import eu.fbk.utils.core.CommandLine;
 import ixa.kaflib.*;
-import org.fbk.cit.hlt.core.analysis.stemmer.Stemmer;
-import org.fbk.cit.hlt.core.analysis.stemmer.StemmerFactory;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;

@@ -9,7 +9,7 @@
     <parent>
         <artifactId>pikes</artifactId>
         <groupId>eu.fbk.pikes</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -34,14 +34,17 @@
         <dependency>
             <groupId>eu.fbk.pikes</groupId>
             <artifactId>pikes-naflib</artifactId>
+            <version>${pikes-version}</version>
         </dependency>
         <dependency>
             <groupId>eu.fbk.pikes</groupId>
             <artifactId>pikes-resources</artifactId>
+            <version>${pikes-version}</version>
         </dependency>
         <dependency>
             <groupId>eu.fbk.pikes</groupId>
             <artifactId>pikes-rdf</artifactId>
+            <version>${pikes-version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -54,6 +57,7 @@
         <dependency>
             <groupId>eu.fbk.rdfpro</groupId>
             <artifactId>rdfpro-core</artifactId>
+            <version>${rdfpro-version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.spullara.mustache.java</groupId>
@@ -71,10 +75,6 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.fbk.cit.hlt</groupId>
-            <artifactId>core</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.apache.jena</groupId>
             <artifactId>jena-core</artifactId>
             <version>2.13.0</version>
@@ -87,6 +87,7 @@
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>xml-apis</groupId>
@@ -118,36 +119,12 @@
             <artifactId>utils-vocab</artifactId>
             <version>${utils-version}</version>
         </dependency>
+        <dependency>
+            <groupId>eu.fbk.utils</groupId>
+            <artifactId>utils-analysis</artifactId>
+            <version>${utils-version}</version>
+        </dependency>
     </dependencies>
-
-    <!--<profiles>-->
-    <!--<profile>-->
-    <!--<id>release</id>-->
-    <!--<activation>-->
-    <!--<activeByDefault>false</activeByDefault>-->
-    <!--</activation>-->
-    <!--<build>-->
-    <!--<plugins>-->
-    <!--<plugin>-->
-    <!--<artifactId>maven-assembly-plugin</artifactId>-->
-    <!--<executions>-->
-    <!--<execution>-->
-    <!--<phase>package</phase>-->
-    <!--<goals>-->
-    <!--<goal>single</goal>-->
-    <!--</goals>-->
-    <!--</execution>-->
-    <!--</executions>-->
-    <!--<configuration>-->
-    <!--<descriptorRefs>-->
-    <!--<descriptorRef>jar-with-dependencies</descriptorRef>-->
-    <!--</descriptorRefs>-->
-    <!--</configuration>-->
-    <!--</plugin>-->
-    <!--</plugins>-->
-    <!--</build>-->
-    <!--</profile>-->
-    <!--</profiles>-->
 
     <properties>
         <parent-path>/..</parent-path>

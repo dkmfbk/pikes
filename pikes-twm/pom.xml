@@ -5,7 +5,7 @@
     <parent>
         <artifactId>pikes</artifactId>
         <groupId>eu.fbk.pikes</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -24,7 +24,7 @@
         <dependency>
             <groupId>eu.fbk.utils</groupId>
             <artifactId>utils-core</artifactId>
-            <version>2.1-SNAPSHOT</version>
+            <version>${utils-version}</version>
         </dependency>
         <dependency>
             <groupId>edu.stanford.nlp</groupId>
@@ -35,9 +35,9 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>eu.fbk.dh</groupId>
-            <artifactId>tint-json</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>eu.fbk.utils</groupId>
+            <artifactId>utils-gson</artifactId>
+            <version>${utils-version}</version>
         </dependency>
     </dependencies>
 </project>

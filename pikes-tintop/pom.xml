@@ -9,7 +9,7 @@
     <parent>
         <artifactId>pikes</artifactId>
         <groupId>eu.fbk.pikes</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -41,7 +41,6 @@
         <dependency>
             <groupId>edu.stanford.nlp</groupId>
             <artifactId>stanford-corenlp</artifactId>
-            <version>3.6.0</version>
         </dependency>
 
         <dependency>
@@ -60,11 +59,6 @@
             <artifactId>org.annolab.tt4j</artifactId>
             <version>1.2.1</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.ini4j</groupId>-->
-            <!--<artifactId>ini4j</artifactId>-->
-            <!--<version>0.5.4</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>eu.fbk.anna</groupId>
             <artifactId>annafbk</artifactId>
@@ -107,11 +101,6 @@
             <version>2.2.7</version>
             <scope>runtime</scope>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>net.sf.jwordnet</groupId>-->
-            <!--<artifactId>jwnl</artifactId>-->
-            <!--<version>1.4_rc3</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>xml-apis</groupId>
             <artifactId>xml-apis</artifactId>
@@ -142,38 +131,36 @@
             <artifactId>sesame-rio-trig</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>cc.mallet</groupId>-->
-        <!--<artifactId>mallet</artifactId>-->
-        <!--<version>2.0.7</version>-->
-        <!--</dependency>-->
 
         <dependency>
             <groupId>eu.fbk.pikes</groupId>
             <artifactId>pikes-naflib</artifactId>
+            <version>${pikes-version}</version>
         </dependency>
         <dependency>
             <groupId>eu.fbk.pikes</groupId>
             <artifactId>pikes-tintop-client</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${pikes-version}</version>
         </dependency>
         <dependency>
             <groupId>eu.fbk.pikes</groupId>
             <artifactId>pikes-depparse-annotation</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${pikes-version}</version>
         </dependency>
         <dependency>
             <groupId>eu.fbk.pikes</groupId>
             <artifactId>pikes-twm</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${pikes-version}</version>
         </dependency>
         <dependency>
             <groupId>eu.fbk.pikes</groupId>
             <artifactId>pikes-resources</artifactId>
+            <version>${pikes-version}</version>
         </dependency>
         <dependency>
             <groupId>eu.fbk.pikes</groupId>
             <artifactId>pikes-rdf</artifactId>
+            <version>${pikes-version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -195,10 +182,12 @@
         <dependency>
             <groupId>eu.fbk.rdfpro</groupId>
             <artifactId>rdfpro-core</artifactId>
+            <version>${rdfpro-version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>eu.fbk.utils</groupId>
@@ -222,18 +211,6 @@
             <artifactId>Semafor</artifactId>
             <version>3.0-alpha-04</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>edu.washington.cs.knowitall.nlptools</groupId>-->
-            <!--<artifactId>nlptools-stem-morpha_2.9.2</artifactId>-->
-            <!--<version>2.4.1</version>-->
-            <!--&lt;!&ndash;<scope>runtime</scope>&ndash;&gt;-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.pcollections</groupId>-->
-            <!--<artifactId>pcollections</artifactId>-->
-            <!--<version>2.1.2</version>-->
-            <!--&lt;!&ndash;<scope>runtime</scope>&ndash;&gt;-->
-        <!--</dependency>-->
 
     </dependencies>
 

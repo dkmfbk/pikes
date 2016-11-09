@@ -6,6 +6,8 @@ import eu.fbk.dkm.pikes.resources.SenticNet;
 import eu.fbk.dkm.pikes.resources.SubjectivityLexicon;
 import eu.fbk.dkm.pikes.resources.WordNet;
 import eu.fbk.dkm.pikes.resources.mpqa.CorpusAnnotator;
+import eu.fbk.utils.analysis.stemmer.Stemmer;
+import eu.fbk.utils.analysis.stemmer.StemmerFactory;
 import eu.fbk.utils.core.CommandLine;
 import eu.fbk.utils.svm.Classifier;
 import eu.fbk.utils.svm.LabelledVector;
@@ -14,8 +16,6 @@ import ixa.kaflib.KAFDocument;
 import ixa.kaflib.Opinion;
 import ixa.kaflib.Term;
 import org.apache.commons.io.FileUtils;
-import org.fbk.cit.hlt.core.analysis.stemmer.Stemmer;
-import org.fbk.cit.hlt.core.analysis.stemmer.StemmerFactory;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
