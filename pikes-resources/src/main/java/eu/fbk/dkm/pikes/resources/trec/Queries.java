@@ -87,6 +87,7 @@ public class Queries {
                 Element descElement = JOOX.$(element).find("desc").get(0);
 
                 String number = "q" + numElement.getTextContent().trim().substring(7).trim();
+                //String title = titleElement.getTextContent().trim().replaceAll("\\s+", " ");
                 String title = titleElement.getTextContent().trim().replaceAll("\\s+", " ");
                 String desc = descElement.getTextContent().trim().substring(12).trim().replaceAll("\\s+", " ");
 
