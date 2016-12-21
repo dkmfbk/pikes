@@ -1,7 +1,7 @@
 package eu.fbk.dkm.pikes.naflib;
 
 import com.google.common.io.Files;
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import eu.fbk.rdfpro.util.IO;
 import ixa.kaflib.KAFDocument;
 import org.slf4j.LoggerFactory;

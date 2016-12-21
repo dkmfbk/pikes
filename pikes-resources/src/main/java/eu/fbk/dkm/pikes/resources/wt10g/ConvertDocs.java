@@ -1,6 +1,6 @@
 package eu.fbk.dkm.pikes.resources.wt10g;
 
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import ixa.kaflib.KAFDocument;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.tika.exception.TikaException;
