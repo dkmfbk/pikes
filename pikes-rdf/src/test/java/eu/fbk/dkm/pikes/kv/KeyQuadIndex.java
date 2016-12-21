@@ -45,7 +45,7 @@ import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.Rio;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import eu.fbk.rdfpro.AbstractRDFHandlerWrapper;
 import eu.fbk.rdfpro.Mapper;
 import eu.fbk.rdfpro.RDFHandlers;

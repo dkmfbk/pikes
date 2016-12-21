@@ -1,27 +1,5 @@
 package eu.fbk.dkm.pikes.naflib;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.AbstractSet;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-import java.util.Spliterator;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
-
-import javax.annotation.Nullable;
-
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
@@ -30,13 +8,24 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.UnmodifiableIterator;
 import com.google.common.io.ByteStreams;
-
+import eu.fbk.utils.svm.Util;
+import eu.fbk.rdfpro.util.IO;
+import ixa.kaflib.KAFDocument;
 import org.slf4j.LoggerFactory;
 
-import ixa.kaflib.KAFDocument;
-
-import eu.fbk.dkm.utils.Util;
-import eu.fbk.rdfpro.util.IO;
+import javax.annotation.Nullable;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public final class Corpus implements Iterable<KAFDocument>, Serializable {
 
@@ -74,6 +63,7 @@ public final class Corpus implements Iterable<KAFDocument>, Serializable {
             }
         }
 
+        // todo: this uses Util, a class included in utils-svm
         final List<Path> files = Util.fileMatch(paths, ImmutableList.of(".naf", ".naf.gz",
                 ".naf.bz2", ".naf.xz", ".xml", ".xml.gz", ".xml.bz2", ".xml.xz"), recursive);
 

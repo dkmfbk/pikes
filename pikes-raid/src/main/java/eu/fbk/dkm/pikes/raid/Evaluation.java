@@ -1,8 +1,8 @@
 package eu.fbk.dkm.pikes.raid;
 
 import com.google.common.collect.Sets;
-import eu.fbk.dkm.utils.CommandLine;
-import eu.fbk.dkm.utils.eval.SetPrecisionRecall;
+import eu.fbk.utils.core.CommandLine;
+import eu.fbk.utils.eval.SetPrecisionRecall;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;

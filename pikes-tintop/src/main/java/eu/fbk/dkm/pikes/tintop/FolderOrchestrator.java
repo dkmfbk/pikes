@@ -1,10 +1,10 @@
-package eu.fbk.dkm.pikes.tintop.orchestrator;
+package eu.fbk.dkm.pikes.tintop;
 
 import com.google.common.io.Files;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import eu.fbk.dkm.pikes.tintop.AnnotationPipeline;
-import eu.fbk.dkm.utils.CommandLine;
-import eu.fbk.dkm.utils.FrequencyHashSet;
+import eu.fbk.dkm.pikes.tintopclient.TintopSession;
+import eu.fbk.utils.core.CommandLine;
+import eu.fbk.utils.core.FrequencyHashSet;
 import eu.fbk.rdfpro.util.IO;
 import ixa.kaflib.KAFDocument;
 import org.apache.commons.io.FileUtils;
@@ -242,16 +242,16 @@ public class FolderOrchestrator {
 
     public static void main(String[] args) {
         try {
-            final eu.fbk.dkm.utils.CommandLine cmd = eu.fbk.dkm.utils.CommandLine
+            final CommandLine cmd = CommandLine
                     .parser()
                     .withName("./orchestrator-folder")
                     .withHeader("Run the Tintop Orchestrator in a particular folder")
                     .withOption("i", "input", "Input folder", "FOLDER",
-                            eu.fbk.dkm.utils.CommandLine.Type.DIRECTORY_EXISTING, true, false, true)
+                            CommandLine.Type.DIRECTORY_EXISTING, true, false, true)
                     .withOption("o", "output", "Output folder", "FOLDER",
-                            eu.fbk.dkm.utils.CommandLine.Type.DIRECTORY, true, false, true)
+                            CommandLine.Type.DIRECTORY, true, false, true)
                     .withOption(null, "skip", "Text file with list of file patterns to skip (one per line)", "FILE",
-                            eu.fbk.dkm.utils.CommandLine.Type.FILE_EXISTING, true, false, false)
+                            CommandLine.Type.FILE_EXISTING, true, false, false)
                     .withOption("m", "max-fail",
                             String.format("Max fails on a single file to skip (default %d)", DEFAULT_MAX_ERR_ON_FILE),
                             "INT", CommandLine.Type.INTEGER, true, false, false)

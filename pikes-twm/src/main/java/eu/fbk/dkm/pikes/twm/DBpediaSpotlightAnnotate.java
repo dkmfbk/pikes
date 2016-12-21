@@ -1,8 +1,7 @@
-package eu.fbk.dkm.pikes.tintop.annotators.raw;
+package eu.fbk.dkm.pikes.twm;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import eu.fbk.dkm.pikes.tintop.annotators.Defaults;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.File;
@@ -20,10 +19,12 @@ public class DBpediaSpotlightAnnotate extends Linking {
 
     private static String LABEL = "dbpedia-annotate";
     private String confidence;
+    public static final String DBPS_ADDRESS = "http://spotlight.sztaki.hu:2222/rest";
+    public static final double DBPS_MIN_CONFIDENCE = 0.33;
 
     public DBpediaSpotlightAnnotate(Properties properties) {
-        super(properties, properties.getProperty("address", Defaults.DBPS_ADDRESS) + "/annotate");
-        confidence = properties.getProperty("min_confidence", Double.toString(Defaults.DBPS_MIN_CONFIDENCE));
+        super(properties, properties.getProperty("address", DBPS_ADDRESS) + "/annotate");
+        confidence = properties.getProperty("min_confidence", Double.toString(DBPS_MIN_CONFIDENCE));
     }
 
     public List<LinkingTag> tag(String text) throws Exception {

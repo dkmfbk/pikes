@@ -8,11 +8,14 @@ import edu.stanford.nlp.semgraph.SemanticGraph;
 import edu.stanford.nlp.semgraph.SemanticGraphCoreAnnotations;
 import edu.stanford.nlp.util.ArraySet;
 import edu.stanford.nlp.util.CoreMap;
+import eu.fbk.dkm.pikes.depparseannotation.DepParseInfo;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+
+import static eu.fbk.dkm.pikes.depparseannotation.DepparseAnnotations.CONLLPARSE_REQUIREMENT;
 
 /**
  * Created by alessio on 06/05/15.
@@ -49,7 +52,7 @@ public class FakeAnnaParserAnnotator implements Annotator {
 
     @Override
     public Set<Requirement> requirementsSatisfied() {
-        return Collections.singleton(PikesAnnotations.CONLLPARSE_REQUIREMENT);
+        return Collections.singleton(CONLLPARSE_REQUIREMENT);
     }
 
     @Override

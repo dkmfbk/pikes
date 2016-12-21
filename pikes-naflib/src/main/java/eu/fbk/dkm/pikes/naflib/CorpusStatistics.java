@@ -1,6 +1,6 @@
 package eu.fbk.dkm.pikes.naflib;
 
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import ixa.kaflib.LinguisticProcessor;
 import org.slf4j.LoggerFactory;
 

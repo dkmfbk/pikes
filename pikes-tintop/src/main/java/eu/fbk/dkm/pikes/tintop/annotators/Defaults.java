@@ -10,8 +10,8 @@ import java.util.Properties;
 
 public class Defaults {
 
-    private static String[] booleanTrue = new String[] { "yes", "1", "y" };
-    private static String[] booleanFalse = new String[] { "no", "0", "n" };
+    private static String[] booleanTrue = new String[] { "yes", "1", "y", "true" };
+    private static String[] booleanFalse = new String[] { "no", "0", "n", "false" };
 
     public static Integer getInteger(@Nullable String value, int defaultValue) {
         try {
@@ -62,8 +62,8 @@ public class Defaults {
                 "eu.fbk.dkm.pikes.tintop.annotators.FakeMstParserAnnotator");
         ret.setProperty("stanford.customAnnotatorClass.ner_custom",
                 "eu.fbk.dkm.pikes.tintop.annotators.NERCustomAnnotator");
-        ret.setProperty("stanford.customAnnotatorClass.dbps", "eu.fbk.dkm.pikes.tintop.annotators.LinkingAnnotator");
-        ret.setProperty("stanford.customAnnotatorClass.ml", "eu.fbk.dkm.pikes.tintop.annotators.LinkingAnnotator");
+        ret.setProperty("stanford.customAnnotatorClass.dbps", "eu.fbk.dkm.pikes.twm.LinkingAnnotator");
+        ret.setProperty("stanford.customAnnotatorClass.ml", "eu.fbk.dkm.pikes.twm.LinkingAnnotator");
 
         // Unused
         ret.setProperty("stanford.customAnnotatorClass.anna_pos",
@@ -84,8 +84,8 @@ public class Defaults {
     public static final int UKB_MAX_NUM_OF_RESTARTS = 50;
     public static final int UKB_MAX_INSTANCES = 10;
     public static final String UKB_FOLDER = "ukb" + File.separator;
-    public static final String UKB_MODEL = "models/wnet30_wnet30g_rels.bin";
-    public static final String UKB_DICT = "models/wnet30_dict.txt";
+    public static final String UKB_MODEL = MODEL_FOLDER + "wnet30_wnet30g_rels.bin";
+    public static final String UKB_DICT = MODEL_FOLDER + "wnet30_dict.txt";
 
     public static final String SEMAFOR_MODEL_DIR = MODEL_FOLDER + "semafor" + File.separator;
 
@@ -101,7 +101,6 @@ public class Defaults {
     public static final double DBPSC_MIN_CONFIDENCE = 0.01;
     public static final double DBPSC_FIRST_CONFIDENCE = 0.5;
     public static final double DBPS_MIN_CONFIDENCE = 0.33;
-    public static final double ML_CONFIDENCE = 0.5;
 
     public static final String PREDICATE_MATRIX = MODEL_FOLDER + "PredicateMatrix.txt";
     public static final String WN_DICT = "wordnet" + File.separator;

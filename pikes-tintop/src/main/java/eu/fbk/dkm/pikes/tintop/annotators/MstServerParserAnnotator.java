@@ -5,6 +5,8 @@ import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.Annotator;
 import edu.stanford.nlp.util.CoreMap;
+import eu.fbk.dkm.pikes.depparseannotation.DepParseInfo;
+import eu.fbk.dkm.pikes.depparseannotation.DepparseAnnotations;
 import eu.fbk.dkm.pikes.tintop.annotators.raw.MstServerParser;
 
 import java.util.*;
@@ -47,7 +49,7 @@ public class MstServerParserAnnotator implements Annotator {
 				}
 				try {
 					DepParseInfo depParseInfo = parser.tag(forms, poss);
-					sentence.set(PikesAnnotations.MstParserAnnotation.class, depParseInfo);
+					sentence.set(DepparseAnnotations.MstParserAnnotation.class, depParseInfo);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

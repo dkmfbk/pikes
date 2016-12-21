@@ -73,7 +73,7 @@ public class AbstractHandler extends HttpHandler {
 		response.getWriter().write(output);
 	}
 
-	public KAFDocument text2naf(String text, HashMap<String, String> meta) {
+	public static KAFDocument text2naf(String text, HashMap<String, String> meta) {
 		KAFDocument doc = new KAFDocument("en", "v3");
 		doc.setRawText(text);
 

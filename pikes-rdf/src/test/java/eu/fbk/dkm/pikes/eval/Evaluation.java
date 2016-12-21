@@ -39,8 +39,8 @@ import org.openrdf.query.algebra.TupleExpr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eu.fbk.dkm.utils.CommandLine;
-import eu.fbk.dkm.utils.eval.PrecisionRecall;
+import eu.fbk.utils.core.CommandLine;
+import eu.fbk.utils.eval.PrecisionRecall;
 import eu.fbk.rdfpro.RDFHandlers;
 import eu.fbk.rdfpro.RDFSources;
 import eu.fbk.rdfpro.util.QuadModel;

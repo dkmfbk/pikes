@@ -1,24 +1,17 @@
 package eu.fbk.dkm.pikes.resources.ecb;
 
-import com.google.common.collect.HashMultimap;
 import com.google.common.io.Files;
-import eu.fbk.dkm.utils.CommandLine;
-import eu.fbk.dkm.utils.eval.PrecisionRecall;
+import eu.fbk.utils.core.CommandLine;
 import ixa.kaflib.Coref;
 import ixa.kaflib.KAFDocument;
 import ixa.kaflib.Span;
 import ixa.kaflib.Term;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Matcher;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.regex.Pattern;
 
 /**
@@ -79,7 +72,8 @@ public class ECBextractor {
                     for (Span<Term> termSpan : coref.getSpans()) {
                         Term term = termSpan.getTargets().get(0);
 
-                        String thisURI = uri + "#char=" + term.getOffset() + "," + (term.getOffset() + term.getLength());
+                        String thisURI =
+                                uri + "#char=" + term.getOffset() + "," + (term.getOffset() + term.getLength());
                         writer.append(thisURI).append("\n");
                     }
                 }

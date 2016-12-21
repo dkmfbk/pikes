@@ -6,6 +6,8 @@ import edu.stanford.nlp.pipeline.Annotator;
 import edu.stanford.nlp.semgraph.SemanticGraph;
 import edu.stanford.nlp.semgraph.SemanticGraphCoreAnnotations;
 import edu.stanford.nlp.util.CoreMap;
+import eu.fbk.dkm.pikes.depparseannotation.DepParseInfo;
+import eu.fbk.dkm.pikes.depparseannotation.DepparseAnnotations;
 
 import java.util.Collections;
 import java.util.Properties;
@@ -29,7 +31,7 @@ public class FakeMstParserAnnotator implements Annotator {
                         SemanticGraphCoreAnnotations.BasicDependenciesAnnotation.class);
                 if (dependencies != null) {
                     DepParseInfo info = new DepParseInfo(dependencies);
-                    sentence.set(PikesAnnotations.MstParserAnnotation.class, info);
+                    sentence.set(DepparseAnnotations.MstParserAnnotation.class, info);
                 }
             }
         } else {

@@ -32,14 +32,14 @@ import ixa.kaflib.Term;
 
 import eu.fbk.dkm.pikes.resources.NAFUtils;
 import eu.fbk.dkm.pikes.resources.WordNet;
-import eu.fbk.dkm.utils.Graph;
-import eu.fbk.dkm.utils.Util;
-import eu.fbk.dkm.utils.eval.ConfusionMatrix;
-import eu.fbk.dkm.utils.eval.PrecisionRecall;
-import eu.fbk.dkm.utils.svm.Classifier;
-import eu.fbk.dkm.utils.svm.FeatureStats;
-import eu.fbk.dkm.utils.svm.LabelledVector;
-import eu.fbk.dkm.utils.svm.Vector;
+import eu.fbk.utils.core.Graph;
+import eu.fbk.utils.svm.Util;
+import eu.fbk.utils.eval.ConfusionMatrix;
+import eu.fbk.utils.eval.PrecisionRecall;
+import eu.fbk.utils.svm.Classifier;
+import eu.fbk.utils.svm.FeatureStats;
+import eu.fbk.utils.svm.LabelledVector;
+import eu.fbk.utils.svm.Vector;
 
 public class LinkLabeller {
 

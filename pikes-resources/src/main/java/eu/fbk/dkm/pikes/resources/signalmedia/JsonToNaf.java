@@ -1,7 +1,7 @@
 package eu.fbk.dkm.pikes.resources.signalmedia;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import ixa.kaflib.KAFDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

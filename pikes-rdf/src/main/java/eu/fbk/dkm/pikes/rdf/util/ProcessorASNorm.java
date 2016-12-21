@@ -16,7 +16,7 @@ import org.openrdf.model.Value;
 import org.openrdf.rio.RDFHandler;
 import org.openrdf.rio.RDFHandlerException;
 
-import eu.fbk.dkm.utils.Util;
+import eu.fbk.utils.svm.Util;
 import eu.fbk.rdfpro.Mapper;
 import eu.fbk.rdfpro.RDFProcessor;
 import eu.fbk.rdfpro.RDFProcessors;

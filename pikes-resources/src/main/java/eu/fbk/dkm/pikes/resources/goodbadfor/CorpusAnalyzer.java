@@ -1,7 +1,7 @@
 package eu.fbk.dkm.pikes.resources.goodbadfor;
 
-import eu.fbk.dkm.utils.CommandLine;
-import eu.fbk.dkm.utils.FrequencyHashSet;
+import eu.fbk.utils.core.CommandLine;
+import eu.fbk.utils.core.FrequencyHashSet;
 import ixa.kaflib.KAFDocument;
 import ixa.kaflib.Opinion;
 import ixa.kaflib.Span;

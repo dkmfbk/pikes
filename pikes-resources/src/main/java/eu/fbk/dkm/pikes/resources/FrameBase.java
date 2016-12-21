@@ -26,8 +26,8 @@ import org.openrdf.model.vocabulary.RDFS;
 import org.openrdf.rio.RDFHandlerException;
 import org.slf4j.LoggerFactory;
 
-import eu.fbk.dkm.utils.CommandLine;
-import eu.fbk.dkm.utils.CommandLine.Type;
+import eu.fbk.utils.core.CommandLine;
+import eu.fbk.utils.core.CommandLine.Type;
 import eu.fbk.rdfpro.AbstractRDFHandler;
 import eu.fbk.rdfpro.RDFSource;
 import eu.fbk.rdfpro.RDFSources;

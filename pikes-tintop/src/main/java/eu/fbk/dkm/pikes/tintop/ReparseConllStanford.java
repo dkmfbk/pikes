@@ -12,18 +12,18 @@ import edu.stanford.nlp.util.Filters;
 import eu.fbk.dkm.pikes.resources.util.corpus.Corpus;
 import eu.fbk.dkm.pikes.resources.util.corpus.Sentence;
 import eu.fbk.dkm.pikes.resources.util.corpus.Word;
-import eu.fbk.dkm.pikes.tintop.annotators.DepParseInfo;
+import eu.fbk.dkm.pikes.depparseannotation.DepParseInfo;
 import eu.fbk.dkm.pikes.tintop.util.RemoveLoopsInConll;
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import scala.actors.threadpool.AtomicInteger;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by alessio on 26/02/15.
@@ -36,7 +36,7 @@ public class ReparseConllStanford {
     public static void main(String[] args) {
 
         try {
-            final eu.fbk.dkm.utils.CommandLine cmd = eu.fbk.dkm.utils.CommandLine
+            final eu.fbk.utils.core.CommandLine cmd = eu.fbk.utils.core.CommandLine
                     .parser()
                     .withName("./reparse-conll")
                     .withHeader(

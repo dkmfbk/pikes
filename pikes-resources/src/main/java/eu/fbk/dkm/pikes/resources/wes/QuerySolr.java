@@ -3,7 +3,7 @@ package eu.fbk.dkm.pikes.resources.wes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,10 +1,10 @@
 package eu.fbk.dkm.pikes.tintop.server;
 
 import eu.fbk.dkm.pikes.tintop.AnnotationPipeline;
-import eu.fbk.dkm.pikes.tintop.orchestrator.TintopOrchestrator;
-import eu.fbk.dkm.utils.CommandLine;
-import org.apache.log4j.Logger;
-import org.glassfish.grizzly.http.server.*;
+import eu.fbk.utils.core.CommandLine;
+import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
+import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.grizzly.http.server.NetworkListener;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;

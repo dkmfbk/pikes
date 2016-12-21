@@ -1,6 +1,5 @@
-package eu.fbk.dkm.pikes.tintop.annotators.raw;
+package eu.fbk.dkm.pikes.twm;
 
-import org.apache.commons.lang3.CharEncoding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +24,7 @@ public abstract class Linking {
     protected static final Logger LOGGER = LoggerFactory.getLogger(Linking.class);
     private static final Integer DEFAULT_TIMEOUT = 2000;
 
-    private String urlAddress;
+    protected String urlAddress;
     private Properties config = new Properties();
     protected Boolean extractTypes = true;
 
@@ -38,6 +37,10 @@ public abstract class Linking {
     }
 
     protected String request(Map<String, String> pars) throws IOException {
+        return request(pars, null);
+    }
+
+    protected String request(Map<String, String> pars, String customAddress) throws IOException {
         String thisRequest = "";
         String fromServer = null;
 
@@ -50,8 +53,13 @@ public abstract class Linking {
             }
         }
 
-        URL serverAddress = new URL(urlAddress);
-        LOGGER.debug("URL: " + urlAddress);
+        URL serverAddress;
+        if (customAddress != null) {
+            serverAddress = new URL(customAddress);
+        } else {
+            serverAddress = new URL(urlAddress);
+        }
+        LOGGER.debug("URL: " + serverAddress);
         LOGGER.trace("Request: " + thisRequest);
 
         boolean useProxy = config.getProperty("use_proxy", "0").equals("1");
@@ -76,7 +84,7 @@ public abstract class Linking {
             connection.setRequestProperty("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
             connection.setRequestProperty("Accept", "application/json");
             connection.setDoOutput(true);
-            connection.getOutputStream().write(thisRequest.getBytes(CharEncoding.UTF_8));
+            connection.getOutputStream().write(thisRequest.getBytes("UTF-8"));
             connection.connect();
 
             // read the result from the server
