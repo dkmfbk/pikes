@@ -62,6 +62,9 @@ public class ConvertDocs {
 
         try {
 
+            // ACTHUNG!!!
+            // PASS "-Dwt10g" in Maven for building the dependencies
+
             final CommandLine cmd = CommandLine
                     .parser()
                     .withName("wt10g-mysql-extractor")
