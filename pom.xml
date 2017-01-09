@@ -120,6 +120,10 @@
         <rdfpro-version>0.5</rdfpro-version>
         <site.root>http://pikes.fbk.eu/</site.root>
         <site-download>https://knowledgestore.fbk.eu/files/pikes/latest/</site-download>
+
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
     </properties>
 
     <modules>
