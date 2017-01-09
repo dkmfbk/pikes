@@ -1,20 +1,25 @@
 package eu.fbk.dkm.pikes.tintop;
 
+import edu.stanford.nlp.hcoref.CorefCoreAnnotations;
+import edu.stanford.nlp.hcoref.data.CorefChain;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
-import edu.stanford.nlp.ling.tokensregex.types.Tags;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
-import edu.stanford.nlp.time.TimeExpression;
 import edu.stanford.nlp.time.TimeAnnotations;
 import edu.stanford.nlp.util.CoreMap;
+import edu.stanford.nlp.util.IntPair;
+import ixa.kaflib.KAFDocument;
+import ixa.kaflib.Span;
+import ixa.kaflib.Term;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 /**
  * Created by alessio on 26/02/15.
@@ -64,22 +69,37 @@ public class StanfordTest {
     public static void main(String[] args) throws IOException {
 
         String text = "Donald Trump set off a fierce new controversy Tuesday with remarks about the right to bear arms that were interpreted by many as a threat of violence against Hillary Clinton.";
+        text = "G. W. Bush and Bono are very strong supporters of the fight of HIV in Africa. Their March 2002 meeting resulted in a 5 billion dollar aid.";
 
         Properties props;
         Annotation annotation;
 
         props = new Properties();
-        props.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner");
+        props.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner, parse, dcoref");
 
         StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
         annotation = new Annotation(text);
-        annotation.set(CoreAnnotations.DocDateAnnotation.class, "2016-08-10T13:51:41+02:00");
+//        annotation.set(CoreAnnotations.DocDateAnnotation.class, "2016-08-10T13:51:41+02:00");
         pipeline.annotate(annotation);
-        System.out.println(pipeline.timingInformation());
 
-        if (text.length() < 1000) {
-            printOutput(annotation);
+        Map<Integer, CorefChain> coreferenceGraph = annotation.get(CorefCoreAnnotations.CorefChainAnnotation.class);
+        for (Object c : coreferenceGraph.keySet()) {
+            CorefChain chain = coreferenceGraph.get(c);
+            Map<IntPair, Set<CorefChain.CorefMention>> mentionMap = chain.getMentionMap();
+
+            System.out.println(mentionMap);
+            for (IntPair p : mentionMap.keySet()) {
+                for (CorefChain.CorefMention m : mentionMap.get(p)) {
+                    System.out.println(m.sentNum);
+                    System.out.println(m.startIndex);
+                    System.out.println(m.endIndex);
+                }
+            }
         }
+
+//        if (text.length() < 1000) {
+//            printOutput(annotation);
+//        }
 
     }
 }
