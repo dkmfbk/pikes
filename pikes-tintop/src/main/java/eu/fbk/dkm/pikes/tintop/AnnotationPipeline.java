@@ -3,8 +3,8 @@ package eu.fbk.dkm.pikes.tintop;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
 import edu.cmu.cs.lti.ark.fn.parsing.SemaforParseResult;
-import edu.stanford.nlp.dcoref.CorefChain;
-import edu.stanford.nlp.dcoref.CorefCoreAnnotations;
+import edu.stanford.nlp.hcoref.CorefCoreAnnotations;
+import edu.stanford.nlp.hcoref.data.CorefChain;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
@@ -861,18 +861,18 @@ public class AnnotationPipeline {
                 CorefChain chain = coreferenceGraph.get(c);
                 Map<IntPair, Set<CorefChain.CorefMention>> mentionMap = chain.getMentionMap();
 
-                // Skip coreference if its size is 1
-                if (mentionMap.size() < 2) {
-                    continue;
-                }
-
                 List<Span<Term>> mentions = new ArrayList<>();
 
                 // Loop through sentences
                 for (IntPair p : mentionMap.keySet()) {
 
+                    Set<CorefChain.CorefMention> corefMentions = mentionMap.get(p);
+                    if (corefMentions.size() < 2) {
+                        continue;
+                    }
+
                     // Loop through mentions
-                    for (CorefChain.CorefMention m : mentionMap.get(p)) {
+                    for (CorefChain.CorefMention m : corefMentions) {
 
                         int sentenceStartTokenIndex = sentIndexes.get(m.sentNum - 1);
                         int start = sentenceStartTokenIndex + m.startIndex - 1;
@@ -881,15 +881,10 @@ public class AnnotationPipeline {
                         for (int i = start; i < start + m.endIndex - m.startIndex; i++) {
                             thisTermSpan.addTarget(allTerms.get(i));
                         }
-                        if (!thisTermSpan.isEmpty()) {
+
+                        if (thisTermSpan.size() > 0) {
                             mentions.add(thisTermSpan);
                         }
-
-//					logger.info(m.animacy);
-//					logger.info(m.gender);
-//					logger.info(m.mentionSpan);
-//					logger.info(m.mentionType);
-//					logger.info(m.number);
                     }
                 }
 
