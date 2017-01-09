@@ -51,7 +51,8 @@ public class LinkingAnnotator implements Annotator {
         } catch (EOFException e) {
             e.printStackTrace();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            // ignore
+//            throw new RuntimeException(e);
         }
 
         List<LinkingTag> annotatedEntities = annotation.get(TWMAnnotations.LinkingAnnotations.class);
