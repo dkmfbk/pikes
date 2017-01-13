@@ -1,0 +1,619 @@
+@prefix xs: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dbyago: <http://dbpedia.org/class/yago/> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix sumo: <http://www.ontologyportal.org/SUMO.owl#> .
+@prefix sem: <http://semanticweb.cs.vu.nl/2009/11/sem/> .
+@prefix nif: <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix wn30: <http://wordnet-rdf.princeton.edu/wn30/> .
+@prefix x: <x:schema#> .
+@prefix pb: <x:propbank#> .
+@prefix nb: <x:nombank#> .
+@prefix vn: <x:verbnet#> .
+@prefix fn: <x:framenet#> .
+@prefix sst: <x:sst#> .
+@prefix ner: <x:ner#> .
+@prefix attr: <x:attr#> .
+@prefix entity: <x:Instance#> .
+
+<file:///eswc.1.ttl/> dct:creator "" ;
+	a x:Resource , x:Text ;
+	dct:language <http://lexvo.org/id/iso639-3/eng> ;
+	dct:title "" ;
+	dct:created "2015-09-17T08:14:00+02:00" ;
+	x:hasMention <file:///eswc.1.ttl/char=108,112> , <file:///eswc.1.ttl/char=108,122> , <file:///eswc.1.ttl/char=123,131> , <file:///eswc.1.ttl/char=132,138> , <file:///eswc.1.ttl/char=140,146> , <file:///eswc.1.ttl/char=149,154> , <file:///eswc.1.ttl/char=155,164> , <file:///eswc.1.ttl/char=16,21> , <file:///eswc.1.ttl/char=172,185> , <file:///eswc.1.ttl/char=190,195> , <file:///eswc.1.ttl/char=196,205> , <file:///eswc.1.ttl/char=211,215> , <file:///eswc.1.ttl/char=219,226> , <file:///eswc.1.ttl/char=22,27> , <file:///eswc.1.ttl/char=231,237> , <file:///eswc.1.ttl/char=242,245> , <file:///eswc.1.ttl/char=246,253> , <file:///eswc.1.ttl/char=254,264> , <file:///eswc.1.ttl/char=36,44> , <file:///eswc.1.ttl/char=45,50> , <file:///eswc.1.ttl/char=4,8> , <file:///eswc.1.ttl/char=54,62> , <file:///eswc.1.ttl/char=68,76> , <file:///eswc.1.ttl/char=81,87> , <file:///eswc.1.ttl/char=88,91> , <file:///eswc.1.ttl/char=9,15> , <file:///eswc.1.ttl/char=99,107> , <file:///eswc.1.ttl/char=22,27;140,146> , <file:///eswc.1.ttl/char=22,27;155,164> , <file:///eswc.1.ttl/char=9,15;22,27> , <file:///eswc.1.ttl/char=190,205> , <file:///eswc.1.ttl/char=36,50> , <file:///eswc.1.ttl/char=88,91;132,138> , <file:///eswc.1.ttl/char=99,107;132,138> , <file:///eswc.1.ttl/char=45,50;54,62> , <file:///eswc.1.ttl/char=219,226;254,264> , <file:///eswc.1.ttl/char=81,87;140,146> , <file:///eswc.1.ttl/char=22,27;54,62> , <file:///eswc.1.ttl/char=155,164;196,205> , <file:///eswc.1.ttl/char=81,91> , <file:///eswc.1.ttl/char=219,226;231,237> , <file:///eswc.1.ttl/char=54,62;68,76> , <file:///eswc.1.ttl/char=140,146;155,164> , <file:///eswc.1.ttl/char=123,138> , <file:///eswc.1.ttl/char=22,27;81,87> , <file:///eswc.1.ttl/char=149,164> , <file:///eswc.1.ttl/char=155,164;172,185> , <file:///eswc.1.ttl/char=211,215;219,226> , <file:///eswc.1.ttl/char=16,27> , <file:///eswc.1.ttl/char=196,205;219,226> , <file:///eswc.1.ttl/char=22,27;45,50> , <file:///eswc.1.ttl/char=196,205;211,215> , <file:///eswc.1.ttl/char=246,264> ;
+	x:textHash "CcfDwt6hXhrAfLsTJTNE1j" ;
+	x:annotatedWith <file:///eswc.1.ttl/.naf> .
+
+<file:///eswc.1.ttl/char=108,112> a x:Mention , x:AttributeMention ;
+	nif:endIndex "112"^^xs:int ;
+	nif:beginIndex "108"^^xs:int ;
+	nif:anchorOf "most" ;
+	x:denotes <attr:about-7r> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<attr:about-7r> a x:Attribute , x:Instance ;
+	rdfs:label "most" ;
+	x:headSynset wn30:00073033-r .
+
+<file:///eswc.1.ttl/char=108,122> a x:Mention , x:AttributeMention ;
+	nif:endIndex "122"^^xs:int ;
+	nif:beginIndex "108"^^xs:int ;
+	nif:anchorOf "most effective" ;
+	x:denotes <attr:about-7r_effective-1a> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<attr:about-7r_effective-1a> a x:Attribute , x:Instance ;
+	rdfs:label "most effective" ;
+	x:headSynset wn30:00834198-a ;
+	x:mod <attr:about-7r> .
+
+<file:///eswc.1.ttl/char=123,131> a x:Mention , x:InstanceMention , x:FrameMention ;
+	nif:endIndex "131"^^xs:int ;
+	nif:beginIndex "123"^^xs:int ;
+	nif:anchorOf "fighting" ;
+	x:denotes <file:///eswc.1.ttl/fighting> ;
+	x:mentionOf <file:///eswc.1.ttl/> ;
+	x:synset wn30:01170962-n ;
+	x:sst sst:noun.act ;
+	x:lemma "fighting" .
+
+<file:///eswc.1.ttl/fighting> a sumo:Physical , sumo:Entity , sem:Event , sumo:Process , sumo:SocialInteraction , sumo:IntentionalProcess , sumo:Contest , sumo:ViolentContest , dbyago:Fight101170962 , x:Instance , x:Frame , nb:fighting.01 ;
+	rdfs:label "fighting" .
+
+<file:///eswc.1.ttl/char=132,138> a x:Mention , x:InstanceMention , x:FrameMention ;
+	nif:endIndex "138"^^xs:int ;
+	nif:beginIndex "132"^^xs:int ;
+	nif:anchorOf "forces" ;
+	x:denotes <file:///eswc.1.ttl/force> ;
+	x:mentionOf <file:///eswc.1.ttl/> ;
+	x:synset wn30:05194578-n ;
+	x:sst sst:noun.attribute ;
+	x:lemma "force" ;
+	x:plural true .
+
+<file:///eswc.1.ttl/force> a sumo:Entity , sem:Event , sumo:Abstract , sumo:SubjectiveAssessmentAttribute , sumo:RelationalAttribute , sumo:Attribute , sumo:NormativeAttribute , dbyago:Force105194578 , x:Instance , x:Frame , nb:force.01 ;
+	rdfs:label "forces" ;
+	sem:hasActor <file:///eswc.1.ttl/fighting> , <file:///eswc.1.ttl/uprising> ;
+	x:mod <attr:about-7r_effective-1a> , <file:///eswc.1.ttl/fighting> , <file:///eswc.1.ttl/uprising> ;
+	nb:force.01_1 <file:///eswc.1.ttl/fighting> , <file:///eswc.1.ttl/uprising> .
+
+<file:///eswc.1.ttl/char=140,146> a x:Mention , x:FrameMention ;
+	nif:endIndex "146"^^xs:int ;
+	nif:beginIndex "140"^^xs:int ;
+	nif:anchorOf "posing" ;
+	x:denotes <file:///eswc.1.ttl/pose> ;
+	x:mentionOf <file:///eswc.1.ttl/> ;
+	x:synset wn30:01494310-v ;
+	x:sst sst:verb.contact ;
+	x:lemma "pose" .
+
+<file:///eswc.1.ttl/pose> a sumo:Physical , sumo:Entity , sem:Event , sumo:Process , sumo:Transfer , sumo:Motion , sumo:Translocation , sumo:Putting , x:Instance , x:Frame , vn:transfer_mesg-37.1.1 , pb:pose.02 ;
+	rdfs:label "posing" ;
+	sem:hasActor <file:///eswc.1.ttl/challenge> , <file:///eswc.1.ttl/group> ;
+	vn:agent <file:///eswc.1.ttl/group> ;
+	pb:pose.02_0 <file:///eswc.1.ttl/group> ;
+	pb:pose.02_1 <file:///eswc.1.ttl/challenge> ;
+	vn:topic <file:///eswc.1.ttl/challenge> .
+
+<file:///eswc.1.ttl/char=149,154> a x:Mention , x:AttributeMention ;
+	nif:endIndex "154"^^xs:int ;
+	nif:beginIndex "149"^^xs:int ;
+	nif:anchorOf "stark" ;
+	x:denotes <attr:blunt-4a> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<attr:blunt-4a> a x:Attribute , x:Instance ;
+	rdfs:label "stark" ;
+	x:headSynset wn30:00556881-a .
+
+<file:///eswc.1.ttl/char=155,164> a x:Mention , x:InstanceMention , x:FrameMention ;
+	nif:endIndex "164"^^xs:int ;
+	nif:beginIndex "155"^^xs:int ;
+	nif:anchorOf "challenge" ;
+	x:denotes <file:///eswc.1.ttl/challenge> ;
+	x:mentionOf <file:///eswc.1.ttl/> ;
+	x:synset wn30:07231294-n ;
+	x:sst sst:noun.communication ;
+	x:lemma "challenge" .
+
+<file:///eswc.1.ttl/challenge> a sumo:Physical , sumo:Entity , sem:Event , sumo:Process , sumo:ContentBearingPhysical , sumo:SocialInteraction , sumo:IntentionalProcess , sumo:LinguisticCommunication , sumo:Communication , sumo:ContentBearingProcess , sumo:Directing , sumo:Requesting , dbyago:Challenge107231294 , x:Instance , x:Frame , nb:challenge.01 ;
+	rdfs:label "challenge" ;
+	sem:hasActor <file:///eswc.1.ttl/United_States> , <file:///eswc.1.ttl/country> , <file:///eswc.1.ttl/group> ;
+	x:mod <attr:blunt-4a> , <file:///eswc.1.ttl/United_States> , <file:///eswc.1.ttl/country> ;
+	nb:mnr <attr:blunt-4a> ;
+	nb:challenge.01_1 <file:///eswc.1.ttl/United_States> , <file:///eswc.1.ttl/country> ;
+	nb:challenge.01_0 <file:///eswc.1.ttl/group> .
+
+<file:///eswc.1.ttl/char=16,21> a x:Mention , x:InstanceMention ;
+	nif:endIndex "21"^^xs:int ;
+	nif:beginIndex "16"^^xs:int ;
+	nif:anchorOf "rebel" ;
+	x:denotes <file:///eswc.1.ttl/rebel> ;
+	x:mentionOf <file:///eswc.1.ttl/> ;
+	x:synset wn30:10210137-n ;
+	x:sst sst:noun.person ;
+	x:lemma "rebel" .
+
+<file:///eswc.1.ttl/rebel> a sumo:Entity , sumo:Abstract , sumo:RelationalAttribute , sumo:Attribute , dbyago:Insurgent110210137 , sumo:SocialRole , x:Instance , ner:PERSON ;
+	rdfs:label "rebel" .
+
+<file:///eswc.1.ttl/char=172,185> a x:Mention , x:InstanceMention , x:NameMention ;
+	nif:endIndex "185"^^xs:int ;
+	nif:beginIndex "172"^^xs:int ;
+	nif:anchorOf "United States" ;
+	x:denotes <file:///eswc.1.ttl/United_States> ;
+	x:mentionOf <file:///eswc.1.ttl/> ;
+	x:plural true .
+
+<file:///eswc.1.ttl/United_States> a x:Instance , ner:LOCATION ;
+	rdfs:label "United States" ;
+	owl:sameAs dbpedia:United_States ;
+	foaf:name "United States" .
+
+<file:///eswc.1.ttl/char=190,195> a x:Mention , x:FrameMention ;
+	nif:endIndex "195"^^xs:int ;
+	nif:beginIndex "190"^^xs:int ;
+	nif:anchorOf "other" ;
+	x:denotes <file:///eswc.1.ttl/other> ;
+	x:mentionOf <file:///eswc.1.ttl/> ;
+	x:synset wn30:02069355-a ;
+	x:sst sst:adj.all .
+
+<file:///eswc.1.ttl/other> a sem:Event , x:Instance , x:Frame , nb:other.01 ;
+	rdfs:label "other" .
+
+<file:///eswc.1.ttl/char=196,205> a x:Mention , x:InstanceMention ;
+	nif:endIndex "205"^^xs:int ;
+	nif:beginIndex "196"^^xs:int ;
+	nif:anchorOf "countries" ;
+	x:denotes <file:///eswc.1.ttl/country> ;
+	x:mentionOf <file:///eswc.1.ttl/> ;
+	x:synset wn30:08544813-n ;
+	x:sst sst:noun.location ;
+	x:lemma "country" ;
+	x:plural true .
+
+<file:///eswc.1.ttl/country> a sumo:Physical , sumo:Entity , sumo:Agent , sumo:Object , sumo:Nation , sumo:Region , sumo:GeopoliticalArea , dbyago:Country108544813 , sumo:LandArea , sumo:GeographicArea , x:Instance ;
+	rdfs:label "countries" ;
+	x:mod <file:///eswc.1.ttl/other> , <file:///eswc.1.ttl/want> .
+
+<file:///eswc.1.ttl/char=211,215> a x:Mention , x:FrameMention ;
+	nif:endIndex "215"^^xs:int ;
+	nif:beginIndex "211"^^xs:int ;
+	nif:anchorOf "want" ;
+	x:denotes <file:///eswc.1.ttl/want> ;
+	x:mentionOf <file:///eswc.1.ttl/> ;
+	x:synset wn30:01825237-v ;
+	x:sst sst:verb.emotion ;
+	x:lemma "want" .
+
+<file:///eswc.1.ttl/want> a sumo:Physical , sumo:Entity , sem:Event , sumo:Process , sumo:Abstract , sumo:Attribute , sumo:IntentionalProcess , sumo:IntentionalPsychologicalProcess , sumo:Investigating , sumo:PsychologicalProcess , sumo:BiologicalAttribute , sumo:InternalAttribute , sumo:BiologicalProcess , sumo:StateOfMind , sumo:EmotionalState , sumo:InternalChange , sumo:PsychologicalAttribute , x:Instance , x:Frame , pb:want.01 , fn:Desiring , vn:appoint-29.1 ;
+	rdfs:label "want" ;
+	sem:hasActor <file:///eswc.1.ttl/country> , <file:///eswc.1.ttl/support> ;
+	vn:agent <file:///eswc.1.ttl/country> ;
+	fn:event <file:///eswc.1.ttl/support> ;
+	fn:cause <file:///eswc.1.ttl/country> ;
+	pb:want.01_1 <file:///eswc.1.ttl/support> ;
+	vn:result <file:///eswc.1.ttl/support> ;
+	pb:want.01_0 <file:///eswc.1.ttl/country> .
+
+<file:///eswc.1.ttl/char=219,226> a x:Mention , x:FrameMention ;
+	nif:endIndex "226"^^xs:int ;
+	nif:beginIndex "219"^^xs:int ;
+	nif:anchorOf "support" ;
+	x:denotes <file:///eswc.1.ttl/support> ;
+	x:mentionOf <file:///eswc.1.ttl/> ;
+	x:synset wn30:02453889-v ;
+	x:sst sst:verb.social ;
+	x:lemma "support" .
+
+<file:///eswc.1.ttl/support> a sumo:Entity , sem:Event , sumo:Abstract , sumo:SubjectiveAssessmentAttribute , sumo:RelationalAttribute , sumo:Attribute , sumo:NormativeAttribute , x:Instance , x:Frame , vn:admire-31.2 , pb:support.01 , fn:Taking_sides ;
+	rdfs:label "support" ;
+	sem:hasActor <file:///eswc.1.ttl/country> , <file:///eswc.1.ttl/rebel_2> , <file:///eswc.1.ttl/extremist> ;
+	fn:cognizer <file:///eswc.1.ttl/country> ;
+	pb:support.01_1 <file:///eswc.1.ttl/rebel_2> , <file:///eswc.1.ttl/extremist> ;
+	pb:support.01_0 <file:///eswc.1.ttl/country> ;
+	vn:stimulus <file:///eswc.1.ttl/rebel_2> , <file:///eswc.1.ttl/extremist> ;
+	vn:experiencer <file:///eswc.1.ttl/country> .
+
+<file:///eswc.1.ttl/char=22,27> a x:Mention , x:InstanceMention , x:FrameMention ;
+	nif:endIndex "27"^^xs:int ;
+	nif:beginIndex "22"^^xs:int ;
+	nif:anchorOf "group" ;
+	x:denotes <file:///eswc.1.ttl/group> ;
+	x:mentionOf <file:///eswc.1.ttl/> ;
+	x:synset wn30:00031264-n ;
+	x:sst sst:noun.Tops ;
+	x:lemma "group" .
+
+<file:///eswc.1.ttl/group> a sumo:Physical , sumo:Entity , sem:Event , sumo:Agent , sumo:Object , dbyago:Group100031264 , sumo:Collection , sumo:Group , x:Instance , x:Frame , nb:group.01 ;
+	rdfs:label "group" ;
+	sem:hasActor <file:///eswc.1.ttl/rebel> , <file:///eswc.1.ttl/stamp> ;
+	x:mod <file:///eswc.1.ttl/rebel> , <file:///eswc.1.ttl/stamp> , <attr:alone(p)-2a> , <file:///eswc.1.ttl/Syrian> ;
+	nb:group.01_1 <file:///eswc.1.ttl/rebel> ;
+	nb:group.01_2 <file:///eswc.1.ttl/stamp> .
+
+<file:///eswc.1.ttl/char=231,237> a x:Mention , x:InstanceMention ;
+	nif:endIndex "237"^^xs:int ;
+	nif:beginIndex "231"^^xs:int ;
+	nif:anchorOf "rebels" ;
+	x:denotes <file:///eswc.1.ttl/rebel_2> ;
+	x:mentionOf <file:///eswc.1.ttl/> ;
+	x:synset wn30:10210137-n ;
+	x:sst sst:noun.person ;
+	x:lemma "rebel" ;
+	x:plural true .
+
+<file:///eswc.1.ttl/rebel_2> a sumo:Entity , sumo:Abstract , sumo:RelationalAttribute , sumo:Attribute , dbyago:Insurgent110210137 , sumo:SocialRole , x:Instance , ner:PERSON ;
+	rdfs:label "rebels" .
+
+<file:///eswc.1.ttl/char=242,245> a x:Mention , x:AttributeMention ;
+	nif:endIndex "245"^^xs:int ;
+	nif:beginIndex "242"^^xs:int ;
+	nif:anchorOf "not" ;
+	x:denotes <attr:not-1r> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<attr:not-1r> a x:Attribute , x:Instance ;
+	rdfs:label "not" ;
+	x:headSynset wn30:00024073-r .
+
+<file:///eswc.1.ttl/char=246,253> a x:Mention , x:InstanceMention , x:NameMention ;
+	nif:endIndex "253"^^xs:int ;
+	nif:beginIndex "246"^^xs:int ;
+	nif:anchorOf "Islamic" ;
+	x:denotes <entity:islamic> ;
+	x:mentionOf <file:///eswc.1.ttl/> ;
+	x:synset wn30:02923510-a ;
+	x:sst sst:adj.pert .
+
+<entity:islamic> a x:Instance , ner:MISC ;
+	rdfs:label "islamic" ;
+	foaf:name "islamic" .
+
+<file:///eswc.1.ttl/char=254,264> a x:Mention , x:InstanceMention ;
+	nif:endIndex "264"^^xs:int ;
+	nif:beginIndex "254"^^xs:int ;
+	nif:anchorOf "extremists" ;
+	x:denotes <file:///eswc.1.ttl/extremist> ;
+	x:mentionOf <file:///eswc.1.ttl/> ;
+	x:synset wn30:10074735-n ;
+	x:sst sst:noun.person ;
+	x:lemma "extremist" ;
+	x:plural true .
+
+<file:///eswc.1.ttl/extremist> a sumo:Physical , sumo:Entity , sumo:Hominid , sumo:SentientAgent , sumo:Agent , sumo:Object , sumo:OrganicThing , sumo:Human , sumo:SelfConnectedObject , sumo:Primate , sumo:Animal , sumo:Vertebrate , sumo:WarmBloodedVertebrate , sumo:OrganicObject , dbyago:Extremist110074735 , sumo:CorpuscularObject , sumo:Mammal , sumo:Organism , sumo:CognitiveAgent , sumo:ITAgent , x:Instance , ner:PERSON ;
+	rdfs:label "extremists" ;
+	rdfs:seeAlso dbpedia:Islamism ;
+	x:mod <attr:not-1r> , <entity:islamic> .
+
+<file:///eswc.1.ttl/char=36,44> a x:Mention , x:AttributeMention ;
+	nif:endIndex "44"^^xs:int ;
+	nif:beginIndex "36"^^xs:int ;
+	nif:anchorOf "explicit" ;
+	x:denotes <attr:explicit-1a> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<attr:explicit-1a> a x:Attribute , x:Instance ;
+	rdfs:label "explicit" ;
+	x:headSynset wn30:00940437-a .
+
+<file:///eswc.1.ttl/char=45,50> a x:Mention , x:InstanceMention , x:FrameMention ;
+	nif:endIndex "50"^^xs:int ;
+	nif:beginIndex "45"^^xs:int ;
+	nif:anchorOf "stamp" ;
+	x:denotes <file:///eswc.1.ttl/stamp> ;
+	x:mentionOf <file:///eswc.1.ttl/> ;
+	x:synset wn30:04159058-n ;
+	x:sst sst:noun.artifact ;
+	x:lemma "stamp" .
+
+<file:///eswc.1.ttl/stamp> a sumo:Physical , sumo:Entity , sem:Event , sumo:ContentBearingPhysical , dbyago:Seal104159058 , sumo:Icon , x:Instance , x:Frame , nb:stamp.01 ;
+	rdfs:label "stamp" ;
+	sem:hasActor <file:///eswc.1.ttl/approval> ;
+	x:mod <attr:explicit-1a> , <file:///eswc.1.ttl/approval> ;
+	nb:mnr <attr:explicit-1a> ;
+	nb:stamp.01_1 <file:///eswc.1.ttl/approval> .
+
+<file:///eswc.1.ttl/char=4,8> a x:Mention , x:AttributeMention ;
+	nif:endIndex "8"^^xs:int ;
+	nif:beginIndex "4"^^xs:int ;
+	nif:anchorOf "lone" ;
+	x:denotes <attr:alone(p)-2a> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<attr:alone(p)-2a> a x:Attribute , x:Instance ;
+	rdfs:label "lone" ;
+	x:headSynset wn30:02251212-a .
+
+<file:///eswc.1.ttl/char=54,62> a x:Mention , x:InstanceMention , x:FrameMention ;
+	nif:endIndex "62"^^xs:int ;
+	nif:beginIndex "54"^^xs:int ;
+	nif:anchorOf "approval" ;
+	x:denotes <file:///eswc.1.ttl/approval> ;
+	x:mentionOf <file:///eswc.1.ttl/> ;
+	x:synset wn30:06686736-n ;
+	x:sst sst:noun.communication ;
+	x:lemma "approval" .
+
+<file:///eswc.1.ttl/approval> a sumo:Entity , sem:Event , sumo:Abstract , sumo:RelationalAttribute , sumo:Attribute , sumo:NormativeAttribute , dbyago:Approval106686736 , x:Instance , x:Frame , fn:Grant_permission , pb:approve.01 , nb:approval.01 , vn:allow-64 ;
+	rdfs:label "approval" ;
+	sem:hasActor <file:///eswc.1.ttl/group> , <file:///eswc.1.ttl/stamp> , <file:///eswc.1.ttl/Al_Qaeda> ;
+	x:mod <file:///eswc.1.ttl/Al_Qaeda> ;
+	vn:agent <file:///eswc.1.ttl/group> , <file:///eswc.1.ttl/Al_Qaeda> ;
+	vn:theme <file:///eswc.1.ttl/stamp> ;
+	fn:action <file:///eswc.1.ttl/stamp> ;
+	nb:approval.01_1 <file:///eswc.1.ttl/stamp> ;
+	nb:approval.01_0 <file:///eswc.1.ttl/group> , <file:///eswc.1.ttl/Al_Qaeda> ;
+	fn:grantor <file:///eswc.1.ttl/group> , <file:///eswc.1.ttl/Al_Qaeda> ;
+	pb:approve.01_0 <file:///eswc.1.ttl/group> , <file:///eswc.1.ttl/Al_Qaeda> ;
+	fn:grantee <file:///eswc.1.ttl/stamp> ;
+	pb:approve.01_1 <file:///eswc.1.ttl/stamp> .
+
+<file:///eswc.1.ttl/char=68,76> a x:Mention , x:InstanceMention , x:NameMention ;
+	nif:endIndex "76"^^xs:int ;
+	nif:beginIndex "68"^^xs:int ;
+	nif:anchorOf "Al Qaeda" ;
+	x:denotes <file:///eswc.1.ttl/Al_Qaeda> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/Al_Qaeda> a x:Instance , ner:ORGANIZATION ;
+	rdfs:label "Al Qaeda" ;
+	owl:sameAs dbpedia:Al-Qaeda ;
+	foaf:name "Al Qaeda" .
+
+<file:///eswc.1.ttl/char=81,87> a x:Mention , x:FrameMention ;
+	nif:endIndex "87"^^xs:int ;
+	nif:beginIndex "81"^^xs:int ;
+	nif:anchorOf "become" ;
+	x:denotes <file:///eswc.1.ttl/become> ;
+	x:mentionOf <file:///eswc.1.ttl/> ;
+	x:synset wn30:00149583-v ;
+	x:sst sst:verb.change ;
+	x:lemma "become" .
+
+<file:///eswc.1.ttl/become> a sumo:Physical , sumo:Entity , sem:Event , sumo:Process , x:Instance , x:Frame , pb:become.01 ;
+	rdfs:label "become" ;
+	sem:hasActor <file:///eswc.1.ttl/group> , <file:///eswc.1.ttl/one> ;
+	pb:become.01_2 <file:///eswc.1.ttl/one> ;
+	pb:become.01_1 <file:///eswc.1.ttl/group> ;
+	pb:adv <file:///eswc.1.ttl/pose> .
+
+<file:///eswc.1.ttl/char=88,91> a x:Mention , x:InstanceMention , x:AttributeMention ;
+	nif:endIndex "91"^^xs:int ;
+	nif:beginIndex "88"^^xs:int ;
+	nif:anchorOf "one" ;
+	x:denotes <file:///eswc.1.ttl/one> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/one> a x:Instance ;
+	rdfs:label "one" ;
+	x:mod <file:///eswc.1.ttl/force> ;
+	x:quantity 1.0E0 .
+
+<file:///eswc.1.ttl/char=9,15> a x:Mention , x:InstanceMention , x:NameMention ;
+	nif:endIndex "15"^^xs:int ;
+	nif:beginIndex "9"^^xs:int ;
+	nif:anchorOf "Syrian" ;
+	x:denotes <file:///eswc.1.ttl/Syrian> ;
+	x:mentionOf <file:///eswc.1.ttl/> ;
+	x:synset wn30:03016519-a ;
+	x:sst sst:adj.pert .
+
+<file:///eswc.1.ttl/Syrian> a x:Instance , ner:MISC ;
+	rdfs:label "syrian" ;
+	owl:sameAs dbpedia:Syria ;
+	foaf:name "syrian" .
+
+<file:///eswc.1.ttl/char=99,107> a x:Mention , x:InstanceMention , x:FrameMention ;
+	nif:endIndex "107"^^xs:int ;
+	nif:beginIndex "99"^^xs:int ;
+	nif:anchorOf "uprising" ;
+	x:denotes <file:///eswc.1.ttl/uprising> ;
+	x:mentionOf <file:///eswc.1.ttl/> ;
+	x:synset wn30:00962129-n ;
+	x:sst sst:noun.act ;
+	x:lemma "uprising" .
+
+<file:///eswc.1.ttl/uprising> a sumo:Physical , sumo:Entity , sem:Event , sumo:Process , sumo:SocialInteraction , sumo:IntentionalProcess , sumo:Contest , sumo:ViolentContest , dbyago:Rebellion100962129 , sumo:PoliticalRevolution , sumo:PoliticalProcess , sumo:OrganizationalProcess , x:Instance , x:Frame , nb:uprising.01 ;
+	rdfs:label "uprising" .
+
+<file:///eswc.1.ttl/char=22,27;140,146> a x:Mention , x:CompoundString , x:ParticipationMention ;
+	nif:endIndex "146"^^xs:int ;
+	nif:beginIndex "22"^^xs:int ;
+	nif:anchorOf "group [...] posing" ;
+	x:componentSubString <file:///eswc.1.ttl/char=140,146> , <file:///eswc.1.ttl/char=22,27> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=22,27;155,164> a x:Mention , x:CompoundString , x:ParticipationMention ;
+	nif:endIndex "164"^^xs:int ;
+	nif:beginIndex "22"^^xs:int ;
+	nif:anchorOf "group [...] challenge" ;
+	x:componentSubString <file:///eswc.1.ttl/char=155,164> , <file:///eswc.1.ttl/char=22,27> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=9,15;22,27> a x:Mention , x:CompoundString ;
+	nif:endIndex "27"^^xs:int ;
+	nif:beginIndex "9"^^xs:int ;
+	nif:anchorOf "Syrian [...] group" ;
+	x:componentSubString <file:///eswc.1.ttl/char=22,27> , <file:///eswc.1.ttl/char=9,15> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=190,205> a x:Mention ;
+	nif:endIndex "205"^^xs:int ;
+	nif:beginIndex "190"^^xs:int ;
+	nif:anchorOf "other countries" ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=36,50> a x:Mention , x:ParticipationMention ;
+	nif:endIndex "50"^^xs:int ;
+	nif:beginIndex "36"^^xs:int ;
+	nif:anchorOf "explicit stamp" ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=88,91;132,138> a x:Mention , x:CompoundString ;
+	nif:endIndex "138"^^xs:int ;
+	nif:beginIndex "88"^^xs:int ;
+	nif:anchorOf "one [...] forces" ;
+	x:componentSubString <file:///eswc.1.ttl/char=132,138> , <file:///eswc.1.ttl/char=88,91> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=99,107;132,138> a x:Mention , x:CompoundString , x:ParticipationMention ;
+	nif:endIndex "138"^^xs:int ;
+	nif:beginIndex "99"^^xs:int ;
+	nif:anchorOf "uprising [...] forces" ;
+	x:componentSubString <file:///eswc.1.ttl/char=132,138> , <file:///eswc.1.ttl/char=99,107> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=45,50;54,62> a x:Mention , x:CompoundString , x:ParticipationMention ;
+	nif:endIndex "62"^^xs:int ;
+	nif:beginIndex "45"^^xs:int ;
+	nif:anchorOf "stamp [...] approval" ;
+	x:componentSubString <file:///eswc.1.ttl/char=45,50> , <file:///eswc.1.ttl/char=54,62> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=219,226;254,264> a x:Mention , x:CompoundString , x:ParticipationMention ;
+	nif:endIndex "264"^^xs:int ;
+	nif:beginIndex "219"^^xs:int ;
+	nif:anchorOf "support [...] extremists" ;
+	x:componentSubString <file:///eswc.1.ttl/char=219,226> , <file:///eswc.1.ttl/char=254,264> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=81,87;140,146> a x:Mention , x:CompoundString , x:ParticipationMention ;
+	nif:endIndex "146"^^xs:int ;
+	nif:beginIndex "81"^^xs:int ;
+	nif:anchorOf "become [...] posing" ;
+	x:componentSubString <file:///eswc.1.ttl/char=140,146> , <file:///eswc.1.ttl/char=81,87> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=22,27;54,62> a x:Mention , x:CompoundString , x:ParticipationMention ;
+	nif:endIndex "62"^^xs:int ;
+	nif:beginIndex "22"^^xs:int ;
+	nif:anchorOf "group [...] approval" ;
+	x:componentSubString <file:///eswc.1.ttl/char=22,27> , <file:///eswc.1.ttl/char=54,62> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=155,164;196,205> a x:Mention , x:CompoundString , x:ParticipationMention ;
+	nif:endIndex "205"^^xs:int ;
+	nif:beginIndex "155"^^xs:int ;
+	nif:anchorOf "challenge [...] countries" ;
+	x:componentSubString <file:///eswc.1.ttl/char=155,164> , <file:///eswc.1.ttl/char=196,205> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=81,91> a x:Mention , x:ParticipationMention ;
+	nif:endIndex "91"^^xs:int ;
+	nif:beginIndex "81"^^xs:int ;
+	nif:anchorOf "become one" ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=219,226;231,237> a x:Mention , x:CompoundString , x:ParticipationMention ;
+	nif:endIndex "237"^^xs:int ;
+	nif:beginIndex "219"^^xs:int ;
+	nif:anchorOf "support [...] rebels" ;
+	x:componentSubString <file:///eswc.1.ttl/char=219,226> , <file:///eswc.1.ttl/char=231,237> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=54,62;68,76> a x:Mention , x:CompoundString , x:ParticipationMention ;
+	nif:endIndex "76"^^xs:int ;
+	nif:beginIndex "54"^^xs:int ;
+	nif:anchorOf "approval [...] Al Qaeda" ;
+	x:componentSubString <file:///eswc.1.ttl/char=54,62> , <file:///eswc.1.ttl/char=68,76> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=140,146;155,164> a x:Mention , x:CompoundString , x:ParticipationMention ;
+	nif:endIndex "164"^^xs:int ;
+	nif:beginIndex "140"^^xs:int ;
+	nif:anchorOf "posing [...] challenge" ;
+	x:componentSubString <file:///eswc.1.ttl/char=140,146> , <file:///eswc.1.ttl/char=155,164> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=123,138> a x:Mention , x:ParticipationMention ;
+	nif:endIndex "138"^^xs:int ;
+	nif:beginIndex "123"^^xs:int ;
+	nif:anchorOf "fighting forces" ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=22,27;81,87> a x:Mention , x:CompoundString , x:ParticipationMention ;
+	nif:endIndex "87"^^xs:int ;
+	nif:beginIndex "22"^^xs:int ;
+	nif:anchorOf "group [...] become" ;
+	x:componentSubString <file:///eswc.1.ttl/char=22,27> , <file:///eswc.1.ttl/char=81,87> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=149,164> a x:Mention , x:ParticipationMention ;
+	nif:endIndex "164"^^xs:int ;
+	nif:beginIndex "149"^^xs:int ;
+	nif:anchorOf "stark challenge" ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=155,164;172,185> a x:Mention , x:CompoundString , x:ParticipationMention ;
+	nif:endIndex "185"^^xs:int ;
+	nif:beginIndex "155"^^xs:int ;
+	nif:anchorOf "challenge [...] United States" ;
+	x:componentSubString <file:///eswc.1.ttl/char=155,164> , <file:///eswc.1.ttl/char=172,185> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=211,215;219,226> a x:Mention , x:CompoundString , x:ParticipationMention ;
+	nif:endIndex "226"^^xs:int ;
+	nif:beginIndex "211"^^xs:int ;
+	nif:anchorOf "want [...] support" ;
+	x:componentSubString <file:///eswc.1.ttl/char=211,215> , <file:///eswc.1.ttl/char=219,226> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=16,27> a x:Mention , x:ParticipationMention ;
+	nif:endIndex "27"^^xs:int ;
+	nif:beginIndex "16"^^xs:int ;
+	nif:anchorOf "rebel group" ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=196,205;219,226> a x:Mention , x:CompoundString , x:ParticipationMention ;
+	nif:endIndex "226"^^xs:int ;
+	nif:beginIndex "196"^^xs:int ;
+	nif:anchorOf "countries [...] support" ;
+	x:componentSubString <file:///eswc.1.ttl/char=196,205> , <file:///eswc.1.ttl/char=219,226> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=22,27;45,50> a x:Mention , x:CompoundString , x:ParticipationMention ;
+	nif:endIndex "50"^^xs:int ;
+	nif:beginIndex "22"^^xs:int ;
+	nif:anchorOf "group [...] stamp" ;
+	x:componentSubString <file:///eswc.1.ttl/char=22,27> , <file:///eswc.1.ttl/char=45,50> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=196,205;211,215> a x:Mention , x:CompoundString , x:ParticipationMention ;
+	nif:endIndex "215"^^xs:int ;
+	nif:beginIndex "196"^^xs:int ;
+	nif:anchorOf "countries [...] want" ;
+	x:componentSubString <file:///eswc.1.ttl/char=196,205> , <file:///eswc.1.ttl/char=211,215> ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/char=246,264> a x:Mention ;
+	nif:endIndex "264"^^xs:int ;
+	nif:beginIndex "246"^^xs:int ;
+	nif:anchorOf "Islamic extremists" ;
+	x:mentionOf <file:///eswc.1.ttl/> .
+
+<file:///eswc.1.ttl/.naf> dct:creator x:Mate%20Tools.be.null , x:Mate%20Tools.null , x:Anna%203.61.null , x:Stanford%20CoreNLP.null , x:DBpedia%20Spotlight.null , x:NAF%20filter.null ;
+	a x:Resource , x:NAF ;
+	dct:created "2015-09-17T08:14:09.053+0200" ;
+	dct:identifier "" ;
+	x:layer x:layer_deps , x:layer_text , x:layer_srl , x:layer_naf-filter , x:layer_linked-entities ;
+	x:version "v3" ;
+	x:annotationOf <file:///eswc.1.ttl/> .
+
+x:Mate%20Tools.be.null dct:title "Mate Tools (be.xx model)" .
+
+x:Mate%20Tools.null dct:title "Mate Tools" .
+
+x:Anna%203.61.null dct:title "Anna 3.61" .
+
+x:Stanford%20CoreNLP.null dct:title "Stanford CoreNLP" .
+
+x:DBpedia%20Spotlight.null dct:title "DBpedia Spotlight" .
+
+x:NAF%20filter.null dct:title "NAF filter" .

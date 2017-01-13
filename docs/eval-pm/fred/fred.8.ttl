@@ -1,0 +1,513 @@
+@prefix fsem: <http://ontologydesignpatterns.org/cp/owl/semiotics.owl#> .
+@prefix fpos: <http://www.ontologydesignpatterns.org/ont/fred/pos.owl#> .
+@prefix fbox: <http://www.ontologydesignpatterns.org/ont/boxer/boxer.owl#> .
+@prefix fboxing: <http://www.ontologydesignpatterns.org/ont/boxer/boxing.owl#> .
+@prefix wni: <http://www.w3.org/2006/03/wn/wn30/instances/> .
+@prefix wns: <http://www.w3.org/2006/03/wn/wn30/schema/> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix xs: <http://www.w3.org/2001/XMLSchema#> .
+@prefix vnr: <http://www.ontologydesignpatterns.org/ont/vn/abox/role/> .
+@prefix vnc: <http://www.ontologydesignpatterns.org/ont/vn/data/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix nif: <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix schema: <http://schema.org/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+
+<file:///eswc.8.ttl/docuverse> a nif:Context ;
+	nif:isString "As the United_States pushes the Syrian_opposition to organize a viable alternative government, it plans to blacklist the Nusra Front as a terrorist organization, making it illegal for Americans to have financial dealings with the group and prompting similar sanctions from Europe." .
+
+<file:///eswc.8.ttl/Alternative> a owl:Class ;
+	fpos:boxerpos fpos:a .
+
+<file:///eswc.8.ttl/AlternativeGovernment> a owl:Class ;
+	rdfs:subClassOf <file:///eswc.8.ttl/Government> .
+
+<file:///eswc.8.ttl/Americans> fbox:possibleType owl:Thing .
+
+<file:///eswc.8.ttl/Blacklist> a owl:Class ;
+	owl:equivalentClass dbpedia:Blacklist ;
+	rdfs:subClassOf dul:Event ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.8.ttl/Dealings> a owl:Class ;
+	owl:equivalentClass wni:synset-dealing-noun-1 ;
+	rdfs:subClassOf <http://www.ontologydesignpatterns.org/ont/d0.owl#Activity> , wni:supersense-noun_act ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.8.ttl/Europe> owl:sameAs dbpedia:Europe ;
+	fbox:possibleType dbo:Place .
+
+<file:///eswc.8.ttl/Financial> fpos:boxerpos fpos:a .
+
+<file:///eswc.8.ttl/FinancialDealings> a owl:Class ;
+	rdfs:subClassOf <file:///eswc.8.ttl/Dealings> .
+
+<file:///eswc.8.ttl/Government> a owl:Class ;
+	owl:equivalentClass dbpedia:Government , wni:synset-government-noun-3 ;
+	rdfs:subClassOf wni:supersense-noun_cognition , <http://www.ontologydesignpatterns.org/ont/d0.owl#Characteristic> ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.8.ttl/Group> owl:equivalentClass wni:synset-group-noun-2 ;
+	rdfs:subClassOf wni:supersense-noun_substance , dul:Collection ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.8.ttl/Have> owl:equivalentClass vnc:Have_39040100 ;
+	rdfs:subClassOf dul:Event ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.8.ttl/Illegal> fpos:boxerpos fpos:a .
+
+<file:///eswc.8.ttl/Make> owl:equivalentClass vnc:Make_26010100 ;
+	rdfs:subClassOf dul:Event ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.8.ttl/Nusra_front> fbox:possibleType foaf:Organisation .
+
+<file:///eswc.8.ttl/Organization> a owl:Class ;
+	owl:equivalentClass wni:synset-administration-noun-2 ;
+	rdfs:subClassOf dul:Collection , wni:supersense-noun_group ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.8.ttl/Organize> owl:equivalentClass vnc:Organize_55050100 ;
+	rdfs:subClassOf dul:Event ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.8.ttl/Plan> owl:equivalentClass vnc:Plan_62000000 ;
+	rdfs:subClassOf dul:Event ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.8.ttl/Prompt> owl:equivalentClass vnc:Prompt_59000000 ;
+	rdfs:subClassOf dul:Event ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.8.ttl/Push> owl:equivalentClass vnc:Push_9030210 ;
+	rdfs:subClassOf dul:Event ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.8.ttl/Sanction> a owl:Class ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.8.ttl/Similar> fpos:boxerpos fpos:a .
+
+<file:///eswc.8.ttl/SimilarSanction> a owl:Class ;
+	rdfs:subClassOf <file:///eswc.8.ttl/Sanction> .
+
+<file:///eswc.8.ttl/Syrian_opposition> fpos:boxerpos fpos:n .
+
+<file:///eswc.8.ttl/Terrorist> owl:sameAs dbpedia:Terrorism ;
+	fpos:boxerpos fpos:a .
+
+<file:///eswc.8.ttl/TerroristOrganization> a owl:Class ;
+	rdfs:subClassOf <file:///eswc.8.ttl/Organization> .
+
+<file:///eswc.8.ttl/United_states> a nif:OffsetBasedString ;
+	rdfs:label "it" ;
+	nif:beginIndex "95"^^xs:nonNegativeInteger ;
+	nif:endIndex "97"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	owl:sameAs dbpedia:United_States ;
+	fsem:hasInterpretant owl:Thing ;
+	fpos:pennpos fpos:PRP ;
+	dul:hasQuality owl:Thing , <file:///eswc.8.ttl/Illegal> ;
+	fbox:possibleType foaf:Organisation .
+
+<file:///eswc.8.ttl/Viable> fpos:boxerpos fpos:a .
+
+<file:///eswc.8.ttl/ViableAlternative> a owl:Class ;
+	rdfs:subClassOf <file:///eswc.8.ttl/Alternative> .
+
+<file:///eswc.8.ttl/ViableAlternativeGovernment> a owl:Class ;
+	rdfs:subClassOf <file:///eswc.8.ttl/AlternativeGovernment> ;
+	dul:associatedWith <file:///eswc.8.ttl/ViableAlternative> .
+
+<file:///eswc.8.ttl/as> a owl:ObjectProperty .
+
+<file:///eswc.8.ttl/blacklist_1> a <file:///eswc.8.ttl/Blacklist> ;
+	<file:///eswc.8.ttl/as> <file:///eswc.8.ttl/organization_1> ;
+	fbox:agent <file:///eswc.8.ttl/United_states> ;
+	fbox:patient <file:///eswc.8.ttl/Nusra_front> .
+
+<file:///eswc.8.ttl/coref> a owl:ObjectProperty .
+
+<file:///eswc.8.ttl/dealings_1> a <file:///eswc.8.ttl/FinancialDealings> ;
+	<file:///eswc.8.ttl/with> <file:///eswc.8.ttl/group_1> ;
+	dul:hasQuality <file:///eswc.8.ttl/Financial> .
+
+<file:///eswc.8.ttl/for> a owl:ObjectProperty .
+
+<file:///eswc.8.ttl/from> a owl:ObjectProperty .
+
+<file:///eswc.8.ttl/government_1> a <file:///eswc.8.ttl/ViableAlternativeGovernment> ;
+	dul:hasQuality <file:///eswc.8.ttl/Viable> , <file:///eswc.8.ttl/Alternative> .
+
+<file:///eswc.8.ttl/group_1> a <file:///eswc.8.ttl/Group> .
+
+<file:///eswc.8.ttl/have_1> a <file:///eswc.8.ttl/Have> ;
+	vnr:Agent <file:///eswc.8.ttl/Americans> ;
+	vnr:Patient <file:///eswc.8.ttl/dealings_1> .
+
+<file:///eswc.8.ttl/make_1> a <file:///eswc.8.ttl/Make> ;
+	vnr:Agent <file:///eswc.8.ttl/United_states> ;
+	<file:///eswc.8.ttl/for> <file:///eswc.8.ttl/Americans> ;
+	fbox:theme <file:///eswc.8.ttl/situation_1> .
+
+<file:///eswc.8.ttl/now_1> a fbox:Now .
+
+<file:///eswc.8.ttl/organization_1> a <file:///eswc.8.ttl/TerroristOrganization> ;
+	dul:hasQuality <file:///eswc.8.ttl/Terrorist> .
+
+<file:///eswc.8.ttl/organize_1> a <file:///eswc.8.ttl/Organize> ;
+	vnr:Agent <file:///eswc.8.ttl/syrian_opposition_1> ;
+	vnr:Theme <file:///eswc.8.ttl/government_1> .
+
+<file:///eswc.8.ttl/plan_1> a <file:///eswc.8.ttl/Plan> ;
+	vnr:Theme <file:///eswc.8.ttl/blacklist_1> ;
+	fbox:temp_included <file:///eswc.8.ttl/now_1> ;
+	vnr:Experiencer <file:///eswc.8.ttl/United_states> .
+
+<file:///eswc.8.ttl/prompt_1> a <file:///eswc.8.ttl/Prompt> ;
+	vnr:Agent <file:///eswc.8.ttl/United_states> ;
+	vnr:Patient <file:///eswc.8.ttl/sanction_1> .
+
+<file:///eswc.8.ttl/push_1> a <file:///eswc.8.ttl/Push> ;
+	vnr:Agent <file:///eswc.8.ttl/United_states> ;
+	<file:///eswc.8.ttl/as> <file:///eswc.8.ttl/situation_1> ;
+	fbox:temp_included <file:///eswc.8.ttl/now_1> ;
+	vnr:Destination <file:///eswc.8.ttl/organize_1> .
+
+<file:///eswc.8.ttl/sanction_1> a <file:///eswc.8.ttl/SimilarSanction> ;
+	<file:///eswc.8.ttl/from> <file:///eswc.8.ttl/Europe> ;
+	dul:hasQuality <file:///eswc.8.ttl/Similar> .
+
+<file:///eswc.8.ttl/situation_1> a fboxing:Situation ;
+	fboxing:involves <file:///eswc.8.ttl/dealings_1> , <file:///eswc.8.ttl/organization_1> , <file:///eswc.8.ttl/have_1> , <file:///eswc.8.ttl/United_states> , <file:///eswc.8.ttl/plan_1> , <file:///eswc.8.ttl/prompt_1> , <file:///eswc.8.ttl/blacklist_1> , <file:///eswc.8.ttl/Illegal> , <file:///eswc.8.ttl/sanction_1> , <file:///eswc.8.ttl/make_1> .
+
+<file:///eswc.8.ttl/syrian_opposition_1> a <file:///eswc.8.ttl/Syrian_opposition> .
+
+<file:///eswc.8.ttl/with> a owl:ObjectProperty .
+
+<file:///eswc.8.ttl/offset_0_2_As> a nif:OffsetBasedString ;
+	rdfs:label "As" ;
+	nif:beginIndex "0"^^xs:nonNegativeInteger ;
+	nif:endIndex "2"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.8.ttl/As> .
+
+<file:///eswc.8.ttl/offset_107_116_blacklist> a nif:OffsetBasedString ;
+	rdfs:label "blacklist" ;
+	nif:beginIndex "107"^^xs:nonNegativeInteger ;
+	nif:endIndex "116"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.8.ttl/blacklist_1> ;
+	fsem:hasInterpretant <file:///eswc.8.ttl/Blacklist> ;
+	fpos:pennpos fpos:VB .
+
+<file:///eswc.8.ttl/offset_121_132_Nusra+Front> a nif:OffsetBasedString ;
+	rdfs:label "Nusra Front" ;
+	nif:beginIndex "121"^^xs:nonNegativeInteger ;
+	nif:endIndex "132"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.8.ttl/Nusra_front> .
+
+<file:///eswc.8.ttl/offset_133_135_as> a nif:OffsetBasedString ;
+	rdfs:label "as" ;
+	nif:beginIndex "133"^^xs:nonNegativeInteger ;
+	nif:endIndex "135"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.8.ttl/As> .
+
+<file:///eswc.8.ttl/offset_138_147_terrorist> a nif:OffsetBasedString ;
+	rdfs:label "terrorist" ;
+	nif:beginIndex "138"^^xs:nonNegativeInteger ;
+	nif:endIndex "147"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.8.ttl/Terrorist> ;
+	fpos:pennpos fpos:JJ .
+
+<file:///eswc.8.ttl/offset_138_160_terrorist+organization> a nif:OffsetBasedString ;
+	rdfs:label "Terrorist Organization" , "terrorist organization" ;
+	nif:beginIndex "138"^^xs:nonNegativeInteger ;
+	nif:endIndex "160"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.8.ttl/Organization> .
+
+<file:///eswc.8.ttl/offset_148_160_organization> a nif:OffsetBasedString ;
+	rdfs:label "organization" ;
+	nif:beginIndex "148"^^xs:nonNegativeInteger ;
+	nif:endIndex "160"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.8.ttl/organization_1> ;
+	fsem:hasInterpretant <file:///eswc.8.ttl/Organization> ;
+	fpos:pennpos fpos:NN .
+
+<file:///eswc.8.ttl/offset_162_168_making> a nif:OffsetBasedString ;
+	rdfs:label "making" ;
+	nif:beginIndex "162"^^xs:nonNegativeInteger ;
+	nif:endIndex "168"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.8.ttl/make_1> ;
+	fsem:hasInterpretant <file:///eswc.8.ttl/Make> ;
+	fpos:pennpos fpos:VBG .
+
+<file:///eswc.8.ttl/offset_169_171_it> <file:///eswc.8.ttl/coref> <file:///eswc.8.ttl/United_states> .
+
+<file:///eswc.8.ttl/offset_172_179_illegal> a nif:OffsetBasedString ;
+	rdfs:label "illegal" ;
+	nif:beginIndex "172"^^xs:nonNegativeInteger ;
+	nif:endIndex "179"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.8.ttl/Illegal> ;
+	fpos:pennpos fpos:JJ .
+
+<file:///eswc.8.ttl/offset_180_183_for> a nif:OffsetBasedString ;
+	rdfs:label "for" ;
+	nif:beginIndex "180"^^xs:nonNegativeInteger ;
+	nif:endIndex "183"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.8.ttl/For> .
+
+<file:///eswc.8.ttl/offset_184_193_Americans> a nif:OffsetBasedString ;
+	rdfs:label "Americans" ;
+	nif:beginIndex "184"^^xs:nonNegativeInteger ;
+	nif:endIndex "193"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.8.ttl/Americans> .
+
+<file:///eswc.8.ttl/offset_197_201_have> a nif:OffsetBasedString ;
+	rdfs:label "have" ;
+	nif:beginIndex "197"^^xs:nonNegativeInteger ;
+	nif:endIndex "201"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.8.ttl/have_1> ;
+	fsem:hasInterpretant <file:///eswc.8.ttl/Have> ;
+	fpos:pennpos fpos:VB .
+
+<file:///eswc.8.ttl/offset_202_211_financial> a nif:OffsetBasedString ;
+	rdfs:label "financial" ;
+	nif:beginIndex "202"^^xs:nonNegativeInteger ;
+	nif:endIndex "211"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.8.ttl/Financial> ;
+	fpos:pennpos fpos:JJ .
+
+<file:///eswc.8.ttl/offset_202_220_financial+dealings> a nif:OffsetBasedString ;
+	rdfs:label "Financial Dealings" , "financial dealings" ;
+	nif:beginIndex "202"^^xs:nonNegativeInteger ;
+	nif:endIndex "220"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.8.ttl/Dealings> .
+
+<file:///eswc.8.ttl/offset_212_220_dealings> a nif:OffsetBasedString ;
+	rdfs:label "dealings" ;
+	nif:beginIndex "212"^^xs:nonNegativeInteger ;
+	nif:endIndex "220"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.8.ttl/dealings_1> ;
+	fsem:hasInterpretant <file:///eswc.8.ttl/Dealings> ;
+	fpos:pennpos fpos:NNS .
+
+<file:///eswc.8.ttl/offset_21_27_pushes> a nif:OffsetBasedString ;
+	rdfs:label "pushes" ;
+	nif:beginIndex "21"^^xs:nonNegativeInteger ;
+	nif:endIndex "27"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.8.ttl/push_1> ;
+	fsem:hasInterpretant <file:///eswc.8.ttl/Push> ;
+	fpos:pennpos fpos:VBZ .
+
+<file:///eswc.8.ttl/offset_221_225_with> a nif:OffsetBasedString ;
+	rdfs:label "with" ;
+	nif:beginIndex "221"^^xs:nonNegativeInteger ;
+	nif:endIndex "225"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.8.ttl/With> .
+
+<file:///eswc.8.ttl/offset_230_235_group> a nif:OffsetBasedString ;
+	rdfs:label "group" ;
+	nif:beginIndex "230"^^xs:nonNegativeInteger ;
+	nif:endIndex "235"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.8.ttl/group_1> ;
+	fsem:hasInterpretant <file:///eswc.8.ttl/Group> ;
+	fpos:pennpos fpos:NN .
+
+<file:///eswc.8.ttl/offset_240_249_prompting> a nif:OffsetBasedString ;
+	rdfs:label "prompting" ;
+	nif:beginIndex "240"^^xs:nonNegativeInteger ;
+	nif:endIndex "249"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.8.ttl/prompt_1> ;
+	fsem:hasInterpretant <file:///eswc.8.ttl/Prompt> ;
+	fpos:pennpos fpos:VBG .
+
+<file:///eswc.8.ttl/offset_250_257_similar> a nif:OffsetBasedString ;
+	rdfs:label "similar" ;
+	nif:beginIndex "250"^^xs:nonNegativeInteger ;
+	nif:endIndex "257"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.8.ttl/Similar> ;
+	fpos:pennpos fpos:JJ .
+
+<file:///eswc.8.ttl/offset_258_267_sanctions> a nif:OffsetBasedString ;
+	rdfs:label "sanctions" ;
+	nif:beginIndex "258"^^xs:nonNegativeInteger ;
+	nif:endIndex "267"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.8.ttl/sanction_1> ;
+	fsem:hasInterpretant <file:///eswc.8.ttl/Sanction> ;
+	fpos:pennpos fpos:NNS .
+
+<file:///eswc.8.ttl/offset_268_272_from> a nif:OffsetBasedString ;
+	rdfs:label "from" ;
+	nif:beginIndex "268"^^xs:nonNegativeInteger ;
+	nif:endIndex "272"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.8.ttl/From> .
+
+<file:///eswc.8.ttl/offset_273_279_Europe> a nif:OffsetBasedString ;
+	rdfs:label "Europe" ;
+	nif:beginIndex "273"^^xs:nonNegativeInteger ;
+	nif:endIndex "279"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.8.ttl/Europe> .
+
+<file:///eswc.8.ttl/offset_32_49_Syrian_opposition> a nif:OffsetBasedString ;
+	rdfs:label "Syrian_opposition" ;
+	nif:beginIndex "32"^^xs:nonNegativeInteger ;
+	nif:endIndex "49"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.8.ttl/syrian_opposition_1> ;
+	fsem:hasInterpretant <file:///eswc.8.ttl/Syrian_opposition> ;
+	fpos:pennpos fpos:NN .
+
+<file:///eswc.8.ttl/offset_53_61_organize> a nif:OffsetBasedString ;
+	rdfs:label "organize" ;
+	nif:beginIndex "53"^^xs:nonNegativeInteger ;
+	nif:endIndex "61"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.8.ttl/organize_1> ;
+	fsem:hasInterpretant <file:///eswc.8.ttl/Organize> ;
+	fpos:pennpos fpos:VB .
+
+<file:///eswc.8.ttl/offset_64_70_viable> a nif:OffsetBasedString ;
+	rdfs:label "viable" ;
+	nif:beginIndex "64"^^xs:nonNegativeInteger ;
+	nif:endIndex "70"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.8.ttl/Viable> ;
+	fpos:pennpos fpos:JJ .
+
+<file:///eswc.8.ttl/offset_64_93_viable+alternative+government> a nif:OffsetBasedString ;
+	rdfs:label "Viable Alternative Government" , "viable alternative government" ;
+	nif:beginIndex "64"^^xs:nonNegativeInteger ;
+	nif:endIndex "93"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.8.ttl/AlternativeGovernment> .
+
+<file:///eswc.8.ttl/offset_71_82_alternative> a nif:OffsetBasedString ;
+	rdfs:label "alternative" ;
+	nif:beginIndex "71"^^xs:nonNegativeInteger ;
+	nif:endIndex "82"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.8.ttl/Alternative> ;
+	fpos:pennpos fpos:JJ .
+
+<file:///eswc.8.ttl/offset_71_93_alternative+government> a nif:OffsetBasedString ;
+	rdfs:label "Alternative Government" , "alternative government" ;
+	nif:beginIndex "71"^^xs:nonNegativeInteger ;
+	nif:endIndex "93"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.8.ttl/Government> .
+
+<file:///eswc.8.ttl/offset_7_20_United_States> a nif:OffsetBasedString ;
+	rdfs:label "United_States" ;
+	nif:beginIndex "7"^^xs:nonNegativeInteger ;
+	nif:endIndex "20"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.8.ttl/United_states> .
+
+<file:///eswc.8.ttl/offset_83_93_government> a nif:OffsetBasedString ;
+	rdfs:label "government" ;
+	nif:beginIndex "83"^^xs:nonNegativeInteger ;
+	nif:endIndex "93"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.8.ttl/government_1> ;
+	fsem:hasInterpretant <file:///eswc.8.ttl/Government> ;
+	fpos:pennpos fpos:NN .
+
+<file:///eswc.8.ttl/offset_95_97_it> <file:///eswc.8.ttl/coref> <file:///eswc.8.ttl/United_states> .
+
+<file:///eswc.8.ttl/offset_98_103_plans> a nif:OffsetBasedString ;
+	rdfs:label "plans" ;
+	nif:beginIndex "98"^^xs:nonNegativeInteger ;
+	nif:endIndex "103"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.8.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.8.ttl/plan_1> ;
+	fsem:hasInterpretant <file:///eswc.8.ttl/Plan> ;
+	fpos:pennpos fpos:VBZ .
+
+fsem:denotes a owl:ObjectProperty .
+
+fsem:hasInterpretant a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#begins> a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#ends> a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#hasContent> a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#refersTo> a owl:ObjectProperty .
+
+fbox:Now fpos:boxerpos fpos:a .
+
+fbox:agent a owl:ObjectProperty .
+
+fbox:patient a owl:ObjectProperty .
+
+fbox:possibleType a owl:ObjectProperty .
+
+fbox:temp_included a owl:ObjectProperty .
+
+fbox:theme a owl:ObjectProperty .
+
+fboxing:Situation fpos:boxerpos <file:///eswc.8.ttl/Situation> .
+
+fboxing:involves a owl:ObjectProperty .
+
+dul:hasQuality a owl:ObjectProperty .
+
+fpos:boxerpos a owl:ObjectProperty .
+
+fpos:pennpos a owl:ObjectProperty .
+
+vnr:Agent a owl:ObjectProperty .
+
+vnr:Destination a owl:ObjectProperty .
+
+vnr:Experiencer a owl:ObjectProperty .
+
+vnr:Patient a owl:ObjectProperty .
+
+vnr:Theme a owl:ObjectProperty .
+
+wni:synset-administration-noun-2 wns:gloss "the persons (or committees or departments etc.) who make up a body for the purpose of administering something; \"he claims that the present administration is corrupt\"; \"the governance of an association is responsible to its members\"; \"he quickly became recognized as a member of the establishment\""@en-us .
+
+wni:synset-dealing-noun-1 wns:gloss "method or manner of conduct in relation to others; \"honest dealing\""@en-us .
+
+wni:synset-government-noun-3 wns:gloss "(government) the system or form by which a community or other political unit is governed; \"tyrannical government\""@en-us .
+
+wni:synset-group-noun-2 wns:gloss "(chemistry) two or more atoms bound together as a single unit and forming part of a molecule"@en-us .
+
+dbpedia:Europe a schema:Place , schema:Continent .
+
+dbpedia:United_States a schema:Place , schema:Country .
+
+owl:Thing fpos:boxerpos fpos:a .
+
+owl:equivalentClass a owl:ObjectProperty .
+
+rdfs:subClassOf a owl:ObjectProperty .

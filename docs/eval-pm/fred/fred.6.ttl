@@ -1,0 +1,473 @@
+@prefix fsem: <http://ontologydesignpatterns.org/cp/owl/semiotics.owl#> .
+@prefix fpos: <http://www.ontologydesignpatterns.org/ont/fred/pos.owl#> .
+@prefix fbox: <http://www.ontologydesignpatterns.org/ont/boxer/boxer.owl#> .
+@prefix fboxing: <http://www.ontologydesignpatterns.org/ont/boxer/boxing.owl#> .
+@prefix wni: <http://www.w3.org/2006/03/wn/wn30/instances/> .
+@prefix wns: <http://www.w3.org/2006/03/wn/wn30/schema/> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix xs: <http://www.w3.org/2001/XMLSchema#> .
+@prefix vnr: <http://www.ontologydesignpatterns.org/ont/vn/abox/role/> .
+@prefix vnc: <http://www.ontologydesignpatterns.org/ont/vn/data/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix nif: <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
+@prefix schema: <http://schema.org/> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+<file:///eswc.6.ttl/docuverse> a nif:Context ;
+	nif:isString "This is just a simple way of returning the favor to our Syrian brothers that fought with us on the lands of Iraq, said a veteran of Al_Qaeda_in_Iraq, who said he helped lead the Nusra Front's efforts in Syria." .
+
+<file:///eswc.6.ttl/Al_qaeda_in_iraq> a <file:///eswc.6.ttl/Male> ;
+	owl:sameAs dbpedia:Al-Qaeda_in_Iraq ;
+	fbox:possibleType foaf:Organisation .
+
+<file:///eswc.6.ttl/Brother> a owl:Class ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.6.ttl/Effort> fpos:boxerpos fpos:n .
+
+<file:///eswc.6.ttl/Favor> rdfs:subClassOf <http://www.ontologydesignpatterns.org/ont/d0.owl#Activity> , wni:supersense-noun_act ;
+	owl:equivalentClass wni:synset-favor-noun-1 ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.6.ttl/Fight> rdfs:subClassOf dul:Event ;
+	owl:equivalentClass vnc:Fight_36030200 ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.6.ttl/Iraq> owl:sameAs dbpedia:Iraq ;
+	fbox:possibleType dbo:Place .
+
+<file:///eswc.6.ttl/Just> fpos:boxerpos fpos:a .
+
+<file:///eswc.6.ttl/Land> fpos:boxerpos fpos:n .
+
+<file:///eswc.6.ttl/Lead> rdfs:subClassOf dul:Event ;
+	owl:equivalentClass vnc:Lead_51070000 ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.6.ttl/Male> fpos:boxerpos fpos:a .
+
+<file:///eswc.6.ttl/Nusra_front> fbox:possibleType foaf:Organisation .
+
+<file:///eswc.6.ttl/Person> fpos:boxerpos fpos:n .
+
+<file:///eswc.6.ttl/Return> rdfs:subClassOf dul:Event ;
+	owl:equivalentClass vnc:Return_13020200 ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.6.ttl/Say> rdfs:subClassOf dul:Event ;
+	owl:equivalentClass vnc:Say_37070100 ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.6.ttl/Simple> fpos:boxerpos fpos:a ;
+	dul:hasQuality <file:///eswc.6.ttl/Just> .
+
+<file:///eswc.6.ttl/SimpleWay> a owl:Class ;
+	rdfs:subClassOf <file:///eswc.6.ttl/Way> .
+
+<file:///eswc.6.ttl/Syria> owl:sameAs dbpedia:Syria ;
+	fbox:possibleType dbo:Place .
+
+<file:///eswc.6.ttl/Syrian> owl:sameAs dbpedia:Syria ;
+	fpos:boxerpos fpos:a .
+
+<file:///eswc.6.ttl/SyrianBrother> a owl:Class ;
+	rdfs:subClassOf <file:///eswc.6.ttl/Brother> .
+
+<file:///eswc.6.ttl/Veteran> rdfs:subClassOf dul:Person , wni:supersense-noun_person ;
+	owl:equivalentClass wni:synset-veteran-noun-3 ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.6.ttl/Way> a owl:Class ;
+	rdfs:subClassOf <http://www.ontologydesignpatterns.org/ont/d0.owl#CognitiveEntity> , wni:supersense-noun_cognition ;
+	owl:equivalentClass wni:synset-way-noun-10 ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.6.ttl/brother_1> a <file:///eswc.6.ttl/SyrianBrother> ;
+	<file:///eswc.6.ttl/syrianBrotherOf> <file:///eswc.6.ttl/person_1> ;
+	dul:hasQuality <file:///eswc.6.ttl/Syrian> .
+
+<file:///eswc.6.ttl/coref> a owl:ObjectProperty .
+
+<file:///eswc.6.ttl/effortOf> a owl:ObjectProperty .
+
+<file:///eswc.6.ttl/effort_1> a <file:///eswc.6.ttl/Effort> ;
+	<file:///eswc.6.ttl/locatedIn> <file:///eswc.6.ttl/Syria> ;
+	<file:///eswc.6.ttl/effortOf> <file:///eswc.6.ttl/Nusra_front> .
+
+<file:///eswc.6.ttl/favor_1> a <file:///eswc.6.ttl/Favor> .
+
+<file:///eswc.6.ttl/fight_1> a <file:///eswc.6.ttl/Fight> ;
+	fbox:temp_before <file:///eswc.6.ttl/now_1> ;
+	vnr:Actor1 <file:///eswc.6.ttl/brother_1> ;
+	vnr:Actor2 <file:///eswc.6.ttl/person_2> ;
+	<file:///eswc.6.ttl/onLandOf> <file:///eswc.6.ttl/Iraq> .
+
+<file:///eswc.6.ttl/land_1> a <file:///eswc.6.ttl/Land> .
+
+<file:///eswc.6.ttl/lead_1> a <file:///eswc.6.ttl/Lead> ;
+	fbox:temp_before <file:///eswc.6.ttl/now_1> ;
+	vnr:Agent <file:///eswc.6.ttl/Al_qaeda_in_iraq> ;
+	vnr:Theme <file:///eswc.6.ttl/effort_1> .
+
+<file:///eswc.6.ttl/locatedIn> a owl:ObjectProperty .
+
+<file:///eswc.6.ttl/male_1> <file:///eswc.6.ttl/coref> <file:///eswc.6.ttl/Al_qaeda_in_iraq> .
+
+<file:///eswc.6.ttl/now_1> a fbox:Now .
+
+<file:///eswc.6.ttl/onLandOf> a owl:ObjectProperty .
+
+<file:///eswc.6.ttl/person_1> a nif:OffsetBasedString , fbox:Person ;
+	rdfs:label "us" ;
+	nif:beginIndex "89"^^xs:nonNegativeInteger ;
+	nif:endIndex "91"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.6.ttl/person_2> ;
+	fsem:hasInterpretant <file:///eswc.6.ttl/Person> ;
+	fpos:pennpos fpos:PRP .
+
+<file:///eswc.6.ttl/person_2> a <file:///eswc.6.ttl/Person> .
+
+<file:///eswc.6.ttl/return_1> a <file:///eswc.6.ttl/Return> ;
+	vnr:Agent <file:///eswc.6.ttl/thing_1> ;
+	vnr:Recipient <file:///eswc.6.ttl/brother_1> ;
+	vnr:Theme <file:///eswc.6.ttl/favor_1> .
+
+<file:///eswc.6.ttl/say_1> a <file:///eswc.6.ttl/Say> ;
+	fbox:temp_before <file:///eswc.6.ttl/now_1> ;
+	vnr:Agent <file:///eswc.6.ttl/veteran_1> ;
+	vnr:Topic <file:///eswc.6.ttl/situation_1> .
+
+<file:///eswc.6.ttl/say_2> a <file:///eswc.6.ttl/Say> ;
+	fbox:temp_before <file:///eswc.6.ttl/now_1> ;
+	vnr:Agent <file:///eswc.6.ttl/Al_qaeda_in_iraq> ;
+	vnr:Topic <file:///eswc.6.ttl/lead_1> .
+
+<file:///eswc.6.ttl/situation_1> a fboxing:Situation ;
+	fbox:temp_included <file:///eswc.6.ttl/now_1> ;
+	fboxing:involves <file:///eswc.6.ttl/Way> , <file:///eswc.6.ttl/Return> , <file:///eswc.6.ttl/Fight> , <file:///eswc.6.ttl/Simple> , <file:///eswc.6.ttl/thing_1> , <file:///eswc.6.ttl/fight_1> , <file:///eswc.6.ttl/Just> , <file:///eswc.6.ttl/return_1> .
+
+<file:///eswc.6.ttl/syrianBrotherOf> a owl:ObjectProperty .
+
+<file:///eswc.6.ttl/thing_1> a owl:Thing , <file:///eswc.6.ttl/SimpleWay> ;
+	dul:hasQuality <file:///eswc.6.ttl/Simple> .
+
+<file:///eswc.6.ttl/veteranOf> a owl:ObjectProperty .
+
+<file:///eswc.6.ttl/veteran_1> a <file:///eswc.6.ttl/Veteran> ;
+	<file:///eswc.6.ttl/veteranOf> <file:///eswc.6.ttl/Al_qaeda_in_iraq> .
+
+<file:///eswc.6.ttl/way_1> a nif:OffsetBasedString ;
+	rdfs:label "This" ;
+	nif:beginIndex "0"^^xs:nonNegativeInteger ;
+	nif:endIndex "4"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.6.ttl/thing_1> ;
+	fsem:hasInterpretant owl:Thing ;
+	fpos:pennpos fpos:DT .
+
+<file:///eswc.6.ttl/offset_0_4_This> <file:///eswc.6.ttl/coref> <file:///eswc.6.ttl/way_1> .
+
+<file:///eswc.6.ttl/offset_105_107_of> a nif:OffsetBasedString ;
+	rdfs:label "of" ;
+	nif:beginIndex "105"^^xs:nonNegativeInteger ;
+	nif:endIndex "107"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.6.ttl/Of> .
+
+<file:///eswc.6.ttl/offset_108_112_Iraq> a nif:OffsetBasedString ;
+	rdfs:label "Iraq" ;
+	nif:beginIndex "108"^^xs:nonNegativeInteger ;
+	nif:endIndex "112"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.6.ttl/Iraq> .
+
+<file:///eswc.6.ttl/offset_114_118_said> a nif:OffsetBasedString ;
+	rdfs:label "said" ;
+	nif:beginIndex "114"^^xs:nonNegativeInteger ;
+	nif:endIndex "118"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.6.ttl/say_1> ;
+	fsem:hasInterpretant <file:///eswc.6.ttl/Say> ;
+	fpos:pennpos fpos:VBD .
+
+<file:///eswc.6.ttl/offset_121_128_veteran> a nif:OffsetBasedString ;
+	rdfs:label "veteran" ;
+	nif:beginIndex "121"^^xs:nonNegativeInteger ;
+	nif:endIndex "128"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.6.ttl/veteran_1> ;
+	fsem:hasInterpretant <file:///eswc.6.ttl/Veteran> ;
+	fpos:pennpos fpos:NN .
+
+<file:///eswc.6.ttl/offset_129_131_of> a nif:OffsetBasedString ;
+	rdfs:label "of" ;
+	nif:beginIndex "129"^^xs:nonNegativeInteger ;
+	nif:endIndex "131"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.6.ttl/Veteranof> .
+
+<file:///eswc.6.ttl/offset_132_148_Al_Qaeda_in_Iraq> a nif:OffsetBasedString ;
+	rdfs:label "Al_Qaeda_in_Iraq" ;
+	nif:beginIndex "132"^^xs:nonNegativeInteger ;
+	nif:endIndex "148"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.6.ttl/Al_qaeda_in_iraq> .
+
+<file:///eswc.6.ttl/offset_144_148_Iraq> a nif:OffsetBasedString ;
+	rdfs:label "Iraq" ;
+	nif:beginIndex "144"^^xs:nonNegativeInteger ;
+	nif:endIndex "148"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.6.ttl/Iraq> .
+
+<file:///eswc.6.ttl/offset_154_158_said> a nif:OffsetBasedString ;
+	rdfs:label "said" ;
+	nif:beginIndex "154"^^xs:nonNegativeInteger ;
+	nif:endIndex "158"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.6.ttl/say_2> ;
+	fsem:hasInterpretant <file:///eswc.6.ttl/Say> ;
+	fpos:pennpos fpos:VBD .
+
+<file:///eswc.6.ttl/offset_159_161_he> a nif:OffsetBasedString ;
+	rdfs:label "he" ;
+	nif:beginIndex "159"^^xs:nonNegativeInteger ;
+	nif:endIndex "161"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.6.ttl/Al_qaeda_in_iraq> ;
+	fsem:hasInterpretant <file:///eswc.6.ttl/Male> ;
+	fpos:pennpos fpos:PRP .
+
+<file:///eswc.6.ttl/offset_15_21_simple> a nif:OffsetBasedString ;
+	rdfs:label "simple" ;
+	nif:beginIndex "15"^^xs:nonNegativeInteger ;
+	nif:endIndex "21"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.6.ttl/Simple> ;
+	fpos:pennpos fpos:JJ .
+
+<file:///eswc.6.ttl/offset_15_25_simple+way> a nif:OffsetBasedString ;
+	rdfs:label "Simple Way" , "simple way" ;
+	nif:beginIndex "15"^^xs:nonNegativeInteger ;
+	nif:endIndex "25"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.6.ttl/Way> .
+
+<file:///eswc.6.ttl/offset_169_173_lead> a nif:OffsetBasedString ;
+	rdfs:label "lead" ;
+	nif:beginIndex "169"^^xs:nonNegativeInteger ;
+	nif:endIndex "173"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.6.ttl/lead_1> ;
+	fsem:hasInterpretant <file:///eswc.6.ttl/Lead> ;
+	fpos:pennpos fpos:VB .
+
+<file:///eswc.6.ttl/offset_178_189_Nusra+Front> a nif:OffsetBasedString ;
+	rdfs:label "Nusra Front" ;
+	nif:beginIndex "178"^^xs:nonNegativeInteger ;
+	nif:endIndex "189"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.6.ttl/Nusra_front> .
+
+<file:///eswc.6.ttl/offset_189_191_%27s> a nif:OffsetBasedString ;
+	rdfs:label "'s" ;
+	nif:beginIndex "189"^^xs:nonNegativeInteger ;
+	nif:endIndex "191"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.6.ttl/Effortof> .
+
+<file:///eswc.6.ttl/offset_192_199_efforts> a nif:OffsetBasedString ;
+	rdfs:label "efforts" ;
+	nif:beginIndex "192"^^xs:nonNegativeInteger ;
+	nif:endIndex "199"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.6.ttl/effort_1> ;
+	fsem:hasInterpretant <file:///eswc.6.ttl/Effort> ;
+	fpos:pennpos fpos:NNS .
+
+<file:///eswc.6.ttl/offset_200_202_in> a nif:OffsetBasedString ;
+	rdfs:label "in" ;
+	nif:beginIndex "200"^^xs:nonNegativeInteger ;
+	nif:endIndex "202"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.6.ttl/Locatedin> .
+
+<file:///eswc.6.ttl/offset_203_208_Syria> a nif:OffsetBasedString ;
+	rdfs:label "Syria" ;
+	nif:beginIndex "203"^^xs:nonNegativeInteger ;
+	nif:endIndex "208"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.6.ttl/Syria> .
+
+<file:///eswc.6.ttl/offset_22_25_way> a nif:OffsetBasedString ;
+	rdfs:label "way" ;
+	nif:beginIndex "22"^^xs:nonNegativeInteger ;
+	nif:endIndex "25"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.6.ttl/way_1> ;
+	fsem:hasInterpretant <file:///eswc.6.ttl/Way> ;
+	fpos:pennpos fpos:NN .
+
+<file:///eswc.6.ttl/offset_29_38_returning> a nif:OffsetBasedString ;
+	rdfs:label "returning" ;
+	nif:beginIndex "29"^^xs:nonNegativeInteger ;
+	nif:endIndex "38"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.6.ttl/return_1> ;
+	fsem:hasInterpretant <file:///eswc.6.ttl/Return> ;
+	fpos:pennpos fpos:VBG .
+
+<file:///eswc.6.ttl/offset_43_48_favor> a nif:OffsetBasedString ;
+	rdfs:label "favor" ;
+	nif:beginIndex "43"^^xs:nonNegativeInteger ;
+	nif:endIndex "48"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.6.ttl/favor_1> ;
+	fsem:hasInterpretant <file:///eswc.6.ttl/Favor> ;
+	fpos:pennpos fpos:NN .
+
+<file:///eswc.6.ttl/offset_49_51_to> a nif:OffsetBasedString ;
+	rdfs:label "to" ;
+	nif:beginIndex "49"^^xs:nonNegativeInteger ;
+	nif:endIndex "51"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:hasInterpretant vnr:Recipient .
+
+<file:///eswc.6.ttl/offset_52_55_our> a nif:OffsetBasedString ;
+	rdfs:label "our" ;
+	nif:beginIndex "52"^^xs:nonNegativeInteger ;
+	nif:endIndex "55"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.6.ttl/person_1> ;
+	fsem:hasInterpretant <file:///eswc.6.ttl/Syrianbrotherof> .
+
+<file:///eswc.6.ttl/offset_56_61_Syria> a nif:OffsetBasedString ;
+	rdfs:label "Syria" ;
+	nif:beginIndex "56"^^xs:nonNegativeInteger ;
+	nif:endIndex "61"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.6.ttl/Syria> .
+
+<file:///eswc.6.ttl/offset_56_62_Syrian> a nif:OffsetBasedString ;
+	rdfs:label "Syrian" ;
+	nif:beginIndex "56"^^xs:nonNegativeInteger ;
+	nif:endIndex "62"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.6.ttl/Syrian> ;
+	fpos:pennpos fpos:JJ .
+
+<file:///eswc.6.ttl/offset_63_71_brothers> a nif:OffsetBasedString ;
+	rdfs:label "brothers" ;
+	nif:beginIndex "63"^^xs:nonNegativeInteger ;
+	nif:endIndex "71"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.6.ttl/brother_1> ;
+	fsem:hasInterpretant <file:///eswc.6.ttl/Brother> ;
+	fpos:pennpos fpos:NNS .
+
+<file:///eswc.6.ttl/offset_77_83_fought> a nif:OffsetBasedString ;
+	rdfs:label "fought" ;
+	nif:beginIndex "77"^^xs:nonNegativeInteger ;
+	nif:endIndex "83"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.6.ttl/fight_1> ;
+	fsem:hasInterpretant <file:///eswc.6.ttl/Fight> ;
+	fpos:pennpos fpos:VBD .
+
+<file:///eswc.6.ttl/offset_84_88_with> a nif:OffsetBasedString ;
+	rdfs:label "with" ;
+	nif:beginIndex "84"^^xs:nonNegativeInteger ;
+	nif:endIndex "88"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:hasInterpretant vnr:Actor2 .
+
+<file:///eswc.6.ttl/offset_89_91_us> <file:///eswc.6.ttl/coref> <file:///eswc.6.ttl/person_1> .
+
+<file:///eswc.6.ttl/offset_8_12_just> a nif:OffsetBasedString ;
+	rdfs:label "just" ;
+	nif:beginIndex "8"^^xs:nonNegativeInteger ;
+	nif:endIndex "12"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.6.ttl/Just> ;
+	fpos:pennpos fpos:RB .
+
+<file:///eswc.6.ttl/offset_92_94_on> a nif:OffsetBasedString ;
+	rdfs:label "on" ;
+	nif:beginIndex "92"^^xs:nonNegativeInteger ;
+	nif:endIndex "94"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.6.ttl/On> .
+
+<file:///eswc.6.ttl/offset_99_104_lands> a nif:OffsetBasedString ;
+	rdfs:label "lands" ;
+	nif:beginIndex "99"^^xs:nonNegativeInteger ;
+	nif:endIndex "104"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.6.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.6.ttl/land_1> ;
+	fsem:hasInterpretant <file:///eswc.6.ttl/Land> ;
+	fpos:pennpos fpos:NNS .
+
+fsem:denotes a owl:ObjectProperty .
+
+fsem:hasInterpretant a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#begins> a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#ends> a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#hasContent> a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#refersTo> a owl:ObjectProperty .
+
+fbox:Now fpos:boxerpos fpos:a .
+
+fbox:Person fpos:boxerpos fpos:n .
+
+fbox:possibleType a owl:ObjectProperty .
+
+fbox:temp_before a owl:ObjectProperty .
+
+fbox:temp_included a owl:ObjectProperty .
+
+fboxing:Situation fpos:boxerpos <file:///eswc.6.ttl/Situation> .
+
+fboxing:involves a owl:ObjectProperty .
+
+dul:hasQuality a owl:ObjectProperty .
+
+fpos:boxerpos a owl:ObjectProperty .
+
+fpos:pennpos a owl:ObjectProperty .
+
+vnr:Actor1 a owl:ObjectProperty .
+
+vnr:Actor2 a owl:ObjectProperty .
+
+vnr:Agent a owl:ObjectProperty .
+
+vnr:Recipient a owl:ObjectProperty .
+
+vnr:Theme a owl:ObjectProperty .
+
+vnr:Topic a owl:ObjectProperty .
+
+wni:synset-favor-noun-1 wns:gloss "an act of gracious kindness"@en-us .
+
+wni:synset-veteran-noun-3 wns:gloss "an experienced person who has been through many battles; someone who has given long service"@en-us .
+
+wni:synset-way-noun-10 wns:gloss "doing as one pleases or chooses; \"if I had my way\""@en-us .
+
+dbpedia:Iraq a schema:Place , schema:Country .
+
+dbpedia:Syria a schema:Place , schema:Country .
+
+owl:Thing fpos:boxerpos fpos:n .
+
+owl:equivalentClass a owl:ObjectProperty .
+
+rdfs:subClassOf a owl:ObjectProperty .

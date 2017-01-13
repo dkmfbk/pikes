@@ -1,0 +1,52 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix frb: <http://framebase.org/ns/> .
+@prefix eval: <eval:schema#> .
+@prefix : <file:///eswc.6.ttl/> .
+
+
+# === TEXT ===
+
+<file:///eswc.6.ttl/> rdfs:label """
+	`` This is just a simple way of returning the favor to our Syrian brothers that fought with us on the lands of Iraq, '' said a veteran of Al Qaeda in Iraq, who said he helped lead the Nusra Front 's efforts in Syria.""" .
+
+
+# === FRAMES ===
+
+:way a frb:frame-Means-way.n ;
+	frb:fe-Means-Purpose :returning ;
+    frb:fe-Means-Descriptor :simple .
+
+:brothers_v a frb:frame-Kinship-brother.n ;
+	frb:fe-Kinship-Alter :brothers ;
+    frb:fe-Kinship-Ego :our ;
+	frb:fe-Kinship-Descriptor :syrian .
+
+:fought a frb:frame-Hostile_encounter-brawl.v ;
+	frb:fe-Hostile_encounter-Side_1 :brothers ;
+    frb:fe-Hostile_encounter-Side_1 :us ;
+    frb:fe-Hostile_encounter-Place :lands .
+
+:lands a frb:frame-Political_locales-land.n ;
+	frb:fe-Political_locales-Container_possessor :iraq_1 .
+
+:said_1 a frb:frame-Statement-say.v ;
+    frb:fe-Statement-Speaker :veteran ;
+    frb:fe-Statement-Message :is .
+
+:said_2 a frb:frame-Statement-say.v ;
+	frb:fe-Statement-Speaker :who ;
+	frb:fe-Statement-Message :helped .
+
+:helped a frb:frame-Assistance-aid.v ;
+    frb:fe-Assistance-Helper :he ;
+    frb:fe-Assistance-Goal :lead .
+
+:lead a frb:frame-Leadership-head.v ;
+    frb:fe-Leadership-Leader :he ;
+	frb:fe-Leadership-Activity :efforts .
+
+:efforts a frb:frame-Attempt-try.v ;
+	frb:fe-Attempt-Agent :front ;
+	frb:fe-Attempt-Place :syria .

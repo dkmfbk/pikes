@@ -1,0 +1,173 @@
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix ks: <http://dkm.fbk.eu/ontologies/knowledgestore#> .
+@prefix nif: <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
+@prefix xs: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix sem: <http://semanticweb.cs.vu.nl/2009/11/sem/> .
+@prefix sumo: <http://www.ontologyportal.org/SUMO.owl#> .
+@prefix dbyago: <http://dbpedia.org/class/yago/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+<file:///eswc.2.ttl/> dct:creator "" ;
+	ks:hasMention <file:///eswc.2.ttl/char=60,66> , <file:///eswc.2.ttl/char=19,24> , <file:///eswc.2.ttl/char=48,59> , <file:///eswc.2.ttl/char=30,41> , <file:///eswc.2.ttl/char=0,11> , <file:///eswc.2.ttl/char=0,5> , <file:///eswc.2.ttl/char=26,41> , <file:///eswc.2.ttl/char=19,24;60,66> , <file:///eswc.2.ttl/char=15,24;26,41> , <file:///eswc.2.ttl/char=6,11;19,24> , <file:///eswc.2.ttl/char=67,73> , <file:///eswc.2.ttl/char=15,24> , <file:///eswc.2.ttl/char=6,11> ;
+	a ks:Text , ks:Resource ;
+	dct:title "" ;
+	dct:language <http://lexvo.org/id/iso639-3/eng> ;
+	dct:created "2015-11-06T09:27:48+01:00" ;
+	ks:annotatedWith <file:///eswc.2.ttl/.naf> ;
+	ks:textHash "B3iPbQ7bw9NKdZ7ywAjGhx" .
+
+ks:Mate%20Tools.null dct:title "Mate Tools" .
+
+ks:NAF%20filter.null dct:title "NAF filter" .
+
+ks:DBpedia%20Spotlight.null dct:title "DBpedia Spotlight" .
+
+ks:Anna%203.61.null dct:title "Anna 3.61" .
+
+ks:Stanford%20CoreNLP.null dct:title "Stanford CoreNLP" .
+
+<http://dkm.fbk.eu/ontologies/knowledgestore#Mate%20Tools%20(be.xx%20model).null> dct:title "Mate Tools (be.xx model)" .
+
+<file:///eswc.2.ttl/donor> a ks:Entity , sumo:Entity , sem:Event , sumo:Abstract , ks:Predicate , sumo:SocialRole , sumo:Attribute , dbyago:Donor110025730 , sumo:RelationalAttribute , <http://www.newsreader-project.eu/ontologies/framenet/Giving> , <http://www.newsreader-project.eu/ontologies/PERSON> , <http://framebase.org/ns/frame-Giving-gift.v> ;
+	rdfs:label "donors" ;
+	ks:mod <attr:like-mind> , <attr:abroad-1r> ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.2.ttl/char=60,66> .
+
+<file:///eswc.2.ttl/char=60,66> nif:anchorOf "donors" ;
+	ks:mentionOf <file:///eswc.2.ttl/> ;
+	a ks:EntityMention , ks:Mention , ks:PredicateMention ;
+	nif:endIndex "66"^^xs:int ;
+	nif:beginIndex "60"^^xs:int ;
+	ks:synset <http://www.newsreader-project.eu/syn/10025730-n> ;
+	ks:lemma "donor" ;
+	ks:sst <http://www.newsreader-project.eu/sst/noun.person> ;
+	ks:plural true .
+
+<file:///eswc.2.ttl/.naf> dct:creator ks:Mate%20Tools.null , ks:NAF%20filter.null , ks:DBpedia%20Spotlight.null , ks:Anna%203.61.null , ks:Stanford%20CoreNLP.null , <http://dkm.fbk.eu/ontologies/knowledgestore#Mate%20Tools%20(be.xx%20model).null> ;
+	a ks:Resource , ks:NAF ;
+	ks:layer ks:layer_srl , ks:layer_text , ks:layer_naf-filter , ks:layer_linked-entities , ks:layer_deps ;
+	ks:annotationOf <file:///eswc.2.ttl/> ;
+	dct:created "2015-11-06T09:28:43.865+0100" ;
+	ks:version "v3" ;
+	dct:identifier "" .
+
+<file:///eswc.2.ttl/char=19,24> nif:anchorOf "group" ;
+	ks:mentionOf <file:///eswc.2.ttl/> ;
+	a ks:EntityMention , ks:Mention , ks:ParticipationMention , ks:PredicateMention ;
+	nif:endIndex "24"^^xs:int ;
+	nif:beginIndex "19"^^xs:int ;
+	ks:synset <http://www.newsreader-project.eu/syn/00031264-n> ;
+	ks:lemma "group" ;
+	ks:sst <http://www.newsreader-project.eu/sst/noun.Tops> .
+
+<attr:like-mind> a ks:Attribute ;
+	rdfs:label "like-minded" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.2.ttl/char=48,59> .
+
+<file:///eswc.2.ttl/char=48,59> nif:anchorOf "like-minded" ;
+	ks:mentionOf <file:///eswc.2.ttl/> ;
+	a ks:Mention , ks:AttributeMention ;
+	nif:endIndex "59"^^xs:int ;
+	nif:beginIndex "48"^^xs:int .
+
+<file:///eswc.2.ttl/char=30,41> nif:anchorOf "Nusra Front" ;
+	ks:mentionOf <file:///eswc.2.ttl/> ;
+	a ks:EntityMention , ks:Mention , ks:NameMention ;
+	nif:endIndex "41"^^xs:int ;
+	nif:beginIndex "30"^^xs:int .
+
+<file:///eswc.2.ttl/char=0,11> nif:anchorOf "Money flows" ;
+	ks:mentionOf <file:///eswc.2.ttl/> ;
+	a ks:Mention , ks:ParticipationMention ;
+	nif:endIndex "11"^^xs:int ;
+	nif:beginIndex "0"^^xs:int .
+
+<file:///eswc.2.ttl/char=0,5> nif:anchorOf "Money" ;
+	ks:mentionOf <file:///eswc.2.ttl/> ;
+	a ks:EntityMention , ks:Mention ;
+	nif:endIndex "5"^^xs:int ;
+	nif:beginIndex "0"^^xs:int .
+
+<file:///eswc.2.ttl/char=26,41> nif:anchorOf "the Nusra Front" ;
+	ks:mentionOf <file:///eswc.2.ttl/> ;
+	a ks:Mention ;
+	nif:endIndex "41"^^xs:int ;
+	nif:beginIndex "26"^^xs:int .
+
+<file:///eswc.2.ttl/char=19,24;60,66> nif:anchorOf "group [...] donors" ;
+	ks:mentionOf <file:///eswc.2.ttl/> ;
+	a ks:Mention , ks:CompoundString ;
+	nif:endIndex "66"^^xs:int ;
+	nif:beginIndex "19"^^xs:int ;
+	ks:componentSubString <file:///eswc.2.ttl/char=60,66> , <file:///eswc.2.ttl/char=19,24> .
+
+<file:///eswc.2.ttl/char=15,24;26,41> nif:anchorOf "the group [...] the Nusra Front" ;
+	ks:mentionOf <file:///eswc.2.ttl/> ;
+	a ks:Mention , ks:CompoundString ;
+	nif:endIndex "41"^^xs:int ;
+	nif:beginIndex "15"^^xs:int ;
+	ks:componentSubString <file:///eswc.2.ttl/char=26,41> , <file:///eswc.2.ttl/char=15,24> .
+
+<file:///eswc.2.ttl/char=6,11;19,24> nif:anchorOf "flows [...] group" ;
+	ks:mentionOf <file:///eswc.2.ttl/> ;
+	a ks:Mention , ks:ParticipationMention , ks:CompoundString ;
+	nif:endIndex "24"^^xs:int ;
+	nif:beginIndex "6"^^xs:int ;
+	ks:componentSubString <file:///eswc.2.ttl/char=19,24> , <file:///eswc.2.ttl/char=6,11> .
+
+<file:///eswc.2.ttl/char=67,73> nif:anchorOf "abroad" ;
+	ks:mentionOf <file:///eswc.2.ttl/> ;
+	a ks:Mention , ks:AttributeMention ;
+	nif:endIndex "73"^^xs:int ;
+	nif:beginIndex "67"^^xs:int .
+
+<file:///eswc.2.ttl/char=15,24> nif:anchorOf "the group" ;
+	ks:mentionOf <file:///eswc.2.ttl/> ;
+	a ks:Mention ;
+	nif:endIndex "24"^^xs:int ;
+	nif:beginIndex "15"^^xs:int .
+
+<file:///eswc.2.ttl/group> a ks:Entity , dbyago:Group100031264 ;
+	rdfs:label "group" ;
+	owl:sameAs <file:///eswc.2.ttl/Nusra_Front> ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.2.ttl/char=19,24> .
+
+<file:///eswc.2.ttl/char=6,11> nif:anchorOf "flows" ;
+	ks:mentionOf <file:///eswc.2.ttl/> ;
+	a ks:Mention , ks:PredicateMention ;
+	nif:endIndex "11"^^xs:int ;
+	nif:beginIndex "6"^^xs:int ;
+	ks:synset <http://www.newsreader-project.eu/syn/02066939-v> ;
+	ks:lemma "flow" ;
+	ks:sst <http://www.newsreader-project.eu/sst/verb.motion> .
+
+<entity:money> a ks:Entity ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.2.ttl/char=0,5> .
+
+<file:///eswc.2.ttl/group_2> a ks:Entity , sem:Event , ks:Predicate , <http://www.newsreader-project.eu/ontologies/framenet/Aggregate> , <http://framebase.org/ns/frame-Aggregate-group.n> ;
+	ks:mod <file:///eswc.2.ttl/donor> ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.2.ttl/char=19,24> ;
+	<http://framebase.org/ns/fe-aggregate-aggregate> <file:///eswc.2.ttl/group> ;
+	<http://www.newsreader-project.eu/ontologies/framenet/aggregate> <file:///eswc.2.ttl/group> .
+
+<file:///eswc.2.ttl/flow> a ks:Entity , sumo:Entity , sem:Event , ks:Predicate , sumo:Process , sumo:Physical , sumo:Motion , sumo:LiquidMotion , <http://framebase.org/ns/frame-Fluidic_motion-run.v> , <http://www.newsreader-project.eu/ontologies/framenet/Fluidic_motion> ;
+	rdfs:label "flows" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.2.ttl/char=6,11> ;
+	<http://framebase.org/ns/fe-fluidic_motion-goal> <file:///eswc.2.ttl/group> ;
+	<http://framebase.org/ns/fe-fluidic_motion-fluid> <entity:money> ;
+	<http://www.newsreader-project.eu/ontologies/framenet/goal> <file:///eswc.2.ttl/group> ;
+	<http://www.newsreader-project.eu/ontologies/framenet/fluid> <entity:money> .
+
+<attr:abroad-1r> a ks:Attribute ;
+	rdfs:label "abroad" ;
+	ks:headSynset <http://wordnet-rdf.princeton.edu/wn30/00104003-r> ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.2.ttl/char=67,73> .
+
+<file:///eswc.2.ttl/Nusra_Front> a ks:Entity , <http://www.newsreader-project.eu/ontologies/ORGANIZATION> ;
+	owl:sameAs dbpedia:Al-Nusra_Front ;
+	foaf:name "Nusra Front" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.2.ttl/char=30,41> .

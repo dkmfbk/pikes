@@ -1,0 +1,209 @@
+@prefix fdom: <http://www.ontologydesignpatterns.org/ont/fred/domain.owl#> .
+@prefix fsem: <http://ontologydesignpatterns.org/cp/owl/semiotics.owl#> .
+@prefix fpos: <http://www.ontologydesignpatterns.org/ont/fred/pos.owl#> .
+@prefix fboxer: <http://www.ontologydesignpatterns.org/ont/boxer/boxer.owl#> .
+@prefix wni: <http://www.w3.org/2006/03/wn/wn30/instances/> .
+@prefix wns: <http://www.w3.org/2006/03/wn/wn30/schema/> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix xds: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix nif: <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
+@prefix vn: <http://pikes.fbk.eu/ontologies/verbnet#> .
+@prefix fn: <http://pikes.fbk.eu/ontologies/framenet#> .
+@prefix eval: <http://pikes.fbk.eu/ontologies/eval#> .
+
+
+{
+    #
+    # -- FRAMENET FRAME TYPES --
+    #
+    # FRED is able to disambiguate a frame w.r.t. FrameNet, however
+    # it encodes this information in the instance label (e.g., calling
+    # it :Hostile_encounter_1) instead of using an rdf:type triple;
+    # moreover, to get this information one has to supply a specific
+    # parameter when invoking FRED that unfortunately disable the
+    # disambiguation of frames and roles w.r.t. VerbNet.
+    #
+    # As FRED authors claim that FrameNet frame detection is a feature
+    # of their tool, we decided to consider the FrameNet frame type
+    # information returned in the labels in our evaluation, but instead
+    # of developing a complex logic for calling FRED twice (one time
+    # to get VerbNet frame types and roles, the other to get FrameNet
+    # frame types) and then merge the two (which would require rewriting
+    # URIs of extracted instances, as they change between the two
+    # invocations), we call FRED manually enabling FrameNet support, we
+    # map instances and labels to frame types again manually and write
+    # the resulting triples below for inclusion in the evaluation (these
+    # triples are loaded by the evaluator tool as if they come from
+    # FRED).
+    #
+    # Please note that we didn't consider the time for calling FRED
+    # twice when comparing X runtime to FRED runtime (footnote 20). We
+    # just considered the first invocation that extracts VerbNet data.
+    #
+    <file:///eswc.1.ttl/pose_1> a fn:Posing_as .
+    <file:///eswc.1.ttl/want_1> a fn:Desiring .
+    <file:///eswc.2.ttl/flow_1> a fn:Fluidic_motion .
+    <file:///eswc.3.ttl/have_1> a fn:Possession .
+    <file:///eswc.4.ttl/gather_1> a fn:Congregating .
+    <file:///eswc.4.ttl/mount_1> a fn:Placing .
+    <file:///eswc.5.ttl/contribute_1> a fn:Giving .
+    <file:///eswc.5.ttl/say_1> a fn:Statement .
+    <file:///eswc.6.ttl/say_1> a fn:Statement .
+    <file:///eswc.6.ttl/say_2> a fn:Statement .
+    <file:///eswc.6.ttl/lead_1> a fn:Cotheme .
+    <file:///eswc.6.ttl/fight_1> a fn:Hostile_encounter .
+    <file:///eswc.6.ttl/return_1> a fn:Arriving .
+    <file:///eswc.7.ttl/sense_1> a fn:Perception_experience .
+    <file:///eswc.7.ttl/run_1> a fn:Self_motion .
+    <file:///eswc.7.ttl/prevent_1> a fn:Preventing .
+    <file:///eswc.7.ttl/hope_1> a fn:Desiring .
+    <file:///eswc.8.ttl/have_1> a fn:Possession .
+    <file:///eswc.8.ttl/push_1> a fn:Cause_motion .
+    <file:///eswc.8.ttl/make_1> a fn:Cooking_creation .
+}
+
+
+#
+# -- METADATA GRAPH  --
+#
+# triples in this graph have been added manually to complement the
+# output of evaluated tools with information needed by the evaluator
+# tool for aligning extracted triples to gold triples
+#
+eval:metadata {
+
+    #
+    # -- HEAD TRIPLES --
+    #
+    # these triples are required by the evaluator tool for aligning
+    # mention from a tool to mentions in the gold standard (alignment
+    # is done on mention head token)
+    #
+    <file:///eswc.1.ttl/offset_172_185_United_States> eval:head <file:///eswc.1.ttl/States> .
+    <file:///eswc.1.ttl/offset_190_205_other_countries> eval:head <file:///eswc.1.ttl/countries> .
+    <file:///eswc.1.ttl/offset_238_245_but_not> eval:head <file:///eswc.1.ttl/but> .
+    <file:///eswc.1.ttl/offset_246_264_Islamic_extremists> eval:head <file:///eswc.1.ttl/extremists> .
+    <file:///eswc.1.ttl/offset_68_76_Al_Qaeda> eval:head <file:///eswc.1.ttl/Qaeda> .
+    <file:///eswc.2.ttl/offset_30_41_Nusra+Front> eval:head <file:///eswc.2.ttl/Front> .
+    <file:///eswc.3.ttl/offset_140_154_military_bases> eval:head <file:///eswc.3.ttl/bases> .
+    <file:///eswc.3.ttl/offset_159_169_oil_fields> eval:head <file:///eswc.3.ttl/fields> .
+    <file:///eswc.5.ttl/offset_34_50_Al_Qaeda_in_Iraq> eval:head <file:///eswc.5.ttl/Qaeda> .
+    <file:///eswc.5.ttl/offset_79_95_Iraqi_insurgents> eval:head <file:///eswc.5.ttl/insurgents> .
+    <file:///eswc.6.ttl/offset_132_148_Al_Qaeda_in_Iraq> eval:head <file:///eswc.6.ttl/Qaeda> .
+    <file:///eswc.6.ttl/offset_178_189_Nusra+Front> eval:head <file:///eswc.6.ttl/Front> .
+    <file:///eswc.7.ttl/offset_4_17_United_States> eval:head <file:///eswc.7.ttl/States> .
+    <file:///eswc.7.ttl/offset_76_91_Bashar_al-Assad> eval:head <file:///eswc.7.ttl/al-Assad> .
+    <file:///eswc.8.ttl/offset_121_132_Nusra+Front> eval:head <file:///eswc.8.ttl/Front> .
+    <file:///eswc.8.ttl/offset_32_49_Syrian_opposition> eval:head <file:///eswc.8.ttl/opposition> .
+    <file:///eswc.8.ttl/offset_7_20_United_States> eval:head <file:///eswc.8.ttl/States> .
+
+    #
+    # -- COREFERENCE SPLITTING --
+    #
+    # As in the evaluation we do not merge coreferring instances but
+    # FRED does that (in some cases even when asked not to do so), here
+    # we instruct the evaluator tool about how to assign triples about
+    # merged instances to the coreferential instances considered in the
+    # evaluation.
+    #
+    # Example: in sentence eswc.1.ttl, FRED returns a single instance
+    # :united_states_1 that is the result of the (wrong) coreference
+    # between mentions 'United States' and 'countries'. The evaluator
+    # tool automatically splits this instance in two by adding the
+    # mention head as suffix:
+    # - :united_states_1_States (1st instance, mention 'United States')
+    # - :united_states_1_countries (2nd instance, mention 'countries')
+    # However, the evaluator tool does not know how to rewrite a triple
+    # involving the merged instance :united_states_1, such as triple
+    #   :united_states_1 rdf:type :OtherCountries
+    # We supply this information by manually asserting the correct
+    # rewritten triple below:
+    #   :united_states_1_countries rdf:type :OtherCountries
+    #
+    <file:///eswc.1.ttl/pose_1> vn:recipient <file:///eswc.1.ttl/united_states_1_countries> .
+    <file:///eswc.1.ttl/pose_1> vn:recipient <file:///eswc.1.ttl/united_states_1_States> .
+    <file:///eswc.1.ttl/Posing_as_1> <file:///eswc.1.ttl/to> <file:///eswc.1.ttl/united_states_1_countries> .
+    <file:///eswc.1.ttl/Posing_as_1> <file:///eswc.1.ttl/to> <file:///eswc.1.ttl/united_states_1_States> .
+    <file:///eswc.1.ttl/support_1> vn:agent <file:///eswc.1.ttl/united_states_1_countries> .
+    <file:///eswc.1.ttl/support_1> vn:agent <file:///eswc.1.ttl/united_states_1_States> .
+    <file:///eswc.1.ttl/united_states_1_countries> rdf:type <file:///eswc.1.ttl/Other_countries> .
+    <file:///eswc.1.ttl/united_states_1_countries> rdf:type <file:///eswc.1.ttl/OtherCountries> .
+    <file:///eswc.1.ttl/united_states_1_countries> rdf:type <http://www.ontologydesignpatterns.org/ont/d0.owl#Location> .
+    <file:///eswc.1.ttl/united_states_1_countries> rdf:type wni:supersense-noun_location .
+    <file:///eswc.1.ttl/united_states_1_countries> rdf:type wni:synset-area-noun-1 .
+    <file:///eswc.1.ttl/united_states_1_States> rdf:type <file:///eswc.1.ttl/United_states> .
+    <file:///eswc.1.ttl/united_states_1_States> rdf:type <http://dbpedia.org/resource/United_States> .
+    <file:///eswc.1.ttl/united_states_1_States> rdf:type <http://schema.org/Country> .
+    <file:///eswc.1.ttl/united_states_1_States> rdf:type <http://schema.org/Place> .
+    <file:///eswc.1.ttl/want_1> vn:experiencer <file:///eswc.1.ttl/united_states_1_countries> .
+    <file:///eswc.1.ttl/want_1> vn:experiencer <file:///eswc.1.ttl/united_states_1_States> .
+    <file:///eswc.3.ttl/boldness_1_boldness> rdf:type <file:///eswc.3.ttl/Boldness> .
+    <file:///eswc.3.ttl/boldness_1_boldness> rdf:type wni:supersense-noun_attribute .
+    <file:///eswc.3.ttl/boldness_1_boldness> rdf:type wni:synset-boldness-noun-1 .
+    <file:///eswc.3.ttl/boldness_1_skill> <file:///eswc.3.ttl/to> <file:///eswc.3.ttl/battalion_1> .
+    <file:///eswc.3.ttl/boldness_1_skill> <file:///eswc.3.ttl/to> <file:///eswc.3.ttl/storm_1_storm> .
+    <file:///eswc.3.ttl/boldness_1_skill> rdf:type <file:///eswc.3.ttl/Skill> .
+    <file:///eswc.3.ttl/boldness_1_skill> rdf:type <http://www.ontologydesignpatterns.org/ont/d0.owl#Characteristic> .
+    <file:///eswc.3.ttl/boldness_1_skill> rdf:type wni:supersense-noun_cognition .
+    <file:///eswc.3.ttl/boldness_1_skill> rdf:type wni:synset-skill-noun-2 .
+    <file:///eswc.3.ttl/fortify_1> vn:patient <file:///eswc.3.ttl/storm_1_positions> .
+    <file:///eswc.3.ttl/have_1> vn:patient <file:///eswc.3.ttl/boldness_1_boldness> .
+    <file:///eswc.3.ttl/have_1> vn:patient <file:///eswc.3.ttl/boldness_1_skill> .
+    <file:///eswc.3.ttl/storm_1_positions> rdf:type <file:///eswc.3.ttl/Position> .
+    <file:///eswc.3.ttl/storm_1_storm> rdf:type <file:///eswc.3.ttl/Storm> .
+    <file:///eswc.4.ttl/fighter_1> dul:hasQuality <file:///eswc.4.ttl/More_more_2> .
+    <file:///eswc.4.ttl/More_more_1> fpos:boxerpos <http://www.ontologydesignpatterns.org/ont/fred/pos.owl#a> .
+    <file:///eswc.4.ttl/More_more_2> fpos:boxerpos <http://www.ontologydesignpatterns.org/ont/fred/pos.owl#a> .
+    <file:///eswc.4.ttl/weapon_1> dul:hasQuality <file:///eswc.4.ttl/More_more_1> .
+    <file:///eswc.5.ttl/contribute_1> vn:theme <file:///eswc.5.ttl/fighter_1_fighters> .
+    <file:///eswc.5.ttl/contribute_1> vn:theme <file:///eswc.5.ttl/fighter_1_weapons> .
+    <file:///eswc.5.ttl/fighter_1_fighters> dul:hasQuality <file:///eswc.5.ttl/Veteran> .
+    <file:///eswc.5.ttl/fighter_1_fighters> rdf:type <file:///eswc.5.ttl/Fighter> .
+    <file:///eswc.5.ttl/fighter_1_fighters> rdf:type <file:///eswc.5.ttl/VeteranFighter> .
+    <file:///eswc.5.ttl/fighter_1_weapons> rdf:type <file:///eswc.5.ttl/Weapon> .
+    <file:///eswc.5.ttl/fighter_1_weapons> rdf:type <http://dbpedia.org/resource/Mortar_(weapon)> .
+    <file:///eswc.5.ttl/Iraqi_Iraqi_1> fboxer:possibleType <http://dbpedia.org/ontology/Place> .
+    <file:///eswc.5.ttl/Iraqi_Iraqi_2> fboxer:possibleType <http://dbpedia.org/ontology/Place> .
+    <file:///eswc.5.ttl/official_1> dul:associatedWith <file:///eswc.5.ttl/Iraqi_Iraqi_1> .
+    <file:///eswc.6.ttl/Al_qaeda_in_iraq_he> rdf:type <file:///eswc.6.ttl/Male> .
+    <file:///eswc.6.ttl/Al_qaeda_in_iraq_Qaeda> fboxer:possibleType <http://xmlns.com/foaf/0.1/Organisation> .
+    <file:///eswc.6.ttl/Al_qaeda_in_iraq_Qaeda> owl:sameAs <http://dbpedia.org/resource/Al-Qaeda_in_Iraq> .
+    <file:///eswc.6.ttl/effort_1> <file:///eswc.6.ttl/locatedIn> <file:///eswc.6.ttl/Syria_Syria> .
+    <file:///eswc.6.ttl/fight_1> <file:///eswc.6.ttl/onLandOf> <file:///eswc.6.ttl/Iraq_Iraq_1> .
+    <file:///eswc.6.ttl/Hostile_encounter_1> <file:///eswc.6.ttl/onLandOf> <file:///eswc.6.ttl/Iraq_Iraq_1> .
+    <file:///eswc.6.ttl/Iraq_Iraq_1> fboxer:possibleType <http://dbpedia.org/ontology/Place> .
+    <file:///eswc.6.ttl/Iraq_Iraq_1> owl:sameAs <http://dbpedia.org/resource/Iraq> .
+    <file:///eswc.6.ttl/Iraq_Iraq_2> fboxer:possibleType <http://dbpedia.org/ontology/Place> .
+    <file:///eswc.6.ttl/Iraq_Iraq_2> owl:sameAs <http://dbpedia.org/resource/Iraq> .
+    <file:///eswc.6.ttl/lead_1> vn:agent <file:///eswc.6.ttl/Al_qaeda_in_iraq_he> .
+    <file:///eswc.6.ttl/say_2> vn:agent <file:///eswc.6.ttl/Al_qaeda_in_iraq_he> .
+    <file:///eswc.6.ttl/Syria_Syria> fboxer:possibleType <http://dbpedia.org/ontology/Place> .
+    <file:///eswc.6.ttl/Syria_Syrian> fboxer:possibleType <http://dbpedia.org/ontology/Place> .
+    <file:///eswc.6.ttl/Syria_Syria> owl:sameAs <http://dbpedia.org/resource/Syria> .
+    <file:///eswc.6.ttl/veteran_1> <file:///eswc.6.ttl/veteranOf> <file:///eswc.6.ttl/Al_qaeda_in_iraq_Qaeda> .
+    <file:///eswc.7.ttl/Bashar_al-assad_al-Assad> fboxer:possibleType <http://dbpedia.org/ontology/Place> .
+    <file:///eswc.7.ttl/Bashar_al-assad_al-Assad> owl:sameAs <http://dbpedia.org/resource/Bashar_al-Assad> .
+    <file:///eswc.7.ttl/Bashar_al-assad_president> rdf:type <file:///eswc.7.ttl/President> .
+    <file:///eswc.7.ttl/be_1> vn:agent <file:///eswc.7.ttl/time_1_time> .
+    <file:///eswc.7.ttl/inherit_1> vn:patient <file:///eswc.7.ttl/Syria_Syria_2> .
+    <file:///eswc.7.ttl/inherit_1> vn:theme <file:///eswc.7.ttl/Syria_Syria_2> .
+    <file:///eswc.7.ttl/prevent_1> vn:theme <file:///eswc.7.ttl/time_1_it> .
+    <file:///eswc.7.ttl/run_1> vn:location <file:///eswc.7.ttl/Syria_president> .
+    <file:///eswc.7.ttl/run_1> vn:theme <file:///eswc.7.ttl/time_1_time> .
+    <file:///eswc.7.ttl/Syria_president> dul:associatedWith <file:///eswc.7.ttl/Bashar_al-assad_al-Assad> .
+    <file:///eswc.7.ttl/Syria_president> rdf:type <file:///eswc.7.ttl/President> .
+    <file:///eswc.7.ttl/Syria_Syria_1> fboxer:possibleType <http://dbpedia.org/ontology/Place> .
+    <file:///eswc.7.ttl/Syria_Syria_1> owl:sameAs <http://dbpedia.org/resource/Syria> .
+    <file:///eswc.7.ttl/Syria_Syria_2> fboxer:possibleType <http://dbpedia.org/ontology/Place> .
+    <file:///eswc.7.ttl/Syria_Syria_2> owl:sameAs <http://dbpedia.org/resource/Syria> .
+    <file:///eswc.7.ttl/time_1_it> rdf:type owl:Thing .
+    <file:///eswc.7.ttl/time_1_time> rdf:type <file:///eswc.7.ttl/Time> .
+    <file:///eswc.7.ttl/time_1_time> rdf:type <http://www.ontologydesignpatterns.org/ont/d0.owl#Characteristic> .
+    <file:///eswc.7.ttl/time_1_time> rdf:type wni:supersense-noun_attribute .
+    <file:///eswc.7.ttl/time_1_time> rdf:type wni:synset-meter-noun-4 .
+
+}

@@ -1,0 +1,384 @@
+@prefix xs: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dbyago: <http://dbpedia.org/class/yago/> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix sumo: <http://www.ontologyportal.org/SUMO.owl#> .
+@prefix sem: <http://semanticweb.cs.vu.nl/2009/11/sem/> .
+@prefix nif: <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix wn30: <http://wordnet-rdf.princeton.edu/wn30/> .
+@prefix x: <x:schema#> .
+@prefix pb: <x:propbank#> .
+@prefix nb: <x:nombank#> .
+@prefix vn: <x:verbnet#> .
+@prefix fn: <x:framenet#> .
+@prefix sst: <x:sst#> .
+@prefix ner: <x:ner#> .
+@prefix attr: <x:attr#> .
+@prefix entity: <x:Instance#> .
+
+<file:///eswc.7.ttl/> a x:Resource , x:Text ;
+	dct:title "" ;
+	dct:creator "" ;
+	dct:created "2015-09-17T08:10:05+02:00" ;
+	dct:language <http://lexvo.org/id/iso639-3/eng> ;
+	x:hasMention <file:///eswc.7.ttl/char=102,109> , <file:///eswc.7.ttl/char=114,119> , <file:///eswc.7.ttl/char=123,130> , <file:///eswc.7.ttl/char=131,133> , <file:///eswc.7.ttl/char=139,149> , <file:///eswc.7.ttl/char=150,155> , <file:///eswc.7.ttl/char=19,26> , <file:///eswc.7.ttl/char=32,36> , <file:///eswc.7.ttl/char=4,17> , <file:///eswc.7.ttl/char=44,51> , <file:///eswc.7.ttl/char=60,65> , <file:///eswc.7.ttl/char=66,75> , <file:///eswc.7.ttl/char=76,91> , <file:///eswc.7.ttl/char=93,98> , <file:///eswc.7.ttl/char=19,26;44,51> , <file:///eswc.7.ttl/char=123,130;139,149> , <file:///eswc.7.ttl/char=131,133;139,149> , <file:///eswc.7.ttl/char=93,98;102,109> , <file:///eswc.7.ttl/char=19,26;93,98> , <file:///eswc.7.ttl/char=32,36;44,51> , <file:///eswc.7.ttl/char=4,17;123,130> , <file:///eswc.7.ttl/char=4,17;131,133> , <file:///eswc.7.ttl/char=102,109;114,119> , <file:///eswc.7.ttl/char=60,65;150,155> , <file:///eswc.7.ttl/char=44,51;76,91> , <file:///eswc.7.ttl/char=4,17;19,26> , <file:///eswc.7.ttl/char=4,17;93,98> , <file:///eswc.7.ttl/char=66,91> , <file:///eswc.7.ttl/char=139,155> , <file:///eswc.7.ttl/char=123,133> , <file:///eswc.7.ttl/char=60,75> ;
+	x:annotatedWith <file:///eswc.7.ttl/.naf> ;
+	x:textHash "AludlpGQ4N1GkXaiEiZU8k" .
+
+<file:///eswc.7.ttl/char=102,109> a x:Mention , x:FrameMention ;
+	nif:endIndex "109"^^xs:int ;
+	nif:anchorOf "isolate" ;
+	nif:beginIndex "102"^^xs:int ;
+	x:denotes <file:///eswc.7.ttl/isolate> ;
+	x:mentionOf <file:///eswc.7.ttl/> ;
+	x:lemma "isolate" ;
+	x:sst sst:verb.change ;
+	x:synset wn30:00494269-v .
+
+<file:///eswc.7.ttl/isolate> a sumo:Entity , sumo:Process , sumo:Physical , sem:Event , sumo:Translocation , sumo:Motion , sumo:Transfer , sumo:Removing , x:Instance , x:Frame , vn:concealment-16 , pb:isolate.01 ;
+	sem:hasActor <file:///eswc.7.ttl/group> ;
+	rdfs:label "isolate" ;
+	pb:isolate.01_1 <file:///eswc.7.ttl/group> ;
+	vn:patient <file:///eswc.7.ttl/group> .
+
+<file:///eswc.7.ttl/char=114,119> a x:Mention , x:FrameMention , x:InstanceMention ;
+	nif:endIndex "119"^^xs:int ;
+	nif:anchorOf "group" ;
+	nif:beginIndex "114"^^xs:int ;
+	x:denotes <file:///eswc.7.ttl/group> ;
+	x:mentionOf <file:///eswc.7.ttl/> ;
+	x:lemma "group" ;
+	x:sst sst:noun.Tops ;
+	x:synset wn30:00031264-n .
+
+<file:///eswc.7.ttl/group> a sumo:Entity , sumo:Physical , sem:Event , sumo:Object , sumo:Agent , dbyago:Group100031264 , sumo:Group , sumo:Collection , x:Instance , x:Frame , nb:group.01 ;
+	rdfs:label "group" .
+
+<file:///eswc.7.ttl/char=123,130> a x:Mention , x:FrameMention ;
+	nif:endIndex "130"^^xs:int ;
+	nif:anchorOf "prevent" ;
+	nif:beginIndex "123"^^xs:int ;
+	x:denotes <file:///eswc.7.ttl/prevent> ;
+	x:mentionOf <file:///eswc.7.ttl/> ;
+	x:lemma "prevent" ;
+	x:sst sst:verb.social ;
+	x:synset wn30:02452885-v .
+
+<file:///eswc.7.ttl/prevent> a sumo:Entity , sumo:Process , sumo:Physical , sem:Event , x:Instance , x:Frame , pb:prevent.01 , vn:forbid-67 , fn:Preventing ;
+	sem:hasActor <file:///eswc.7.ttl/it> , <file:///eswc.7.ttl/inherit> , <file:///eswc.7.ttl/United_States> ;
+	rdfs:label "prevent" ;
+	vn:agent <file:///eswc.7.ttl/United_States> ;
+	vn:theme <file:///eswc.7.ttl/it> , <file:///eswc.7.ttl/inherit> ;
+	pb:prevent.01_1 <file:///eswc.7.ttl/it> ;
+	fn:event <file:///eswc.7.ttl/it> , <file:///eswc.7.ttl/inherit> ;
+	pb:prevent.01_0 <file:///eswc.7.ttl/United_States> ;
+	pb:prevent.01_2 <file:///eswc.7.ttl/inherit> ;
+	fn:preventing_cause <file:///eswc.7.ttl/United_States> .
+
+<file:///eswc.7.ttl/char=131,133> a x:Mention , x:InstanceMention ;
+	nif:endIndex "133"^^xs:int ;
+	nif:anchorOf "it" ;
+	nif:beginIndex "131"^^xs:int ;
+	x:denotes <file:///eswc.7.ttl/it> ;
+	x:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/it> a x:Instance ;
+	owl:sameAs <file:///eswc.7.ttl/United_States> .
+
+<file:///eswc.7.ttl/char=139,149> a x:Mention , x:FrameMention ;
+	nif:endIndex "149"^^xs:int ;
+	nif:anchorOf "inheriting" ;
+	nif:beginIndex "139"^^xs:int ;
+	x:denotes <file:///eswc.7.ttl/inherit> ;
+	x:mentionOf <file:///eswc.7.ttl/> ;
+	x:lemma "inherit" ;
+	x:sst sst:verb.possession ;
+	x:synset wn30:02315525-v .
+
+<file:///eswc.7.ttl/inherit> a sumo:Entity , sumo:IntentionalProcess , sumo:Process , sumo:Physical , sem:Event , sumo:Inheriting , sumo:SocialInteraction , sumo:Getting , sumo:ChangeOfPossession , sumo:UnilateralGetting , x:Instance , x:Frame , pb:inherit.01 , vn:obtain-13.5.2 ;
+	sem:hasActor <file:///eswc.7.ttl/it> , <file:///eswc.7.ttl/Syria_2> ;
+	rdfs:label "inheriting" ;
+	vn:agent <file:///eswc.7.ttl/it> ;
+	vn:theme <file:///eswc.7.ttl/Syria_2> ;
+	pb:inherit.01_0 <file:///eswc.7.ttl/it> ;
+	pb:inherit.01_1 <file:///eswc.7.ttl/Syria_2> .
+
+<file:///eswc.7.ttl/char=150,155> a x:Mention , x:InstanceMention , x:NameMention ;
+	nif:endIndex "155"^^xs:int ;
+	nif:anchorOf "Syria" ;
+	nif:beginIndex "150"^^xs:int ;
+	x:denotes <file:///eswc.7.ttl/Syria_2> ;
+	x:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/Syria_2> a x:Instance , ner:LOCATION ;
+	rdfs:label "Syria" ;
+	foaf:name "Syria" ;
+	owl:sameAs dbpedia:Syria .
+
+<file:///eswc.7.ttl/char=19,26> a x:Mention , x:FrameMention ;
+	nif:endIndex "26"^^xs:int ;
+	nif:anchorOf "sensing" ;
+	nif:beginIndex "19"^^xs:int ;
+	x:denotes <file:///eswc.7.ttl/sense> ;
+	x:mentionOf <file:///eswc.7.ttl/> ;
+	x:lemma "sense" ;
+	x:sst sst:verb.cognition ;
+	x:synset wn30:00589469-v .
+
+<file:///eswc.7.ttl/sense> a sumo:Entity , sumo:IntentionalProcess , sumo:Process , sumo:InternalChange , sumo:PsychologicalProcess , sumo:Physical , sem:Event , sumo:IntentionalPsychologicalProcess , sumo:BiologicalProcess , x:Instance , x:Frame , vn:see-30.1-1 , fn:Perception_experience , pb:sense.01 ;
+	sem:hasActor <file:///eswc.7.ttl/United_States> , <file:///eswc.7.ttl/run> ;
+	rdfs:label "sensing" ;
+	pb:sense.01_0 <file:///eswc.7.ttl/United_States> ;
+	fn:phenomenon <file:///eswc.7.ttl/run> ;
+	vn:experiencer <file:///eswc.7.ttl/United_States> ;
+	fn:perceiver_passive <file:///eswc.7.ttl/United_States> ;
+	pb:sense.01_1 <file:///eswc.7.ttl/run> ;
+	vn:stimulus <file:///eswc.7.ttl/run> .
+
+<file:///eswc.7.ttl/char=32,36> a x:Mention , x:InstanceMention ;
+	nif:endIndex "36"^^xs:int ;
+	nif:anchorOf "time" ;
+	nif:beginIndex "32"^^xs:int ;
+	x:denotes <file:///eswc.7.ttl/time> ;
+	x:mentionOf <file:///eswc.7.ttl/> ;
+	x:lemma "time" ;
+	x:sst sst:noun.event ;
+	x:synset wn30:07309599-n .
+
+<file:///eswc.7.ttl/time> a sumo:Entity , sumo:IntentionalProcess , sumo:Process , sumo:Physical , dbyago:Time107309599 , x:Instance ;
+	rdfs:label "time" .
+
+<file:///eswc.7.ttl/char=4,17> a x:Mention , x:InstanceMention , x:NameMention ;
+	nif:endIndex "17"^^xs:int ;
+	nif:anchorOf "United States" ;
+	nif:beginIndex "4"^^xs:int ;
+	x:denotes <file:///eswc.7.ttl/United_States> ;
+	x:mentionOf <file:///eswc.7.ttl/> ;
+	x:plural true .
+
+<file:///eswc.7.ttl/United_States> a x:Instance , ner:LOCATION ;
+	rdfs:label "United States" ;
+	foaf:name "United States" ;
+	owl:sameAs dbpedia:United_States .
+
+<file:///eswc.7.ttl/char=44,51> a x:Mention , x:FrameMention ;
+	nif:endIndex "51"^^xs:int ;
+	nif:anchorOf "running" ;
+	nif:beginIndex "44"^^xs:int ;
+	x:denotes <file:///eswc.7.ttl/run> ;
+	x:mentionOf <file:///eswc.7.ttl/> ;
+	x:lemma "run" ;
+	x:sst sst:verb.contact ;
+	x:synset wn30:01525666-v .
+
+<file:///eswc.7.ttl/run> a sumo:Entity , sumo:Process , sumo:Physical , sem:Event , x:Instance , x:Frame , pb:run.01 ;
+	sem:hasActor <file:///eswc.7.ttl/Bashar_al-Assad> ;
+	rdfs:label "running" ;
+	sem:hasTime <file:///eswc.7.ttl/time> ;
+	pb:run.01_1 <file:///eswc.7.ttl/Bashar_al-Assad> ;
+	pb:tmp <file:///eswc.7.ttl/time> .
+
+<file:///eswc.7.ttl/char=60,65> a x:Mention , x:InstanceMention , x:NameMention ;
+	nif:endIndex "65"^^xs:int ;
+	nif:anchorOf "Syria" ;
+	nif:beginIndex "60"^^xs:int ;
+	x:denotes <file:///eswc.7.ttl/Syria> ;
+	x:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/Syria> a x:Instance , ner:LOCATION ;
+	rdfs:label "Syria" ;
+	foaf:name "Syria" ;
+	owl:sameAs dbpedia:Syria , <file:///eswc.7.ttl/Syria_2> .
+
+<file:///eswc.7.ttl/char=66,75> a x:ParticipationMention , x:Mention , x:FrameMention , x:InstanceMention ;
+	nif:endIndex "75"^^xs:int ;
+	nif:anchorOf "president" ;
+	nif:beginIndex "66"^^xs:int ;
+	x:denotes <file:///eswc.7.ttl/president> ;
+	x:implies <file:///eswc.7.ttl/president_2> ;
+	x:mentionOf <file:///eswc.7.ttl/> ;
+	x:lemma "president" ;
+	x:sst sst:noun.person ;
+	x:synset wn30:10467395-n .
+
+<file:///eswc.7.ttl/president> a dbyago:HeadOfState110164747 , x:Instance , ner:PERSON ;
+	rdfs:label "president" ;
+	owl:sameAs <file:///eswc.7.ttl/Bashar_al-Assad> .
+
+<file:///eswc.7.ttl/president_2> a sem:Event , x:Instance , x:Frame , nb:president.01 ;
+	sem:hasActor <file:///eswc.7.ttl/Syria> , <file:///eswc.7.ttl/president> ;
+	x:mod <file:///eswc.7.ttl/Syria> ;
+	nb:president.01_0 <file:///eswc.7.ttl/president> ;
+	nb:president.01_2 <file:///eswc.7.ttl/Syria> .
+
+<file:///eswc.7.ttl/char=76,91> a x:Mention , x:InstanceMention , x:NameMention ;
+	nif:endIndex "91"^^xs:int ;
+	nif:anchorOf "Bashar al-Assad" ;
+	nif:beginIndex "76"^^xs:int ;
+	x:denotes <file:///eswc.7.ttl/Bashar_al-Assad> ;
+	x:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/Bashar_al-Assad> a x:Instance , ner:PERSON ;
+	rdfs:label "Bashar al-Assad" ;
+	foaf:name "Bashar al-Assad" ;
+	owl:sameAs dbpedia:Bashar_al-Assad .
+
+<file:///eswc.7.ttl/char=93,98> a x:Mention , x:FrameMention ;
+	nif:endIndex "98"^^xs:int ;
+	nif:anchorOf "hopes" ;
+	nif:beginIndex "93"^^xs:int ;
+	x:denotes <file:///eswc.7.ttl/hope> ;
+	x:mentionOf <file:///eswc.7.ttl/> ;
+	x:lemma "hope" ;
+	x:sst sst:verb.emotion ;
+	x:synset wn30:01811441-v .
+
+<file:///eswc.7.ttl/hope> a sem:Event , x:Instance , x:Frame , pb:hope.01 , fn:Desiring , vn:wish-62 ;
+	sem:hasActor <file:///eswc.7.ttl/isolate> , <file:///eswc.7.ttl/United_States> ;
+	rdfs:label "hopes" ;
+	vn:experiencer <file:///eswc.7.ttl/United_States> ;
+	fn:experiencer <file:///eswc.7.ttl/United_States> ;
+	vn:theme <file:///eswc.7.ttl/isolate> ;
+	fn:event <file:///eswc.7.ttl/isolate> ;
+	pb:hope.01_0 <file:///eswc.7.ttl/United_States> ;
+	pb:adv <file:///eswc.7.ttl/sense> ;
+	pb:hope.01_1 <file:///eswc.7.ttl/isolate> .
+
+<file:///eswc.7.ttl/char=19,26;44,51> a x:ParticipationMention , x:Mention , x:CompoundString ;
+	nif:endIndex "51"^^xs:int ;
+	nif:anchorOf "sensing [...] running" ;
+	nif:beginIndex "19"^^xs:int ;
+	x:componentSubString <file:///eswc.7.ttl/char=19,26> , <file:///eswc.7.ttl/char=44,51> ;
+	x:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=123,130;139,149> a x:ParticipationMention , x:Mention , x:CompoundString ;
+	nif:endIndex "149"^^xs:int ;
+	nif:anchorOf "prevent [...] inheriting" ;
+	nif:beginIndex "123"^^xs:int ;
+	x:componentSubString <file:///eswc.7.ttl/char=123,130> , <file:///eswc.7.ttl/char=139,149> ;
+	x:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=131,133;139,149> a x:ParticipationMention , x:Mention , x:CompoundString ;
+	nif:endIndex "149"^^xs:int ;
+	nif:anchorOf "it [...] inheriting" ;
+	nif:beginIndex "131"^^xs:int ;
+	x:componentSubString <file:///eswc.7.ttl/char=131,133> , <file:///eswc.7.ttl/char=139,149> ;
+	x:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=93,98;102,109> a x:ParticipationMention , x:Mention , x:CompoundString ;
+	nif:endIndex "109"^^xs:int ;
+	nif:anchorOf "hopes [...] isolate" ;
+	nif:beginIndex "93"^^xs:int ;
+	x:componentSubString <file:///eswc.7.ttl/char=102,109> , <file:///eswc.7.ttl/char=93,98> ;
+	x:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=19,26;93,98> a x:ParticipationMention , x:Mention , x:CompoundString ;
+	nif:endIndex "98"^^xs:int ;
+	nif:anchorOf "sensing [...] hopes" ;
+	nif:beginIndex "19"^^xs:int ;
+	x:componentSubString <file:///eswc.7.ttl/char=19,26> , <file:///eswc.7.ttl/char=93,98> ;
+	x:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=32,36;44,51> a x:ParticipationMention , x:Mention , x:CompoundString ;
+	nif:endIndex "51"^^xs:int ;
+	nif:anchorOf "time [...] running" ;
+	nif:beginIndex "32"^^xs:int ;
+	x:componentSubString <file:///eswc.7.ttl/char=32,36> , <file:///eswc.7.ttl/char=44,51> ;
+	x:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=4,17;123,130> a x:ParticipationMention , x:Mention , x:CompoundString ;
+	nif:endIndex "130"^^xs:int ;
+	nif:anchorOf "United States [...] prevent" ;
+	nif:beginIndex "4"^^xs:int ;
+	x:componentSubString <file:///eswc.7.ttl/char=123,130> , <file:///eswc.7.ttl/char=4,17> ;
+	x:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=4,17;131,133> a x:Mention , x:CompoundString ;
+	nif:endIndex "133"^^xs:int ;
+	nif:anchorOf "United States [...] it" ;
+	nif:beginIndex "4"^^xs:int ;
+	x:componentSubString <file:///eswc.7.ttl/char=131,133> , <file:///eswc.7.ttl/char=4,17> ;
+	x:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=102,109;114,119> a x:ParticipationMention , x:Mention , x:CompoundString ;
+	nif:endIndex "119"^^xs:int ;
+	nif:anchorOf "isolate [...] group" ;
+	nif:beginIndex "102"^^xs:int ;
+	x:componentSubString <file:///eswc.7.ttl/char=102,109> , <file:///eswc.7.ttl/char=114,119> ;
+	x:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=60,65;150,155> a x:Mention , x:CompoundString ;
+	nif:endIndex "155"^^xs:int ;
+	nif:anchorOf "Syria [...] Syria" ;
+	nif:beginIndex "60"^^xs:int ;
+	x:componentSubString <file:///eswc.7.ttl/char=150,155> , <file:///eswc.7.ttl/char=60,65> ;
+	x:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=44,51;76,91> a x:ParticipationMention , x:Mention , x:CompoundString ;
+	nif:endIndex "91"^^xs:int ;
+	nif:anchorOf "running [...] Bashar al-Assad" ;
+	nif:beginIndex "44"^^xs:int ;
+	x:componentSubString <file:///eswc.7.ttl/char=44,51> , <file:///eswc.7.ttl/char=76,91> ;
+	x:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=4,17;19,26> a x:ParticipationMention , x:Mention , x:CompoundString ;
+	nif:endIndex "26"^^xs:int ;
+	nif:anchorOf "United States [...] sensing" ;
+	nif:beginIndex "4"^^xs:int ;
+	x:componentSubString <file:///eswc.7.ttl/char=19,26> , <file:///eswc.7.ttl/char=4,17> ;
+	x:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=4,17;93,98> a x:ParticipationMention , x:Mention , x:CompoundString ;
+	nif:endIndex "98"^^xs:int ;
+	nif:anchorOf "United States [...] hopes" ;
+	nif:beginIndex "4"^^xs:int ;
+	x:componentSubString <file:///eswc.7.ttl/char=4,17> , <file:///eswc.7.ttl/char=93,98> ;
+	x:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=66,91> a x:Mention ;
+	nif:endIndex "91"^^xs:int ;
+	nif:anchorOf "president Bashar al-Assad" ;
+	nif:beginIndex "66"^^xs:int ;
+	x:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=139,155> a x:ParticipationMention , x:Mention ;
+	nif:endIndex "155"^^xs:int ;
+	nif:anchorOf "inheriting Syria" ;
+	nif:beginIndex "139"^^xs:int ;
+	x:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=123,133> a x:ParticipationMention , x:Mention ;
+	nif:endIndex "133"^^xs:int ;
+	nif:anchorOf "prevent it" ;
+	nif:beginIndex "123"^^xs:int ;
+	x:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/char=60,75> a x:ParticipationMention , x:Mention ;
+	nif:endIndex "75"^^xs:int ;
+	nif:anchorOf "Syria president" ;
+	nif:beginIndex "60"^^xs:int ;
+	x:mentionOf <file:///eswc.7.ttl/> .
+
+<file:///eswc.7.ttl/.naf> a x:Resource , x:NAF ;
+	dct:creator x:NAF%20filter.null , x:Stanford%20CoreNLP.null , x:Anna%203.61.null , x:Mate%20Tools.be.null , x:Mate%20Tools.null , x:DBpedia%20Spotlight.null ;
+	dct:created "2015-09-17T08:10:13.074+0200" ;
+	dct:identifier "" ;
+	x:layer x:layer_deps , x:layer_linked-entities , x:layer_text , x:layer_naf-filter , x:layer_srl ;
+	x:version "v3" ;
+	x:annotationOf <file:///eswc.7.ttl/> .
+
+x:NAF%20filter.null dct:title "NAF filter" .
+
+x:Stanford%20CoreNLP.null dct:title "Stanford CoreNLP" .
+
+x:Anna%203.61.null dct:title "Anna 3.61" .
+
+x:Mate%20Tools.be.null dct:title "Mate Tools (be.xx model)" .
+
+x:Mate%20Tools.null dct:title "Mate Tools" .
+
+x:DBpedia%20Spotlight.null dct:title "DBpedia Spotlight" .

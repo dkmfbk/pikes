@@ -1,0 +1,654 @@
+@prefix ks: <http://dkm.fbk.eu/ontologies/knowledgestore#> .
+@prefix nif: <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
+@prefix xs: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix sumo: <http://www.ontologyportal.org/SUMO.owl#> .
+@prefix sem: <http://semanticweb.cs.vu.nl/2009/11/sem/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dbyago: <http://dbpedia.org/class/yago/> .
+
+<file:///eswc.8.ttl/> a ks:Text , ks:Resource ;
+	dct:creator "" ;
+	ks:hasMention <file:///eswc.8.ttl/char=83,93> , <file:///eswc.8.ttl/char=258,267;273,279> , <file:///eswc.8.ttl/char=273,279> , <file:///eswc.8.ttl/char=121,132> , <file:///eswc.8.ttl/char=95,97> , <file:///eswc.8.ttl/char=184,193;197,201> , <file:///eswc.8.ttl/char=197,201> , <file:///eswc.8.ttl/char=258,267> , <file:///eswc.8.ttl/char=230,235> , <file:///eswc.8.ttl/char=172,179> , <file:///eswc.8.ttl/char=212,220> , <file:///eswc.8.ttl/char=71,93> , <file:///eswc.8.ttl/char=107,116;240,249> , <file:///eswc.8.ttl/char=240,249> , <file:///eswc.8.ttl/char=138,147> , <file:///eswc.8.ttl/char=184,193> , <file:///eswc.8.ttl/char=39,49;53,61> , <file:///eswc.8.ttl/char=64,70;83,93> , <file:///eswc.8.ttl/char=212,220;230,235> , <file:///eswc.8.ttl/char=148,160> , <file:///eswc.8.ttl/char=32,49> , <file:///eswc.8.ttl/char=184,193;212,220> , <file:///eswc.8.ttl/char=21,27;98,103> , <file:///eswc.8.ttl/char=162,168;172,179> , <file:///eswc.8.ttl/char=7,20> , <file:///eswc.8.ttl/char=3,20;95,97> , <file:///eswc.8.ttl/char=197,201;212,220> , <file:///eswc.8.ttl/char=240,249;258,267> , <file:///eswc.8.ttl/char=32,38> , <file:///eswc.8.ttl/char=95,97;162,168> , <file:///eswc.8.ttl/char=21,27;39,49> , <file:///eswc.8.ttl/char=39,49> , <file:///eswc.8.ttl/char=98,103> , <file:///eswc.8.ttl/char=162,168;197,201> , <file:///eswc.8.ttl/char=71,82> , <file:///eswc.8.ttl/char=7,27> , <file:///eswc.8.ttl/char=95,97;107,116> , <file:///eswc.8.ttl/char=98,103;107,116> , <file:///eswc.8.ttl/char=64,70> , <file:///eswc.8.ttl/char=53,61> , <file:///eswc.8.ttl/char=169,171> , <file:///eswc.8.ttl/char=138,160> , <file:///eswc.8.ttl/char=53,61;83,93> , <file:///eswc.8.ttl/char=202,220> , <file:///eswc.8.ttl/char=107,116> , <file:///eswc.8.ttl/char=107,116;148,160> , <file:///eswc.8.ttl/char=202,211> , <file:///eswc.8.ttl/char=250,257> , <file:///eswc.8.ttl/char=95,103> , <file:///eswc.8.ttl/char=107,116;121,132> , <file:///eswc.8.ttl/char=7,20;39,49> , <file:///eswc.8.ttl/char=21,27> , <file:///eswc.8.ttl/char=3,20;169,171> , <file:///eswc.8.ttl/char=162,168> , <file:///eswc.8.ttl/char=95,97;169,171> , <file:///eswc.8.ttl/char=3,20> , <file:///eswc.8.ttl/char=107,116;162,168> , <file:///eswc.8.ttl/char=162,171> ;
+	dct:title "" ;
+	dct:created "2015-11-06T09:44:01+01:00" ;
+	dct:language <http://lexvo.org/id/iso639-3/eng> ;
+	ks:annotatedWith <file:///eswc.8.ttl/.naf> ;
+	ks:textHash "BHQFlMgSKlRLVMpC9ADbvu" .
+
+ks:Mate%20Tools.null dct:title "Mate Tools" .
+
+<http://dkm.fbk.eu/ontologies/knowledgestore#Mate%20Tools%20(be.xx%20model).null> dct:title "Mate Tools (be.xx model)" .
+
+ks:Stanford%20CoreNLP.null dct:title "Stanford CoreNLP" .
+
+ks:Anna%203.61.null dct:title "Anna 3.61" .
+
+ks:DBpedia%20Spotlight.null dct:title "DBpedia Spotlight" .
+
+ks:NAF%20filter.null dct:title "NAF filter" .
+
+<file:///eswc.8.ttl/government> a ks:Entity , dbyago:Government105663671 ;
+	rdfs:label "government" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=83,93> .
+
+<file:///eswc.8.ttl/char=83,93> nif:endIndex "93"^^xs:int ;
+	nif:beginIndex "83"^^xs:int ;
+	a ks:Mention , ks:PredicateMention , ks:ParticipationMention , ks:EntityMention ;
+	nif:anchorOf "government" ;
+	ks:mentionOf <file:///eswc.8.ttl/> ;
+	ks:lemma "government" ;
+	ks:synset <http://www.newsreader-project.eu/syn/05663671-n> ;
+	ks:sst <http://www.newsreader-project.eu/sst/noun.cognition> .
+
+<file:///eswc.8.ttl/char=258,267;273,279> ks:componentSubString <file:///eswc.8.ttl/char=273,279> , <file:///eswc.8.ttl/char=258,267> ;
+	nif:endIndex "279"^^xs:int ;
+	nif:beginIndex "258"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention , ks:CompoundString ;
+	nif:anchorOf "sanctions [...] Europe" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=273,279> nif:endIndex "279"^^xs:int ;
+	nif:beginIndex "273"^^xs:int ;
+	a ks:Mention , ks:EntityMention , ks:NameMention ;
+	nif:anchorOf "Europe" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=121,132> nif:endIndex "132"^^xs:int ;
+	nif:beginIndex "121"^^xs:int ;
+	a ks:Mention , ks:EntityMention , ks:NameMention ;
+	nif:anchorOf "Nusra Front" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=95,97> nif:endIndex "97"^^xs:int ;
+	nif:beginIndex "95"^^xs:int ;
+	a ks:Mention , ks:EntityMention ;
+	nif:anchorOf "it" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=184,193;197,201> ks:componentSubString <file:///eswc.8.ttl/char=197,201> , <file:///eswc.8.ttl/char=184,193> ;
+	nif:endIndex "201"^^xs:int ;
+	nif:beginIndex "184"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention , ks:CompoundString ;
+	nif:anchorOf "Americans [...] have" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=197,201> nif:endIndex "201"^^xs:int ;
+	nif:beginIndex "197"^^xs:int ;
+	a ks:Mention , ks:PredicateMention ;
+	nif:anchorOf "have" ;
+	ks:mentionOf <file:///eswc.8.ttl/> ;
+	ks:lemma "have" ;
+	ks:synset <http://www.newsreader-project.eu/syn/00770437-v> ;
+	ks:sst <http://www.newsreader-project.eu/sst/verb.communication> .
+
+<file:///eswc.8.ttl/char=258,267> nif:endIndex "267"^^xs:int ;
+	nif:beginIndex "258"^^xs:int ;
+	a ks:Mention , ks:PredicateMention , ks:ParticipationMention , ks:EntityMention ;
+	nif:anchorOf "sanctions" ;
+	ks:mentionOf <file:///eswc.8.ttl/> ;
+	ks:lemma "sanction" ;
+	ks:synset <http://www.newsreader-project.eu/syn/01139000-n> ;
+	ks:sst <http://www.newsreader-project.eu/sst/noun.act> ;
+	ks:plural true .
+
+<file:///eswc.8.ttl/char=230,235> nif:endIndex "235"^^xs:int ;
+	nif:beginIndex "230"^^xs:int ;
+	a ks:Mention , ks:PredicateMention , ks:EntityMention ;
+	nif:anchorOf "group" ;
+	ks:mentionOf <file:///eswc.8.ttl/> ;
+	ks:lemma "group" ;
+	ks:synset <http://www.newsreader-project.eu/syn/00031264-n> ;
+	ks:sst <http://www.newsreader-project.eu/sst/noun.Tops> .
+
+<file:///eswc.8.ttl/char=172,179> nif:endIndex "179"^^xs:int ;
+	nif:beginIndex "172"^^xs:int ;
+	a ks:Mention , ks:AttributeMention ;
+	nif:anchorOf "illegal" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=212,220> nif:endIndex "220"^^xs:int ;
+	nif:beginIndex "212"^^xs:int ;
+	a ks:Mention , ks:PredicateMention , ks:EntityMention ;
+	nif:anchorOf "dealings" ;
+	ks:mentionOf <file:///eswc.8.ttl/> ;
+	ks:lemma "dealings" ;
+	ks:synset <http://www.newsreader-project.eu/syn/01106808-n> ;
+	ks:sst <http://www.newsreader-project.eu/sst/noun.act> ;
+	ks:plural true .
+
+<file:///eswc.8.ttl/char=71,93> nif:endIndex "93"^^xs:int ;
+	nif:beginIndex "71"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention ;
+	nif:anchorOf "alternative government" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=107,116;240,249> ks:componentSubString <file:///eswc.8.ttl/char=240,249> , <file:///eswc.8.ttl/char=107,116> ;
+	nif:endIndex "249"^^xs:int ;
+	nif:beginIndex "107"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention , ks:CompoundString ;
+	nif:anchorOf "blacklist [...] prompting" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=240,249> nif:endIndex "249"^^xs:int ;
+	nif:beginIndex "240"^^xs:int ;
+	a ks:Mention , ks:PredicateMention ;
+	nif:anchorOf "prompting" ;
+	ks:mentionOf <file:///eswc.8.ttl/> ;
+	ks:lemma "prompt" ;
+	ks:synset <http://www.newsreader-project.eu/syn/00771961-v> ;
+	ks:sst <http://www.newsreader-project.eu/sst/verb.communication> .
+
+<file:///eswc.8.ttl/.naf> a ks:Resource , ks:NAF ;
+	dct:creator ks:Mate%20Tools.null , <http://dkm.fbk.eu/ontologies/knowledgestore#Mate%20Tools%20(be.xx%20model).null> , ks:Stanford%20CoreNLP.null , ks:Anna%203.61.null , ks:DBpedia%20Spotlight.null , ks:NAF%20filter.null ;
+	dct:identifier "" ;
+	ks:layer ks:layer_text , ks:layer_linked-entities , ks:layer_naf-filter , ks:layer_srl , ks:layer_deps ;
+	dct:created "2015-11-06T09:44:22.220+0100" ;
+	ks:version "v3" ;
+	ks:annotationOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=138,147> nif:endIndex "147"^^xs:int ;
+	nif:beginIndex "138"^^xs:int ;
+	a ks:Mention , ks:EntityMention ;
+	nif:anchorOf "terrorist" ;
+	ks:mentionOf <file:///eswc.8.ttl/> ;
+	ks:lemma "terrorist" ;
+	ks:synset <http://www.newsreader-project.eu/syn/10702781-n> ;
+	ks:sst <http://www.newsreader-project.eu/sst/noun.person> .
+
+<file:///eswc.8.ttl/char=184,193> nif:endIndex "193"^^xs:int ;
+	nif:beginIndex "184"^^xs:int ;
+	a ks:Mention , ks:EntityMention , ks:NameMention ;
+	nif:anchorOf "Americans" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=39,49;53,61> ks:componentSubString <file:///eswc.8.ttl/char=39,49> , <file:///eswc.8.ttl/char=53,61> ;
+	nif:endIndex "61"^^xs:int ;
+	nif:beginIndex "39"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention , ks:CompoundString ;
+	nif:anchorOf "opposition [...] organize" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=64,70;83,93> ks:componentSubString <file:///eswc.8.ttl/char=83,93> , <file:///eswc.8.ttl/char=64,70> ;
+	nif:endIndex "93"^^xs:int ;
+	nif:beginIndex "64"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention , ks:CompoundString ;
+	nif:anchorOf "viable [...] government" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=212,220;230,235> ks:componentSubString <file:///eswc.8.ttl/char=230,235> , <file:///eswc.8.ttl/char=212,220> ;
+	nif:endIndex "235"^^xs:int ;
+	nif:beginIndex "212"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention , ks:CompoundString ;
+	nif:anchorOf "dealings [...] group" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=148,160> nif:endIndex "160"^^xs:int ;
+	nif:beginIndex "148"^^xs:int ;
+	a ks:Mention , ks:PredicateMention , ks:EntityMention ;
+	nif:anchorOf "organization" ;
+	ks:mentionOf <file:///eswc.8.ttl/> ;
+	ks:lemma "organization" ;
+	ks:synset <http://www.newsreader-project.eu/syn/00237078-n> ;
+	ks:sst <http://www.newsreader-project.eu/sst/noun.act> .
+
+<file:///eswc.8.ttl/char=32,49> nif:endIndex "49"^^xs:int ;
+	nif:beginIndex "32"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention ;
+	nif:anchorOf "Syrian opposition" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=184,193;212,220> ks:componentSubString <file:///eswc.8.ttl/char=212,220> , <file:///eswc.8.ttl/char=184,193> ;
+	nif:endIndex "220"^^xs:int ;
+	nif:beginIndex "184"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention , ks:CompoundString ;
+	nif:anchorOf "Americans [...] dealings" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=21,27;98,103> ks:componentSubString <file:///eswc.8.ttl/char=98,103> , <file:///eswc.8.ttl/char=21,27> ;
+	nif:endIndex "103"^^xs:int ;
+	nif:beginIndex "21"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention , ks:CompoundString ;
+	nif:anchorOf "pushes [...] plans" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=162,168;172,179> ks:componentSubString <file:///eswc.8.ttl/char=172,179> , <file:///eswc.8.ttl/char=162,168> ;
+	nif:endIndex "179"^^xs:int ;
+	nif:beginIndex "162"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention , ks:CompoundString ;
+	nif:anchorOf "making [...] illegal" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=7,20> nif:endIndex "20"^^xs:int ;
+	nif:beginIndex "7"^^xs:int ;
+	a ks:Mention , ks:EntityMention , ks:NameMention ;
+	nif:anchorOf "United States" ;
+	ks:mentionOf <file:///eswc.8.ttl/> ;
+	ks:plural true .
+
+<file:///eswc.8.ttl/char=3,20;95,97> ks:componentSubString <file:///eswc.8.ttl/char=95,97> , <file:///eswc.8.ttl/char=3,20> ;
+	nif:endIndex "97"^^xs:int ;
+	nif:beginIndex "3"^^xs:int ;
+	a ks:Mention , ks:CompoundString ;
+	nif:anchorOf "the United States [...] it" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=197,201;212,220> ks:componentSubString <file:///eswc.8.ttl/char=197,201> , <file:///eswc.8.ttl/char=212,220> ;
+	nif:endIndex "220"^^xs:int ;
+	nif:beginIndex "197"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention , ks:CompoundString ;
+	nif:anchorOf "have [...] dealings" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=240,249;258,267> ks:componentSubString <file:///eswc.8.ttl/char=258,267> , <file:///eswc.8.ttl/char=240,249> ;
+	nif:endIndex "267"^^xs:int ;
+	nif:beginIndex "240"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention , ks:CompoundString ;
+	nif:anchorOf "prompting [...] sanctions" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=32,38> nif:endIndex "38"^^xs:int ;
+	nif:beginIndex "32"^^xs:int ;
+	a ks:Mention , ks:EntityMention , ks:NameMention ;
+	nif:anchorOf "Syrian" ;
+	ks:mentionOf <file:///eswc.8.ttl/> ;
+	ks:synset <http://www.newsreader-project.eu/syn/03016519-a> ;
+	ks:sst <http://www.newsreader-project.eu/sst/adj.pert> .
+
+<file:///eswc.8.ttl/char=95,97;162,168> ks:componentSubString <file:///eswc.8.ttl/char=95,97> , <file:///eswc.8.ttl/char=162,168> ;
+	nif:endIndex "168"^^xs:int ;
+	nif:beginIndex "95"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention , ks:CompoundString ;
+	nif:anchorOf "it [...] making" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=21,27;39,49> ks:componentSubString <file:///eswc.8.ttl/char=39,49> , <file:///eswc.8.ttl/char=21,27> ;
+	nif:endIndex "49"^^xs:int ;
+	nif:beginIndex "21"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention , ks:CompoundString ;
+	nif:anchorOf "pushes [...] opposition" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=39,49> nif:endIndex "49"^^xs:int ;
+	nif:beginIndex "39"^^xs:int ;
+	a ks:Mention , ks:PredicateMention , ks:EntityMention ;
+	nif:anchorOf "opposition" ;
+	ks:mentionOf <file:///eswc.8.ttl/> ;
+	ks:lemma "opposition" ;
+	ks:synset <http://www.newsreader-project.eu/syn/13854649-n> ;
+	ks:sst <http://www.newsreader-project.eu/sst/noun.relation> .
+
+<file:///eswc.8.ttl/char=98,103> nif:endIndex "103"^^xs:int ;
+	nif:beginIndex "98"^^xs:int ;
+	a ks:Mention , ks:PredicateMention ;
+	nif:anchorOf "plans" ;
+	ks:mentionOf <file:///eswc.8.ttl/> ;
+	ks:lemma "plan" ;
+	ks:synset <http://www.newsreader-project.eu/syn/00704690-v> ;
+	ks:sst <http://www.newsreader-project.eu/sst/verb.cognition> .
+
+<file:///eswc.8.ttl/char=162,168;197,201> ks:componentSubString <file:///eswc.8.ttl/char=197,201> , <file:///eswc.8.ttl/char=162,168> ;
+	nif:endIndex "201"^^xs:int ;
+	nif:beginIndex "162"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention , ks:CompoundString ;
+	nif:anchorOf "making [...] have" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=71,82> nif:endIndex "82"^^xs:int ;
+	nif:beginIndex "71"^^xs:int ;
+	a ks:Mention , ks:PredicateMention ;
+	nif:anchorOf "alternative" ;
+	ks:mentionOf <file:///eswc.8.ttl/> ;
+	ks:synset <http://www.newsreader-project.eu/syn/00564667-a> ;
+	ks:sst <http://www.newsreader-project.eu/sst/adj.all> .
+
+<file:///eswc.8.ttl/char=7,27> nif:endIndex "27"^^xs:int ;
+	nif:beginIndex "7"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention ;
+	nif:anchorOf "United States pushes" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=95,97;107,116> ks:componentSubString <file:///eswc.8.ttl/char=95,97> , <file:///eswc.8.ttl/char=107,116> ;
+	nif:endIndex "116"^^xs:int ;
+	nif:beginIndex "95"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention , ks:CompoundString ;
+	nif:anchorOf "it [...] blacklist" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=98,103;107,116> ks:componentSubString <file:///eswc.8.ttl/char=98,103> , <file:///eswc.8.ttl/char=107,116> ;
+	nif:endIndex "116"^^xs:int ;
+	nif:beginIndex "98"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention , ks:CompoundString ;
+	nif:anchorOf "plans [...] blacklist" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=64,70> nif:endIndex "70"^^xs:int ;
+	nif:beginIndex "64"^^xs:int ;
+	a ks:Mention , ks:AttributeMention ;
+	nif:anchorOf "viable" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=53,61> nif:endIndex "61"^^xs:int ;
+	nif:beginIndex "53"^^xs:int ;
+	a ks:Mention , ks:PredicateMention ;
+	nif:anchorOf "organize" ;
+	ks:mentionOf <file:///eswc.8.ttl/> ;
+	ks:lemma "organize" ;
+	ks:synset <http://www.newsreader-project.eu/syn/02448185-v> ;
+	ks:sst <http://www.newsreader-project.eu/sst/verb.social> .
+
+<file:///eswc.8.ttl/it_2> a ks:Entity ;
+	owl:sameAs <file:///eswc.8.ttl/United_States> ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=169,171> .
+
+<file:///eswc.8.ttl/char=169,171> nif:endIndex "171"^^xs:int ;
+	nif:beginIndex "169"^^xs:int ;
+	a ks:Mention , ks:EntityMention ;
+	nif:anchorOf "it" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/sanction> a ks:Entity , dbyago:Sanction101139000 ;
+	rdfs:label "sanctions" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=258,267> .
+
+<file:///eswc.8.ttl/opposition> a ks:Predicate , ks:Entity , sumo:Entity , sem:Event , sumo:Abstract , dbyago:Opposition113854649 , sumo:Relation , <http://www.newsreader-project.eu/ontologies/nombank/opposition.01> ;
+	sem:hasActor <file:///eswc.8.ttl/United_States> , <file:///eswc.8.ttl/organize> ;
+	rdfs:label "opposition" ;
+	ks:mod <entity:syrian> ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=39,49> ;
+	<http://www.newsreader-project.eu/ontologies/nombank/opposition.01_1> <file:///eswc.8.ttl/organize> ;
+	<http://www.newsreader-project.eu/ontologies/nombank/opposition.01_0> <file:///eswc.8.ttl/United_States> ;
+	<http://www.newsreader-project.eu/ontologies/nombank/mnr> <entity:syrian> .
+
+<file:///eswc.8.ttl/char=138,160> nif:endIndex "160"^^xs:int ;
+	nif:beginIndex "138"^^xs:int ;
+	a ks:Mention ;
+	nif:anchorOf "terrorist organization" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=53,61;83,93> ks:componentSubString <file:///eswc.8.ttl/char=83,93> , <file:///eswc.8.ttl/char=53,61> ;
+	nif:endIndex "93"^^xs:int ;
+	nif:beginIndex "53"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention , ks:CompoundString ;
+	nif:anchorOf "organize [...] government" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=202,220> nif:endIndex "220"^^xs:int ;
+	nif:beginIndex "202"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention ;
+	nif:anchorOf "financial dealings" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/plan> a ks:Predicate , sumo:Physical , ks:Entity , sumo:Entity , sumo:IntentionalProcess , sumo:Process , sumo:Planning , sem:Event , sumo:InternalChange , sumo:PsychologicalProcess , sumo:IntentionalPsychologicalProcess , sumo:BiologicalProcess , <http://www.newsreader-project.eu/ontologies/framenet/Purpose> , <http://www.newsreader-project.eu/ontologies/propbank/plan.01> , <http://framebase.org/ns/frame-Purpose-plan.v> , <http://www.newsreader-project.eu/ontologies/verbnet/wish-62> ;
+	sem:hasActor <file:///eswc.8.ttl/blacklist> , <file:///eswc.8.ttl/it> ;
+	rdfs:label "plans" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=98,103> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/adv> <file:///eswc.8.ttl/push> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/plan.01_0> <file:///eswc.8.ttl/it> ;
+	<http://www.newsreader-project.eu/ontologies/verbnet/theme> <file:///eswc.8.ttl/blacklist> ;
+	<http://www.newsreader-project.eu/ontologies/verbnet/experiencer> <file:///eswc.8.ttl/it> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/plan.01_1> <file:///eswc.8.ttl/blacklist> .
+
+<file:///eswc.8.ttl/char=107,116> nif:endIndex "116"^^xs:int ;
+	nif:beginIndex "107"^^xs:int ;
+	a ks:Mention , ks:PredicateMention ;
+	nif:anchorOf "blacklist" ;
+	ks:mentionOf <file:///eswc.8.ttl/> ;
+	ks:lemma "blacklist" ;
+	ks:synset <http://www.newsreader-project.eu/syn/02473143-v> ;
+	ks:sst <http://www.newsreader-project.eu/sst/verb.social> .
+
+<file:///eswc.8.ttl/char=107,116;148,160> ks:componentSubString <file:///eswc.8.ttl/char=148,160> , <file:///eswc.8.ttl/char=107,116> ;
+	nif:endIndex "160"^^xs:int ;
+	nif:beginIndex "107"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention , ks:CompoundString ;
+	nif:anchorOf "blacklist [...] organization" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=202,211> nif:endIndex "211"^^xs:int ;
+	nif:beginIndex "202"^^xs:int ;
+	a ks:Mention , ks:AttributeMention ;
+	nif:anchorOf "financial" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=250,257> nif:endIndex "257"^^xs:int ;
+	nif:beginIndex "250"^^xs:int ;
+	a ks:Mention , ks:AttributeMention ;
+	nif:anchorOf "similar" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=95,103> nif:endIndex "103"^^xs:int ;
+	nif:beginIndex "95"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention ;
+	nif:anchorOf "it plans" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=107,116;121,132> ks:componentSubString <file:///eswc.8.ttl/char=121,132> , <file:///eswc.8.ttl/char=107,116> ;
+	nif:endIndex "132"^^xs:int ;
+	nif:beginIndex "107"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention , ks:CompoundString ;
+	nif:anchorOf "blacklist [...] Nusra Front" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=7,20;39,49> ks:componentSubString <file:///eswc.8.ttl/char=7,20> , <file:///eswc.8.ttl/char=39,49> ;
+	nif:endIndex "49"^^xs:int ;
+	nif:beginIndex "7"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention , ks:CompoundString ;
+	nif:anchorOf "United States [...] opposition" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/Europe> a ks:Entity , <http://www.newsreader-project.eu/ontologies/LOCATION> ;
+	rdfs:label "Europe" ;
+	owl:sameAs dbpedia:Europe ;
+	foaf:name "Europe" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=273,279> .
+
+<file:///eswc.8.ttl/char=21,27> nif:endIndex "27"^^xs:int ;
+	nif:beginIndex "21"^^xs:int ;
+	a ks:Mention , ks:PredicateMention ;
+	nif:anchorOf "pushes" ;
+	ks:mentionOf <file:///eswc.8.ttl/> ;
+	ks:lemma "push" ;
+	ks:synset <http://www.newsreader-project.eu/syn/01871979-v> ;
+	ks:sst <http://www.newsreader-project.eu/sst/verb.motion> .
+
+<file:///eswc.8.ttl/char=3,20;169,171> ks:componentSubString <file:///eswc.8.ttl/char=169,171> , <file:///eswc.8.ttl/char=3,20> ;
+	nif:endIndex "171"^^xs:int ;
+	nif:beginIndex "3"^^xs:int ;
+	a ks:Mention , ks:CompoundString ;
+	nif:anchorOf "the United States [...] it" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/char=162,168> nif:endIndex "168"^^xs:int ;
+	nif:beginIndex "162"^^xs:int ;
+	a ks:Mention , ks:PredicateMention ;
+	nif:anchorOf "making" ;
+	ks:mentionOf <file:///eswc.8.ttl/> ;
+	ks:lemma "make" ;
+	ks:synset <http://www.newsreader-project.eu/syn/00120316-v> ;
+	ks:sst <http://www.newsreader-project.eu/sst/verb.change> .
+
+<file:///eswc.8.ttl/char=95,97;169,171> ks:componentSubString <file:///eswc.8.ttl/char=95,97> , <file:///eswc.8.ttl/char=169,171> ;
+	nif:endIndex "171"^^xs:int ;
+	nif:beginIndex "95"^^xs:int ;
+	a ks:Mention , ks:CompoundString ;
+	nif:anchorOf "it [...] it" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<attr:fiscal-1a> a ks:Attribute ;
+	rdfs:label "financial" ;
+	ks:headSynset <http://wordnet-rdf.princeton.edu/wn30/02847894-a> ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=202,211> .
+
+<file:///eswc.8.ttl/Americans> a ks:Entity , <http://www.newsreader-project.eu/ontologies/MISC> ;
+	rdfs:label "americans" ;
+	owl:sameAs dbpedia:United_States ;
+	foaf:name "americans" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=184,193> .
+
+<file:///eswc.8.ttl/make> a ks:Predicate , sumo:Physical , ks:Entity , sumo:Entity , sumo:Process , sem:Event , <http://www.newsreader-project.eu/ontologies/propbank/make.02> , <http://framebase.org/ns/frame-Causation-make.v> , <http://www.newsreader-project.eu/ontologies/framenet/Causation> , <http://www.newsreader-project.eu/ontologies/verbnet/dub-29.3> ;
+	sem:hasActor <file:///eswc.8.ttl/it_2> , <attr:illegal-1a> , <file:///eswc.8.ttl/it> , <file:///eswc.8.ttl/have> ;
+	rdfs:label "making" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=162,168> ;
+	<http://www.newsreader-project.eu/ontologies/verbnet/agent> <file:///eswc.8.ttl/it> ;
+	<http://framebase.org/ns/fe-causation-affected> <file:///eswc.8.ttl/it_2> , <file:///eswc.8.ttl/have> ;
+	<http://www.newsreader-project.eu/ontologies/framenet/affected> <file:///eswc.8.ttl/it_2> , <file:///eswc.8.ttl/have> ;
+	<http://www.newsreader-project.eu/ontologies/verbnet/result> <file:///eswc.8.ttl/it_2> , <file:///eswc.8.ttl/have> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/make.02_0> <file:///eswc.8.ttl/it> ;
+	<http://www.newsreader-project.eu/ontologies/framenet/cause> <file:///eswc.8.ttl/it> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/make.02_1> <file:///eswc.8.ttl/it_2> , <file:///eswc.8.ttl/have> ;
+	<http://www.newsreader-project.eu/ontologies/framenet/effect> <attr:illegal-1a> ;
+	<http://framebase.org/ns/fe-causation-cause> <file:///eswc.8.ttl/it> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/make.02_2> <attr:illegal-1a> ;
+	<http://framebase.org/ns/fe-causation-effect> <attr:illegal-1a> .
+
+<file:///eswc.8.ttl/char=3,20> nif:endIndex "20"^^xs:int ;
+	nif:beginIndex "3"^^xs:int ;
+	a ks:Mention ;
+	nif:anchorOf "the United States" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<entity:syrian> a ks:Entity , <http://www.newsreader-project.eu/ontologies/MISC> ;
+	rdfs:label "syrian" ;
+	foaf:name "syrian" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=32,38> .
+
+<file:///eswc.8.ttl/United_States> a ks:Entity , <http://www.newsreader-project.eu/ontologies/LOCATION> ;
+	rdfs:label "United States" ;
+	owl:sameAs dbpedia:United_States ;
+	foaf:name "United States" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=7,20> .
+
+<file:///eswc.8.ttl/char=107,116;162,168> ks:componentSubString <file:///eswc.8.ttl/char=107,116> , <file:///eswc.8.ttl/char=162,168> ;
+	nif:endIndex "168"^^xs:int ;
+	nif:beginIndex "107"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention , ks:CompoundString ;
+	nif:anchorOf "blacklist [...] making" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/government_2> a ks:Predicate , ks:Entity , sem:Event , <http://www.newsreader-project.eu/ontologies/nombank/government.01> , <http://www.newsreader-project.eu/ontologies/framenet/Leadership> , <http://framebase.org/ns/frame-Leadership-rule.v> ;
+	sem:hasActor <file:///eswc.8.ttl/government> , <attr:feasible-1a> , <file:///eswc.8.ttl/alternative> ;
+	ks:mod <attr:feasible-1a> , <file:///eswc.8.ttl/alternative> ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=83,93> ;
+	<http://www.newsreader-project.eu/ontologies/nombank/government.01_2> <attr:feasible-1a> , <file:///eswc.8.ttl/alternative> ;
+	<http://www.newsreader-project.eu/ontologies/nombank/government.01_0> <file:///eswc.8.ttl/government> .
+
+<file:///eswc.8.ttl/char=162,171> nif:endIndex "171"^^xs:int ;
+	nif:beginIndex "162"^^xs:int ;
+	a ks:Mention , ks:ParticipationMention ;
+	nif:anchorOf "making it" ;
+	ks:mentionOf <file:///eswc.8.ttl/> .
+
+<file:///eswc.8.ttl/blacklist> a ks:Predicate , sumo:Physical , ks:Entity , sumo:Entity , sumo:IntentionalProcess , sumo:Process , sem:Event , sumo:RegulatoryProcess , sumo:Guiding , <http://www.newsreader-project.eu/ontologies/propbank/blacklist.01> ;
+	sem:hasActor <file:///eswc.8.ttl/it> , <file:///eswc.8.ttl/organization> , <file:///eswc.8.ttl/Nusra_Front> ;
+	rdfs:label "blacklist" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=107,116> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/adv> <file:///eswc.8.ttl/make> , <file:///eswc.8.ttl/prompt> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/blacklist.01_1> <file:///eswc.8.ttl/Nusra_Front> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/blacklist.01_0> <file:///eswc.8.ttl/it> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/blacklist.01_2> <file:///eswc.8.ttl/organization> .
+
+<file:///eswc.8.ttl/terrorist> a sumo:Agent , sumo:Physical , sumo:SentientAgent , sumo:Object , ks:Entity , sumo:Entity , sumo:Primate , sumo:Vertebrate , sumo:WarmBloodedVertebrate , sumo:CognitiveAgent , sumo:OrganicObject , sumo:Organism , sumo:CorpuscularObject , sumo:Animal , sumo:Human , dbyago:Terrorist110702781 , sumo:ITAgent , sumo:OrganicThing , sumo:Mammal , sumo:Hominid , sumo:SelfConnectedObject , <http://www.newsreader-project.eu/ontologies/PERSON> ;
+	rdfs:label "terrorist" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=138,147> .
+
+<file:///eswc.8.ttl/dealings> a ks:Predicate , sumo:Physical , ks:Entity , sumo:Entity , sumo:IntentionalProcess , sumo:ChangeOfPossession , sumo:Process , sem:Event , dbyago:Transaction101106808 , sumo:Transaction , sumo:DualObjectProcess , sumo:SocialInteraction , <http://www.newsreader-project.eu/ontologies/propbank/deal.01> , <http://www.newsreader-project.eu/ontologies/verbnet/cope-83> , <http://www.newsreader-project.eu/ontologies/framenet/Resolve_problem> ;
+	sem:hasActor <attr:fiscal-1a> , <file:///eswc.8.ttl/Americans> , <file:///eswc.8.ttl/group> ;
+	rdfs:label "dealings" ;
+	ks:mod <attr:fiscal-1a> , <file:///eswc.8.ttl/group> ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=212,220> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/deal.01_0> <file:///eswc.8.ttl/Americans> ;
+	<http://framebase.org/ns/fe-resolve_problem-problem> <attr:fiscal-1a> , <file:///eswc.8.ttl/group> ;
+	<http://www.newsreader-project.eu/ontologies/framenet/agent> <file:///eswc.8.ttl/Americans> ;
+	<http://www.newsreader-project.eu/ontologies/verbnet/agent> <file:///eswc.8.ttl/Americans> ;
+	<http://framebase.org/ns/fe-resolve_problem-agent> <file:///eswc.8.ttl/Americans> ;
+	<http://www.newsreader-project.eu/ontologies/verbnet/theme> <attr:fiscal-1a> , <file:///eswc.8.ttl/group> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/deal.01_1> <attr:fiscal-1a> , <file:///eswc.8.ttl/group> ;
+	<http://www.newsreader-project.eu/ontologies/framenet/problem> <attr:fiscal-1a> , <file:///eswc.8.ttl/group> .
+
+<attr:illegal-1a> a ks:Attribute ;
+	rdfs:label "illegal" ;
+	ks:headSynset <http://wordnet-rdf.princeton.edu/wn30/01401854-a> ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=172,179> .
+
+<attr:feasible-1a> a ks:Attribute ;
+	rdfs:label "viable" ;
+	ks:headSynset <http://wordnet-rdf.princeton.edu/wn30/01822563-a> ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=64,70> .
+
+<file:///eswc.8.ttl/organize> a ks:Predicate , sumo:Physical , ks:Entity , sumo:Entity , sumo:IntentionalProcess , sumo:Founding , sumo:Process , sumo:Communication , sem:Event , sumo:LinguisticCommunication , sumo:ContentBearingProcess , sumo:Declaring , sumo:ContentBearingPhysical , sumo:SocialInteraction , sumo:OrganizationalProcess , <http://www.newsreader-project.eu/ontologies/verbnet/create-26.4> , <http://www.newsreader-project.eu/ontologies/propbank/organize.01> ;
+	sem:hasActor <file:///eswc.8.ttl/government> ;
+	rdfs:label "organize" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=53,61> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/organize.01_1> <file:///eswc.8.ttl/government> ;
+	<http://www.newsreader-project.eu/ontologies/verbnet/result> <file:///eswc.8.ttl/government> .
+
+<file:///eswc.8.ttl/alternative> a ks:Predicate , ks:Entity , sem:Event , <http://www.newsreader-project.eu/ontologies/nombank/alternative.01> , <http://www.newsreader-project.eu/ontologies/framenet/Possibilities> ;
+	rdfs:label "alternative" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=71,82> .
+
+<attr:like-1a> a ks:Attribute ;
+	rdfs:label "similar" ;
+	ks:headSynset <http://wordnet-rdf.princeton.edu/wn30/01409581-a> ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=250,257> .
+
+<file:///eswc.8.ttl/prompt> a ks:Predicate , sumo:Physical , ks:Entity , sumo:Entity , sumo:IntentionalProcess , sumo:Process , sem:Event , <http://www.newsreader-project.eu/ontologies/propbank/prompt.01> , <http://framebase.org/ns/frame-Cause_to_start-arouse.v> , <http://www.newsreader-project.eu/ontologies/framenet/Cause_to_start> ;
+	sem:hasActor <file:///eswc.8.ttl/sanction> ;
+	rdfs:label "prompting" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=240,249> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/prompt.01_1> <file:///eswc.8.ttl/sanction> .
+
+<file:///eswc.8.ttl/it> a ks:Entity ;
+	owl:sameAs <file:///eswc.8.ttl/it_2> , <file:///eswc.8.ttl/United_States> ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=95,97> .
+
+<file:///eswc.8.ttl/sanction_2> a ks:Predicate , ks:Entity , sumo:Process , sem:Event , <http://www.newsreader-project.eu/ontologies/verbnet/enforce-63> , <http://www.newsreader-project.eu/ontologies/propbank/impose.01> , <http://www.newsreader-project.eu/ontologies/nombank/sanction.01> ;
+	sem:hasActor <file:///eswc.8.ttl/sanction> , <file:///eswc.8.ttl/Europe> ;
+	ks:mod <file:///eswc.8.ttl/Europe> , <attr:like-1a> ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=258,267> ;
+	<http://www.newsreader-project.eu/ontologies/verbnet/theme> <file:///eswc.8.ttl/sanction> ;
+	<http://www.newsreader-project.eu/ontologies/nombank/sanction.01_1> <file:///eswc.8.ttl/sanction> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/impose.01_1> <file:///eswc.8.ttl/sanction> ;
+	<http://www.newsreader-project.eu/ontologies/nombank/sanction.01_2> <file:///eswc.8.ttl/Europe> .
+
+<file:///eswc.8.ttl/push> a ks:Predicate , sumo:Physical , ks:Entity , sumo:Entity , sumo:Process , sem:Event , sumo:Transfer , sumo:Translocation , sumo:Motion , <http://www.newsreader-project.eu/ontologies/propbank/push.02> , <http://www.newsreader-project.eu/ontologies/verbnet/force-59> ;
+	sem:hasActor <file:///eswc.8.ttl/opposition> , <file:///eswc.8.ttl/United_States> ;
+	rdfs:label "pushes" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=21,27> ;
+	<http://www.newsreader-project.eu/ontologies/verbnet/agent> <file:///eswc.8.ttl/United_States> ;
+	<http://www.newsreader-project.eu/ontologies/verbnet/patient> <file:///eswc.8.ttl/opposition> ;
+	<http://www.newsreader-project.eu/ontologies/verbnet/result> <file:///eswc.8.ttl/opposition> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/push.02_1> <file:///eswc.8.ttl/opposition> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/push.02_0> <file:///eswc.8.ttl/United_States> .
+
+<file:///eswc.8.ttl/group> a ks:Predicate , sumo:Agent , sumo:Physical , sumo:Object , ks:Entity , sumo:Entity , sem:Event , sumo:Collection , dbyago:Group100031264 , sumo:Group , <http://www.newsreader-project.eu/ontologies/nombank/group.01> ;
+	rdfs:label "group" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=230,235> .
+
+<file:///eswc.8.ttl/have> a ks:Predicate , sumo:Physical , ks:Entity , sumo:Entity , sumo:IntentionalProcess , sumo:Process , sumo:Communication , sem:Event , sumo:ContentBearingProcess , sumo:ContentBearingPhysical , sumo:SocialInteraction , <http://framebase.org/ns/frame-Possession-own.v> , <http://www.newsreader-project.eu/ontologies/framenet/Possession> , <http://www.newsreader-project.eu/ontologies/verbnet/own-100> , <http://www.newsreader-project.eu/ontologies/propbank/have.03> ;
+	sem:hasActor <file:///eswc.8.ttl/Americans> , <file:///eswc.8.ttl/dealings> ;
+	rdfs:label "have" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=197,201> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/have.03_1> <file:///eswc.8.ttl/dealings> ;
+	<http://framebase.org/ns/fe-possession-possession> <file:///eswc.8.ttl/dealings> ;
+	<http://www.newsreader-project.eu/ontologies/framenet/possession> <file:///eswc.8.ttl/dealings> ;
+	<http://www.newsreader-project.eu/ontologies/verbnet/theme> <file:///eswc.8.ttl/dealings> ;
+	<http://framebase.org/ns/fe-possession-owner> <file:///eswc.8.ttl/Americans> ;
+	<http://www.newsreader-project.eu/ontologies/propbank/have.03_0> <file:///eswc.8.ttl/Americans> ;
+	<http://www.newsreader-project.eu/ontologies/verbnet/pivot> <file:///eswc.8.ttl/Americans> ;
+	<http://www.newsreader-project.eu/ontologies/framenet/owner> <file:///eswc.8.ttl/Americans> .
+
+<file:///eswc.8.ttl/organization> a ks:Predicate , sumo:Physical , ks:Entity , sumo:Entity , sumo:Creation , sumo:Process , sem:Event , dbyago:Constitution100237078 , sumo:InternalChange , <http://www.newsreader-project.eu/ontologies/nombank/organization.01> ;
+	rdfs:label "organization" ;
+	ks:mod <file:///eswc.8.ttl/terrorist> ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=148,160> .
+
+<file:///eswc.8.ttl/Nusra_Front> a ks:Entity , <http://www.newsreader-project.eu/ontologies/ORGANIZATION> ;
+	rdfs:label "Nusra Front" ;
+	owl:sameAs dbpedia:Al-Nusra_Front ;
+	foaf:name "Nusra Front" ;
+	<http://groundedannotationframework.org/gaf#denotedBy> <file:///eswc.8.ttl/char=121,132> .

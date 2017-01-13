@@ -1,0 +1,345 @@
+@prefix fsem: <http://ontologydesignpatterns.org/cp/owl/semiotics.owl#> .
+@prefix fpos: <http://www.ontologydesignpatterns.org/ont/fred/pos.owl#> .
+@prefix fbox: <http://www.ontologydesignpatterns.org/ont/boxer/boxer.owl#> .
+@prefix fboxing: <http://www.ontologydesignpatterns.org/ont/boxer/boxing.owl#> .
+@prefix wni: <http://www.w3.org/2006/03/wn/wn30/instances/> .
+@prefix wns: <http://www.w3.org/2006/03/wn/wn30/schema/> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix xs: <http://www.w3.org/2001/XMLSchema#> .
+@prefix vnr: <http://www.ontologydesignpatterns.org/ont/vn/abox/role/> .
+@prefix vnc: <http://www.ontologydesignpatterns.org/ont/vn/data/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix schema: <http://schema.org/> .
+@prefix nif: <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+
+<file:///eswc.7.ttl/docuverse> a nif:Context ;
+	nif:isString "The United_States, sensing that time may be running out for Syria president Bashar_al-Assad, hopes to isolate the group to prevent it from inheriting Syria." .
+
+<file:///eswc.7.ttl/Bashar_al-assad> a <file:///eswc.7.ttl/President> ;
+	owl:sameAs dbpedia:Bashar_al-Assad ;
+	fbox:possibleType dbo:Place .
+
+<file:///eswc.7.ttl/Be> rdfs:subClassOf dul:Event ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.7.ttl/Group> rdfs:subClassOf wni:supersense-noun_substance , dul:Collection ;
+	owl:equivalentClass wni:synset-group-noun-2 ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.7.ttl/Hope> rdfs:subClassOf dul:Event ;
+	owl:equivalentClass vnc:Hope_62000000 ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.7.ttl/Inherit> rdfs:subClassOf dul:Event ;
+	owl:equivalentClass vnc:Inherit_13052000 ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.7.ttl/Isolate> rdfs:subClassOf dul:Event ;
+	owl:equivalentClass vnc:Isolate_29100000 ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.7.ttl/Out> fpos:boxerpos fpos:a .
+
+<file:///eswc.7.ttl/President> fpos:boxerpos fpos:n .
+
+<file:///eswc.7.ttl/Prevent> rdfs:subClassOf dul:Event ;
+	owl:equivalentClass vnc:Prevent_67000000 ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.7.ttl/Run> rdfs:subClassOf dul:Event ;
+	owl:equivalentClass vnc:Run_47051100 ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.7.ttl/Sense> rdfs:subClassOf dul:Event ;
+	owl:equivalentClass vnc:Sense_30010100 ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.7.ttl/Syria> a <file:///eswc.7.ttl/President> ;
+	owl:sameAs dbpedia:Syria ;
+	dul:associatedWith <file:///eswc.7.ttl/Bashar_al-assad> ;
+	fbox:possibleType dbo:Place .
+
+<file:///eswc.7.ttl/Time> rdfs:subClassOf wni:supersense-noun_attribute , <http://www.ontologydesignpatterns.org/ont/d0.owl#Characteristic> ;
+	owl:equivalentClass wni:synset-meter-noun-4 ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.7.ttl/United_states> owl:equivalentClass dbpedia:United_States ;
+	a owl:Class ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.7.ttl/be_1> a <file:///eswc.7.ttl/Be> ;
+	fboxing:hasModality fboxing:Possible ;
+	fbox:agent <file:///eswc.7.ttl/time_1> ;
+	fbox:theme <file:///eswc.7.ttl/run_1> .
+
+<file:///eswc.7.ttl/coref> a owl:ObjectProperty .
+
+<file:///eswc.7.ttl/from> a owl:ObjectProperty .
+
+<file:///eswc.7.ttl/group_1> a <file:///eswc.7.ttl/Group> .
+
+<file:///eswc.7.ttl/hope_1> a <file:///eswc.7.ttl/Hope> ;
+	vnr:Theme <file:///eswc.7.ttl/situation_1> ;
+	fbox:temp_included <file:///eswc.7.ttl/now_1> ;
+	vnr:Experiencer <file:///eswc.7.ttl/united_states_1> .
+
+<file:///eswc.7.ttl/inherit_1> a <file:///eswc.7.ttl/Inherit> ;
+	vnr:Agent <file:///eswc.7.ttl/thing_1> ;
+	vnr:Theme <file:///eswc.7.ttl/Syria> .
+
+<file:///eswc.7.ttl/isolate_1> a <file:///eswc.7.ttl/Isolate> ;
+	vnr:Agent <file:///eswc.7.ttl/united_states_1> ;
+	vnr:Theme <file:///eswc.7.ttl/group_1> .
+
+<file:///eswc.7.ttl/neuter_1> <file:///eswc.7.ttl/coref> <file:///eswc.7.ttl/time_1> .
+
+<file:///eswc.7.ttl/now_1> a fbox:Now ;
+	fbox:temp_before <file:///eswc.7.ttl/be_1> .
+
+<file:///eswc.7.ttl/prevent_1> a <file:///eswc.7.ttl/Prevent> ;
+	<file:///eswc.7.ttl/from> <file:///eswc.7.ttl/thing_1> ;
+	vnr:Agent <file:///eswc.7.ttl/group_1> ;
+	vnr:Theme <file:///eswc.7.ttl/time_1> .
+
+<file:///eswc.7.ttl/run_1> a <file:///eswc.7.ttl/Run> ;
+	vnr:Theme <file:///eswc.7.ttl/time_1> ;
+	fboxing:hasModality fboxing:Possible ;
+	dul:hasQuality <file:///eswc.7.ttl/Out> ;
+	vnr:Location <file:///eswc.7.ttl/Syria> .
+
+<file:///eswc.7.ttl/sense_1> a <file:///eswc.7.ttl/Sense> ;
+	vnr:Experiencer <file:///eswc.7.ttl/united_states_1> ;
+	vnr:Stimulus <file:///eswc.7.ttl/be_1> .
+
+<file:///eswc.7.ttl/situation_1> a fboxing:Situation ;
+	fboxing:involves <file:///eswc.7.ttl/prevent_1> , <file:///eswc.7.ttl/isolate_1> , <file:///eswc.7.ttl/inherit_1> .
+
+<file:///eswc.7.ttl/thing_1> a fbox:Thing .
+
+<file:///eswc.7.ttl/time_1> a owl:Thing , <file:///eswc.7.ttl/Time> .
+
+<file:///eswc.7.ttl/united_states_1> a <file:///eswc.7.ttl/United_states> .
+
+<file:///eswc.7.ttl/offset_102_109_isolate> a nif:OffsetBasedString ;
+	rdfs:label "isolate" ;
+	nif:beginIndex "102"^^xs:nonNegativeInteger ;
+	nif:endIndex "109"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.7.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.7.ttl/isolate_1> ;
+	fsem:hasInterpretant <file:///eswc.7.ttl/Isolate> ;
+	fpos:pennpos fpos:VB .
+
+<file:///eswc.7.ttl/offset_114_119_group> a nif:OffsetBasedString ;
+	rdfs:label "group" ;
+	nif:beginIndex "114"^^xs:nonNegativeInteger ;
+	nif:endIndex "119"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.7.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.7.ttl/group_1> ;
+	fsem:hasInterpretant <file:///eswc.7.ttl/Group> ;
+	fpos:pennpos fpos:NN .
+
+<file:///eswc.7.ttl/offset_123_130_prevent> a nif:OffsetBasedString ;
+	rdfs:label "prevent" ;
+	nif:beginIndex "123"^^xs:nonNegativeInteger ;
+	nif:endIndex "130"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.7.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.7.ttl/prevent_1> ;
+	fsem:hasInterpretant <file:///eswc.7.ttl/Prevent> ;
+	fpos:pennpos fpos:VB .
+
+<file:///eswc.7.ttl/offset_131_133_it> a nif:OffsetBasedString ;
+	rdfs:label "it" ;
+	nif:beginIndex "131"^^xs:nonNegativeInteger ;
+	nif:endIndex "133"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.7.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.7.ttl/time_1> ;
+	fsem:hasInterpretant owl:Thing ;
+	fpos:pennpos fpos:PRP .
+
+<file:///eswc.7.ttl/offset_134_138_from> a nif:OffsetBasedString ;
+	rdfs:label "from" ;
+	nif:beginIndex "134"^^xs:nonNegativeInteger ;
+	nif:endIndex "138"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.7.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.7.ttl/From> .
+
+<file:///eswc.7.ttl/offset_139_149_inheriting> a nif:OffsetBasedString ;
+	rdfs:label "inheriting" ;
+	nif:beginIndex "139"^^xs:nonNegativeInteger ;
+	nif:endIndex "149"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.7.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.7.ttl/inherit_1> ;
+	fsem:hasInterpretant <file:///eswc.7.ttl/Inherit> ;
+	fpos:pennpos fpos:VBG .
+
+<file:///eswc.7.ttl/offset_150_155_Syria> a nif:OffsetBasedString ;
+	rdfs:label "Syria" ;
+	nif:beginIndex "150"^^xs:nonNegativeInteger ;
+	nif:endIndex "155"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.7.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.7.ttl/Syria> ;
+	fsem:hasInterpretant <file:///eswc.7.ttl/President> .
+
+<file:///eswc.7.ttl/offset_19_26_sensing> a nif:OffsetBasedString ;
+	rdfs:label "sensing" ;
+	nif:beginIndex "19"^^xs:nonNegativeInteger ;
+	nif:endIndex "26"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.7.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.7.ttl/sense_1> ;
+	fsem:hasInterpretant <file:///eswc.7.ttl/Sense> ;
+	fpos:pennpos fpos:VBG .
+
+<file:///eswc.7.ttl/offset_32_36_time> a nif:OffsetBasedString ;
+	rdfs:label "time" ;
+	nif:beginIndex "32"^^xs:nonNegativeInteger ;
+	nif:endIndex "36"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.7.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.7.ttl/time_1> ;
+	fsem:hasInterpretant <file:///eswc.7.ttl/Time> ;
+	fpos:pennpos fpos:NN .
+
+<file:///eswc.7.ttl/offset_41_43_be> a nif:OffsetBasedString ;
+	rdfs:label "be" ;
+	nif:beginIndex "41"^^xs:nonNegativeInteger ;
+	nif:endIndex "43"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.7.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.7.ttl/be_1> ;
+	fsem:hasInterpretant <file:///eswc.7.ttl/Be> ;
+	fpos:pennpos fpos:VB .
+
+<file:///eswc.7.ttl/offset_44_51_running> a nif:OffsetBasedString ;
+	rdfs:label "running" ;
+	nif:beginIndex "44"^^xs:nonNegativeInteger ;
+	nif:endIndex "51"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.7.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.7.ttl/run_1> ;
+	fsem:hasInterpretant <file:///eswc.7.ttl/Run> ;
+	fpos:pennpos fpos:VBG .
+
+<file:///eswc.7.ttl/offset_4_17_United_States> a nif:OffsetBasedString ;
+	rdfs:label "United_States" ;
+	nif:beginIndex "4"^^xs:nonNegativeInteger ;
+	nif:endIndex "17"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.7.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.7.ttl/united_states_1> ;
+	fsem:hasInterpretant <file:///eswc.7.ttl/United_states> ;
+	fpos:pennpos fpos:NNS .
+
+<file:///eswc.7.ttl/offset_52_55_out> a nif:OffsetBasedString ;
+	rdfs:label "out" ;
+	nif:beginIndex "52"^^xs:nonNegativeInteger ;
+	nif:endIndex "55"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.7.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.7.ttl/Out> ;
+	fpos:pennpos fpos:RP .
+
+<file:///eswc.7.ttl/offset_56_59_for> a nif:OffsetBasedString ;
+	rdfs:label "for" ;
+	nif:beginIndex "56"^^xs:nonNegativeInteger ;
+	nif:endIndex "59"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.7.ttl/docuverse> ;
+	fsem:hasInterpretant vnr:Location .
+
+<file:///eswc.7.ttl/offset_60_65_Syria> a nif:OffsetBasedString ;
+	rdfs:label "Syria" ;
+	nif:beginIndex "60"^^xs:nonNegativeInteger ;
+	nif:endIndex "65"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.7.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.7.ttl/Syria> ;
+	fsem:hasInterpretant <file:///eswc.7.ttl/President> .
+
+<file:///eswc.7.ttl/offset_66_75_president> a nif:OffsetBasedString ;
+	rdfs:label "president" ;
+	nif:beginIndex "66"^^xs:nonNegativeInteger ;
+	nif:endIndex "75"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.7.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.7.ttl/Bashar_al-assad> , <file:///eswc.7.ttl/Syria> ;
+	fsem:hasInterpretant <file:///eswc.7.ttl/President> ;
+	fpos:pennpos fpos:NN .
+
+<file:///eswc.7.ttl/offset_76_91_Bashar_al-Assad> a nif:OffsetBasedString ;
+	rdfs:label "Bashar_al-Assad" ;
+	nif:beginIndex "76"^^xs:nonNegativeInteger ;
+	nif:endIndex "91"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.7.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.7.ttl/Bashar_al-assad> ;
+	fsem:hasInterpretant <file:///eswc.7.ttl/President> .
+
+<file:///eswc.7.ttl/offset_93_98_hopes> a nif:OffsetBasedString ;
+	rdfs:label "hopes" ;
+	nif:beginIndex "93"^^xs:nonNegativeInteger ;
+	nif:endIndex "98"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.7.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.7.ttl/hope_1> ;
+	fsem:hasInterpretant <file:///eswc.7.ttl/Hope> ;
+	fpos:pennpos fpos:VBZ .
+
+fsem:denotes a owl:ObjectProperty .
+
+fsem:hasInterpretant a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#begins> a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#ends> a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#hasContent> a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#refersTo> a owl:ObjectProperty .
+
+fbox:Now fpos:boxerpos fpos:a .
+
+fbox:Thing fpos:boxerpos fpos:n .
+
+fbox:agent a owl:ObjectProperty .
+
+fbox:possibleType a owl:ObjectProperty .
+
+fbox:temp_before a owl:ObjectProperty .
+
+fbox:temp_included a owl:ObjectProperty .
+
+fbox:theme a owl:ObjectProperty .
+
+fboxing:Situation fpos:boxerpos <file:///eswc.7.ttl/Situation> .
+
+fboxing:hasModality a owl:ObjectProperty .
+
+fboxing:involves a owl:ObjectProperty .
+
+dul:associatedWith a owl:ObjectProperty .
+
+dul:hasQuality a owl:ObjectProperty .
+
+fpos:boxerpos a owl:ObjectProperty .
+
+fpos:pennpos a owl:ObjectProperty .
+
+vnr:Agent a owl:ObjectProperty .
+
+vnr:Experiencer a owl:ObjectProperty .
+
+vnr:Location a owl:ObjectProperty .
+
+vnr:Stimulus a owl:ObjectProperty .
+
+vnr:Theme a owl:ObjectProperty .
+
+wni:synset-group-noun-2 wns:gloss "(chemistry) two or more atoms bound together as a single unit and forming part of a molecule"@en-us .
+
+wni:synset-meter-noun-4 wns:gloss "rhythm as given by division into parts of equal duration"@en-us .
+
+dbpedia:Bashar_al-Assad a schema:Person .
+
+dbpedia:Syria a schema:Place , schema:Country .
+
+dbpedia:United_States rdfs:subClassOf schema:Place , schema:Country .
+
+owl:Thing fpos:boxerpos fpos:a .
+
+owl:equivalentClass a owl:ObjectProperty .
+
+rdfs:subClassOf a owl:ObjectProperty .
