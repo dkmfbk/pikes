@@ -8,7 +8,7 @@
     </p>
 
     <p class='title2'>
-        <!--<a class="btn btn-primary btn-large" href="install.html">Download</a>-->
+        <a class="btn btn-primary btn-large" href="download.html">Download</a>
         <a class="btn btn-primary btn-large" href="https://knowledgestore2.fbk.eu/pikes-demo/">Online demo</a>
         <a class="btn btn-primary btn-large" href="https://www.youtube.com/watch?v=D0mcnUKc3sg">Video tour</a>
     </p>

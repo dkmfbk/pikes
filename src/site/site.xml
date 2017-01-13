@@ -16,7 +16,8 @@
 
         <menu name="About">
             <item name="Home" href="index.html"/>
-            <item name="Pikes in a nutshell" href="overview.html"/>
+            <item name="PIKES in a nutshell" href="overview.html"/>
+            <item name="Download and run PIKES" href="download.html"/>
             <item name="Representation model" href="model.html"/>
             <item name="Extraction pipeline" href="pipeline.html"/>
             <item name="Example" href="example.html"/>
