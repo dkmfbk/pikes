@@ -162,19 +162,19 @@
 <p>The software needs Java 1.8 and at least 8GB of RAM (better 12G) for the models.</p> 
 <p>Packages needed:</p> 
 <ul> 
- <li><a class="externalLink" href="http://www.airpedia.org/pikes/pikes-tintop-1.0-SNAPSHOT-jar-with-dependencies.jar">PIKES Java core library</a></li> 
- <li><a class="externalLink" href="http://www.airpedia.org/pikes/Semafor-3.0-alpha-04.jar">Semafor library</a><br /> SEMAFOR is a frame-semantic parser for English. <a class="externalLink" href="http://www.cs.cmu.edu/~ark/SEMAFOR/">(More info)</a> <a class="externalLink" href="https://github.com/Noahs-ARK/semafor">(Source code)</a> <a class="externalLink" href="https://github.com/Noahs-ARK/semafor/blob/master/LICENSE">(License)</a></li> 
- <li><a class="externalLink" href="http://www.airpedia.org/pikes/models.tar.gz">PIKES models</a><br /> This package contains the models for some linguistic tools included in PIKES: <a class="externalLink" href="https://code.google.com/archive/p/mate-tools/">Mate-tools</a>, <a class="externalLink" href="http://www.cs.cmu.edu/~ark/SEMAFOR/">Semafor</a>, <a class="externalLink" href="http://adimen.si.ehu.es/web/PredicateMatrix">PredicateMatrix</a>, <a class="externalLink" href="http://stanfordnlp.github.io/CoreNLP/">Stanford CoreNLP</a>.</li> 
- <li><a class="externalLink" href="http://www.airpedia.org/pikes/wordnet.tar.gz">WordNet 3.0 package</a><br /> WordNet is a large lexical database of English developed at Princeton University. Nouns, verbs, adjectives and adverbs are grouped into sets of cognitive synonyms (synsets), each expressing a distinct concept. Synsets are interlinked by means of conceptual-semantic and lexical relations. <a class="externalLink" href="https://wordnet.princeton.edu/wordnet/">(More info)</a> <a class="externalLink" href="https://wordnet.princeton.edu/wordnet/license/">(License)</a></li> 
- <li><a class="externalLink" href="http://www.airpedia.org/pikes/ukb.tar.gz">UKB</a><br /> UKB is a collection of programs for performing graph-based Word Sense Disambiguation and lexical similarity/relatedness using a pre-existing knowledge base. <a class="externalLink" href="http://ixa2.si.ehu.es/ukb/">(More info)</a> <a class="externalLink" href="https://github.com/asoroa/ukb">(Source code)</a> <a class="externalLink" href="https://github.com/asoroa/ukb/blob/master/src/LICENSE">(License)</a></li> 
+ <li><a class="externalLink" href="https://knowledgestore2.fbk.eu/pikes-data/pikes-tintop-1.0-SNAPSHOT-jar-with-dependencies.jar">PIKES Java core library</a></li> 
+ <li><a class="externalLink" href="https://knowledgestore2.fbk.eu/pikes-data/Semafor-3.0-alpha-04.jar">Semafor library</a><br /> SEMAFOR is a frame-semantic parser for English. <a class="externalLink" href="http://www.cs.cmu.edu/~ark/SEMAFOR/">(More info)</a> <a class="externalLink" href="https://github.com/Noahs-ARK/semafor">(Source code)</a> <a class="externalLink" href="https://github.com/Noahs-ARK/semafor/blob/master/LICENSE">(License)</a></li> 
+ <li><a class="externalLink" href="https://knowledgestore2.fbk.eu/pikes-data/models.tar.gz">PIKES models</a><br /> This package contains the models for some linguistic tools included in PIKES: <a class="externalLink" href="https://code.google.com/archive/p/mate-tools/">Mate-tools</a>, <a class="externalLink" href="http://www.cs.cmu.edu/~ark/SEMAFOR/">Semafor</a>, <a class="externalLink" href="http://adimen.si.ehu.es/web/PredicateMatrix">PredicateMatrix</a>, <a class="externalLink" href="http://stanfordnlp.github.io/CoreNLP/">Stanford CoreNLP</a>.</li> 
+ <li><a class="externalLink" href="https://knowledgestore2.fbk.eu/pikes-data/wordnet.tar.gz">WordNet 3.0 package</a><br /> WordNet is a large lexical database of English developed at Princeton University. Nouns, verbs, adjectives and adverbs are grouped into sets of cognitive synonyms (synsets), each expressing a distinct concept. Synsets are interlinked by means of conceptual-semantic and lexical relations. <a class="externalLink" href="https://wordnet.princeton.edu/wordnet/">(More info)</a> <a class="externalLink" href="https://wordnet.princeton.edu/wordnet/license/">(License)</a></li> 
+ <li><a class="externalLink" href="https://knowledgestore2.fbk.eu/pikes-data/ukb.tar.gz">UKB</a><br /> UKB is a collection of programs for performing graph-based Word Sense Disambiguation and lexical similarity/relatedness using a pre-existing knowledge base. <a class="externalLink" href="http://ixa2.si.ehu.es/ukb/">(More info)</a> <a class="externalLink" href="https://github.com/asoroa/ukb">(Source code)</a> <a class="externalLink" href="https://github.com/asoroa/ukb/blob/master/src/LICENSE">(License)</a></li> 
 </ul> 
-<p>You can also download the <a class="externalLink" href="http://www.airpedia.org/pikes/pikes-all.tar.gz">full package</a>, containing all the above components.</p> 
+<p>You can also download the <a class="externalLink" href="https://knowledgestore2.fbk.eu/pikes-data/pikes-all.tar.gz">full package</a>, containing all the above components.</p> 
 <div class="section"> 
  <h2 id="Run_PIKES_on_GNULinux">Run PIKES on GNU/Linux</h2> 
  <p>If you want to run PIKES on GNU/Linux out-of-the box, just execute the following commands on a Bash shell.</p> 
  <div class="source"> 
   <div class="source"> 
-   <pre>wget http://www.airpedia.org/pikes/pikes-all.tar.gz # Download the full package
+   <pre>wget https://knowledgestore2.fbk.eu/pikes-data/pikes-all.tar.gz # Download the full package
 tar xzf pikes-all.tar.gz
 cd pikes/
 export CLASSPATH=pikes-tintop-1.0-SNAPSHOT-jar-with-dependencies.jar
@@ -228,6 +228,7 @@ make
   <div class="source"> 
    <pre>git clone https://github.com/dkmfbk/pikes
 cd pikes/
+git checkout develop # go to develop branch
 mvn clean package -DskipTests -Prelease
 </pre> 
   </div> 
