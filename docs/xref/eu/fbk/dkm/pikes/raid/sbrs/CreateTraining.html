@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>CreateTraining xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../../stylesheet.css" />
+</head>
+<body>
+<pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> eu.fbk.dkm.pikes.raid.sbrs;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> ch.qos.logback.classic.Level;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> com.google.common.collect.ImmutableList;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> eu.fbk.dkm.pikes.naflib.Corpus;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> eu.fbk.dkm.pikes.raid.Component;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> eu.fbk.dkm.pikes.raid.Extractor;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> eu.fbk.dkm.pikes.raid.Trainer;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> eu.fbk.dkm.pikes.resources.NAFUtils;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> eu.fbk.dkm.pikes.resources.WordNet;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> eu.fbk.utils.svm.Util;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> ixa.kaflib.KAFDocument;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> org.slf4j.Logger;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> org.slf4j.LoggerFactory;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> java.io.File;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> java.io.IOException;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> java.nio.file.Path;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> java.util.*;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> java.util.stream.StreamSupport;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <em class="jxr_javadoccomment"> * Created by alessio on 20/08/15.</em>
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../eu/fbk/dkm/pikes/raid/sbrs/CreateTraining.html">CreateTraining</a> {
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Logger LOGGER = LoggerFactory.getLogger(CreateTraining.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> main(String[] args) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  		String folder = <span class="jxr_string">"/Users/alessio/Documents/Resources/johansson-moschitti/NAF-parsed"</span>;
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  		String wordnetPath = <span class="jxr_string">"/Users/alessio/Documents/Resources/wn-3.0-dict/dict"</span>;
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  		<em class="jxr_comment">// ---</em>
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  		((ch.qos.logback.classic.Logger) LoggerFactory.getLogger(<span class="jxr_string">"eu.fbk"</span>)).setLevel(Level.DEBUG);
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  		File folderFile = <strong class="jxr_keyword">new</strong> File(folder);
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  		WordNet.setPath(wordnetPath);
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  		LOGGER.info(<span class="jxr_string">"Starting parsing"</span>);
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  		<strong class="jxr_keyword">final</strong> <a href="../../../../../../eu/fbk/dkm/pikes/raid/Component.html">Component</a>[] components = Component.forLetters(<span class="jxr_string">"ht"</span>).toArray(<strong class="jxr_keyword">new</strong> <a href="../../../../../../eu/fbk/dkm/pikes/raid/Component.html">Component</a>[0]);
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  		Set&lt;String&gt; labels = <strong class="jxr_keyword">new</strong> HashSet&lt;&gt;();
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  		labels.add(<span class="jxr_string">"gold-mpqa-subjective"</span>);
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  		<strong class="jxr_keyword">final</strong> List&lt;Path&gt; inputPaths = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  		inputPaths.add(folderFile.toPath());
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  		<strong class="jxr_keyword">final</strong> Properties properties = Util.parseProperties(<span class="jxr_string">"joint=true holder.unique=true target.unique=true"</span>);
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  <em class="jxr_comment">//		final Trainer&lt;? extends Extractor&gt; trainer = Trainer.create(properties, components);</em>
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  		<strong class="jxr_keyword">final</strong> Trainer&lt;? <strong class="jxr_keyword">extends</strong> Extractor&gt; trainer = <strong class="jxr_keyword">new</strong> <a href="../../../../../../eu/fbk/dkm/pikes/raid/sbrs/SBRSTrainer.html">SBRSTrainer</a>(properties, components);
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  		<strong class="jxr_keyword">final</strong> List&lt;Path&gt; files = Util.fileMatch(inputPaths, ImmutableList.of(<span class="jxr_string">".naf"</span>, <span class="jxr_string">".naf.gz"</span>, <span class="jxr_string">".naf.bz2"</span>, <span class="jxr_string">".naf.xz"</span>, <span class="jxr_string">".xml"</span>, <span class="jxr_string">".xml.gz"</span>, <span class="jxr_string">".xml.bz2"</span>, <span class="jxr_string">".xml.xz"</span>), false, false);
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  		Iterable&lt;KAFDocument&gt; documents = files != <strong class="jxr_keyword">null</strong> ? Corpus.create(false, files)
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  				: ImmutableList.of(NAFUtils.readDocument(<strong class="jxr_keyword">null</strong>));
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  		StreamSupport.stream(documents.spliterator(), false).forEach(
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  				(<strong class="jxr_keyword">final</strong> <a href="../../../../../../ixa/kaflib/KAFDocument.html">KAFDocument</a> document) -&gt; {
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  					trainer.add(document, labels);
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  				});
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  <em class="jxr_comment">//		final Extractor extractor = trainer.train();</em>
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  	}
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2016&#x2013;2017 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
+</body>
+</html>

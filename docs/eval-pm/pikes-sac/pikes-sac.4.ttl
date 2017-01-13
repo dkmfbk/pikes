@@ -1,0 +1,233 @@
+@prefix xs: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dbyago: <http://dbpedia.org/class/yago/> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix sumo: <http://www.ontologyportal.org/SUMO.owl#> .
+@prefix sem: <http://semanticweb.cs.vu.nl/2009/11/sem/> .
+@prefix nif: <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix wn30: <http://wordnet-rdf.princeton.edu/wn30/> .
+@prefix x: <x:schema#> .
+@prefix pb: <x:propbank#> .
+@prefix nb: <x:nombank#> .
+@prefix vn: <x:verbnet#> .
+@prefix fn: <x:framenet#> .
+@prefix sst: <x:sst#> .
+@prefix ner: <x:ner#> .
+@prefix attr: <x:attr#> .
+@prefix entity: <x:Instance#> .
+
+<file:///eswc.4.ttl/> dct:title "" ;
+	a x:Resource , x:Text ;
+	dct:creator "" ;
+	dct:created "2015-09-17T08:12:03+02:00" ;
+	dct:language <http://lexvo.org/id/iso639-3/eng> ;
+	x:hasMention <file:///eswc.4.ttl/char=19,24> , <file:///eswc.4.ttl/char=26,30> , <file:///eswc.4.ttl/char=31,37> , <file:///eswc.4.ttl/char=3,8> , <file:///eswc.4.ttl/char=43,50> , <file:///eswc.4.ttl/char=55,62> , <file:///eswc.4.ttl/char=68,76> , <file:///eswc.4.ttl/char=9,18> , <file:///eswc.4.ttl/char=31,37;43,50> , <file:///eswc.4.ttl/char=3,18> , <file:///eswc.4.ttl/char=26,30;55,62> , <file:///eswc.4.ttl/char=55,62;68,76> , <file:///eswc.4.ttl/char=9,24> , <file:///eswc.4.ttl/char=26,37> , <file:///eswc.4.ttl/char=3,8;26,30> , <file:///eswc.4.ttl/char=19,24;31,37> ;
+	x:annotatedWith <file:///eswc.4.ttl/.naf> ;
+	x:textHash "CgXnm3vwa6dBWJPGmSnrfN" .
+
+<file:///eswc.4.ttl/char=19,24> a x:Mention , x:FrameMention ;
+	nif:endIndex "24"^^xs:int ;
+	nif:beginIndex "19"^^xs:int ;
+	nif:anchorOf "mount" ;
+	x:denotes <file:///eswc.4.ttl/mount> ;
+	x:mentionOf <file:///eswc.4.ttl/> ;
+	x:lemma "mount" ;
+	x:synset wn30:01921964-v ;
+	x:sst sst:verb.motion .
+
+<file:///eswc.4.ttl/mount> a sem:Event , sumo:Entity , sumo:Process , sumo:Physical , sumo:Translocation , sumo:Walking , sumo:Ambulating , sumo:BodyMotion , sumo:Motion , x:Instance , x:Frame , pb:mount.02 , vn:meander-47.7 ;
+	rdfs:label "mount" ;
+	sem:hasActor <file:///eswc.4.ttl/success> ;
+	vn:theme <file:///eswc.4.ttl/success> ;
+	pb:mount.02_1 <file:///eswc.4.ttl/success> .
+
+<file:///eswc.4.ttl/char=26,30> a x:Mention , x:InstanceMention ;
+	nif:endIndex "30"^^xs:int ;
+	nif:beginIndex "26"^^xs:int ;
+	nif:anchorOf "they" ;
+	x:denotes <file:///eswc.4.ttl/they_2> ;
+	x:mentionOf <file:///eswc.4.ttl/> .
+
+<file:///eswc.4.ttl/they_2> a x:Instance .
+
+<file:///eswc.4.ttl/char=31,37> a x:Mention , x:FrameMention ;
+	nif:endIndex "37"^^xs:int ;
+	nif:beginIndex "31"^^xs:int ;
+	nif:anchorOf "gather" ;
+	x:denotes <file:///eswc.4.ttl/gather> ;
+	x:mentionOf <file:///eswc.4.ttl/> ;
+	x:lemma "gather" ;
+	x:synset wn30:02428924-v ;
+	x:sst sst:verb.social .
+
+<file:///eswc.4.ttl/gather> a sem:Event , sumo:Entity , sumo:Meeting , sumo:Process , sumo:SocialInteraction , sumo:Physical , sumo:IntentionalProcess , x:Instance , x:Frame , fn:Gathering_up , pb:gather.01 , vn:get-13.5.1 ;
+	rdfs:label "gather" ;
+	sem:hasActor <file:///eswc.4.ttl/they_2> , <file:///eswc.4.ttl/weapon> ;
+	fn:agent <file:///eswc.4.ttl/they_2> , <file:///eswc.4.ttl/weapon> ;
+	vn:agent <file:///eswc.4.ttl/they_2> ;
+	pb:adv <file:///eswc.4.ttl/mount> ;
+	pb:gather.01_0 <file:///eswc.4.ttl/they_2> ;
+	pb:gather.01_1 <file:///eswc.4.ttl/weapon> ;
+	fn:individuals <file:///eswc.4.ttl/weapon> ;
+	vn:theme <file:///eswc.4.ttl/weapon> .
+
+<file:///eswc.4.ttl/char=3,8> a x:Mention , x:InstanceMention ;
+	nif:endIndex "8"^^xs:int ;
+	nif:beginIndex "3"^^xs:int ;
+	nif:anchorOf "their" ;
+	x:denotes <file:///eswc.4.ttl/they> ;
+	x:mentionOf <file:///eswc.4.ttl/> .
+
+<file:///eswc.4.ttl/they> a x:Instance ;
+	owl:sameAs <file:///eswc.4.ttl/they_2> .
+
+<file:///eswc.4.ttl/char=43,50> a x:ParticipationMention , x:Mention , x:InstanceMention , x:FrameMention ;
+	nif:endIndex "50"^^xs:int ;
+	nif:beginIndex "43"^^xs:int ;
+	nif:anchorOf "weapons" ;
+	x:denotes <file:///eswc.4.ttl/weapon> ;
+	x:implies <file:///eswc.4.ttl/weapon_2> ;
+	x:mentionOf <file:///eswc.4.ttl/> ;
+	x:lemma "weapon" ;
+	x:synset wn30:04565375-n ;
+	x:sst sst:noun.artifact ;
+	x:plural true .
+
+<file:///eswc.4.ttl/weapon> a dbyago:Weapon104565375 , x:Instance ;
+	rdfs:label "weapons" .
+
+<file:///eswc.4.ttl/weapon_2> a sem:Event , x:Instance , x:Frame , nb:weapon.01 ;
+	sem:hasActor <file:///eswc.4.ttl/weapon> ;
+	nb:weapon.01_2 <file:///eswc.4.ttl/weapon> .
+
+<file:///eswc.4.ttl/char=55,62> a x:Mention , x:FrameMention ;
+	nif:endIndex "62"^^xs:int ;
+	nif:beginIndex "55"^^xs:int ;
+	nif:anchorOf "attract" ;
+	x:denotes <file:///eswc.4.ttl/attract> ;
+	x:mentionOf <file:///eswc.4.ttl/> ;
+	x:lemma "attract" ;
+	x:synset wn30:01505254-v ;
+	x:sst sst:verb.contact .
+
+<file:///eswc.4.ttl/attract> a sem:Event , sumo:Entity , sumo:Process , sumo:Physical , x:Instance , x:Frame , pb:attract.01 ;
+	rdfs:label "attract" ;
+	sem:hasActor <file:///eswc.4.ttl/they_2> , <file:///eswc.4.ttl/fighter> ;
+	pb:attract.01_0 <file:///eswc.4.ttl/they_2> ;
+	pb:attract.01_1 <file:///eswc.4.ttl/fighter> .
+
+<file:///eswc.4.ttl/char=68,76> a x:ParticipationMention , x:Mention , x:InstanceMention , x:FrameMention ;
+	nif:endIndex "76"^^xs:int ;
+	nif:beginIndex "68"^^xs:int ;
+	nif:anchorOf "fighters" ;
+	x:denotes <file:///eswc.4.ttl/fighter> ;
+	x:implies <file:///eswc.4.ttl/fighter_2> ;
+	x:mentionOf <file:///eswc.4.ttl/> ;
+	x:lemma "fighter" ;
+	x:synset wn30:09939313-n ;
+	x:sst sst:noun.person ;
+	x:plural true .
+
+<file:///eswc.4.ttl/fighter> a dbyago:Combatant109939313 , x:Instance , ner:PERSON ;
+	rdfs:label "fighters" .
+
+<file:///eswc.4.ttl/fighter_2> a sem:Event , x:Instance , x:Frame , nb:fighter.01 ;
+	sem:hasActor <file:///eswc.4.ttl/fighter> ;
+	nb:fighter.01_0 <file:///eswc.4.ttl/fighter> .
+
+<file:///eswc.4.ttl/char=9,18> a x:Mention , x:InstanceMention , x:FrameMention ;
+	nif:endIndex "18"^^xs:int ;
+	nif:beginIndex "9"^^xs:int ;
+	nif:anchorOf "successes" ;
+	x:denotes <file:///eswc.4.ttl/success> ;
+	x:mentionOf <file:///eswc.4.ttl/> ;
+	x:lemma "success" ;
+	x:synset wn30:00063652-n ;
+	x:sst sst:noun.act ;
+	x:plural true .
+
+<file:///eswc.4.ttl/success> a sem:Event , sumo:Entity , dbyago:Success100063652 , sumo:RelationalAttribute , sumo:Abstract , sumo:SubjectiveAssessmentAttribute , sumo:NormativeAttribute , sumo:Attribute , x:Instance , x:Frame , nb:success.01 , pb:succeed.01 , fn:Success_or_failure , vn:succeed-74-1 ;
+	rdfs:label "successes" ;
+	sem:hasActor <file:///eswc.4.ttl/they> ;
+	fn:agent <file:///eswc.4.ttl/they> ;
+	vn:agent <file:///eswc.4.ttl/they> ;
+	x:mod <file:///eswc.4.ttl/they> ;
+	pb:succeed.01_0 <file:///eswc.4.ttl/they> ;
+	nb:success.01_0 <file:///eswc.4.ttl/they> .
+
+<file:///eswc.4.ttl/char=31,37;43,50> a x:ParticipationMention , x:Mention , x:CompoundString ;
+	nif:endIndex "50"^^xs:int ;
+	nif:beginIndex "31"^^xs:int ;
+	nif:anchorOf "gather [...] weapons" ;
+	x:componentSubString <file:///eswc.4.ttl/char=31,37> , <file:///eswc.4.ttl/char=43,50> ;
+	x:mentionOf <file:///eswc.4.ttl/> .
+
+<file:///eswc.4.ttl/char=3,18> a x:ParticipationMention , x:Mention ;
+	nif:endIndex "18"^^xs:int ;
+	nif:beginIndex "3"^^xs:int ;
+	nif:anchorOf "their successes" ;
+	x:mentionOf <file:///eswc.4.ttl/> .
+
+<file:///eswc.4.ttl/char=26,30;55,62> a x:ParticipationMention , x:Mention , x:CompoundString ;
+	nif:endIndex "62"^^xs:int ;
+	nif:beginIndex "26"^^xs:int ;
+	nif:anchorOf "they [...] attract" ;
+	x:componentSubString <file:///eswc.4.ttl/char=26,30> , <file:///eswc.4.ttl/char=55,62> ;
+	x:mentionOf <file:///eswc.4.ttl/> .
+
+<file:///eswc.4.ttl/char=55,62;68,76> a x:ParticipationMention , x:Mention , x:CompoundString ;
+	nif:endIndex "76"^^xs:int ;
+	nif:beginIndex "55"^^xs:int ;
+	nif:anchorOf "attract [...] fighters" ;
+	x:componentSubString <file:///eswc.4.ttl/char=55,62> , <file:///eswc.4.ttl/char=68,76> ;
+	x:mentionOf <file:///eswc.4.ttl/> .
+
+<file:///eswc.4.ttl/char=9,24> a x:ParticipationMention , x:Mention ;
+	nif:endIndex "24"^^xs:int ;
+	nif:beginIndex "9"^^xs:int ;
+	nif:anchorOf "successes mount" ;
+	x:mentionOf <file:///eswc.4.ttl/> .
+
+<file:///eswc.4.ttl/char=26,37> a x:ParticipationMention , x:Mention ;
+	nif:endIndex "37"^^xs:int ;
+	nif:beginIndex "26"^^xs:int ;
+	nif:anchorOf "they gather" ;
+	x:mentionOf <file:///eswc.4.ttl/> .
+
+<file:///eswc.4.ttl/char=3,8;26,30> a x:Mention , x:CompoundString ;
+	nif:endIndex "30"^^xs:int ;
+	nif:beginIndex "3"^^xs:int ;
+	nif:anchorOf "their [...] they" ;
+	x:componentSubString <file:///eswc.4.ttl/char=26,30> , <file:///eswc.4.ttl/char=3,8> ;
+	x:mentionOf <file:///eswc.4.ttl/> .
+
+<file:///eswc.4.ttl/char=19,24;31,37> a x:ParticipationMention , x:Mention , x:CompoundString ;
+	nif:endIndex "37"^^xs:int ;
+	nif:beginIndex "19"^^xs:int ;
+	nif:anchorOf "mount [...] gather" ;
+	x:componentSubString <file:///eswc.4.ttl/char=19,24> , <file:///eswc.4.ttl/char=31,37> ;
+	x:mentionOf <file:///eswc.4.ttl/> .
+
+<file:///eswc.4.ttl/.naf> a x:Resource , x:NAF ;
+	dct:creator x:NAF%20filter.null , x:Anna%203.61.null , x:Mate%20Tools.be.null , x:Mate%20Tools.null , x:Stanford%20CoreNLP.null , x:DBpedia%20Spotlight.null ;
+	dct:created "2015-09-17T08:12:10.553+0200" ;
+	dct:identifier "" ;
+	x:layer x:layer_srl , x:layer_naf-filter , x:layer_linked-entities , x:layer_text , x:layer_deps ;
+	x:annotationOf <file:///eswc.4.ttl/> ;
+	x:version "v3" .
+
+x:NAF%20filter.null dct:title "NAF filter" .
+
+x:Anna%203.61.null dct:title "Anna 3.61" .
+
+x:Mate%20Tools.be.null dct:title "Mate Tools (be.xx model)" .
+
+x:Mate%20Tools.null dct:title "Mate Tools" .
+
+x:Stanford%20CoreNLP.null dct:title "Stanford CoreNLP" .
+
+x:DBpedia%20Spotlight.null dct:title "DBpedia Spotlight" .

@@ -1,0 +1,184 @@
+@prefix xs: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dbyago: <http://dbpedia.org/class/yago/> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix sumo: <http://www.ontologyportal.org/SUMO.owl#> .
+@prefix sem: <http://semanticweb.cs.vu.nl/2009/11/sem/> .
+@prefix nif: <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix wn30: <http://wordnet-rdf.princeton.edu/wn30/> .
+@prefix x: <x:schema#> .
+@prefix pb: <x:propbank#> .
+@prefix nb: <x:nombank#> .
+@prefix vn: <x:verbnet#> .
+@prefix fn: <x:framenet#> .
+@prefix sst: <x:sst#> .
+@prefix ner: <x:ner#> .
+@prefix attr: <x:attr#> .
+@prefix entity: <x:Instance#> .
+
+<file:///eswc.2.ttl/> dct:creator "" ;
+	a x:Text , x:Resource ;
+	dct:title "" ;
+	dct:language <http://lexvo.org/id/iso639-3/eng> ;
+	dct:created "2015-09-17T08:13:21+02:00" ;
+	x:hasMention <file:///eswc.2.ttl/char=0,5> , <file:///eswc.2.ttl/char=19,24> , <file:///eswc.2.ttl/char=30,41> , <file:///eswc.2.ttl/char=48,59> , <file:///eswc.2.ttl/char=60,66> , <file:///eswc.2.ttl/char=6,11> , <file:///eswc.2.ttl/char=67,73> , <file:///eswc.2.ttl/char=48,66> , <file:///eswc.2.ttl/char=0,11> , <file:///eswc.2.ttl/char=19,24;60,66> , <file:///eswc.2.ttl/char=60,73> , <file:///eswc.2.ttl/char=6,11;19,24> ;
+	x:annotatedWith <file:///eswc.2.ttl/.naf> ;
+	x:textHash "B3iPbQ7bw9NKdZ7ywAjGhx" .
+
+<file:///eswc.2.ttl/char=0,5> a x:InstanceMention , x:Mention ;
+	nif:anchorOf "Money" ;
+	nif:endIndex "5"^^xs:int ;
+	nif:beginIndex "0"^^xs:int ;
+	x:denotes <entity:money> ;
+	x:mentionOf <file:///eswc.2.ttl/> .
+
+<entity:money> a x:Instance ;
+	rdfs:label "Money" .
+
+<file:///eswc.2.ttl/char=19,24> a x:InstanceMention , x:FrameMention , x:Mention ;
+	nif:anchorOf "group" ;
+	nif:endIndex "24"^^xs:int ;
+	nif:beginIndex "19"^^xs:int ;
+	x:denotes <file:///eswc.2.ttl/group> ;
+	x:mentionOf <file:///eswc.2.ttl/> ;
+	x:synset wn30:00031264-n ;
+	x:lemma "group" ;
+	x:sst sst:noun.Tops .
+
+<file:///eswc.2.ttl/group> a sem:Event , sumo:Entity , dbyago:Group100031264 , sumo:Object , sumo:Collection , sumo:Agent , sumo:Physical , sumo:Group , x:Instance , x:Frame , nb:group.01 ;
+	rdfs:label "group" ;
+	sem:hasActor <file:///eswc.2.ttl/donor> ;
+	x:mod <file:///eswc.2.ttl/donor> ;
+	nb:group.01_2 <file:///eswc.2.ttl/donor> .
+
+<file:///eswc.2.ttl/char=30,41> a x:InstanceMention , x:Mention , x:NameMention ;
+	nif:anchorOf "Nusra Front" ;
+	nif:endIndex "41"^^xs:int ;
+	nif:beginIndex "30"^^xs:int ;
+	x:denotes <file:///eswc.2.ttl/Nusra_Front> ;
+	x:mentionOf <file:///eswc.2.ttl/> .
+
+<file:///eswc.2.ttl/Nusra_Front> a x:Instance , ner:ORGANIZATION ;
+	rdfs:label "Nusra Front" ;
+	owl:sameAs dbpedia:Al-Nusra_Front ;
+	foaf:name "Nusra Front" .
+
+<file:///eswc.2.ttl/char=48,59> a x:FrameMention , x:Mention ;
+	nif:anchorOf "like-minded" ;
+	nif:endIndex "59"^^xs:int ;
+	nif:beginIndex "48"^^xs:int ;
+	x:denotes <file:///eswc.2.ttl/like-mind> ;
+	x:mentionOf <file:///eswc.2.ttl/> ;
+	x:lemma "like-mind" .
+
+<file:///eswc.2.ttl/like-mind> a sem:Event , x:Instance , x:Frame , pb:like-mind.01 ;
+	rdfs:label "like-minded" ;
+	sem:hasActor <file:///eswc.2.ttl/donor> ;
+	pb:like-mind.01_1 <file:///eswc.2.ttl/donor> .
+
+<file:///eswc.2.ttl/char=60,66> a x:InstanceMention , x:ParticipationMention , x:FrameMention , x:Mention ;
+	nif:anchorOf "donors" ;
+	nif:endIndex "66"^^xs:int ;
+	nif:beginIndex "60"^^xs:int ;
+	x:denotes <file:///eswc.2.ttl/donor> ;
+	x:implies <file:///eswc.2.ttl/donor_2> ;
+	x:mentionOf <file:///eswc.2.ttl/> ;
+	x:synset wn30:10025730-n ;
+	x:lemma "donor" ;
+	x:sst sst:noun.person ;
+	x:plural true .
+
+<file:///eswc.2.ttl/donor> a dbyago:Donor110025730 , x:Instance , ner:PERSON ;
+	rdfs:label "donors" .
+
+<file:///eswc.2.ttl/donor_2> a sem:Event , x:Instance , x:Frame , nb:donor.01 ;
+	sem:hasActor <file:///eswc.2.ttl/donor> ;
+	sem:hasPlace <attr:abroad-1r> ;
+	x:mod <file:///eswc.2.ttl/like-mind> , <attr:abroad-1r> ;
+	nb:loc <attr:abroad-1r> ;
+	nb:donor.01_0 <file:///eswc.2.ttl/donor> .
+
+<file:///eswc.2.ttl/char=6,11> a x:FrameMention , x:Mention ;
+	nif:anchorOf "flows" ;
+	nif:endIndex "11"^^xs:int ;
+	nif:beginIndex "6"^^xs:int ;
+	x:denotes <file:///eswc.2.ttl/flow> ;
+	x:mentionOf <file:///eswc.2.ttl/> ;
+	x:synset wn30:02066939-v ;
+	x:lemma "flow" ;
+	x:sst sst:verb.motion .
+
+<file:///eswc.2.ttl/flow> a sem:Event , sumo:Entity , sumo:Physical , sumo:Process , sumo:Motion , sumo:LiquidMotion , x:Instance , x:Frame , pb:flow.01 , vn:entity_specific_modes_being-47.2 , fn:Fluidic_motion ;
+	rdfs:label "flows" ;
+	sem:hasActor <entity:money> ;
+	vn:theme <entity:money> ;
+	pb:dir <file:///eswc.2.ttl/group> ;
+	pb:flow.01_1 <entity:money> ;
+	fn:fluid <entity:money> .
+
+<file:///eswc.2.ttl/char=67,73> a x:Mention , x:AttributeMention ;
+	nif:anchorOf "abroad" ;
+	nif:endIndex "73"^^xs:int ;
+	nif:beginIndex "67"^^xs:int ;
+	x:denotes <attr:abroad-1r> ;
+	x:mentionOf <file:///eswc.2.ttl/> .
+
+<attr:abroad-1r> a x:Instance , x:Attribute ;
+	rdfs:label "abroad" ;
+	x:headSynset wn30:00104003-r .
+
+<file:///eswc.2.ttl/char=48,66> a x:ParticipationMention , x:Mention ;
+	nif:anchorOf "like-minded donors" ;
+	nif:endIndex "66"^^xs:int ;
+	nif:beginIndex "48"^^xs:int ;
+	x:mentionOf <file:///eswc.2.ttl/> .
+
+<file:///eswc.2.ttl/char=0,11> a x:ParticipationMention , x:Mention ;
+	nif:anchorOf "Money flows" ;
+	nif:endIndex "11"^^xs:int ;
+	nif:beginIndex "0"^^xs:int ;
+	x:mentionOf <file:///eswc.2.ttl/> .
+
+<file:///eswc.2.ttl/char=19,24;60,66> a x:ParticipationMention , x:Mention , x:CompoundString ;
+	nif:anchorOf "group [...] donors" ;
+	nif:endIndex "66"^^xs:int ;
+	nif:beginIndex "19"^^xs:int ;
+	x:mentionOf <file:///eswc.2.ttl/> ;
+	x:componentSubString <file:///eswc.2.ttl/char=19,24> , <file:///eswc.2.ttl/char=60,66> .
+
+<file:///eswc.2.ttl/char=60,73> a x:ParticipationMention , x:Mention ;
+	nif:anchorOf "donors abroad" ;
+	nif:endIndex "73"^^xs:int ;
+	nif:beginIndex "60"^^xs:int ;
+	x:mentionOf <file:///eswc.2.ttl/> .
+
+<file:///eswc.2.ttl/char=6,11;19,24> a x:ParticipationMention , x:Mention , x:CompoundString ;
+	nif:anchorOf "flows [...] group" ;
+	nif:endIndex "24"^^xs:int ;
+	nif:beginIndex "6"^^xs:int ;
+	x:mentionOf <file:///eswc.2.ttl/> ;
+	x:componentSubString <file:///eswc.2.ttl/char=19,24> , <file:///eswc.2.ttl/char=6,11> .
+
+<file:///eswc.2.ttl/.naf> dct:creator x:Mate%20Tools.null , x:NAF%20filter.null , x:DBpedia%20Spotlight.null , x:Anna%203.61.null , x:Stanford%20CoreNLP.null , x:Mate%20Tools.be.null ;
+	a x:Resource , x:NAF ;
+	dct:created "2015-09-17T08:13:31.344+0200" ;
+	dct:identifier "" ;
+	x:layer x:layer_srl , x:layer_text , x:layer_naf-filter , x:layer_linked-entities , x:layer_deps ;
+	x:annotationOf <file:///eswc.2.ttl/> ;
+	x:version "v3" .
+
+x:Mate%20Tools.null dct:title "Mate Tools" .
+
+x:NAF%20filter.null dct:title "NAF filter" .
+
+x:DBpedia%20Spotlight.null dct:title "DBpedia Spotlight" .
+
+x:Anna%203.61.null dct:title "Anna 3.61" .
+
+x:Stanford%20CoreNLP.null dct:title "Stanford CoreNLP" .
+
+x:Mate%20Tools.be.null dct:title "Mate Tools (be.xx model)" .

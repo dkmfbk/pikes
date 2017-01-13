@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>TAOL xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../../stylesheet.css" />
+</head>
+<body>
+<pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> eu.fbk.dkm.pikes.resources.treccani;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> com.google.common.io.Files;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> eu.fbk.utils.core.CommandLine;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> ixa.kaflib.KAFDocument;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.apache.commons.lang.StringEscapeUtils;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.joox.JOOX;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> org.slf4j.Logger;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> org.slf4j.LoggerFactory;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> org.w3c.dom.Document;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> org.w3c.dom.Element;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> javax.xml.parsers.DocumentBuilder;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> javax.xml.parsers.DocumentBuilderFactory;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> java.io.File;
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <em class="jxr_javadoccomment"> * Created by alessio on 17/12/15.</em>
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../eu/fbk/dkm/pikes/resources/treccani/TAOL.html">TAOL</a> {
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Logger LOGGER = LoggerFactory.getLogger(TAOL.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String DEFAULT_PREFIX = <span class="jxr_string">"opencms://system/modules/com.atosorigin.treccani.bancadati.xml"</span>;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> main(String[] args) {
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>          <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>              <strong class="jxr_keyword">final</strong> CommandLine cmd = CommandLine
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>                      .parser()
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>                      .withName(<span class="jxr_string">"./taol-extractor"</span>)
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>                      .withHeader(<span class="jxr_string">"Convert file from Treccani XML to NAF"</span>)
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>                      .withOption(<span class="jxr_string">"i"</span>, <span class="jxr_string">"input"</span>, <span class="jxr_string">"Input folder"</span>, <span class="jxr_string">"FOLDER"</span>,
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>                              CommandLine.Type.DIRECTORY_EXISTING, <strong class="jxr_keyword">true</strong>, false, <strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>                      .withOption(<span class="jxr_string">"o"</span>, <span class="jxr_string">"output"</span>, <span class="jxr_string">"Output folder"</span>, <span class="jxr_string">"FOLDER"</span>,
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>                              CommandLine.Type.DIRECTORY, <strong class="jxr_keyword">true</strong>, false, <strong class="jxr_keyword">true</strong>)
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>                      .withOption(<span class="jxr_string">"p"</span>, <span class="jxr_string">"prefix"</span>, String.format(<span class="jxr_string">"Prefix (default %s)"</span>, DEFAULT_PREFIX), <span class="jxr_string">"PREFIX"</span>,
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>                              CommandLine.Type.STRING, <strong class="jxr_keyword">true</strong>, false, false)
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>                      .withLogger(LoggerFactory.getLogger(<span class="jxr_string">"eu.fbk"</span>)).parse(args);
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>              File inputFolder = cmd.getOptionValue(<span class="jxr_string">"input"</span>, File.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>              File outputFolder = cmd.getOptionValue(<span class="jxr_string">"output"</span>, File.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>              String prefix = cmd.getOptionValue(<span class="jxr_string">"prefix"</span>, String.<strong class="jxr_keyword">class</strong>, DEFAULT_PREFIX);
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>              <strong class="jxr_keyword">if</strong> (!outputFolder.exists()) {
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>                  outputFolder.mkdirs();
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>              }
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>              DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>              DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>              <strong class="jxr_keyword">int</strong> i = 0;
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>              <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">final</strong> File file : Files.fileTreeTraverser().preOrderTraversal(inputFolder)) {
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>                  <strong class="jxr_keyword">if</strong> (!file.isFile()) {
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>                      <strong class="jxr_keyword">continue</strong>;
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>                  }
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>                  <strong class="jxr_keyword">if</strong> (file.getName().startsWith(<span class="jxr_string">"."</span>)) {
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>                      <strong class="jxr_keyword">continue</strong>;
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>                  }
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>                  Document doc = dBuilder.parse(file);
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>                  doc.getDocumentElement().normalize();
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>                  i++;
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>                  <strong class="jxr_keyword">for</strong> (Element element : JOOX.$(doc).get()) {
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>                      <strong class="jxr_keyword">if</strong> (!element.getTagName().equals(<span class="jxr_string">"ARTICOLI"</span>)) {
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>                          <strong class="jxr_keyword">continue</strong>;
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>                      }
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>                      <strong class="jxr_keyword">for</strong> (Element articolo : JOOX.$(element).find(<span class="jxr_string">"ARTICOLO"</span>)) {
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>                          String language = articolo.getAttribute(<span class="jxr_string">"language"</span>);
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>                          String thisPrefix = prefix + <span class="jxr_string">"/taol/"</span> + language + <span class="jxr_string">"/"</span>;
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>                          String url = thisPrefix + i;
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>                          String id = <span class="jxr_string">""</span> + i;
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>                          String title = <span class="jxr_string">""</span>;
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>                          Element cidaElement = JOOX.$(articolo).find(<span class="jxr_string">"CIDA"</span>).get(0);
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>                          <strong class="jxr_keyword">if</strong> (cidaElement != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>                              String cida = cidaElement.getTextContent().trim().replaceAll(<span class="jxr_string">"&#92;&#92;s+"</span>, <span class="jxr_string">""</span>);
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>                              url = thisPrefix + cida;
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>                              id = cida;
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>                          }
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>  
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>                          Element ctitElement = JOOX.$(articolo).find(<span class="jxr_string">"CTIT"</span>).get(0);
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>                          <strong class="jxr_keyword">if</strong> (ctitElement != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>                              title = ctitElement.getTextContent().trim().replaceAll(<span class="jxr_string">"&#92;&#92;s+"</span>, <span class="jxr_string">""</span>);
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>                          }
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>  
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>                          Element contentElement = JOOX.$(articolo).find(<span class="jxr_string">"content"</span>).get(0);
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>                          <strong class="jxr_keyword">if</strong> (contentElement != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>                              File outputFile = <strong class="jxr_keyword">new</strong> File(
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>                                      outputFolder.getAbsolutePath() + File.separator + language + File.separator +
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>                                              file.getAbsolutePath().substring(
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>                                                      inputFolder.getAbsolutePath().length()));
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>                              Files.createParentDirs(outputFile);
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>  
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>                              <a href="../../../../../../ixa/kaflib/KAFDocument.html">KAFDocument</a> document = <strong class="jxr_keyword">new</strong> <a href="../../../../../../ixa/kaflib/KAFDocument.html">KAFDocument</a>(language, <span class="jxr_string">"v3"</span>);
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>  
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>                              KAFDocument.Public documentPublic = document.createPublic();
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>                             documentPublic.uri = url;
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>                             documentPublic.publicId = id;
+<a class="jxr_linenumber" name="L102" href="#L102">102</a> 
+<a class="jxr_linenumber" name="L103" href="#L103">103</a>                             KAFDocument.FileDesc documentFileDesc = document.createFileDesc();
+<a class="jxr_linenumber" name="L104" href="#L104">104</a>                             documentFileDesc.filename = file.getName();
+<a class="jxr_linenumber" name="L105" href="#L105">105</a>                             documentFileDesc.title = title;
+<a class="jxr_linenumber" name="L106" href="#L106">106</a> 
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>                             String content = contentElement.getTextContent();
+<a class="jxr_linenumber" name="L108" href="#L108">108</a>                             content = content.replaceAll(<span class="jxr_string">"&lt;br /&gt;"</span>, <span class="jxr_string">"\n"</span>);
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>                             content = content.replaceAll(<span class="jxr_string">" +"</span>, <span class="jxr_string">" "</span>);
+<a class="jxr_linenumber" name="L110" href="#L110">110</a>                             content = content.replaceAll(<span class="jxr_string">"&lt;[^&gt;]+&gt;"</span>, <span class="jxr_string">""</span>);
+<a class="jxr_linenumber" name="L111" href="#L111">111</a> 
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>                             StringBuffer finalContent = <strong class="jxr_keyword">new</strong> StringBuffer();
+<a class="jxr_linenumber" name="L113" href="#L113">113</a> 
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>                             String[] lines = content.split(System.getProperty(<span class="jxr_string">"line.separator"</span>));
+<a class="jxr_linenumber" name="L115" href="#L115">115</a>                             <strong class="jxr_keyword">for</strong> (String line : lines) {
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>                                 line = line.trim();
+<a class="jxr_linenumber" name="L117" href="#L117">117</a>                                 <strong class="jxr_keyword">if</strong> (!line.matches(<span class="jxr_string">".*[.?!]+$"</span>) &amp;&amp; line.length() != 0) {
+<a class="jxr_linenumber" name="L118" href="#L118">118</a>                                     line = line + <span class="jxr_string">"."</span>;
+<a class="jxr_linenumber" name="L119" href="#L119">119</a>                                 }
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>                                 <strong class="jxr_keyword">if</strong> (line.startsWith(<span class="jxr_string">"H1."</span>) || line.startsWith(<span class="jxr_string">"H2."</span>)) {
+<a class="jxr_linenumber" name="L121" href="#L121">121</a>                                     line = line.substring(3).trim();
+<a class="jxr_linenumber" name="L122" href="#L122">122</a>                                 }
+<a class="jxr_linenumber" name="L123" href="#L123">123</a> 
+<a class="jxr_linenumber" name="L124" href="#L124">124</a>                                 finalContent.append(line).append(<span class="jxr_string">"\n"</span>);
+<a class="jxr_linenumber" name="L125" href="#L125">125</a>                             }
+<a class="jxr_linenumber" name="L126" href="#L126">126</a> 
+<a class="jxr_linenumber" name="L127" href="#L127">127</a>                             String text = StringEscapeUtils.unescapeHtml(finalContent.toString());
+<a class="jxr_linenumber" name="L128" href="#L128">128</a> 
+<a class="jxr_linenumber" name="L129" href="#L129">129</a>                             document.setRawText(text);
+<a class="jxr_linenumber" name="L130" href="#L130">130</a> 
+<a class="jxr_linenumber" name="L131" href="#L131">131</a>                             document.save(outputFile.getAbsolutePath());
+<a class="jxr_linenumber" name="L132" href="#L132">132</a>                         }
+<a class="jxr_linenumber" name="L133" href="#L133">133</a>                     }
+<a class="jxr_linenumber" name="L134" href="#L134">134</a>                 }
+<a class="jxr_linenumber" name="L135" href="#L135">135</a>             }
+<a class="jxr_linenumber" name="L136" href="#L136">136</a> 
+<a class="jxr_linenumber" name="L137" href="#L137">137</a> <em class="jxr_comment">//            String serverUrl = cmd.getOptionValue("server", String.class);</em>
+<a class="jxr_linenumber" name="L138" href="#L138">138</a> <em class="jxr_comment">//            File inputFile = cmd.getOptionValue("input", File.class);</em>
+<a class="jxr_linenumber" name="L139" href="#L139">139</a> <em class="jxr_comment">//</em>
+<a class="jxr_linenumber" name="L140" href="#L140">140</a> <em class="jxr_comment">//            URL url = new URL(serverUrl);</em>
+<a class="jxr_linenumber" name="L141" href="#L141">141</a> <em class="jxr_comment">//            TintopServer server = new TintopServer(url);</em>
+<a class="jxr_linenumber" name="L142" href="#L142">142</a> <em class="jxr_comment">//            TintopClient client = new TintopClient(server);</em>
+<a class="jxr_linenumber" name="L143" href="#L143">143</a> <em class="jxr_comment">//</em>
+<a class="jxr_linenumber" name="L144" href="#L144">144</a> <em class="jxr_comment">//            String whole = FileUtils.readFileToString(inputFile);</em>
+<a class="jxr_linenumber" name="L145" href="#L145">145</a> <em class="jxr_comment">//            System.out.println(client.call(whole));</em>
+<a class="jxr_linenumber" name="L146" href="#L146">146</a>         } <strong class="jxr_keyword">catch</strong> (Exception e) {
+<a class="jxr_linenumber" name="L147" href="#L147">147</a>             CommandLine.fail(e);
+<a class="jxr_linenumber" name="L148" href="#L148">148</a>         }
+<a class="jxr_linenumber" name="L149" href="#L149">149</a> 
+<a class="jxr_linenumber" name="L150" href="#L150">150</a>     }
+<a class="jxr_linenumber" name="L151" href="#L151">151</a> }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2016&#x2013;2017 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix frb: <http://framebase.org/ns/> .
+@prefix eval: <eval:schema#> .
+@prefix : <file:///eswc.4.ttl/> .
+
+
+# === TEXT ===
+
+<file:///eswc.4.ttl/> rdfs:label """
+	As their successes mount, they gather more weapons and attract more fighters.""" .
+
+
+# === FRAMES ===
+
+:successes a frb:frame-Success_or_failure-success.n ;
+	frb:fe-Success_or_failure-Agent :their .
+
+:gather a frb:frame-Gathering_up-gather.v ;
+	frb:fe-Gathering_up-Agent :they ;
+    frb:fe-Gathering_up-Individuals :weapons .
+
+:attract a frb:frame-Cause_motion-tug.v ;
+	frb:fe-Cause_motion-Agent :they ;
+	frb:fe-Cause_motion-Theme :fighters .
+
+:weapons_v a frb:frame-Weapon-weapon.n ;
+	frb:fe-Weapon-Weapon :weapons .

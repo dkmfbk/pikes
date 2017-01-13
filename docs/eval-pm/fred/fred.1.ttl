@@ -1,0 +1,537 @@
+@prefix fsem: <http://ontologydesignpatterns.org/cp/owl/semiotics.owl#> .
+@prefix fpos: <http://www.ontologydesignpatterns.org/ont/fred/pos.owl#> .
+@prefix fbox: <http://www.ontologydesignpatterns.org/ont/boxer/boxer.owl#> .
+@prefix wni: <http://www.w3.org/2006/03/wn/wn30/instances/> .
+@prefix wns: <http://www.w3.org/2006/03/wn/wn30/schema/> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix xs: <http://www.w3.org/2001/XMLSchema#> .
+@prefix vnr: <http://www.ontologydesignpatterns.org/ont/vn/abox/role/> .
+@prefix vnc: <http://www.ontologydesignpatterns.org/ont/vn/data/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix nif: <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
+@prefix schema: <http://schema.org/> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+
+<file:///eswc.1.ttl/docuverse> a nif:Context ;
+	nif:isString "The lone Syrian rebel group with an explicit stamp of approval from Al_Qaeda has become one of the uprising most effective fighting forces, posing a stark challenge to the United_States and other_countries that want to support the rebels but_not Islamic_extremists." .
+
+<file:///eswc.1.ttl/Al_qaeda> owl:sameAs dbpedia:Al-Qaeda ;
+	fbox:possibleType dbo:Place .
+
+<file:///eswc.1.ttl/Approval> rdfs:subClassOf <http://www.ontologydesignpatterns.org/ont/d0.owl#CognitiveEntity> , wni:supersense-noun_feeling ;
+	owl:equivalentClass wni:synset-approval-noun-2 ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.1.ttl/Become> rdfs:subClassOf dul:Event ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.1.ttl/But_not> a owl:Class ;
+	owl:equivalentClass dbpedia:For_but_not_with ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.1.ttl/Challenge> a owl:Class ;
+	rdfs:subClassOf wni:supersense-noun_communication , <http://www.ontologydesignpatterns.org/ont/d0.owl#Activity> ;
+	owl:equivalentClass wni:synset-challenge-noun-2 ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.1.ttl/Effective> fpos:boxerpos fpos:a .
+
+<file:///eswc.1.ttl/Explicit> fpos:boxerpos fpos:a .
+
+<file:///eswc.1.ttl/ExplicitStamp> a owl:Class ;
+	rdfs:subClassOf <file:///eswc.1.ttl/Stamp> .
+
+<file:///eswc.1.ttl/Fighting> a owl:Class ;
+	rdfs:subClassOf <http://www.ontologydesignpatterns.org/ont/d0.owl#Activity> , wni:supersense-noun_act ;
+	owl:equivalentClass wni:synset-fight-noun-2 ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.1.ttl/FightingForce> a owl:Class ;
+	rdfs:subClassOf <file:///eswc.1.ttl/Force> ;
+	dul:associatedWith <file:///eswc.1.ttl/Fighting> .
+
+<file:///eswc.1.ttl/Force> a owl:Class ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.1.ttl/Group> a owl:Class ;
+	rdfs:subClassOf wni:supersense-noun_substance , dul:Collection ;
+	owl:equivalentClass wni:synset-group-noun-2 ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.1.ttl/Islamic_extremists> a owl:Class ;
+	owl:equivalentClass dbpedia:Islamic_terrorism ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.1.ttl/Lone> a owl:Class ;
+	fpos:boxerpos fpos:a .
+
+<file:///eswc.1.ttl/LoneSyrian> a owl:Class ;
+	rdfs:subClassOf <file:///eswc.1.ttl/Syrian> ;
+	dul:associatedWith <file:///eswc.1.ttl/Lone> .
+
+<file:///eswc.1.ttl/LoneSyrianRebel> a owl:Class ;
+	rdfs:subClassOf <file:///eswc.1.ttl/SyrianRebel> ;
+	dul:associatedWith <file:///eswc.1.ttl/LoneSyrian> .
+
+<file:///eswc.1.ttl/LoneSyrianRebelGroup> a owl:Class ;
+	rdfs:subClassOf <file:///eswc.1.ttl/SyrianRebelGroup> ;
+	dul:associatedWith <file:///eswc.1.ttl/LoneSyrianRebel> .
+
+<file:///eswc.1.ttl/Most> fpos:boxerpos fpos:a .
+
+<file:///eswc.1.ttl/OtherCountries> rdfs:subClassOf wni:supersense-noun_location , <http://www.ontologydesignpatterns.org/ont/d0.owl#Location> ;
+	owl:equivalentClass wni:synset-area-noun-1 .
+
+<file:///eswc.1.ttl/Other_countries> rdfs:subClassOf <file:///eswc.1.ttl/OtherCountries> ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.1.ttl/Pose> rdfs:subClassOf dul:Event ;
+	owl:equivalentClass vnc:Pose_48012000 ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.1.ttl/Rebel> a owl:Class ;
+	rdfs:subClassOf wni:supersense-noun_person , dul:Person ;
+	owl:equivalentClass dbpedia:Rebellion , wni:synset-maverick-noun-1 ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.1.ttl/RebelGroup> a owl:Class ;
+	rdfs:subClassOf <file:///eswc.1.ttl/Group> ;
+	dul:associatedWith <file:///eswc.1.ttl/Rebel> .
+
+<file:///eswc.1.ttl/Stamp> a owl:Class ;
+	rdfs:subClassOf wni:supersense-noun_communication , dul:InformationEntity ;
+	owl:equivalentClass wni:synset-postage-noun-2 ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.1.ttl/Stark> fpos:boxerpos fpos:a .
+
+<file:///eswc.1.ttl/StarkChallenge> a owl:Class ;
+	rdfs:subClassOf <file:///eswc.1.ttl/Challenge> .
+
+<file:///eswc.1.ttl/Support> rdfs:subClassOf dul:Event ;
+	owl:equivalentClass vnc:Support_72000000 ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.1.ttl/Syrian> a owl:Class ;
+	fpos:boxerpos fpos:a .
+
+<file:///eswc.1.ttl/SyrianRebel> a owl:Class ;
+	rdfs:subClassOf <file:///eswc.1.ttl/Rebel> ;
+	dul:associatedWith <file:///eswc.1.ttl/Syrian> .
+
+<file:///eswc.1.ttl/SyrianRebelGroup> a owl:Class ;
+	rdfs:subClassOf <file:///eswc.1.ttl/Group> , <file:///eswc.1.ttl/RebelGroup> ;
+	dul:associatedWith <file:///eswc.1.ttl/SyrianRebel> .
+
+<file:///eswc.1.ttl/United_states> a owl:Class ;
+	owl:equivalentClass dbpedia:United_States ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.1.ttl/Uprising> a owl:Class ;
+	rdfs:subClassOf <http://www.ontologydesignpatterns.org/ont/d0.owl#Activity> , wni:supersense-noun_act ;
+	owl:equivalentClass dbpedia:Rebellion , wni:synset-rebellion-noun-2 ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.1.ttl/Want> rdfs:subClassOf dul:Event ;
+	owl:equivalentClass vnc:Want_32010110 ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.1.ttl/approval_1> a <file:///eswc.1.ttl/Approval> ;
+	<file:///eswc.1.ttl/from> <file:///eswc.1.ttl/Al_qaeda> .
+
+<file:///eswc.1.ttl/become_1> a <file:///eswc.1.ttl/Become> ;
+	fbox:agent <file:///eswc.1.ttl/group_1> ;
+	fbox:patient <file:///eswc.1.ttl/uprising_1> ;
+	fbox:temp_abut <file:///eswc.1.ttl/timeinterval_1> .
+
+<file:///eswc.1.ttl/but_not_1> a <file:///eswc.1.ttl/But_not> .
+
+<file:///eswc.1.ttl/challenge_1> a <file:///eswc.1.ttl/StarkChallenge> ;
+	dul:hasQuality <file:///eswc.1.ttl/Stark> .
+
+<file:///eswc.1.ttl/explicitStampOf> a owl:ObjectProperty .
+
+<file:///eswc.1.ttl/fighting_1> a <file:///eswc.1.ttl/Fighting> ;
+	dul:associatedWith <file:///eswc.1.ttl/force_1> .
+
+<file:///eswc.1.ttl/force_1> a <file:///eswc.1.ttl/FightingForce> .
+
+<file:///eswc.1.ttl/from> a owl:ObjectProperty .
+
+<file:///eswc.1.ttl/group_1> a <file:///eswc.1.ttl/LoneSyrianRebelGroup> ;
+	<file:///eswc.1.ttl/with> <file:///eswc.1.ttl/stamp_1> .
+
+<file:///eswc.1.ttl/islamic_extremists_1> a <file:///eswc.1.ttl/Islamic_extremists> .
+
+<file:///eswc.1.ttl/now_1> a fbox:Now ;
+	fbox:temp_included <file:///eswc.1.ttl/timeinterval_1> .
+
+<file:///eswc.1.ttl/pose_1> a <file:///eswc.1.ttl/Pose> ;
+	vnr:Theme <file:///eswc.1.ttl/challenge_1> ;
+	vnr:Recipient <file:///eswc.1.ttl/united_states_1> ;
+	vnr:Agent <file:///eswc.1.ttl/group_1> .
+
+<file:///eswc.1.ttl/rebel_1> a <file:///eswc.1.ttl/Rebel> ;
+	dul:associatedWith <file:///eswc.1.ttl/group_1> .
+
+<file:///eswc.1.ttl/stamp_1> a <file:///eswc.1.ttl/ExplicitStamp> ;
+	dul:hasQuality <file:///eswc.1.ttl/Explicit> ;
+	<file:///eswc.1.ttl/explicitStampOf> <file:///eswc.1.ttl/approval_1> .
+
+<file:///eswc.1.ttl/support_1> a <file:///eswc.1.ttl/Support> ;
+	dul:associatedWith <file:///eswc.1.ttl/but_not_1> , <file:///eswc.1.ttl/islamic_extremists_1> ;
+	vnr:Agent <file:///eswc.1.ttl/united_states_1> .
+
+<file:///eswc.1.ttl/timeinterval_1> a dul:TimeInterval .
+
+<file:///eswc.1.ttl/united_states_1> a <file:///eswc.1.ttl/Other_countries> , <file:///eswc.1.ttl/United_states> .
+
+<file:///eswc.1.ttl/uprising_1> a <file:///eswc.1.ttl/Uprising> ;
+	dul:associatedWith <file:///eswc.1.ttl/force_1> ;
+	dul:hasDataValue "1"^^xs:nonNegativeInteger ;
+	dul:hasQuality <file:///eswc.1.ttl/Most> , <file:///eswc.1.ttl/Effective> .
+
+<file:///eswc.1.ttl/want_1> a <file:///eswc.1.ttl/Want> ;
+	fbox:temp_included <file:///eswc.1.ttl/now_1> ;
+	vnr:Experiencer <file:///eswc.1.ttl/united_states_1> ;
+	vnr:Theme <file:///eswc.1.ttl/support_1> .
+
+<file:///eswc.1.ttl/with> a owl:ObjectProperty .
+
+<file:///eswc.1.ttl/offset_108_112_most> a nif:OffsetBasedString ;
+	rdfs:label "most" ;
+	nif:beginIndex "108"^^xs:nonNegativeInteger ;
+	nif:endIndex "112"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/Most> ;
+	fpos:pennpos fpos:RBS .
+
+<file:///eswc.1.ttl/offset_113_122_effective> a nif:OffsetBasedString ;
+	rdfs:label "effective" ;
+	nif:beginIndex "113"^^xs:nonNegativeInteger ;
+	nif:endIndex "122"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/Effective> ;
+	fpos:pennpos fpos:JJ .
+
+<file:///eswc.1.ttl/offset_123_131_fighting> a nif:OffsetBasedString ;
+	rdfs:label "fighting" ;
+	nif:beginIndex "123"^^xs:nonNegativeInteger ;
+	nif:endIndex "131"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.1.ttl/fighting_1> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/Fighting> ;
+	fpos:pennpos fpos:NN .
+
+<file:///eswc.1.ttl/offset_132_138_forces> a nif:OffsetBasedString ;
+	rdfs:label "forces" ;
+	nif:beginIndex "132"^^xs:nonNegativeInteger ;
+	nif:endIndex "138"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.1.ttl/force_1> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/Force> ;
+	fpos:pennpos fpos:NNS .
+
+<file:///eswc.1.ttl/offset_140_146_posing> a nif:OffsetBasedString ;
+	rdfs:label "posing" ;
+	nif:beginIndex "140"^^xs:nonNegativeInteger ;
+	nif:endIndex "146"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.1.ttl/pose_1> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/Pose> ;
+	fpos:pennpos fpos:VBG .
+
+<file:///eswc.1.ttl/offset_149_154_stark> a nif:OffsetBasedString ;
+	rdfs:label "stark" ;
+	nif:beginIndex "149"^^xs:nonNegativeInteger ;
+	nif:endIndex "154"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/Stark> ;
+	fpos:pennpos fpos:JJ .
+
+<file:///eswc.1.ttl/offset_149_164_stark+challenge> a nif:OffsetBasedString ;
+	rdfs:label "Stark Challenge" , "stark challenge" ;
+	nif:beginIndex "149"^^xs:nonNegativeInteger ;
+	nif:endIndex "164"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.1.ttl/Challenge> .
+
+<file:///eswc.1.ttl/offset_155_164_challenge> a nif:OffsetBasedString ;
+	rdfs:label "challenge" ;
+	nif:beginIndex "155"^^xs:nonNegativeInteger ;
+	nif:endIndex "164"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.1.ttl/challenge_1> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/Challenge> ;
+	fpos:pennpos fpos:NN .
+
+<file:///eswc.1.ttl/offset_165_167_to> a nif:OffsetBasedString ;
+	rdfs:label "to" ;
+	nif:beginIndex "165"^^xs:nonNegativeInteger ;
+	nif:endIndex "167"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:hasInterpretant vnr:Recipient .
+
+<file:///eswc.1.ttl/offset_16_21_rebel> a nif:OffsetBasedString ;
+	rdfs:label "rebel" ;
+	nif:beginIndex "16"^^xs:nonNegativeInteger ;
+	nif:endIndex "21"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.1.ttl/rebel_1> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/Rebel> ;
+	fpos:pennpos fpos:NN .
+
+<file:///eswc.1.ttl/offset_16_27_rebel+group> a nif:OffsetBasedString ;
+	rdfs:label "Rebel Group" , "rebel group" ;
+	nif:beginIndex "16"^^xs:nonNegativeInteger ;
+	nif:endIndex "27"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.1.ttl/Group> .
+
+<file:///eswc.1.ttl/offset_172_185_United_States> a nif:OffsetBasedString ;
+	rdfs:label "United_States" ;
+	nif:beginIndex "172"^^xs:nonNegativeInteger ;
+	nif:endIndex "185"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.1.ttl/united_states_1> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/United_states> ;
+	fpos:pennpos fpos:NNS .
+
+<file:///eswc.1.ttl/offset_190_205_other_countries> a nif:OffsetBasedString ;
+	rdfs:label "other_countries" ;
+	nif:beginIndex "190"^^xs:nonNegativeInteger ;
+	nif:endIndex "205"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.1.ttl/united_states_1> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/Other_countries> ;
+	fpos:pennpos fpos:NNS .
+
+<file:///eswc.1.ttl/offset_211_215_want> a nif:OffsetBasedString ;
+	rdfs:label "want" ;
+	nif:beginIndex "211"^^xs:nonNegativeInteger ;
+	nif:endIndex "215"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.1.ttl/want_1> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/Want> ;
+	fpos:pennpos fpos:VBP .
+
+<file:///eswc.1.ttl/offset_219_226_support> a nif:OffsetBasedString ;
+	rdfs:label "support" ;
+	nif:beginIndex "219"^^xs:nonNegativeInteger ;
+	nif:endIndex "226"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.1.ttl/support_1> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/Support> ;
+	fpos:pennpos fpos:VB .
+
+<file:///eswc.1.ttl/offset_22_27_group> a nif:OffsetBasedString ;
+	rdfs:label "group" ;
+	nif:beginIndex "22"^^xs:nonNegativeInteger ;
+	nif:endIndex "27"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.1.ttl/group_1> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/Group> ;
+	fpos:pennpos fpos:NN .
+
+<file:///eswc.1.ttl/offset_238_245_but_not> a nif:OffsetBasedString ;
+	rdfs:label "but_not" ;
+	nif:beginIndex "238"^^xs:nonNegativeInteger ;
+	nif:endIndex "245"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.1.ttl/but_not_1> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/But_not> ;
+	fpos:pennpos fpos:NN .
+
+<file:///eswc.1.ttl/offset_246_264_Islamic_extremists> a nif:OffsetBasedString ;
+	rdfs:label "Islamic_extremists" ;
+	nif:beginIndex "246"^^xs:nonNegativeInteger ;
+	nif:endIndex "264"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.1.ttl/islamic_extremists_1> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/Islamic_extremists> ;
+	fpos:pennpos fpos:NNS .
+
+<file:///eswc.1.ttl/offset_28_32_with> a nif:OffsetBasedString ;
+	rdfs:label "with" ;
+	nif:beginIndex "28"^^xs:nonNegativeInteger ;
+	nif:endIndex "32"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/With> .
+
+<file:///eswc.1.ttl/offset_36_44_explicit> a nif:OffsetBasedString ;
+	rdfs:label "explicit" ;
+	nif:beginIndex "36"^^xs:nonNegativeInteger ;
+	nif:endIndex "44"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/Explicit> ;
+	fpos:pennpos fpos:JJ .
+
+<file:///eswc.1.ttl/offset_36_50_explicit+stamp> a nif:OffsetBasedString ;
+	rdfs:label "Explicit Stamp" , "explicit stamp" ;
+	nif:beginIndex "36"^^xs:nonNegativeInteger ;
+	nif:endIndex "50"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.1.ttl/Stamp> .
+
+<file:///eswc.1.ttl/offset_45_50_stamp> a nif:OffsetBasedString ;
+	rdfs:label "stamp" ;
+	nif:beginIndex "45"^^xs:nonNegativeInteger ;
+	nif:endIndex "50"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.1.ttl/stamp_1> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/Stamp> ;
+	fpos:pennpos fpos:NN .
+
+<file:///eswc.1.ttl/offset_4_27_lone+syrian+rebel+group> a nif:OffsetBasedString ;
+	rdfs:label "Lone Syrian Rebel Group" , "lone Syrian rebel group" ;
+	nif:beginIndex "4"^^xs:nonNegativeInteger ;
+	nif:endIndex "27"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.1.ttl/SyrianRebelGroup> .
+
+<file:///eswc.1.ttl/offset_4_8_lone> a nif:OffsetBasedString ;
+	rdfs:label "lone" ;
+	nif:beginIndex "4"^^xs:nonNegativeInteger ;
+	nif:endIndex "8"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/Lone> ;
+	fpos:pennpos fpos:JJ .
+
+<file:///eswc.1.ttl/offset_51_53_of> a nif:OffsetBasedString ;
+	rdfs:label "of" ;
+	nif:beginIndex "51"^^xs:nonNegativeInteger ;
+	nif:endIndex "53"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/Explicitstampof> .
+
+<file:///eswc.1.ttl/offset_54_62_approval> a nif:OffsetBasedString ;
+	rdfs:label "approval" ;
+	nif:beginIndex "54"^^xs:nonNegativeInteger ;
+	nif:endIndex "62"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.1.ttl/approval_1> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/Approval> ;
+	fpos:pennpos fpos:NN .
+
+<file:///eswc.1.ttl/offset_63_67_from> a nif:OffsetBasedString ;
+	rdfs:label "from" ;
+	nif:beginIndex "63"^^xs:nonNegativeInteger ;
+	nif:endIndex "67"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/From> .
+
+<file:///eswc.1.ttl/offset_68_76_Al_Qaeda> a nif:OffsetBasedString ;
+	rdfs:label "Al_Qaeda" ;
+	nif:beginIndex "68"^^xs:nonNegativeInteger ;
+	nif:endIndex "76"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.1.ttl/Al_qaeda> .
+
+<file:///eswc.1.ttl/offset_81_87_become> a nif:OffsetBasedString ;
+	rdfs:label "become" ;
+	nif:beginIndex "81"^^xs:nonNegativeInteger ;
+	nif:endIndex "87"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.1.ttl/become_1> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/Become> ;
+	fpos:pennpos fpos:VBN .
+
+<file:///eswc.1.ttl/offset_92_94_of> a nif:OffsetBasedString ;
+	rdfs:label "of" ;
+	nif:beginIndex "92"^^xs:nonNegativeInteger ;
+	nif:endIndex "94"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/Uprisingof> .
+
+<file:///eswc.1.ttl/offset_99_107_uprising> a nif:OffsetBasedString ;
+	rdfs:label "uprising" ;
+	nif:beginIndex "99"^^xs:nonNegativeInteger ;
+	nif:endIndex "107"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.1.ttl/uprising_1> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/Uprising> ;
+	fpos:pennpos fpos:NN .
+
+<file:///eswc.1.ttl/offset_9_15_Syrian> a nif:OffsetBasedString ;
+	rdfs:label "Syrian" ;
+	nif:beginIndex "9"^^xs:nonNegativeInteger ;
+	nif:endIndex "15"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.1.ttl/Syrian> ;
+	fpos:pennpos fpos:JJ .
+
+<file:///eswc.1.ttl/offset_9_27_syrian+rebel+group> a nif:OffsetBasedString ;
+	rdfs:label "Syrian Rebel Group" , "Syrian rebel group" ;
+	nif:beginIndex "9"^^xs:nonNegativeInteger ;
+	nif:endIndex "27"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.1.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.1.ttl/RebelGroup> .
+
+fsem:denotes a owl:ObjectProperty .
+
+fsem:hasInterpretant a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#begins> a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#ends> a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#hasContent> a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#refersTo> a owl:ObjectProperty .
+
+fbox:Now fpos:boxerpos fpos:a .
+
+fbox:agent a owl:ObjectProperty .
+
+fbox:patient a owl:ObjectProperty .
+
+fbox:possibleType a owl:ObjectProperty .
+
+fbox:temp_abut a owl:ObjectProperty .
+
+fbox:temp_included a owl:ObjectProperty .
+
+dul:TimeInterval fpos:boxerpos <file:///eswc.1.ttl/Timeinterval> .
+
+dul:associatedWith a owl:ObjectProperty .
+
+dul:hasDataValue a owl:ObjectProperty .
+
+dul:hasQuality a owl:ObjectProperty .
+
+fpos:boxerpos a owl:ObjectProperty .
+
+fpos:pennpos a owl:ObjectProperty .
+
+vnr:Agent a owl:ObjectProperty .
+
+vnr:Experiencer a owl:ObjectProperty .
+
+vnr:Recipient a owl:ObjectProperty .
+
+vnr:Theme a owl:ObjectProperty .
+
+wni:synset-approval-noun-2 wns:gloss "a feeling of liking something or someone good; \"although she fussed at them, she secretly viewed all her children with approval\""@en-us .
+
+wni:synset-area-noun-1 wns:gloss "a particular geographical region of indefinite boundary (usually serving some special purpose or distinguished by its people or culture or geography); \"it was a mountainous area\"; \"Bible country\""@en-us .
+
+wni:synset-challenge-noun-2 wns:gloss "a call to engage in a contest or fight"@en-us .
+
+wni:synset-fight-noun-2 wns:gloss "the act of fighting; any contest or struggle; \"a fight broke out at the hockey game\"; \"there was fighting in the streets\"; \"the unhappy couple got into a terrible scrap\""@en-us .
+
+wni:synset-group-noun-2 wns:gloss "(chemistry) two or more atoms bound together as a single unit and forming part of a molecule"@en-us .
+
+wni:synset-maverick-noun-1 wns:gloss "someone who exhibits great independence in thought and action"@en-us .
+
+wni:synset-postage-noun-2 wns:gloss "a small adhesive token stuck on a letter or package to indicate that that postal fees have been paid"@en-us .
+
+wni:synset-rebellion-noun-2 wns:gloss "organized opposition to authority; a conflict in which one faction tries to wrest control from another"@en-us .
+
+dbpedia:United_States rdfs:subClassOf schema:Place , schema:Country .
+
+owl:equivalentClass a owl:ObjectProperty .
+
+rdfs:subClassOf a owl:ObjectProperty .

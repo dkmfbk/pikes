@@ -1,0 +1,446 @@
+@prefix xs: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dbyago: <http://dbpedia.org/class/yago/> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix sumo: <http://www.ontologyportal.org/SUMO.owl#> .
+@prefix sem: <http://semanticweb.cs.vu.nl/2009/11/sem/> .
+@prefix nif: <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix wn30: <http://wordnet-rdf.princeton.edu/wn30/> .
+@prefix x: <x:schema#> .
+@prefix pb: <x:propbank#> .
+@prefix nb: <x:nombank#> .
+@prefix vn: <x:verbnet#> .
+@prefix fn: <x:framenet#> .
+@prefix sst: <x:sst#> .
+@prefix ner: <x:ner#> .
+@prefix attr: <x:attr#> .
+@prefix entity: <x:Instance#> .
+
+<file:///eswc.3.ttl/> dct:created "2015-09-17T08:12:45+02:00" ;
+	dct:creator "" ;
+	a x:Text , x:Resource ;
+	dct:title "" ;
+	dct:language <http://lexvo.org/id/iso639-3/eng> ;
+	x:hasMention <file:///eswc.3.ttl/char=0,3> , <file:///eswc.3.ttl/char=107,111> , <file:///eswc.3.ttl/char=112,117> , <file:///eswc.3.ttl/char=118,128> , <file:///eswc.3.ttl/char=132,139> , <file:///eswc.3.ttl/char=140,148> , <file:///eswc.3.ttl/char=149,154> , <file:///eswc.3.ttl/char=159,162> , <file:///eswc.3.ttl/char=16,21> , <file:///eswc.3.ttl/char=163,169> , <file:///eswc.3.ttl/char=22,30> , <file:///eswc.3.ttl/char=38,44> , <file:///eswc.3.ttl/char=4,12> , <file:///eswc.3.ttl/char=46,50> , <file:///eswc.3.ttl/char=55,63> , <file:///eswc.3.ttl/char=68,73> , <file:///eswc.3.ttl/char=77,82> , <file:///eswc.3.ttl/char=83,92> , <file:///eswc.3.ttl/char=93,102> , <file:///eswc.3.ttl/char=107,111;118,128> , <file:///eswc.3.ttl/char=77,82;93,102> , <file:///eswc.3.ttl/char=4,12;77,82> , <file:///eswc.3.ttl/char=0,12> , <file:///eswc.3.ttl/char=118,128;132,139> , <file:///eswc.3.ttl/char=112,128> , <file:///eswc.3.ttl/char=4,12;46,50> , <file:///eswc.3.ttl/char=83,102> , <file:///eswc.3.ttl/char=140,154> , <file:///eswc.3.ttl/char=132,139;163,169> , <file:///eswc.3.ttl/char=159,169> , <file:///eswc.3.ttl/char=46,50;55,63> , <file:///eswc.3.ttl/char=132,139;149,154> , <file:///eswc.3.ttl/char=107,111;132,139> , <file:///eswc.3.ttl/char=22,30;38,44> , <file:///eswc.3.ttl/char=46,50;68,73> ;
+	x:annotatedWith <file:///eswc.3.ttl/.naf> ;
+	x:textHash "CUM4DIIlaWWOkQ0jROEw7G" .
+
+<file:///eswc.3.ttl/char=0,3> a x:Mention , x:InstanceMention ;
+	nif:beginIndex "0"^^xs:int ;
+	nif:endIndex "3"^^xs:int ;
+	nif:anchorOf "Its" ;
+	x:denotes <file:///eswc.3.ttl/its> ;
+	x:mentionOf <file:///eswc.3.ttl/> .
+
+<file:///eswc.3.ttl/its> a x:Instance .
+
+<file:///eswc.3.ttl/char=107,111> a x:FrameMention , x:Mention ;
+	nif:beginIndex "107"^^xs:int ;
+	nif:endIndex "111"^^xs:int ;
+	nif:anchorOf "lead" ;
+	x:denotes <file:///eswc.3.ttl/lead> ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:lemma "lead" ;
+	x:synset wn30:02635659-v ;
+	x:sst sst:verb.stative .
+
+<file:///eswc.3.ttl/lead> a sem:Event , x:Instance , x:Frame , pb:lead.03 , vn:force-59 , fn:Causation ;
+	rdfs:label "lead" ;
+	sem:hasActor <file:///eswc.3.ttl/battalion> , <file:///eswc.3.ttl/capture> ;
+	fn:cause <file:///eswc.3.ttl/capture> ;
+	vn:result <file:///eswc.3.ttl/capture> ;
+	vn:patient <file:///eswc.3.ttl/battalion> ;
+	fn:effect <file:///eswc.3.ttl/battalion> ;
+	pb:lead.03_2 <file:///eswc.3.ttl/capture> ;
+	pb:lead.03_1 <file:///eswc.3.ttl/battalion> .
+
+<file:///eswc.3.ttl/char=112,117> a x:FrameMention , x:Mention ;
+	nif:beginIndex "112"^^xs:int ;
+	nif:endIndex "117"^^xs:int ;
+	nif:anchorOf "other" ;
+	x:denotes <file:///eswc.3.ttl/other> ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:synset wn30:02069355-a ;
+	x:sst sst:adj.all .
+
+<file:///eswc.3.ttl/other> a sem:Event , x:Instance , x:Frame , nb:other.01 ;
+	rdfs:label "other" .
+
+<file:///eswc.3.ttl/char=118,128> a x:FrameMention , x:Mention , x:InstanceMention , x:AttributeMention ;
+	nif:beginIndex "118"^^xs:int ;
+	nif:endIndex "128"^^xs:int ;
+	nif:anchorOf "battalions" ;
+	x:denotes <file:///eswc.3.ttl/battalion> ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:lemma "battalion" ;
+	x:synset wn30:13775093-n ;
+	x:plural true ;
+	x:sst sst:noun.quantity .
+
+<file:///eswc.3.ttl/battalion> a sumo:Entity , sem:Event , sumo:Attribute , sumo:Abstract , sumo:RelationalAttribute , sumo:SubjectiveAssessmentAttribute , dbyago:Battalion113775093 , sumo:NormativeAttribute , x:Instance , x:Frame , nb:battalion.01 ;
+	rdfs:label "battalions" ;
+	x:mod <file:///eswc.3.ttl/other> .
+
+<file:///eswc.3.ttl/char=132,139> a x:FrameMention , x:Mention ;
+	nif:beginIndex "132"^^xs:int ;
+	nif:endIndex "139"^^xs:int ;
+	nif:anchorOf "capture" ;
+	x:denotes <file:///eswc.3.ttl/capture> ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:lemma "capture" ;
+	x:synset wn30:01480149-v ;
+	x:sst sst:verb.contact .
+
+<file:///eswc.3.ttl/capture> a sumo:Entity , sumo:Physical , sem:Event , sumo:Process , sumo:Pursuing , sumo:IntentionalProcess , x:Instance , x:Frame , pb:capture.01 , vn:steal-10.5-1 ;
+	rdfs:label "capture" ;
+	sem:hasActor <file:///eswc.3.ttl/battalion> , <file:///eswc.3.ttl/basis> , <file:///eswc.3.ttl/field> ;
+	vn:agent <file:///eswc.3.ttl/battalion> ;
+	vn:theme <file:///eswc.3.ttl/basis> , <file:///eswc.3.ttl/field> ;
+	pb:capture.01_1 <file:///eswc.3.ttl/basis> , <file:///eswc.3.ttl/field> ;
+	pb:capture.01_0 <file:///eswc.3.ttl/battalion> .
+
+<file:///eswc.3.ttl/char=140,148> a x:FrameMention , x:Mention ;
+	nif:beginIndex "140"^^xs:int ;
+	nif:endIndex "148"^^xs:int ;
+	nif:anchorOf "military" ;
+	x:denotes <file:///eswc.3.ttl/military> ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:synset wn30:01518386-a ;
+	x:sst sst:adj.all .
+
+<file:///eswc.3.ttl/military> a sem:Event , x:Instance , x:Frame , nb:military.01 ;
+	rdfs:label "military" .
+
+<file:///eswc.3.ttl/char=149,154> a x:FrameMention , x:Mention , x:InstanceMention ;
+	nif:beginIndex "149"^^xs:int ;
+	nif:endIndex "154"^^xs:int ;
+	nif:anchorOf "bases" ;
+	x:denotes <file:///eswc.3.ttl/basis> ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:lemma "basis" ;
+	x:synset wn30:05793554-n ;
+	x:plural true ;
+	x:sst sst:noun.cognition .
+
+<file:///eswc.3.ttl/basis> a sumo:Entity , sem:Event , sumo:Abstract , dbyago:Basis105793554 , sumo:Proposition , x:Instance , x:Frame , nb:basis.01 ;
+	rdfs:label "bases" ;
+	sem:hasActor <file:///eswc.3.ttl/military> ;
+	x:mod <file:///eswc.3.ttl/military> ;
+	nb:basis.01_1 <file:///eswc.3.ttl/military> .
+
+<file:///eswc.3.ttl/char=159,162> a x:Mention , x:InstanceMention ;
+	nif:beginIndex "159"^^xs:int ;
+	nif:endIndex "162"^^xs:int ;
+	nif:anchorOf "oil" ;
+	x:denotes <file:///eswc.3.ttl/oil> ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:lemma "oil" ;
+	x:synset wn30:14966667-n ;
+	x:sst sst:noun.substance .
+
+<file:///eswc.3.ttl/oil> a sumo:Entity , sumo:Physical , sumo:Substance , dbyago:Oil114966667 , sumo:SelfConnectedObject , sumo:Solution , sumo:Mixture , sumo:Object , sumo:Oil , sumo:LiquidMixture , x:Instance ;
+	rdfs:label "oil" .
+
+<file:///eswc.3.ttl/char=16,21> a x:Mention , x:AttributeMention ;
+	nif:beginIndex "16"^^xs:int ;
+	nif:endIndex "21"^^xs:int ;
+	nif:anchorOf "small" ;
+	x:denotes <attr:small-1a> ;
+	x:mentionOf <file:///eswc.3.ttl/> .
+
+<attr:small-1a> a x:Instance , x:Attribute ;
+	rdfs:label "small" ;
+	x:headSynset wn30:01391351-a .
+
+<file:///eswc.3.ttl/char=163,169> a x:FrameMention , x:Mention , x:InstanceMention ;
+	nif:beginIndex "163"^^xs:int ;
+	nif:endIndex "169"^^xs:int ;
+	nif:anchorOf "fields" ;
+	x:denotes <file:///eswc.3.ttl/field> ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:lemma "field" ;
+	x:synset wn30:05996646-n ;
+	x:plural true ;
+	x:sst sst:noun.cognition .
+
+<file:///eswc.3.ttl/field> a sumo:Entity , sem:Event , sumo:Abstract , sumo:Proposition , dbyago:Discipline105996646 , sumo:FieldOfStudy , x:Instance , x:Frame , vn:create-26.4 , nb:field.02 , fn:Intentionally_create , pb:produce.01 ;
+	rdfs:label "fields" ;
+	sem:hasActor <file:///eswc.3.ttl/oil> ;
+	x:mod <file:///eswc.3.ttl/oil> ;
+	vn:result <file:///eswc.3.ttl/oil> ;
+	fn:created_entity <file:///eswc.3.ttl/oil> ;
+	nb:field.02_1 <file:///eswc.3.ttl/oil> ;
+	pb:produce.01_1 <file:///eswc.3.ttl/oil> .
+
+<file:///eswc.3.ttl/char=22,30> a x:FrameMention , x:Mention , x:InstanceMention ;
+	nif:beginIndex "22"^^xs:int ;
+	nif:endIndex "30"^^xs:int ;
+	nif:anchorOf "minority" ;
+	x:denotes <file:///eswc.3.ttl/minority> ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:lemma "minority" ;
+	x:synset wn30:05122850-n ;
+	x:sst sst:noun.attribute .
+
+<file:///eswc.3.ttl/minority> a sumo:Entity , sem:Event , sumo:Abstract , sumo:Number , sumo:Quantity , dbyago:Minority105122850 , x:Instance , x:Frame , nb:minority.01 ;
+	rdfs:label "minority" ;
+	sem:hasActor <file:///eswc.3.ttl/rebel> ;
+	x:mod <attr:small-1a> , <file:///eswc.3.ttl/rebel> ;
+	nb:minority.01_1 <file:///eswc.3.ttl/rebel> .
+
+<file:///eswc.3.ttl/char=38,44> a x:Mention , x:InstanceMention ;
+	nif:beginIndex "38"^^xs:int ;
+	nif:endIndex "44"^^xs:int ;
+	nif:anchorOf "rebels" ;
+	x:denotes <file:///eswc.3.ttl/rebel> ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:lemma "rebel" ;
+	x:synset wn30:10210137-n ;
+	x:plural true ;
+	x:sst sst:noun.person .
+
+<file:///eswc.3.ttl/rebel> a sumo:Entity , sumo:Attribute , sumo:Abstract , sumo:RelationalAttribute , sumo:SocialRole , dbyago:Insurgent110210137 , x:Instance , ner:PERSON ;
+	rdfs:label "rebels" .
+
+<file:///eswc.3.ttl/char=4,12> a x:FrameMention , x:Mention , x:InstanceMention , x:ParticipationMention ;
+	nif:beginIndex "4"^^xs:int ;
+	nif:endIndex "12"^^xs:int ;
+	nif:anchorOf "fighters" ;
+	x:denotes <file:///eswc.3.ttl/fighter> ;
+	x:implies <file:///eswc.3.ttl/fighter_2> ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:lemma "fighter" ;
+	x:synset wn30:09939313-n ;
+	x:plural true ;
+	x:sst sst:noun.person .
+
+<file:///eswc.3.ttl/fighter> a dbyago:Combatant109939313 , x:Instance , ner:PERSON ;
+	rdfs:label "fighters" .
+
+<file:///eswc.3.ttl/fighter_2> a sem:Event , x:Instance , x:Frame , nb:fighter.01 ;
+	sem:hasActor <file:///eswc.3.ttl/fighter> ;
+	x:mod <file:///eswc.3.ttl/its> ;
+	nb:fighter.01_0 <file:///eswc.3.ttl/fighter> .
+
+<file:///eswc.3.ttl/char=46,50> a x:FrameMention , x:Mention ;
+	nif:beginIndex "46"^^xs:int ;
+	nif:endIndex "50"^^xs:int ;
+	nif:anchorOf "have" ;
+	x:denotes <file:///eswc.3.ttl/have> ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:lemma "have" ;
+	x:synset wn30:00065639-v ;
+	x:sst sst:verb.body .
+
+<file:///eswc.3.ttl/have> a sumo:Entity , sumo:Physical , sem:Event , sumo:Process , sumo:InternalChange , sumo:Damaging , x:Instance , x:Frame , fn:Possession , vn:own-100 , pb:have.03 ;
+	rdfs:label "have" ;
+	sem:hasActor <file:///eswc.3.ttl/fighter> , <file:///eswc.3.ttl/boldness> , <file:///eswc.3.ttl/skill> ;
+	vn:theme <file:///eswc.3.ttl/boldness> , <file:///eswc.3.ttl/skill> ;
+	fn:possession <file:///eswc.3.ttl/boldness> , <file:///eswc.3.ttl/skill> ;
+	pb:have.03_1 <file:///eswc.3.ttl/boldness> , <file:///eswc.3.ttl/skill> ;
+	fn:owner <file:///eswc.3.ttl/fighter> ;
+	pb:have.03_0 <file:///eswc.3.ttl/fighter> ;
+	vn:pivot <file:///eswc.3.ttl/fighter> .
+
+<file:///eswc.3.ttl/char=55,63> a x:Mention , x:InstanceMention ;
+	nif:beginIndex "55"^^xs:int ;
+	nif:endIndex "63"^^xs:int ;
+	nif:anchorOf "boldness" ;
+	x:denotes <file:///eswc.3.ttl/boldness> ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:lemma "boldness" ;
+	x:synset wn30:04838210-n ;
+	x:sst sst:noun.attribute .
+
+<file:///eswc.3.ttl/boldness> a sumo:Entity , sumo:Attribute , sumo:Abstract , sumo:PsychologicalAttribute , sumo:InternalAttribute , sumo:BiologicalAttribute , dbyago:Boldness104838210 , sumo:TraitAttribute , x:Instance ;
+	rdfs:label "boldness" .
+
+<file:///eswc.3.ttl/char=68,73> a x:FrameMention , x:Mention , x:InstanceMention ;
+	nif:beginIndex "68"^^xs:int ;
+	nif:endIndex "73"^^xs:int ;
+	nif:anchorOf "skill" ;
+	x:denotes <file:///eswc.3.ttl/skill> ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:lemma "skill" ;
+	x:synset wn30:05637558-n ;
+	x:sst sst:noun.cognition .
+
+<file:///eswc.3.ttl/skill> a sumo:Entity , sem:Event , sumo:Attribute , sumo:Abstract , sumo:PsychologicalAttribute , sumo:InternalAttribute , dbyago:Skill105637558 , sumo:BiologicalAttribute , x:Instance , x:Frame , nb:skill.01 ;
+	rdfs:label "skill" .
+
+<file:///eswc.3.ttl/char=77,82> a x:FrameMention , x:Mention ;
+	nif:beginIndex "77"^^xs:int ;
+	nif:endIndex "82"^^xs:int ;
+	nif:anchorOf "storm" ;
+	x:denotes <file:///eswc.3.ttl/storm> ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:lemma "storm" ;
+	x:synset wn30:01126051-v ;
+	x:sst sst:verb.competition .
+
+<file:///eswc.3.ttl/storm> a sumo:Entity , sumo:Physical , sem:Event , sumo:Process , sumo:IntentionalProcess , sumo:SocialInteraction , sumo:Contest , x:Instance , x:Frame , pb:storm.02 ;
+	rdfs:label "storm" ;
+	sem:hasActor <file:///eswc.3.ttl/fighter> , <file:///eswc.3.ttl/position> ;
+	pb:storm.02_1 <file:///eswc.3.ttl/position> ;
+	pb:storm.02_0 <file:///eswc.3.ttl/fighter> .
+
+<file:///eswc.3.ttl/char=83,92> a x:FrameMention , x:Mention ;
+	nif:beginIndex "83"^^xs:int ;
+	nif:endIndex "92"^^xs:int ;
+	nif:anchorOf "fortified" ;
+	x:denotes <file:///eswc.3.ttl/fortify> ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:lemma "fortify" ;
+	x:synset wn30:00220869-v ;
+	x:sst sst:verb.change .
+
+<file:///eswc.3.ttl/fortify> a sumo:Entity , sumo:Physical , sem:Event , sumo:Process , sumo:InternalChange , sumo:Increasing , sumo:QuantityChange , x:Instance , x:Frame , pb:fortify.01 ;
+	rdfs:label "fortified" ;
+	sem:hasActor <file:///eswc.3.ttl/position> ;
+	pb:fortify.01_1 <file:///eswc.3.ttl/position> .
+
+<file:///eswc.3.ttl/char=93,102> a x:FrameMention , x:Mention , x:InstanceMention ;
+	nif:beginIndex "93"^^xs:int ;
+	nif:endIndex "102"^^xs:int ;
+	nif:anchorOf "positions" ;
+	x:denotes <file:///eswc.3.ttl/position> ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:lemma "position" ;
+	x:synset wn30:00586262-n ;
+	x:plural true ;
+	x:sst sst:noun.act .
+
+<file:///eswc.3.ttl/position> a sumo:Entity , sem:Event , sumo:Attribute , sumo:Abstract , sumo:RelationalAttribute , sumo:SocialRole , sumo:Position , dbyago:Position100586262 , x:Instance , x:Frame , nb:position.04 ;
+	rdfs:label "positions" ;
+	x:mod <file:///eswc.3.ttl/fortify> .
+
+<file:///eswc.3.ttl/char=107,111;118,128> a x:Mention , x:ParticipationMention , x:CompoundString ;
+	nif:beginIndex "107"^^xs:int ;
+	nif:endIndex "128"^^xs:int ;
+	nif:anchorOf "lead [...] battalions" ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:componentSubString <file:///eswc.3.ttl/char=107,111> , <file:///eswc.3.ttl/char=118,128> .
+
+<file:///eswc.3.ttl/char=77,82;93,102> a x:Mention , x:ParticipationMention , x:CompoundString ;
+	nif:beginIndex "77"^^xs:int ;
+	nif:endIndex "102"^^xs:int ;
+	nif:anchorOf "storm [...] positions" ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:componentSubString <file:///eswc.3.ttl/char=77,82> , <file:///eswc.3.ttl/char=93,102> .
+
+<file:///eswc.3.ttl/char=4,12;77,82> a x:Mention , x:ParticipationMention , x:CompoundString ;
+	nif:beginIndex "4"^^xs:int ;
+	nif:endIndex "82"^^xs:int ;
+	nif:anchorOf "fighters [...] storm" ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:componentSubString <file:///eswc.3.ttl/char=4,12> , <file:///eswc.3.ttl/char=77,82> .
+
+<file:///eswc.3.ttl/char=0,12> a x:Mention ;
+	nif:beginIndex "0"^^xs:int ;
+	nif:endIndex "12"^^xs:int ;
+	nif:anchorOf "Its fighters" ;
+	x:mentionOf <file:///eswc.3.ttl/> .
+
+<file:///eswc.3.ttl/char=118,128;132,139> a x:Mention , x:ParticipationMention , x:CompoundString ;
+	nif:beginIndex "118"^^xs:int ;
+	nif:endIndex "139"^^xs:int ;
+	nif:anchorOf "battalions [...] capture" ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:componentSubString <file:///eswc.3.ttl/char=118,128> , <file:///eswc.3.ttl/char=132,139> .
+
+<file:///eswc.3.ttl/char=112,128> a x:Mention ;
+	nif:beginIndex "112"^^xs:int ;
+	nif:endIndex "128"^^xs:int ;
+	nif:anchorOf "other battalions" ;
+	x:mentionOf <file:///eswc.3.ttl/> .
+
+<file:///eswc.3.ttl/char=4,12;46,50> a x:Mention , x:ParticipationMention , x:CompoundString ;
+	nif:beginIndex "4"^^xs:int ;
+	nif:endIndex "50"^^xs:int ;
+	nif:anchorOf "fighters [...] have" ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:componentSubString <file:///eswc.3.ttl/char=4,12> , <file:///eswc.3.ttl/char=46,50> .
+
+<file:///eswc.3.ttl/char=83,102> a x:Mention , x:ParticipationMention ;
+	nif:beginIndex "83"^^xs:int ;
+	nif:endIndex "102"^^xs:int ;
+	nif:anchorOf "fortified positions" ;
+	x:mentionOf <file:///eswc.3.ttl/> .
+
+<file:///eswc.3.ttl/char=140,154> a x:Mention , x:ParticipationMention ;
+	nif:beginIndex "140"^^xs:int ;
+	nif:endIndex "154"^^xs:int ;
+	nif:anchorOf "military bases" ;
+	x:mentionOf <file:///eswc.3.ttl/> .
+
+<file:///eswc.3.ttl/char=132,139;163,169> a x:Mention , x:ParticipationMention , x:CompoundString ;
+	nif:beginIndex "132"^^xs:int ;
+	nif:endIndex "169"^^xs:int ;
+	nif:anchorOf "capture [...] fields" ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:componentSubString <file:///eswc.3.ttl/char=132,139> , <file:///eswc.3.ttl/char=163,169> .
+
+<file:///eswc.3.ttl/char=159,169> a x:Mention , x:ParticipationMention ;
+	nif:beginIndex "159"^^xs:int ;
+	nif:endIndex "169"^^xs:int ;
+	nif:anchorOf "oil fields" ;
+	x:mentionOf <file:///eswc.3.ttl/> .
+
+<file:///eswc.3.ttl/char=46,50;55,63> a x:Mention , x:ParticipationMention , x:CompoundString ;
+	nif:beginIndex "46"^^xs:int ;
+	nif:endIndex "63"^^xs:int ;
+	nif:anchorOf "have [...] boldness" ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:componentSubString <file:///eswc.3.ttl/char=46,50> , <file:///eswc.3.ttl/char=55,63> .
+
+<file:///eswc.3.ttl/char=132,139;149,154> a x:Mention , x:ParticipationMention , x:CompoundString ;
+	nif:beginIndex "132"^^xs:int ;
+	nif:endIndex "154"^^xs:int ;
+	nif:anchorOf "capture [...] bases" ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:componentSubString <file:///eswc.3.ttl/char=132,139> , <file:///eswc.3.ttl/char=149,154> .
+
+<file:///eswc.3.ttl/char=107,111;132,139> a x:Mention , x:ParticipationMention , x:CompoundString ;
+	nif:beginIndex "107"^^xs:int ;
+	nif:endIndex "139"^^xs:int ;
+	nif:anchorOf "lead [...] capture" ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:componentSubString <file:///eswc.3.ttl/char=107,111> , <file:///eswc.3.ttl/char=132,139> .
+
+<file:///eswc.3.ttl/char=22,30;38,44> a x:Mention , x:ParticipationMention , x:CompoundString ;
+	nif:beginIndex "22"^^xs:int ;
+	nif:endIndex "44"^^xs:int ;
+	nif:anchorOf "minority [...] rebels" ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:componentSubString <file:///eswc.3.ttl/char=22,30> , <file:///eswc.3.ttl/char=38,44> .
+
+<file:///eswc.3.ttl/char=46,50;68,73> a x:Mention , x:ParticipationMention , x:CompoundString ;
+	nif:beginIndex "46"^^xs:int ;
+	nif:endIndex "73"^^xs:int ;
+	nif:anchorOf "have [...] skill" ;
+	x:mentionOf <file:///eswc.3.ttl/> ;
+	x:componentSubString <file:///eswc.3.ttl/char=46,50> , <file:///eswc.3.ttl/char=68,73> .
+
+<file:///eswc.3.ttl/.naf> dct:created "2015-09-17T08:12:53.045+0200" ;
+	dct:creator x:DBpedia%20Spotlight.null , x:Mate%20Tools.be.null , x:NAF%20filter.null , x:Mate%20Tools.null , x:Stanford%20CoreNLP.null , x:Anna%203.61.null ;
+	a x:Resource , x:NAF ;
+	dct:identifier "" ;
+	x:layer x:layer_srl , x:layer_text , x:layer_linked-entities , x:layer_deps , x:layer_naf-filter ;
+	x:annotationOf <file:///eswc.3.ttl/> ;
+	x:version "v3" .
+
+x:DBpedia%20Spotlight.null dct:title "DBpedia Spotlight" .
+
+x:Mate%20Tools.be.null dct:title "Mate Tools (be.xx model)" .
+
+x:NAF%20filter.null dct:title "NAF filter" .
+
+x:Mate%20Tools.null dct:title "Mate Tools" .
+
+x:Stanford%20CoreNLP.null dct:title "Stanford CoreNLP" .
+
+x:Anna%203.61.null dct:title "Anna 3.61" .

@@ -1,0 +1,166 @@
+@prefix fsem: <http://ontologydesignpatterns.org/cp/owl/semiotics.owl#> .
+@prefix fpos: <http://www.ontologydesignpatterns.org/ont/fred/pos.owl#> .
+@prefix fbox: <http://www.ontologydesignpatterns.org/ont/boxer/boxer.owl#> .
+@prefix wni: <http://www.w3.org/2006/03/wn/wn30/instances/> .
+@prefix wns: <http://www.w3.org/2006/03/wn/wn30/schema/> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix xs: <http://www.w3.org/2001/XMLSchema#> .
+@prefix vnr: <http://www.ontologydesignpatterns.org/ont/vn/abox/role/> .
+@prefix vnc: <http://www.ontologydesignpatterns.org/ont/vn/data/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix nif: <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+<file:///eswc.2.ttl/docuverse> a nif:Context ;
+	nif:isString "Money flows to the group, the Nusra Front, from like-minded donors abroad." .
+
+<file:///eswc.2.ttl/Abroad> fpos:boxerpos fpos:a .
+
+<file:///eswc.2.ttl/Donor> a owl:Class ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.2.ttl/Flow> owl:equivalentClass vnc:Flow_47020000 ;
+	rdfs:subClassOf dul:Event ;
+	fpos:boxerpos fpos:v .
+
+<file:///eswc.2.ttl/Group> owl:equivalentClass wni:synset-group-noun-2 ;
+	rdfs:subClassOf wni:supersense-noun_substance , dul:Collection ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.2.ttl/Like-minded> fpos:boxerpos fpos:a .
+
+<file:///eswc.2.ttl/Like-mindedDonor> a owl:Class ;
+	rdfs:subClassOf <file:///eswc.2.ttl/Donor> .
+
+<file:///eswc.2.ttl/Money> a owl:Class ;
+	owl:equivalentClass dbpedia:Money ;
+	fpos:boxerpos fpos:n .
+
+<file:///eswc.2.ttl/Nusra_front> fbox:possibleType foaf:Organisation .
+
+<file:///eswc.2.ttl/donor_1> a <file:///eswc.2.ttl/Like-mindedDonor> ;
+	dul:hasQuality <file:///eswc.2.ttl/Like-minded> , <file:///eswc.2.ttl/Abroad> .
+
+<file:///eswc.2.ttl/flow_1> a <file:///eswc.2.ttl/Flow> ;
+	vnr:Theme <file:///eswc.2.ttl/money_1> ;
+	vnr:Location <file:///eswc.2.ttl/group_1> , <file:///eswc.2.ttl/Nusra_front> ;
+	<file:///eswc.2.ttl/from> <file:///eswc.2.ttl/donor_1> ;
+	fbox:temp_included <file:///eswc.2.ttl/now_1> .
+
+<file:///eswc.2.ttl/from> a owl:ObjectProperty .
+
+<file:///eswc.2.ttl/group_1> a <file:///eswc.2.ttl/Group> .
+
+<file:///eswc.2.ttl/money_1> a <file:///eswc.2.ttl/Money> .
+
+<file:///eswc.2.ttl/now_1> a fbox:Now .
+
+<file:///eswc.2.ttl/offset_0_5_Money> a nif:OffsetBasedString ;
+	rdfs:label "Money" ;
+	nif:beginIndex "0"^^xs:nonNegativeInteger ;
+	nif:endIndex "5"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.2.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.2.ttl/money_1> ;
+	fsem:hasInterpretant <file:///eswc.2.ttl/Money> ;
+	fpos:pennpos fpos:NN .
+
+<file:///eswc.2.ttl/offset_12_14_to> a nif:OffsetBasedString ;
+	rdfs:label "to" ;
+	nif:beginIndex "12"^^xs:nonNegativeInteger ;
+	nif:endIndex "14"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.2.ttl/docuverse> ;
+	fsem:hasInterpretant vnr:Location .
+
+<file:///eswc.2.ttl/offset_19_24_group> a nif:OffsetBasedString ;
+	rdfs:label "group" ;
+	nif:beginIndex "19"^^xs:nonNegativeInteger ;
+	nif:endIndex "24"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.2.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.2.ttl/group_1> ;
+	fsem:hasInterpretant <file:///eswc.2.ttl/Group> ;
+	fpos:pennpos fpos:NN .
+
+<file:///eswc.2.ttl/offset_30_41_Nusra+Front> a nif:OffsetBasedString ;
+	rdfs:label "Nusra Front" ;
+	nif:beginIndex "30"^^xs:nonNegativeInteger ;
+	nif:endIndex "41"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.2.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.2.ttl/Nusra_front> .
+
+<file:///eswc.2.ttl/offset_43_47_from> a nif:OffsetBasedString ;
+	rdfs:label "from" ;
+	nif:beginIndex "43"^^xs:nonNegativeInteger ;
+	nif:endIndex "47"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.2.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.2.ttl/From> .
+
+<file:///eswc.2.ttl/offset_48_59_like-minded> a nif:OffsetBasedString ;
+	rdfs:label "like-minded" ;
+	nif:beginIndex "48"^^xs:nonNegativeInteger ;
+	nif:endIndex "59"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.2.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.2.ttl/Like-minded> ;
+	fpos:pennpos fpos:JJ .
+
+<file:///eswc.2.ttl/offset_60_66_donors> a nif:OffsetBasedString ;
+	rdfs:label "donors" ;
+	nif:beginIndex "60"^^xs:nonNegativeInteger ;
+	nif:endIndex "66"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.2.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.2.ttl/donor_1> ;
+	fsem:hasInterpretant <file:///eswc.2.ttl/Donor> ;
+	fpos:pennpos fpos:NNS .
+
+<file:///eswc.2.ttl/offset_67_73_abroad> a nif:OffsetBasedString ;
+	rdfs:label "abroad" ;
+	nif:beginIndex "67"^^xs:nonNegativeInteger ;
+	nif:endIndex "73"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.2.ttl/docuverse> ;
+	fsem:hasInterpretant <file:///eswc.2.ttl/Abroad> ;
+	fpos:pennpos fpos:RB .
+
+<file:///eswc.2.ttl/offset_6_11_flows> a nif:OffsetBasedString ;
+	rdfs:label "flows" ;
+	nif:beginIndex "6"^^xs:nonNegativeInteger ;
+	nif:endIndex "11"^^xs:nonNegativeInteger ;
+	nif:referenceContext <file:///eswc.2.ttl/docuverse> ;
+	fsem:denotes <file:///eswc.2.ttl/flow_1> ;
+	fsem:hasInterpretant <file:///eswc.2.ttl/Flow> ;
+	fpos:pennpos fpos:VBZ .
+
+fsem:denotes a owl:ObjectProperty .
+
+fsem:hasInterpretant a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#begins> a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#ends> a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#hasContent> a owl:ObjectProperty .
+
+<http://www.essepuntato.it/2008/12/earmark#refersTo> a owl:ObjectProperty .
+
+fbox:Now fpos:boxerpos fpos:a .
+
+fbox:possibleType a owl:ObjectProperty .
+
+fbox:temp_included a owl:ObjectProperty .
+
+dul:hasQuality a owl:ObjectProperty .
+
+fpos:boxerpos a owl:ObjectProperty .
+
+fpos:pennpos a owl:ObjectProperty .
+
+vnr:Location a owl:ObjectProperty .
+
+vnr:Theme a owl:ObjectProperty .
+
+wni:synset-group-noun-2 wns:gloss "(chemistry) two or more atoms bound together as a single unit and forming part of a molecule"@en-us .
+
+owl:equivalentClass a owl:ObjectProperty .
+
+rdfs:subClassOf a owl:ObjectProperty .
