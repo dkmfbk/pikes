@@ -133,8 +133,6 @@
         <module>pikes-raid</module>
         <module>pikes-rdf</module>
         <module>pikes-tintop-client</module>
-        <module>pikes-depparse-annotation</module>
-        <module>pikes-twm</module>
     </modules>
 
 </project>
