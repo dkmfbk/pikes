@@ -8,29 +8,29 @@ The software needs Java 1.8 and at least 8GB of RAM (better 12G) for the models.
 
 Packages needed:
 
-* [PIKES Java core library](https://knowledgestore2.fbk.eu/pikes-data/pikes-tintop-1.0-SNAPSHOT-jar-with-dependencies.jar)
-* [Semafor library](https://knowledgestore2.fbk.eu/pikes-data/Semafor-3.0-alpha-04.jar)<br />
+* [PIKES Java core library](https://knowledgestore.fbk.eu/files/pikes/download/pikes-tintop-1.0-SNAPSHOT-jar-with-dependencies.jar)
+* [Semafor library](https://knowledgestore.fbk.eu/files/pikes/download/Semafor-3.0-alpha-04.jar)<br />
 SEMAFOR is a frame-semantic parser for English.
 [(More info)](http://www.cs.cmu.edu/~ark/SEMAFOR/)
 [(Source code)](https://github.com/Noahs-ARK/semafor)
 [(License)](https://github.com/Noahs-ARK/semafor/blob/master/LICENSE)
-* [PIKES models](https://knowledgestore2.fbk.eu/pikes-data/models.tar.gz)<br />
+* [PIKES models](https://knowledgestore.fbk.eu/files/pikes/download/models.tar.gz)<br />
 This package contains the models for some linguistic tools included in PIKES:
 [Mate-tools](https://code.google.com/archive/p/mate-tools/),
 [Semafor](http://www.cs.cmu.edu/~ark/SEMAFOR/),
 [PredicateMatrix](http://adimen.si.ehu.es/web/PredicateMatrix),
 [Stanford CoreNLP](http://stanfordnlp.github.io/CoreNLP/).
-* [WordNet 3.0 package](https://knowledgestore2.fbk.eu/pikes-data/wordnet.tar.gz)<br />
+* [WordNet 3.0 package](https://knowledgestore.fbk.eu/files/pikes/download/wordnet.tar.gz)<br />
 WordNet is a large lexical database of English developed at Princeton University. Nouns, verbs, adjectives and adverbs are grouped into sets of cognitive synonyms (synsets), each expressing a distinct concept. Synsets are interlinked by means of conceptual-semantic and lexical relations.
 [(More info)](https://wordnet.princeton.edu/wordnet/)
 [(License)](https://wordnet.princeton.edu/wordnet/license/)
-* [UKB](https://knowledgestore2.fbk.eu/pikes-data/ukb.tar.gz)<br />
+* [UKB](https://knowledgestore.fbk.eu/files/pikes/download/ukb.tar.gz)<br />
 UKB is a collection of programs for performing graph-based Word Sense Disambiguation and lexical similarity/relatedness using a pre-existing knowledge base.
 [(More info)](http://ixa2.si.ehu.es/ukb/)
 [(Source code)](https://github.com/asoroa/ukb)
 [(License)](https://github.com/asoroa/ukb/blob/master/src/LICENSE)
 
-You can also download the [full package](https://knowledgestore2.fbk.eu/pikes-data/pikes-all.tar.gz), containing all the above components.
+You can also download the [full package](https://knowledgestore.fbk.eu/files/pikes/download/pikes-all.tar.gz), containing all the above components.
 
 Run PIKES on GNU/Linux
 ---
@@ -38,7 +38,7 @@ Run PIKES on GNU/Linux
 If you want to run PIKES on GNU/Linux out-of-the box, just execute the following commands on a Bash shell.
 
 ```
-wget https://knowledgestore2.fbk.eu/pikes-data/pikes-all.tar.gz # Download the full package
+wget https://knowledgestore.fbk.eu/files/pikes/download/pikes-all.tar.gz # Download the full package
 tar xzf pikes-all.tar.gz
 cd pikes/
 export CLASSPATH=pikes-tintop-1.0-SNAPSHOT-jar-with-dependencies.jar
