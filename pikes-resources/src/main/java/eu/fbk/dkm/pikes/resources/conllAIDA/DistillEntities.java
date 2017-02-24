@@ -126,7 +126,7 @@ public class DistillEntities {
 
                                     Integer t_ID = Integer.parseInt(t.getId().replace("t",""))-1;
 
-                                    String line = t.getStr() + "\t" + t_ID;
+                                    String line = t.getForm() + "\t" + t_ID;
 
                                     //System.out.println(t.getStr());
                                     List<Entity> entities = document.getEntitiesByTerm(t);
