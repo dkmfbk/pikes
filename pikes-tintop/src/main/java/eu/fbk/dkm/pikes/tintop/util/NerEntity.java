@@ -2,6 +2,8 @@ package eu.fbk.dkm.pikes.tintop.util;
 
 import org.apache.log4j.Logger;
 
+import edu.stanford.nlp.stats.Counter;
+
 /**
  * Created with IntelliJ IDEA.
  * User: alessio
@@ -15,6 +17,7 @@ public class NerEntity {
 	static Logger logger = Logger.getLogger(NerEntity.class.getName());
 
 	private String label;
+    private Counter<String> scoredLabels = null;
 	private int startToken;
 	private int endToken;
 	private String normalizedValue = null;
@@ -39,7 +42,15 @@ public class NerEntity {
 	public void setLabel(String label) {
 		this.label = label;
 	}
-
+	
+    public Counter<String> getScoredLabels() {
+        return scoredLabels;
+    }
+    
+    public void setScoredLabels(Counter<String> scoredLabels) {
+        this.scoredLabels = scoredLabels;
+    }
+    
 	public int getStartToken() {
 		return startToken;
 	}

@@ -62,6 +62,8 @@ public class Defaults {
                 "eu.fbk.dkm.pikes.tintop.annotators.FakeMstParserAnnotator");
         ret.setProperty("stanford.customAnnotatorClass.ner_custom",
                 "eu.fbk.dkm.pikes.tintop.annotators.NERCustomAnnotator");
+        ret.setProperty("stanford.customAnnotatorClass.ner_confidence",
+                "eu.fbk.dkm.pikes.tintop.annotators.NERConfidenceAnnotator");
         ret.setProperty("stanford.customAnnotatorClass.dbps", "eu.fbk.dkm.pikes.twm.LinkingAnnotator");
         ret.setProperty("stanford.customAnnotatorClass.ml", "eu.fbk.dkm.pikes.twm.LinkingAnnotator");
 

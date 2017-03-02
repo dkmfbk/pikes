@@ -19,6 +19,8 @@ import eu.fbk.dkm.pikes.resources.*;
 import eu.fbk.dkm.pikes.resources.ontonotes.VerbNetStatisticsExtractor;
 import eu.fbk.dkm.pikes.tintop.annotators.AnnotatorUtils;
 import eu.fbk.dkm.pikes.tintop.annotators.Defaults;
+import eu.fbk.dkm.pikes.tintop.annotators.NERConfidenceAnnotator;
+import eu.fbk.dkm.pikes.tintop.annotators.NERConfidenceAnnotator.ScoredNamedEntityTagsAnnotation;
 import eu.fbk.dkm.pikes.tintop.annotators.PikesAnnotations;
 import eu.fbk.dkm.pikes.tintop.annotators.raw.Semafor;
 import eu.fbk.dkm.pikes.tintop.util.NER2SSTtagset;
@@ -35,6 +37,7 @@ import se.lth.cs.srl.corpus.Word;
 import javax.annotation.Nullable;
 import java.io.*;
 import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Created with IntelliJ IDEA.
@@ -281,6 +284,7 @@ public class AnnotationPipeline {
                             ners.add("I-" + alt);
                         } else {
                             NerEntity newEntity = new NerEntity(ne, i, normVal);
+                            newEntity.setScoredLabels(stanfordToken.get(ScoredNamedEntityTagsAnnotation.class));
                             entities.add(newEntity);
                             ners.add("B-" + alt);
                         }
@@ -411,8 +415,8 @@ public class AnnotationPipeline {
                 thisTermList.add(thisTermSpan);
                 thisWFList.add(thisWFSpan);
 
-                Entity thisEntity;
-                Timex3 thisTimex;
+                Entity thisEntity = null;
+                Timex3 thisTimex = null;
 
                 switch (entity.getLabel()) {
                 case "PERSON":
@@ -478,6 +482,15 @@ public class AnnotationPipeline {
 
                 default:
                     logger.debug(entity.getLabel());
+                }
+                
+                if (thisEntity != null && entity.getScoredLabels() != null) {
+                    for (Entry<String, Double> entry : entity.getScoredLabels().entrySet()) {
+                        ExternalRef ref = NAFdocument.createExternalRef("value-confidence",
+                                entry.getKey());
+                        ref.setConfidence(entry.getValue().floatValue());
+                        thisEntity.addExternalRef(ref);
+                    }
                 }
             }
 
