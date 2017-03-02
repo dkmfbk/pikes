@@ -117,7 +117,8 @@
     <properties>
         <pikes-version>${project.version}</pikes-version>
         <utils-version>3.0</utils-version>
-        <rdfpro-version>0.5</rdfpro-version>
+	<rdfpro-version>0.5</rdfpro-version>
+	<fcw-version>1.0-SNAPSHOT</fcw-version>
         <site.root>http://pikes.fbk.eu/</site.root>
         <site-download>https://knowledgestore.fbk.eu/files/pikes/latest/</site-download>
 

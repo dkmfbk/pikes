@@ -143,14 +143,14 @@
             <version>${pikes-version}</version>
         </dependency>
         <dependency>
-            <groupId>eu.fbk.pikes</groupId>
-            <artifactId>pikes-depparse-annotation</artifactId>
-            <version>${pikes-version}</version>
+            <groupId>eu.fbk.fcw</groupId>
+            <artifactId>fcw-depparse</artifactId>
+	    <version>${fcw-version}</version>
         </dependency>
         <dependency>
-            <groupId>eu.fbk.pikes</groupId>
-            <artifactId>pikes-twm</artifactId>
-            <version>${pikes-version}</version>
+            <groupId>eu.fbk.fcw</groupId>
+            <artifactId>fcw-linking</artifactId>
+	    <version>${fcw-version}</version>
         </dependency>
         <dependency>
             <groupId>eu.fbk.pikes</groupId>
