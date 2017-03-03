@@ -60,12 +60,12 @@
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> Properties classProperties() {
 <a class="jxr_linenumber" name="L53" href="#L53">53</a>          Properties ret = <strong class="jxr_keyword">new</strong> Properties();
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>          ret.setProperty(<span class="jxr_string">"stanford.customAnnotatorClass.simple_pos"</span>,
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>                  <span class="jxr_string">"eu.fbk.dkm.pikes.tintop.annotators.SimplePosAnnotator"</span>);
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>          ret.setProperty(<span class="jxr_string">"stanford.customAnnotatorClass.ukb"</span>, <span class="jxr_string">"eu.fbk.dkm.pikes.tintop.annotators.UKBAnnotator"</span>);
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>                  <span class="jxr_string">"eu.fbk.fcw.wnpos.SimplePosAnnotator"</span>);
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>          ret.setProperty(<span class="jxr_string">"stanford.customAnnotatorClass.ukb"</span>, <span class="jxr_string">"eu.fbk.fcw.ukb.UKBAnnotator"</span>);
 <a class="jxr_linenumber" name="L57" href="#L57">57</a>          ret.setProperty(<span class="jxr_string">"stanford.customAnnotatorClass.conll_parse"</span>,
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>                  <span class="jxr_string">"eu.fbk.dkm.pikes.tintop.annotators.AnnaParseAnnotator"</span>);
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>          ret.setProperty(<span class="jxr_string">"stanford.customAnnotatorClass.semafor"</span>, <span class="jxr_string">"eu.fbk.dkm.pikes.tintop.annotators.SemaforAnnotator"</span>);
-<a class="jxr_linenumber" name="L60" href="#L60">60</a>          ret.setProperty(<span class="jxr_string">"stanford.customAnnotatorClass.mate"</span>, <span class="jxr_string">"eu.fbk.dkm.pikes.tintop.annotators.MateSrlAnnotator"</span>);
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>                  <span class="jxr_string">"eu.fbk.fcw.mate.AnnaParseAnnotator"</span>);
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>          ret.setProperty(<span class="jxr_string">"stanford.customAnnotatorClass.semafor"</span>, <span class="jxr_string">"eu.fbk.fcw.semafor.SemaforAnnotator"</span>);
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>          ret.setProperty(<span class="jxr_string">"stanford.customAnnotatorClass.mate"</span>, <span class="jxr_string">"eu.fbk.fcw.mate.MateSrlAnnotator"</span>);
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>          ret.setProperty(<span class="jxr_string">"stanford.customAnnotatorClass.mst_fake"</span>,
 <a class="jxr_linenumber" name="L62" href="#L62">62</a>                  <span class="jxr_string">"eu.fbk.dkm.pikes.tintop.annotators.FakeMstParserAnnotator"</span>);
 <a class="jxr_linenumber" name="L63" href="#L63">63</a>          ret.setProperty(<span class="jxr_string">"stanford.customAnnotatorClass.ner_custom"</span>,
@@ -75,9 +75,9 @@
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>  
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>          <em class="jxr_comment">// Unused</em>
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>          ret.setProperty(<span class="jxr_string">"stanford.customAnnotatorClass.anna_pos"</span>,
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>                  <span class="jxr_string">"eu.fbk.dkm.pikes.tintop.annotators.AnnaPosAnnotator"</span>);
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>                  <span class="jxr_string">"eu.fbk.fcw.mate.AnnaPosAnnotator"</span>);
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>          ret.setProperty(<span class="jxr_string">"stanford.customAnnotatorClass.mst_server"</span>,
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>                  <span class="jxr_string">"eu.fbk.dkm.pikes.tintop.annotators.MstServerParserAnnotator"</span>);
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>                  <span class="jxr_string">"eu.fbk.fcw.mst.api.MstServerParserAnnotator"</span>);
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>          ret.setProperty(<span class="jxr_string">"stanford.customAnnotatorClass.anna_fake"</span>,
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>                  <span class="jxr_string">"eu.fbk.dkm.pikes.tintop.annotators.FakeAnnaParserAnnotator"</span>);
 <a class="jxr_linenumber" name="L75" href="#L75">75</a>          <strong class="jxr_keyword">return</strong> ret;

@@ -1,7 +1,7 @@
 package eu.fbk.dkm.pikes.tintop;
 
-import edu.stanford.nlp.hcoref.CorefCoreAnnotations;
-import edu.stanford.nlp.hcoref.data.CorefChain;
+import edu.stanford.nlp.coref.CorefCoreAnnotations;
+import edu.stanford.nlp.coref.data.CorefChain;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
@@ -9,9 +9,6 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.time.TimeAnnotations;
 import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.util.IntPair;
-import ixa.kaflib.KAFDocument;
-import ixa.kaflib.Span;
-import ixa.kaflib.Term;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

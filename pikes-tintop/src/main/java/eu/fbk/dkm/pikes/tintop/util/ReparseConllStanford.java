@@ -1,4 +1,4 @@
-package eu.fbk.dkm.pikes.tintop;
+package eu.fbk.dkm.pikes.tintop.util;
 
 import ch.qos.logback.classic.Level;
 import edu.stanford.nlp.ling.CoreAnnotations;
@@ -9,11 +9,10 @@ import edu.stanford.nlp.semgraph.SemanticGraphFactory;
 import edu.stanford.nlp.trees.*;
 import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.util.Filters;
-import eu.fbk.dkm.pikes.resources.util.corpus.Corpus;
-import eu.fbk.dkm.pikes.resources.util.corpus.Sentence;
-import eu.fbk.dkm.pikes.resources.util.corpus.Word;
+import eu.fbk.fcw.utils.corpus.Corpus;
+import eu.fbk.fcw.utils.corpus.Sentence;
+import eu.fbk.fcw.utils.corpus.Word;
 import eu.fbk.dkm.pikes.depparseannotation.DepParseInfo;
-import eu.fbk.dkm.pikes.tintop.util.RemoveLoopsInConll;
 import eu.fbk.utils.core.CommandLine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,9 +85,10 @@ public class ReparseConllStanford {
                 Tree tree = coreMap.get(TreeCoreAnnotations.TreeAnnotation.class);
                 GrammaticalStructure grammaticalStructure = new EnglishGrammaticalStructure(tree,
                         Filters.acceptFilter(), new CollinsHeadFinder());
-                SemanticGraph dependencies = SemanticGraphFactory
-                        .makeFromTree(grammaticalStructure, SemanticGraphFactory.Mode.BASIC,
-                                GrammaticalStructure.Extras.NONE, true, null);
+                SemanticGraph dependencies = SemanticGraphFactory.makeFromTree(grammaticalStructure);
+//                SemanticGraph dependencies = SemanticGraphFactory
+//                        .makeFromTree(grammaticalStructure, SemanticGraphFactory.Mode.BASIC,
+//                                GrammaticalStructure.Extras.NONE, true, null);
                 DepParseInfo info = new DepParseInfo(dependencies);
 
                 for (Integer id : info.getDepParents().keySet()) {

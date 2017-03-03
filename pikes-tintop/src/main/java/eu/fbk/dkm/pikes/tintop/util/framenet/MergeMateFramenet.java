@@ -6,10 +6,10 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.io.Files;
 import eu.fbk.dkm.pikes.resources.FrameBase;
 import eu.fbk.dkm.pikes.resources.WordNet;
-import eu.fbk.dkm.pikes.resources.util.corpus.Corpus;
-import eu.fbk.dkm.pikes.resources.util.corpus.Sentence;
-import eu.fbk.dkm.pikes.resources.util.corpus.Srl;
-import eu.fbk.dkm.pikes.resources.util.corpus.Word;
+import eu.fbk.fcw.utils.corpus.Corpus;
+import eu.fbk.fcw.utils.corpus.Sentence;
+import eu.fbk.fcw.utils.corpus.Srl;
+import eu.fbk.fcw.utils.corpus.Word;
 import eu.fbk.dkm.pikes.resources.util.fnlu.*;
 import eu.fbk.dkm.pikes.resources.util.onsenses.Inventory;
 import eu.fbk.dkm.pikes.resources.util.onsenses.Sense;
@@ -547,7 +547,7 @@ public class MergeMateFramenet {
                                             Set<List<Integer>> spans = roles.get(roleLabel);
                                             for (List<Integer> span : spans) {
                                                 Integer roleHead = conllSentence.searchHead(span);
-                                                eu.fbk.dkm.pikes.resources.util.corpus.Role role = new eu.fbk.dkm.pikes.resources.util.corpus.Role(
+                                                eu.fbk.fcw.utils.corpus.Role role = new eu.fbk.fcw.utils.corpus.Role(
                                                         conllSentence.getWords().get(roleHead), roleLabel);
                                                 srl.addRole(role);
                                             }
@@ -1121,7 +1121,7 @@ public class MergeMateFramenet {
                             HashMap<Word, String> roleWordsFrameNet = new HashMap<>();
 
                             // Mate
-                            for (eu.fbk.dkm.pikes.resources.util.corpus.Role role : srlMate.getRoles()) {
+                            for (eu.fbk.fcw.utils.corpus.Role role : srlMate.getRoles()) {
                                 Word roleHead = role.getSpan().get(0);
                                 String roleLabel = role.getLabel();
                                 roleLabel = roleLabel.replaceAll("R-", "");
@@ -1135,7 +1135,7 @@ public class MergeMateFramenet {
                             }
 
                             // FrameNet
-                            for (eu.fbk.dkm.pikes.resources.util.corpus.Role role : srlFrameNet.getRoles()) {
+                            for (eu.fbk.fcw.utils.corpus.Role role : srlFrameNet.getRoles()) {
                                 Word roleHead = role.getSpan().get(0);
                                 String roleLabel = role.getLabel();
                                 roleWordsFrameNet.put(roleHead, roleLabel);
@@ -1161,7 +1161,7 @@ public class MergeMateFramenet {
                                 }
                             }
 
-//                            for (eu.fbk.dkm.pikes.resources.util.corpus.Role role : srlFrameNet.getRoles()) {
+//                            for (eu.fbk.fcw.utils.corpus.Role role : srlFrameNet.getRoles()) {
 //                                Word roleHead = role.getSpan().get(0);
 //                                if (roleWords.containsKey(roleHead)) {
 //                                    String thisMateRole = mate + "@" + roleWords.get(roleHead);

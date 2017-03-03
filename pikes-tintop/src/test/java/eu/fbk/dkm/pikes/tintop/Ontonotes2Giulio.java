@@ -1,6 +1,6 @@
 package eu.fbk.dkm.pikes.tintop;
 
-import eu.fbk.dkm.pikes.resources.util.corpus.*;
+import eu.fbk.fcw.utils.corpus.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

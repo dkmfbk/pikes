@@ -14,10 +14,10 @@
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> com.google.common.io.Files;
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> eu.fbk.dkm.pikes.resources.FrameBase;
 <a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> eu.fbk.dkm.pikes.resources.WordNet;
-<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> eu.fbk.dkm.pikes.resources.util.corpus.Corpus;
-<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> eu.fbk.dkm.pikes.resources.util.corpus.Sentence;
-<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> eu.fbk.dkm.pikes.resources.util.corpus.Srl;
-<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> eu.fbk.dkm.pikes.resources.util.corpus.Word;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> eu.fbk.fcw.utils.corpus.Corpus;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> eu.fbk.fcw.utils.corpus.Sentence;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> eu.fbk.fcw.utils.corpus.Srl;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> eu.fbk.fcw.utils.corpus.Word;
 <a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> eu.fbk.dkm.pikes.resources.util.fnlu.*;
 <a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> eu.fbk.dkm.pikes.resources.util.onsenses.Inventory;
 <a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> eu.fbk.dkm.pikes.resources.util.onsenses.Sense;
@@ -555,7 +555,7 @@
 <a class="jxr_linenumber" name="L547" href="#L547">547</a>                                             Set&lt;List&lt;Integer&gt;&gt; spans = roles.get(roleLabel);
 <a class="jxr_linenumber" name="L548" href="#L548">548</a>                                             <strong class="jxr_keyword">for</strong> (List&lt;Integer&gt; span : spans) {
 <a class="jxr_linenumber" name="L549" href="#L549">549</a>                                                 Integer roleHead = conllSentence.searchHead(span);
-<a class="jxr_linenumber" name="L550" href="#L550">550</a>                                                 eu.fbk.dkm.pikes.resources.util.corpus.Role role = <strong class="jxr_keyword">new</strong> eu.fbk.dkm.pikes.resources.util.corpus.Role(
+<a class="jxr_linenumber" name="L550" href="#L550">550</a>                                                 eu.fbk.fcw.utils.corpus.Role role = <strong class="jxr_keyword">new</strong> eu.fbk.fcw.utils.corpus.Role(
 <a class="jxr_linenumber" name="L551" href="#L551">551</a>                                                         conllSentence.getWords().get(roleHead), roleLabel);
 <a class="jxr_linenumber" name="L552" href="#L552">552</a>                                                 srl.addRole(role);
 <a class="jxr_linenumber" name="L553" href="#L553">553</a>                                             }
@@ -1129,7 +1129,7 @@
 <a class="jxr_linenumber" name="L1121" href="#L1121">1121</a>                             HashMap&lt;Word, String&gt; roleWordsFrameNet = <strong class="jxr_keyword">new</strong> HashMap&lt;&gt;();
 <a class="jxr_linenumber" name="L1122" href="#L1122">1122</a> 
 <a class="jxr_linenumber" name="L1123" href="#L1123">1123</a>                             <em class="jxr_comment">// Mate</em>
-<a class="jxr_linenumber" name="L1124" href="#L1124">1124</a>                             <strong class="jxr_keyword">for</strong> (eu.fbk.dkm.pikes.resources.util.corpus.Role role : srlMate.getRoles()) {
+<a class="jxr_linenumber" name="L1124" href="#L1124">1124</a>                             <strong class="jxr_keyword">for</strong> (eu.fbk.fcw.utils.corpus.Role role : srlMate.getRoles()) {
 <a class="jxr_linenumber" name="L1125" href="#L1125">1125</a>                                 <a href="../../../../../../../eu/fbk/dkm/pikes/resources/util/corpus/Word.html">Word</a> roleHead = role.getSpan().get(0);
 <a class="jxr_linenumber" name="L1126" href="#L1126">1126</a>                                 String roleLabel = role.getLabel();
 <a class="jxr_linenumber" name="L1127" href="#L1127">1127</a>                                 roleLabel = roleLabel.replaceAll(<span class="jxr_string">"R-"</span>, <span class="jxr_string">""</span>);
@@ -1143,7 +1143,7 @@
 <a class="jxr_linenumber" name="L1135" href="#L1135">1135</a>                             }
 <a class="jxr_linenumber" name="L1136" href="#L1136">1136</a> 
 <a class="jxr_linenumber" name="L1137" href="#L1137">1137</a>                             <em class="jxr_comment">// FrameNet</em>
-<a class="jxr_linenumber" name="L1138" href="#L1138">1138</a>                             <strong class="jxr_keyword">for</strong> (eu.fbk.dkm.pikes.resources.util.corpus.Role role : srlFrameNet.getRoles()) {
+<a class="jxr_linenumber" name="L1138" href="#L1138">1138</a>                             <strong class="jxr_keyword">for</strong> (eu.fbk.fcw.utils.corpus.Role role : srlFrameNet.getRoles()) {
 <a class="jxr_linenumber" name="L1139" href="#L1139">1139</a>                                 <a href="../../../../../../../eu/fbk/dkm/pikes/resources/util/corpus/Word.html">Word</a> roleHead = role.getSpan().get(0);
 <a class="jxr_linenumber" name="L1140" href="#L1140">1140</a>                                 String roleLabel = role.getLabel();
 <a class="jxr_linenumber" name="L1141" href="#L1141">1141</a>                                 roleWordsFrameNet.put(roleHead, roleLabel);
@@ -1169,7 +1169,7 @@
 <a class="jxr_linenumber" name="L1161" href="#L1161">1161</a>                                 }
 <a class="jxr_linenumber" name="L1162" href="#L1162">1162</a>                             }
 <a class="jxr_linenumber" name="L1163" href="#L1163">1163</a> 
-<a class="jxr_linenumber" name="L1164" href="#L1164">1164</a> <em class="jxr_comment">//                            for (eu.fbk.dkm.pikes.resources.util.corpus.Role role : srlFrameNet.getRoles()) {</em>
+<a class="jxr_linenumber" name="L1164" href="#L1164">1164</a> <em class="jxr_comment">//                            for (eu.fbk.fcw.utils.corpus.Role role : srlFrameNet.getRoles()) {</em>
 <a class="jxr_linenumber" name="L1165" href="#L1165">1165</a> <em class="jxr_comment">//                                Word roleHead = role.getSpan().get(0);</em>
 <a class="jxr_linenumber" name="L1166" href="#L1166">1166</a> <em class="jxr_comment">//                                if (roleWords.containsKey(roleHead)) {</em>
 <a class="jxr_linenumber" name="L1167" href="#L1167">1167</a> <em class="jxr_comment">//                                    String thisMateRole = mate + "@" + roleWords.get(roleHead);</em>

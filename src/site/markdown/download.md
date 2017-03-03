@@ -74,7 +74,7 @@ The demo interface (with input textbox for text) is written in php and available
 To access it, just surf to `http://server:8011/webdemo`.
 
 PIKES can be executed without a configuration file, as there is a default properties file.
-The properties values are stored in the `eu.fbk.dkm.pikes.tintop.annotators.Defaults` class.
+The properties values are stored in the `eu.fbk.dkm.pikes.tintop.Defaults` class.
 You can override these values by creating a configuration file and pass it to the `PipelineServer` (`-c` option).
 If you want to pass Stanford CoreNLP configurations, just prepend `stanford.` to the name of the preference.
 For example, to override the list of the annotators you can create a config file with

@@ -88,7 +88,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.util.corpus.Word.java">eu/fbk/dkm/pikes/resources/util/corpus/Word.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.utils.corpus.Word.java">eu/fbk/dkm/pikes/resources/util/corpus/Word.java</a>
                 </td>
                 <td>
                   0
@@ -144,7 +144,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.models.MateSrlModel.java">eu/fbk/dkm/pikes/tintop/annotators/models/MateSrlModel.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.mate.MateSrlModel.java">eu/fbk/dkm/pikes/tintop/annotators/models/MateSrlModel.java</a>
                 </td>
                 <td>
                   0
@@ -256,7 +256,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.raw.UKB.java">eu/fbk/dkm/pikes/tintop/annotators/raw/UKB.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.ukb.UKB.java">eu/fbk/dkm/pikes/tintop/annotators/raw/UKB.java</a>
                 </td>
                 <td>
                   0
@@ -466,7 +466,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.raw.MstServerParser.java">eu/fbk/dkm/pikes/tintop/annotators/raw/MstServerParser.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.mst.api.MstServerParser.java">eu/fbk/dkm/pikes/tintop/annotators/raw/MstServerParser.java</a>
                 </td>
                 <td>
                   0
@@ -662,7 +662,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.TreeTaggerPosAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/TreeTaggerPosAnnotator.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.treetagger.TreeTaggerPosAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/TreeTaggerPosAnnotator.java</a>
                 </td>
                 <td>
                   0
@@ -676,7 +676,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.util.framenet.ParseFrameNetExamplesWithMate.java">eu/fbk/dkm/pikes/tintop/util/framenet/ParseFrameNetExamplesWithMate.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.mate.ParseFrameNetExamplesWithMate.java">eu/fbk/dkm/pikes/tintop/util/framenet/ParseFrameNetExamplesWithMate.java</a>
                 </td>
                 <td>
                   0
@@ -704,7 +704,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.FakePosAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/FakePosAnnotator.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.utils.annotators.FakePosAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/FakePosAnnotator.java</a>
                 </td>
                 <td>
                   0
@@ -872,7 +872,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.Defaults.java">eu/fbk/dkm/pikes/tintop/annotators/Defaults.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.Defaults.java">eu/fbk/dkm/pikes/tintop/annotators/Defaults.java</a>
                 </td>
                 <td>
                   0
@@ -928,7 +928,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.SemaforAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/SemaforAnnotator.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.semafor.SemaforAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/SemaforAnnotator.java</a>
                 </td>
                 <td>
                   0
@@ -970,7 +970,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.models.AnnaParseModel.java">eu/fbk/dkm/pikes/tintop/annotators/models/AnnaParseModel.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.mate.AnnaParseModel.java">eu/fbk/dkm/pikes/tintop/annotators/models/AnnaParseModel.java</a>
                 </td>
                 <td>
                   0
@@ -1208,7 +1208,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.models.SemaforModel.java">eu/fbk/dkm/pikes/tintop/annotators/models/SemaforModel.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.semafor.SemaforModel.java">eu/fbk/dkm/pikes/tintop/annotators/models/SemaforModel.java</a>
                 </td>
                 <td>
                   0
@@ -1222,7 +1222,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.raw.Semafor.java">eu/fbk/dkm/pikes/tintop/annotators/raw/Semafor.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.semafor.Semafor.java">eu/fbk/dkm/pikes/tintop/annotators/raw/Semafor.java</a>
                 </td>
                 <td>
                   0
@@ -1362,7 +1362,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.AnnaParseAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/AnnaParseAnnotator.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.mate.AnnaParseAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/AnnaParseAnnotator.java</a>
                 </td>
                 <td>
                   0
@@ -1726,7 +1726,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.ReparseConllStanford.java">eu/fbk/dkm/pikes/tintop/ReparseConllStanford.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.util.ReparseConllStanford.java">eu/fbk/dkm/pikes/tintop/ReparseConllStanford.java</a>
                 </td>
                 <td>
                   0
@@ -1754,7 +1754,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.util.corpus.Sentence.java">eu/fbk/dkm/pikes/resources/util/corpus/Sentence.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.utils.corpus.Sentence.java">eu/fbk/dkm/pikes/resources/util/corpus/Sentence.java</a>
                 </td>
                 <td>
                   0
@@ -1978,7 +1978,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.SimplePosAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/SimplePosAnnotator.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.wnpos.SimplePosAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/SimplePosAnnotator.java</a>
                 </td>
                 <td>
                   0
@@ -2076,7 +2076,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.models.AnnaPosModel.java">eu/fbk/dkm/pikes/tintop/annotators/models/AnnaPosModel.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.mate.AnnaPosModel.java">eu/fbk/dkm/pikes/tintop/annotators/models/AnnaPosModel.java</a>
                 </td>
                 <td>
                   0
@@ -2216,7 +2216,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.AnnotatorUtils.java">eu/fbk/dkm/pikes/tintop/annotators/AnnotatorUtils.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.utils.AnnotatorUtils.java">eu/fbk/dkm/pikes/tintop/annotators/AnnotatorUtils.java</a>
                 </td>
                 <td>
                   0
@@ -2398,7 +2398,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.util.corpus.Role.java">eu/fbk/dkm/pikes/resources/util/corpus/Role.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.utils.corpus.Role.java">eu/fbk/dkm/pikes/resources/util/corpus/Role.java</a>
                 </td>
                 <td>
                   0
@@ -2482,7 +2482,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.AnnaPosAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/AnnaPosAnnotator.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.mate.AnnaPosAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/AnnaPosAnnotator.java</a>
                 </td>
                 <td>
                   0
@@ -2902,7 +2902,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.server.ResourcePool.java">eu/fbk/dkm/pikes/tintop/server/ResourcePool.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.utils.ResourcePool.java">eu/fbk/dkm/pikes/tintop/server/ResourcePool.java</a>
                 </td>
                 <td>
                   0
@@ -2944,7 +2944,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.models.MateSrlBeModel.java">eu/fbk/dkm/pikes/tintop/annotators/models/MateSrlBeModel.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.mate.MateSrlBeModel.java">eu/fbk/dkm/pikes/tintop/annotators/models/MateSrlBeModel.java</a>
                 </td>
                 <td>
                   0
@@ -3056,7 +3056,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.MateSrlAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/MateSrlAnnotator.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.mate.MateSrlAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/MateSrlAnnotator.java</a>
                 </td>
                 <td>
                   0
@@ -3084,7 +3084,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.ReparseConllAnna.java">eu/fbk/dkm/pikes/tintop/ReparseConllAnna.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.mate.ReparseConllAnna.java">eu/fbk/dkm/pikes/tintop/ReparseConllAnna.java</a>
                 </td>
                 <td>
                   0
@@ -3308,7 +3308,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.util.corpus.Corpus.java">eu/fbk/dkm/pikes/resources/util/corpus/Corpus.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.utils.corpus.Corpus.java">eu/fbk/dkm/pikes/resources/util/corpus/Corpus.java</a>
                 </td>
                 <td>
                   0
@@ -3336,7 +3336,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.UKBAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/UKBAnnotator.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.ukb.UKBAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/UKBAnnotator.java</a>
                 </td>
                 <td>
                   0
@@ -3532,7 +3532,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.UKBResourcePool.java">eu/fbk/dkm/pikes/tintop/annotators/UKBResourcePool.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.ukb.UKBResourcePool.java">eu/fbk/dkm/pikes/tintop/annotators/UKBResourcePool.java</a>
                 </td>
                 <td>
                   0
@@ -3714,7 +3714,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.util.POStagset.java">eu/fbk/dkm/pikes/tintop/util/POStagset.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.wnpos.POStagset.java">eu/fbk/dkm/pikes/tintop/util/POStagset.java</a>
                 </td>
                 <td>
                   0
@@ -3952,7 +3952,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.MstServerParserAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/MstServerParserAnnotator.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.mst.api.MstServerParserAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/MstServerParserAnnotator.java</a>
                 </td>
                 <td>
                   0
@@ -4358,7 +4358,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.util.corpus.Srl.java">eu/fbk/dkm/pikes/resources/util/corpus/Srl.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.utils.corpus.Srl.java">eu/fbk/dkm/pikes/resources/util/corpus/Srl.java</a>
                 </td>
                 <td>
                   0
@@ -4414,7 +4414,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.raw.UKB_MT.java">eu/fbk/dkm/pikes/tintop/annotators/raw/UKB_MT.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.ukb.UKB_MT.java">eu/fbk/dkm/pikes/tintop/annotators/raw/UKB_MT.java</a>
                 </td>
                 <td>
                   0
@@ -4484,7 +4484,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.models.UKBModel.java">eu/fbk/dkm/pikes/tintop/annotators/models/UKBModel.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.fcw.ukb.UKBModel.java">eu/fbk/dkm/pikes/tintop/annotators/models/UKBModel.java</a>
                 </td>
                 <td>
                   0

@@ -25,7 +25,7 @@ eu.fbk.dkm.pikes.resources.signalmedia
 eu.fbk.dkm.pikes.resources.tempeval
 eu.fbk.dkm.pikes.resources.trec
 eu.fbk.dkm.pikes.resources.treccani
-eu.fbk.dkm.pikes.resources.util.corpus
+eu.fbk.fcw.utils.corpus
 eu.fbk.dkm.pikes.resources.util.fnlu
 eu.fbk.dkm.pikes.resources.util.onsenses
 eu.fbk.dkm.pikes.resources.util.propbank

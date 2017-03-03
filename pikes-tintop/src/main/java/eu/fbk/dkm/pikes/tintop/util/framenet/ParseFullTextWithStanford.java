@@ -11,7 +11,6 @@ import edu.stanford.nlp.semgraph.SemanticGraphCoreAnnotations;
 import edu.stanford.nlp.util.CoreMap;
 import eu.fbk.dkm.pikes.depparseannotation.DepParseInfo;
 import eu.fbk.dkm.pikes.depparseannotation.DepparseAnnotations;
-import eu.fbk.dkm.pikes.tintop.annotators.PikesAnnotations;
 import org.joox.JOOX;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -126,9 +125,9 @@ public class ParseFullTextWithStanford {
 
             Properties props = new Properties();
             props.setProperty("annotators", annotators);
-            props.setProperty("customAnnotatorClass.fake_pos", "eu.fbk.dkm.pikes.tintop.annotators.FakePosAnnotator");
+            props.setProperty("customAnnotatorClass.fake_pos", "eu.fbk.fcw.utils.annotators.FakePosAnnotator");
             props.setProperty("customAnnotatorClass.mst_server",
-                    "eu.fbk.dkm.pikes.tintop.annotators.MstServerParserAnnotator");
+                    "eu.fbk.fcw.mst.api.MstServerParserAnnotator");
 
             props.setProperty("tokenize.whitespace", "true");
             props.setProperty("ssplit.eolonly", "true");

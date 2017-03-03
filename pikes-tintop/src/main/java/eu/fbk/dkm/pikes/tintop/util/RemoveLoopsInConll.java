@@ -1,8 +1,8 @@
 package eu.fbk.dkm.pikes.tintop.util;
 
-import eu.fbk.dkm.pikes.resources.util.corpus.Corpus;
-import eu.fbk.dkm.pikes.resources.util.corpus.Sentence;
-import eu.fbk.dkm.pikes.resources.util.corpus.Word;
+import eu.fbk.fcw.utils.corpus.Corpus;
+import eu.fbk.fcw.utils.corpus.Sentence;
+import eu.fbk.fcw.utils.corpus.Word;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

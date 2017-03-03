@@ -3,8 +3,8 @@ package eu.fbk.dkm.pikes.tintop;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
 import edu.cmu.cs.lti.ark.fn.parsing.SemaforParseResult;
-import edu.stanford.nlp.hcoref.CorefCoreAnnotations;
-import edu.stanford.nlp.hcoref.data.CorefChain;
+import edu.stanford.nlp.coref.CorefCoreAnnotations;
+import edu.stanford.nlp.coref.data.CorefChain;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
@@ -17,16 +17,17 @@ import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.util.IntPair;
 import eu.fbk.dkm.pikes.resources.*;
 import eu.fbk.dkm.pikes.resources.ontonotes.VerbNetStatisticsExtractor;
-import eu.fbk.dkm.pikes.tintop.annotators.AnnotatorUtils;
-import eu.fbk.dkm.pikes.tintop.annotators.Defaults;
-import eu.fbk.dkm.pikes.tintop.annotators.NERConfidenceAnnotator;
-import eu.fbk.dkm.pikes.tintop.annotators.NERConfidenceAnnotator.ScoredNamedEntityTagsAnnotation;
-import eu.fbk.dkm.pikes.tintop.annotators.PikesAnnotations;
-import eu.fbk.dkm.pikes.tintop.annotators.raw.Semafor;
 import eu.fbk.dkm.pikes.tintop.util.NER2SSTtagset;
 import eu.fbk.dkm.pikes.tintop.util.NerEntity;
 import eu.fbk.dkm.pikes.twm.LinkingTag;
 import eu.fbk.dkm.pikes.twm.TWMAnnotations;
+import eu.fbk.fcw.mate.MateAnnotations;
+import eu.fbk.fcw.ner.NERConfidenceAnnotator;
+import eu.fbk.fcw.semafor.Semafor;
+import eu.fbk.fcw.semafor.SemaforAnnotations;
+import eu.fbk.fcw.ukb.UKBAnnotations;
+import eu.fbk.fcw.utils.AnnotatorUtils;
+import eu.fbk.fcw.wnpos.WNPosAnnotations;
 import eu.fbk.utils.core.PropertiesUtils;
 import ixa.kaflib.*;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -189,7 +190,7 @@ public class AnnotationPipeline {
         ArrayList<WF> allTokens = new ArrayList<>();
         HashMap<Integer, HashSet<LinkingTag>> keywords = new HashMap<>();
 
-        if (document.has(TWMAnnotations.LinkingAnnotations.class)) {
+        if (document.containsKey(TWMAnnotations.LinkingAnnotations.class)) {
             for (LinkingTag e : document.get(TWMAnnotations.LinkingAnnotations.class)) {
                 int start = e.getOffset();
                 if (keywords.get(start) == null) {
@@ -248,13 +249,13 @@ public class AnnotationPipeline {
                 thisTerm.setMorphofeat(pos);
 
                 // WordNet sense
-                String wnSense = stanfordToken.get(PikesAnnotations.UKBAnnotation.class);
+                String wnSense = stanfordToken.get(UKBAnnotations.UKBAnnotation.class);
                 if (wnSense != null) {
-                    thisTerm.setWordnetSense(stanfordToken.get(PikesAnnotations.UKBAnnotation.class));
+                    thisTerm.setWordnetSense(stanfordToken.get(UKBAnnotations.UKBAnnotation.class));
                 }
 
                 // Simple POS
-                String simplePos = stanfordToken.get(PikesAnnotations.SimplePosAnnotation.class);
+                String simplePos = stanfordToken.get(WNPosAnnotations.WNPosAnnotation.class);
                 if (simplePos == null) {
                     simplePos = "O";
                 }
@@ -284,7 +285,7 @@ public class AnnotationPipeline {
                             ners.add("I-" + alt);
                         } else {
                             NerEntity newEntity = new NerEntity(ne, i, normVal);
-                            newEntity.setScoredLabels(stanfordToken.get(ScoredNamedEntityTagsAnnotation.class));
+                            newEntity.setScoredLabels(stanfordToken.get(NERConfidenceAnnotator.ScoredNamedEntityTagsAnnotation.class));
                             entities.add(newEntity);
                             ners.add("B-" + alt);
                         }
@@ -300,7 +301,7 @@ public class AnnotationPipeline {
                 CoreLabel stanfordToken = tokens.get(i);
 
                 // Dependencies
-                if (!stanfordToken.has(CoreAnnotations.CoNLLDepParentIndexAnnotation.class)) {
+                if (!stanfordToken.containsKey(CoreAnnotations.CoNLLDepParentIndexAnnotation.class)) {
                     continue;
                 }
 
@@ -313,7 +314,7 @@ public class AnnotationPipeline {
                     NAFdocument.newDep(from, to, depRel);
                 }
 
-                Word word = stanfordToken.get(PikesAnnotations.MateTokenAnnotation.class);
+                Word word = stanfordToken.get(MateAnnotations.MateTokenAnnotation.class);
                 if (word != null) {
                     List<Word> toRoot = Word.pathToRoot(word);
                     for (Word w : toRoot) {
@@ -497,7 +498,7 @@ public class AnnotationPipeline {
             for (int i = 0; i < tokens.size(); i++) {
                 CoreLabel stanfordToken = tokens.get(i);
 
-                se.lth.cs.srl.corpus.Predicate predicate = stanfordToken.get(PikesAnnotations.MateAnnotation.class);
+                se.lth.cs.srl.corpus.Predicate predicate = stanfordToken.get(MateAnnotations.MateAnnotation.class);
                 if (predicate != null) {
                     Span<Term> thisTermSpan = KAFDocument.newTermSpan();
                     Term thisTerm = terms.get(predicate.getIdx() - 1);
@@ -756,8 +757,8 @@ public class AnnotationPipeline {
                 }
             }
 
-            if (stanfordSentence.has(PikesAnnotations.SemaforAnnotation.class)) {
-                SemaforParseResult semaforParseResult = stanfordSentence.get(PikesAnnotations.SemaforAnnotation.class);
+            if (stanfordSentence.containsKey(SemaforAnnotations.SemaforAnnotation.class)) {
+                SemaforParseResult semaforParseResult = stanfordSentence.get(SemaforAnnotations.SemaforAnnotation.class);
                 ObjectMapper mapper = new ObjectMapper();
                 Semafor.SemaforResponse semaforResponse = mapper
                         .readValue(semaforParseResult.toJson(), Semafor.SemaforResponse.class);

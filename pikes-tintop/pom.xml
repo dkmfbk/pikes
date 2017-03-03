@@ -55,21 +55,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.annolab.tt4j</groupId>
-            <artifactId>org.annolab.tt4j</artifactId>
-            <version>1.2.1</version>
-        </dependency>
-        <dependency>
-            <groupId>eu.fbk.anna</groupId>
-            <artifactId>annafbk</artifactId>
-            <version>3.61</version>
-        </dependency>
-        <dependency>
-            <groupId>eu.fbk.anna</groupId>
-            <artifactId>anna</artifactId>
-            <version>3.3</version>
-        </dependency>
-        <dependency>
             <groupId>eu.fbk.anna</groupId>
             <artifactId>mate</artifactId>
             <version>4.31</version>
@@ -83,11 +68,6 @@
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.9.12</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-core-asl</artifactId>
             <version>1.9.12</version>
         </dependency>
         <dependency>
@@ -212,6 +192,37 @@
             <version>3.0-alpha-04</version>
         </dependency>
 
+        <dependency>
+            <groupId>eu.fbk.fcw</groupId>
+            <artifactId>fcw-utils</artifactId>
+            <version>${fcw-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.fbk.fcw</groupId>
+            <artifactId>fcw-semafor</artifactId>
+            <version>${fcw-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.fbk.fcw</groupId>
+            <artifactId>fcw-mate</artifactId>
+            <version>${fcw-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.fbk.fcw</groupId>
+            <artifactId>fcw-ukb</artifactId>
+            <version>${fcw-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.fbk.fcw</groupId>
+            <artifactId>fcw-wnpos</artifactId>
+            <version>${fcw-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.fbk.fcw</groupId>
+            <artifactId>fcw-ner</artifactId>
+            <version>${fcw-version}</version>
+        </dependency>
     </dependencies>
 
     <profiles>
