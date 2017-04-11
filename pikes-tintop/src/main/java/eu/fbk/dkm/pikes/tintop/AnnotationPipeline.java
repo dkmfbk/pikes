@@ -484,7 +484,7 @@ public class AnnotationPipeline {
                 default:
                     logger.debug(entity.getLabel());
                 }
-                
+
                 if (thisEntity != null && entity.getScoredLabels() != null) {
                     for (Entry<String, Double> entry : entity.getScoredLabels().entrySet()) {
                         ExternalRef ref = NAFdocument.createExternalRef("value-confidence",
@@ -859,6 +859,9 @@ public class AnnotationPipeline {
                         linkedEntity.setResource(e.getSource());
                         linkedEntity.setTypes(e.getStringTypes());
                         linkedEntity.setSpotted(e.isSpotted());
+                        if (e.getContextualScore() != null) {
+                            linkedEntity.setContextualScore(e.getContextualScore());
+                        }
                     } catch (Exception err) {
                         logger.error("Error on adding linkedEntity: " + err.getMessage());
                     }
