@@ -59,9 +59,9 @@ public class Defaults {
         ret.setProperty("stanford.customAnnotatorClass.semafor", "eu.fbk.fcw.semafor.SemaforAnnotator");
         ret.setProperty("stanford.customAnnotatorClass.mate", "eu.fbk.fcw.mate.MateSrlAnnotator");
         ret.setProperty("stanford.customAnnotatorClass.mst_fake",
-                "eu.fbk.dkm.pikes.tintop.annotators.FakeMstParserAnnotator");
+                "eu.fbk.dkm.pikes.depparseannotation.StanfordToConllDepsAnnotator");
         ret.setProperty("stanford.customAnnotatorClass.ner_custom",
-                "eu.fbk.dkm.pikes.tintop.annotators.NERCustomAnnotator");
+                "eu.fbk.fcw.ner.NERCustomAnnotator");
         ret.setProperty("stanford.customAnnotatorClass.ner_confidence",
                 "eu.fbk.fcw.ner.NERConfidenceAnnotator");
         ret.setProperty("stanford.customAnnotatorClass.dbps", "eu.fbk.dkm.pikes.twm.LinkingAnnotator");

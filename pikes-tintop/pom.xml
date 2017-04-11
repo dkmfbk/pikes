@@ -125,7 +125,7 @@
         <dependency>
             <groupId>eu.fbk.fcw</groupId>
             <artifactId>fcw-depparse</artifactId>
-	    <version>${fcw-version}</version>
+            <version>${fcw-version}</version>
         </dependency>
         <dependency>
             <groupId>eu.fbk.fcw</groupId>
