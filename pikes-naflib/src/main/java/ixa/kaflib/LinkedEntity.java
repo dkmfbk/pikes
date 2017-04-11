@@ -22,7 +22,6 @@ public class LinkedEntity {
 	private String resource;
 	private String reference;
 	private double confidence;
-	private Double contextualScore = null;
 	private Boolean spotted;
 
 	private HashMap<String, HashSet<String>> types = new HashMap<>();
@@ -35,14 +34,6 @@ public class LinkedEntity {
 	LinkedEntity(String linkedEntityId) {
 		this.linkedEntityId = linkedEntityId;
 		this.mentions = new Span<WF>();
-	}
-
-	public Double getContextualScore() {
-		return contextualScore;
-	}
-
-	public void setContextualScore(Double contextualScore) {
-		this.contextualScore = contextualScore;
 	}
 
 	LinkedEntity(String linkedEntityId, Span<WF> mentions) {

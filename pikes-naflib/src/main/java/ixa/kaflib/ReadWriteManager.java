@@ -942,10 +942,6 @@ class ReadWriteManager {
                     if (confidence != null) {
                         e.setConfidence(Double.parseDouble(confidence));
                     }
-                    String contextualScore = getOptAttribute("contextualScore", entityElem);
-                    if (confidence != null) {
-                        e.setContextualScore(Double.parseDouble(contextualScore));
-                    }
                     Element typesElem = entityElem.getChild("types");
                     if (typesElem != null) {
                         for (Element topicElem : typesElem.getChildren("type")) {
@@ -1619,10 +1615,6 @@ class ReadWriteManager {
                 lEnt.setAttribute("resource", e.getResource());
                 lEnt.setAttribute("reference", e.getReference());
                 lEnt.setAttribute("confidence", Double.toString(e.getConfidence()));
-                Double contextualScore = e.getContextualScore();
-                if (contextualScore != null) {
-                    lEnt.setAttribute("contextualScore", Double.toString(contextualScore));
-                }
                 lEnt.setAttribute("spotted", e.isSpotted().toString());
 
                 Comment spanComment = new Comment(e.getSpanStr());
