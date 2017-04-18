@@ -1839,6 +1839,20 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                         withCorefForRoleDependencies(Boolean.valueOf(value));
                     } else if ("corefSpanFixing".equals(name)) {
                         withCorefSpanFixing(Boolean.valueOf(value));
+                    } else if ("srlPreprocess".equals(name)) {
+                        if ("none".equalsIgnoreCase(value)) {
+                            withSRLPreprocess(false, false, false);
+                        } else if ("basic".equalsIgnoreCase(value)) {
+                            withSRLPreprocess(true, false, false);
+                        } else if ("mate".equalsIgnoreCase(value)) {
+                            withSRLPreprocess(true, true, false);
+                        } else if ("semafor".equalsIgnoreCase(value)) {
+                            withSRLPreprocess(true, false, true);
+                        } else if ("mate+semafor".equalsIgnoreCase(value)) {
+                            withSRLPreprocess(true, true, true);
+                        }else {
+                            throw new IllegalArgumentException("Invalid '" + value +"' srlPreprocess property. Supported: none basic mate semafor mate+semafor");
+                        }
                     } else if ("srlRemoveWrongRefs".equals(name)) {
                         withSRLRemoveWrongRefs(Boolean.valueOf(value));
                     } else if ("srlRemoveUnknownPredicates".equals(name)) {
@@ -1855,21 +1869,21 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                         if ("none".equalsIgnoreCase(value)) {
                             withSRLRoleLinking(false, false);
                         } else if ("exact".equalsIgnoreCase(value)) {
-                            withSRLRoleLinking(false, false);
+                            withSRLRoleLinking(true, false);
                         } else if ("coref".equalsIgnoreCase(value)) {
-                            withSRLRoleLinking(false, false);
+                            withSRLRoleLinking(true, true);
                         } else {
-                            throw new IllegalArgumentException("Invalid srlRoleLinking: " + value);
+                            throw new IllegalArgumentException("Invalid '" + value +"' srlRoleLinking property. Supported: none exact coref ");
                         }
                     } else if ("opinionLinking".equals(name)) {
                         if ("none".equalsIgnoreCase(value)) {
                             withOpinionLinking(false, false);
                         } else if ("exact".equalsIgnoreCase(value)) {
-                            withOpinionLinking(false, false);
+                            withOpinionLinking(true, false);
                         } else if ("coref".equalsIgnoreCase(value)) {
-                            withOpinionLinking(false, false);
+                            withOpinionLinking(true, true);
                         } else {
-                            throw new IllegalArgumentException("Invalid srlRoleLinking: " + value);
+                            throw new IllegalArgumentException("Invalid '" + value +"' opinionLinking property. Supported: none exact coref ");
                         }
                     }
                 }
@@ -2069,7 +2083,7 @@ public final class NAFFilter implements Consumer<KAFDocument> {
          * PropBank/NomBank frame files (SRL tools such as Mate may detect predicates for unknown
          * rolesets, to increase recall).
          *
-         * @param srlRemoveUnknownRefs
+         * @param srlRemoveUnknownPredicates
          *            true, if removal of predicates with unknown PB/NB rolesets/roles has to be
          *            enabled
          * @return this builder object, for call chaining
