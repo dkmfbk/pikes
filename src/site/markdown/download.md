@@ -43,7 +43,7 @@ tar xzf pikes-all.tar.gz
 cd pikes/
 export CLASSPATH=pikes-tintop-1.0-SNAPSHOT-jar-with-dependencies.jar
 export CLASSPATH=$CLASSPATH:Semafor-3.0-alpha-04.jar
-export CLASSPATH=$CLASSPATH:models/stanford-corenlp-3.5.2-models.jar
+export CLASSPATH=$CLASSPATH:models/stanford-corenlp-3.7.0-models.jar
 java -Xmx8G eu.fbk.dkm.pikes.tintop.server.PipelineServer
 ```
 
@@ -112,12 +112,19 @@ Recompile PIKES from sources
 If you want to generate the core library from source, just execute:
 
 ```
+git clone https://github.com/fbk/fcw
+cd fcw/
+mvn clean install -DskipTests
+cd ..
 git clone https://github.com/dkmfbk/pikes
 cd pikes/
-git checkout develop # go to develop branch
+git checkout develop
 mvn clean package -DskipTests -Prelease
 ```
 
 You'll get the `pikes-tintop-1.0-SNAPSHOT-jar-with-dependencies.jar` package into the `pikes-tintop/target/` folder.
 Just copy it to the running folder and restart PIKES.
+
+The FCW package is still under development, it is not available on Maven Central yet,
+and therefore one needs to compile and install it from sources. 
 
