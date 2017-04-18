@@ -78,7 +78,7 @@ public class Defaults {
     }
 
     public static final String MODEL_FOLDER = "models" + File.separator;
-    public static final String DEFAULT_URI = "http://untitled/";
+    public static final String DEFAULT_URI = "http://pikes.fbk.eu/";
     public static final int MAXLEN = 200;
     public static final int MAX_TEXT_LEN = 1000;
     public static final String ANNOTATORS = "tokenize, ssplit, dbps, pos, simple_pos, lemma, ukb, ner_custom, parse, conll_parse, mst_fake, mate, semafor, dcoref";

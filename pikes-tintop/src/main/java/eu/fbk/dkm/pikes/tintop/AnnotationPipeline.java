@@ -914,13 +914,21 @@ public class AnnotationPipeline {
         // NAF filter
         if (enableNafFilter) {
             logger.info("Applying NAF filter");
+            Properties nafFilterConfig = PropertiesUtils.dotConvertedProperties(properties, "filter");
+
             LinguisticProcessor linguisticProcessor = new LinguisticProcessor("naf-filter", "NAF filter");
             linguisticProcessor.setBeginTimestamp();
             try {
-                NAFFilter.builder(false)
-                        .withTermSenseCompletion(true).withSRLRoleLinking(false, false)
-                        .withOpinionLinking(false, false).build()
-                        .filter(NAFdocument);
+                NAFFilter filter = NAFFilter.builder().withProperties(properties, "filter").build();
+                filter.filter(NAFdocument);
+
+
+                //NAFFilter.builder().withProperties(properties,"filter").build().filter(NAFdocument);
+//                NAFFilter.builder().build().filter(NAFdocument);
+//                NAFFilter.builder(false)
+//                        .withTermSenseCompletion(true).withSRLRoleLinking(false, false)
+//                        .withOpinionLinking(false, false).build()
+//                        .filter(NAFdocument);
             } catch (Exception e) {
                 logger.error("Error applying NAF filter");
             }
