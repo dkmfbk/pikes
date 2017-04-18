@@ -1,4 +1,3 @@
-eu.fbk.dkm.pikes.depparseannotation
 eu.fbk.dkm.pikes.naflib
 eu.fbk.dkm.pikes.raid
 eu.fbk.dkm.pikes.raid.mdfsa
@@ -13,6 +12,7 @@ eu.fbk.dkm.pikes.rdf.util
 eu.fbk.dkm.pikes.rdf.vocab
 eu.fbk.dkm.pikes.resources
 eu.fbk.dkm.pikes.resources.boxer
+eu.fbk.dkm.pikes.resources.conllAIDA
 eu.fbk.dkm.pikes.resources.darmstadt
 eu.fbk.dkm.pikes.resources.ecb
 eu.fbk.dkm.pikes.resources.goodbadfor
@@ -25,7 +25,6 @@ eu.fbk.dkm.pikes.resources.signalmedia
 eu.fbk.dkm.pikes.resources.tempeval
 eu.fbk.dkm.pikes.resources.trec
 eu.fbk.dkm.pikes.resources.treccani
-eu.fbk.dkm.pikes.resources.util.corpus
 eu.fbk.dkm.pikes.resources.util.fnlu
 eu.fbk.dkm.pikes.resources.util.onsenses
 eu.fbk.dkm.pikes.resources.util.propbank
@@ -36,13 +35,9 @@ eu.fbk.dkm.pikes.resources.vuaopinion
 eu.fbk.dkm.pikes.resources.wes
 eu.fbk.dkm.pikes.resources.wt10g
 eu.fbk.dkm.pikes.tintop
-eu.fbk.dkm.pikes.tintop.annotators
-eu.fbk.dkm.pikes.tintop.annotators.models
-eu.fbk.dkm.pikes.tintop.annotators.raw
 eu.fbk.dkm.pikes.tintop.server
 eu.fbk.dkm.pikes.tintop.util
 eu.fbk.dkm.pikes.tintop.util.framenet
 eu.fbk.dkm.pikes.tintopclient
-eu.fbk.dkm.pikes.twm
 eu.fbk.shell.mdfsa.data.structures
 ixa.kaflib

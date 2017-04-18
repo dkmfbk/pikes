@@ -25,9 +25,9 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2016 - 2017 FBK</copyright>
     <item>
-      <title>File: 340,
-             Errors: 16,
-             Warnings: 12933,
+      <title>File: 298,
+             Errors: 17,
+             Warnings: 11955,
              Infos: 0
       </title>
             <link>https://github.com/fbk/parent/pikes/checkstyle.html</link>
@@ -88,34 +88,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.util.corpus.Word.java">eu/fbk/dkm/pikes/resources/util/corpus/Word.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  45
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.twm.DBpediaSpotlightAnnotate.java">eu/fbk/dkm/pikes/twm/DBpediaSpotlightAnnotate.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  26
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#ixa.kaflib.AnnotationContainer.java">ixa/kaflib/AnnotationContainer.java</a>
                 </td>
                 <td>
@@ -137,20 +109,6 @@ under the License.
                 </td>
                 <td>
                   33
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.models.MateSrlModel.java">eu/fbk/dkm/pikes/tintop/annotators/models/MateSrlModel.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  8
                 </td>
                 <td>
                   0
@@ -249,20 +207,6 @@ under the License.
                 </td>
                 <td>
                   43
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.raw.UKB.java">eu/fbk/dkm/pikes/tintop/annotators/raw/UKB.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  30
                 </td>
                 <td>
                   0
@@ -466,20 +410,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.raw.MstServerParser.java">eu/fbk/dkm/pikes/tintop/annotators/raw/MstServerParser.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  29
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.rdf.api.Annotator.java">eu/fbk/dkm/pikes/rdf/api/Annotator.java</a>
                 </td>
                 <td>
@@ -662,34 +592,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.TreeTaggerPosAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/TreeTaggerPosAnnotator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  20
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.util.framenet.ParseFrameNetExamplesWithMate.java">eu/fbk/dkm/pikes/tintop/util/framenet/ParseFrameNetExamplesWithMate.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  73
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#META-INF.rdfpro.properties">META-INF/rdfpro.properties</a>
                 </td>
                 <td>
@@ -697,20 +599,6 @@ under the License.
                 </td>
                 <td>
                   2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.FakePosAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/FakePosAnnotator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  9
                 </td>
                 <td>
                   0
@@ -872,20 +760,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.Defaults.java">eu/fbk/dkm/pikes/tintop/annotators/Defaults.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  46
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.naflib.NafOffsetReader.java">eu/fbk/dkm/pikes/naflib/NafOffsetReader.java</a>
                 </td>
                 <td>
@@ -928,20 +802,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.SemaforAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/SemaforAnnotator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  25
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.util.fnlu.HeaderType.java">eu/fbk/dkm/pikes/resources/util/fnlu/HeaderType.java</a>
                 </td>
                 <td>
@@ -963,20 +823,6 @@ under the License.
                 </td>
                 <td>
                   10
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.models.AnnaParseModel.java">eu/fbk/dkm/pikes/tintop/annotators/models/AnnaParseModel.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  11
                 </td>
                 <td>
                   0
@@ -1061,20 +907,6 @@ under the License.
                 </td>
                 <td>
                   20
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.FakeAnnaParserAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/FakeAnnaParserAnnotator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  13
                 </td>
                 <td>
                   0
@@ -1208,34 +1040,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.models.SemaforModel.java">eu/fbk/dkm/pikes/tintop/annotators/models/SemaforModel.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.raw.Semafor.java">eu/fbk/dkm/pikes/tintop/annotators/raw/Semafor.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  57
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#ixa.kaflib.Dep.java">ixa/kaflib/Dep.java</a>
                 </td>
                 <td>
@@ -1355,20 +1159,6 @@ under the License.
                 </td>
                 <td>
                   10
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.AnnaParseAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/AnnaParseAnnotator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  23
                 </td>
                 <td>
                   0
@@ -1544,20 +1334,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.twm.LinkingAnnotator.java">eu/fbk/dkm/pikes/twm/LinkingAnnotator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  22
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.ontonotes.frames.Rel.java">eu/fbk/dkm/pikes/resources/ontonotes/frames/Rel.java</a>
                 </td>
                 <td>
@@ -1579,20 +1355,6 @@ under the License.
                 </td>
                 <td>
                   5
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.twm.LinkingTag.java">eu/fbk/dkm/pikes/twm/LinkingTag.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  67
                 </td>
                 <td>
                   0
@@ -1726,20 +1488,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.ReparseConllStanford.java">eu/fbk/dkm/pikes/tintop/ReparseConllStanford.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.rdf.Main.java">eu/fbk/dkm/pikes/rdf/Main.java</a>
                 </td>
                 <td>
@@ -1747,20 +1495,6 @@ under the License.
                 </td>
                 <td>
                   3
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.util.corpus.Sentence.java">eu/fbk/dkm/pikes/resources/util/corpus/Sentence.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  42
                 </td>
                 <td>
                   0
@@ -1810,20 +1544,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.depparseannotation.StanfordToConllDepsAnnotator.java">eu/fbk/dkm/pikes/depparseannotation/StanfordToConllDepsAnnotator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  11
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.PipelineTest.java">eu/fbk/dkm/pikes/tintop/PipelineTest.java</a>
                 </td>
                 <td>
@@ -1831,20 +1551,6 @@ under the License.
                 </td>
                 <td>
                   3
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.twm.DBpediaSpotlightCandidates.java">eu/fbk/dkm/pikes/twm/DBpediaSpotlightCandidates.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  38
                 </td>
                 <td>
                   0
@@ -1922,20 +1628,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.FakeMstParserAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/FakeMstParserAnnotator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  8
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#ixa.kaflib.KAFDocument.java">ixa/kaflib/KAFDocument.java</a>
                 </td>
                 <td>
@@ -1978,20 +1670,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.SimplePosAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/SimplePosAnnotator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  8
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.rdf.api.Extractor.java">eu/fbk/dkm/pikes/rdf/api/Extractor.java</a>
                 </td>
                 <td>
@@ -2002,6 +1680,20 @@ under the License.
                 </td>
                 <td>
                   0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.conllAIDA.DistillEntities.java">eu/fbk/dkm/pikes/resources/conllAIDA/DistillEntities.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
                 </td>
               </tr>
                           <tr>
@@ -2076,20 +1768,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.models.AnnaPosModel.java">eu/fbk/dkm/pikes/tintop/annotators/models/AnnaPosModel.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  9
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.raid.Evaluation.java">eu/fbk/dkm/pikes/raid/Evaluation.java</a>
                 </td>
                 <td>
@@ -2110,7 +1788,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  332
+                  330
                 </td>
                 <td>
                   0
@@ -2209,20 +1887,6 @@ under the License.
                 </td>
                 <td>
                   3
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.AnnotatorUtils.java">eu/fbk/dkm/pikes/tintop/annotators/AnnotatorUtils.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  9
                 </td>
                 <td>
                   0
@@ -2390,7 +2054,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  223
+                  226
                 </td>
                 <td>
                   0
@@ -2398,16 +2062,16 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.util.corpus.Role.java">eu/fbk/dkm/pikes/resources/util/corpus/Role.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.conllAIDA.ConvertDocs.java">eu/fbk/dkm/pikes/resources/conllAIDA/ConvertDocs.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  11
+                  2
                 </td>
                 <td>
-                  0
+                  1
                 </td>
               </tr>
                           <tr>
@@ -2482,20 +2146,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.AnnaPosAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/AnnaPosAnnotator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  19
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.StanfordTest.java">eu/fbk/dkm/pikes/tintop/StanfordTest.java</a>
                 </td>
                 <td>
@@ -2566,20 +2216,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.twm.TWMAnnotations.java">eu/fbk/dkm/pikes/twm/TWMAnnotations.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  11
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.CommandLineWithLogger.java">eu/fbk/dkm/pikes/tintop/CommandLineWithLogger.java</a>
                 </td>
                 <td>
@@ -2587,20 +2223,6 @@ under the License.
                 </td>
                 <td>
                   31
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.twm.Linking.java">eu/fbk/dkm/pikes/twm/Linking.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  25
                 </td>
                 <td>
                   0
@@ -2902,20 +2524,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.server.ResourcePool.java">eu/fbk/dkm/pikes/tintop/server/ResourcePool.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  16
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#ixa.kaflib.SSTspan.java">ixa/kaflib/SSTspan.java</a>
                 </td>
                 <td>
@@ -2944,16 +2552,16 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.models.MateSrlBeModel.java">eu/fbk/dkm/pikes/tintop/annotators/models/MateSrlBeModel.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.util.ReparseConllStanford.java">eu/fbk/dkm/pikes/tintop/util/ReparseConllStanford.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  8
+                  0
                 </td>
                 <td>
-                  0
+                  1
                 </td>
               </tr>
                           <tr>
@@ -3056,20 +2664,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.MateSrlAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/MateSrlAnnotator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  29
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.util.fnlu.LabelType.java">eu/fbk/dkm/pikes/resources/util/fnlu/LabelType.java</a>
                 </td>
                 <td>
@@ -3084,20 +2678,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.ReparseConllAnna.java">eu/fbk/dkm/pikes/tintop/ReparseConllAnna.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  1
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.trec.Queries.java">eu/fbk/dkm/pikes/resources/trec/Queries.java</a>
                 </td>
                 <td>
@@ -3105,20 +2685,6 @@ under the License.
                 </td>
                 <td>
                   46
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.depparseannotation.DepparseAnnotations.java">eu/fbk/dkm/pikes/depparseannotation/DepparseAnnotations.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
                 </td>
                 <td>
                   0
@@ -3308,20 +2874,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.util.corpus.Corpus.java">eu/fbk/dkm/pikes/resources/util/corpus/Corpus.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  29
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.wes.ConvertForSolr.java">eu/fbk/dkm/pikes/resources/wes/ConvertForSolr.java</a>
                 </td>
                 <td>
@@ -3332,20 +2884,6 @@ under the License.
                 </td>
                 <td>
                   1
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.UKBAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/UKBAnnotator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  17
-                </td>
-                <td>
-                  0
                 </td>
               </tr>
                           <tr>
@@ -3532,20 +3070,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.UKBResourcePool.java">eu/fbk/dkm/pikes/tintop/annotators/UKBResourcePool.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  14
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.ontonotes.senses.Mappings.java">eu/fbk/dkm/pikes/resources/ontonotes/senses/Mappings.java</a>
                 </td>
                 <td>
@@ -3714,20 +3238,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.util.POStagset.java">eu/fbk/dkm/pikes/tintop/util/POStagset.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  4
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.naflib.NafRenderUtils.java">eu/fbk/dkm/pikes/naflib/NafRenderUtils.java</a>
                 </td>
                 <td>
@@ -3812,20 +3322,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.NERCustomAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/NERCustomAnnotator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  49
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.NAFUtils.java">eu/fbk/dkm/pikes/resources/NAFUtils.java</a>
                 </td>
                 <td>
@@ -3833,6 +3329,20 @@ under the License.
                 </td>
                 <td>
                   65
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.Defaults.java">eu/fbk/dkm/pikes/tintop/Defaults.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  29
                 </td>
                 <td>
                   0
@@ -3952,34 +3462,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.MstServerParserAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/MstServerParserAnnotator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  17
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.twm.MachineLinking.java">eu/fbk/dkm/pikes/twm/MachineLinking.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  43
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.boxer.CorpusSplitter.java">eu/fbk/dkm/pikes/resources/boxer/CorpusSplitter.java</a>
                 </td>
                 <td>
@@ -4092,20 +3574,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.depparseannotation.DepParseInfo.java">eu/fbk/dkm/pikes/depparseannotation/DepParseInfo.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  31
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#ixa.kaflib.LinguisticProcessor.java">ixa/kaflib/LinguisticProcessor.java</a>
                 </td>
                 <td>
@@ -4127,6 +3595,20 @@ under the License.
                 </td>
                 <td>
                   51
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.conllAIDA.ConvertDocsFromGS.java">eu/fbk/dkm/pikes/resources/conllAIDA/ConvertDocsFromGS.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  46
                 </td>
                 <td>
                   0
@@ -4350,21 +3832,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  25
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.util.corpus.Srl.java">eu/fbk/dkm/pikes/resources/util/corpus/Srl.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  19
+                  30
                 </td>
                 <td>
                   0
@@ -4407,20 +3875,6 @@ under the License.
                 </td>
                 <td>
                   41
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.raw.UKB_MT.java">eu/fbk/dkm/pikes/tintop/annotators/raw/UKB_MT.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  32
                 </td>
                 <td>
                   0
@@ -4480,20 +3934,6 @@ under the License.
                 </td>
                 <td>
                   1
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.models.UKBModel.java">eu/fbk/dkm/pikes/tintop/annotators/models/UKBModel.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  8
-                </td>
-                <td>
-                  0
                 </td>
               </tr>
                           <tr>
@@ -4589,34 +4029,6 @@ under the License.
                 </td>
                 <td>
                   123
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.FakeLemmaAnnotator.java">eu/fbk/dkm/pikes/tintop/annotators/FakeLemmaAnnotator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  14
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.annotators.PikesAnnotations.java">eu/fbk/dkm/pikes/tintop/annotators/PikesAnnotations.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  23
                 </td>
                 <td>
                   0

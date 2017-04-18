@@ -8,8 +8,8 @@
 <pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> eu.fbk.dkm.pikes.tintop;
 <a class="jxr_linenumber" name="L2" href="#L2">2</a>   
-<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> edu.stanford.nlp.hcoref.CorefCoreAnnotations;
-<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> edu.stanford.nlp.hcoref.data.CorefChain;
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> edu.stanford.nlp.coref.CorefCoreAnnotations;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> edu.stanford.nlp.coref.data.CorefChain;
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> edu.stanford.nlp.ling.CoreAnnotations;
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> edu.stanford.nlp.ling.CoreLabel;
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> edu.stanford.nlp.pipeline.Annotation;
@@ -17,100 +17,97 @@
 <a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> edu.stanford.nlp.time.TimeAnnotations;
 <a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> edu.stanford.nlp.util.CoreMap;
 <a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> edu.stanford.nlp.util.IntPair;
-<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> ixa.kaflib.KAFDocument;
-<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> ixa.kaflib.Span;
-<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> ixa.kaflib.Term;
-<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> org.slf4j.Logger;
-<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> org.slf4j.LoggerFactory;
-<a class="jxr_linenumber" name="L17" href="#L17">17</a>  
-<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> java.io.IOException;
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> java.util.List;
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> java.util.Map;
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> java.util.Properties;
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> java.util.Set;
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>  
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <em class="jxr_javadoccomment"> * Created by alessio on 26/02/15.</em>
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>  
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../eu/fbk/dkm/pikes/tintop/StanfordTest.html">StanfordTest</a> {
-<a class="jxr_linenumber" name="L29" href="#L29">29</a>  
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Logger LOGGER = LoggerFactory.getLogger(StanfordTest.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>  
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> printOutput(Annotation annotation) {
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>          List&lt;CoreMap&gt; sents = annotation.get(CoreAnnotations.SentencesAnnotation.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>          <strong class="jxr_keyword">for</strong> (CoreMap thisSent : sents) {
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>  
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>              List&lt;CoreLabel&gt; tokens = thisSent.get(CoreAnnotations.TokensAnnotation.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>              <strong class="jxr_keyword">for</strong> (CoreLabel token : tokens) {
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>                  System.out.println(<span class="jxr_string">"Token: "</span> + token);
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>                  System.out.println(<span class="jxr_string">"Index: "</span> + token.index());
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>                  System.out.println(<span class="jxr_string">"Sent index: "</span> + token.sentIndex());
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>                  System.out.println(<span class="jxr_string">"Begin: "</span> + token.get(CoreAnnotations.CharacterOffsetBeginAnnotation.<strong class="jxr_keyword">class</strong>));
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>                  System.out.println(<span class="jxr_string">"End: "</span> + token.get(CoreAnnotations.CharacterOffsetEndAnnotation.<strong class="jxr_keyword">class</strong>));
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>                  System.out.println(<span class="jxr_string">"NER: "</span> + token.get(CoreAnnotations.NamedEntityTagAnnotation.<strong class="jxr_keyword">class</strong>));
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>                  System.out.println(token.get(CoreAnnotations.NamedEntityTagAnnotation.<strong class="jxr_keyword">class</strong>));
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>                  System.out.println(token.get(CoreAnnotations.NormalizedNamedEntityTagAnnotation.<strong class="jxr_keyword">class</strong>));
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>                  System.out.println(token.get(CoreAnnotations.ValueAnnotation.<strong class="jxr_keyword">class</strong>));
-<a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_comment">//                System.out.println(token.get(TimeExpression.Annotation.class));</em>
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_comment">//                System.out.println(token.get(TimeExpression.TimeIndexAnnotation.class));</em>
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_comment">//                System.out.println(token.get(CoreAnnotations.DistSimAnnotation.class));</em>
-<a class="jxr_linenumber" name="L50" href="#L50">50</a>  <em class="jxr_comment">//                System.out.println(token.get(CoreAnnotations.NumericCompositeTypeAnnotation.class));</em>
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>                  System.out.println(token.get(TimeAnnotations.TimexAnnotation.<strong class="jxr_keyword">class</strong>));
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>  <em class="jxr_comment">//                System.out.println(token.get(CoreAnnotations.NumericValueAnnotation.class));</em>
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_comment">//                System.out.println(token.get(TimeExpression.ChildrenAnnotation.class));</em>
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_comment">//                System.out.println(token.get(CoreAnnotations.NumericTypeAnnotation.class));</em>
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_comment">//                System.out.println(token.get(CoreAnnotations.ShapeAnnotation.class));</em>
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_comment">//                System.out.println(token.get(Tags.TagsAnnotation.class));</em>
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>  <em class="jxr_comment">//                System.out.println(token.get(CoreAnnotations.NumerizedTokensAnnotation.class));</em>
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>  <em class="jxr_comment">//                System.out.println(token.get(CoreAnnotations.AnswerAnnotation.class));</em>
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>  <em class="jxr_comment">//                System.out.println(token.get(CoreAnnotations.NumericCompositeValueAnnotation.class));</em>
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> org.slf4j.Logger;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> org.slf4j.LoggerFactory;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> java.io.IOException;
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> java.util.Map;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> java.util.Properties;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> java.util.Set;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_javadoccomment"> * Created by alessio on 26/02/15.</em>
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../eu/fbk/dkm/pikes/tintop/StanfordTest.html">StanfordTest</a> {
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Logger LOGGER = LoggerFactory.getLogger(StanfordTest.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> printOutput(Annotation annotation) {
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>          List&lt;CoreMap&gt; sents = annotation.get(CoreAnnotations.SentencesAnnotation.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>          <strong class="jxr_keyword">for</strong> (CoreMap thisSent : sents) {
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>              List&lt;CoreLabel&gt; tokens = thisSent.get(CoreAnnotations.TokensAnnotation.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>              <strong class="jxr_keyword">for</strong> (CoreLabel token : tokens) {
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>                  System.out.println(<span class="jxr_string">"Token: "</span> + token);
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>                  System.out.println(<span class="jxr_string">"Index: "</span> + token.index());
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>                  System.out.println(<span class="jxr_string">"Sent index: "</span> + token.sentIndex());
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>                  System.out.println(<span class="jxr_string">"Begin: "</span> + token.get(CoreAnnotations.CharacterOffsetBeginAnnotation.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>                  System.out.println(<span class="jxr_string">"End: "</span> + token.get(CoreAnnotations.CharacterOffsetEndAnnotation.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>                  System.out.println(<span class="jxr_string">"NER: "</span> + token.get(CoreAnnotations.NamedEntityTagAnnotation.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>                  System.out.println(token.get(CoreAnnotations.NamedEntityTagAnnotation.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>                  System.out.println(token.get(CoreAnnotations.NormalizedNamedEntityTagAnnotation.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>                  System.out.println(token.get(CoreAnnotations.ValueAnnotation.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_comment">//                System.out.println(token.get(TimeExpression.Annotation.class));</em>
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_comment">//                System.out.println(token.get(TimeExpression.TimeIndexAnnotation.class));</em>
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_comment">//                System.out.println(token.get(CoreAnnotations.DistSimAnnotation.class));</em>
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_comment">//                System.out.println(token.get(CoreAnnotations.NumericCompositeTypeAnnotation.class));</em>
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>                  System.out.println(token.get(TimeAnnotations.TimexAnnotation.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_comment">//                System.out.println(token.get(CoreAnnotations.NumericValueAnnotation.class));</em>
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  <em class="jxr_comment">//                System.out.println(token.get(TimeExpression.ChildrenAnnotation.class));</em>
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  <em class="jxr_comment">//                System.out.println(token.get(CoreAnnotations.NumericTypeAnnotation.class));</em>
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  <em class="jxr_comment">//                System.out.println(token.get(CoreAnnotations.ShapeAnnotation.class));</em>
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_comment">//                System.out.println(token.get(Tags.TagsAnnotation.class));</em>
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_comment">//                System.out.println(token.get(CoreAnnotations.NumerizedTokensAnnotation.class));</em>
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_comment">//                System.out.println(token.get(CoreAnnotations.AnswerAnnotation.class));</em>
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_comment">//                System.out.println(token.get(CoreAnnotations.NumericCompositeValueAnnotation.class));</em>
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>                  System.out.println();
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>              }
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>  
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>                  System.out.println();
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>              }
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>  
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>              System.out.println(<span class="jxr_string">"---"</span>);
-<a class="jxr_linenumber" name="L65" href="#L65">65</a>              System.out.println();
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>          }
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>      }
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>  
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> main(String[] args) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>              System.out.println(<span class="jxr_string">"---"</span>);
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>              System.out.println();
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>          }
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>      }
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> main(String[] args) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>          String text = <span class="jxr_string">"Donald Trump set off a fierce new controversy Tuesday with remarks about the right to bear arms that were interpreted by many as a threat of violence against Hillary Clinton."</span>;
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>          text = <span class="jxr_string">"G. W. Bush and Bono are very strong supporters of the fight of HIV in Africa. Their March 2002 meeting resulted in a 5 billion dollar aid."</span>;
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>  
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>          String text = <span class="jxr_string">"Donald Trump set off a fierce new controversy Tuesday with remarks about the right to bear arms that were interpreted by many as a threat of violence against Hillary Clinton."</span>;
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>          text = <span class="jxr_string">"G. W. Bush and Bono are very strong supporters of the fight of HIV in Africa. Their March 2002 meeting resulted in a 5 billion dollar aid."</span>;
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>          Properties props;
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>          Annotation annotation;
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>  
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>          Properties props;
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>          Annotation annotation;
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>          props = <strong class="jxr_keyword">new</strong> Properties();
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>          props.setProperty(<span class="jxr_string">"annotators"</span>, <span class="jxr_string">"tokenize, ssplit, pos, lemma, ner, parse, dcoref"</span>);
 <a class="jxr_linenumber" name="L76" href="#L76">76</a>  
-<a class="jxr_linenumber" name="L77" href="#L77">77</a>          props = <strong class="jxr_keyword">new</strong> Properties();
-<a class="jxr_linenumber" name="L78" href="#L78">78</a>          props.setProperty(<span class="jxr_string">"annotators"</span>, <span class="jxr_string">"tokenize, ssplit, pos, lemma, ner, parse, dcoref"</span>);
-<a class="jxr_linenumber" name="L79" href="#L79">79</a>  
-<a class="jxr_linenumber" name="L80" href="#L80">80</a>          StanfordCoreNLP pipeline = <strong class="jxr_keyword">new</strong> StanfordCoreNLP(props);
-<a class="jxr_linenumber" name="L81" href="#L81">81</a>          annotation = <strong class="jxr_keyword">new</strong> Annotation(text);
-<a class="jxr_linenumber" name="L82" href="#L82">82</a>  <em class="jxr_comment">//        annotation.set(CoreAnnotations.DocDateAnnotation.class, "2016-08-10T13:51:41+02:00");</em>
-<a class="jxr_linenumber" name="L83" href="#L83">83</a>          pipeline.annotate(annotation);
-<a class="jxr_linenumber" name="L84" href="#L84">84</a>  
-<a class="jxr_linenumber" name="L85" href="#L85">85</a>          Map&lt;Integer, CorefChain&gt; coreferenceGraph = annotation.get(CorefCoreAnnotations.CorefChainAnnotation.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L86" href="#L86">86</a>          <strong class="jxr_keyword">for</strong> (Object c : coreferenceGraph.keySet()) {
-<a class="jxr_linenumber" name="L87" href="#L87">87</a>              CorefChain chain = coreferenceGraph.get(c);
-<a class="jxr_linenumber" name="L88" href="#L88">88</a>              Map&lt;IntPair, Set&lt;CorefChain.CorefMention&gt;&gt; mentionMap = chain.getMentionMap();
-<a class="jxr_linenumber" name="L89" href="#L89">89</a>  
-<a class="jxr_linenumber" name="L90" href="#L90">90</a>              System.out.println(mentionMap);
-<a class="jxr_linenumber" name="L91" href="#L91">91</a>              <strong class="jxr_keyword">for</strong> (IntPair p : mentionMap.keySet()) {
-<a class="jxr_linenumber" name="L92" href="#L92">92</a>                  <strong class="jxr_keyword">for</strong> (CorefChain.CorefMention m : mentionMap.get(p)) {
-<a class="jxr_linenumber" name="L93" href="#L93">93</a>                      System.out.println(m.sentNum);
-<a class="jxr_linenumber" name="L94" href="#L94">94</a>                      System.out.println(m.startIndex);
-<a class="jxr_linenumber" name="L95" href="#L95">95</a>                      System.out.println(m.endIndex);
-<a class="jxr_linenumber" name="L96" href="#L96">96</a>                  }
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>              }
-<a class="jxr_linenumber" name="L98" href="#L98">98</a>          }
-<a class="jxr_linenumber" name="L99" href="#L99">99</a>  
-<a class="jxr_linenumber" name="L100" href="#L100">100</a> <em class="jxr_comment">//        if (text.length() &lt; 1000) {</em>
-<a class="jxr_linenumber" name="L101" href="#L101">101</a> <em class="jxr_comment">//            printOutput(annotation);</em>
-<a class="jxr_linenumber" name="L102" href="#L102">102</a> <em class="jxr_comment">//        }</em>
-<a class="jxr_linenumber" name="L103" href="#L103">103</a> 
-<a class="jxr_linenumber" name="L104" href="#L104">104</a>     }
-<a class="jxr_linenumber" name="L105" href="#L105">105</a> }
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>          StanfordCoreNLP pipeline = <strong class="jxr_keyword">new</strong> StanfordCoreNLP(props);
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>          annotation = <strong class="jxr_keyword">new</strong> Annotation(text);
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>  <em class="jxr_comment">//        annotation.set(CoreAnnotations.DocDateAnnotation.class, "2016-08-10T13:51:41+02:00");</em>
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>          pipeline.annotate(annotation);
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>  
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>          Map&lt;Integer, CorefChain&gt; coreferenceGraph = annotation.get(CorefCoreAnnotations.CorefChainAnnotation.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>          <strong class="jxr_keyword">for</strong> (Object c : coreferenceGraph.keySet()) {
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>              CorefChain chain = coreferenceGraph.get(c);
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>              Map&lt;IntPair, Set&lt;CorefChain.CorefMention&gt;&gt; mentionMap = chain.getMentionMap();
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>  
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>              System.out.println(mentionMap);
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>              <strong class="jxr_keyword">for</strong> (IntPair p : mentionMap.keySet()) {
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>                  <strong class="jxr_keyword">for</strong> (CorefChain.CorefMention m : mentionMap.get(p)) {
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>                      System.out.println(m.sentNum);
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>                      System.out.println(m.startIndex);
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>                      System.out.println(m.endIndex);
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>                  }
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>              }
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>          }
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>  
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>  <em class="jxr_comment">//        if (text.length() &lt; 1000) {</em>
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>  <em class="jxr_comment">//            printOutput(annotation);</em>
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>  <em class="jxr_comment">//        }</em>
+<a class="jxr_linenumber" name="L100" href="#L100">100</a> 
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>     }
+<a class="jxr_linenumber" name="L102" href="#L102">102</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2016&#x2013;2017 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
