@@ -1,5 +1,6 @@
 package eu.fbk.dkm.pikes.tintop;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
 import edu.cmu.cs.lti.ark.fn.parsing.SemaforParseResult;
@@ -32,8 +33,8 @@ import eu.fbk.utils.core.PropertiesUtils;
 import ixa.kaflib.*;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.map.ObjectMapper;
 import se.lth.cs.srl.corpus.Word;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.annotation.Nullable;
 import java.io.*;
@@ -760,6 +761,8 @@ public class AnnotationPipeline {
             if (stanfordSentence.containsKey(SemaforAnnotations.SemaforAnnotation.class)) {
                 SemaforParseResult semaforParseResult = stanfordSentence.get(SemaforAnnotations.SemaforAnnotation.class);
                 ObjectMapper mapper = new ObjectMapper();
+
+                mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
                 Semafor.SemaforResponse semaforResponse = mapper
                         .readValue(semaforParseResult.toJson(), Semafor.SemaforResponse.class);
                 for (Semafor.SemaforFrame semaforFrame : semaforResponse.getFrames()) {
