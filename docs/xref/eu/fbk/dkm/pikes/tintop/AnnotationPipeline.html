@@ -922,91 +922,99 @@
 <a class="jxr_linenumber" name="L914" href="#L914">914</a>         <em class="jxr_comment">// NAF filter</em>
 <a class="jxr_linenumber" name="L915" href="#L915">915</a>         <strong class="jxr_keyword">if</strong> (enableNafFilter) {
 <a class="jxr_linenumber" name="L916" href="#L916">916</a>             logger.info(<span class="jxr_string">"Applying NAF filter"</span>);
-<a class="jxr_linenumber" name="L917" href="#L917">917</a>             <a href="../../../../../ixa/kaflib/LinguisticProcessor.html">LinguisticProcessor</a> linguisticProcessor = <strong class="jxr_keyword">new</strong> <a href="../../../../../ixa/kaflib/LinguisticProcessor.html">LinguisticProcessor</a>(<span class="jxr_string">"naf-filter"</span>, <span class="jxr_string">"NAF filter"</span>);
-<a class="jxr_linenumber" name="L918" href="#L918">918</a>             linguisticProcessor.setBeginTimestamp();
-<a class="jxr_linenumber" name="L919" href="#L919">919</a>             <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L920" href="#L920">920</a>                 NAFFilter.builder(false)
-<a class="jxr_linenumber" name="L921" href="#L921">921</a>                         .withTermSenseCompletion(<strong class="jxr_keyword">true</strong>).withSRLRoleLinking(false, false)
-<a class="jxr_linenumber" name="L922" href="#L922">922</a>                         .withOpinionLinking(false, false).build()
-<a class="jxr_linenumber" name="L923" href="#L923">923</a>                         .filter(NAFdocument);
-<a class="jxr_linenumber" name="L924" href="#L924">924</a>             } <strong class="jxr_keyword">catch</strong> (Exception e) {
-<a class="jxr_linenumber" name="L925" href="#L925">925</a>                 logger.error(<span class="jxr_string">"Error applying NAF filter"</span>);
-<a class="jxr_linenumber" name="L926" href="#L926">926</a>             }
-<a class="jxr_linenumber" name="L927" href="#L927">927</a>             linguisticProcessor.setEndTimestamp();
-<a class="jxr_linenumber" name="L928" href="#L928">928</a>             NAFdocument.addLinguisticProcessor(linguisticProcessor.getLayer(), linguisticProcessor);
-<a class="jxr_linenumber" name="L929" href="#L929">929</a>         }
-<a class="jxr_linenumber" name="L930" href="#L930">930</a>     }
-<a class="jxr_linenumber" name="L931" href="#L931">931</a> 
-<a class="jxr_linenumber" name="L932" href="#L932">932</a>     <strong class="jxr_keyword">private</strong> <a href="../../../../../ixa/kaflib/KAFDocument.html">KAFDocument</a> parseAll(<a href="../../../../../ixa/kaflib/KAFDocument.html">KAFDocument</a> NAFdocument) <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L933" href="#L933">933</a>         <strong class="jxr_keyword">return</strong> parseAll(NAFdocument, <strong class="jxr_keyword">new</strong> Properties());
-<a class="jxr_linenumber" name="L934" href="#L934">934</a>     }
-<a class="jxr_linenumber" name="L935" href="#L935">935</a> 
-<a class="jxr_linenumber" name="L936" href="#L936">936</a>     <strong class="jxr_keyword">private</strong> <a href="../../../../../ixa/kaflib/KAFDocument.html">KAFDocument</a> parseAll(<a href="../../../../../ixa/kaflib/KAFDocument.html">KAFDocument</a> NAFdocument, Properties merge) <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L937" href="#L937">937</a> 
-<a class="jxr_linenumber" name="L938" href="#L938">938</a>         String text = NAFdocument.getRawText();
-<a class="jxr_linenumber" name="L939" href="#L939">939</a>         text = StringEscapeUtils.unescapeHtml(text);
-<a class="jxr_linenumber" name="L940" href="#L940">940</a> 
-<a class="jxr_linenumber" name="L941" href="#L941">941</a>         Properties properties = getDefaultConfig();
-<a class="jxr_linenumber" name="L942" href="#L942">942</a>         properties.putAll(merge);
+<a class="jxr_linenumber" name="L917" href="#L917">917</a>             Properties nafFilterConfig = PropertiesUtils.dotConvertedProperties(properties, <span class="jxr_string">"filter"</span>);
+<a class="jxr_linenumber" name="L918" href="#L918">918</a> 
+<a class="jxr_linenumber" name="L919" href="#L919">919</a>             <a href="../../../../../ixa/kaflib/LinguisticProcessor.html">LinguisticProcessor</a> linguisticProcessor = <strong class="jxr_keyword">new</strong> <a href="../../../../../ixa/kaflib/LinguisticProcessor.html">LinguisticProcessor</a>(<span class="jxr_string">"naf-filter"</span>, <span class="jxr_string">"NAF filter"</span>);
+<a class="jxr_linenumber" name="L920" href="#L920">920</a>             linguisticProcessor.setBeginTimestamp();
+<a class="jxr_linenumber" name="L921" href="#L921">921</a>             <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L922" href="#L922">922</a>                 <a href="../../../../../eu/fbk/dkm/pikes/resources/NAFFilter.html">NAFFilter</a> filter = NAFFilter.builder().withProperties(properties, <span class="jxr_string">"filter"</span>).build();
+<a class="jxr_linenumber" name="L923" href="#L923">923</a>                 filter.filter(NAFdocument);
+<a class="jxr_linenumber" name="L924" href="#L924">924</a> 
+<a class="jxr_linenumber" name="L925" href="#L925">925</a> 
+<a class="jxr_linenumber" name="L926" href="#L926">926</a>                 <em class="jxr_comment">//NAFFilter.builder().withProperties(properties,"filter").build().filter(NAFdocument);</em>
+<a class="jxr_linenumber" name="L927" href="#L927">927</a> <em class="jxr_comment">//                NAFFilter.builder().build().filter(NAFdocument);</em>
+<a class="jxr_linenumber" name="L928" href="#L928">928</a> <em class="jxr_comment">//                NAFFilter.builder(false)</em>
+<a class="jxr_linenumber" name="L929" href="#L929">929</a> <em class="jxr_comment">//                        .withTermSenseCompletion(true).withSRLRoleLinking(false, false)</em>
+<a class="jxr_linenumber" name="L930" href="#L930">930</a> <em class="jxr_comment">//                        .withOpinionLinking(false, false).build()</em>
+<a class="jxr_linenumber" name="L931" href="#L931">931</a> <em class="jxr_comment">//                        .filter(NAFdocument);</em>
+<a class="jxr_linenumber" name="L932" href="#L932">932</a>             } <strong class="jxr_keyword">catch</strong> (Exception e) {
+<a class="jxr_linenumber" name="L933" href="#L933">933</a>                 logger.error(<span class="jxr_string">"Error applying NAF filter"</span>);
+<a class="jxr_linenumber" name="L934" href="#L934">934</a>             }
+<a class="jxr_linenumber" name="L935" href="#L935">935</a>             linguisticProcessor.setEndTimestamp();
+<a class="jxr_linenumber" name="L936" href="#L936">936</a>             NAFdocument.addLinguisticProcessor(linguisticProcessor.getLayer(), linguisticProcessor);
+<a class="jxr_linenumber" name="L937" href="#L937">937</a>         }
+<a class="jxr_linenumber" name="L938" href="#L938">938</a>     }
+<a class="jxr_linenumber" name="L939" href="#L939">939</a> 
+<a class="jxr_linenumber" name="L940" href="#L940">940</a>     <strong class="jxr_keyword">private</strong> <a href="../../../../../ixa/kaflib/KAFDocument.html">KAFDocument</a> parseAll(<a href="../../../../../ixa/kaflib/KAFDocument.html">KAFDocument</a> NAFdocument) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L941" href="#L941">941</a>         <strong class="jxr_keyword">return</strong> parseAll(NAFdocument, <strong class="jxr_keyword">new</strong> Properties());
+<a class="jxr_linenumber" name="L942" href="#L942">942</a>     }
 <a class="jxr_linenumber" name="L943" href="#L943">943</a> 
-<a class="jxr_linenumber" name="L944" href="#L944">944</a>         String maxTextLen = properties.getProperty(<span class="jxr_string">"max_text_len"</span>);
-<a class="jxr_linenumber" name="L945" href="#L945">945</a>         <strong class="jxr_keyword">int</strong> limit = Integer.parseInt(maxTextLen);
-<a class="jxr_linenumber" name="L946" href="#L946">946</a>         <strong class="jxr_keyword">if</strong> (text.length() &gt; limit) {
-<a class="jxr_linenumber" name="L947" href="#L947">947</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> Exception(String.format(<span class="jxr_string">"Input too long (%d chars, limit is %d)"</span>, text.length(), limit));
-<a class="jxr_linenumber" name="L948" href="#L948">948</a>         }
-<a class="jxr_linenumber" name="L949" href="#L949">949</a> 
-<a class="jxr_linenumber" name="L950" href="#L950">950</a>         loadModels(properties);
-<a class="jxr_linenumber" name="L951" href="#L951">951</a>         Properties stanfordConfig = PropertiesUtils.dotConvertedProperties(properties, <span class="jxr_string">"stanford"</span>);
-<a class="jxr_linenumber" name="L952" href="#L952">952</a> 
-<a class="jxr_linenumber" name="L953" href="#L953">953</a>         <em class="jxr_comment">// Load pipeline</em>
-<a class="jxr_linenumber" name="L954" href="#L954">954</a>         Properties thisSessionProps = <strong class="jxr_keyword">new</strong> Properties(stanfordConfig);
-<a class="jxr_linenumber" name="L955" href="#L955">955</a>         StanfordCoreNLP thisPipeline = <strong class="jxr_keyword">new</strong> StanfordCoreNLP(thisSessionProps);
-<a class="jxr_linenumber" name="L956" href="#L956">956</a> 
-<a class="jxr_linenumber" name="L957" href="#L957">957</a>         <em class="jxr_comment">// Stanford</em>
-<a class="jxr_linenumber" name="L958" href="#L958">958</a>         logger.info(<span class="jxr_string">"Annotating with Stanford CoreNLP"</span>);
-<a class="jxr_linenumber" name="L959" href="#L959">959</a>         <a href="../../../../../ixa/kaflib/LinguisticProcessor.html">LinguisticProcessor</a> linguisticProcessor = <strong class="jxr_keyword">new</strong> <a href="../../../../../ixa/kaflib/LinguisticProcessor.html">LinguisticProcessor</a>(<span class="jxr_string">"text"</span>, <span class="jxr_string">"Stanford CoreNLP"</span>);
-<a class="jxr_linenumber" name="L960" href="#L960">960</a>         linguisticProcessor.setBeginTimestamp();
-<a class="jxr_linenumber" name="L961" href="#L961">961</a>         Annotation document = <strong class="jxr_keyword">new</strong> Annotation(text);
-<a class="jxr_linenumber" name="L962" href="#L962">962</a>         document.set(CoreAnnotations.DocDateAnnotation.<strong class="jxr_keyword">class</strong>, NAFdocument.getFileDesc().creationtime);
-<a class="jxr_linenumber" name="L963" href="#L963">963</a>         thisPipeline.annotate(document);
-<a class="jxr_linenumber" name="L964" href="#L964">964</a>         logger.info(thisPipeline.timingInformation());
-<a class="jxr_linenumber" name="L965" href="#L965">965</a>         linguisticProcessor.setEndTimestamp();
-<a class="jxr_linenumber" name="L966" href="#L966">966</a>         NAFdocument.addLinguisticProcessor(linguisticProcessor.getLayer(), linguisticProcessor);
-<a class="jxr_linenumber" name="L967" href="#L967">967</a> 
-<a class="jxr_linenumber" name="L968" href="#L968">968</a>         annotateStanford(properties, document, NAFdocument);
-<a class="jxr_linenumber" name="L969" href="#L969">969</a> 
-<a class="jxr_linenumber" name="L970" href="#L970">970</a>         logger.info(<span class="jxr_string">"Parsing finished"</span>);
-<a class="jxr_linenumber" name="L971" href="#L971">971</a>         <strong class="jxr_keyword">return</strong> NAFdocument;
-<a class="jxr_linenumber" name="L972" href="#L972">972</a>     }
-<a class="jxr_linenumber" name="L973" href="#L973">973</a> 
-<a class="jxr_linenumber" name="L974" href="#L974">974</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../ixa/kaflib/KAFDocument.html">KAFDocument</a> parseFromNAF(<a href="../../../../../ixa/kaflib/KAFDocument.html">KAFDocument</a> NAFdocument) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L944" href="#L944">944</a>     <strong class="jxr_keyword">private</strong> <a href="../../../../../ixa/kaflib/KAFDocument.html">KAFDocument</a> parseAll(<a href="../../../../../ixa/kaflib/KAFDocument.html">KAFDocument</a> NAFdocument, Properties merge) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L945" href="#L945">945</a> 
+<a class="jxr_linenumber" name="L946" href="#L946">946</a>         String text = NAFdocument.getRawText();
+<a class="jxr_linenumber" name="L947" href="#L947">947</a>         text = StringEscapeUtils.unescapeHtml(text);
+<a class="jxr_linenumber" name="L948" href="#L948">948</a> 
+<a class="jxr_linenumber" name="L949" href="#L949">949</a>         Properties properties = getDefaultConfig();
+<a class="jxr_linenumber" name="L950" href="#L950">950</a>         properties.putAll(merge);
+<a class="jxr_linenumber" name="L951" href="#L951">951</a> 
+<a class="jxr_linenumber" name="L952" href="#L952">952</a>         String maxTextLen = properties.getProperty(<span class="jxr_string">"max_text_len"</span>);
+<a class="jxr_linenumber" name="L953" href="#L953">953</a>         <strong class="jxr_keyword">int</strong> limit = Integer.parseInt(maxTextLen);
+<a class="jxr_linenumber" name="L954" href="#L954">954</a>         <strong class="jxr_keyword">if</strong> (text.length() &gt; limit) {
+<a class="jxr_linenumber" name="L955" href="#L955">955</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> Exception(String.format(<span class="jxr_string">"Input too long (%d chars, limit is %d)"</span>, text.length(), limit));
+<a class="jxr_linenumber" name="L956" href="#L956">956</a>         }
+<a class="jxr_linenumber" name="L957" href="#L957">957</a> 
+<a class="jxr_linenumber" name="L958" href="#L958">958</a>         loadModels(properties);
+<a class="jxr_linenumber" name="L959" href="#L959">959</a>         Properties stanfordConfig = PropertiesUtils.dotConvertedProperties(properties, <span class="jxr_string">"stanford"</span>);
+<a class="jxr_linenumber" name="L960" href="#L960">960</a> 
+<a class="jxr_linenumber" name="L961" href="#L961">961</a>         <em class="jxr_comment">// Load pipeline</em>
+<a class="jxr_linenumber" name="L962" href="#L962">962</a>         Properties thisSessionProps = <strong class="jxr_keyword">new</strong> Properties(stanfordConfig);
+<a class="jxr_linenumber" name="L963" href="#L963">963</a>         StanfordCoreNLP thisPipeline = <strong class="jxr_keyword">new</strong> StanfordCoreNLP(thisSessionProps);
+<a class="jxr_linenumber" name="L964" href="#L964">964</a> 
+<a class="jxr_linenumber" name="L965" href="#L965">965</a>         <em class="jxr_comment">// Stanford</em>
+<a class="jxr_linenumber" name="L966" href="#L966">966</a>         logger.info(<span class="jxr_string">"Annotating with Stanford CoreNLP"</span>);
+<a class="jxr_linenumber" name="L967" href="#L967">967</a>         <a href="../../../../../ixa/kaflib/LinguisticProcessor.html">LinguisticProcessor</a> linguisticProcessor = <strong class="jxr_keyword">new</strong> <a href="../../../../../ixa/kaflib/LinguisticProcessor.html">LinguisticProcessor</a>(<span class="jxr_string">"text"</span>, <span class="jxr_string">"Stanford CoreNLP"</span>);
+<a class="jxr_linenumber" name="L968" href="#L968">968</a>         linguisticProcessor.setBeginTimestamp();
+<a class="jxr_linenumber" name="L969" href="#L969">969</a>         Annotation document = <strong class="jxr_keyword">new</strong> Annotation(text);
+<a class="jxr_linenumber" name="L970" href="#L970">970</a>         document.set(CoreAnnotations.DocDateAnnotation.<strong class="jxr_keyword">class</strong>, NAFdocument.getFileDesc().creationtime);
+<a class="jxr_linenumber" name="L971" href="#L971">971</a>         thisPipeline.annotate(document);
+<a class="jxr_linenumber" name="L972" href="#L972">972</a>         logger.info(thisPipeline.timingInformation());
+<a class="jxr_linenumber" name="L973" href="#L973">973</a>         linguisticProcessor.setEndTimestamp();
+<a class="jxr_linenumber" name="L974" href="#L974">974</a>         NAFdocument.addLinguisticProcessor(linguisticProcessor.getLayer(), linguisticProcessor);
 <a class="jxr_linenumber" name="L975" href="#L975">975</a> 
-<a class="jxr_linenumber" name="L976" href="#L976">976</a>         NAFdocument = parseAll(NAFdocument);
+<a class="jxr_linenumber" name="L976" href="#L976">976</a>         annotateStanford(properties, document, NAFdocument);
 <a class="jxr_linenumber" name="L977" href="#L977">977</a> 
-<a class="jxr_linenumber" name="L978" href="#L978">978</a>         <strong class="jxr_keyword">return</strong> NAFdocument;
-<a class="jxr_linenumber" name="L979" href="#L979">979</a>     }
-<a class="jxr_linenumber" name="L980" href="#L980">980</a> 
-<a class="jxr_linenumber" name="L981" href="#L981">981</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../ixa/kaflib/KAFDocument.html">KAFDocument</a> parseFromString(String textInNafFormat) <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="L982" href="#L982">982</a>         logger.debug(<span class="jxr_string">"Parsing of NAF"</span>);
+<a class="jxr_linenumber" name="L978" href="#L978">978</a>         logger.info(<span class="jxr_string">"Parsing finished"</span>);
+<a class="jxr_linenumber" name="L979" href="#L979">979</a>         <strong class="jxr_keyword">return</strong> NAFdocument;
+<a class="jxr_linenumber" name="L980" href="#L980">980</a>     }
+<a class="jxr_linenumber" name="L981" href="#L981">981</a> 
+<a class="jxr_linenumber" name="L982" href="#L982">982</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../ixa/kaflib/KAFDocument.html">KAFDocument</a> parseFromNAF(<a href="../../../../../ixa/kaflib/KAFDocument.html">KAFDocument</a> NAFdocument) <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="L983" href="#L983">983</a> 
-<a class="jxr_linenumber" name="L984" href="#L984">984</a>         InputStream is = <strong class="jxr_keyword">new</strong> ByteArrayInputStream(textInNafFormat.getBytes());
-<a class="jxr_linenumber" name="L985" href="#L985">985</a>         BufferedReader br = <strong class="jxr_keyword">new</strong> BufferedReader(<strong class="jxr_keyword">new</strong> InputStreamReader(is));
-<a class="jxr_linenumber" name="L986" href="#L986">986</a>         <a href="../../../../../ixa/kaflib/KAFDocument.html">KAFDocument</a> NAFdocument = KAFDocument.createFromStream(br);
-<a class="jxr_linenumber" name="L987" href="#L987">987</a> 
-<a class="jxr_linenumber" name="L988" href="#L988">988</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L989" href="#L989">989</a>             logger.info(<span class="jxr_string">"Document: "</span> + NAFdocument.getFileDesc().filename);
-<a class="jxr_linenumber" name="L990" href="#L990">990</a>             logger.info(<span class="jxr_string">"Title: "</span> + NAFdocument.getFileDesc().title);
-<a class="jxr_linenumber" name="L991" href="#L991">991</a> <em class="jxr_comment">//            logger.debug("Text: " + NAFdocument.getRawText());</em>
-<a class="jxr_linenumber" name="L992" href="#L992">992</a>         } <strong class="jxr_keyword">catch</strong> (Exception e) {
-<a class="jxr_linenumber" name="L993" href="#L993">993</a>             logger.error(e.getMessage());
-<a class="jxr_linenumber" name="L994" href="#L994">994</a>         }
+<a class="jxr_linenumber" name="L984" href="#L984">984</a>         NAFdocument = parseAll(NAFdocument);
+<a class="jxr_linenumber" name="L985" href="#L985">985</a> 
+<a class="jxr_linenumber" name="L986" href="#L986">986</a>         <strong class="jxr_keyword">return</strong> NAFdocument;
+<a class="jxr_linenumber" name="L987" href="#L987">987</a>     }
+<a class="jxr_linenumber" name="L988" href="#L988">988</a> 
+<a class="jxr_linenumber" name="L989" href="#L989">989</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../ixa/kaflib/KAFDocument.html">KAFDocument</a> parseFromString(String textInNafFormat) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L990" href="#L990">990</a>         logger.debug(<span class="jxr_string">"Parsing of NAF"</span>);
+<a class="jxr_linenumber" name="L991" href="#L991">991</a> 
+<a class="jxr_linenumber" name="L992" href="#L992">992</a>         InputStream is = <strong class="jxr_keyword">new</strong> ByteArrayInputStream(textInNafFormat.getBytes());
+<a class="jxr_linenumber" name="L993" href="#L993">993</a>         BufferedReader br = <strong class="jxr_keyword">new</strong> BufferedReader(<strong class="jxr_keyword">new</strong> InputStreamReader(is));
+<a class="jxr_linenumber" name="L994" href="#L994">994</a>         <a href="../../../../../ixa/kaflib/KAFDocument.html">KAFDocument</a> NAFdocument = KAFDocument.createFromStream(br);
 <a class="jxr_linenumber" name="L995" href="#L995">995</a> 
-<a class="jxr_linenumber" name="L996" href="#L996">996</a>         NAFdocument = parseAll(NAFdocument);
-<a class="jxr_linenumber" name="L997" href="#L997">997</a> 
-<a class="jxr_linenumber" name="L998" href="#L998">998</a>         <strong class="jxr_keyword">return</strong> NAFdocument;
-<a class="jxr_linenumber" name="L999" href="#L999">999</a>     }
-<a class="jxr_linenumber" name="L1000" href="#L1000">1000</a> 
-<a class="jxr_linenumber" name="L1001" href="#L1001">1001</a> }
+<a class="jxr_linenumber" name="L996" href="#L996">996</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L997" href="#L997">997</a>             logger.info(<span class="jxr_string">"Document: "</span> + NAFdocument.getFileDesc().filename);
+<a class="jxr_linenumber" name="L998" href="#L998">998</a>             logger.info(<span class="jxr_string">"Title: "</span> + NAFdocument.getFileDesc().title);
+<a class="jxr_linenumber" name="L999" href="#L999">999</a> <em class="jxr_comment">//            logger.debug("Text: " + NAFdocument.getRawText());</em>
+<a class="jxr_linenumber" name="L1000" href="#L1000">1000</a>         } <strong class="jxr_keyword">catch</strong> (Exception e) {
+<a class="jxr_linenumber" name="L1001" href="#L1001">1001</a>             logger.error(e.getMessage());
+<a class="jxr_linenumber" name="L1002" href="#L1002">1002</a>         }
+<a class="jxr_linenumber" name="L1003" href="#L1003">1003</a> 
+<a class="jxr_linenumber" name="L1004" href="#L1004">1004</a>         NAFdocument = parseAll(NAFdocument);
+<a class="jxr_linenumber" name="L1005" href="#L1005">1005</a> 
+<a class="jxr_linenumber" name="L1006" href="#L1006">1006</a>         <strong class="jxr_keyword">return</strong> NAFdocument;
+<a class="jxr_linenumber" name="L1007" href="#L1007">1007</a>     }
+<a class="jxr_linenumber" name="L1008" href="#L1008">1008</a> 
+<a class="jxr_linenumber" name="L1009" href="#L1009">1009</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2016&#x2013;2017 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
