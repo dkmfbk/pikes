@@ -27,7 +27,7 @@ under the License.
     <item>
       <title>File: 299,
              Errors: 17,
-             Warnings: 12005,
+             Warnings: 12007,
              Infos: 0
       </title>
             <link>https://github.com/fbk/parent/pikes/checkstyle.html</link>
@@ -1746,7 +1746,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  719
+                  721
                 </td>
                 <td>
                   0

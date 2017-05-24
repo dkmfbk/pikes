@@ -44,14 +44,14 @@ cd pikes/
 ./run.sh
 ```
 
-After a minute, the PIKES pipeline should be active on port 8011 (you can change the port using the `-p` parameter;
-run
+After a minute, PIKES should be active on port 8011 (you can change the port modifying the PORT variable in the run.sh script file).
+Run
 
 ```
 java -Xmx8G eu.fbk.dkm.pikes.tintop.server.PipelineServer -h
 ```
 
-for the list of parameters.
+for the complete list of PIKES parameters.
 To test it, go to a browser that can reach the machine you run PIKES into, and surf to
 
 ```
@@ -72,7 +72,7 @@ To access it, just surf to `http://server:8011/webdemo`.
 
 PIKES can be executed without a configuration file, as there is a default properties file.
 The properties values are stored in the `eu.fbk.dkm.pikes.tintop.Defaults` class.
-You can override these values by creating a configuration file and pass it to the `PipelineServer` (`-c` option).
+You can override these values by creating a configuration file (e.g., the `config-pikes.prop` file included in the PIKES package) and pass it to the `PipelineServer` (`-c` option, cf. `run.sh`).
 If you want to pass Stanford CoreNLP configurations, just prepend `stanford.` to the name of the preference.
 For example, to override the list of the annotators you can create a config file with
 `stanford.annotators = tokenize, ssplit` and you'll have only tokenizer and sentence splitter.

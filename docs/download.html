@@ -178,14 +178,14 @@ cd pikes/
 </pre> 
   </div> 
  </div> 
- <p>After a minute, the PIKES pipeline should be active on port 8011 (you can change the port using the <tt>-p</tt> parameter; run</p> 
+ <p>After a minute, PIKES should be active on port 8011 (you can change the port modifying the PORT variable in the run.sh script file). Run</p> 
  <div class="source"> 
   <div class="source"> 
    <pre>java -Xmx8G eu.fbk.dkm.pikes.tintop.server.PipelineServer -h
 </pre> 
   </div> 
  </div> 
- <p>for the list of parameters. To test it, go to a browser that can reach the machine you run PIKES into, and surf to</p> 
+ <p>for the complete list of PIKES parameters. To test it, go to a browser that can reach the machine you run PIKES into, and surf to</p> 
  <div class="source"> 
   <div class="source"> 
    <pre>http://server:8011/text2naf?text=G.%20W.%20Bush%20and%20Bono%20are%20very%20strong%20supporters%20of%20the%20fight%20of%20HIV%20in%20Africa.%20Their%20March%202002%20meeting%20resulted%20in%20a%205%20billion%20dollar%20aid.
@@ -196,7 +196,7 @@ cd pikes/
  <p>If you need the <a class="externalLink" href="https://www.w3.org/TR/trig/">TRiG</a> (instead of NAF), just change <tt>text2naf</tt> to <tt>text2rdf</tt>.</p> 
  <p>There is also a web interface (such as the web demo available on the <a class="externalLink" href="https://knowledgestore2.fbk.eu/pikes-demo/">PIKES web site</a>); you need <a class="externalLink" href="http://www.graphviz.org/">graphviz</a> to be installed on the server to run it. With Debian/Ubuntu, just run <tt>apt-get install graphviz</tt> and restart PIKES.</p> 
  <p>The demo interface (with input textbox for text) is written in php and available under the <tt>src/webdemo/</tt> folder in the project. To access it, just surf to <tt>http://server:8011/webdemo</tt>.</p> 
- <p>PIKES can be executed without a configuration file, as there is a default properties file. The properties values are stored in the <tt>eu.fbk.dkm.pikes.tintop.Defaults</tt> class. You can override these values by creating a configuration file and pass it to the <tt>PipelineServer</tt> (<tt>-c</tt> option). If you want to pass Stanford CoreNLP configurations, just prepend <tt>stanford.</tt> to the name of the preference. For example, to override the list of the annotators you can create a config file with <tt>stanford.annotators = tokenize, ssplit</tt> and you’ll have only tokenizer and sentence splitter.</p> 
+ <p>PIKES can be executed without a configuration file, as there is a default properties file. The properties values are stored in the <tt>eu.fbk.dkm.pikes.tintop.Defaults</tt> class. You can override these values by creating a configuration file (e.g., the <tt>config-pikes.prop</tt> file included in the PIKES package) and pass it to the <tt>PipelineServer</tt> (<tt>-c</tt> option, cf. <tt>run.sh</tt>). If you want to pass Stanford CoreNLP configurations, just prepend <tt>stanford.</tt> to the name of the preference. For example, to override the list of the annotators you can create a config file with <tt>stanford.annotators = tokenize, ssplit</tt> and you’ll have only tokenizer and sentence splitter.</p> 
  <p>By default, the text lenght is limited to 1000 characters. You can override it by adding the <tt>max_text_len</tt> property in the configuration file.</p> 
 </div> 
 <div class="section"> 
