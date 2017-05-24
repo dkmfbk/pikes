@@ -196,6 +196,8 @@ public final class FrameBase {
 
             final ValueFactory vf = Statements.VALUE_FACTORY;
             final URI inheritsFrom = vf.createURI("http://framebase.org/ns/inheritsFrom");
+            //for FB2.0 final URI inheritsFrom = vf.createURI("http://framebase.org/meta/inheritsFrom");
+
             final URI denotedBy = vf.createURI("http://www.w3.org/ns/lemon/ontolex#isDenotedBy");
             final String self = "<SELF>";
 
