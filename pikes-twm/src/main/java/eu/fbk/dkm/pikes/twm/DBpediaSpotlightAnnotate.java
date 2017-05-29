@@ -4,21 +4,13 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import java.util.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: alessio
- * Date: 21/07/14
- * Time: 17:15
- * To change this template use File | Settings | File Templates.
- */
-
 public class DBpediaSpotlightAnnotate extends Linking {
 
     private static String LABEL = "dbpedia-annotate";
     private String confidence;
     private String allowedTypes;
-    public static final String DBPS_ADDRESS = "http://spotlight.sztaki.hu:2222/rest";
-    public static final double DBPS_MIN_CONFIDENCE = 0.33;
+    private static final String DBPS_ADDRESS = "http://spotlight.sztaki.hu:2222/rest";
+    private static final double DBPS_MIN_CONFIDENCE = 0.33;
 
     public DBpediaSpotlightAnnotate(Properties properties) {
         super(properties, properties.getProperty("address", DBPS_ADDRESS) + "/annotate");
@@ -75,7 +67,7 @@ public class DBpediaSpotlightAnnotate extends Linking {
 
         DBpediaSpotlightAnnotate s = new DBpediaSpotlightAnnotate(properties);
         try {
-            String text = "My doctors suggests to me to take a pill of Aspirin.";
+            String text = "My doctor has suggested to take a pill of Aspirin.";
             List<LinkingTag> tags = s.tag(text);
             for (LinkingTag tag : tags) {
                 System.out.println(tag);
