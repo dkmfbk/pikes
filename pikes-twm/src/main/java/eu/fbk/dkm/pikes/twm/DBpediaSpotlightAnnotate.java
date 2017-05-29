@@ -1,10 +1,7 @@
 package eu.fbk.dkm.pikes.twm;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import java.io.File;
 import java.util.*;
 
 /**
@@ -19,20 +16,24 @@ public class DBpediaSpotlightAnnotate extends Linking {
 
     private static String LABEL = "dbpedia-annotate";
     private String confidence;
+    private String allowedTypes;
     public static final String DBPS_ADDRESS = "http://spotlight.sztaki.hu:2222/rest";
     public static final double DBPS_MIN_CONFIDENCE = 0.33;
 
     public DBpediaSpotlightAnnotate(Properties properties) {
         super(properties, properties.getProperty("address", DBPS_ADDRESS) + "/annotate");
         confidence = properties.getProperty("min_confidence", Double.toString(DBPS_MIN_CONFIDENCE));
+        allowedTypes = properties.getProperty("types", null);
     }
 
     public List<LinkingTag> tag(String text) throws Exception {
-
         ArrayList<LinkingTag> ret = new ArrayList<>();
 
         Map<String, String> pars = new HashMap<>();
         pars.put("confidence", confidence);
+        if (allowedTypes != null) {
+            pars.put("types", allowedTypes);
+        }
         pars.put("text", text);
 
         Map<String, Object> userData;
@@ -67,16 +68,14 @@ public class DBpediaSpotlightAnnotate extends Linking {
 
     public static void main(String[] args) {
         Properties properties = new Properties();
-        properties.setProperty("address", "https://knowledgestore2.fbk.eu/dbps/rest/annotate");
-        properties.setProperty("use_proxy", "0");
-        properties.setProperty("proxy_url", "proxy.fbk.eu");
-        properties.setProperty("proxy_port", "3128");
+        properties.setProperty("address", "http://model.dbpedia-spotlight.org/en");
         properties.setProperty("min_confidence", "0.05");
+        properties.setProperty("types", "Drug,Disease,Chemical_compound");
         properties.setProperty("timeout", "2000");
 
         DBpediaSpotlightAnnotate s = new DBpediaSpotlightAnnotate(properties);
         try {
-            String text = Files.toString(new File("/Users/alessio/Desktop/elastic/test-dbps.txt"), Charsets.UTF_8);
+            String text = "My doctors suggests to me to take a pill of Aspirin.";
             List<LinkingTag> tags = s.tag(text);
             for (LinkingTag tag : tags) {
                 System.out.println(tag);
