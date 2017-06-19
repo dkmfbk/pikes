@@ -9,7 +9,7 @@ public class DBpediaSpotlightAnnotate extends Linking {
     private static String LABEL = "dbpedia-annotate";
     private String confidence;
     private String allowedTypes;
-    private static final String DBPS_ADDRESS = "http://spotlight.sztaki.hu:2222/rest";
+    public static final String DBPS_ADDRESS = "http://model.dbpedia-spotlight.org/en";
     private static final double DBPS_MIN_CONFIDENCE = 0.33;
 
     public DBpediaSpotlightAnnotate(Properties properties) {
