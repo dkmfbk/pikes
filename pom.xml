@@ -117,7 +117,7 @@
 
     <properties>
         <pikes-version>${project.version}</pikes-version>
-        <utils-version>3.0</utils-version>
+        <utils-version>3.1-SNAPSHOT</utils-version>
         <rdfpro-version>0.5</rdfpro-version>
         <fcw-version>1.0-SNAPSHOT</fcw-version>
         <corenlp-version>3.7.0</corenlp-version>

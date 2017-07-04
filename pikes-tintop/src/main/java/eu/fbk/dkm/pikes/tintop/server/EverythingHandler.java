@@ -52,9 +52,9 @@ public class EverythingHandler extends AbstractHandler {
 		String text = request.getParameter("text");
 
 		// Log for stats
-		LOGGER.info("[SENTENCE]");
-		LOGGER.info("Host: {}", host);
-		LOGGER.info("Text: {}", text);
+//		LOGGER.info("[SENTENCE]");
+//		LOGGER.info("Host: {}", host);
+//		LOGGER.info("Text: {}", text);
 
 		KAFDocument doc = text2naf(text, meta);
 

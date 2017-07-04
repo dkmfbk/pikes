@@ -51,8 +51,8 @@
             <groupId>edu.stanford.nlp</groupId>
             <artifactId>stanford-corenlp</artifactId>
             <classifier>models</classifier>
-            <version>3.6.0</version>
-            <scope>test</scope>
+            <version>3.7.0</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>eu.fbk.anna</groupId>
@@ -71,9 +71,9 @@
             <version>2.3.1</version>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>org.codehaus.jackson</groupId>-->
-            <!--<artifactId>jackson-mapper-asl</artifactId>-->
-            <!--<version>1.9.12</version>-->
+        <!--<groupId>org.codehaus.jackson</groupId>-->
+        <!--<artifactId>jackson-mapper-asl</artifactId>-->
+        <!--<version>1.9.12</version>-->
         <!--</dependency>-->
         <dependency>
             <groupId>org.jdom</groupId>
@@ -135,7 +135,7 @@
         <dependency>
             <groupId>eu.fbk.fcw</groupId>
             <artifactId>fcw-linking</artifactId>
-	    <version>${fcw-version}</version>
+            <version>${fcw-version}</version>
         </dependency>
         <dependency>
             <groupId>eu.fbk.pikes</groupId>
@@ -177,6 +177,11 @@
         <dependency>
             <groupId>eu.fbk.utils</groupId>
             <artifactId>utils-core</artifactId>
+            <version>${utils-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.fbk.utils</groupId>
+            <artifactId>utils-corenlp</artifactId>
             <version>${utils-version}</version>
         </dependency>
         <dependency>
@@ -228,6 +233,35 @@
             <artifactId>fcw-ner</artifactId>
             <version>${fcw-version}</version>
         </dependency>
+        <dependency>
+            <groupId>eu.fbk.fcw</groupId>
+            <artifactId>fcw-wnpos</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.fbk.fcw</groupId>
+            <artifactId>fcw-wikipedia</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>eu.fbk.fcw</groupId>
+            <artifactId>fcw-wikipedia</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+
+        <!--<dependency>-->
+        <!--<groupId>edu.washington.cs.knowitall.nlptools</groupId>-->
+        <!--<artifactId>nlptools-stem-morpha_2.9.2</artifactId>-->
+        <!--<version>2.4.1</version>-->
+        <!--</dependency>-->
+
     </dependencies>
 
     <profiles>

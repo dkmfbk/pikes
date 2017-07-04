@@ -1,6 +1,8 @@
 package eu.fbk.dkm.pikes.tintop;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
 import edu.cmu.cs.lti.ark.fn.parsing.SemaforParseResult;
@@ -30,11 +32,11 @@ import eu.fbk.fcw.ukb.UKBAnnotations;
 import eu.fbk.fcw.utils.AnnotatorUtils;
 import eu.fbk.fcw.wnpos.WNPosAnnotations;
 import eu.fbk.utils.core.PropertiesUtils;
+import eu.fbk.utils.corenlp.CustomAnnotations;
 import ixa.kaflib.*;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 import se.lth.cs.srl.corpus.Word;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.annotation.Nullable;
 import java.io.*;
@@ -871,6 +873,41 @@ public class AnnotationPipeline {
 
         // Coref
 
+        // Simple coref
+        HashMultimap<Integer, Integer> simpleCoref = document.get(CustomAnnotations.SimpleCorefAnnotation.class);
+        if (simpleCoref != null) {
+            List<Span<Term>> mentions = new ArrayList<>();
+
+            for (Integer sentenceID : simpleCoref.keySet()) {
+                TreeSet<Integer> sortedSet = new TreeSet<>();
+                sortedSet.addAll(simpleCoref.get(sentenceID));
+
+                Span<Term> thisTermSpan = KAFDocument.newTermSpan();
+                int lastTokenID = -1;
+
+                for (Integer tokenID : sortedSet) {
+                    tokenID = tokenID - 1;
+                    int sentenceStartTokenIndex = sentIndexes.get(sentenceID);
+                    int id = sentenceStartTokenIndex + tokenID;
+                    if (tokenID - lastTokenID > 1) {
+                        if (thisTermSpan.size() > 0) {
+                            mentions.add(thisTermSpan);
+                        }
+                        thisTermSpan = KAFDocument.newTermSpan();
+                    }
+                    thisTermSpan.addTarget(allTerms.get(id));
+                    lastTokenID = tokenID;
+                }
+                if (thisTermSpan.size() > 0) {
+                    mentions.add(thisTermSpan);
+                }
+            }
+
+            if (mentions.size() > 0) {
+                NAFdocument.newCoref(mentions);
+            }
+        }
+
         // Loop through clusters
         if (coreferenceGraph != null) {
             for (Object c : coreferenceGraph.keySet()) {
@@ -922,7 +959,6 @@ public class AnnotationPipeline {
                 NAFFilter filter = NAFFilter.builder().withProperties(properties, "filter").build();
                 filter.filter(NAFdocument);
 
-
                 //NAFFilter.builder().withProperties(properties,"filter").build().filter(NAFdocument);
 //                NAFFilter.builder().build().filter(NAFdocument);
 //                NAFFilter.builder(false)
@@ -968,6 +1004,9 @@ public class AnnotationPipeline {
         linguisticProcessor.setBeginTimestamp();
         Annotation document = new Annotation(text);
         document.set(CoreAnnotations.DocDateAnnotation.class, NAFdocument.getFileDesc().creationtime);
+        if (NAFdocument.getFileDesc().title != null) {
+            document.set(CoreAnnotations.DocTitleAnnotation.class, NAFdocument.getFileDesc().title);
+        }
         thisPipeline.annotate(document);
         logger.info(thisPipeline.timingInformation());
         linguisticProcessor.setEndTimestamp();
