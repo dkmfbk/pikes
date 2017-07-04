@@ -74,6 +74,7 @@ public class PipelineServer {
         httpServer.getServerConfiguration().addHttpHandler(new EverythingHandler(pipeline), "/all");
         httpServer.getServerConfiguration().addHttpHandler(new Text2NafHandler(pipeline), "/text2naf");
         httpServer.getServerConfiguration().addHttpHandler(new TriplesHandler(pipeline), "/text2rdf");
+        httpServer.getServerConfiguration().addHttpHandler(new JsonHandler(pipeline), "/text2json");
 
         httpServer.getServerConfiguration().addHttpHandler(
                 new CLStaticHttpHandler(HttpServer.class.getClassLoader(), "webdemo/"), "/");

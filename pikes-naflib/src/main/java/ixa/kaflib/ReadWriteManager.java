@@ -1,5 +1,9 @@
 package ixa.kaflib;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
@@ -81,8 +85,11 @@ class ReadWriteManager {
         XMLOutputter out = new XMLOutputter(Format.getPrettyFormat().setLineSeparator(LineSeparator.UNIX));
 //		out.getFormat().setTextMode(Format.TextMode.PRESERVE);
         Document jdom = KAFToDOM(kaf);
+        KAFToJSON(kaf);
+
         return out.outputString(jdom);
     }
+
 
     /**
      * Loads a KAFDocument object from XML content in DOM format
@@ -989,7 +996,7 @@ class ReadWriteManager {
     }
 
     private static void DOMToTerm(Element termElem, KAFDocument kaf, boolean isComponent, Map<String, WF> wfIndex,
-            Map<String, Term> termIndex) throws KAFNotValidException {
+                                  Map<String, Term> termIndex) throws KAFNotValidException {
         String tid;
         try {
             tid = getAttribute("id", termElem);
@@ -1130,6 +1137,21 @@ class ReadWriteManager {
         return spanElem;
     }
 
+    private static JsonArray createTermSpanElemJson(Span<Term> span) {
+        JsonArray spanElem = new JsonArray();
+        for (Term term : span.getTargets()) {
+            JsonObject targetElem = new JsonObject();
+            String targetId = term.getId();
+            targetElem.addProperty("id", targetId);
+            if (span.isHead(term)) {
+                targetElem.addProperty("head", "yes");
+            }
+            spanElem.add(targetElem);
+        }
+        return spanElem;
+    }
+
+
     private static List<ExternalRef> getExternalReferences(Element externalReferencesElem, KAFDocument kaf) {
         List<ExternalRef> externalRefs = new ArrayList<ExternalRef>();
         List<Element> externalRefElems = externalReferencesElem.getChildren();
@@ -1217,6 +1239,675 @@ class ReadWriteManager {
             this.head = from.getHead();
         }
     }
+
+    /**
+     * Created by Giovanni Moretti
+     * DH Group at FBK
+     *
+     * @param kaf
+     */
+
+    public static JsonObject KAFToJSON(KAFDocument kaf) {
+        AnnotationContainer annotationContainer = kaf.getAnnotationContainer();
+
+        Gson gson = new Gson();
+
+        JsonObject jo = new JsonObject();
+
+        jo.addProperty("lang", kaf.getLang());
+        jo.addProperty("version", kaf.getVersion());
+
+        JsonObject header = new JsonObject();
+
+
+        KAFDocument.FileDesc fd = kaf.getFileDesc();
+        if (fd != null) {
+            JsonObject fdElem = new JsonObject();
+            if (fd.author != null) {
+                fdElem.addProperty("author", fd.author);
+            }
+            if (fd.creationtime != null) {
+                fdElem.addProperty("creationtime", fd.creationtime);
+            }
+            if (fd.title != null) {
+                fdElem.addProperty("title", fd.title);
+            }
+            if (fd.filename != null) {
+                fdElem.addProperty("filename", fd.filename);
+            }
+            if (fd.filetype != null) {
+                fdElem.addProperty("filetype", fd.filetype);
+            }
+            if (fd.pages != null) {
+                fdElem.addProperty("pages", Integer.toString(fd.pages));
+            }
+            header.add("fileDesc", fdElem);
+        }
+
+        KAFDocument.Public pub = kaf.getPublic();
+        if (pub != null) {
+            JsonObject pubElem = new JsonObject();
+            if (pub.publicId != null) {
+                pubElem.addProperty("publicId", pub.publicId);
+            }
+            if (pub.uri != null) {
+                pubElem.addProperty("uri", pub.uri);
+            }
+            header.add("public", pubElem);
+        }
+
+
+        Map<String, List<LinguisticProcessor>> lps = kaf.getLinguisticProcessors();
+        for (Map.Entry entry : lps.entrySet()) {
+            JsonObject lpsElem = new JsonObject();
+            lpsElem.addProperty("layer", (String) entry.getKey());
+            for (LinguisticProcessor lp : (List<LinguisticProcessor>) entry.getValue()) {
+                JsonObject lpElem = new JsonObject();
+
+                lpElem.addProperty("name", lp.name);
+                if (lp.hasTimestamp()) {
+                    lpElem.addProperty("timestamp", lp.timestamp);
+                }
+                if (lp.hasBeginTimestamp()) {
+                    lpElem.addProperty("beginTimestamp", lp.beginTimestamp);
+                }
+                if (lp.hasEndTimestamp()) {
+                    lpElem.addProperty("endTimestamp", lp.endTimestamp);
+                }
+                if (lp.hasVersion()) {
+                    lpElem.addProperty("version", lp.version);
+                }
+                lpsElem.add("lp", lpElem);
+
+            }
+
+            header.add("linguisticProcessors", lpsElem);
+        }
+
+
+        jo.add("header", header);
+
+        String rawText = annotationContainer.getRawText();
+        if (rawText.length() > 0) {
+            JsonObject rawElem = new JsonObject();
+            rawElem.addProperty("text", rawText);
+            jo.add("raw", rawElem);
+        }
+
+        List<WF> text = annotationContainer.getText();
+        if (text.size() > 0) {
+            JsonArray textElem = new JsonArray();
+
+            for (WF wf : text) {
+
+                JsonObject wfElem = new JsonObject();
+
+
+                wfElem.addProperty("id", wf.getId());
+                wfElem.addProperty("sent", Integer.toString(wf.getSent()));
+                if (wf.hasPara()) {
+                    wfElem.addProperty("para", Integer.toString(wf.getPara()));
+                }
+                if (wf.hasPage()) {
+                    wfElem.addProperty("page", Integer.toString(wf.getPage()));
+                }
+                if (wf.hasOffset()) {
+                    wfElem.addProperty("offset", Integer.toString(wf.getOffset()));
+                }
+                if (wf.hasLength()) {
+                    wfElem.addProperty("length", Integer.toString(wf.getLength()));
+                }
+                if (wf.hasXpath()) {
+                    wfElem.addProperty("xpath", wf.getXpath());
+                }
+                wfElem.addProperty("text", wf.getForm());
+
+
+                textElem.add(gson.fromJson(wfElem.toString(), JsonElement.class));
+            }
+            jo.add("text", textElem);
+        }
+
+        List<Term> terms = annotationContainer.getTerms();
+        if (terms.size() > 0) {
+            JsonArray termsElem = new JsonArray();
+            for (Term term : terms) {
+                termToJson(term, false, termsElem);
+                //termToDOM(term, false, termsElem); ----------------------------------
+            }
+
+            jo.add("terms", termsElem);
+
+        }
+
+
+        List<String> markSources = annotationContainer.getMarkSources();
+        for (String source : markSources) {
+            List<Mark> marks = annotationContainer.getMarks(source);
+            if (marks.size() > 0) {
+                JsonObject marksElem = new JsonObject();
+
+                marksElem.addProperty("source", source);
+                for (Mark mark : marks) {
+                    JsonObject markElem = new JsonObject();
+
+                    marksElem.addProperty("id", mark.getId());
+                    if (mark.hasType()) {
+                        markElem.addProperty("type", mark.getType());
+                    }
+                    if (mark.hasLemma()) {
+                        markElem.addProperty("lemma", mark.getLemma());
+                    }
+                    if (mark.hasPos()) {
+                        markElem.addProperty("pos", mark.getPos());
+                    }
+                    if (mark.hasMorphofeat()) {
+                        markElem.addProperty("morphofeat", mark.getMorphofeat());
+                    }
+                    if (mark.hasCase()) {
+                        markElem.addProperty("case", mark.getCase());
+                    }
+
+                    JsonObject spanElem = new JsonObject();
+
+                    Span<Term> span = mark.getSpan();
+                    for (Term target : span.getTargets()) {
+                        JsonObject targetElem = new JsonObject();
+                        targetElem.addProperty("id", target.getId());
+                        if (target == span.getHead()) {
+                            targetElem.addProperty("head", "yes");
+                        }
+                        spanElem.add("target", targetElem);
+                    }
+
+                    markElem.add("span", spanElem);
+
+                    List<ExternalRef> externalReferences = mark.getExternalRefs();
+                    if (externalReferences.size() > 0) {
+                        //Element externalReferencesElem = externalReferencesToDOM(externalReferences); -------------
+                        //markElem.addContent(externalReferencesElem);--------------------------------------
+                    }
+
+                    marksElem.add("mark", marksElem);
+
+                }
+                jo.add("markables", marksElem);
+            }
+        }
+
+        List<Dep> deps = annotationContainer.getDeps();
+        if (deps.size() > 0) {
+
+            JsonArray  depsArr = new JsonArray();
+
+            for (Dep dep : deps) {
+
+
+                JsonObject depElem = new JsonObject();
+
+                depElem.addProperty("from", dep.getFrom().getId());
+                depElem.addProperty("to", dep.getTo().getId());
+                depElem.addProperty("rfunc", dep.getRfunc());
+                if (dep.hasCase()) {
+                    depElem.addProperty("case", dep.getCase());
+                }
+                depsArr.add(depElem);
+            }
+
+            jo.add("deps",depsArr);
+
+        }
+
+
+        // add chunks ---------------------------------------------------------
+        // --------------------------------------------------------------------
+        // --------------------------------------------------------------------
+        // --------------------------------------------------------------------
+
+        List<Entity> entities = annotationContainer.getEntities();
+        if (entities.size() > 0) {
+
+            JsonArray entitiesElem = new JsonArray();
+
+            for (Entity entity : entities) {
+
+                JsonObject entityElem = new JsonObject();
+                entityElem.addProperty("id", entity.getId());
+                if (entity.hasType()) {
+                    entityElem.addProperty("type", entity.getType());
+                }
+                if (!entity.isNamed()) {
+                    entityElem.addProperty("unnamed", "yes");
+                }
+
+
+                JsonArray referencesElem = new JsonArray();
+                for (Span<Term> span : entity.getSpans()) {
+                    JsonArray spanElem = new JsonArray();
+
+
+                    for (Term term : span.getTargets()) {
+                        JsonObject targetElem = new JsonObject();
+                        targetElem.addProperty("id", term.getId());
+                        if (term == span.getHead()) {
+                            targetElem.addProperty("head", "yes");
+                        }
+                        spanElem.add( targetElem);
+                    }
+                    JsonObject spanWrapper = new JsonObject();
+                    spanWrapper.add("span",spanElem);
+
+                    referencesElem.add(spanWrapper);
+                }
+
+
+                entityElem.add("references",referencesElem);
+
+
+                List<ExternalRef> externalReferences = entity.getExternalRefs();
+                if (externalReferences.size() > 0) {
+                    JsonArray externalReferencesElem = externalReferencesToJSON(externalReferences);
+                    entityElem.add("extRef",externalReferencesElem);
+                }
+                entitiesElem.add(entityElem);
+            }
+            jo.add("entities",entitiesElem);
+        }
+
+
+        List<Coref> corefs = annotationContainer.getCorefs();
+        if (corefs.size() > 0) {
+
+            JsonArray corefsElem = new JsonArray();
+            for (Coref coref : corefs) {
+                JsonObject corefElem = new JsonObject();
+
+
+
+                corefElem.addProperty("id", coref.getId());
+                if (coref.hasType()) {
+                    corefElem.addProperty("type", coref.getType());
+                }
+                if (coref.hasCluster()) {
+                    corefElem.addProperty("cluster", coref.getCluster());
+                }
+
+                JsonArray spans = new JsonArray();
+
+
+
+                for (Span<Term> span : coref.getSpans()) {
+                    JsonArray spanElem = new JsonArray();
+                    for (Term target : span.getTargets()) {
+                        JsonObject targetElem = new JsonObject();
+                        targetElem.addProperty("id", target.getId());
+                        if (target == span.getHead()) {
+                            targetElem.addProperty("head", "yes");
+                        }
+                        spanElem.add(targetElem);
+                    }
+                    spans.add(spanElem);
+                }
+                corefElem.add("span",spans);
+
+
+
+
+                List<ExternalRef> externalReferences = coref.getExternalRefs();
+                if (externalReferences.size() > 0) {
+                    JsonArray externalReferencesElem = externalReferencesToJSON(externalReferences);
+                    corefElem.add("extRef",externalReferencesElem);
+                }
+                corefsElem.add(corefElem);
+            }
+
+            jo.add("coreferences",corefsElem);
+        }
+
+
+
+
+
+
+        List<Timex3> timeExs = annotationContainer.getTimeExs();
+        if (timeExs.size() > 0) {
+
+
+            JsonArray timeExsElem = new JsonArray();
+
+            for (Timex3 timex3 : timeExs) {
+                JsonObject timex3Elem = new JsonObject();
+
+                timex3Elem.addProperty("id", timex3.getId());
+                timex3Elem.addProperty("type", timex3.getType());
+                if (timex3.hasBeginPoint()) {
+                    timex3Elem.addProperty("beginPoint", timex3.getBeginPoint().getId());
+                }
+                if (timex3.hasEndPoint()) {
+                    timex3Elem.addProperty("endPoint", timex3.getEndPoint().getId());
+                }
+                if (timex3.hasQuant()) {
+                    timex3Elem.addProperty("quant", timex3.getQuant());
+                }
+                if (timex3.hasFreq()) {
+                    timex3Elem.addProperty("freq", timex3.getFreq());
+                }
+                if (timex3.hasFunctionInDocument()) {
+                    timex3Elem.addProperty("functionInDocument", timex3.getFunctionInDocument());
+                }
+                if (timex3.hasTemporalFunction()) {
+                    String tempFun = timex3.getTemporalFunction() ? "true" : "false";
+                    timex3Elem.addProperty("temporalFunction", tempFun);
+                }
+                if (timex3.hasValue()) {
+                    timex3Elem.addProperty("value", timex3.getValue());
+                }
+                if (timex3.hasValueFromFunction()) {
+                    timex3Elem.addProperty("valueFromFunction", timex3.getValueFromFunction());
+                }
+                if (timex3.hasMod()) {
+                    timex3Elem.addProperty("mod", timex3.getMod());
+                }
+                if (timex3.hasAnchorTimeId()) {
+                    timex3Elem.addProperty("anchorTimeId", timex3.getAnchorTimeId());
+                }
+                if (timex3.hasComment()) {
+                    timex3Elem.addProperty("comment", timex3.getComment());
+                }
+
+
+                if (timex3.hasSpan()) {
+                    Span<WF> span = timex3.getSpan();
+
+                    JsonArray spanElem = new JsonArray();
+
+                    for (WF target : span.getTargets()) {
+                        JsonObject targetElem = new JsonObject();
+                        targetElem.addProperty("id", target.getId());
+                        if (target == span.getHead()) {
+                            targetElem.addProperty("head", "yes");
+                        }
+                        spanElem.add(targetElem);
+                    }
+                    timex3Elem.add("spans",spanElem);
+                }
+
+
+                timeExsElem.add(timex3Elem);
+            }
+            jo.add("timeExpressions",timeExsElem);
+        }
+
+
+
+
+        List<LinkedEntity> linkedEntities = annotationContainer.getLinkedEntities();
+        if (linkedEntities.size() > 0) {
+            JsonArray linkedEntityElement = new JsonArray();
+            for (LinkedEntity e : linkedEntities) {
+                JsonObject lEnt = new JsonObject();
+                lEnt.addProperty("id", e.getId());
+                lEnt.addProperty("resource", e.getResource());
+                lEnt.addProperty("reference", e.getReference());
+                lEnt.addProperty("confidence", Double.toString(e.getConfidence()));
+                lEnt.addProperty("spotted", e.isSpotted().toString());
+
+
+                JsonArray spanElem = new JsonArray();
+                for (WF target : e.getWFs().getTargets()) {
+                    JsonObject targetElem =  new JsonObject();
+                    targetElem.addProperty("id", target.getId());
+                    spanElem.add(targetElem);
+                }
+                lEnt.add("span",spanElem);
+
+                if (e.getTypes().size() > 0) {
+
+
+                    JsonArray typesElement = new JsonArray();
+                    for (String category : e.getTypes().keySet()) {
+                        for (String type : e.getTypes().get(category)) {
+                            JsonObject typeElement = new JsonObject();
+                            typeElement.addProperty("source", category);
+                            typeElement.addProperty("label", type);
+                            typesElement.add(typeElement);
+                        }
+                    }
+                    lEnt.add("types",typesElement);
+                }
+                linkedEntityElement.add(lEnt);
+            }
+            jo.add("linkedEntities",linkedEntityElement);
+        }
+
+
+
+
+
+        List<Predicate> predicates = annotationContainer.getPredicates();
+        if (predicates.size() > 0) {
+            JsonObject predicatesObj = new JsonObject();
+            JsonArray predicatesElem = new JsonArray();
+
+            for (Predicate predicate : predicates) {
+
+
+                JsonObject predicateElem = new JsonObject();
+
+                predicateElem.addProperty("id", predicate.getId());
+                if (predicate.hasSource()) {
+                    predicateElem.addProperty("source", predicate.getSource());
+                }
+                if (predicate.hasUri()) {
+                    predicateElem.addProperty("uri", predicate.getUri());
+                }
+                if (predicate.hasConfidence()) {
+                    predicateElem.addProperty("confidence", Double.toString(predicate.getConfidence()));
+                }
+
+
+                if (!predicate.getFlags().isEmpty()) {
+                    StringBuilder builder = new StringBuilder();
+                    String separator = "";
+                    for (String flag : predicate.getFlags()) {
+                        builder.append(separator).append(flag);
+                        separator = ",";
+                    }
+                    predicateElem.addProperty("flags", builder.toString());
+                }
+
+
+                Span<Term> span = predicate.getSpan();
+                if (span.getTargets().size() > 0) {
+                    JsonArray spans = new JsonArray();
+                    for (Term target : span.getTargets())
+                    {
+                        JsonObject targetElem = new JsonObject();
+                        targetElem.addProperty("id", target.getId());
+                        if (target == span.getHead()) {
+                            targetElem.addProperty("head", "yes");
+                        }
+                        spans.add(targetElem);
+                    }
+                    predicateElem.add("span",spans);
+
+                }
+                List<ExternalRef> externalReferences = predicate.getExternalRefs();
+                if (externalReferences.size() > 0) {
+                    JsonArray externalReferencesElem = externalReferencesToJSON(externalReferences);
+                    predicateElem.add("extRef",externalReferencesElem);
+                }
+
+                JsonArray roles = new JsonArray();
+
+                for (Predicate.Role role : predicate.getRoles()) {
+
+                    JsonObject roleElem = new JsonObject();
+
+                    roleElem.addProperty("id", role.getId());
+                    roleElem.addProperty("semRole", role.getSemRole());
+                    if (!role.getFlags().isEmpty()) {
+                        StringBuilder builder = new StringBuilder();
+                        String separator = "";
+                        for (String flag : role.getFlags()) {
+                            builder.append(separator).append(flag);
+                            separator = ",";
+                        }
+                        roleElem.addProperty("flags", builder.toString());
+                    }
+
+
+                    Span<Term> roleSpan = role.getSpan();
+                    if (roleSpan.getTargets().size() > 0) {
+                        JsonArray spanElem = new JsonArray();
+                        for (Term target : roleSpan.getTargets()) {
+                            JsonObject targetElem = new JsonObject();
+                            targetElem.addProperty("id", target.getId());
+                            if (target == roleSpan.getHead()) {
+                                targetElem.addProperty("head", "yes");
+                            }
+                            spanElem.add(targetElem);
+                        }
+                        roleElem.add("span",spanElem);
+                    }
+
+
+                    List<ExternalRef> rExternalReferences = role.getExternalRefs();
+                    if (rExternalReferences.size() > 0) {
+                        JsonArray externalReferencesElem = externalReferencesToJSON(rExternalReferences);
+                        roleElem.add("extRef",externalReferencesElem);
+                    }
+                    roles.add(roleElem);
+                }
+
+                predicateElem.add("roles",roles);
+
+                predicatesElem.add(predicateElem);
+            }
+            predicatesObj.add("predicates",predicatesElem);
+            jo.add("srl",predicatesObj);
+        }
+
+        HashMap<Integer, String> conStrings = annotationContainer.getConstituencyStrings();
+        if (conStrings.size() > 0) {
+            JsonArray constituentsElem = new JsonArray();
+            for (Integer sent : conStrings.keySet()) {
+                String constituencyString = conStrings.get(sent);
+
+                JsonObject treeElem = new JsonObject();
+
+                treeElem.addProperty("sentence", sent.toString());
+                treeElem.addProperty("text", constituencyString);
+                constituentsElem.add(treeElem);
+            }
+            jo.add("constituencyStrings",constituentsElem);
+        }
+
+
+
+        List<Tree> constituents = annotationContainer.getConstituents();
+        if (constituents.size() > 0) {
+
+            JsonObject constituentsElem = new JsonObject();
+
+            JsonArray trees = new JsonArray();
+
+
+            for (Tree tree : constituents) {
+
+
+                JsonObject treeElem = new JsonObject();
+                try {
+                    treeElem.addProperty("sentence", tree.getSentence().toString());
+                } catch (Exception e) {
+                    // continue
+                }
+
+
+
+                List<NonTerminal> nonTerminals = new LinkedList<NonTerminal>();
+                List<Terminal> terminals = new LinkedList<Terminal>();
+                List<Edge> edges = new ArrayList<Edge>();
+                TreeNode rootNode = tree.getRoot();
+                extractTreeNodes(rootNode, nonTerminals, terminals, edges);
+
+
+
+
+                Collections.sort(nonTerminals, new Comparator<NonTerminal>() {
+
+                    public int compare(NonTerminal nt1, NonTerminal nt2) {
+                        if (cmpId(nt1.getId(), nt2.getId()) < 0) {
+                            return -1;
+                        } else if (nt1.getId().equals(nt2.getId())) {
+                            return 0;
+                        } else {
+                            return 1;
+                        }
+                    }
+                });
+                Collections.sort(terminals, new Comparator<Terminal>() {
+
+                    public int compare(Terminal t1, Terminal t2) {
+                        if (cmpId(t1.getId(), t2.getId()) < 0) {
+                            return -1;
+                        } else if (t1.getId().equals(t2.getId())) {
+                            return 0;
+                        } else {
+                            return 1;
+                        }
+                    }
+                });
+
+
+                JsonArray nts = new JsonArray();
+                for (NonTerminal node : nonTerminals) {
+                    JsonObject nodeElem = new JsonObject();
+                    nodeElem.addProperty("id", node.getId());
+                    nodeElem.addProperty("label", node.getLabel());
+                    nts.add(nodeElem);
+                }
+                treeElem.add("nt",nts);
+
+                JsonArray ts = new JsonArray();
+                for (Terminal node : terminals) {
+                    JsonObject nodeElem = new JsonObject();
+                    nodeElem.addProperty("id", node.getId());
+                    nodeElem.add("span",createTermSpanElemJson(node.getSpan()));
+                    ts.add(nodeElem);
+                }
+                treeElem.add("t",ts);
+
+                JsonArray edgesArray = new JsonArray();
+                for (Edge edge : edges) {
+                    JsonObject edgeElem = new JsonObject();
+                    if (edge.id != null) {
+                        edgeElem.addProperty("id", edge.id);
+                    }
+                    edgeElem.addProperty("from", edge.from);
+                    edgeElem.addProperty("to", edge.to);
+                    if (edge.head) {
+                        edgeElem.addProperty("head", "yes");
+                    }
+                    edgesArray.add(edgeElem);
+                }
+
+                treeElem.add("edges",edgesArray);
+
+                trees.add(treeElem);
+            }
+
+            constituentsElem.add("trees",trees);
+
+            jo.add("constituency",constituentsElem);
+        }
+
+
+        return jo;
+
+
+    }
+
 
     /**
      * Returns the content of the given KAFDocument in a DOM document.
@@ -2100,6 +2791,129 @@ class ReadWriteManager {
         return doc;
     }
 
+
+    private static void termToJson(Term term, boolean isComponent, JsonArray termsElem) {
+        String morphofeat;
+        Term head;
+        String termcase;
+
+        String tag = (isComponent) ? "component" : "term";
+
+        JsonObject termElem = new JsonObject();
+
+
+        termElem.addProperty("id", term.getId());
+        if (term.hasType()) {
+            termElem.addProperty("type", term.getType());
+        }
+        if (term.hasLemma()) {
+            termElem.addProperty("lemma", term.getLemma());
+        }
+        if (term.hasSupersenseTag()) {
+            termElem.addProperty("supersense", term.getSupersenseTag());
+        }
+        if (term.hasWordnetSense()) {
+            termElem.addProperty("wordnet", term.getWordnetSense());
+        }
+        if (term.hasBBNTag()) {
+            termElem.addProperty("bbn", term.getBBNTag());
+        }
+        if (term.hasPos()) {
+            termElem.addProperty("pos", term.getPos());
+        }
+        if (term.hasMorphofeat()) {
+            termElem.addProperty("morphofeat", term.getMorphofeat());
+        }
+        if (term.hasHead()) {
+            termElem.addProperty("head", term.getHead().getId());
+        }
+        if (term.hasCase()) {
+            termElem.addProperty("case", term.getCase());
+        }
+
+
+        if (term.hasSentiment()) {
+            Term.Sentiment sentiment = term.getSentiment();
+
+            JsonObject sentimentElem = new JsonObject();
+
+            if (sentiment.hasResource()) {
+                sentimentElem.addProperty("resource", sentiment.getResource());
+            }
+            if (sentiment.hasPolarity()) {
+                sentimentElem.addProperty("polarity", sentiment.getPolarity());
+            }
+            if (sentiment.hasStrength()) {
+                sentimentElem.addProperty("strength", sentiment.getStrength());
+            }
+            if (sentiment.hasSubjectivity()) {
+                sentimentElem.addProperty("subjectivity", sentiment.getSubjectivity());
+            }
+            if (sentiment.hasSentimentSemanticType()) {
+                sentimentElem.addProperty("sentiment_semantic_type", sentiment.getSentimentSemanticType());
+            }
+            if (sentiment.hasSentimentModifier()) {
+                sentimentElem.addProperty("sentiment_modifier", sentiment.getSentimentModifier());
+            }
+            if (sentiment.hasSentimentMarker()) {
+                sentimentElem.addProperty("sentiment_marker", sentiment.getSentimentMarker());
+            }
+            if (sentiment.hasSentimentProductFeature()) {
+                sentimentElem.addProperty("sentiment_product_feature", sentiment.getSentimentProductFeature());
+            }
+
+
+            termElem.add("sentiment", sentimentElem);
+        }
+
+
+        JsonObject spanElem = new JsonObject();
+
+
+        Span<WF> span = term.getSpan();
+        for (WF target : term.getWFs()) {
+            JsonObject targetElem = new JsonObject();
+            targetElem.addProperty("id", target.getId());
+            if (target == span.getHead()) {
+                targetElem.addProperty("head", "yes");
+            }
+
+            spanElem.add("target", targetElem);
+        }
+        termElem.add("span", spanElem);
+
+
+        JsonArray ja = new JsonArray();
+
+
+        if (!isComponent) {
+            List<Term> components = term.getComponents();
+            if (components.size() > 0) {
+                for (Term component : components) {
+                    termToJson(component, true, ja);
+                }
+            }
+            if (ja.size() > 0) {
+                JsonObject ta = new JsonObject();
+                ta.add("terms", ja);
+                termsElem.add(ta);
+            }
+        }
+
+
+        List<ExternalRef> externalReferences = term.getExternalRefs();
+        if (externalReferences.size() > 0) {
+            JsonArray externalReferencesElem = externalReferencesToJSON(externalReferences);
+            termElem.add("externalReferences", externalReferencesElem);
+        }
+
+        JsonObject t = new JsonObject();
+        t.add(tag, termElem);
+
+        termsElem.add(t);
+    }
+
+
     private static void termToDOM(Term term, boolean isComponent, Element termsElem) {
         String morphofeat;
         Term head;
@@ -2193,7 +3007,7 @@ class ReadWriteManager {
     }
 
     private static void extractTreeNodes(TreeNode node, List<NonTerminal> nonTerminals, List<Terminal> terminals,
-            List<Edge> edges) {
+                                         List<Edge> edges) {
         if (node instanceof NonTerminal) {
             nonTerminals.add((NonTerminal) node);
             List<TreeNode> treeNodes = ((NonTerminal) node).getChildren();
@@ -2215,6 +3029,22 @@ class ReadWriteManager {
         return externalReferencesElem;
     }
 
+    private static JsonArray externalReferencesToJSON(List<ExternalRef> externalRefs) {
+        Gson gson = new Gson();
+
+        JsonArray externalReferencesElem = new JsonArray();
+
+
+        for (ExternalRef externalRef : externalRefs) {
+            JsonObject externalRefElem = externalRefToJSON(externalRef);
+
+
+            externalReferencesElem.add(externalRefElem);
+        }
+        return externalReferencesElem;
+    }
+
+
     private static Element externalRefToDOM(ExternalRef externalRef) {
         Element externalRefElem = new Element("externalRef");
         externalRefElem.setAttribute("resource", externalRef.getResource());
@@ -2231,6 +3061,25 @@ class ReadWriteManager {
         }
         return externalRefElem;
     }
+
+
+    private static JsonObject externalRefToJSON(ExternalRef externalRef) {
+        JsonObject externalRefElem = new JsonObject();
+        externalRefElem.addProperty("resource", externalRef.getResource());
+        externalRefElem.addProperty("reference", externalRef.getReference());
+        if (externalRef.hasConfidence()) {
+            externalRefElem.addProperty("confidence", Float.toString(externalRef.getConfidence()));
+        }
+        if (externalRef.getSource() != null) {
+            externalRefElem.addProperty("source", externalRef.getSource());
+        }
+        if (externalRef.hasExternalRef()) {
+            JsonObject subExternalRefElem = externalRefToJSON(externalRef.getExternalRef());
+            externalRefElem.add("subref", subExternalRefElem);
+        }
+        return externalRefElem;
+    }
+
 
     private static int cmpId(String id1, String id2) {
         int nbr1 = extractNumberFromId(id1);

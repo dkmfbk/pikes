@@ -1,5 +1,7 @@
 package ixa.kaflib;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 
@@ -1460,6 +1462,10 @@ public class KAFDocument implements Serializable {
 
 	public String toString() {
 		return ReadWriteManager.kafToStr(this);
+	}
+	public String toJsonString() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		return gson.toJson(ReadWriteManager.KAFToJSON(this));
 	}
 
 	/**
