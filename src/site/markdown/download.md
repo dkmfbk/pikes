@@ -6,7 +6,8 @@ but the UKB module (word sense disambiguation) should be installed separately (s
 
 The software needs Java 1.8 and at least 8GB of RAM (better 12G) for the models.
 
-Packages needed:
+We provide a single [full package](https://knowledgestore.fbk.eu/files/pikes/download/pikes-all.tar.gz), containing all modules, models, and configurations needed to run PIKES straightaway.
+The package includes:
 
 * [PIKES Java core library](https://knowledgestore.fbk.eu/files/pikes/download/pikes-tintop-1.0-SNAPSHOT-jar-with-dependencies.jar)
 * [Semafor library](https://knowledgestore.fbk.eu/files/pikes/download/Semafor-3.0-alpha-04.jar)<br />
@@ -30,7 +31,6 @@ UKB is a collection of programs for performing graph-based Word Sense Disambigua
 [(Source code)](https://github.com/asoroa/ukb)
 [(License)](https://github.com/asoroa/ukb/blob/master/src/LICENSE)
 
-You can also download the [full package](https://knowledgestore.fbk.eu/files/pikes/download/pikes-all.tar.gz), containing all the above components.
 
 Run PIKES on GNU/Linux
 ---
@@ -41,24 +41,21 @@ If you want to run PIKES on GNU/Linux out-of-the box, just execute the following
 wget https://knowledgestore.fbk.eu/files/pikes/download/pikes-all.tar.gz # Download the full package
 tar xzf pikes-all.tar.gz
 cd pikes/
-export CLASSPATH=pikes-tintop-1.0-SNAPSHOT-jar-with-dependencies.jar
-export CLASSPATH=$CLASSPATH:Semafor-3.0-alpha-04.jar
-export CLASSPATH=$CLASSPATH:models/stanford-corenlp-3.7.0-models.jar
-java -Xmx8G eu.fbk.dkm.pikes.tintop.server.PipelineServer
+./run.sh
 ```
 
-After a minute, the PIKES pipeline should be active on port 8011 (you can change the port using the `-p` parameter;
-run
+After a minute, PIKES should be active on port 8011 (you can change the port modifying the PORT variable in the run.sh script file).
+Run
 
 ```
 java -Xmx8G eu.fbk.dkm.pikes.tintop.server.PipelineServer -h
 ```
 
-for the list of parameters.
+for the complete list of PIKES parameters.
 To test it, go to a browser that can reach the machine you run PIKES into, and surf to
 
 ```
-http://server:8011/text2naf?text=Barack%20Obama%20was%20the%20president%20of%20the%20United%20States.
+http://server:8011/text2naf?text=G.%20W.%20Bush%20and%20Bono%20are%20very%20strong%20supporters%20of%20the%20fight%20of%20HIV%20in%20Africa.%20Their%20March%202002%20meeting%20resulted%20in%20a%205%20billion%20dollar%20aid.
 ```
 
 where `server` is the name of the server (i.e. `localhost`).
@@ -75,7 +72,7 @@ To access it, just surf to `http://server:8011/webdemo`.
 
 PIKES can be executed without a configuration file, as there is a default properties file.
 The properties values are stored in the `eu.fbk.dkm.pikes.tintop.Defaults` class.
-You can override these values by creating a configuration file and pass it to the `PipelineServer` (`-c` option).
+You can override these values by creating a configuration file (e.g., the `config-pikes.prop` file included in the PIKES package) and pass it to the `PipelineServer` (`-c` option, cf. `run.sh`).
 If you want to pass Stanford CoreNLP configurations, just prepend `stanford.` to the name of the preference.
 For example, to override the list of the annotators you can create a config file with
 `stanford.annotators = tokenize, ssplit` and you'll have only tokenizer and sentence splitter.

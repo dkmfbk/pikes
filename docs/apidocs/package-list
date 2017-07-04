@@ -15,6 +15,7 @@ eu.fbk.dkm.pikes.resources.boxer
 eu.fbk.dkm.pikes.resources.conllAIDA
 eu.fbk.dkm.pikes.resources.darmstadt
 eu.fbk.dkm.pikes.resources.ecb
+eu.fbk.dkm.pikes.resources.enronEmailDataset
 eu.fbk.dkm.pikes.resources.goodbadfor
 eu.fbk.dkm.pikes.resources.mpqa
 eu.fbk.dkm.pikes.resources.ontonotes
