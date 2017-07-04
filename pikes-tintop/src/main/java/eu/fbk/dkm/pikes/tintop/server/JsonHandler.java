@@ -28,29 +28,12 @@ public class JsonHandler extends AbstractHandler {
 
 		super.service(request, response);
 
-		String host = request.getHeader("x-forwarded-for");
-
-		String referer = request.getHeader("referer");
-		String okReferer = pipeline.getDefaultConfig().getProperty("back_referer");
-
-		boolean backLink = false;
-		if (referer != null && okReferer != null && referer.equals(okReferer)) {
-			backLink = true;
-		}
-
 		String text = request.getParameter("text");
-
-		// Log for stats
-		LOGGER.info("[SENTENCE]");
-		LOGGER.info("Host: {}", host);
-		LOGGER.info("Text: {}", text);
-
 		KAFDocument doc = text2naf(text, meta);
 
 		doc = pipeline.parseFromString(doc.toString());
 
 		String viewString = doc.toJsonString();
-		System.out.println(viewString);
 		super.writeOutput(response, "text/json", viewString);
 	}
 }
