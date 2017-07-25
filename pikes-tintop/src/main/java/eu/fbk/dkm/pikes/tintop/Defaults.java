@@ -60,6 +60,8 @@ public class Defaults {
         ret.setProperty("stanford.customAnnotatorClass.mate", "eu.fbk.fcw.mate.MateSrlAnnotator");
         ret.setProperty("stanford.customAnnotatorClass.mst_fake",
                 "eu.fbk.dkm.pikes.depparseannotation.FakeMstParserAnnotator");
+        ret.setProperty("stanford.customAnnotatorClass.stanford2conll",
+                "eu.fbk.dkm.pikes.depparseannotation.StanfordToConllDepsAnnotator");
         ret.setProperty("stanford.customAnnotatorClass.ner_custom",
                 "eu.fbk.fcw.ner.NERCustomAnnotator");
         ret.setProperty("stanford.customAnnotatorClass.ner_confidence",
