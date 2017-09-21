@@ -169,12 +169,14 @@ public final class NAFUtils {
     }
 
     @Nullable
+
     public static Term extractHead(final KAFDocument document, @Nullable final Span<Term> span) {
         if (span == null) {
             return null;
         }
         Term head = null; // span.getHead(); TODO
         if (head == null) {
+
             head = document.getTermsHead(span.getTargets()); // (re)compute
         }
         return head;
@@ -210,6 +212,8 @@ public final class NAFUtils {
         return result;
     }
 
+
+    //todo adapt POS and DEP (UD)
     private static boolean extractHeadsHelper(final KAFDocument document, final Term term,
             final java.util.function.Predicate<Term> predicate, final Collection<Term> result) {
         final String pos = extendedPos(document, term);
@@ -849,6 +853,7 @@ public final class NAFUtils {
         }
     }
 
+    //todo adapt DEP (UD): check VC and IM
     public static Term syntacticToSRLHead(final KAFDocument document, final Term term) {
         for (final Dep dep : document.getDepsFromTerm(term)) {
             final String func = dep.getRfunc();

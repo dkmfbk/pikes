@@ -57,6 +57,9 @@ public class ConvertDocsFromGS {
             e.printStackTrace();
         }
 
+        //added as missing starting DOCSTART
+        conll_list.add("-DOCSTART- -X- O O");
+
         try (Stream<String> stream = Files.lines(Paths.get(conllfolder.toString()+"/eng.testa"))) {
 
 
@@ -68,6 +71,9 @@ public class ConvertDocsFromGS {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //added as missing starting DOCSTART
+        conll_list.add("-DOCSTART- -X- O O");
 
         try (Stream<String> stream = Files.lines(Paths.get(conllfolder.toString()+"/eng.testb"))) {
             conll_list.addAll(stream
@@ -90,38 +96,40 @@ public class ConvertDocsFromGS {
 
             if (line.startsWith("-DOCSTART-")) {
 
-                File outputFile = new File(outputfile.getAbsoluteFile().toString() + "/" + StringUtils.leftPad(ID.toString(),4,"0") + ".naf");
+                if (!text.isEmpty()) {
+                    File outputFile = new File(outputfile.getAbsoluteFile().toString() + "/" + StringUtils.leftPad(ID.toString(),4,"0") + ".naf");
 
-                //File outputFile = new File(outputFileName);
-                outputFile.getParentFile().mkdirs();
-                KAFDocument document = new KAFDocument("en", "v3");
+                    //File outputFile = new File(outputFileName);
+                    outputFile.getParentFile().mkdirs();
+                    KAFDocument document = new KAFDocument("en", "v3");
 
-                document.save(outputFile.getAbsolutePath());
+                    document.save(outputFile.getAbsolutePath());
 
-                document.setRawText(text);
+                    document.setRawText(text);
 
-                KAFDocument.FileDesc fileDesc = document.createFileDesc();
-                fileDesc.title = ID.toString();
+                    KAFDocument.FileDesc fileDesc = document.createFileDesc();
+                    fileDesc.title = ID.toString();
 
-                Date thisDate = new Date();
+                    Date thisDate = new Date();
 
-                fileDesc.creationtime = sdf.format(thisDate);
-                String URL_str = ID.toString();
-                fileDesc.filename = URL_str;
+                    fileDesc.creationtime = sdf.format(thisDate);
+                    String URL_str = ID.toString();
+                    fileDesc.filename = URL_str;
 
-                String urlTemplate = DEFAULT_URL;
-                if (cmd.hasOption("url-template")) {
-                    urlTemplate = cmd.getOptionValue("url-template", String.class);
+                    String urlTemplate = DEFAULT_URL;
+                    if (cmd.hasOption("url-template")) {
+                        urlTemplate = cmd.getOptionValue("url-template", String.class);
+                    }
+
+                    KAFDocument.Public aPublic = document.createPublic();
+                    //aPublic.uri = URL_str;
+                    aPublic.uri = urlTemplate + ID.toString();
+                    aPublic.publicId = ID.toString();
+
+                    document.save(outputFile.getAbsolutePath());
+                    text="";
+                    ID++;
                 }
-
-                KAFDocument.Public aPublic = document.createPublic();
-                //aPublic.uri = URL_str;
-                aPublic.uri = urlTemplate + ID.toString();
-                aPublic.publicId = ID.toString();
-
-                document.save(outputFile.getAbsolutePath());
-                text="";
-                ID++;
 
             } else if (line.isEmpty()) text+="\n";
             else {

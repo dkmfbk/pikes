@@ -112,8 +112,10 @@ public final class RDFGenerator {
 
     private static final ValueFactory FACTORY = ValueFactoryImpl.getInstance();
 
+    //todo adapta to UD
     private static final String MODIFIER_REGEX = "(NMOD|AMOD|TMP|LOC|TITLE) PMOD? (COORD CONJ?)* PMOD?";
 
+    //todo adapta to UD
     private static final String PARTICIPATION_REGEX = ""
             + "SUB? (COORD CONJ?)* (PMOD (COORD CONJ?)*)? ((VC OPRD?)|(IM OPRD?))*";
 

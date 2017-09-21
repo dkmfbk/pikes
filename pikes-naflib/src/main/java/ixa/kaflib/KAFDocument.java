@@ -2023,6 +2023,7 @@ public class KAFDocument implements Serializable {
         return this.annotationContainer.getDepsByTerm(term);
     }
 
+    //todo adapt DEP (UD): check if rules for head are OK or have to be adapted
     public Term getTermsHead(final Iterable<Term> descendents) {
         final Set<Term> termSet = new HashSet<Term>();
         for (final Term term : descendents) {
