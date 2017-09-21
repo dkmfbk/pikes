@@ -70,6 +70,32 @@ public class Term extends IReferable implements Serializable {
 	private String supersenseTag;
 	private String wordnetSense;
 	private String bbnTag;
+	private String upos;
+	private Map<String, Collection<String>> features = null;
+
+	public Map<String, Collection<String>> getFeatures() {
+		return features;
+	}
+
+	public void setFeatures(Map<String, Collection<String>> features) {
+		this.features = features;
+	}
+
+	public boolean hasFeatures() {
+		return features != null;
+	}
+
+	public String getUpos() {
+		return upos;
+	}
+
+	public void setUpos(String upos) {
+		this.upos = upos;
+	}
+
+	public boolean hasUpos() {
+		return upos != null;
+	}
 
 	public String getSupersenseTag() {
 		return supersenseTag;

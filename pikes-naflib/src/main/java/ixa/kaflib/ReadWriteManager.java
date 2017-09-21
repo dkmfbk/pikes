@@ -14,6 +14,7 @@ import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 //todo: read facts, ssts, wordnet, linkedEntities, topics, topics in linkedEntities
 // FRANCESCO: should be done now (but perhaps check my code)
@@ -2944,6 +2945,9 @@ class ReadWriteManager {
         if (term.hasMorphofeat()) {
             termElem.setAttribute("morphofeat", term.getMorphofeat());
         }
+        if (term.hasUpos()) {
+            termElem.setAttribute("upos", term.getUpos());
+        }
         if (term.hasHead()) {
             termElem.setAttribute("head", term.getHead().getId());
         }
@@ -2979,6 +2983,22 @@ class ReadWriteManager {
             }
             termElem.addContent(sentimentElem);
         }
+
+        if (term.hasFeatures()) {
+            Element featsElem = new Element("features");
+            Map<String, Collection<String>> features = term.getFeatures();
+            for (String key : features.keySet()) {
+                Collection<String> value = features.get(key);
+                String allValues = value.stream()
+                        .collect(Collectors.joining(", "));
+                Element featElem = new Element("feature");
+                featElem.setAttribute("key", key);
+                featElem.setAttribute("value", allValues);
+                featsElem.addContent(featElem);
+            }
+            termElem.addContent(featsElem);
+        }
+
         Element spanElem = new Element("span");
         Span<WF> span = term.getSpan();
         for (WF target : term.getWFs()) {
