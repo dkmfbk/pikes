@@ -33,6 +33,7 @@ import eu.fbk.fcw.utils.AnnotatorUtils;
 import eu.fbk.fcw.wnpos.WNPosAnnotations;
 import eu.fbk.utils.core.PropertiesUtils;
 import eu.fbk.utils.corenlp.CustomAnnotations;
+import eu.fbk.utils.corenlp.outputters.JSONOutputter;
 import ixa.kaflib.*;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
@@ -251,6 +252,10 @@ public class AnnotationPipeline {
                 Term thisTerm = NAFdocument.newTerm("open", lemma, pos, thisWFSpan);
                 thisTerm.setMorphofeat(pos);
 
+                // Upos
+                String upos = stanfordToken.get(CustomAnnotations.UPosAnnotation.class);
+                thisTerm.setUpos(upos);
+
                 // WordNet sense
                 String wnSense = stanfordToken.get(UKBAnnotations.UKBAnnotation.class);
                 if (wnSense != null) {
@@ -263,6 +268,10 @@ public class AnnotationPipeline {
                     simplePos = "O";
                 }
                 thisTerm.setPos(simplePos);
+
+                // Features
+                Map<String, Collection<String>> features = stanfordToken.get(CustomAnnotations.FeaturesAnnotation.class);
+                thisTerm.setFeatures(features);
 
                 terms.add(thisTerm);
                 allTerms.add(thisTerm);
@@ -423,69 +432,76 @@ public class AnnotationPipeline {
                 Timex3 thisTimex = null;
 
                 switch (entity.getLabel()) {
-                case "PERSON":
-                case "LOCATION":
-                case "ORGANIZATION":
-                case "MISC":
-                case "MONEY":
-                case "PERCENT":
-                    thisEntity = NAFdocument.newEntity(thisTermList);
-                    thisEntity.setType(entity.getLabel());
+                    case "PERSON":
+                    case "LOCATION":
+                    case "ORGANIZATION":
 
-                    // Normalized value
-                    if (entity.getNormalizedValue() != null && entity.getNormalizedValue().length() > 0) {
-                        thisEntity.addExternalRef(NAFdocument.createExternalRef("value", entity.getNormalizedValue()));
-                    }
+                    case "MISC":
+                    case "MONEY":
+                    case "PERCENT":
 
-                    if (enableEntityAssignment) {
-                        LinkingTag e = null;
-                        HashSet<LinkingTag> possibleEntities = keywords.get(startIndex);
-                        if (possibleEntities != null) {
-                            for (LinkingTag loopEntity : possibleEntities) {
-                                int end = loopEntity.getOffset() + loopEntity.getLength();
-                                if (end != endIndex) {
-                                    continue;
+                        // Compatibility with Tint
+                    case "PER":
+                    case "LOC":
+                    case "ORG":
+
+                        thisEntity = NAFdocument.newEntity(thisTermList);
+                        thisEntity.setType(entity.getLabel());
+
+                        // Normalized value
+                        if (entity.getNormalizedValue() != null && entity.getNormalizedValue().length() > 0) {
+                            thisEntity.addExternalRef(NAFdocument.createExternalRef("value", entity.getNormalizedValue()));
+                        }
+
+                        if (enableEntityAssignment) {
+                            LinkingTag e = null;
+                            HashSet<LinkingTag> possibleEntities = keywords.get(startIndex);
+                            if (possibleEntities != null) {
+                                for (LinkingTag loopEntity : possibleEntities) {
+                                    int end = loopEntity.getOffset() + loopEntity.getLength();
+                                    if (end != endIndex) {
+                                        continue;
+                                    }
+                                    if (e == null || e.getScore() < loopEntity.getScore()) {
+                                        e = loopEntity;
+                                    }
                                 }
-                                if (e == null || e.getScore() < loopEntity.getScore()) {
-                                    e = loopEntity;
-                                }
+                            }
+
+                            if (e != null) {
+                                ExternalRef ext = NAFdocument.newExternalRef(e.getSource(), e.getPage());
+                                ext.setConfidence((float) e.getScore());
+                                thisEntity.addExternalRef(ext);
                             }
                         }
 
-                        if (e != null) {
-                            ExternalRef ext = NAFdocument.newExternalRef(e.getSource(), e.getPage());
-                            ext.setConfidence((float) e.getScore());
-                            thisEntity.addExternalRef(ext);
-                        }
-                    }
+                        break;
 
-                    break;
+                    case "NUMBER":
+                        thisEntity = NAFdocument.newEntity(thisTermList);
+                        thisEntity.setType("CARDINAL");
+                        thisEntity.addExternalRef(NAFdocument.createExternalRef("value", entity.getNormalizedValue()));
+                        break;
 
-                case "NUMBER":
-                    thisEntity = NAFdocument.newEntity(thisTermList);
-                    thisEntity.setType("CARDINAL");
-                    thisEntity.addExternalRef(NAFdocument.createExternalRef("value", entity.getNormalizedValue()));
-                    break;
+                    case "ORDINAL":
+                        thisEntity = NAFdocument.newEntity(thisTermList);
+                        thisEntity.setType("ORDINAL");
+                        thisEntity.addExternalRef(NAFdocument.createExternalRef("value", entity.getNormalizedValue()));
+                        break;
 
-                case "ORDINAL":
-                    thisEntity = NAFdocument.newEntity(thisTermList);
-                    thisEntity.setType("ORDINAL");
-                    thisEntity.addExternalRef(NAFdocument.createExternalRef("value", entity.getNormalizedValue()));
-                    break;
+                    case "DATE":
+                    case "TIME":
+                        thisTimex = NAFdocument.newTimex3(thisWFSpan, entity.getLabel());
+                        thisTimex.setValue(entity.getNormalizedValue());
+                        break;
 
-                case "DATE":
-                case "TIME":
-                    thisTimex = NAFdocument.newTimex3(thisWFSpan, entity.getLabel());
-                    thisTimex.setValue(entity.getNormalizedValue());
-                    break;
+                    case "DURATION":
+                        thisTimex = NAFdocument.newTimex3(thisWFSpan, entity.getLabel());
+                        thisTimex.setValue(entity.getNormalizedValue());
+                        break;
 
-                case "DURATION":
-                    thisTimex = NAFdocument.newTimex3(thisWFSpan, entity.getLabel());
-                    thisTimex.setValue(entity.getNormalizedValue());
-                    break;
-
-                default:
-                    logger.debug(entity.getLabel());
+                    default:
+                        logger.debug(entity.getLabel());
                 }
 
                 if (thisEntity != null && entity.getScoredLabels() != null) {

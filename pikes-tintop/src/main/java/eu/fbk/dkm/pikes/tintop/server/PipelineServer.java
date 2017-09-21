@@ -88,7 +88,8 @@ public class PipelineServer {
             httpServer.start();
             Thread.currentThread().join();
         } catch (Exception e) {
-            logger.error("error running " + host + ":" + port);
+//            logger.error("error running " + host + ":" + port);
+            e.printStackTrace();
         }
     }
 
