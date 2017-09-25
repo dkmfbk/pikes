@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 
 /**
  * Created by marcorospocher on 12/05/16.
+ * DEPRECATED!! Better use ConvertDocsFromAIDAGS
  */
 public class ConvertDocsFromGS {
 
@@ -31,7 +32,7 @@ public class ConvertDocsFromGS {
 
         final CommandLine cmd = CommandLine
                 .parser()
-                .withName("triplificator")
+                .withName("ConvertDocsFromGS")
                 .withHeader("Generates < YAGO entity, rdf:type , NER type> triples")
                 .withOption("c", "conll", "CONLL folder", "FOLDER", CommandLine.Type.DIRECTORY, true, false, true)
                 .withOption("o", "output", "Output file", "FOLDER", CommandLine.Type.DIRECTORY, true,

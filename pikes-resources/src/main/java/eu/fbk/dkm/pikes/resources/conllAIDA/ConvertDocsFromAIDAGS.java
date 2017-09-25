@@ -2,20 +2,24 @@ package eu.fbk.dkm.pikes.resources.conllAIDA;
 
 import eu.fbk.utils.core.CommandLine;
 import ixa.kaflib.KAFDocument;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.LoggerFactory;
-import java.io.*;
+
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
  * Created by marcorospocher on 12/05/16.
  */
-public class ConvertDocs {
+public class ConvertDocsFromAIDAGS {
 
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
     private static String DEFAULT_URL = "http://pikes.fbk.eu/conll/";
@@ -25,10 +29,9 @@ public class ConvertDocs {
 
         final CommandLine cmd = CommandLine
                 .parser()
-                .withName("triplificator")
+                .withName("ConvertDocsFromAIDAGS")
                 .withHeader("Generates < YAGO entity, rdf:type , NER type> triples")
-                .withOption("i", "conll", "conll file", "FILE", CommandLine.Type.FILE, true,
-                        false, true)
+                .withOption("a", "aida", "AIDA-YAGO2-dataset.tsv", "FILE", CommandLine.Type.FILE, true, false, true)
                 .withOption("o", "output", "Output file", "FOLDER", CommandLine.Type.DIRECTORY, true,
                         false, true)
                 .withOption("u", "url-template", "URL template (with %d for the ID)", "URL",
@@ -36,43 +39,51 @@ public class ConvertDocs {
                 .withLogger(LoggerFactory.getLogger("eu.fbk")) //
                 .parse(args);
 
-        File conllfolder = cmd.getOptionValue("conll", File.class);
+        File aidagold = cmd.getOptionValue("aida", File.class);
         File outputfile = cmd.getOptionValue("output", File.class);
 
+        List<String> conll_list = new ArrayList<>();
 
+        try (Stream<String> stream = Files.lines(Paths.get(aidagold.toString()))) {
 
+            conll_list.addAll(stream
+ //                   .filter(line -> !line.startsWith("-DOCSTART-"))
+ //                   .filter(line -> !line.isEmpty())
+                    .collect(Collectors.toList()));
 
-        try (Stream<String> stream = Files.lines(Paths.get(conllfolder.toString()))) {
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+        Integer ID=1;
+        conll_list.remove(0);
+        conll_list.add("-DOCSTART-"); //to ease processing
 
-            stream.forEach(line -> {
+        String text="";
 
-                JSONParser parser = new JSONParser();
+        for (String line : conll_list
+                ) {
 
-                try {
-                    Object obj = parser.parse(line);
-                    JSONObject jsonObject = (JSONObject) obj;
-                    String ID = (String) jsonObject.get("docId");
-                    String text = (String) jsonObject.get("text");
-                    //System.out.println(text);
+            if (line.startsWith("-DOCSTART-")) {
 
-                    File outputFile = new File(outputfile.getAbsoluteFile().toString()+"/"+ID+".naf");
+                if (!text.isEmpty()) {
+                    File outputFile = new File(outputfile.getAbsoluteFile().toString() + "/" + StringUtils.leftPad(ID.toString(),4,"0") + ".naf");
 
                     //File outputFile = new File(outputFileName);
                     outputFile.getParentFile().mkdirs();
-
                     KAFDocument document = new KAFDocument("en", "v3");
 
-                    //document.setRawText(postProcess(cleaned_text));
+                    document.save(outputFile.getAbsolutePath());
+
                     document.setRawText(text);
 
                     KAFDocument.FileDesc fileDesc = document.createFileDesc();
-                    fileDesc.title = ID;
+                    fileDesc.title = ID.toString();
 
                     Date thisDate = new Date();
 
                     fileDesc.creationtime = sdf.format(thisDate);
-                    String URL_str = ID;
+                    String URL_str = ID.toString();
                     fileDesc.filename = URL_str;
 
                     String urlTemplate = DEFAULT_URL;
@@ -82,24 +93,20 @@ public class ConvertDocs {
 
                     KAFDocument.Public aPublic = document.createPublic();
                     //aPublic.uri = URL_str;
-                    aPublic.uri = urlTemplate + ID;
-                    aPublic.publicId = ID;
+                    aPublic.uri = urlTemplate + ID.toString();
+                    aPublic.publicId = ID.toString();
 
                     document.save(outputFile.getAbsolutePath());
-
-
-
-
-                } catch (org.json.simple.parser.ParseException e) {
-                    e.printStackTrace();
+                    text="";
+                    ID++;
                 }
 
+            } else if (line.isEmpty()) text+="\n";
+            else {
+                String[] conll_item = line.split("\t");
+                text+=conll_item[0]+" ";
+            }
 
-            });
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
