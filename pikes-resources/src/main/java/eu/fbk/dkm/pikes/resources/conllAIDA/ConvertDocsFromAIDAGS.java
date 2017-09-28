@@ -3,6 +3,7 @@ package eu.fbk.dkm.pikes.resources.conllAIDA;
 import eu.fbk.utils.core.CommandLine;
 import ixa.kaflib.KAFDocument;
 import org.apache.commons.lang.StringUtils;
+import org.openrdf.query.algebra.Str;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
@@ -47,15 +48,17 @@ public class ConvertDocsFromAIDAGS {
         try (Stream<String> stream = Files.lines(Paths.get(aidagold.toString()))) {
 
             conll_list.addAll(stream
- //                   .filter(line -> !line.startsWith("-DOCSTART-"))
- //                   .filter(line -> !line.isEmpty())
+                    //                   .filter(line -> !line.startsWith("-DOCSTART-"))
+                    //                   .filter(line -> !line.isEmpty())
                     .collect(Collectors.toList()));
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Integer ID=1;
+//        Integer ID=1;
+
+        String IDstr = getID(conll_list.get(0));
         conll_list.remove(0);
         conll_list.add("-DOCSTART-"); //to ease processing
 
@@ -66,7 +69,12 @@ public class ConvertDocsFromAIDAGS {
 
             if (line.startsWith("-DOCSTART-")) {
 
+
+
                 if (!text.isEmpty()) {
+
+                    Integer ID=Integer.parseInt(IDstr.split(" ")[0].replace("testa","").replace("testb",""));
+
                     File outputFile = new File(outputfile.getAbsoluteFile().toString() + "/" + StringUtils.leftPad(ID.toString(),4,"0") + ".naf");
 
                     //File outputFile = new File(outputFileName);
@@ -94,12 +102,18 @@ public class ConvertDocsFromAIDAGS {
                     KAFDocument.Public aPublic = document.createPublic();
                     //aPublic.uri = URL_str;
                     aPublic.uri = urlTemplate + ID.toString();
-                    aPublic.publicId = ID.toString();
+                    aPublic.publicId = IDstr;
+
+                    //set public ID so it works for AIDA evaluator
+
 
                     document.save(outputFile.getAbsolutePath());
                     text="";
-                    ID++;
+//                    ID++;
+//                    oldID=newID;
                 }
+
+                if (!line.equals("-DOCSTART-")) IDstr=getID(line);
 
             } else if (line.isEmpty()) text+="\n";
             else {
@@ -108,6 +122,15 @@ public class ConvertDocsFromAIDAGS {
             }
 
         }
+
+
+    }
+
+    private static String getID (String line){
+
+//        System.out.println("writing file "+line);
+        return line.substring(line.indexOf("(")+1,line.indexOf(")"));
+
     }
 
 }
