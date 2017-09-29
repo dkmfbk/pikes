@@ -165,6 +165,13 @@
             <artifactId>commons-email</artifactId>
             <version>1.4</version>
         </dependency>
+        
+        <!-- Next one needed by TAC KBP (tokenization support) -->
+        <dependency>
+            <groupId>edu.stanford.nlp</groupId>
+            <artifactId>stanford-corenlp</artifactId>
+            <optional>true</optional>
+        </dependency>
 
         <dependency>
             <groupId>org.jsoup</groupId>
