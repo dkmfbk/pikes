@@ -3,8 +3,7 @@ package eu.fbk.dkm.pikes.resources.conllAIDA;
 import eu.fbk.utils.core.CommandLine;
 import ixa.kaflib.KAFDocument;
 import org.apache.commons.lang.StringUtils;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import org.openrdf.query.algebra.Str;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
@@ -20,9 +19,8 @@ import java.util.stream.Stream;
 
 /**
  * Created by marcorospocher on 12/05/16.
- * DEPRECATED!! Better use ConvertDocsFromAIDAGS
  */
-public class ConvertDocsFromGS {
+public class ConvertDocsFromAIDAGS {
 
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
     private static String DEFAULT_URL = "http://pikes.fbk.eu/conll/";
@@ -32,9 +30,9 @@ public class ConvertDocsFromGS {
 
         final CommandLine cmd = CommandLine
                 .parser()
-                .withName("ConvertDocsFromGS")
+                .withName("ConvertDocsFromAIDAGS")
                 .withHeader("Generates < YAGO entity, rdf:type , NER type> triples")
-                .withOption("c", "conll", "CONLL folder", "FOLDER", CommandLine.Type.DIRECTORY, true, false, true)
+                .withOption("a", "aida", "AIDA-YAGO2-dataset.tsv", "FILE", CommandLine.Type.FILE, true, false, true)
                 .withOption("o", "output", "Output file", "FOLDER", CommandLine.Type.DIRECTORY, true,
                         false, true)
                 .withOption("u", "url-template", "URL template (with %d for the ID)", "URL",
@@ -42,51 +40,25 @@ public class ConvertDocsFromGS {
                 .withLogger(LoggerFactory.getLogger("eu.fbk")) //
                 .parse(args);
 
-        File conllfolder = cmd.getOptionValue("conll", File.class);
+        File aidagold = cmd.getOptionValue("aida", File.class);
         File outputfile = cmd.getOptionValue("output", File.class);
 
         List<String> conll_list = new ArrayList<>();
 
-        try (Stream<String> stream = Files.lines(Paths.get(conllfolder.toString()+"/eng.train"))) {
+        try (Stream<String> stream = Files.lines(Paths.get(aidagold.toString()))) {
 
             conll_list.addAll(stream
- //                   .filter(line -> !line.startsWith("-DOCSTART-"))
- //                   .filter(line -> !line.isEmpty())
+                    //                   .filter(line -> !line.startsWith("-DOCSTART-"))
+                    //                   .filter(line -> !line.isEmpty())
                     .collect(Collectors.toList()));
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        //added as missing starting DOCSTART
-        conll_list.add("-DOCSTART- -X- O O");
+//        Integer ID=1;
 
-        try (Stream<String> stream = Files.lines(Paths.get(conllfolder.toString()+"/eng.testa"))) {
-
-
-            conll_list.addAll(stream
- //                   .filter(line -> !line.startsWith("-DOCSTART-"))
- //                   .filter(line -> !line.isEmpty())
-                    .collect(Collectors.toList()));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //added as missing starting DOCSTART
-        conll_list.add("-DOCSTART- -X- O O");
-
-        try (Stream<String> stream = Files.lines(Paths.get(conllfolder.toString()+"/eng.testb"))) {
-            conll_list.addAll(stream
- //                   .filter(line -> !line.startsWith("-DOCSTART-"))
- //                   .filter(line -> !line.isEmpty())
-                    .collect(Collectors.toList()));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Integer ID=1;
+        String IDstr = getID(conll_list.get(0));
         conll_list.remove(0);
         conll_list.add("-DOCSTART-"); //to ease processing
 
@@ -97,7 +69,12 @@ public class ConvertDocsFromGS {
 
             if (line.startsWith("-DOCSTART-")) {
 
+
+
                 if (!text.isEmpty()) {
+
+                    Integer ID=Integer.parseInt(IDstr.split(" ")[0].replace("testa","").replace("testb",""));
+
                     File outputFile = new File(outputfile.getAbsoluteFile().toString() + "/" + StringUtils.leftPad(ID.toString(),4,"0") + ".naf");
 
                     //File outputFile = new File(outputFileName);
@@ -125,20 +102,35 @@ public class ConvertDocsFromGS {
                     KAFDocument.Public aPublic = document.createPublic();
                     //aPublic.uri = URL_str;
                     aPublic.uri = urlTemplate + ID.toString();
-                    aPublic.publicId = ID.toString();
+                    aPublic.publicId = IDstr;
+
+                    //set public ID so it works for AIDA evaluator
+
 
                     document.save(outputFile.getAbsolutePath());
                     text="";
-                    ID++;
+//                    ID++;
+//                    oldID=newID;
                 }
+
+                if (!line.equals("-DOCSTART-")) IDstr=getID(line);
 
             } else if (line.isEmpty()) text+="\n";
             else {
-                String[] conll_item = line.split(" ");
+                String[] conll_item = line.split("\t");
                 text+=conll_item[0]+" ";
             }
 
         }
+
+
+    }
+
+    private static String getID (String line){
+
+//        System.out.println("writing file "+line);
+        return line.substring(line.indexOf("(")+1,line.indexOf(")"));
+
     }
 
 }

@@ -655,14 +655,24 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                     }
                 }
             }
-            if (entityToModify != null
-                    && NAFUtils.getRef(entityToModify, le.getResource(), le.getReference()) == null) {
-                final ExternalRef ref = document.newExternalRef(le.getResource(),
-                        le.getReference());
-                ref.setConfidence((float) le.getConfidence());
-                NAFUtils.addRef(entityToModify, ref);
-                LOGGER.debug("Added ref '" + ref + "' to " + NAFUtils.toString(entityToModify));
+
+            if (entityToModify != null){
+                final ExternalRef existingRef = NAFUtils.getRef(entityToModify, le.getResource(), le.getReference());
+                if (existingRef==null){
+                    final ExternalRef ref = document.newExternalRef(le.getResource(),
+                            le.getReference());
+                    ref.setConfidence((float) le.getConfidence());
+                    NAFUtils.addRef(entityToModify, ref);
+                    LOGGER.debug("Added ref '" + ref + "' to " + NAFUtils.toString(entityToModify));
+                } else {
+                    float existingRefConfidence = existingRef.getConfidence();
+                    if (existingRefConfidence<le.getConfidence()) {
+                        existingRef.setConfidence((float) le.getConfidence());
+                        LOGGER.debug("Modified confidence of '" + existingRef + "' to " + le.getConfidence());
+                    }
+                }
             }
+
 
             // Apply the sense to predicates with same head where it is missing
             for (final Predicate predicate : document.getPredicatesByTerm(head)) {
