@@ -33,6 +33,8 @@ public final class Main {
      */
     public static void main(final String... args) {
 
+        System.setProperty("rdfpro.environment.sources", "pikesrdf.properties");
+        
         try {
             Class.forName("eu.fbk.rdfpro.tql.TQL");
         } catch (final Throwable ex) {
