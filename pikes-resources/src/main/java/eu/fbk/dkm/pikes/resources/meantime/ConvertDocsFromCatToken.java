@@ -1,41 +1,40 @@
 package eu.fbk.dkm.pikes.resources.meantime;
 
-import eu.fbk.dkm.pikes.naflib.StripNAF;
 import eu.fbk.rdfpro.util.IO;
 import eu.fbk.utils.core.CommandLine;
 import ixa.kaflib.KAFDocument;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.cxf.helpers.DOMUtils;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
-import java.io.Writer;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.StringReader;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by marcorospocher on 12/05/16.
  */
 public class ConvertDocsFromCatToken {
 
-    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-    private static String DEFAULT_URL = "http://pikes.fbk.eu/conll/";
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
+    private static final String DEFAULT_URL = "http://pikes.fbk.eu/conll/";
+
+    private static final EntityResolver NULL_RESOLVER = new EntityResolver() {
+        public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
+            return new InputSource(new StringReader(""));
+        }
+    };
+    
     public static void main(String[] args) throws Exception {
 
 
@@ -97,7 +96,7 @@ public class ConvertDocsFromCatToken {
 
                         DocumentBuilder db = null;
                         db = dbf.newDocumentBuilder();
-                        db.setEntityResolver(new DOMUtils.NullResolver());
+                        db.setEntityResolver(NULL_RESOLVER);
 
                         // db.setErrorHandler( new MyErrorHandler());
                         InputSource ips = new InputSource(reader);
