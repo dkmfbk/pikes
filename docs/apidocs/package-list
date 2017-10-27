@@ -17,12 +17,14 @@ eu.fbk.dkm.pikes.resources.darmstadt
 eu.fbk.dkm.pikes.resources.ecb
 eu.fbk.dkm.pikes.resources.enronEmailDataset
 eu.fbk.dkm.pikes.resources.goodbadfor
+eu.fbk.dkm.pikes.resources.meantime
 eu.fbk.dkm.pikes.resources.mpqa
 eu.fbk.dkm.pikes.resources.ontonotes
 eu.fbk.dkm.pikes.resources.ontonotes.frames
 eu.fbk.dkm.pikes.resources.ontonotes.senses
 eu.fbk.dkm.pikes.resources.reader
 eu.fbk.dkm.pikes.resources.signalmedia
+eu.fbk.dkm.pikes.resources.tackbp
 eu.fbk.dkm.pikes.resources.tempeval
 eu.fbk.dkm.pikes.resources.trec
 eu.fbk.dkm.pikes.resources.treccani

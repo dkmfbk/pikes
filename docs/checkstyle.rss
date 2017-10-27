@@ -25,9 +25,9 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2016 - 2017 FBK</copyright>
     <item>
-      <title>File: 299,
+      <title>File: 305,
              Errors: 17,
-             Warnings: 12007,
+             Warnings: 12396,
              Infos: 0
       </title>
             <link>https://github.com/fbk/parent/pikes/checkstyle.html</link>
@@ -466,6 +466,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.server.JsonHandler.java">eu/fbk/dkm/pikes/tintop/server/JsonHandler.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  9
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.WordNet.java">eu/fbk/dkm/pikes/resources/WordNet.java</a>
                 </td>
                 <td>
@@ -528,7 +542,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  23
+                  31
                 </td>
                 <td>
                   0
@@ -592,13 +606,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.ontonotes.frames.Note.java">eu/fbk/dkm/pikes/resources/ontonotes/frames/Note.java</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.TintTest.java">eu/fbk/dkm/pikes/tintop/TintTest.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  12
+                  13
                 </td>
                 <td>
                   0
@@ -606,13 +620,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#META-INF.rdfpro.properties">META-INF/rdfpro.properties</a>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.ontonotes.frames.Note.java">eu/fbk/dkm/pikes/resources/ontonotes/frames/Note.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  2
+                  12
                 </td>
                 <td>
                   0
@@ -935,6 +949,20 @@ under the License.
                 </td>
                 <td>
                   4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#META-INF.pikesrdf.properties">META-INF/pikesrdf.properties</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
                 </td>
                 <td>
                   0
@@ -1508,7 +1536,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  3
+                  4
                 </td>
                 <td>
                   0
@@ -1628,6 +1656,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.tackbp.ConverterToNAF.java">eu/fbk/dkm/pikes/resources/tackbp/ConverterToNAF.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.query.Term.java">eu/fbk/dkm/pikes/query/Term.java</a>
                 </td>
                 <td>
@@ -1648,7 +1690,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  902
+                  905
                 </td>
                 <td>
                   0
@@ -1746,7 +1788,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  721
+                  895
                 </td>
                 <td>
                   0
@@ -2068,24 +2110,10 @@ under the License.
                   0
                 </td>
                 <td>
-                  230
+                  239
                 </td>
                 <td>
                   0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.conllAIDA.ConvertDocs.java">eu/fbk/dkm/pikes/resources/conllAIDA/ConvertDocs.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  1
                 </td>
               </tr>
                           <tr>
@@ -2166,7 +2194,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  21
+                  40
                 </td>
                 <td>
                   0
@@ -2194,7 +2222,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  144
+                  152
                 </td>
                 <td>
                   0
@@ -2223,6 +2251,20 @@ under the License.
                 </td>
                 <td>
                   67
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.tintop.PikesTest.java">eu/fbk/dkm/pikes/tintop/PikesTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  23
                 </td>
                 <td>
                   0
@@ -2580,6 +2622,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.meantime.ConvertDocsFromCatToken.java">eu/fbk/dkm/pikes/resources/meantime/ConvertDocsFromCatToken.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  62
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="https://github.com/fbk/parent/pikes/checkstyle.html#ixa.kaflib.Feature.java">ixa/kaflib/Feature.java</a>
                 </td>
                 <td>
@@ -2909,6 +2965,20 @@ under the License.
                 </td>
                 <td>
                   36
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.conllAIDA.KeepOverlappingAnnotations.java">eu/fbk/dkm/pikes/resources/conllAIDA/KeepOverlappingAnnotations.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
                 </td>
                 <td>
                   0
@@ -4169,6 +4239,20 @@ under the License.
                 </td>
                 <td>
                   11
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/fbk/parent/pikes/checkstyle.html#eu.fbk.dkm.pikes.resources.conllAIDA.ConvertDocsFromAIDAGS.java">eu/fbk/dkm/pikes/resources/conllAIDA/ConvertDocsFromAIDAGS.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  55
                 </td>
                 <td>
                   0
