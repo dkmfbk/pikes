@@ -99,7 +99,7 @@ PIKES can efficiently (parallel) process large quantities of files, in the so-ca
 
 
 <br/>
-#### STEP 0 - Create the input NAF files
+#### STEP 0 - Creating the input NAF files
 
 The documents to be processed by PIKES have to be provided as "input NAF" files. An "input NAF" file is a NAF file which contains the text to be processed within the `<raw>` tags, and with a minimal set of header attributes.
 
@@ -122,7 +122,7 @@ To automatically build the input NAF files for your document collection, have a 
 A generic java code for converting plain text files to input NAFs can be found [here](https://github.com/dkmfbk/pikes/blob/develop/pikes-resources/src/main/java/eu/fbk/dkm/pikes/resources/Txt2Naf.java).
 
 <br/>
-#### STEP 1 - Process the input NAF files with PIKES
+#### STEP 1 - Processing the input NAF files with PIKES
 
 To process the input NAF files with PIKES you can adapt the script `process.sh` provided in the PIKES full package: 
 
@@ -152,7 +152,7 @@ At the same time, if processing of the `INPUT_FOLDER` stops for any reason, by r
 You can test the the processing in this step with the input NAF files available [here](https://knowledgestore.fbk.eu/files/ke4ir/docs-raw-texts.zip).
 
 <br/>
-#### STEP 2 - Generate the RDF file(s)
+#### STEP 2 - Generating the RDF file(s)
 
 To generate the RDF content from the processed NAF files you can adapt the script `generateRDF.sh` provided in the PIKES full package:
 
