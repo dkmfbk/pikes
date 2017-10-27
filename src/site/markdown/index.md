@@ -37,6 +37,7 @@ entities.
 
 <h3 class='no-before'>News</h3>
 
+- 2017-10-27 Added [instructions](download.html#batch) to use PIKES for batch processing documents.
 - 2017-04-18 Added documentation in [download page](download.html).
 - 2016-09-01 [Video](http://videolectures.net/eswc2016_rospocher_information_retrieval/) recording of the ESWC2016 presentation available on videolectures.net
 - 2016-08-18 [Paper](https://dkm-static.fbk.eu/people/rospocher/files/pubs/2016tkde.pdf) accepted at [IEEE TKDE](https://www.computer.org/web/tkde) journal
