@@ -37,8 +37,6 @@
         </menu>
 
         <menu name="Maven Reports" ref="reports" inherit="top"/>
-        <menu ref="modules" inherit="top"/>
-        <menu ref="parent" inherit="top"/>
 
         <menu name="Links">
             <item name="Online demo" href="https://knowledgestore2.fbk.eu/pikes-demo/"/>
