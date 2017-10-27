@@ -130,8 +130,8 @@ To process the input NAF files with PIKES you can adapt the script `process.sh` 
 #!/bin/bash
 CLASSPATH=pikes-tintop-1.0-SNAPSHOT-jar-with-dependencies.jar:Semafor-3.0-alpha-04.jar:models/stanford-corenlp-3.7.0-models.jar
 CONF=config-pikes.prop
-INPUT_FOLDER=path-to-input-naf-out-folder
-OUTPUT_FOLDER=path-to-output-naf-out-folder
+INPUT_FOLDER=path-to-input-naf-folder
+OUTPUT_FOLDER=path-to-processed-naf-folder
 PARALLEL_INSTANCES=1
 MAXLENGTH=4500000
 RAM=-Xmx12G
@@ -159,7 +159,7 @@ To generate the RDF content from the processed NAF files you can adapt the scrip
 ```
 #!/bin/bash
 CLASSPATH=pikes-tintop-1.0-SNAPSHOT-jar-with-dependencies.jar
-NAF=path-to-naf-out-folder
+NAF=path-to-processed-naf-folder
 RDF=path-to-rdf-folder
 OUTPUT_FILE=$RDF/output.tql.gz
 
