@@ -521,36 +521,39 @@ public class AnnotationPipeline {
                 if (predicate != null) {
                     Span<Term> thisTermSpan = KAFDocument.newTermSpan();
                     Term thisTerm = terms.get(predicate.getIdx() - 1);
-                    String tmpSense = predicate.getSense();
+                    String mateSense = predicate.getSense();
 
                     thisTermSpan.addTarget(thisTerm);
 
                     Predicate newPred = NAFdocument.newPredicate(thisTermSpan);
                     newPred.setSource("mate");
 
+
+                    boolean verb =true;
+                    String sense = null;
+
+
                     ExternalRef e;
                     // If it's a verb -> PropBank, if it's a noun -> NomBank
                     if (thisTerm.getPos().equals("V")) {
-                        e = NAFdocument.newExternalRef("PropBank", tmpSense);
+                        e = NAFdocument.newExternalRef("PropBank", mateSense);
                         e.setSource("mate");
+                        sense = mateSense;
                     } else {
-                        e = NAFdocument.newExternalRef("NomBank", tmpSense);
+                        verb=false;
+                        e = NAFdocument.newExternalRef("NomBank", mateSense);
                         e.setSource("mate");
-                    }
-                    newPred.addExternalRef(e);
-
-                    String sense = null;
-                    if (thisTerm.getPos().equals("V")) {
-                        sense = tmpSense;
-                    } else {
                         // check NomBank
-                        NomBank.Roleset roleset = NomBank.getRoleset(tmpSense);
+                        NomBank.Roleset roleset = NomBank.getRoleset(mateSense);
                         try {
                             sense = roleset.getPBId();
                         } catch (Exception ex) {
                             logger.debug(ex.getMessage());
                         }
                     }
+                    newPred.addExternalRef(e);
+
+
 
                     ArrayList<String> vnClasses = new ArrayList<>();
                     ArrayList<String> fnFrames = new ArrayList<>();
@@ -590,6 +593,7 @@ public class AnnotationPipeline {
                                     }
                                 }
                             }
+                            //check if the sense maps to a subclass of a selected class
                             ArrayList<String> vnSubClasses = PM.getVNSubClasses(sense);
                             if (!vnSubClasses.isEmpty()) {
                                 for (String vnSubClass1 : vnSubClasses) {
@@ -612,8 +616,13 @@ public class AnnotationPipeline {
 
                             for (String vnClass1 : vnToAdd) {
                                 ExternalRef vnClass = NAFdocument.newExternalRef("VerbNet", vnClass1);
+                                vnClass.setSource("mate+pm");
                                 newPred.addExternalRef(vnClass);
                             }
+
+                            //added to make consistents thematic roles and vnclasses
+                            vnClasses.clear();
+                            vnClasses.addAll(vnToAdd);
 
                             // FrameNet
                             fnFrames = PM.getFNFrames(sense);
@@ -635,6 +644,7 @@ public class AnnotationPipeline {
                                 if (fnFrames.size() == 1 || !enableOntoNotesFilter) {
                                     for (String fnFrame1 : fnFrames) {
                                         ExternalRef fnFrame = NAFdocument.newExternalRef("FrameNet", fnFrame1);
+                                        fnFrame.setSource("mate+pm");
                                         newPred.addExternalRef(fnFrame);
                                     }
                                 } else {
@@ -656,18 +666,22 @@ public class AnnotationPipeline {
 
                                     if (fnFinal != null) {
                                         ExternalRef fnFrame = NAFdocument.newExternalRef("FrameNet", fnFinal);
+                                        fnFrame.setSource("mate+pm");
                                         newPred.addExternalRef(fnFrame);
                                         fnFrames.add(fnFinal);
                                     }
                                 }
                             }
 
-                            // PropBank
-                            ArrayList<String> pbPredicates = PM.getPBPredicates(sense);
-                            if (!pbPredicates.isEmpty()) {
-                                for (String pbPredicate1 : pbPredicates) {
-                                    ExternalRef pbPredicate = NAFdocument.newExternalRef("PropBank", pbPredicate1);
-                                    newPred.addExternalRef(pbPredicate);
+                            if (!verb){
+                                // PropBank
+                                ArrayList<String> pbPredicates = PM.getPBPredicates(sense);
+                                if (!pbPredicates.isEmpty()) {
+                                    for (String pbPredicate1 : pbPredicates) {
+                                        ExternalRef pbPredicate = NAFdocument.newExternalRef("PropBank", pbPredicate1);
+                                        pbPredicate.setSource("mate+nb");
+                                        newPred.addExternalRef(pbPredicate);
+                                    }
                                 }
                             }
 
@@ -676,24 +690,27 @@ public class AnnotationPipeline {
                             if (!esoClasses.isEmpty()) {
                                 for (String esoClass1 : esoClasses) {
                                     ExternalRef esoClass = NAFdocument.newExternalRef("ESO", esoClass1);
+                                    esoClass.setSource("mate+pm");
                                     newPred.addExternalRef(esoClass);
                                 }
                             }
-
-                            // EventType
-                            ArrayList<String> eventTypes = PM.getEventTypes(sense);
-                            if (!eventTypes.isEmpty()) {
-                                for (String eventType1 : eventTypes) {
-                                    ExternalRef eventType = NAFdocument.newExternalRef("EventType", eventType1);
-                                    newPred.addExternalRef(eventType);
-                                }
-                            }
+//                            Not in pm1.3
+//                            // EventType
+//                            ArrayList<String> eventTypes = PM.getEventTypes(sense);
+//                            if (!eventTypes.isEmpty()) {
+//                                for (String eventType1 : eventTypes) {
+//                                    ExternalRef eventType = NAFdocument.newExternalRef("EventType", eventType1);
+//                                    eventType.setSource("mate+pm");
+//                                    newPred.addExternalRef(eventType);
+//                                }
+//                            }
 
                             // WordNet
                             ArrayList<String> wnSenses = PM.getWNSenses(sense);
                             if (!wnSenses.isEmpty()) {
                                 for (String wnSense1 : wnSenses) {
                                     ExternalRef wnSense = NAFdocument.newExternalRef("WordNet", wnSense1);
+                                    wnSense.setSource("mate+pm");
                                     newPred.addExternalRef(wnSense);
                                 }
                             }
@@ -710,22 +727,41 @@ public class AnnotationPipeline {
 
                         String argument = predicate.getArgMap().get(w);
                         Predicate.Role newRole = NAFdocument.newRole(newPred, argument, thisTermSpanForRole);
+                        ExternalRef mateRoleRef;
+                        if(verb){
+
+                            mateRoleRef = NAFdocument
+                                    .newExternalRef("PropBank", mateSense+"@"+argument);
+                            mateRoleRef.setSource("mate");
+
+
+                        } else {
+
+                            mateRoleRef = NAFdocument
+                                    .newExternalRef("NomBank", mateSense+"@"+argument);
+                            mateRoleRef.setSource("mate");
+                        }
+
+                        newRole.addExternalRef(mateRoleRef);
+
 
                         if (enablePM && PM != null && statisticsExtractor != null) {
 
                             // VerbNet
-                            ArrayList<String> vnThematicRoles = PM.getVNThematicRoles(sense + ":" + argument);
+                            ArrayList<String> vnThematicRoles = PM.getVNThematicRoles(sense + "@" + argument);
                             if (!vnThematicRoles.isEmpty()) {
                                 for (String vnThematicRole1 : vnThematicRoles) {
                                     if (!enableOntoNotesFilter) {
                                         ExternalRef vnThematicRole = NAFdocument
                                                 .newExternalRef("VerbNet", vnThematicRole1);
+                                        vnThematicRole.setSource("mate+pm");
                                         newRole.addExternalRef(vnThematicRole);
                                     } else {
                                         String[] parts = vnThematicRole1.split("@");
                                         if (vnClasses.contains(parts[0])) {
                                             ExternalRef vnThematicRole = NAFdocument
                                                     .newExternalRef("VerbNet", vnThematicRole1);
+                                            vnThematicRole.setSource("mate+pm");
                                             newRole.addExternalRef(vnThematicRole);
                                         }
                                     }
@@ -733,18 +769,20 @@ public class AnnotationPipeline {
                             }
 
                             // FrameNet
-                            ArrayList<String> fnFrameElements = PM.getFNFrameElements(sense + ":" + argument);
+                            ArrayList<String> fnFrameElements = PM.getFNFrameElements(sense + "@" + argument);
                             if (!fnFrameElements.isEmpty()) {
                                 for (String fnFrameElement1 : fnFrameElements) {
                                     if (!enableOntoNotesFilter) {
                                         ExternalRef fnFrameElement = NAFdocument
                                                 .newExternalRef("FrameNet", fnFrameElement1);
+                                        fnFrameElement.setSource("mate+pm");
                                         newRole.addExternalRef(fnFrameElement);
                                     } else {
                                         String[] parts = fnFrameElement1.split("@");
                                         if (fnFrames.contains(parts[0])) {
                                             ExternalRef fnFrameElement = NAFdocument
                                                     .newExternalRef("FrameNet", fnFrameElement1);
+                                            fnFrameElement.setSource("mate+pm");
                                             newRole.addExternalRef(fnFrameElement);
                                         }
                                     }
@@ -752,19 +790,22 @@ public class AnnotationPipeline {
                             }
 
                             // PropBank
-                            ArrayList<String> pbArguments = PM.getPBArguments(sense + ":" + argument);
-                            if (!pbArguments.isEmpty()) {
-                                for (String pbArgument1 : pbArguments) {
-                                    ExternalRef pbArgument = NAFdocument.newExternalRef("PropBank", pbArgument1);
-                                    newRole.addExternalRef(pbArgument);
+                            if (!verb) {
+                                ArrayList<String> pbArguments = PM.getPBArguments(sense + "@" + argument);
+                                if (!pbArguments.isEmpty()) {
+                                    for (String pbArgument1 : pbArguments) {
+                                        ExternalRef pbArgument = NAFdocument.newExternalRef("PropBank", pbArgument1);
+                                        pbArgument.setSource("mate+pm");
+                                        newRole.addExternalRef(pbArgument);
+                                    }
                                 }
                             }
-
                             // ESO
-                            ArrayList<String> esoRoles = PM.getESORoles(sense + ":" + argument);
+                            ArrayList<String> esoRoles = PM.getESORoles(sense + "@" + argument);
                             if (!esoRoles.isEmpty()) {
                                 for (String esoRole1 : esoRoles) {
                                     ExternalRef esoRole = NAFdocument.newExternalRef("ESO", esoRole1);
+                                    esoRole.setSource("mate+pm");
                                     newRole.addExternalRef(esoRole);
                                 }
                             }
@@ -812,7 +853,10 @@ public class AnnotationPipeline {
                     Predicate predicate = NAFdocument.newPredicate(termSpan);
                     predicate.setSource("semafor");
                     predicate.setConfidence(semaforAnnotation.getScore());
-                    predicate.addExternalRef(NAFdocument.createExternalRef("FrameNet", frameName));
+                    ExternalRef frameNameExt = NAFdocument.createExternalRef("FrameNet", frameName);
+                    frameNameExt.setSource("semafor");
+                    predicate.addExternalRef(frameNameExt);
+
                     predicate.setId("f_" + predicate.getId());
 
                     for (Semafor.SemaforAnnotation frameAnnotation : semaforAnnotation.getFrameElements()) {
@@ -836,8 +880,10 @@ public class AnnotationPipeline {
                                             NAFdocument.getTermsByDepAncestors(ImmutableList.of(head))));
                             role.setSpan(newSpan);
                         }
-                        role.addExternalRef(
-                                NAFdocument.createExternalRef("FrameNet", frameName + "@" + roleName));
+                        ExternalRef roleNameExt = NAFdocument.createExternalRef("FrameNet", frameName + "@" + roleName);
+                        roleNameExt.setSource("semafor");
+                        role.addExternalRef(roleNameExt);
+//                        predicate.setSource("semafor");
                         predicate.addRole(role);
                     }
 

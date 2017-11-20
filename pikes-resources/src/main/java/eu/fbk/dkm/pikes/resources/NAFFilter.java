@@ -187,6 +187,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
 
     private final boolean srlRoleLinkingUsingCoref;
 
+    private final boolean srlPreMOnURIs;
+
     private final boolean opinionLinking;
 
     private final boolean opinionLinkingUsingCoref;
@@ -217,6 +219,9 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         this.srlFrameBaseMapping = MoreObjects.firstNonNull(builder.srlFrameBaseMapping, true);
         this.srlRoleLinking = MoreObjects.firstNonNull(builder.srlRoleLinking, true);
         this.srlRoleLinkingUsingCoref = MoreObjects.firstNonNull(builder.srlRoleLinkingUsingCoref,
+                true);
+
+        this.srlPreMOnURIs = MoreObjects.firstNonNull(builder.srlPreMOnURIs,
                 true);
         this.opinionLinking = MoreObjects.firstNonNull(builder.opinionLinking, true);
         this.opinionLinkingUsingCoref = MoreObjects.firstNonNull(builder.opinionLinkingUsingCoref,
@@ -300,6 +305,12 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         if (this.srlRoleLinking) {
             applySRLRoleLinking(document);
         }
+
+        //added for replacing with premon URIs
+        if (this.srlPreMOnURIs) {
+            applySRLPreMOnURIs(document);
+        }
+
 
         // Coref-level filtering
         if (this.corefForRoleDependencies) {
@@ -1576,6 +1587,88 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         }
     }
 
+
+    private void applySRLPreMOnURIs(final KAFDocument document) {
+        // Process each predicate and role in the SRL layer
+
+        final List<String> models = Arrays.asList(NAFUtils.RESOURCE_FRAMENET, NAFUtils.RESOURCE_VERBNET, NAFUtils.RESOURCE_PROPBANK, NAFUtils.RESOURCE_NOMBANK);
+
+
+        for (final Predicate predicate : document.getPredicates()) {
+
+
+            List<ExternalRef> allPredicateExtRefs = predicate.getExternalRefs();
+            List<ExternalRef> predicateExtRefToRemove =  Lists.newArrayList();
+
+            for (final ExternalRef predRef : ImmutableList.copyOf(allPredicateExtRefs)) {
+                String refStr= predRef.getResource();
+
+                if (models.contains(refStr)) {
+                    final String pred = predRef.getReference();
+                    final String source = predRef.getSource();
+
+                    final URI premonURI = NAFUtils.createPreMOnSemanticClassURIfor(refStr,pred);
+                    if (premonURI != null) {
+                        ExternalRef e = new ExternalRef("PreMOn+"+refStr, premonURI.getLocalName());
+                        if (source!=null) e.setSource(source);
+                        NAFUtils.setRef(predicate, e);
+
+
+                    }
+
+                    predicateExtRefToRemove.add(predRef);
+                }
+
+            }
+
+            //remove old predicate ref
+            for (ExternalRef toBeDropped:predicateExtRefToRemove
+                 ) {
+                allPredicateExtRefs.remove(toBeDropped);
+            }
+
+
+            // Convert FrameNet refs to FrameBase refs at the role level
+            for (final Role role : predicate.getRoles()) {
+
+
+                List<ExternalRef> allRoleExtRefs = role.getExternalRefs();
+                List<ExternalRef> roleExtRefToRemove =  Lists.newArrayList();
+
+                for (final ExternalRef roleRef : ImmutableList.copyOf(allRoleExtRefs)) {
+
+
+                    String refStr= roleRef.getResource();
+
+                    if (models.contains(refStr)) {
+
+                        final String predicateAndRole = roleRef.getReference();
+                        final String source = roleRef.getSource();
+                        final int index = predicateAndRole.indexOf('@');
+                        if (index > 0) {
+                            final String pred = predicateAndRole.substring(0, index);
+                            final String rol = predicateAndRole.substring(index + 1);
+
+                            final URI premonURI = NAFUtils.createPreMOnSemanticRoleURIfor(refStr,pred,rol);
+                            if (premonURI != null) {
+                                ExternalRef e = new ExternalRef("PreMOn+"+refStr, premonURI.getLocalName());
+                                if (source!=null) e.setSource(source);
+                                NAFUtils.setRef(role, e);
+                            }
+                        }
+                        roleExtRefToRemove.add(roleRef);
+                    }
+                }
+                //remove old role
+                for (ExternalRef toBeRemoved:roleExtRefToRemove
+                     ) {
+                    allRoleExtRefs.remove(toBeRemoved);
+                }
+            }
+        }
+    }
+
+
     /**
      * Returns a new configurable {@code Builder} for the instantiation of a {@code NAFFilter}.
      *
@@ -1610,7 +1703,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                 .withSRLSelfArgFixing(enableAll) //
                 .withSRLSenseMapping(enableAll) //
                 .withSRLRoleLinking(enableAll, enableAll) //
-                .withOpinionLinking(enableAll, enableAll);
+                .withOpinionLinking(enableAll, enableAll)
+                .withSRLPreMOnURIs(enableAll);
     }
 
     /**
@@ -1805,6 +1899,9 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         private Boolean srlRoleLinkingUsingCoref;
 
         @Nullable
+        private Boolean srlPreMOnURIs;
+
+        @Nullable
         private Boolean opinionLinking;
 
         @Nullable
@@ -1883,8 +1980,10 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                         } else if ("coref".equalsIgnoreCase(value)) {
                             withSRLRoleLinking(true, true);
                         } else {
-                            throw new IllegalArgumentException("Invalid '" + value +"' srlRoleLinking property. Supported: none exact coref ");
+                            throw new IllegalArgumentException("Invalid '" + value + "' srlRoleLinking property. Supported: none exact coref ");
                         }
+                    } else if ("srlPreMOnURIs".equals(name)){
+                        withSRLPreMOnURIs(Boolean.valueOf(value));
                     } else if ("opinionLinking".equals(name)) {
                         if ("none".equalsIgnoreCase(value)) {
                             withOpinionLinking(false, false);
@@ -2184,6 +2283,19 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                 @Nullable final Boolean useCoref) {
             this.srlRoleLinking = srlRoleLinking;
             this.srlRoleLinkingUsingCoref = useCoref;
+            return this;
+        }
+
+
+        /**
+         * Specifies replace reference of predicate models in NAF with premon URIs
+         *
+         * @param srlPreMOnURIs
+         *            true to enable URI replacement, null to use default value
+         * @return this builder object, for call chaining
+         */
+        public Builder withSRLPreMOnURIs(@Nullable final Boolean srlPreMOnURIs) {
+            this.srlPreMOnURIs = srlPreMOnURIs;
             return this;
         }
 

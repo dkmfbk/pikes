@@ -138,6 +138,10 @@ public final class RDFGenerator {
             .put("nombank", "http://www.newsreader-project.eu/ontologies/nombank/")
             .put("framenet", "http://www.newsreader-project.eu/ontologies/framenet/")
             .put("verbnet", "http://www.newsreader-project.eu/ontologies/verbnet/")
+            .put("premon+propbank", "http://premon.fbk.eu/resource/")
+            .put("premon+nombank", "http://premon.fbk.eu/resource/")
+            .put("premon+framenet", "http://premon.fbk.eu/resource/")
+            .put("premon+verbnet", "http://premon.fbk.eu/resource/")
             .put("eso", "http://www.newsreader-project.eu/domain-ontology#")
             .put("framebase", "http://framebase.org/ns/") //
             .put("attribute", "attr:")
@@ -1324,20 +1328,21 @@ public final class RDFGenerator {
                 if (resource.equals(semRoleResource) || name.equals("")) {
                     continue;
                 }
-                final int index = name.lastIndexOf('@');
-                final String arg = (index < 0 ? name : name.substring(index + 1)).toLowerCase();
-
-                if (resource.equalsIgnoreCase(NAFUtils.RESOURCE_FRAMENET)
-                        || resource.equalsIgnoreCase(NAFUtils.RESOURCE_VERBNET) || index < 0) {
-                    properties.add(mintRefURI(resource, arg));
-                } else {
-                    if (Character.isDigit(arg.charAt(0))) {
-                        final String sense = name.substring(0, index);
-                        properties.add(mintRefURI(resource, sense + "_" + arg));
-                    } else {
-                        properties.add(mintRefURI(resource, arg));
-                    }
-                }
+//                final int index = name.lastIndexOf('@');
+//                final String arg = (index < 0 ? name : name.substring(index + 1)).toLowerCase();
+//
+//                if (resource.equalsIgnoreCase(NAFUtils.RESOURCE_FRAMENET)
+//                        || resource.equalsIgnoreCase(NAFUtils.RESOURCE_VERBNET) || index < 0) {
+//                    properties.add(mintRefURI(resource, arg));
+//                } else {
+//                    if (Character.isDigit(arg.charAt(0))) {
+//                        final String sense = name.substring(0, index);
+//                        properties.add(mintRefURI(resource, sense + "_" + arg));
+//                    } else {
+//                        properties.add(mintRefURI(resource, arg));
+//                    }
+//                }
+                properties.add(mintRefURI(resource,name));
             }
 
             // The AX, AM-X information may not be encoded in external references, so

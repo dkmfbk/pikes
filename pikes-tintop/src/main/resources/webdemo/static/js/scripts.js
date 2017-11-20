@@ -124,11 +124,12 @@ $(document).ready(function() {
     });
 
     var sentences = new Array();
-    sentences[0] = "Dostum favoured a possible return of Afghanistan's former king Mohammad Zaher Shah.";
-    sentences[1] = "Lawyers for the survivors have filed a complaint against Sharon in Belgium.";
-    sentences[2] = "G. W. Bush and Bono are very strong supporters of the fight of HIV in Africa. Their March 2002 meeting resulted in a 5 billion dollar aid.";
-    sentences[3] = "Paul and John were famous musicians; they both started playing the guitar in Liverpool.";
-    sentences[4] = "The seizure sent alarm bells ringing in the diplomatic community in this country.";
+    sentences[0] = "Washington D.C. is the capital of the United States. It was named after George Washington, the first president of the U.S.";
+    sentences[1] = "Dostum favoured a possible return of Afghanistan's former king Mohammad Zaher Shah.";
+    sentences[2] = "Lawyers for the survivors have filed a complaint against Sharon in Belgium.";
+    sentences[3] = "G. W. Bush and Bono are very strong supporters of the fight of HIV in Africa. Their March 2002 meeting resulted in a 5 billion dollar aid.";
+    sentences[4] = "Paul and John were famous musicians; they both started playing the guitar in Liverpool.";
+    sentences[5] = "The seizure sent alarm bells ringing in the diplomatic community in this country.";
 
     for (var sentence of sentences) {
         var text = sentence;

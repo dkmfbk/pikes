@@ -26,6 +26,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 
+import eu.fbk.rdfpro.util.Statements;
 import eu.fbk.utils.core.Range;
 import ixa.kaflib.Coref;
 import ixa.kaflib.Dep;
@@ -45,6 +46,7 @@ import ixa.kaflib.Timex3;
 import ixa.kaflib.WF;
 
 import eu.fbk.rdfpro.util.IO;
+import org.openrdf.model.URI;
 
 public final class NAFUtils {
 
@@ -79,6 +81,20 @@ public final class NAFUtils {
     public static final String RESOURCE_VALUE = "value";
 
     public static final String RESOURCE_YAGO = "Yago";
+
+    public static final String PREMON_NAMESPACE = "http://premon.fbk.eu/resource/";
+    public static final String PREMON_FNPREFIX = "fn15";
+    public static final String PREMON_VNPREFIX = "vb32";
+    public static final String PREMON_PBPREFIX = "pb17";
+    public static final String PREMON_NBPREFIX = "nb10";
+    public static final String PREMON_ARGUMENT_SEPARATOR = "@";
+    public static final String PREMON_RESOURCE_PROPBANK = "PreMOn+PropBank";
+
+    public static final String PREMON_RESOURCE_NOMBANK = "PreMOn+NomBank";
+
+    public static final String PREMON_RESOURCE_VERBNET = "PreMOn+VerbNet";
+
+    public static final String PREMON_RESOURCE_FRAMENET = "PreMOn+FrameNet";
 
     public static final Ordering<Opinion> OPINION_COMPARATOR = new Ordering<Opinion>() {
 
@@ -973,6 +989,60 @@ public final class NAFUtils {
             }
         }
         return descendants;
+    }
+
+
+    public static URI createPreMOnSemanticClassURIfor(String model, String predicate){
+
+        String prefix = "";
+        switch (model) {
+
+            case RESOURCE_FRAMENET : prefix+=PREMON_FNPREFIX+"-"; break;
+            case RESOURCE_VERBNET : prefix+=PREMON_VNPREFIX+"-"; break;
+            case RESOURCE_PROPBANK  : prefix+=PREMON_PBPREFIX+"-"; break;
+            case RESOURCE_NOMBANK  : prefix+=PREMON_NBPREFIX+"-"; break;
+
+        }
+
+        //works for fn15,pb17,vn32,nb10... in case of other version, some cautions have to be take on predicate (e.g.m FedEx or UPS in pb215)
+        String localname=prefix+predicate.toLowerCase();
+
+        return Statements.VALUE_FACTORY.createURI(PREMON_NAMESPACE, localname);
+
+    }
+
+
+    public static URI createPreMOnSemanticRoleURIfor(String model, String predicate, String role){
+
+        String prefix = "";
+
+        //works for fn15,pb17,vn32,nb10... in case of other version, some cautions have to be take on predicate (e.g.m FedEx or UPS in pb215)
+        //expect role as follow
+        //PB,NB: A0,AA, AM-TMP
+        //VB,FN: don't care
+        switch (model) {
+            case RESOURCE_FRAMENET : prefix+=PREMON_FNPREFIX+"-";
+                role=role.toLowerCase();
+                break;
+            case RESOURCE_VERBNET : prefix+=PREMON_VNPREFIX+"-";
+                role=role.toLowerCase();
+                break;
+            case RESOURCE_PROPBANK  : prefix+=PREMON_PBPREFIX+"-";
+                role=role.toLowerCase();//.replace("arg-","a").replace("a","arg");
+                if (!role.contains("am-")) role=role.replace("a","arg");
+                else role=role.replace("am-","arg");
+                break;
+            case RESOURCE_NOMBANK  : prefix+=PREMON_NBPREFIX+"-";
+                role=role.toLowerCase();//.replace("arg-","a").replace("a","arg");
+                if (!role.contains("am-")) role=role.replace("a","arg");
+                else role=role.replace("am-","arg");
+                break;
+        }
+
+        String localname=prefix+predicate.toLowerCase()+PREMON_ARGUMENT_SEPARATOR+role;
+
+        return Statements.VALUE_FACTORY.createURI(PREMON_NAMESPACE, localname);
+
     }
 
 }
