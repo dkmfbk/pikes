@@ -309,6 +309,8 @@ public class AnnotationPipeline {
 
             }
 
+
+//            @todo change next to UD??
             for (int i = 0; i < tokens.size(); i++) {
                 CoreLabel stanfordToken = tokens.get(i);
 
@@ -535,6 +537,7 @@ public class AnnotationPipeline {
 
                     ExternalRef e;
                     // If it's a verb -> PropBank, if it's a noun -> NomBank
+//                    @todo change next to UD
                     if (thisTerm.getPos().equals("V")) {
                         e = NAFdocument.newExternalRef("PropBank", mateSense);
                         e.setSource("mate");
@@ -873,6 +876,8 @@ public class AnnotationPipeline {
                         }
 
                         Predicate.Role role = NAFdocument.newRole(predicate, "", roleTermSpan);
+
+//                        @todo change next to UD
                         final Term head = NAFUtils.extractHead(NAFdocument, role.getSpan());
                         if (head != null) {
                             final Span<Term> newSpan = KAFDocument
@@ -890,12 +895,13 @@ public class AnnotationPipeline {
                 }
             }
 
-            // Constituency
+            // Constituency: do we need it?
             Tree tree = stanfordSentence.get(TreeCoreAnnotations.TreeAnnotation.class);
             if (tree != null) {
                 NAFdocument.addConstituencyString(tree.toString(), sentIndex + 1);
                 try {
                     logger.debug("Tree: " + tree.toString());
+//                    @todo change next to UD
                     addHeads(tree);
                     NAFdocument.addConstituencyFromParentheses(tree.toString(), sentIndex + 1);
                 } catch (Exception e) {

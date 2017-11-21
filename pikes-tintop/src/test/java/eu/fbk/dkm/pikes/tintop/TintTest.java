@@ -11,7 +11,9 @@ public class TintTest {
         Properties properties = new Properties();
 
         // add annotators here... order matters
-        properties.setProperty("stanford.annotators", "udpipe, ner, simple_pos, ukb, stanford2conll, semafor");
+//        properties.setProperty("stanford.annotators", "udpipe, ner, simple_pos, ukb, stanford2conll");
+//        properties.setProperty("stanford.annotators", "udpipe, dbps, simple_pos, ukb, ner_custom, conll_parse, mst_fake, semafor");
+        properties.setProperty("stanford.annotators", "udpipe, dbps, ner_custom, simple_pos, ukb, stanford2conll, mst_fake, semafor");
         properties.setProperty("stanford.udpipe.server", "gardner");
         properties.setProperty("stanford.udpipe.port", "50021");
         properties.setProperty("stanford.udpipe.alreadyTokenized", "0");
