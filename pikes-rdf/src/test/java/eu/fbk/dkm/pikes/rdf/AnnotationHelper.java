@@ -19,18 +19,15 @@ import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.io.Files;
 
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.LiteralImpl;
-import org.openrdf.model.impl.StatementImpl;
-import org.openrdf.model.impl.URIImpl;
-import org.openrdf.model.vocabulary.OWL;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.model.vocabulary.RDFS;
-import org.openrdf.rio.RDFFormat;
-import org.openrdf.rio.RDFHandler;
-import org.openrdf.rio.RDFHandlerException;
-import org.openrdf.rio.RDFWriter;
-import org.openrdf.rio.Rio;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.vocabulary.OWL;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.vocabulary.RDFS;
+import org.eclipse.rdf4j.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.RDFHandler;
+import org.eclipse.rdf4j.rio.RDFHandlerException;
+import org.eclipse.rdf4j.rio.RDFWriter;
+import org.eclipse.rdf4j.rio.Rio;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -105,7 +102,7 @@ public class AnnotationHelper {
         final String text = getText(terms);
 
         final String ns = document.getPublic().uri + "." + sentence + "#";
-        final Map<Term, URI> termURIs = getURIs(terms, ns);
+        final Map<Term, IRI> termIRIs = getIRIs(terms, ns);
 
         handler.startRDF();
         handler.handleNamespace("rdfs", RDFS.NAMESPACE);
@@ -122,7 +119,7 @@ public class AnnotationHelper {
         handler.handleComment("=== TEXT ===");
         handler.handleComment("");
 
-        handler.handleStatement(new StatementImpl(new URIImpl(ns), RDFS.LABEL, new LiteralImpl(
+        handler.handleStatement(Statements.VALUE_FACTORY.createStatement(Statements.VALUE_FACTORY.createIRI(ns), RDFS.LABEL, Statements.VALUE_FACTORY.createLiteral(
                 "\n\t" + text)));
 
         handler.handleComment("");
@@ -145,15 +142,15 @@ public class AnnotationHelper {
                 }
                 handler.handleComment("");
                 handler.handleComment(builder.toString());
-                final List<URI> headURIs = Lists.newArrayList();
+                final List<IRI> headIRIs = Lists.newArrayList();
                 for (final Span<Term> span : spans) {
                     final Term head = NAFUtils.extractHead(document, span);
-                    headURIs.add(termURIs.get(head));
+                    headIRIs.add(termIRIs.get(head));
                 }
-                Collections.sort(headURIs, Statements.valueComparator());
-                for (int i = 1; i < headURIs.size(); ++i) {
-                    handler.handleStatement(new StatementImpl(headURIs.get(0), OWL.SAMEAS,
-                            headURIs.get(i)));
+                Collections.sort(headIRIs, Statements.valueComparator());
+                for (int i = 1; i < headIRIs.size(); ++i) {
+                    handler.handleStatement(Statements.VALUE_FACTORY.createStatement(headIRIs.get(0), OWL.SAMEAS,
+                            headIRIs.get(i)));
                 }
             }
         }
@@ -163,13 +160,13 @@ public class AnnotationHelper {
         handler.handleComment("=== LINKING ===");
         handler.handleComment("");
 
-        final Multimap<URI, URI> links = HashMultimap.create();
+        final Multimap<IRI, IRI> links = HashMultimap.create();
         for (final LinkedEntity entity : document.getLinkedEntities()) {
             if (entity.getWFs().getFirstTarget().getSent() == sentence) {
                 final Span<Term> span = KAFDocument.newTermSpan(document.getTermsByWFs(entity
                         .getWFs().getTargets()));
                 final Term head = NAFUtils.extractHead(document, span);
-                links.put(termURIs.get(head), new URIImpl(entity.getReference()));
+                links.put(termIRIs.get(head), Statements.VALUE_FACTORY.createIRI(entity.getReference()));
             }
         }
         for (final Entity entity : document.getEntities()) {
@@ -177,16 +174,16 @@ public class AnnotationHelper {
                 final Term head = NAFUtils.extractHead(document, entity.getSpans().get(0));
                 for (final ExternalRef ref : entity.getExternalRefs()) {
                     if (ref.getResource().toLowerCase().contains("spotlight")) {
-                        links.put(termURIs.get(head), new URIImpl(ref.getReference()));
+                        links.put(termIRIs.get(head), Statements.VALUE_FACTORY.createIRI(ref.getReference()));
                     }
                 }
             }
         }
-        for (final URI termURI : Ordering.from(Statements.valueComparator()).sortedCopy(
+        for (final IRI termIRI : Ordering.from(Statements.valueComparator()).sortedCopy(
                 links.keySet())) {
-            for (final URI linkURI : Ordering.from(Statements.valueComparator()).sortedCopy(
-                    links.get(termURI))) {
-                handler.handleStatement(new StatementImpl(termURI, OWL.SAMEAS, linkURI));
+            for (final IRI linkIRI : Ordering.from(Statements.valueComparator()).sortedCopy(
+                    links.get(termIRI))) {
+                handler.handleStatement(Statements.VALUE_FACTORY.createStatement(termIRI, OWL.SAMEAS, linkIRI));
             }
         }
 
@@ -197,7 +194,7 @@ public class AnnotationHelper {
         for (final Predicate pred : document.getPredicatesBySent(sentence)) {
 
             final Term predTerm = NAFUtils.extractHead(document, pred.getSpan());
-            final URI predURI = termURIs.get(predTerm);
+            final IRI predIRI = termIRIs.get(predTerm);
 
             final StringBuilder builder = new StringBuilder();
             builder.append("pred='").append(predTerm.getStr()).append("'");
@@ -208,29 +205,29 @@ public class AnnotationHelper {
             handler.handleComment("");
             handler.handleComment(builder.toString());
 
-            final List<URI> typeURIs = Lists.newArrayList();
+            final List<IRI> typeIRIs = Lists.newArrayList();
             for (final ExternalRef ref : pred.getExternalRefs()) {
                 if (Strings.isNullOrEmpty(ref.getReference())) {
                     continue;
                 } else if (NAFUtils.RESOURCE_PROPBANK.equals(ref.getResource())) {
-                    typeURIs.add(new URIImpl(NS_PB + ref.getReference()));
+                    typeIRIs.add(Statements.VALUE_FACTORY.createIRI(NS_PB + ref.getReference()));
                 } else if (NAFUtils.RESOURCE_NOMBANK.equals(ref.getResource())) {
-                    typeURIs.add(new URIImpl(NS_NB + ref.getReference()));
+                    typeIRIs.add(Statements.VALUE_FACTORY.createIRI(NS_NB + ref.getReference()));
                 } else if (NAFUtils.RESOURCE_VERBNET.equals(ref.getResource())) {
-                    typeURIs.add(new URIImpl(NS_VN + ref.getReference()));
+                    typeIRIs.add(Statements.VALUE_FACTORY.createIRI(NS_VN + ref.getReference()));
                 } else if (NAFUtils.RESOURCE_FRAMENET.equals(ref.getResource())) {
-                    typeURIs.add(new URIImpl(NS_FN + ref.getReference()));
+                    typeIRIs.add(Statements.VALUE_FACTORY.createIRI(NS_FN + ref.getReference()));
                 }
             }
-            Collections.sort(typeURIs, Statements.valueComparator());
-            for (final URI typeURI : typeURIs) {
-                handler.handleStatement(new StatementImpl(predURI, RDF.TYPE, typeURI));
+            Collections.sort(typeIRIs, Statements.valueComparator());
+            for (final IRI typeIRI : typeIRIs) {
+                handler.handleStatement(Statements.VALUE_FACTORY.createStatement(predIRI, RDF.TYPE, typeIRI));
             }
 
             for (final Role role : pred.getRoles()) {
 
-                final Set<URI> roleURIs = Sets.newHashSet();
-                roleURIs.add(new URIImpl((predTerm.getMorphofeat().startsWith("VB") ? NS_PB
+                final Set<IRI> roleIRIs = Sets.newHashSet();
+                roleIRIs.add(Statements.VALUE_FACTORY.createIRI((predTerm.getMorphofeat().startsWith("VB") ? NS_PB
                         : NS_NB) + role.getSemRole().toLowerCase()));
                 for (final ExternalRef ref : role.getExternalRefs()) {
                     String id = ref.getReference().toLowerCase();
@@ -239,13 +236,13 @@ public class AnnotationHelper {
                     if (Strings.isNullOrEmpty(id)) {
                         continue;
                     } else if (NAFUtils.RESOURCE_VERBNET.equals(ref.getResource())) {
-                        roleURIs.add(new URIImpl(NS_VN + id));
+                        roleIRIs.add(Statements.VALUE_FACTORY.createIRI(NS_VN + id));
                     } else if (NAFUtils.RESOURCE_FRAMENET.equals(ref.getResource())) {
-                        roleURIs.add(new URIImpl(NS_FN + id));
+                        roleIRIs.add(Statements.VALUE_FACTORY.createIRI(NS_FN + id));
                     }
                 }
 
-                final List<URI> argURIs = Lists.newArrayList();
+                final List<IRI> argIRIs = Lists.newArrayList();
                 final Term roleHead = NAFUtils.extractHead(document, role.getSpan());
                 if (roleHead != null) {
                     final Set<Term> argHeads = Sets.newHashSet();
@@ -258,15 +255,15 @@ public class AnnotationHelper {
                         }
                     }
                     for (final Term argHead : argHeads) {
-                        argURIs.add(termURIs.get(argHead));
+                        argIRIs.add(termIRIs.get(argHead));
                     }
-                    Collections.sort(argURIs, Statements.valueComparator());
+                    Collections.sort(argIRIs, Statements.valueComparator());
                 }
 
-                for (final URI roleURI : Ordering.from(Statements.valueComparator()).sortedCopy(
-                        roleURIs)) {
-                    for (final URI argURI : argURIs) {
-                        handler.handleStatement(new StatementImpl(predURI, roleURI, argURI));
+                for (final IRI roleIRI : Ordering.from(Statements.valueComparator()).sortedCopy(
+                        roleIRIs)) {
+                    for (final IRI argIRI : argIRIs) {
+                        handler.handleStatement(Statements.VALUE_FACTORY.createStatement(predIRI, roleIRI, argIRI));
                     }
                 }
             }
@@ -275,7 +272,7 @@ public class AnnotationHelper {
         handler.endRDF();
     }
 
-    private static Map<Term, URI> getURIs(final List<Term> terms, final String ns) {
+    private static Map<Term, IRI> getIRIs(final List<Term> terms, final String ns) {
 
         final List<String> termStrings = Lists.newArrayList();
         for (final Term term : terms) {
@@ -291,7 +288,7 @@ public class AnnotationHelper {
             termStrings.add(s);
         }
 
-        final Map<Term, URI> uris = Maps.newHashMap();
+        final Map<Term, IRI> uris = Maps.newHashMap();
         for (int i = 0; i < terms.size(); ++i) {
             final String is = termStrings.get(i);
             int index = 0;
@@ -305,7 +302,7 @@ public class AnnotationHelper {
                 }
             }
             final String id = count <= 1 ? is : is + "_" + (index + 1);
-            uris.put(terms.get(i), new URIImpl(ns + id));
+            uris.put(terms.get(i), Statements.VALUE_FACTORY.createIRI(ns + id));
         }
         return uris;
     }

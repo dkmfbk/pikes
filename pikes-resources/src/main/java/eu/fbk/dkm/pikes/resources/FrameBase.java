@@ -19,11 +19,11 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 import com.google.common.io.Resources;
 
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.ValueFactory;
-import org.openrdf.model.vocabulary.RDFS;
-import org.openrdf.rio.RDFHandlerException;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.RDFS;
+import org.eclipse.rdf4j.rio.RDFHandlerException;
 import org.slf4j.LoggerFactory;
 
 import eu.fbk.utils.core.CommandLine;
@@ -99,14 +99,14 @@ public final class FrameBase {
         return PREDICATES_SET;
     }
 
-    public static URI uriFor(final String name) {
+    public static IRI uriFor(final String name) {
         if (name == null) {
             return null;
         }
-        return Statements.VALUE_FACTORY.createURI(NAMESPACE, name);
+        return Statements.VALUE_FACTORY.createIRI(NAMESPACE, name);
     }
 
-    public static URI classFor(final String fnFrame, final String predicateLemma,
+    public static IRI classFor(final String fnFrame, final String predicateLemma,
             final POS predicatePos) {
         final String key = classKeyFor(fnFrame, predicateLemma, predicatePos);
         String name = CLASS_MAP.get(key);
@@ -116,10 +116,10 @@ public final class FrameBase {
                 return null;
             }
         }
-        return Statements.VALUE_FACTORY.createURI(NAMESPACE, name);
+        return Statements.VALUE_FACTORY.createIRI(NAMESPACE, name);
     }
 
-    public static URI propertyFor(final String fnFrame, final String fnFE) {
+    public static IRI propertyFor(final String fnFrame, final String fnFE) {
         final String key = propertyKeyFor(fnFrame, fnFE);
         String name = PROPERTY_MAP.get(key);
         if (name == null) {
@@ -128,10 +128,10 @@ public final class FrameBase {
                 return null;
             }
         }
-        return Statements.VALUE_FACTORY.createURI(NAMESPACE, name);
+        return Statements.VALUE_FACTORY.createIRI(NAMESPACE, name);
     }
 
-    public static boolean isMicroframe(final URI uri) {
+    public static boolean isMicroframe(final IRI uri) {
         if (!uri.getNamespace().equals(FrameBase.NAMESPACE)) {
             return false;
         }
@@ -195,10 +195,10 @@ public final class FrameBase {
             final File outputFile = cmd.getOptionValue("o", File.class);
 
             final ValueFactory vf = Statements.VALUE_FACTORY;
-            final URI inheritsFrom = vf.createURI("http://framebase.org/ns/inheritsFrom");
-            //for FB2.0 final URI inheritsFrom = vf.createURI("http://framebase.org/meta/inheritsFrom");
+            final IRI inheritsFrom = vf.createIRI("http://framebase.org/ns/inheritsFrom");
+            //for FB2.0 final IRI inheritsFrom = vf.createIRI("http://framebase.org/meta/inheritsFrom");
 
-            final URI denotedBy = vf.createURI("http://www.w3.org/ns/lemon/ontolex#isDenotedBy");
+            final IRI denotedBy = vf.createIRI("http://www.w3.org/ns/lemon/ontolex#isDenotedBy");
             final String self = "<SELF>";
 
             final Multimap<String, String> map = HashMultimap.create();
@@ -206,17 +206,17 @@ public final class FrameBase {
             final Map<String, String> frameParents = Maps.newHashMap();
             final Multimap<String, String> frameEntries = HashMultimap.create();
 
-            final RDFSource source = RDFSources.read(false, true, null, null,
+            final RDFSource source = RDFSources.read(false, true, null, null, null, true,
                     inputFile.getAbsolutePath());
             source.emit(new AbstractRDFHandler() {
 
                 @Override
                 public void handleStatement(final Statement stmt) throws RDFHandlerException {
-                    if (stmt.getSubject() instanceof URI && stmt.getObject() instanceof URI) {
+                    if (stmt.getSubject() instanceof IRI && stmt.getObject() instanceof IRI) {
 
-                        final URI s = (URI) stmt.getSubject();
-                        final URI p = stmt.getPredicate();
-                        final URI o = (URI) stmt.getObject();
+                        final IRI s = (IRI) stmt.getSubject();
+                        final IRI p = stmt.getPredicate();
+                        final IRI o = (IRI) stmt.getObject();
                         final String sn = s.getLocalName();
                         final String on = o.getLocalName();
 

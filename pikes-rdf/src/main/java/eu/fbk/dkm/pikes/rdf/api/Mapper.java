@@ -5,8 +5,8 @@ import eu.fbk.rdfpro.RDFProcessor;
 import eu.fbk.rdfpro.RDFSource;
 import eu.fbk.rdfpro.RDFSources;
 import eu.fbk.rdfpro.util.QuadModel;
-import org.openrdf.model.Statement;
-import org.openrdf.rio.RDFHandler;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.rio.RDFHandler;
 
 import java.util.ArrayList;
 import java.util.List;

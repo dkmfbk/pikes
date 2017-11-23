@@ -32,17 +32,17 @@ import com.spotify.sparkey.Sparkey;
 import com.spotify.sparkey.SparkeyReader;
 import com.spotify.sparkey.SparkeyWriter;
 
-import org.openrdf.model.BNode;
-import org.openrdf.model.Literal;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.ValueFactory;
-import org.openrdf.model.vocabulary.XMLSchema;
-import org.openrdf.rio.RDFHandler;
-import org.openrdf.rio.RDFHandlerException;
-import org.openrdf.rio.Rio;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
+import org.eclipse.rdf4j.rio.RDFHandler;
+import org.eclipse.rdf4j.rio.RDFHandlerException;
+import org.eclipse.rdf4j.rio.Rio;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import eu.fbk.utils.core.CommandLine;
@@ -67,7 +67,7 @@ public final class KeyQuadIndex implements KeyQuadSource, Closeable {
 
     private static final int HI_END_C = 3 << 5;
 
-    private static final int HI_URI = 4 << 5;
+    private static final int HI_IRI = 4 << 5;
 
     private static final int HI_LITERAL = 5 << 5;
 
@@ -75,7 +75,7 @@ public final class KeyQuadIndex implements KeyQuadSource, Closeable {
 
     private static final int HI_NULL = 7 << 5;
 
-    private static final BiMap<URI, Integer> DT_MAP;
+    private static final BiMap<IRI, Integer> DT_MAP;
 
     private final SparkeyReader reader;
 
@@ -84,9 +84,9 @@ public final class KeyQuadIndex implements KeyQuadSource, Closeable {
     private final String[] nsArray;
 
     static {
-        final ImmutableBiMap.Builder<URI, Integer> builder = ImmutableBiMap.builder();
+        final ImmutableBiMap.Builder<IRI, Integer> builder = ImmutableBiMap.builder();
         int index = 0;
-        for (final URI dt : new URI[] { XMLSchema.DURATION, XMLSchema.DATETIME,
+        for (final IRI dt : new IRI[] { XMLSchema.DURATION, XMLSchema.DATETIME,
                 XMLSchema.DAYTIMEDURATION, XMLSchema.TIME, XMLSchema.DATE, XMLSchema.GYEARMONTH,
                 XMLSchema.GYEAR, XMLSchema.GMONTHDAY, XMLSchema.GDAY, XMLSchema.GMONTH,
                 XMLSchema.STRING, XMLSchema.BOOLEAN, XMLSchema.BASE64BINARY, XMLSchema.HEXBINARY,
@@ -157,28 +157,28 @@ public final class KeyQuadIndex implements KeyQuadSource, Closeable {
                 ByteStreams.readFully(stream, id);
                 return vf.createBNode(new String(id, Charsets.UTF_8));
 
-            } else if (hi == HI_URI) {
+            } else if (hi == HI_IRI) {
                 if ((b & 0x10) != 0) {
                     final byte[] name = new byte[(b & 0xF) << 8 | stream.read()];
                     final String ns = nsArray[stream.read()];
                     ByteStreams.readFully(stream, name);
-                    return vf.createURI(ns, new String(name, Charsets.UTF_8));
+                    return vf.createIRI(ns, new String(name, Charsets.UTF_8));
                 } else {
                     final byte[] str = new byte[(b & 0xF) << 8 | stream.read()];
                     ByteStreams.readFully(stream, str);
-                    return vf.createURI(new String(str, Charsets.UTF_8));
+                    return vf.createIRI(new String(str, Charsets.UTF_8));
                 }
 
             } else if (hi == HI_LITERAL) {
                 byte[] lang = null;
-                URI dt = null;
+                IRI dt = null;
                 if ((b & 0x10) != 0) {
                     lang = new byte[b & 0xF];
                     ByteStreams.readFully(stream, lang);
                 } else if ((b & 0x1) != 0) {
                     dt = DT_MAP.inverse().get(stream.read());
                 } else if ((b & 0x2) != 0) {
-                    dt = (URI) read(nsArray, stream);
+                    dt = (IRI) read(nsArray, stream);
                 }
                 final byte[] label = new byte[stream.read() << 16 | stream.read() << 8
                         | stream.read()];
@@ -214,32 +214,32 @@ public final class KeyQuadIndex implements KeyQuadSource, Closeable {
             stream.write(id.length & 0xFF);
             stream.write(id, 0, id.length);
 
-        } else if (value instanceof URI) {
-            final URI uri = (URI) value;
+        } else if (value instanceof IRI) {
+            final IRI uri = (IRI) value;
             final Integer nsID = nsMap.get(uri.getNamespace());
             if (nsID != null && nsID <= 0xFF) {
                 final byte[] name = uri.getLocalName().getBytes(Charsets.UTF_8);
                 Preconditions.checkArgument(name.length <= 0xFFF);
-                stream.write(HI_URI | 0x10 | name.length >>> 8);
+                stream.write(HI_IRI | 0x10 | name.length >>> 8);
                 stream.write(name.length & 0xFF);
                 stream.write(nsID);
                 stream.write(name, 0, name.length);
             } else {
                 final byte[] str = uri.stringValue().getBytes(Charsets.UTF_8);
                 Preconditions.checkArgument(str.length <= 0xFFF);
-                stream.write(HI_URI | str.length >>> 8);
+                stream.write(HI_IRI | str.length >>> 8);
                 stream.write(str.length & 0xFF);
                 stream.write(str, 0, str.length);
             }
 
         } else if (value instanceof Literal) {
             final Literal lit = (Literal) value;
-            if (lit.getLanguage() != null) {
-                final byte[] lang = lit.getLanguage().getBytes(Charsets.UTF_8);
+            if (lit.getLanguage().isPresent()) {
+                final byte[] lang = lit.getLanguage().get().getBytes(Charsets.UTF_8);
                 Preconditions.checkArgument(lang.length <= 0x0F);
                 stream.write(HI_LITERAL | 0x10 | lang.length);
                 stream.write(lang, 0, lang.length);
-            } else if (lit.getDatatype() == null || lit.getDatatype().equals(XMLSchema.STRING)) {
+            } else if (lit.getDatatype().equals(XMLSchema.STRING)) {
                 stream.write(HI_LITERAL);
             } else {
                 final Integer dtID = DT_MAP.get(lit.getDatatype());
@@ -283,7 +283,7 @@ public final class KeyQuadIndex implements KeyQuadSource, Closeable {
             values[index++] = read(nsArray, stream);
             if (index == 4) {
                 handler.handleStatement(Statements.VALUE_FACTORY.createStatement(
-                        (Resource) values[1], (URI) values[2], values[3], (Resource) values[0]));
+                        (Resource) values[1], (IRI) values[2], values[3], (Resource) values[0]));
                 --index;
             }
         }
@@ -368,14 +368,14 @@ public final class KeyQuadIndex implements KeyQuadSource, Closeable {
             @Override
             public void handleStatement(final Statement stmt) throws RDFHandlerException {
                 this.namespaces.add(stmt.getPredicate().getNamespace());
-                if (stmt.getSubject() instanceof URI) {
-                    this.namespaces.add(((URI) stmt.getSubject()).getNamespace());
+                if (stmt.getSubject() instanceof IRI) {
+                    this.namespaces.add(((IRI) stmt.getSubject()).getNamespace());
                 }
-                if (stmt.getObject() instanceof URI) {
-                    this.namespaces.add(((URI) stmt.getObject()).getNamespace());
+                if (stmt.getObject() instanceof IRI) {
+                    this.namespaces.add(((IRI) stmt.getObject()).getNamespace());
                 }
-                if (stmt.getContext() instanceof URI) {
-                    this.namespaces.add(((URI) stmt.getContext()).getNamespace());
+                if (stmt.getContext() instanceof IRI) {
+                    this.namespaces.add(((IRI) stmt.getContext()).getNamespace());
                 }
                 super.handleStatement(stmt);
             }
@@ -453,7 +453,7 @@ public final class KeyQuadIndex implements KeyQuadSource, Closeable {
             final RDFHandler indexer = indexer(output, component);
 
             // Run the indexer
-            RDFProcessors.read(true, true, null, null,
+            RDFProcessors.read(true, true, null, null,null,true,
                     locations.toArray(new String[locations.size()])).apply(RDFSources.NIL,
                     indexer, 1);
 

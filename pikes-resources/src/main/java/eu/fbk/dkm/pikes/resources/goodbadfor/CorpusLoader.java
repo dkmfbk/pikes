@@ -2,13 +2,13 @@ package eu.fbk.dkm.pikes.resources.goodbadfor;
 
 import eu.fbk.dkm.pikes.resources.mpqa.Record;
 import eu.fbk.dkm.pikes.resources.mpqa.RecordSet;
+import eu.fbk.rdfpro.util.Statements;
 import eu.fbk.utils.core.CommandLine;
 import ixa.kaflib.KAFDocument;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
-import org.openrdf.model.impl.URIImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -226,7 +226,7 @@ public class CorpusLoader {
 				final KAFDocument document = new KAFDocument("en", "v3");
 				document.setRawText(text);
 				document.createPublic();
-				document.getPublic().publicId = new URIImpl(documentURI).getLocalName();
+				document.getPublic().publicId = Statements.VALUE_FACTORY.createIRI(documentURI).getLocalName();
 				document.getPublic().uri = documentURI;
 				document.createFileDesc();
 				document.getFileDesc().filename = nafFileName;

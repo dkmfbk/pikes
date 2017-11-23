@@ -2,11 +2,11 @@ package eu.fbk.dkm.pikes.resources.darmstadt;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
+import eu.fbk.rdfpro.util.Statements;
 import eu.fbk.utils.core.CommandLine;
 import ixa.kaflib.KAFDocument;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.openrdf.model.impl.URIImpl;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -127,7 +127,7 @@ public class CorpusLoader {
 					final KAFDocument document = new KAFDocument("en", "v3");
 					document.setRawText(text);
 					document.createPublic();
-					document.getPublic().publicId = new URIImpl(documentURI).getLocalName();
+					document.getPublic().publicId = Statements.VALUE_FACTORY.createIRI(documentURI).getLocalName();
 					document.getPublic().uri = documentURI;
 					document.createFileDesc();
 					document.getFileDesc().filename = nafFileName;

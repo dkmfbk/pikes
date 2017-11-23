@@ -1,9 +1,9 @@
 package eu.fbk.dkm.pikes.eval;
 
-import org.openrdf.model.Namespace;
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.NamespaceImpl;
-import org.openrdf.model.impl.ValueFactoryImpl;
+import org.eclipse.rdf4j.model.Namespace;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.impl.SimpleNamespace;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 public class EVAL {
 
@@ -11,36 +11,36 @@ public class EVAL {
 
     public static final String NAMESPACE = "http://pikes.fbk.eu/ontologies/eval#";
 
-    public static final Namespace NS = new NamespaceImpl(PREFIX, NAMESPACE);
+    public static final Namespace NS = new SimpleNamespace(PREFIX, NAMESPACE);
 
-    public static final URI SENTENCE = createURI("Sentence");
+    public static final IRI SENTENCE = createIRI("Sentence");
 
-    public static final URI NODE = createURI("Node");
+    public static final IRI NODE = createIRI("Node");
 
-    public static final URI ENTITY = createURI("Entity");
+    public static final IRI ENTITY = createIRI("Entity");
 
-    public static final URI FRAME = createURI("Frame");
+    public static final IRI FRAME = createIRI("Frame");
 
-    public static final URI QUALITY = createURI("Quality");
+    public static final IRI QUALITY = createIRI("Quality");
 
-    public static final URI VERB = createURI("Verb");
+    public static final IRI VERB = createIRI("Verb");
 
-    public static final URI KNOWLEDGE_GRAPH = createURI("KnowledgeGraph");
+    public static final IRI KNOWLEDGE_GRAPH = createIRI("KnowledgeGraph");
 
-    public static final URI METADATA = createURI("metadata");
+    public static final IRI METADATA = createIRI("metadata");
 
-    public static final URI DENOTED_BY = createURI("denotedBy");
+    public static final IRI DENOTED_BY = createIRI("denotedBy");
 
-    public static final URI MAPPED_TO = createURI("mappedTo");
+    public static final IRI MAPPED_TO = createIRI("mappedTo");
 
-    public static final URI ASSOCIABLE_TO = createURI("associableTo");
+    public static final IRI ASSOCIABLE_TO = createIRI("associableTo");
 
-    public static final URI NOT_ASSOCIABLE_TO = createURI("notAssociableTo");
+    public static final IRI NOT_ASSOCIABLE_TO = createIRI("notAssociableTo");
 
-    public static final URI CLASSIFIABLE_AS = createURI("classifiableAs");
+    public static final IRI CLASSIFIABLE_AS = createIRI("classifiableAs");
 
-    private static URI createURI(final String localName) {
-        return ValueFactoryImpl.getInstance().createURI(NAMESPACE, localName);
+    private static IRI createIRI(final String localName) {
+        return SimpleValueFactory.getInstance().createIRI(NAMESPACE, localName);
     }
 
     private EVAL() {

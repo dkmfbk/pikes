@@ -1,5 +1,5 @@
 import ixa.kaflib.*;
-import org.openrdf.query.algebra.Str;
+import org.eclipse.rdf4j.query.algebra.Str;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

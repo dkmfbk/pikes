@@ -9,12 +9,12 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.query.BindingSet;
-import org.openrdf.query.MalformedQueryException;
-import org.openrdf.query.algebra.TupleExpr;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.query.BindingSet;
+import org.eclipse.rdf4j.query.MalformedQueryException;
+import org.eclipse.rdf4j.query.algebra.TupleExpr;
 
 import eu.fbk.utils.eval.PrecisionRecall;
 import eu.fbk.rdfpro.util.Algebra;
@@ -68,23 +68,23 @@ final class Util {
         };
     }
 
-    public static String format(@Nullable final URI baseURI, final Object... objects) {
+    public static String format(@Nullable final IRI baseIRI, final Object... objects) {
         String result = "";
         for (final Object object : objects) {
             String s = "";
             if (object instanceof Value) {
                 final Value value = (Value) object;
-                final boolean abbreviate = value instanceof URI && baseURI != null
-                        && ((URI) value).getNamespace().equals(baseURI.stringValue());
-                s = abbreviate ? ":" + ((URI) value).getLocalName() : Statements.formatValue(
+                final boolean abbreviate = value instanceof IRI && baseIRI != null
+                        && ((IRI) value).getNamespace().equals(baseIRI.stringValue());
+                s = abbreviate ? ":" + ((IRI) value).getLocalName() : Statements.formatValue(
                         value, Util.NAMESPACES);
             } else if (object instanceof Relation) {
-                s = ((Relation) object).toString(baseURI);
+                s = ((Relation) object).toString(baseIRI);
             } else if (object instanceof Statement) {
                 final Statement stmt = (Statement) object;
-                return format(baseURI, stmt.getSubject()) + " "
-                        + format(baseURI, stmt.getPredicate()) + " "
-                        + format(baseURI, stmt.getObject());
+                return format(baseIRI, stmt.getSubject()) + " "
+                        + format(baseIRI, stmt.getPredicate()) + " "
+                        + format(baseIRI, stmt.getObject());
             } else if (object instanceof PrecisionRecall) {
                 final PrecisionRecall pr = (PrecisionRecall) object;
                 return String.format("f1=%5.3f p=%5.3f r=%5.3f tp=%d fp=%d fn=%d", pr.getF1(),

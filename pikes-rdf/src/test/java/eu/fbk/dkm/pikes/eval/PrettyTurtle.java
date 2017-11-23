@@ -19,17 +19,18 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 
-import org.openrdf.model.BNode;
-import org.openrdf.model.Literal;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.rio.RDFFormat;
-import org.openrdf.rio.RDFHandlerException;
-import org.openrdf.rio.RDFWriterFactory;
-import org.openrdf.rio.turtle.TurtleWriter;
+import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.RDFHandlerException;
+import org.eclipse.rdf4j.rio.RDFWriterFactory;
+import org.eclipse.rdf4j.rio.turtle.TurtleWriter;
 
 /**
  * A Sesame RIO extension for emitting 'prettified' Turtle output.
@@ -46,9 +47,9 @@ public final class PrettyTurtle implements RDFWriterFactory
 
     private volatile boolean defaultGeneratePrefixes;
 
-    static {
-        RDFFormat.register(FORMAT);
-    }
+//    static {
+//        RDFFormat.register(FORMAT);
+//    }
 
     public PrettyTurtle()
     {
@@ -118,7 +119,7 @@ public final class PrettyTurtle implements RDFWriterFactory
 
         private final boolean generatePrefixes;
 
-        private final Map<Resource, Multimap<URI, Value>> subjectProperties;
+        private final Map<Resource, Multimap<IRI, Value>> subjectProperties;
 
         // value true if bnode must be emitted
         private final Map<BNode, Boolean> objectBNodes;
@@ -186,17 +187,17 @@ public final class PrettyTurtle implements RDFWriterFactory
             Preconditions.checkState(this.writingStarted, "Writing not yet started");
 
             final Resource subject = statement.getSubject();
-            final URI predicate = statement.getPredicate();
+            final IRI predicate = statement.getPredicate();
             final Value object = statement.getObject();
 
             registerMentionedNamespaces(subject);
             registerMentionedNamespaces(predicate);
             registerMentionedNamespaces(object);
-            if (object instanceof Literal && ((Literal) object).getDatatype() != null) {
+            if (object instanceof Literal && !((Literal) object).getDatatype().equals(XMLSchema.STRING)) {
                 registerMentionedNamespaces(((Literal) object).getDatatype());
             }
 
-            Multimap<URI, Value> properties = this.subjectProperties.get(subject);
+            Multimap<IRI, Value> properties = this.subjectProperties.get(subject);
             if (properties == null) {
                 properties = LinkedHashMultimap.create();
                 this.subjectProperties.put(subject, properties);
@@ -237,8 +238,8 @@ public final class PrettyTurtle implements RDFWriterFactory
 
         private void registerMentionedNamespaces(final Value value)
         {
-            if (value instanceof URI) {
-                this.mentionedNamespaces.add(((URI) value).getNamespace());
+            if (value instanceof IRI) {
+                this.mentionedNamespaces.add(((IRI) value).getNamespace());
             }
         }
 
@@ -290,7 +291,7 @@ public final class PrettyTurtle implements RDFWriterFactory
             boolean first = true;
             for (Resource subject : Util.VALUE_ORDERING.sortedCopy(subjectProperties.keySet())) {
 
-                final Multimap<URI, Value> properties = subjectProperties.get(subject);
+                final Multimap<IRI, Value> properties = subjectProperties.get(subject);
 
                 final boolean emitSubject = !(subject instanceof BNode)
                         || this.bnodePreservationPolicy.apply((BNode) subject)
@@ -326,14 +327,14 @@ public final class PrettyTurtle implements RDFWriterFactory
             }
         }
 
-        private void writeSubject(final Resource subject, final Multimap<URI, Value> properties)
+        private void writeSubject(final Resource subject, final Multimap<IRI, Value> properties)
                 throws IOException
         {
             this.writer.writeEOL();
 
             if (!(subject instanceof BNode) || this.bnodePreservationPolicy.apply((BNode) subject)
                     || this.objectBNodes.containsKey(subject)) {
-                writeResource(subject);
+                writeResource(subject,false);
                 this.writer.write(" ");
             } else {
                 this.writer.write("[] ");
@@ -345,10 +346,10 @@ public final class PrettyTurtle implements RDFWriterFactory
             this.writer.decreaseIndentation();
         }
 
-        private void writeProperties(final Multimap<URI, Value> properties) throws IOException
+        private void writeProperties(final Multimap<IRI, Value> properties) throws IOException
         {
             boolean first = true;
-            for (final Map.Entry<URI, Collection<Value>> entry : properties.asMap().entrySet()) {
+            for (final Map.Entry<IRI, Collection<Value>> entry : properties.asMap().entrySet()) {
                 if (!first) {
                     this.writer.write(" ;");
                     this.writer.writeEOL();
@@ -358,7 +359,7 @@ public final class PrettyTurtle implements RDFWriterFactory
             }
         }
 
-        private void writeProperty(final URI predicate, final Collection<Value> values)
+        private void writeProperty(final IRI predicate, final Collection<Value> values)
                 throws IOException
         {
             if (predicate.equals(RDF.TYPE)) {
@@ -368,7 +369,7 @@ public final class PrettyTurtle implements RDFWriterFactory
             }
             this.writer.write(" ");
 
-            // Emit the property values in two phases. First, URIs, literals and BNodes whose ID
+            // Emit the property values in two phases. First, IRIs, literals and BNodes whose ID
             // must be preserved are emitted (phase = 0). Then, BNodes that can be expanded inline
             // are emitted. The expansion check is done here and passed to writeObject() as hint.
             boolean first = true;
@@ -399,10 +400,10 @@ public final class PrettyTurtle implements RDFWriterFactory
                     && this.objectBNodes.get(value) != Boolean.TRUE;
 
             if (!bnodeExpansion) {
-                writeValue(value);
+                writeValue(value,false);
             } else {
                 this.inlinedBNodes.add((BNode) value);
-                Multimap<URI, Value> properties = this.subjectProperties.get(value);
+                Multimap<IRI, Value> properties = this.subjectProperties.get(value);
 
                 if (properties == null) {
                     // No properties: emit an empty blank node.

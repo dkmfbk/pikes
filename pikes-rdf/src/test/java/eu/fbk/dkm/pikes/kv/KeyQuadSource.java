@@ -12,10 +12,10 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import org.openrdf.model.Statement;
-import org.openrdf.model.Value;
-import org.openrdf.rio.RDFHandler;
-import org.openrdf.rio.RDFHandlerException;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.rio.RDFHandler;
+import org.eclipse.rdf4j.rio.RDFHandlerException;
 
 import eu.fbk.rdfpro.AbstractRDFHandlerWrapper;
 import eu.fbk.rdfpro.RDFHandlers;

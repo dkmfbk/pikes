@@ -36,17 +36,18 @@ import com.google.common.html.HtmlEscapers;
 import com.google.common.io.Files;
 
 import eu.fbk.utils.svm.Util;
-import eu.fbk.utils.vocab.*;
-import org.openrdf.model.BNode;
-import org.openrdf.model.Literal;
-import org.openrdf.model.Model;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.impl.LinkedHashModel;
-import org.openrdf.model.impl.URIImpl;
-import org.openrdf.model.vocabulary.RDF;
+import eu.fbk.dkm.pikes.rdf.vocab.*;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.model.Model;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.impl.LinkedHashModel;
+import org.eclipse.rdf4j.model.util.Models;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -72,7 +73,7 @@ public class Renderer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Renderer.class);
 
-    public static final Set<URI> DEFAULT_NODE_TYPES = ImmutableSet.of(KS.ENTITY, KS.ATTRIBUTE);
+    public static final Set<IRI> DEFAULT_NODE_TYPES = ImmutableSet.of(KS_OLD.ENTITY, KS_OLD.ATTRIBUTE);
 
     public static final Set<String> DEFAULT_NODE_NAMESPACES = ImmutableSet.of();
 
@@ -82,18 +83,18 @@ public class Renderer {
             .put(NWR.PERSON, "#FFC8C8") //
             .put(NWR.ORGANIZATION, "#FFFF84") //
             .put(NWR.LOCATION, "#A9C5EB") //
-            .put(KS.ATTRIBUTE, "#EEBBEE") //
-            // .put(KS.MONEY, "#EEBBEE") //
-            // .put(KS.FACILITY, "#FFC65B") //
-            // .put(KS.PRODUCT, "#FFC65B") //
-            // .put(KS.WORK_OF_ART, "#FFC65B") //
+            .put(KS_OLD.ATTRIBUTE, "#EEBBEE") //
+            // .put(KS_OLD.MONEY, "#EEBBEE") //
+            // .put(KS_OLD.FACILITY, "#FFC65B") //
+            // .put(KS_OLD.PRODUCT, "#FFC65B") //
+            // .put(KS_OLD.WORK_OF_ART, "#FFC65B") //
             .put(SUMO.PROCESS, "#CFE990") //
             .put(SUMO.RELATION, "#FFFFFF") //
             .put(OWLTIME.INTERVAL, "#B4D1B6") //
             .put(OWLTIME.DATE_TIME_INTERVAL, "#B4D1B6") //
             .put(OWLTIME.PROPER_INTERVAL, "#B4D1B6") //
             .put(NWR.MISC, "#D1BAA2") //
-            // .put(KS.LAW, "#D1BAA2") //
+            // .put(KS_OLD.LAW, "#D1BAA2") //
             .build();
 
     public static final Map<Object, String> DEFAULT_STYLE_MAP = ImmutableMap.of();
@@ -143,7 +144,7 @@ public class Renderer {
         }
     }
 
-    private final Set<URI> nodeTypes;
+    private final Set<IRI> nodeTypes;
 
     private final Set<String> nodeNamespaces;
 
@@ -151,7 +152,7 @@ public class Renderer {
 
     private final Ordering<Statement> statementComparator;
 
-    private final URI denotedByProperty;
+    private final IRI denotedByProperty;
 
     private final Map<Object, String> colorMap;
 
@@ -277,7 +278,7 @@ public class Renderer {
     }
 
     public void renderProperties(final Appendable out, final Model model, final Resource node,
-            final boolean emitID, final URI... excludedProperties) throws IOException {
+            final boolean emitID, final IRI... excludedProperties) throws IOException {
 
         final Set<Resource> seen = Sets.newHashSet(node);
         renderPropertiesHelper(out, model, node, emitID, seen,
@@ -286,7 +287,7 @@ public class Renderer {
 
     private void renderPropertiesHelper(final Appendable out, final Model model,
             final Resource node, final boolean emitID, final Set<Resource> seen,
-            final Set<URI> excludedProperties) throws IOException {
+            final Set<IRI> excludedProperties) throws IOException {
 
         // Open properties table
         out.append("<table class=\"properties table table-condensed\">\n<tbody>\n");
@@ -299,7 +300,7 @@ public class Renderer {
         }
 
         // Emit other properties
-        for (final URI pred : this.valueComparator.sortedCopy(model.filter(node, null, null)
+        for (final IRI pred : this.valueComparator.sortedCopy(model.filter(node, null, null)
                 .predicates())) {
             if (excludedProperties.contains(pred)) {
                 continue;
@@ -345,7 +346,7 @@ public class Renderer {
         out.append("</th><th width='25%' class='col-to'>");
         out.append(shorten(RDF.OBJECT));
         out.append("</th><th width='25%' class='col-te'>");
-        out.append(shorten(KS.EXPRESSED_BY));
+        out.append(shorten(KS_OLD.EXPRESSED_BY));
         out.append("</th></tr>\n");
         out.append("</thead>\n<tbody>\n");
 
@@ -359,10 +360,9 @@ public class Renderer {
                 renderObject(out, statement.getObject(), model);
                 out.append("</td><td>");
                 String separator = "";
-                for (final Value mentionID : model.filter(statement.getContext(), KS.EXPRESSED_BY,
+                for (final Value mentionID : model.filter(statement.getContext(), KS_OLD.EXPRESSED_BY,
                         null).objects()) {
-                    final String extent = model.filter((Resource) mentionID, NIF.ANCHOR_OF, null)
-                            .objectLiteral().stringValue();
+                    final String extent = Models.objectString(model.filter((Resource) mentionID, NIF.ANCHOR_OF, null)).get();
                     out.append(separator);
                     renderObject(out, mentionID, model);
                     out.append(" '").append(escape(extent)).append("'");
@@ -385,7 +385,7 @@ public class Renderer {
         out.append("</th><th width='18%' class='col-mo'>mention attributes</th><th width='11%' class='col-md'>");
         out.append(shorten(GAF.DENOTED_BY)).append("<sup>-1</sup>");
         out.append("</th><th width='30%' class='col-me'>");
-        out.append(shorten(KS.EXPRESSED_BY)).append("<sup>-1</sup>");
+        out.append(shorten(KS_OLD.EXPRESSED_BY)).append("<sup>-1</sup>");
         out.append("</th></tr>\n</thead>\n<tbody>\n");
 
         for (final Resource mentionID : this.valueComparator.sortedCopy(ModelUtil
@@ -393,16 +393,16 @@ public class Renderer {
             out.append("<tr><td>");
             renderObject(out, mentionID, model);
             out.append("</td><td>");
-            out.append(model.filter(mentionID, NIF.ANCHOR_OF, null).objectString());
+            out.append(Models.objectString(model.filter(mentionID, NIF.ANCHOR_OF, null)).get());
             out.append("</td><td>");
             renderObject(out, model.filter(mentionID, RDF.TYPE, null).objects(), model);
             out.append("</td><td>");
             final Model mentionModel = new LinkedHashModel();
             for (final Statement statement : model.filter(mentionID, null, null)) {
-                final URI pred = statement.getPredicate();
+                final IRI pred = statement.getPredicate();
                 if (!NIF.BEGIN_INDEX.equals(pred) && !NIF.END_INDEX.equals(pred)
                         && !NIF.ANCHOR_OF.equals(pred) && !RDF.TYPE.equals(pred)
-                        && !KS.MENTION_OF.equals(pred)) {
+                        && !KS_OLD.MENTION_OF.equals(pred)) {
                     mentionModel.add(statement);
                 }
             }
@@ -412,7 +412,7 @@ public class Renderer {
             out.append("</td><td>");
             renderObject(out, model.filter(null, GAF.DENOTED_BY, mentionID).subjects(), model);
             out.append("</td><td><ol>");
-            for (final Resource factID : model.filter(null, KS.EXPRESSED_BY, mentionID).subjects()) {
+            for (final Resource factID : model.filter(null, KS_OLD.EXPRESSED_BY, mentionID).subjects()) {
                 for (final Statement statement : model.filter(null, null, null, factID)) {
                     out.append("<li>");
                     renderObject(out, statement.getSubject(), model);
@@ -432,16 +432,16 @@ public class Renderer {
     public void renderObject(final Appendable out, final Object object, @Nullable final Model model)
             throws IOException {
 
-        if (object instanceof URI) {
-            final URI uri = (URI) object;
+        if (object instanceof IRI) {
+            final IRI uri = (IRI) object;
             out.append("<a>").append(shorten(uri)).append("</a>");
 
         } else if (object instanceof Literal) {
             final Literal literal = (Literal) object;
             out.append("<span");
-            if (literal.getLanguage() != null) {
-                out.append(" title=\"@").append(literal.getLanguage()).append("\"");
-            } else if (literal.getDatatype() != null) {
+            if (literal.getLanguage().isPresent()) {
+                out.append(" title=\"@").append(literal.getLanguage().get()).append("\"");
+            } else if (!literal.getDatatype().equals(XMLSchema.STRING)) {
                 out.append(" title=\"").append(shorten(literal.getDatatype())).append("\"");
             }
             out.append(">").append(literal.stringValue()).append("</span>");
@@ -476,9 +476,9 @@ public class Renderer {
             final Resource instance = stmt.getSubject();
             final String color = select(colorMap,
                     model.filter(instance, RDF.TYPE, null).objects(), null);
-            if (stmt.getObject() instanceof URI && color != null) {
-                final URI mentionURI = (URI) stmt.getObject();
-                final String name = mentionURI.getLocalName();
+            if (stmt.getObject() instanceof IRI && color != null) {
+                final IRI mentionIRI = (IRI) stmt.getObject();
+                final String name = mentionIRI.getLocalName();
                 if (name.indexOf(';') < 0) {
                     final int index = name.indexOf(',');
                     final int start = Integer.parseInt(name.substring(5, index));
@@ -503,7 +503,7 @@ public class Renderer {
             final Iterable<? extends Value> keys, final String defaultColor) {
         String color = null;
         for (final Value key : keys) {
-            if (key instanceof URI) {
+            if (key instanceof IRI) {
                 final String mappedColor = map.get(key);
                 if (mappedColor != null) {
                     if (color == null) {
@@ -522,7 +522,7 @@ public class Renderer {
     }
 
     @Nullable
-    private static String shorten(@Nullable final URI uri) {
+    private static String shorten(@Nullable final IRI uri) {
         if (uri == null) {
             return null;
         }
@@ -540,7 +540,7 @@ public class Renderer {
     public static final class Builder {
 
         @Nullable
-        private Iterable<? extends URI> nodeTypes;
+        private Iterable<? extends IRI> nodeTypes;
 
         @Nullable
         private Iterable<? extends String> nodeNamespaces;
@@ -549,7 +549,7 @@ public class Renderer {
         private Iterable<? extends String> rankedNamespaces;
 
         @Nullable
-        private URI denotedByProperty;
+        private IRI denotedByProperty;
 
         @Nullable
         private Map<Object, String> colorMap;
@@ -583,7 +583,7 @@ public class Renderer {
             return this;
         }
 
-        public Builder withNodeTypes(@Nullable final Iterable<? extends URI> nodeTypes) {
+        public Builder withNodeTypes(@Nullable final Iterable<? extends IRI> nodeTypes) {
             this.nodeTypes = nodeTypes;
             return this;
         }
@@ -599,7 +599,7 @@ public class Renderer {
             return this;
         }
 
-        public Builder withDenotedByProperty(@Nullable final URI denotedByProperty) {
+        public Builder withDenotedByProperty(@Nullable final IRI denotedByProperty) {
             this.denotedByProperty = denotedByProperty;
             return this;
         }
@@ -710,7 +710,7 @@ public class Renderer {
                         renderGraph(builder, sentenceModel, Algorithm.NEATO);
                     } else if (this.type == METADATA) {
                         renderProperties(builder, this.model,
-                                new URIImpl(this.document.getPublic().uri), true, KS.HAS_MENTION);
+                                Statements.VALUE_FACTORY.createIRI(this.document.getPublic().uri), true, KS_OLD.HAS_MENTION);
                     } else if (this.type == MENTIONS) {
                         renderMentionsTable(builder, this.model);
                     } else if (this.type == TRIPLES) {

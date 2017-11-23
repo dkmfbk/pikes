@@ -24,7 +24,7 @@ import eu.fbk.dkm.pikes.resources.util.semlink.vnpb.PbvnTypemap;
 import eu.fbk.utils.core.CommandLine;
 import eu.fbk.utils.core.FrequencyHashSet;
 import net.didion.jwnl.data.PointerType;
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -244,8 +244,8 @@ public class MergeMateFramenet {
                     continue;
                 }
 
-                URI fbURI = FrameBase.uriFor(predicate);
-                if (fbURI == null) {
+                IRI fbIRI = FrameBase.uriFor(predicate);
+                if (fbIRI == null) {
                     LOGGER.error("This should never happen!");
                     LOGGER.debug(predicate);
                     break;
@@ -263,7 +263,7 @@ public class MergeMateFramenet {
                 writerFrames.append(matcher.group(1).toLowerCase()).append('\t');
                 writerFrames.append(lemma).append('\t');
                 writerFrames.append(matcher.group(3).toLowerCase()).append('\t');
-                writerFrames.append(fbURI.toString()).append('\n');
+                writerFrames.append(fbIRI.toString()).append('\n');
             }
             for (String role : FrameBase.getRolesSet()) {
                 Matcher matcher = FB_ROLES.matcher(role.trim());
@@ -272,8 +272,8 @@ public class MergeMateFramenet {
                     continue;
                 }
 
-                URI fbURI = FrameBase.uriFor(role);
-                if (fbURI == null) {
+                IRI fbIRI = FrameBase.uriFor(role);
+                if (fbIRI == null) {
                     LOGGER.error("This should never happen!");
                     LOGGER.debug(role);
                     break;
@@ -284,7 +284,7 @@ public class MergeMateFramenet {
 
                 writerRoles.append("fn:");
                 writerRoles.append(roleAt).append('\t');
-                writerRoles.append(fbURI.toString()).append('\n');
+                writerRoles.append(fbIRI.toString()).append('\n');
             }
 
 //            writerFrames.close();
@@ -1301,7 +1301,7 @@ public class MergeMateFramenet {
                 for (String key : outputMappingsForPredicates.get(outputMapping).keySet()) {
                     String value = outputMappingsForPredicates.get(outputMapping).get(key);
 
-                    URI fbURI = null;
+                    IRI fbIRI = null;
                     FrameBase.POS pos = FrameBase.POS.VERB;
                     switch (outputMapping) {
                     case NBauto:
@@ -1312,15 +1312,15 @@ public class MergeMateFramenet {
 
                     String lemma = predicateToLemma.get(key);
                     if (lemma != null) {
-                        fbURI = FrameBase.classFor(value, lemma, pos);
+                        fbIRI = FrameBase.classFor(value, lemma, pos);
                     }
-                    if (fbURI == null) {
+                    if (fbIRI == null) {
                         lemma = key.substring(0, key.length() - 3);
-                        fbURI = FrameBase.classFor(value, lemma, pos);
+                        fbIRI = FrameBase.classFor(value, lemma, pos);
                     }
 
                     // Should never happen
-                    if (fbURI == null) {
+                    if (fbIRI == null) {
                         LOGGER.error("This should never happen!");
                         LOGGER.debug(value);
                         LOGGER.debug(key);
@@ -1337,7 +1337,7 @@ public class MergeMateFramenet {
                     writerFrames.append(key).append('\t');
                     writerFrames.append(lemma).append('\t');
                     writerFrames.append(pos.getLetter()).append('\t');
-                    writerFrames.append(fbURI.toString()).append('\n');
+                    writerFrames.append(fbIRI.toString()).append('\n');
                 }
             }
             writer.close();
@@ -1358,8 +1358,8 @@ public class MergeMateFramenet {
                         LOGGER.error("This is impossible!");
                         break;
                     }
-                    URI fbURI = FrameBase.propertyFor(parts[0], parts[1]);
-                    if (fbURI == null) {
+                    IRI fbIRI = FrameBase.propertyFor(parts[0], parts[1]);
+                    if (fbIRI == null) {
                         LOGGER.error("This should never happen!");
                         LOGGER.debug(key);
                         LOGGER.debug(value);
@@ -1372,7 +1372,7 @@ public class MergeMateFramenet {
 
                     writerRoles.append(outputMapping.toString().substring(0, 2).toLowerCase()).append(':');
                     writerRoles.append(key).append('\t');
-                    writerRoles.append(fbURI.toString()).append('\n');
+                    writerRoles.append(fbIRI.toString()).append('\n');
                 }
             }
             writer.close();
@@ -1394,8 +1394,8 @@ public class MergeMateFramenet {
                             LOGGER.error("This is impossible!");
                             break;
                         }
-                        URI fbURI = FrameBase.propertyFor(parts[0], parts[1]);
-                        if (fbURI == null) {
+                        IRI fbIRI = FrameBase.propertyFor(parts[0], parts[1]);
+                        if (fbIRI == null) {
                             LOGGER.error("This should never happen!");
                             LOGGER.debug(key);
                             LOGGER.debug(value);
@@ -1408,7 +1408,7 @@ public class MergeMateFramenet {
 
                         writerRoles.append(outputMapping.toString().substring(0, 2).toLowerCase()).append(':');
                         writerRoles.append(key).append('\t');
-                        writerRoles.append(fbURI.toString()).append('\n');
+                        writerRoles.append(fbIRI.toString()).append('\n');
                     }
                 }
                 writer.close();

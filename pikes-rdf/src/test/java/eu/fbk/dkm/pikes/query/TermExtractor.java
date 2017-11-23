@@ -28,19 +28,19 @@ import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.io.Files;
 
+import eu.fbk.dkm.pikes.rdf.vocab.SUMO;
 import net.didion.jwnl.data.PointerType;
 
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.impl.StatementImpl;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.model.vocabulary.RDFS;
-import org.openrdf.model.vocabulary.SESAME;
-import org.openrdf.model.vocabulary.SKOS;
-import org.openrdf.rio.RDFHandlerException;
-import org.openrdf.rio.Rio;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.vocabulary.RDFS;
+import org.eclipse.rdf4j.model.vocabulary.SESAME;
+import org.eclipse.rdf4j.model.vocabulary.SKOS;
+import org.eclipse.rdf4j.rio.RDFHandlerException;
+import org.eclipse.rdf4j.rio.Rio;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +57,7 @@ import eu.fbk.dkm.pikes.resources.Sumo;
 import eu.fbk.dkm.pikes.resources.WordNet;
 import eu.fbk.dkm.pikes.resources.YagoTaxonomy;
 import eu.fbk.utils.core.CommandLine;
-import eu.fbk.utils.vocab.KS;
+import eu.fbk.dkm.pikes.rdf.vocab.KS_OLD;
 import eu.fbk.rdfpro.AbstractRDFHandlerWrapper;
 import eu.fbk.rdfpro.RDFHandlers;
 import eu.fbk.rdfpro.RDFProcessors;
@@ -78,7 +78,7 @@ public class TermExtractor {
     private static final String NS_DBPEDIA = "http://dbpedia.org/resource/";
 
     private static final Map<String, Layer> TYPE_MAP = ImmutableMap.of(YagoTaxonomy.NAMESPACE,
-            Layer.TYPE_YAGO, Sumo.NAMESPACE, Layer.TYPE_SUMO, FrameBase.NAMESPACE,
+            Layer.TYPE_YAGO, SUMO.NAMESPACE, Layer.TYPE_SUMO, FrameBase.NAMESPACE,
             Layer.PREDICATE_FRB, "http://www.newsreader-project.eu/ontologies/propbank/",
             Layer.PREDICATE_PB, "http://www.newsreader-project.eu/ontologies/nombank/",
             Layer.PREDICATE_NB);
@@ -88,7 +88,7 @@ public class TermExtractor {
             Layer.ROLE_PB, "http://www.newsreader-project.eu/ontologies/nombank/", Layer.ROLE_NB);
 
     private static final Set<String> RECURSIVE_ENRICHMENT_NAMESPACES = ImmutableSet.of(
-            YagoTaxonomy.NAMESPACE, FrameBase.NAMESPACE, Sumo.NAMESPACE);
+            YagoTaxonomy.NAMESPACE, FrameBase.NAMESPACE, SUMO.NAMESPACE);
 
     private static final Map<String, String> CONCEPT_MAP = ImmutableMap.of(YagoTaxonomy.NAMESPACE,
             "dbyago", FrameBase.NAMESPACE, "frb", NS_DBPEDIA, "dbpedia", "entity:", "entity");
@@ -101,7 +101,7 @@ public class TermExtractor {
             final CommandLine cmd = CommandLine
                     .parser()
                     .withName("pikes-tex")
-                    .withOption("i", "index", "use index at PATH for URI enrichment", "PATH",
+                    .withOption("i", "index", "use index at PATH for IRI enrichment", "PATH",
                             CommandLine.Type.FILE, true, false, false)
                     .withOption("r", "recursive", "whether to recurse into input directories")
                     .withOption("o", "output", "output base name", "PATH",
@@ -241,7 +241,7 @@ public class TermExtractor {
         // Read RDF file
         final QuadModel model = QuadModel.create();
         try {
-            RDFSources.read(false, true, null, null, modelFile.getAbsolutePath()).emit(
+            RDFSources.read(false, true, null, null, null, true, modelFile.getAbsolutePath()).emit(
                     new AbstractRDFHandlerWrapper(RDFHandlers.wrap(model)) {
 
                         @Override
@@ -273,23 +273,23 @@ public class TermExtractor {
                 : QuadModel.create(model);
 
         try {
-            // Recursively enrich model URIs if an enrichment index is available
+            // Recursively enrich model IRIs if an enrichment index is available
             if (this.enrichmentIndex != null) {
-                final Set<URI> uris = Sets.newHashSet();
+                final Set<IRI> uris = Sets.newHashSet();
                 for (final Statement stmt : quadModel) {
                     for (final Value value : new Value[] { stmt.getSubject(), stmt.getPredicate(),
                             stmt.getObject(), stmt.getContext() }) {
-                        if (value instanceof URI) {
-                            uris.add((URI) value);
+                        if (value instanceof IRI) {
+                            uris.add((IRI) value);
                         }
                     }
                 }
                 final int numTriplesBefore = quadModel.size();
                 this.enrichmentIndex.getRecursive(uris, (final Value v) -> {
-                    return v instanceof URI && //
-                            RECURSIVE_ENRICHMENT_NAMESPACES.contains(((URI) v).getNamespace());
+                    return v instanceof IRI && //
+                            RECURSIVE_ENRICHMENT_NAMESPACES.contains(((IRI) v).getNamespace());
                 }, RDFHandlers.wrap(quadModel));
-                LOGGER.debug("Enriched {} URIs with {} triples", uris.size(), quadModel.size()
+                LOGGER.debug("Enriched {} IRIs with {} triples", uris.size(), quadModel.size()
                         - numTriplesBefore);
             }
 
@@ -316,12 +316,12 @@ public class TermExtractor {
     private void extract(final String documentID, final QuadModel model,
             final Collection<Term> terms) {
 
-        // Emit terms for URIs
-        final List<URI> entities = Lists.newArrayList();
-        final Set<URI> knownEntities = Sets.newHashSet();
-        for (final Resource entity : model.filter(null, RDF.TYPE, KS.ENTITY).subjects()) {
-            if (entity instanceof URI) {
-                final URI uri = (URI) entity;
+        // Emit terms for IRIs
+        final List<IRI> entities = Lists.newArrayList();
+        final Set<IRI> knownEntities = Sets.newHashSet();
+        for (final Resource entity : model.filter(null, RDF.TYPE, KS_OLD.ENTITY).subjects()) {
+            if (entity instanceof IRI) {
+                final IRI uri = (IRI) entity;
                 entities.add(uri);
                 if (uri.getNamespace().equals(NS_DBPEDIA)) {
                     terms.add(new Term(documentID, Layer.URI_DBPEDIA, uri.getLocalName()));
@@ -329,45 +329,45 @@ public class TermExtractor {
                 }
                 // TODO: entity:XXX treated as anonymous instances
                 //                else if (model.contains(uri, FOAF.NAME, null)) {
-                //                    terms.add(new Term(documentID, Layer.URI_CUSTOM, uri.getLocalName()));
+                //                    terms.add(new Term(documentID, Layer.IRI_CUSTOM, uri.getLocalName()));
                 //                    knownEntities.add(uri);
                 //                }
             }
         }
 
         // Emit related entities TODO
-        //        for (final URI entity : entities) {
+        //        for (final IRI entity : entities) {
         //            for (final Value related : model.filter(entity, SKOS.RELATED, null).objects()) {
-        //                if (related instanceof URI) {
-        //                    final URI uri = (URI) related;
+        //                if (related instanceof IRI) {
+        //                    final IRI uri = (IRI) related;
         //                    if (uri.getNamespace().equals(NS_DBPEDIA)) {
-        //                        terms.add(new Term(documentID, Layer.URI_RELATED, uri.getLocalName()));
+        //                        terms.add(new Term(documentID, Layer.IRI_RELATED, uri.getLocalName()));
         //                    }
         //                }
         //            }
         //        }
 
         // Emit types / predicates
-        for (final URI entity : entities) {
-            final Set<URI> types = Sets.newHashSet();
+        for (final IRI entity : entities) {
+            final Set<IRI> types = Sets.newHashSet();
             for (final Value type : model.filter(entity, RDF.TYPE, null).objects()) {
-                if (type instanceof URI) {
-                    types.add((URI) type);
+                if (type instanceof IRI) {
+                    types.add((IRI) type);
                 }
             }
-            final Set<URI> parents = Sets.newHashSet();
-            for (final URI type : types) {
+            final Set<IRI> parents = Sets.newHashSet();
+            for (final IRI type : types) {
                 if (!FrameBase.isMicroframe(type)) {
                     for (final Value parentType : model.filter(type, RDFS.SUBCLASSOF, null)
                             .objects()) {
-                        if (parentType instanceof URI && !parentType.equals(type)) {
-                            parents.add((URI) parentType);
+                        if (parentType instanceof IRI && !parentType.equals(type)) {
+                            parents.add((IRI) parentType);
                         }
                     }
                 }
             }
-            final Set<URI> directTypes = Sets.difference(types, parents);
-            for (final URI type : types) {
+            final Set<IRI> directTypes = Sets.difference(types, parents);
+            for (final IRI type : types) {
                 final Layer typeLayer = TYPE_MAP.get(type.getNamespace());
                 if (typeLayer != null) {
                     if (directTypes.contains(type)) {
@@ -381,22 +381,22 @@ public class TermExtractor {
         }
 
         // Emit roles
-        for (final URI entity : entities) {
+        for (final IRI entity : entities) {
             final Set<Statement> stmts = Sets.newHashSet(model.filter(entity, null, null));
             final Set<Statement> parentStmts = Sets.newHashSet();
             for (final Statement stmt : stmts) {
-                final URI pred = stmt.getPredicate();
+                final IRI pred = stmt.getPredicate();
                 final Value obj = stmt.getObject();
                 for (final Value parentPred : model.filter(pred, RDFS.SUBPROPERTYOF, null)
                         .objects()) {
-                    if (parentPred instanceof URI && !parentPred.equals(pred)) {
-                        parentStmts.add(new StatementImpl(entity, (URI) parentPred, obj));
+                    if (parentPred instanceof IRI && !parentPred.equals(pred)) {
+                        parentStmts.add(Statements.VALUE_FACTORY.createStatement(entity, (IRI) parentPred, obj));
                     }
                 }
             }
             final Set<Statement> directStmts = Sets.difference(stmts, parentStmts);
             for (final Statement stmt : stmts) {
-                final URI uri = stmt.getPredicate();
+                final IRI uri = stmt.getPredicate();
                 final Layer propertyLayer = PROPERTY_MAP.get(uri.getNamespace());
                 if (propertyLayer != null) {
                     if (directStmts.contains(stmt)) {
@@ -410,17 +410,17 @@ public class TermExtractor {
         }
 
         // Emit concepts
-        for (final URI entity : entities) {
-            final Set<URI> concepts = Sets.newHashSet();
-            final Set<URI> directConcepts = Sets.newHashSet();
-            final List<URI> queue = Lists.newLinkedList();
+        for (final IRI entity : entities) {
+            final Set<IRI> concepts = Sets.newHashSet();
+            final Set<IRI> directConcepts = Sets.newHashSet();
+            final List<IRI> queue = Lists.newLinkedList();
 
             for (final Value type : model.filter(entity, RDF.TYPE, null).objects()) {
-                if (type instanceof URI && CONCEPT_MAP.containsKey(((URI) type).getNamespace())) {
-                    directConcepts.add((URI) type);
+                if (type instanceof IRI && CONCEPT_MAP.containsKey(((IRI) type).getNamespace())) {
+                    directConcepts.add((IRI) type);
                 }
             }
-            for (final URI type : ImmutableList.copyOf(directConcepts)) {
+            for (final IRI type : ImmutableList.copyOf(directConcepts)) {
                 if (!FrameBase.isMicroframe(type)) {
                     final Set<Value> parents = Sets.newHashSet(model.filter(type, RDFS.SUBCLASSOF,
                             null).objects());
@@ -436,19 +436,19 @@ public class TermExtractor {
             concepts.addAll(directConcepts);
             queue.addAll(directConcepts);
             while (!queue.isEmpty()) {
-                final URI uri = queue.remove(0);
+                final IRI uri = queue.remove(0);
                 for (final Value parent : model.filter(uri, SKOS.BROADER, null).objects()) {
-                    if (parent instanceof URI) {
-                        final URI parentURI = (URI) parent;
-                        if (CONCEPT_MAP.containsKey(parentURI.getNamespace())
-                                && !concepts.contains(parentURI)) {
-                            concepts.add(parentURI);
-                            queue.add(parentURI);
+                    if (parent instanceof IRI) {
+                        final IRI parentIRI = (IRI) parent;
+                        if (CONCEPT_MAP.containsKey(parentIRI.getNamespace())
+                                && !concepts.contains(parentIRI)) {
+                            concepts.add(parentIRI);
+                            queue.add(parentIRI);
                         }
                     }
                 }
             }
-            for (final URI concept : concepts) {
+            for (final IRI concept : concepts) {
                 final String prefix = CONCEPT_MAP.get(concept.getNamespace());
                 final String name = prefix + ":" + concept.getLocalName();
                 if (directConcepts.contains(concept)) {

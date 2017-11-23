@@ -1,6 +1,6 @@
 package ixa.kaflib;
 
-import org.openrdf.query.algebra.Str;
+import org.eclipse.rdf4j.query.algebra.Str;
 
 import java.util.ArrayList;
 import java.util.HashMap;

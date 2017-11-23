@@ -21,25 +21,24 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 
-import org.openrdf.model.Literal;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.ValueFactory;
-import org.openrdf.model.impl.URIImpl;
-import org.openrdf.model.vocabulary.DCTERMS;
-import org.openrdf.model.vocabulary.OWL;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.model.vocabulary.RDFS;
-import org.openrdf.query.BindingSet;
-import org.openrdf.query.algebra.TupleExpr;
-import org.openrdf.rio.RDFHandler;
+import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
+import org.eclipse.rdf4j.model.vocabulary.OWL;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.vocabulary.RDFS;
+import org.eclipse.rdf4j.query.BindingSet;
+import org.eclipse.rdf4j.query.algebra.TupleExpr;
+import org.eclipse.rdf4j.rio.RDFHandler;
 import org.slf4j.LoggerFactory;
 
 import eu.fbk.utils.core.CommandLine;
 import eu.fbk.utils.core.CommandLine.Type;
-import eu.fbk.utils.vocab.NIF;
+import eu.fbk.dkm.pikes.rdf.vocab.NIF;
 import eu.fbk.rdfpro.RDFHandlers;
 import eu.fbk.rdfpro.RDFSources;
 import eu.fbk.rdfpro.util.QuadModel;
@@ -50,8 +49,8 @@ public class Converter {
     private static final Set<String> AM_ROLES = ImmutableSet.of("dir", "loc", "mnr", "ext", "rec",
             "prd", "pnc", "cau", "dis", "adv", "mod", "neg");
 
-    private static final URI DUL_ASSOCIATED_WITH = Statements.VALUE_FACTORY
-            .createURI("http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#associatedWith");
+    private static final IRI DUL_ASSOCIATED_WITH = Statements.VALUE_FACTORY
+            .createIRI("http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#associatedWith");
 
     public static final Converter FRED_CONVERTER = new Converter(
             "fred",
@@ -73,7 +72,7 @@ public class Converter {
                     + "  FILTER NOT EXISTS { ?node a owl:Class }\n" //
                     + "}\n" //
                     + "ORDER BY ?m", //
-            (final URI uri) -> {
+            (final IRI uri) -> {
                 String ns = uri.getNamespace();
                 String name = uri.getLocalName();
                 if (ns.equals("http://www.ontologydesignpatterns.org/ont/vn/abox/role/")
@@ -110,7 +109,7 @@ public class Converter {
                     }
                     name = b.toString();
                 }
-                return Statements.VALUE_FACTORY.createURI(ns, name);
+                return Statements.VALUE_FACTORY.createIRI(ns, name);
             }, "PREFIX fsem: <http://ontologydesignpatterns.org/cp/owl/semiotics.owl#>\n"
                     + "SELECT ?s (owl:sameAs AS ?p) ?o\n "
                     + "WHERE { ?s fsem:denotes ?o. FILTER EXISTS { ?m fsem:denotes ?s } }");
@@ -128,7 +127,7 @@ public class Converter {
             + "  { ?node a eval:Quality }\n" //
             + "}\n" //
             + "ORDER BY ?m", //
-            (final URI uri) -> {
+            (final IRI uri) -> {
                 final String ns = uri.getNamespace();
                 String name = uri.getLocalName();
                 if (ns.equals("http://pikes.fbk.eu/ontologies/verbnet#")) {
@@ -137,7 +136,7 @@ public class Converter {
                         name = name.substring(index + 1);
                     }
                 }
-                return Statements.VALUE_FACTORY.createURI(ns, name);
+                return Statements.VALUE_FACTORY.createIRI(ns, name);
             });
 
     public static final Converter PIKES_CONVERTER = new Converter("pikes", "" //
@@ -153,7 +152,7 @@ public class Converter {
             + "     nif:endIndex ?end ;\n" //
             + "  OPTIONAL { ?m eval:head ?head }\n" + "}\n" //
             + "ORDER BY ?m", //
-            (final URI uri) -> {
+            (final IRI uri) -> {
                 String ns = uri.getNamespace();
                 String name = uri.getLocalName();
                 boolean rewriteName = false;
@@ -184,16 +183,16 @@ public class Converter {
                         name = "a" + name.charAt(name.length() - 1);
                     }
                 }
-                return Statements.VALUE_FACTORY.createURI(ns, name);
+                return Statements.VALUE_FACTORY.createIRI(ns, name);
             });
 
-    private static final Set<URI> IGNORABLE_TERMS = ImmutableSet.of( //
-            new URIImpl("http://www.newsreader-project.eu/ontologies/propbank/adv"), //
-            new URIImpl("http://www.newsreader-project.eu/ontologies/nombank/adv"), //
-            new URIImpl("http://groundedannotationframework.org/gaf#denotedBy"), //
-            new URIImpl("http://www.ontologydesignpatterns.org/ont/fred/pos.owl#boxerpos"), //
-            new URIImpl("http://ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes"), //
-            new URIImpl("http://ontologydesignpatterns.org/cp/owl/semiotics.owl#hasInterpretant"), //
+    private static final Set<IRI> IGNORABLE_TERMS = ImmutableSet.of( //
+            Statements.VALUE_FACTORY.createIRI("http://www.newsreader-project.eu/ontologies/propbank/adv"), //
+            Statements.VALUE_FACTORY.createIRI("http://www.newsreader-project.eu/ontologies/nombank/adv"), //
+            Statements.VALUE_FACTORY.createIRI("http://groundedannotationframework.org/gaf#denotedBy"), //
+            Statements.VALUE_FACTORY.createIRI("http://www.ontologydesignpatterns.org/ont/fred/pos.owl#boxerpos"), //
+            Statements.VALUE_FACTORY.createIRI("http://ontologydesignpatterns.org/cp/owl/semiotics.owl#denotes"), //
+            Statements.VALUE_FACTORY.createIRI("http://ontologydesignpatterns.org/cp/owl/semiotics.owl#hasInterpretant"), //
             NIF.OFFSET_BASED_STRING, NIF.BEGIN_INDEX, NIF.END_INDEX, NIF.REFERENCE_CONTEXT);
 
     private final String creator;
@@ -202,12 +201,12 @@ public class Converter {
 
     private final TupleExpr nodeQuery;
 
-    private final Function<URI, URI> uriRewriter;
+    private final Function<IRI, IRI> uriRewriter;
 
     private final TupleExpr[] expandQueries;
 
     public Converter(final String creator, final String textQuery, final String nodeQuery,
-            @Nullable final Function<URI, URI> uriRewriter, final String... expandQueries) {
+            @Nullable final Function<IRI, IRI> uriRewriter, final String... expandQueries) {
         this.creator = Objects.requireNonNull(creator);
         this.textQuery = Util.parse(textQuery);
         this.nodeQuery = Util.parse(nodeQuery);
@@ -224,22 +223,22 @@ public class Converter {
         final ValueFactory vf = Statements.VALUE_FACTORY;
         final QuadModel result = QuadModel.create();
 
-        final Map<URI, Sentence> sentences = new HashMap<>();
+        final Map<IRI, Sentence> sentences = new HashMap<>();
         for (final BindingSet binding : Util.query(model, this.textQuery)) {
-            final URI uri = vf.createURI(((URI) binding.getValue("uri")).getNamespace());
+            final IRI uri = vf.createIRI(((IRI) binding.getValue("uri")).getNamespace());
             final String text = binding.getValue("text").stringValue().trim();
             sentences.put(uri, new Sentence(text));
         }
 
-        final Map<Value, URI> nodeSentences = Maps.newHashMap();
+        final Map<Value, IRI> nodeSentences = Maps.newHashMap();
         final Multimap<Value, String> nodeTerms = HashMultimap.create();
         for (final BindingSet binding : Util.query(model, this.nodeQuery)) {
-            final URI node = (URI) binding.getValue("node");
-            final URI head = (URI) binding.getValue("head");
-            URI sentenceURI = (URI) binding.getValue("sentence");
-            sentenceURI = sentenceURI != null ? vf.createURI(sentenceURI.getNamespace()) : vf
-                    .createURI(node.getNamespace());
-            final Sentence sentence = sentences.get(sentenceURI);
+            final IRI node = (IRI) binding.getValue("node");
+            final IRI head = (IRI) binding.getValue("head");
+            IRI sentenceIRI = (IRI) binding.getValue("sentence");
+            sentenceIRI = sentenceIRI != null ? vf.createIRI(sentenceIRI.getNamespace()) : vf
+                    .createIRI(node.getNamespace());
+            final Sentence sentence = sentences.get(sentenceIRI);
             final String term;
             if (head != null) {
                 term = sentence.getTerm(head.getLocalName());
@@ -249,7 +248,7 @@ public class Converter {
                 term = sentence.getTerm(begin, end);
             }
             nodeTerms.put(node, term);
-            nodeSentences.put(node, sentenceURI);
+            nodeSentences.put(node, sentenceIRI);
         }
 
         final Set<Statement> splittingStmts = Sets.newHashSet();
@@ -259,27 +258,27 @@ public class Converter {
             }
         }
 
-        for (final Map.Entry<URI, Sentence> entry : sentences.entrySet()) {
-            final URI sentenceURI = entry.getKey();
-            final URI graphURI = vf.createURI(sentenceURI + "graph_" + this.creator);
-            result.add(sentenceURI, RDF.TYPE, EVAL.SENTENCE, EVAL.METADATA);
-            result.add(sentenceURI, RDFS.LABEL, vf.createLiteral(entry.getValue().getText()),
+        for (final Map.Entry<IRI, Sentence> entry : sentences.entrySet()) {
+            final IRI sentenceIRI = entry.getKey();
+            final IRI graphIRI = vf.createIRI(sentenceIRI + "graph_" + this.creator);
+            result.add(sentenceIRI, RDF.TYPE, EVAL.SENTENCE, EVAL.METADATA);
+            result.add(sentenceIRI, RDFS.LABEL, vf.createLiteral(entry.getValue().getText()),
                     EVAL.METADATA);
-            result.add(graphURI, RDF.TYPE, EVAL.KNOWLEDGE_GRAPH, EVAL.METADATA);
-            result.add(graphURI, DCTERMS.SOURCE, sentenceURI, EVAL.METADATA);
-            result.add(graphURI, DCTERMS.CREATOR, vf.createLiteral(this.creator), EVAL.METADATA);
+            result.add(graphIRI, RDF.TYPE, EVAL.KNOWLEDGE_GRAPH, EVAL.METADATA);
+            result.add(graphIRI, DCTERMS.SOURCE, sentenceIRI, EVAL.METADATA);
+            result.add(graphIRI, DCTERMS.CREATOR, vf.createLiteral(this.creator), EVAL.METADATA);
         }
 
         for (final Value node : nodeTerms.keySet()) {
-            final URI sentenceURI = nodeSentences.get(node);
-            final URI graphURI = vf.createURI(sentenceURI + "graph_" + this.creator);
+            final IRI sentenceIRI = nodeSentences.get(node);
+            final IRI graphIRI = vf.createIRI(sentenceIRI + "graph_" + this.creator);
             final Collection<String> terms = nodeTerms.get(node);
             for (final String term : terms) {
-                final URI termURI = vf.createURI(sentenceURI + "term_" + term);
-                final URI nodeURI = terms.size() == 1 ? (URI) node : vf.createURI(node + "_"
+                final IRI termIRI = vf.createIRI(sentenceIRI + "term_" + term);
+                final IRI nodeIRI = terms.size() == 1 ? (IRI) node : vf.createIRI(node + "_"
                         + term);
-                result.add(nodeURI, RDF.TYPE, EVAL.NODE, graphURI);
-                result.add(nodeURI, EVAL.DENOTED_BY, termURI, graphURI);
+                result.add(nodeIRI, RDF.TYPE, EVAL.NODE, graphIRI);
+                result.add(nodeIRI, EVAL.DENOTED_BY, termIRI, graphIRI);
             }
         }
 
@@ -289,14 +288,14 @@ public class Converter {
                 final Value s = bindings.getValue("s");
                 final Value p = bindings.getValue("p");
                 final Value o = bindings.getValue("o");
-                if (s instanceof Resource && p instanceof URI && o instanceof Value) {
-                    expanded.add(vf.createStatement((Resource) s, (URI) p, o));
+                if (s instanceof Resource && p instanceof IRI && o instanceof Value) {
+                    expanded.add(vf.createStatement((Resource) s, (IRI) p, o));
                 }
             }
         }
 
         for (final Statement stmt : Iterables.concat(model, expanded)) {
-            URI pred = stmt.getPredicate();
+            IRI pred = stmt.getPredicate();
             Value obj = stmt.getObject();
             if (EVAL.METADATA.equals(stmt.getContext())) {
                 continue;
@@ -308,24 +307,24 @@ public class Converter {
             }
             if (this.uriRewriter != null) {
                 pred = this.uriRewriter.apply(pred);
-                if (pred.equals(RDF.TYPE) && obj instanceof URI) {
-                    obj = this.uriRewriter.apply((URI) obj);
+                if (pred.equals(RDF.TYPE) && obj instanceof IRI) {
+                    obj = this.uriRewriter.apply((IRI) obj);
                 }
             }
             final Collection<String> subjTerms = nodeTerms.get(subj);
             if (!subjTerms.isEmpty()) {
-                final URI sentenceURI = nodeSentences.get(subj);
-                final URI graphURI = vf.createURI(sentenceURI + "graph_" + this.creator);
-                final List<Value> subjURIs = split(subj, subjTerms);
+                final IRI sentenceIRI = nodeSentences.get(subj);
+                final IRI graphIRI = vf.createIRI(sentenceIRI + "graph_" + this.creator);
+                final List<Value> subjIRIs = split(subj, subjTerms);
                 final List<Value> objValues = split(obj, nodeTerms.get(obj));
-                corefer(result, graphURI, subjURIs);
-                corefer(result, graphURI, objValues);
+                corefer(result, graphIRI, subjIRIs);
+                corefer(result, graphIRI, objValues);
                 boolean added = false;
-                final boolean splitting = subjURIs.size() > 1 || objValues.size() > 1;
-                for (final Value subjURI : subjURIs) {
+                final boolean splitting = subjIRIs.size() > 1 || objValues.size() > 1;
+                for (final Value subjIRI : subjIRIs) {
                     for (final Value objValue : objValues) {
-                        final Statement s = vf.createStatement((URI) subjURI, pred, objValue,
-                                graphURI);
+                        final Statement s = vf.createStatement((IRI) subjIRI, pred, objValue,
+                                graphIRI);
                         if (!splitting || splittingStmts.contains(s)) {
                             result.add(s);
                             added = true;
@@ -335,7 +334,7 @@ public class Converter {
                 if (!added) {
                     throw new IllegalArgumentException("Could not split statement: "
                             + vf.createStatement(subj, pred, obj, stmt.getContext()) + "\nsubj: "
-                            + subjURIs + "\nobj: " + objValues);
+                            + subjIRIs + "\nobj: " + objValues);
                 }
             }
         }
@@ -347,19 +346,19 @@ public class Converter {
 
         for (final Resource graphID : model.contexts()) {
 
-            final Map<URI, URI> terms = Maps.newHashMap();
+            final Map<IRI, IRI> terms = Maps.newHashMap();
             for (final Statement stmt : model.filter(null, EVAL.DENOTED_BY, null, graphID)) {
-                terms.put((URI) stmt.getSubject(), (URI) stmt.getObject());
+                terms.put((IRI) stmt.getSubject(), (IRI) stmt.getObject());
             }
 
-            final Set<URI> allPreds = Sets.newHashSet();
-            final Set<URI> nbPreds = Sets.newHashSet();
-            final Set<URI> pbPreds = Sets.newHashSet();
+            final Set<IRI> allPreds = Sets.newHashSet();
+            final Set<IRI> nbPreds = Sets.newHashSet();
+            final Set<IRI> pbPreds = Sets.newHashSet();
             for (final Statement stmt : model.filter(null, RDF.TYPE, null, graphID)) {
-                if (stmt.getObject() instanceof URI) {
-                    final String ns = ((URI) stmt.getObject()).getNamespace();
+                if (stmt.getObject() instanceof IRI) {
+                    final String ns = ((IRI) stmt.getObject()).getNamespace();
                     if (isFrameNS(ns)) {
-                        final URI pred = (URI) stmt.getSubject();
+                        final IRI pred = (IRI) stmt.getSubject();
                         allPreds.add(pred);
                         if (ns.equals("http://pikes.fbk.eu/ontologies/propbank#")) {
                             pbPreds.add(pred);
@@ -370,26 +369,26 @@ public class Converter {
                     }
                 }
             }
-            final Set<URI> nomPreds = Sets.newHashSet();
+            final Set<IRI> nomPreds = Sets.newHashSet();
             nomPreds.addAll(nbPreds);
             nomPreds.addAll(Sets.difference(allPreds, pbPreds));
 
-            for (final URI pred : nomPreds) {
-                final URI predTerm = terms.get(pred);
+            for (final IRI pred : nomPreds) {
+                final IRI predTerm = terms.get(pred);
                 final List<Statement> stmts = Lists.newArrayList(model.filter(pred, null, null,
                         graphID));
-                URI newSubj = pred;
+                IRI newSubj = pred;
                 for (final Statement stmt : stmts) {
-                    final URI argTerm = terms.get(stmt.getObject());
+                    final IRI argTerm = terms.get(stmt.getObject());
                     if (predTerm.equals(argTerm)) {
-                        newSubj = (URI) stmt.getObject();
+                        newSubj = (IRI) stmt.getObject();
                         break;
                     }
                 }
                 for (final Statement stmt : stmts) {
                     final boolean isFrameRole = isFrameNS(stmt.getPredicate().getNamespace());
-                    final boolean isFrameType = !isFrameRole && stmt.getObject() instanceof URI
-                            && isFrameNS(((URI) stmt.getObject()).getNamespace());
+                    final boolean isFrameType = !isFrameRole && stmt.getObject() instanceof IRI
+                            && isFrameNS(((IRI) stmt.getObject()).getNamespace());
                     if (isFrameRole && !newSubj.equals(stmt.getObject())) {
                         model.add(newSubj, DUL_ASSOCIATED_WITH, stmt.getObject(), graphID);
                     }
@@ -414,7 +413,7 @@ public class Converter {
         } else {
             final List<Value> values = Lists.newArrayListWithCapacity(terms.size());
             for (final String term : terms) {
-                values.add(Statements.VALUE_FACTORY.createURI(value + "_" + term));
+                values.add(Statements.VALUE_FACTORY.createIRI(value + "_" + term));
             }
             return ImmutableList.copyOf(values);
         }
@@ -472,7 +471,7 @@ public class Converter {
             // Read the input
             final Map<String, String> namespaces = Maps.newHashMap();
             final QuadModel input = QuadModel.create();
-            RDFSources.read(false, false, null, null,
+            RDFSources.read(false, false, null, null, null, true,
                     inputFiles.toArray(new String[inputFiles.size()])).emit(
                     RDFHandlers.wrap(input, namespaces), 1);
 
@@ -523,8 +522,8 @@ public class Converter {
     }
 
     private static void collectNS(final Collection<String> ns, @Nullable final Value value) {
-        if (value instanceof URI) {
-            ns.add(((URI) value).getNamespace());
+        if (value instanceof IRI) {
+            ns.add(((IRI) value).getNamespace());
         }
     }
 

@@ -17,7 +17,9 @@ import javax.xml.transform.stream.StreamResult;
 
 import com.google.common.collect.Sets;
 
-import org.openrdf.model.impl.URIImpl;
+import eu.fbk.rdfpro.util.Statements;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.impl.URIImpl;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -93,7 +95,7 @@ public class ConvertNafDocumentsToXml {
 					sentenceElement.setAttribute("id", "" + id++);
 				}
 				else {
-					URIImpl uri = new URIImpl(document.getPublic().uri);
+					IRI uri = Statements.VALUE_FACTORY.createIRI(document.getPublic().uri);
 					sentenceElement.setAttribute("id", uri.getLocalName());
 				}
 

@@ -2,15 +2,15 @@ package eu.fbk.dkm.pikes.rdf.util;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import eu.fbk.utils.vocab.OWLTIME;
+import eu.fbk.dkm.pikes.rdf.vocab.OWLTIME;
 import eu.fbk.rdfpro.util.Statements;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.model.vocabulary.RDFS;
-import org.openrdf.rio.RDFHandler;
-import org.openrdf.rio.RDFHandlerException;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.vocabulary.RDFS;
+import org.eclipse.rdf4j.rio.RDFHandler;
+import org.eclipse.rdf4j.rio.RDFHandlerException;
 
 import javax.annotation.Nullable;
 import java.util.Calendar;
@@ -32,7 +32,7 @@ public class OWLTime {
                 : value == -1 ? "XX" : String.format("%02d", value);
     }
 
-    private static void emit(final RDFHandler handler, final Resource subj, final URI pred,
+    private static void emit(final RDFHandler handler, final Resource subj, final IRI pred,
             final Object obj, final Resource ctx) throws RDFHandlerException {
         final Value o = Statements.convert(obj, Value.class);
         if (subj != null && pred != null && o != null) {
@@ -255,29 +255,29 @@ public class OWLTime {
             return Objects.hash(this.begin, this.end);
         }
 
-        public URI toRDF(final RDFHandler handler, final String namespace, final Resource ctx)
+        public IRI toRDF(final RDFHandler handler, final String namespace, final Resource ctx)
                 throws RDFHandlerException {
-            final URI uri = toURI(namespace);
+            final IRI iri = toIRI(namespace);
             if (isDateTimeInterval()) {
-                final URI uriDesc = this.begin.toRDF(handler, namespace, ctx);
-                emit(handler, uri, OWLTIME.HAS_DATE_TIME_DESCRIPTION, uriDesc, ctx);
-                emit(handler, uri, RDF.TYPE, OWLTIME.DATE_TIME_INTERVAL, ctx);
+                final IRI iriDesc = this.begin.toRDF(handler, namespace, ctx);
+                emit(handler, iri, OWLTIME.HAS_DATE_TIME_DESCRIPTION, iriDesc, ctx);
+                emit(handler, iri, RDF.TYPE, OWLTIME.DATE_TIME_INTERVAL, ctx);
             } else {
-                final URI beginURI = this.begin == null ? null : create(this.begin).toRDF(handler,
+                final IRI beginIRI = this.begin == null ? null : create(this.begin).toRDF(handler,
                         namespace, ctx);
-                final URI endURI = this.end == null ? null : create(this.end).toRDF(handler,
+                final IRI endIRI = this.end == null ? null : create(this.end).toRDF(handler,
                         namespace, ctx);
-                emit(handler, uri, OWLTIME.INTERVAL_STARTED_BY, beginURI, ctx);
-                emit(handler, uri, OWLTIME.INTERVAL_FINISHED_BY, endURI, ctx);
+                emit(handler, iri, OWLTIME.INTERVAL_STARTED_BY, beginIRI, ctx);
+                emit(handler, iri, OWLTIME.INTERVAL_FINISHED_BY, endIRI, ctx);
             }
-            emit(handler, uri, RDF.TYPE, OWLTIME.PROPER_INTERVAL, ctx);
-            emit(handler, uri, RDFS.LABEL, toString(), ctx);
-            return uri;
+            emit(handler, iri, RDF.TYPE, OWLTIME.PROPER_INTERVAL, ctx);
+            emit(handler, iri, RDFS.LABEL, toString(), ctx);
+            return iri;
         }
 
-        public URI toURI(final String namespace) {
+        public IRI toIRI(final String namespace) {
             final String localName = toString().replace(" - ", "_").replace(':', '.');
-            return Statements.VALUE_FACTORY.createURI(namespace, localName);
+            return Statements.VALUE_FACTORY.createIRI(namespace, localName);
         }
 
         @Override
@@ -415,68 +415,68 @@ public class OWLTime {
                     this.minute, this.second);
         }
 
-        public URI toRDF(final RDFHandler handler, final String namespace,
+        public IRI toRDF(final RDFHandler handler, final String namespace,
                 @Nullable final Resource ctx) throws RDFHandlerException {
 
             // TODO: this implementation allows for missing fields: should we allow them?
 
             // Emit RDF
-            final URI uri = toURI(namespace);
-            URI unitType = null;
-            emit(handler, uri, RDF.TYPE, OWLTIME.DATE_TIME_DESCRIPTION, ctx);
+            final IRI iri = toIRI(namespace);
+            IRI unitType = null;
+            emit(handler, iri, RDF.TYPE, OWLTIME.DATE_TIME_DESCRIPTION, ctx);
             if (this.year != -1) {
-                emit(handler, uri, OWLTIME.YEAR, this.year, ctx);
+                emit(handler, iri, OWLTIME.YEAR, this.year, ctx);
                 unitType = OWLTIME.UNIT_YEAR;
             }
             if (this.month != -1) {
-                emit(handler, uri, OWLTIME.MONTH, this.month, ctx);
+                emit(handler, iri, OWLTIME.MONTH, this.month, ctx);
                 unitType = OWLTIME.UNIT_MONTH;
             }
             if (this.week != -1) {
-                emit(handler, uri, OWLTIME.WEEK, this.week, ctx);
+                emit(handler, iri, OWLTIME.WEEK, this.week, ctx);
                 unitType = OWLTIME.UNIT_WEEK;
             }
             if (this.day != -1) {
-                emit(handler, uri, OWLTIME.DAY, this.day, ctx);
+                emit(handler, iri, OWLTIME.DAY, this.day, ctx);
                 unitType = OWLTIME.UNIT_DAY;
             }
             if (this.dayOfWeek != -1) {
-                URI dayURI;
+                IRI dayIRI;
                 if (this.dayOfWeek == Calendar.MONDAY) {
-                    dayURI = OWLTIME.MONDAY;
+                    dayIRI = OWLTIME.MONDAY;
                 } else if (this.dayOfWeek == Calendar.TUESDAY) {
-                    dayURI = OWLTIME.TUESDAY;
+                    dayIRI = OWLTIME.TUESDAY;
                 } else if (this.dayOfWeek == Calendar.WEDNESDAY) {
-                    dayURI = OWLTIME.WEDNESDAY;
+                    dayIRI = OWLTIME.WEDNESDAY;
                 } else if (this.dayOfWeek == Calendar.THURSDAY) {
-                    dayURI = OWLTIME.THURSDAY;
+                    dayIRI = OWLTIME.THURSDAY;
                 } else if (this.dayOfWeek == Calendar.FRIDAY) {
-                    dayURI = OWLTIME.FRIDAY;
+                    dayIRI = OWLTIME.FRIDAY;
                 } else if (this.dayOfWeek == Calendar.SATURDAY) {
-                    dayURI = OWLTIME.SATURDAY;
+                    dayIRI = OWLTIME.SATURDAY;
                 } else {
-                    dayURI = OWLTIME.SUNDAY;
+                    dayIRI = OWLTIME.SUNDAY;
                 }
-                emit(handler, uri, OWLTIME.DAY_OF_WEEK, dayURI, ctx);
+                emit(handler, iri, OWLTIME.DAY_OF_WEEK, dayIRI, ctx);
             }
             if (this.hour != -1) {
-                emit(handler, uri, OWLTIME.HOUR, this.hour, ctx);
+                emit(handler, iri, OWLTIME.HOUR, this.hour, ctx);
                 unitType = OWLTIME.UNIT_HOUR;
             }
             if (this.minute != -1) {
-                emit(handler, uri, OWLTIME.MINUTE, this.minute, ctx);
+                emit(handler, iri, OWLTIME.MINUTE, this.minute, ctx);
                 unitType = OWLTIME.UNIT_MINUTE;
             }
             if (this.second != -1) {
-                emit(handler, uri, OWLTIME.SECOND, this.second, ctx);
+                emit(handler, iri, OWLTIME.SECOND, this.second, ctx);
                 unitType = OWLTIME.UNIT_SECOND;
             }
-            emit(handler, uri, OWLTIME.UNIT_TYPE, unitType, ctx);
-            return uri;
+            emit(handler, iri, OWLTIME.UNIT_TYPE, unitType, ctx);
+            return iri;
         }
 
-        public URI toURI(final String namespace) {
-            return Statements.VALUE_FACTORY.createURI(namespace, toString().replace(':', '.')
+        public IRI toIRI(final String namespace) {
+            return Statements.VALUE_FACTORY.createIRI(namespace, toString().replace(':', '.')
                     + "_desc");
         }
 
@@ -673,37 +673,37 @@ public class OWLTime {
                     this.minutes, this.seconds);
         }
 
-        public URI toRDF(final RDFHandler handler, final String namespace,
+        public IRI toRDF(final RDFHandler handler, final String namespace,
                 @Nullable final Resource ctx) throws RDFHandlerException {
-            final URI uri = toURI(namespace);
-            emit(handler, uri, RDF.TYPE, OWLTIME.DURATION_DESCRIPTION, ctx);
+            final IRI iri = toIRI(namespace);
+            emit(handler, iri, RDF.TYPE, OWLTIME.DURATION_DESCRIPTION, ctx);
             if (this.years > 0) {
-                emit(handler, uri, OWLTIME.YEARS, this.years, ctx);
+                emit(handler, iri, OWLTIME.YEARS, this.years, ctx);
             }
             if (this.months > 0) {
-                emit(handler, uri, OWLTIME.MONTHS, this.months, ctx);
+                emit(handler, iri, OWLTIME.MONTHS, this.months, ctx);
             }
             if (this.weeks > 0) {
-                emit(handler, uri, OWLTIME.WEEKS, this.weeks, ctx);
+                emit(handler, iri, OWLTIME.WEEKS, this.weeks, ctx);
             }
             if (this.days > 0) {
-                emit(handler, uri, OWLTIME.YEARS, this.days, ctx);
+                emit(handler, iri, OWLTIME.YEARS, this.days, ctx);
             }
             if (this.hours > 0) {
-                emit(handler, uri, OWLTIME.HOURS, this.hours, ctx);
+                emit(handler, iri, OWLTIME.HOURS, this.hours, ctx);
             }
             if (this.minutes > 0) {
-                emit(handler, uri, OWLTIME.MINUTES, this.minutes, ctx);
+                emit(handler, iri, OWLTIME.MINUTES, this.minutes, ctx);
             }
             if (this.seconds > 0) {
-                emit(handler, uri, OWLTIME.SECONDS, this.seconds, ctx);
+                emit(handler, iri, OWLTIME.SECONDS, this.seconds, ctx);
             }
-            emit(handler, uri, RDFS.LABEL, toString(), ctx);
-            return uri;
+            emit(handler, iri, RDFS.LABEL, toString(), ctx);
+            return iri;
         }
 
-        public URI toURI(final String namespace) {
-            return Statements.VALUE_FACTORY.createURI(namespace, toString() + "_desc");
+        public IRI toIRI(final String namespace) {
+            return Statements.VALUE_FACTORY.createIRI(namespace, toString() + "_desc");
         }
 
         @Override

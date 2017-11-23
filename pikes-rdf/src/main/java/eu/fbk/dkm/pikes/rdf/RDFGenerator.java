@@ -33,23 +33,21 @@ import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.io.Files;
 
-import org.openrdf.model.BNode;
-import org.openrdf.model.Literal;
-import org.openrdf.model.Model;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.ValueFactory;
-import org.openrdf.model.impl.LinkedHashModel;
-import org.openrdf.model.impl.ValueFactoryImpl;
-import org.openrdf.model.vocabulary.DCTERMS;
-import org.openrdf.model.vocabulary.FOAF;
-import org.openrdf.model.vocabulary.OWL;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.model.vocabulary.RDFS;
-import org.openrdf.rio.RDFHandler;
-import org.openrdf.rio.RDFHandlerException;
+import eu.fbk.dkm.pikes.rdf.vocab.*;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.model.Model;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.LinkedHashModel;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.model.impl.ValueFactoryImpl;
+import org.eclipse.rdf4j.model.vocabulary.*;
+import org.eclipse.rdf4j.rio.RDFHandler;
+import org.eclipse.rdf4j.rio.RDFHandlerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -84,14 +82,6 @@ import eu.fbk.dkm.pikes.resources.Sumo;
 import eu.fbk.dkm.pikes.resources.WordNet;
 import eu.fbk.dkm.pikes.resources.YagoTaxonomy;
 import eu.fbk.utils.svm.Util;
-import eu.fbk.utils.vocab.GAF;
-import eu.fbk.utils.vocab.GR;
-import eu.fbk.utils.vocab.KS;
-import eu.fbk.utils.vocab.NIF;
-import eu.fbk.utils.vocab.NWR;
-import eu.fbk.utils.vocab.OWLTIME;
-import eu.fbk.utils.vocab.SEM;
-import eu.fbk.utils.vocab.SUMO;
 import eu.fbk.rdfpro.RDFHandlers;
 import eu.fbk.rdfpro.RDFProcessors;
 import eu.fbk.rdfpro.RDFSource;
@@ -110,7 +100,7 @@ public final class RDFGenerator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RDFGenerator.class);
 
-    private static final ValueFactory FACTORY = ValueFactoryImpl.getInstance();
+    private static final ValueFactory FACTORY = SimpleValueFactory.getInstance();
 
     //todo adapta to UD
     private static final String MODIFIER_REGEX = "(NMOD|AMOD|TMP|LOC|TITLE) PMOD? (COORD CONJ?)* PMOD?";
@@ -119,8 +109,8 @@ public final class RDFGenerator {
     private static final String PARTICIPATION_REGEX = ""
             + "SUB? (COORD CONJ?)* (PMOD (COORD CONJ?)*)? ((VC OPRD?)|(IM OPRD?))*";
 
-    private static final Multimap<String, URI> DEFAULT_TYPE_MAP = ImmutableMultimap
-            .<String, URI>builder() //
+    private static final Multimap<String, IRI> DEFAULT_TYPE_MAP = ImmutableMultimap
+            .<String, IRI>builder() //
             .put("entity.person", NWR.PERSON) //
             .put("entity.organization", NWR.ORGANIZATION) //
             .put("entity.location", NWR.LOCATION) //
@@ -148,13 +138,13 @@ public final class RDFGenerator {
             // TODO: change this namespace
             .put("syn", "http://wordnet-rdf.princeton.edu/wn30/")
             // TODO .put("conn", "http://www.newsreader-project.eu/conn/")
-            .put("sumo", Sumo.NAMESPACE).put("yago", YagoTaxonomy.NAMESPACE).build();
+            .put("sumo", SUMO.NAMESPACE).put("yago", YagoTaxonomy.NAMESPACE).build();
 
     private static final String DEFAULT_OWLTIME_NAMESPACE = "http://www.newsreader-project.eu/time/";
 
     public static final RDFGenerator DEFAULT = RDFGenerator.builder().build();
 
-    private final Multimap<String, URI> typeMap;
+    private final Multimap<String, IRI> typeMap;
 
     private final Map<String, String> namespaceMap;
 
@@ -205,8 +195,8 @@ public final class RDFGenerator {
             }
         }
 
-        final String baseURI = document.getPublic().uri;
-        new Extractor(baseURI, handler, document, ids).run();
+        final String baseIRI = document.getPublic().uri;
+        new Extractor(baseIRI, handler, document, ids).run();
     }
 
     public static Builder builder() {
@@ -216,10 +206,10 @@ public final class RDFGenerator {
     public static final class Builder {
 
         @Nullable
-        private Multimap<String, URI> typeMap;
+        private Multimap<String, IRI> typeMap;
 
         @Nullable
-        private Multimap<String, URI> propertyMap;
+        private Multimap<String, IRI> propertyMap;
 
         @Nullable
         private Map<String, String> namespaceMap;
@@ -259,12 +249,12 @@ public final class RDFGenerator {
             return this;
         }
 
-        public Builder withTypeMap(@Nullable final Multimap<String, URI> typeMap) {
+        public Builder withTypeMap(@Nullable final Multimap<String, IRI> typeMap) {
             this.typeMap = typeMap;
             return this;
         }
 
-        public Builder withPropertyMap(@Nullable final Multimap<String, URI> propertyMap) {
+        public Builder withPropertyMap(@Nullable final Multimap<String, IRI> propertyMap) {
             this.propertyMap = propertyMap;
             return this;
         }
@@ -455,17 +445,17 @@ public final class RDFGenerator {
 
     private final class Extractor {
 
-        private final String baseURI;
+        private final String baseIRI;
 
         private final RDFHandler handler;
 
         private final QuadModel statements;
 
-        private final BiMap<String, String> mintedURIs;
+        private final BiMap<String, String> mintedIRIs;
 
         private final KAFDocument document;
 
-        private final URI documentURI;
+        private final IRI documentIRI;
 
         private final boolean[] sentenceIDs;
 
@@ -473,15 +463,15 @@ public final class RDFGenerator {
 
         private final Map<String, Annotation> annotations;
 
-        public Extractor(final String baseURI, final RDFHandler handler,
+        public Extractor(final String baseIRI, final RDFHandler handler,
                 final KAFDocument document, final boolean[] sentenceIDs) {
 
-            this.baseURI = baseURI;
+            this.baseIRI = baseIRI;
             this.handler = handler;
             this.statements = QuadModel.create();
-            this.mintedURIs = HashBiMap.create();
+            this.mintedIRIs = HashBiMap.create();
             this.document = document;
-            this.documentURI = FACTORY.createURI(Util.cleanIRI(document.getPublic().uri));
+            this.documentIRI = FACTORY.createIRI(Util.cleanIRI(document.getPublic().uri));
             this.sentenceIDs = sentenceIDs;
 
             final StringBuilder builder = new StringBuilder();
@@ -592,7 +582,7 @@ public final class RDFGenerator {
 
             // 5. Process <term> acting as modifiers; must be done after 1, 2, 3
             for (final Annotation ann : this.annotations.values()) {
-                final URI uri = ann.predicateURI != null ? ann.predicateURI : ann.objectURI;
+                final IRI uri = ann.predicateIRI != null ? ann.predicateIRI : ann.objectIRI;
                 if (uri != null) {
                     final Set<Term> forbiddenTerms = Sets.newHashSet();
                     final List<Coref> corefs = this.document.getCorefsByTerm(ann.head);
@@ -617,8 +607,8 @@ public final class RDFGenerator {
                                 LOGGER.error(
                                         "Error processing MODIFIER " + NAFUtils.toString(term)
                                                 + " of " + NAFUtils.toString(ann.head)
-                                                + " (object URI " + ann.objectURI
-                                                + "; predicate URI " + ann.predicateURI + ")", ex);
+                                                + " (object IRI " + ann.objectIRI
+                                                + "; predicate IRI " + ann.predicateIRI + ")", ex);
                             }
                         }
                     }
@@ -686,12 +676,12 @@ public final class RDFGenerator {
                         final Annotation predicateAnn = this.annotations.get(corefPredicateHeads
                                 .iterator().next().getId());
                         if (predicateAnn != null && entityAnn != null
-                                && predicateAnn.predicateURI != null
-                                && predicateAnn.objectURI != null && entityAnn.objectURI != null) {
-                            final URI mentionURI = emitMention(Iterables.concat(
+                                && predicateAnn.predicateIRI != null
+                                && predicateAnn.objectIRI != null && entityAnn.objectIRI != null) {
+                            final IRI mentionIRI = emitMention(Iterables.concat(
                                     predicateAnn.extent, entityAnn.extent));
-                            emitFact(predicateAnn.objectURI, OWL.SAMEAS, entityAnn.objectURI,
-                                    mentionURI, null);
+                            emitFact(predicateAnn.objectIRI, OWL.SAMEAS, entityAnn.objectIRI,
+                                    mentionIRI, null);
                         }
                     }
                 }
@@ -728,28 +718,28 @@ public final class RDFGenerator {
 
         private void processMetadata() throws RDFHandlerException {
 
-            // Obtain URIs of document and NAF resources
-            final URI docURI = this.documentURI;
-            final URI nafURI = FACTORY.createURI(docURI.stringValue() + ".naf");
+            // Obtain IRIs of document and NAF resources
+            final IRI docIRI = this.documentIRI;
+            final IRI nafIRI = FACTORY.createIRI(docIRI.stringValue() + ".naf");
 
             // Emit document types
-            emitMeta(docURI, RDF.TYPE, new URI[] { KS.RESOURCE, KS.TEXT });
+            emitMeta(docIRI, RDF.TYPE, new IRI[] { KS_OLD.RESOURCE, KS_OLD.TEXT });
 
             // Emit title, author and DCT from the <fileDesc> element, if present
             if (this.document.getFileDesc() != null) {
                 final FileDesc fd = this.document.getFileDesc();
-                emitMeta(docURI, DCTERMS.TITLE, fd.title);
-                emitMeta(docURI, DCTERMS.CREATOR, fd.author);
-                emitMeta(docURI, DCTERMS.CREATED, fd.creationtime);
-                emitMeta(docURI, KS.NAF_FILE_NAME, fd.filename);
-                emitMeta(docURI, KS.NAF_FILE_TYPE, fd.filetype);
-                emitMeta(docURI, KS.NAF_PAGES, fd.pages);
+                emitMeta(docIRI, DCTERMS.TITLE, fd.title);
+                emitMeta(docIRI, DCTERMS.CREATOR, fd.author);
+                emitMeta(docIRI, DCTERMS.CREATED, fd.creationtime);
+                emitMeta(docIRI, KS_OLD.NAF_FILE_NAME, fd.filename);
+                emitMeta(docIRI, KS_OLD.NAF_FILE_TYPE, fd.filetype);
+                emitMeta(docIRI, KS_OLD.NAF_PAGES, fd.pages);
             }
 
             // Emit the document language, if available
             if (this.document.getLang() != null) {
-                emitMeta(docURI, DCTERMS.LANGUAGE,
-                        ModelUtil.languageCodeToURI(this.document.getLang()));
+                emitMeta(docIRI, DCTERMS.LANGUAGE,
+                        ModelUtil.languageCodeToIRI(this.document.getLang()));
             }
 
             // Emit an hash of the whitespace-normalized raw text, if available
@@ -769,24 +759,24 @@ public final class RDFGenerator {
                         builder.append(c);
                     }
                 }
-                emitMeta(docURI, KS.TEXT_HASH, Hash.murmur3(builder.toString()).toString());
+                emitMeta(docIRI, KS_OLD.TEXT_HASH, Hash.murmur3(builder.toString()).toString());
             }
 
             // Link document to its NAF annotation
-            emitMeta(docURI, KS.ANNOTATED_WITH, nafURI);
-            emitMeta(nafURI, KS.ANNOTATION_OF, docURI);
+            emitMeta(docIRI, KS_OLD.ANNOTATED_WITH, nafIRI);
+            emitMeta(nafIRI, KS_OLD.ANNOTATION_OF, docIRI);
 
             // Emit types, version and publicId of NAF resource
-            emitMeta(nafURI, RDF.TYPE, new URI[] { KS.RESOURCE, KS.NAF });
-            emitMeta(nafURI, KS.VERSION, this.document.getVersion());
-            emitMeta(nafURI, DCTERMS.IDENTIFIER, this.document.getPublic().publicId);
+            emitMeta(nafIRI, RDF.TYPE, new IRI[] { KS_OLD.RESOURCE, KS_OLD.NAF });
+            emitMeta(nafIRI, KS_OLD.VERSION, this.document.getVersion());
+            emitMeta(nafIRI, DCTERMS.IDENTIFIER, this.document.getPublic().publicId);
 
             // Emit information about linguistic processors: dct:created, dct:creatro, ego:layer
             String timestamp = null;
             for (final Map.Entry<String, List<LinguisticProcessor>> entry : this.document
                     .getLinguisticProcessors().entrySet()) {
-                emitMeta(nafURI, KS.LAYER,
-                        FACTORY.createURI(KS.NAMESPACE, "layer_" + entry.getKey()));
+                emitMeta(nafIRI, KS_OLD.LAYER,
+                        FACTORY.createIRI(KS_OLD.NAMESPACE, "layer_" + entry.getKey()));
                 for (final LinguisticProcessor lp : entry.getValue()) {
                     if (timestamp == null) {
                         if (!Strings.isNullOrEmpty(lp.getBeginTimestamp())) {
@@ -795,14 +785,14 @@ public final class RDFGenerator {
                             timestamp = lp.getEndTimestamp();
                         }
                     }
-                    final URI lpURI = FACTORY.createURI(ModelUtil.cleanIRI(KS.NAMESPACE
+                    final IRI lpIRI = FACTORY.createIRI(ModelUtil.cleanIRI(KS_OLD.NAMESPACE
                             + lp.getName() + '.' + lp.getVersion()));
-                    emitMeta(nafURI, DCTERMS.CREATOR, lpURI);
-                    emitMeta(lpURI, DCTERMS.TITLE, lp.getName());
-                    emitMeta(lpURI, KS.VERSION, lp.getVersion());
+                    emitMeta(nafIRI, DCTERMS.CREATOR, lpIRI);
+                    emitMeta(lpIRI, DCTERMS.TITLE, lp.getName());
+                    emitMeta(lpIRI, KS_OLD.VERSION, lp.getVersion());
                 }
             }
-            emitMeta(nafURI, DCTERMS.CREATED, timestamp);
+            emitMeta(nafIRI, DCTERMS.CREATED, timestamp);
         }
 
         private void processTimex(final Timex3 timex) throws RDFHandlerException {
@@ -821,23 +811,23 @@ public final class RDFGenerator {
             // Annotate the term (or pickup the existing annotation)
             final Annotation ann = defineAnnotation(head, terms);
 
-            // Abort if cannot annotate (wrong head) or if a URI was already assigned to the term
-            if (ann == null || ann.objectURI != null) {
+            // Abort if cannot annotate (wrong head) or if a IRI was already assigned to the term
+            if (ann == null || ann.objectIRI != null) {
                 return;
             }
 
             // Emit a mention and its triples for the current timex
-            final URI mentionURI = emitMention(terms);
-            emitMeta(mentionURI, RDF.TYPE, KS.TIME_MENTION);
+            final IRI mentionIRI = emitMention(terms);
+            emitMeta(mentionIRI, RDF.TYPE, KS_OLD.TIME_MENTION);
 
             // Emit type specific statements
-            URI timexURI = null;
+            IRI timexIRI = null;
             if (timex.getValue() != null) {
                 if (type.equals("date") || type.equals("time")) {
                     final OWLTime.Interval interval = OWLTime.Interval
                             .parseTimex(timex.getValue());
                     if (interval != null) {
-                        timexURI = interval.toRDF(this.handler,
+                        timexIRI = interval.toRDF(this.handler,
                                 RDFGenerator.this.owltimeNamespace, null);
                     } else {
                         LOGGER.debug("Could not represent date/time value '" + timex.getValue()
@@ -847,12 +837,12 @@ public final class RDFGenerator {
                     final OWLTime.Duration duration = OWLTime.Duration
                             .parseTimex(timex.getValue());
                     if (duration != null) {
-                        timexURI = FACTORY.createURI(RDFGenerator.this.owltimeNamespace,
+                        timexIRI = FACTORY.createIRI(RDFGenerator.this.owltimeNamespace,
                                 duration.toString());
-                        final URI durationURI = duration.toRDF(this.handler,
+                        final IRI durationIRI = duration.toRDF(this.handler,
                                 RDFGenerator.this.owltimeNamespace, null);
-                        emitFact(timexURI, OWLTIME.HAS_DURATION_DESCRIPTION, durationURI,
-                                mentionURI, null);
+                        emitFact(timexIRI, OWLTIME.HAS_DURATION_DESCRIPTION, durationIRI,
+                                mentionIRI, null);
                     } else {
                         LOGGER.debug("Could not represent duration value '" + timex.getValue()
                                 + "' of " + NAFUtils.toString(timex));
@@ -863,20 +853,20 @@ public final class RDFGenerator {
                 }
             }
 
-            // Generate a default timex URI on failure
-            if (timexURI == null) {
-                timexURI = mintURI(timex.getId(),
+            // Generate a default timex IRI on failure
+            if (timexIRI == null) {
+                timexIRI = mintIRI(timex.getId(),
                         MoreObjects.firstNonNull(timex.getValue(), timex.getSpan().getStr()));
             }
 
-            // Register the timex URI it in the term annotation and link it to the mention
-            ann.objectURI = timexURI;
-            emitMeta(timexURI, GAF.DENOTED_BY, mentionURI);
+            // Register the timex IRI it in the term annotation and link it to the mention
+            ann.objectIRI = timexIRI;
+            emitMeta(timexIRI, GAF.DENOTED_BY, mentionIRI);
 
             // Emit common attributes based on head and label
-            emitFact(timexURI, RDF.TYPE, ImmutableList.of(KS.ENTITY, KS.TIME, "timex." + type),
-                    mentionURI, null);
-            emitCommonAttributes(timexURI, mentionURI, head, label, true);
+            emitFact(timexIRI, RDF.TYPE, ImmutableList.of(KS_OLD.ENTITY, KS_OLD.TIME, "timex." + type),
+                    mentionIRI, null);
+            emitCommonAttributes(timexIRI, mentionIRI, head, label, true);
         }
 
         private void processEntity(final Entity entity) throws RDFHandlerException {
@@ -889,10 +879,10 @@ public final class RDFGenerator {
                 return;
             }
 
-            // Extract type information (type URI, whether timex or attribute) based on NER tag
+            // Extract type information (type IRI, whether timex or attribute) based on NER tag
             String type = entity.getType();
             type = type == null ? null : type.toLowerCase();
-            // final Collection<URI> typeURIs = RDFGenerator.this.typeMap.get("entity." + type);
+            // final Collection<IRI> typeIRIs = RDFGenerator.this.typeMap.get("entity." + type);
             final boolean isLinked = !entity.getExternalRefs().isEmpty();
             final boolean isProperty = "money".equals(type) || "cardinal".equals(type)
                     || "ordinal".equals(type) || "percent".equals(type) || "language".equals(type)
@@ -910,70 +900,70 @@ public final class RDFGenerator {
             // Annotate the term (or pickup the existing annotation)
             final Annotation ann = defineAnnotation(head, terms);
 
-            // Abort if cannot annotate (wrong head) or if a URI was already assigned to the term
-            if (ann == null || ann.objectURI != null) {
+            // Abort if cannot annotate (wrong head) or if a IRI was already assigned to the term
+            if (ann == null || ann.objectIRI != null) {
                 return;
             }
 
-            // Mint a URI for the entity and register it in the term annotation
-            final URI entityURI;
+            // Mint a IRI for the entity and register it in the term annotation
+            final IRI entityIRI;
             if (!entity.isNamed() || isLinked) {
-                entityURI = mintURI(entity.getId(), entity.isNamed() ? entity.getSpans().get(0)
+                entityIRI = mintIRI(entity.getId(), entity.isNamed() ? entity.getSpans().get(0)
                         .getStr() : head.getLemma());
             } else {
-                entityURI = Statements.VALUE_FACTORY.createURI(Util.cleanIRI("entity:"
+                entityIRI = Statements.VALUE_FACTORY.createIRI(Util.cleanIRI("entity:"
                         + entity.getStr().toLowerCase().replace(' ', '_')));
             }
-            ann.objectURI = entityURI;
+            ann.objectIRI = entityIRI;
 
             // Emit a mention and its triples for the current entity
-            final URI mentionURI = emitMention(terms);
-            emitMeta(entityURI, GAF.DENOTED_BY, mentionURI);
-            emitMeta(mentionURI, RDF.TYPE, KS.ENTITY_MENTION);
+            final IRI mentionIRI = emitMention(terms);
+            emitMeta(entityIRI, GAF.DENOTED_BY, mentionIRI);
+            emitMeta(mentionIRI, RDF.TYPE, KS_OLD.ENTITY_MENTION);
             // if ("person".equals(type)) {
-            // emitMeta(mentionURI, RDF.TYPE, KS.PERSON_MENTION);
+            // emitMeta(mentionIRI, RDF.TYPE, KS_OLD.PERSON_MENTION);
             // } else if ("organization".equals(type)) {
-            // emitMeta(mentionURI, RDF.TYPE, KS.ORGANIZATION_MENTION);
+            // emitMeta(mentionIRI, RDF.TYPE, KS_OLD.ORGANIZATION_MENTION);
             // } else if ("location".equals(type)) {
-            // emitMeta(mentionURI, RDF.TYPE, KS.LOCATION_MENTION);
+            // emitMeta(mentionIRI, RDF.TYPE, KS_OLD.LOCATION_MENTION);
             // } else if (!isProperty) {
-            // emitMeta(mentionURI, RDF.TYPE, KS.MISC_MENTION);
+            // emitMeta(mentionIRI, RDF.TYPE, KS_OLD.MISC_MENTION);
             // }
             if (isProperty) {
-                emitMeta(mentionURI, RDF.TYPE, KS.ATTRIBUTE_MENTION);
+                emitMeta(mentionIRI, RDF.TYPE, KS_OLD.ATTRIBUTE_MENTION);
             }
 
             // Emit common attributes based on head and label
-            emitFact(entityURI, RDF.TYPE, new Object[] { KS.ENTITY, "entity",
-                    type == null ? null : "entity." + type }, mentionURI, null);
+            emitFact(entityIRI, RDF.TYPE, new Object[] { KS_OLD.ENTITY, "entity",
+                    type == null ? null : "entity." + type }, mentionIRI, null);
             if (this.document.getPredicatesByTerm(head).isEmpty()) {
-                emitCommonAttributes(entityURI, mentionURI, head, label, true);
+                emitCommonAttributes(entityIRI, mentionIRI, head, label, true);
             }
 
             // Handle the case the <entity> is an attribute of some anonymous instance
             if (isProperty) {
-                emitEntityAttributes(entity, entityURI, mentionURI);
+                emitEntityAttributes(entity, entityIRI, mentionIRI);
             } else {
 
                 // TODO: originally the following check was enforced
-                //                if (!typeURIs.isEmpty()) {
+                //                if (!typeIRIs.isEmpty()) {
                 //                }
 
                 // Handle the case the <entity> is an ontological instance itself
                 final boolean named = entity.isNamed() || "romanticism".equalsIgnoreCase(label)
                         || "operant conditioning chamber".equalsIgnoreCase(label); // TODO
                 if (named) {
-                    emitFact(entityURI, FOAF.NAME, label, mentionURI, null);
-                    emitMeta(mentionURI, RDF.TYPE, KS.NAME_MENTION);
+                    emitFact(entityIRI, FOAF.NAME, label, mentionIRI, null);
+                    emitMeta(mentionIRI, RDF.TYPE, KS_OLD.NAME_MENTION);
                 }
-                final URI property = named ? OWL.SAMEAS : RDFS.SEEALSO;
+                final IRI property = named ? OWL.SAMEAS : RDFS.SEEALSO;
                 for (final ExternalRef ref : entity.getExternalRefs()) {
                     try {
-                        final URI refURI = FACTORY.createURI(Util.cleanIRI(ref.getReference()));
-                        emitFact(entityURI, property, refURI, mentionURI,
+                        final IRI refIRI = FACTORY.createIRI(Util.cleanIRI(ref.getReference()));
+                        emitFact(entityIRI, property, refIRI, mentionIRI,
                                 (double) ref.getConfidence());
                     } catch (final Throwable ex) {
-                        // ignore: not a URI
+                        // ignore: not a IRI
                     }
                 }
             }
@@ -1003,7 +993,7 @@ public final class RDFGenerator {
             }
 
             // Validate the existing annotation based on expected previous processing
-            if (ann.predicateURI != null) {
+            if (ann.predicateIRI != null) {
                 LOGGER.warn("Already processed: " + NAFUtils.toString(predicate) + "; head is "
                         + NAFUtils.toString(head));
                 return; // this is a problem of the NAF
@@ -1011,7 +1001,7 @@ public final class RDFGenerator {
 
             // Determine whether the predicate admit its own span as an argument
             boolean selfArg = false;
-            if (ann.objectURI != null) {
+            if (ann.objectIRI != null) {
                 for (final Role role : predicate.getRoles()) {
                     selfArg |= head.equals(NAFUtils.extractHead(this.document, role.getSpan()));
                 }
@@ -1021,37 +1011,37 @@ public final class RDFGenerator {
             boolean isEvent = false;
             for (final ExternalRef ref : head.getExternalRefs()) {
                 if ("SUMO".equals(ref.getResource())) {
-                    final URI conceptURI = ValueFactoryImpl.getInstance().createURI(
+                    final IRI conceptIRI = SimpleValueFactory.getInstance().createIRI(
                             SUMO.NAMESPACE, ref.getReference());
-                    if (Sumo.isSubClassOf(conceptURI, SUMO.PROCESS)) {
+                    if (Sumo.isSubClassOf(conceptIRI, SUMO.PROCESS)) {
                         isEvent = true;
                         break;
                     }
                 }
             }
 
-            // Assign a URI to the predicate, possibly reusing the URI of an entity
-            final URI predicateURI = ann.objectURI != null && !selfArg ? ann.objectURI : mintURI(
+            // Assign a IRI to the predicate, possibly reusing the IRI of an entity
+            final IRI predicateIRI = ann.objectIRI != null && !selfArg ? ann.objectIRI : mintIRI(
                     predicate.getId(), head.getLemma());
-            ann.predicateURI = predicateURI;
+            ann.predicateIRI = predicateIRI;
 
             // Emit a mention and its triples (reuse an entity span if possible)
-            URI mentionURI = null;
-            if (predicateURI.equals(ann.objectURI)) {
+            IRI mentionIRI = null;
+            if (predicateIRI.equals(ann.objectIRI)) {
                 for (final Entity entity : this.document.getEntitiesByTerm(head)) {
-                    mentionURI = emitMention(entity.getSpans().get(0).getTargets());
+                    mentionIRI = emitMention(entity.getSpans().get(0).getTargets());
                 }
             } else {
-                mentionURI = emitMention(terms);
+                mentionIRI = emitMention(terms);
             }
-            emitMeta(mentionURI, RDF.TYPE, KS.PREDICATE_MENTION);
-            emitMeta(predicateURI, GAF.DENOTED_BY, mentionURI);
+            emitMeta(mentionIRI, RDF.TYPE, KS_OLD.PREDICATE_MENTION);
+            emitMeta(predicateIRI, GAF.DENOTED_BY, mentionIRI);
 
             // Emit common attributes
-            if (ann.objectURI == null) {
-                emitCommonAttributes(ann.predicateURI, mentionURI, head, label, true);
+            if (ann.objectIRI == null) {
+                emitCommonAttributes(ann.predicateIRI, mentionIRI, head, label, true);
             } else {
-                emitCommonAttributes(ann.objectURI, mentionURI, head, label, !selfArg);
+                emitCommonAttributes(ann.objectIRI, mentionIRI, head, label, !selfArg);
             }
 
             // Process framenet/verbnet/etc external refs
@@ -1059,28 +1049,28 @@ public final class RDFGenerator {
                 if ("".equals(ref.getReference())) {
                     continue;
                 }
-                final URI typeURI = mintRefURI(ref.getResource(), ref.getReference());
-                emitFact(predicateURI, RDF.TYPE, typeURI, mentionURI, null);
+                final IRI typeIRI = mintRefIRI(ref.getResource(), ref.getReference());
+                emitFact(predicateIRI, RDF.TYPE, typeIRI, mentionIRI, null);
                 //                if (ref.getResource().equals(NAFUtils.RESOURCE_FRAMENET)) {
                 //                    for (final String id : FrameNet.getRelatedFrames(true, ref.getReference(),
                 //                            FrameNet.Relation.INHERITS_FROM)) {
-                //                        final URI uri = mintRefURI(NAFUtils.RESOURCE_FRAMENET, id);
-                //                        emitFact(predicateURI, RDF.TYPE, uri, mentionURI, null);
+                //                        final IRI uri = mintRefIRI(NAFUtils.RESOURCE_FRAMENET, id);
+                //                        emitFact(predicateIRI, RDF.TYPE, uri, mentionIRI, null);
                 //                    }
                 //                } else if (ref.getResource().equals(NAFUtils.RESOURCE_VERBNET)) {
                 //                    for (final String id : VerbNet.getSuperClasses(true, ref.getReference())) {
-                //                        final URI uri = mintRefURI(NAFUtils.RESOURCE_VERBNET, id);
-                //                        emitFact(predicateURI, RDF.TYPE, uri, mentionURI, null);
+                //                        final IRI uri = mintRefIRI(NAFUtils.RESOURCE_VERBNET, id);
+                //                        emitFact(predicateIRI, RDF.TYPE, uri, mentionIRI, null);
                 //                    }
                 //                }
             }
 
             // Mark the predicate as sem:Event and associate it the correct ego: type
-            final List<Object> typeKeys = Lists.newArrayList(KS.ENTITY, KS.PREDICATE, SEM.EVENT);
+            final List<Object> typeKeys = Lists.newArrayList(KS_OLD.ENTITY, KS_OLD.PREDICATE, SEM.EVENT);
             if (isEvent) {
                 typeKeys.add(SUMO.PROCESS);
             }
-            emitFact(predicateURI, RDF.TYPE, typeKeys, mentionURI, null);
+            emitFact(predicateIRI, RDF.TYPE, typeKeys, mentionIRI, null);
         }
 
         private void processFactuality(final Factuality factuality) throws RDFHandlerException {
@@ -1092,20 +1082,20 @@ public final class RDFGenerator {
             final Annotation ann = this.annotations.get(term.getId());
 
             // Abort if the annotation is missing or does not refer to a predicate
-            if (ann == null || ann.predicateURI == null) {
+            if (ann == null || ann.predicateIRI == null) {
                 return;
             }
 
             // Emit a mention for the predicate extent
-            final URI mentionURI = emitMention(ann.extent);
+            final IRI mentionIRI = emitMention(ann.extent);
 
             // Emit a triple associating the factuality value to the predicate
             final String value = factuality.getMaxPart().getPrediction();
-            emitFact(ann.predicateURI, KS.FACTUALITY, value, mentionURI, null);
+            emitFact(ann.predicateIRI, KS_OLD.FACTUALITY, value, mentionIRI, null);
         }
 
         private void processModifier(final Term modifierTerm, final Term instanceTerm,
-                final URI instanceURI, final List<Term> instanceExtent) throws RDFHandlerException {
+                final IRI instanceIRI, final List<Term> instanceExtent) throws RDFHandlerException {
 
             // Retrieve POS and <entity> corresponding to the modifier term
             final char pos = Character.toUpperCase(modifierTerm.getPos().charAt(0));
@@ -1119,25 +1109,25 @@ public final class RDFGenerator {
 
             if (ann != null) {
                 // If modifier has been mapped to some other instance, link the two instances
-                final URI otherURI = ann.objectURI != null ? ann.objectURI : ann.predicateURI;
-                if (otherURI != null) {
-                    final URI mentionID = emitMention(Iterables.concat(instanceExtent, ann.extent));
-                    emitFact(instanceURI, KS.MOD, otherURI, mentionID, null);
+                final IRI otherIRI = ann.objectIRI != null ? ann.objectIRI : ann.predicateIRI;
+                if (otherIRI != null) {
+                    final IRI mentionID = emitMention(Iterables.concat(instanceExtent, ann.extent));
+                    emitFact(instanceIRI, KS_OLD.MOD, otherIRI, mentionID, null);
                 }
                 final String path = extractPath(instanceTerm, modifierTerm);
                 if (!Strings.isNullOrEmpty(path)) {
-                    final URI mentionID = emitMention(Iterables.concat(instanceExtent, ann.extent));
-                    final URI property = mintRefURI("conn", path);
-                    emitFact(instanceURI, property, otherURI, mentionID, null);
+                    final IRI mentionID = emitMention(Iterables.concat(instanceExtent, ann.extent));
+                    final IRI property = mintRefIRI("conn", path);
+                    emitFact(instanceIRI, property, otherIRI, mentionID, null);
                 }
 
             } else if (!entities.isEmpty()) {
                 // If modifier is an <entity> for which we didn't create a node, then create
                 // an attribute and attach it to the modified entity
                 final Entity entity = entities.get(0);
-                final URI mentionURI = emitMention(entity.getSpans().get(0).getTargets());
-                emitMeta(mentionURI, RDF.TYPE, KS.ATTRIBUTE_MENTION);
-                emitEntityAttributes(entity, instanceURI, mentionURI);
+                final IRI mentionIRI = emitMention(entity.getSpans().get(0).getTargets());
+                emitMeta(mentionIRI, RDF.TYPE, KS_OLD.ATTRIBUTE_MENTION);
+                emitEntityAttributes(entity, instanceIRI, mentionIRI);
 
             } else if (pos == 'G' || pos == 'A' || pos == 'V') {
                 // WAS AT THE BEGINNING
@@ -1145,25 +1135,25 @@ public final class RDFGenerator {
                 // 'quality' attribute to the modified node
                 final Set<Term> terms = this.document.getTermsByDepAncestors(
                         Collections.singleton(modifierTerm), "(AMOD|NMOD)*");
-                final URI mentionURI = emitMention(terms);
-                final URI expressionURI = emitTerm(modifierTerm);
-                emitFact(instanceURI, KS.MOD, expressionURI, mentionURI, null);
+                final IRI mentionIRI = emitMention(terms);
+                final IRI expressionIRI = emitTerm(modifierTerm);
+                emitFact(instanceIRI, KS_OLD.MOD, expressionIRI, mentionIRI, null);
             }
         }
 
         private void processCoref(final List<Span<Term>> spans) throws RDFHandlerException {
 
             // Build three correlated lists containing, for each member of the coref cluster, its
-            // span, the head terms of instances in the span and the associated URIs
+            // span, the head terms of instances in the span and the associated IRIs
             final List<Span<Term>> corefSpans = Lists.newArrayList();
             final List<List<Term>> corefTerms = Lists.newArrayList();
             final List<List<Term>> corefExtents = Lists.newArrayList();
-            final List<List<URI>> corefURIs = Lists.newArrayList();
+            final List<List<IRI>> corefIRIs = Lists.newArrayList();
             for (final Span<Term> span : spans) {
                 final Term head = NAFUtils.extractHead(this.document, span);
                 if (head != null) {
                     final List<Term> terms = Lists.newArrayList();
-                    final List<URI> uris = Lists.newArrayList();
+                    final List<IRI> uris = Lists.newArrayList();
                     final Set<Term> extent = Sets.newHashSet();
                     for (final Term term : this.document.getTermsByDepAncestors(
                             Collections.singleton(head), "(COORD CONJ?)*")) {
@@ -1171,8 +1161,8 @@ public final class RDFGenerator {
                             continue;
                         }
                         final Annotation ann = this.annotations.get(term.getId());
-                        final URI uri = ann == null ? null : ann.objectURI != null ? ann.objectURI
-                                : ann.predicateURI;
+                        final IRI uri = ann == null ? null : ann.objectIRI != null ? ann.objectIRI
+                                : ann.predicateIRI;
                         if (uri != null) {
                             terms.add(term);
                             uris.add(uri);
@@ -1183,7 +1173,7 @@ public final class RDFGenerator {
                         corefSpans.add(span);
                         corefTerms.add(terms);
                         corefExtents.add(Ordering.natural().immutableSortedCopy(extent));
-                        corefURIs.add(uris);
+                        corefIRIs.add(uris);
                     }
                 }
             }
@@ -1193,68 +1183,68 @@ public final class RDFGenerator {
                 return;
             }
 
-            // Map each coref member to a term / URI pair, possibly grouping coordinated instances
+            // Map each coref member to a term / IRI pair, possibly grouping coordinated instances
             // in a compound instance via a ego:Composition relation
-            final Map<Term, URI> members = Maps.newHashMap();
+            final Map<Term, IRI> members = Maps.newHashMap();
             final Map<Term, Span<Term>> memberSpans = Maps.newHashMap();
             for (int i = 0; i < corefTerms.size(); ++i) {
                 final Span<Term> span = corefSpans.get(i);
                 final List<Term> terms = corefTerms.get(i);
                 final List<Term> extent = corefExtents.get(i);
-                final List<URI> uris = corefURIs.get(i);
+                final List<IRI> uris = corefIRIs.get(i);
                 memberSpans.put(terms.get(0), span);
                 if (terms.size() == 1) {
                     members.put(terms.get(0), uris.get(0));
                 } else {
                     final StringBuilder builder = new StringBuilder();
-                    for (final URI uri : uris) {
+                    for (final IRI uri : uris) {
                         builder.append(builder.length() == 0 ? "" : "_");
                         builder.append(uri.getLocalName());
                     }
-                    final URI compURI = mintURI(builder.toString(), null);
-                    final URI mentionURI = emitMention(extent);
+                    final IRI compIRI = mintIRI(builder.toString(), null);
+                    final IRI mentionIRI = emitMention(extent);
                     // final String label =
                     // NAFUtils.getText(NAFUtils.filterTerms(span.getTargets()));
 
-                    // final URI predURI =
-                    // this.emitter.mintURI(builder.append("_pred").toString(),
+                    // final IRI predIRI =
+                    // this.emitter.mintIRI(builder.append("_pred").toString(),
                     // null);
-                    // this.emitter.emitFact(predURI, RDF.TYPE, new Object[] { KS.THING,
-                    // KS.PREDICATE, SUMO.ENTITY, SEM.EVENT, "predicate.relation",
-                    // KS.COMPOSITION }, mentionURI, null);
-                    // this.emitter.emitFact(compURI, EGO.PLURAL, true, mentionURI, null);
-                    // this.emitter.emitMeta(mentionURI, RDF.TYPE, KS.PREDICATE_MENTION);
+                    // this.emitter.emitFact(predIRI, RDF.TYPE, new Object[] { KS_OLD.THING,
+                    // KS_OLD.PREDICATE, SUMO.ENTITY, SEM.EVENT, "predicate.relation",
+                    // KS_OLD.COMPOSITION }, mentionIRI, null);
+                    // this.emitter.emitFact(compIRI, EGO.PLURAL, true, mentionIRI, null);
+                    // this.emitter.emitMeta(mentionIRI, RDF.TYPE, KS_OLD.PREDICATE_MENTION);
 
-                    emitFact(compURI, RDF.TYPE, new Object[] { KS.ENTITY }, mentionURI, null);
-                    // emitFact(compURI, RDFS.LABEL, label, mentionURI, null);
-                    // emitMeta(mentionURI, RDF.TYPE, KS.MISC_MENTION);
+                    emitFact(compIRI, RDF.TYPE, new Object[] { KS_OLD.ENTITY }, mentionIRI, null);
+                    // emitFact(compIRI, RDFS.LABEL, label, mentionIRI, null);
+                    // emitMeta(mentionIRI, RDF.TYPE, KS_OLD.MISC_MENTION);
 
-                    // emitMeta(compURI, GAF.DENOTED_BY, mentionURI);
+                    // emitMeta(compIRI, GAF.DENOTED_BY, mentionIRI);
 
-                    // this.emitter.emitFact(predURI, KS.COMPOSITE, compURI, mentionURI, null);
+                    // this.emitter.emitFact(predIRI, KS_OLD.COMPOSITE, compIRI, mentionIRI, null);
                     for (int j = 0; j < uris.size(); ++j) {
                         // this.emitter
-                        // .emitFact(predURI, KS.COMPONENT, uris.get(j), mentionURI, null);
-                        emitFact(compURI, KS.INCLUDE, uris.get(j), mentionURI, null);
+                        // .emitFact(predIRI, KS_OLD.COMPONENT, uris.get(j), mentionIRI, null);
+                        emitFact(compIRI, KS_OLD.INCLUDE, uris.get(j), mentionIRI, null);
                     }
-                    members.put(terms.get(0), compURI);
+                    members.put(terms.get(0), compIRI);
                 }
             }
 
             // Emit all possible coreference relations between cluster members
-            for (final Map.Entry<Term, URI> entry1 : members.entrySet()) {
-                for (final Map.Entry<Term, URI> entry2 : members.entrySet()) {
+            for (final Map.Entry<Term, IRI> entry1 : members.entrySet()) {
+                for (final Map.Entry<Term, IRI> entry2 : members.entrySet()) {
                     final Term term1 = entry1.getKey();
                     final Term term2 = entry2.getKey();
                     if (term1.getId().compareTo(term2.getId()) < 0) {
                         final Span<Term> span1 = memberSpans.get(term1);
                         final Span<Term> span2 = memberSpans.get(term2);
-                        final URI mentionURI = emitMention(Iterables.concat(span1.getTargets(),
+                        final IRI mentionIRI = emitMention(Iterables.concat(span1.getTargets(),
                                 span2.getTargets()));
-                        final URI uri1 = entry1.getValue();
-                        final URI uri2 = entry2.getValue();
+                        final IRI uri1 = entry1.getValue();
+                        final IRI uri2 = entry2.getValue();
                         // final int distance = Math.abs(term1.getSent() - term2.getSent());
-                        emitFact(uri1, OWL.SAMEAS, uri2, mentionURI, null);
+                        emitFact(uri1, OWL.SAMEAS, uri2, mentionIRI, null);
                     }
                 }
             }
@@ -1263,35 +1253,35 @@ public final class RDFGenerator {
         private void processRole(final Predicate predicate, final Role role, final Term argHead,
                 final boolean isCorefPredicateRole) throws RDFHandlerException {
 
-            // Retrieve the URI previously associated to the predicate; abort if not found
+            // Retrieve the IRI previously associated to the predicate; abort if not found
             final Term predHead = NAFUtils.extractHead(this.document, predicate.getSpan());
             final Annotation predAnn = this.annotations.get(predHead.getId());
-            final URI predURI = predAnn == null ? null : predAnn.predicateURI;
-            if (predURI == null) {
+            final IRI predIRI = predAnn == null ? null : predAnn.predicateIRI;
+            if (predIRI == null) {
                 return;
             }
 
-            // Retrieve the URI previously associated to the argument, if any
-            URI argURI = null;
+            // Retrieve the IRI previously associated to the argument, if any
+            IRI argIRI = null;
             final Annotation argAnn = this.annotations.get(argHead.getId());
             if (argAnn != null) {
-                if (argAnn.predicateURI != null
-                        && (argAnn.objectURI == null || isCorefPredicateRole)) {
-                    argURI = argAnn.predicateURI;
+                if (argAnn.predicateIRI != null
+                        && (argAnn.objectIRI == null || isCorefPredicateRole)) {
+                    argIRI = argAnn.predicateIRI;
                 } else {
-                    argURI = argAnn.objectURI;
+                    argIRI = argAnn.objectIRI;
                 }
             }
 
-            // Discard invalid arguments (arg = pred, no arg URI and arg not noun, adj, adv)
+            // Discard invalid arguments (arg = pred, no arg IRI and arg not noun, adj, adv)
             final char pos = Character.toUpperCase(argHead.getPos().charAt(0));
-            if (argURI != null && argURI.equals(predURI) || argURI == null && pos != 'N'
+            if (argIRI != null && argIRI.equals(predIRI) || argIRI == null && pos != 'N'
                     && pos != 'G' && pos != 'A') {
                 return;
             }
 
             // Determine the participation properties, starting with ego:argument
-            final Set<URI> properties = Sets.newHashSet();
+            final Set<IRI> properties = Sets.newHashSet();
 
             // Add properties from the SEM ontology
             String semRole = role.getSemRole();
@@ -1333,16 +1323,16 @@ public final class RDFGenerator {
 //
 //                if (resource.equalsIgnoreCase(NAFUtils.RESOURCE_FRAMENET)
 //                        || resource.equalsIgnoreCase(NAFUtils.RESOURCE_VERBNET) || index < 0) {
-//                    properties.add(mintRefURI(resource, arg));
+//                    properties.add(mintRefIRI(resource, arg));
 //                } else {
 //                    if (Character.isDigit(arg.charAt(0))) {
 //                        final String sense = name.substring(0, index);
-//                        properties.add(mintRefURI(resource, sense + "_" + arg));
+//                        properties.add(mintRefIRI(resource, sense + "_" + arg));
 //                    } else {
-//                        properties.add(mintRefURI(resource, arg));
+//                        properties.add(mintRefIRI(resource, arg));
 //                    }
 //                }
-                properties.add(mintRefURI(resource,name));
+                properties.add(mintRefIRI(resource,name));
             }
 
             // The AX, AM-X information may not be encoded in external references, so
@@ -1352,10 +1342,10 @@ public final class RDFGenerator {
                     final String resource = ref.getResource().toLowerCase();
                     if (resource.equals(semRoleResource)) {
                         if (Character.isDigit(semRole.charAt(0))) {
-                            properties.add(mintRefURI(resource, ref.getReference().toLowerCase()
+                            properties.add(mintRefIRI(resource, ref.getReference().toLowerCase()
                                     + "_" + semRole));
                         } else {
-                            properties.add(mintRefURI(resource, semRole));
+                            properties.add(mintRefIRI(resource, semRole));
                         }
                     }
                 }
@@ -1368,25 +1358,25 @@ public final class RDFGenerator {
                         + argHead.getId());
             }
             if (!Strings.isNullOrEmpty(path)) {
-                properties.add(mintRefURI("conn", path));
+                properties.add(mintRefIRI("conn", path));
             }
 
             // Create either an edge or an attribute
             final List<Term> predTerms = predicate.getSpan().getTargets();
-            if (argURI != null) {
-                final URI mentionURI = emitMention(Iterables.concat(predTerms, argAnn.extent));
-                emitMeta(mentionURI, RDF.TYPE, KS.PARTICIPATION_MENTION);
-                for (final URI property : properties) {
-                    emitFact(predURI, property, argURI, mentionURI, null);
+            if (argIRI != null) {
+                final IRI mentionIRI = emitMention(Iterables.concat(predTerms, argAnn.extent));
+                emitMeta(mentionIRI, RDF.TYPE, KS_OLD.PARTICIPATION_MENTION);
+                for (final IRI property : properties) {
+                    emitFact(predIRI, property, argIRI, mentionIRI, null);
                 }
             } else {
                 final Set<Term> argTerms = this.document.getTermsByDepAncestors(
                         Collections.singleton(argHead), "(AMOD|NMOD)*");
-                final URI mentionURI = emitMention(Iterables.concat(predTerms, argTerms));
-                emitMeta(mentionURI, RDF.TYPE, KS.PARTICIPATION_MENTION);
-                final URI expressionURI = emitTerm(argHead);
-                for (final URI property : properties) {
-                    emitFact(predURI, property, expressionURI, mentionURI, null);
+                final IRI mentionIRI = emitMention(Iterables.concat(predTerms, argTerms));
+                emitMeta(mentionIRI, RDF.TYPE, KS_OLD.PARTICIPATION_MENTION);
+                final IRI expressionIRI = emitTerm(argHead);
+                for (final IRI property : properties) {
+                    emitFact(predIRI, property, expressionIRI, mentionIRI, null);
                 }
             }
         }
@@ -1396,16 +1386,16 @@ public final class RDFGenerator {
             // Identify the sentence where the opinion occurs (for normalization purposes)
             final int sentenceID = opinion.getOpinionExpression().getTerms().get(0).getSent();
 
-            // Mint a URI for the opinion and emit polarity and label facts
-            final URI opinionURI = mintURI(opinion.getId(), null);
+            // Mint a IRI for the opinion and emit polarity and label facts
+            final IRI opinionIRI = mintIRI(opinion.getId(), null);
             final Polarity polarity = Polarity.forExpression(opinion.getOpinionExpression());
-            emitFact(opinionURI, RDF.TYPE, SUMO.ENTITY, null, null);
-            emitFact(opinionURI, RDF.TYPE, KS.OPINION, null, null);
-            emitFact(opinionURI, RDF.TYPE, polarity == Polarity.POSITIVE ? KS.POSITIVE_OPINION
-                    : polarity == Polarity.NEGATIVE ? KS.NEGATIVE_OPINION : KS.NEUTRAL_OPINION,
+            emitFact(opinionIRI, RDF.TYPE, SUMO.ENTITY, null, null);
+            emitFact(opinionIRI, RDF.TYPE, KS_OLD.OPINION, null, null);
+            emitFact(opinionIRI, RDF.TYPE, polarity == Polarity.POSITIVE ? KS_OLD.POSITIVE_OPINION
+                    : polarity == Polarity.NEGATIVE ? KS_OLD.NEGATIVE_OPINION : KS_OLD.NEUTRAL_OPINION,
                     null, null);
             if (opinion.getLabel() != null) {
-                emitFact(opinionURI, RDFS.LABEL, opinion.getLabel(), null, null);
+                emitFact(opinionIRI, RDFS.LABEL, opinion.getLabel(), null, null);
             }
 
             // Emit links from opinion to its expression nodes
@@ -1414,7 +1404,7 @@ public final class RDFGenerator {
             final Set<Term> exprHeads = exprSpan == null ? ImmutableSet.<Term>of() : NAFUtils
                     .extractHeads(this.document, null, exprSpan.getTargets(),
                             NAFUtils.matchExtendedPos(this.document, "NN", "VB", "JJ", "R"));
-            emitOpinionArgument(opinionURI, null, KS.EXPRESSION, exprSpan, exprHeads);
+            emitOpinionArgument(opinionIRI, null, KS_OLD.EXPRESSION, exprSpan, exprHeads);
 
             // Emit links from opinion to target nodes
             final OpinionTarget target = opinion.getOpinionTarget();
@@ -1424,7 +1414,7 @@ public final class RDFGenerator {
                     .extractHeads(this.document, null, targetSpan.getTargets(),
                             NAFUtils.matchExtendedPos(this.document, "NN", "PRP", "JJP", "DTP",
                                     "WP", "VB"));
-            emitOpinionArgument(opinionURI, null, KS.TARGET, targetSpan, targetHeads);
+            emitOpinionArgument(opinionIRI, null, KS_OLD.TARGET, targetSpan, targetHeads);
 
             // Emit links from opinion to holder nodes
             final OpinionHolder holder = opinion.getOpinionHolder();
@@ -1433,18 +1423,18 @@ public final class RDFGenerator {
             final Set<Term> holderHeads = holderSpan == null ? ImmutableSet.<Term>of() : NAFUtils
                     .extractHeads(this.document, null, holderSpan.getTargets(), NAFUtils
                             .matchExtendedPos(this.document, "NN", "PRP", "JJP", "DTP", "WP"));
-            emitOpinionArgument(opinionURI, null, KS.HOLDER, holderSpan, holderHeads);
+            emitOpinionArgument(opinionIRI, null, KS_OLD.HOLDER, holderSpan, holderHeads);
         }
 
-        private void emitOpinionArgument(final URI opinionID, @Nullable final URI spanProperty,
-                @Nullable final URI headProperty, @Nullable final Span<Term> span,
+        private void emitOpinionArgument(final IRI opinionID, @Nullable final IRI spanProperty,
+                @Nullable final IRI headProperty, @Nullable final Span<Term> span,
                 @Nullable final Set<Term> heads) {
 
             if (span != null) {
                 outer: for (final Term term : span.getTargets()) {
                     final Annotation ann = this.annotations.get(term.getId());
-                    URI uri = ann == null ? null : ann.objectURI != null ? ann.objectURI
-                            : ann.predicateURI;
+                    IRI uri = ann == null ? null : ann.objectIRI != null ? ann.objectIRI
+                            : ann.predicateIRI;
                     if (uri == null && "AGV".contains(term.getPos())) {
                         for (final Dep dep : this.document.getDepsFromTerm(term)) {
                             if (dep.getRfunc().equals("VC")) {
@@ -1465,7 +1455,7 @@ public final class RDFGenerator {
             }
         }
 
-        private void emitCommonAttributes(final URI instanceID, final URI mentionID,
+        private void emitCommonAttributes(final IRI instanceID, final IRI mentionID,
                 final Term head, final String label, final boolean emitSumo)
                 throws RDFHandlerException {
 
@@ -1475,48 +1465,48 @@ public final class RDFGenerator {
 
             final char pos = Character.toUpperCase(head.getPos().charAt(0));
             if (pos == 'N' || pos == 'V') {
-                emitMeta(mentionID, KS.LEMMA, head.getLemma());
+                emitMeta(mentionID, KS_OLD.LEMMA, head.getLemma());
                 // this.emitter.emitFact(instanceID, EGO.LEMMA, head.getLemma(), mentionID, null);
             }
 
             final ExternalRef sstRef = NAFUtils.getRef(head, NAFUtils.RESOURCE_WN_SST, null);
             if (sstRef != null) {
                 final String sst = sstRef.getReference();
-                final URI uri = FACTORY.createURI("http://www.newsreader-project.eu/sst/",
+                final IRI uri = FACTORY.createIRI("http://www.newsreader-project.eu/sst/",
                         sst.substring(sst.lastIndexOf('-') + 1));
-                emitMeta(mentionID, KS.SST, uri);
+                emitMeta(mentionID, KS_OLD.SST, uri);
                 // this.emitter.emitFact(instanceID, EGO.SST, uri, mentionID, null);
             }
 
             final ExternalRef synsetRef = NAFUtils.getRef(head, NAFUtils.RESOURCE_WN_SYNSET, null);
             if (synsetRef != null) {
-                final URI uri = FACTORY.createURI("http://www.newsreader-project.eu/syn/",
+                final IRI uri = FACTORY.createIRI("http://www.newsreader-project.eu/syn/",
                         synsetRef.getReference());
-                emitMeta(mentionID, KS.SYNSET, uri);
+                emitMeta(mentionID, KS_OLD.SYNSET, uri);
                 // this.emitter.emitFact(instanceID, EGO.SYNSET, uri, mentionID, null);
             }
 
             final String p = head.getMorphofeat().toUpperCase();
             if (p.equals("NNS") || p.equals("NNPS")) {
-                emitMeta(mentionID, KS.PLURAL, true);
+                emitMeta(mentionID, KS_OLD.PLURAL, true);
                 // this.emitter.emitFact(instanceID, EGO.PLURAL, true, mentionID, null);
             }
 
             for (final ExternalRef ref : head.getExternalRefs()) {
-                final URI typeURI = mintRefURI(ref.getResource(), ref.getReference());
+                final IRI typeIRI = mintRefIRI(ref.getResource(), ref.getReference());
                 if (ref.getResource().equals(NAFUtils.RESOURCE_SUMO)) {
                     if (emitSumo) {
-                        emitFact(instanceID, RDF.TYPE, typeURI, mentionID, ref.getConfidence());
-                        emitFact(instanceID, RDF.TYPE, Sumo.getSuperClasses(typeURI), mentionID,
+                        emitFact(instanceID, RDF.TYPE, typeIRI, mentionID, ref.getConfidence());
+                        emitFact(instanceID, RDF.TYPE, Sumo.getSuperClasses(typeIRI), mentionID,
                                 ref.getConfidence());
                     }
                 } else {
-                    emitFact(instanceID, RDF.TYPE, typeURI, mentionID, ref.getConfidence());
+                    emitFact(instanceID, RDF.TYPE, typeIRI, mentionID, ref.getConfidence());
                 }
             }
         }
 
-        private void emitEntityAttributes(final Entity entity, final URI subject, final URI mention)
+        private void emitEntityAttributes(final Entity entity, final IRI subject, final IRI mention)
                 throws RDFHandlerException {
 
             // Retrieve normalized value and NER tag
@@ -1524,15 +1514,15 @@ public final class RDFGenerator {
             String nerTag = entity.getType();
             nerTag = nerTag == null ? null : nerTag.toLowerCase();
 
-            // For NORP and LANGUAGE entities we use the DBpedia URIs from entity linking
+            // For NORP and LANGUAGE entities we use the DBpedia IRIs from entity linking
             if (Objects.equal(nerTag, "norp") || Objects.equal(nerTag, "language")) {
-                final URI attribute = Objects.equal(nerTag, "norp") ? KS.PROVENANCE : KS.LANGUAGE;
+                final IRI attribute = Objects.equal(nerTag, "norp") ? KS_OLD.PROVENANCE : KS_OLD.LANGUAGE;
                 for (final ExternalRef ref : entity.getExternalRefs()) {
                     try {
-                        final URI refURI = FACTORY.createURI(Util.cleanIRI(ref.getReference()));
-                        emitFact(subject, attribute, refURI, mention, (double) ref.getConfidence());
+                        final IRI refIRI = FACTORY.createIRI(Util.cleanIRI(ref.getReference()));
+                        emitFact(subject, attribute, refIRI, mention, (double) ref.getConfidence());
                     } catch (final Throwable ex) {
-                        // ignore: not a URI
+                        // ignore: not a IRI
                     }
                 }
 
@@ -1544,14 +1534,14 @@ public final class RDFGenerator {
                         return;
                     }
                     if (Objects.equal(nerTag, "cardinal") || Objects.equal(nerTag, "quantity")) {
-                        emitFact(subject, KS.QUANTITY, Double.parseDouble(s), mention, null);
+                        emitFact(subject, KS_OLD.QUANTITY, Double.parseDouble(s), mention, null);
 
                     } else if (Objects.equal(nerTag, "ordinal")) {
-                        emitFact(subject, KS.RANK, Double.parseDouble(s), mention, null);
+                        emitFact(subject, KS_OLD.RANK, Double.parseDouble(s), mention, null);
 
                     } else if (Objects.equal(nerTag, "percent")) {
                         final int index = s.indexOf('%');
-                        emitFact(subject, KS.PERCENTAGE,
+                        emitFact(subject, KS_OLD.PERCENTAGE,
                                 Double.parseDouble(s.substring(index + 1)), mention, null);
 
                     } else if (Objects.equal(nerTag, "money")) {
@@ -1579,7 +1569,7 @@ public final class RDFGenerator {
         }
 
         @Nullable
-        private URI emitMention(final Iterable<Term> terms) {
+        private IRI emitMention(final Iterable<Term> terms) {
 
             final List<Term> sortedTerms = Ordering.from(Term.OFFSET_COMPARATOR).sortedCopy(terms);
             final int numTerms = sortedTerms.size();
@@ -1588,13 +1578,13 @@ public final class RDFGenerator {
             }
 
             final String text = this.documentText;
-            final List<URI> componentURIs = Lists.newArrayList();
+            final List<IRI> componentIRIs = Lists.newArrayList();
             final int begin = NAFUtils.getBegin(sortedTerms.get(0));
             int offset = begin;
             int startTermIdx = 0;
 
             final StringBuilder anchorBuilder = new StringBuilder();
-            final StringBuilder uriBuilder = new StringBuilder(this.documentURI.stringValue())
+            final StringBuilder uriBuilder = new StringBuilder(this.documentIRI.stringValue())
                     .append("#char=").append(begin).append(",");
 
             for (int i = 0; i < numTerms; ++i) {
@@ -1604,27 +1594,27 @@ public final class RDFGenerator {
                     final int start = NAFUtils.getBegin(sortedTerms.get(startTermIdx));
                     anchorBuilder.append(text.substring(start, offset)).append(" [...] ");
                     uriBuilder.append(offset).append(";").append(termOffset).append(',');
-                    componentURIs.add(emitMention(sortedTerms.subList(startTermIdx, i)));
+                    componentIRIs.add(emitMention(sortedTerms.subList(startTermIdx, i)));
                     startTermIdx = i;
                 }
                 offset = NAFUtils.getEnd(term);
             }
             if (startTermIdx > 0) {
-                componentURIs.add(emitMention(sortedTerms.subList(startTermIdx, numTerms)));
+                componentIRIs.add(emitMention(sortedTerms.subList(startTermIdx, numTerms)));
             }
             anchorBuilder.append(text.substring(NAFUtils.getBegin(sortedTerms.get(startTermIdx)),
                     offset));
             uriBuilder.append(offset);
 
             final String anchor = anchorBuilder.toString();
-            final URI mentionID = FACTORY.createURI(uriBuilder.toString());
-            emitMeta(mentionID, KS.MENTION_OF, this.documentURI);
-            emitMeta(this.documentURI, KS.HAS_MENTION, mentionID);
-            emitMeta(mentionID, RDF.TYPE, KS.MENTION);
-            if (!componentURIs.isEmpty()) {
-                emitMeta(mentionID, RDF.TYPE, KS.COMPOUND_STRING);
-                for (final URI componentURI : componentURIs) {
-                    emitMeta(mentionID, KS.COMPONENT_SUB_STRING, componentURI);
+            final IRI mentionID = FACTORY.createIRI(uriBuilder.toString());
+            emitMeta(mentionID, KS_OLD.MENTION_OF, this.documentIRI);
+            emitMeta(this.documentIRI, KS_OLD.HAS_MENTION, mentionID);
+            emitMeta(mentionID, RDF.TYPE, KS_OLD.MENTION);
+            if (!componentIRIs.isEmpty()) {
+                emitMeta(mentionID, RDF.TYPE, KS_OLD.COMPOUND_STRING);
+                for (final IRI componentIRI : componentIRIs) {
+                    emitMeta(mentionID, KS_OLD.COMPONENT_SUB_STRING, componentIRI);
                 }
             }
             emitMeta(mentionID, NIF.BEGIN_INDEX, FACTORY.createLiteral(begin));
@@ -1660,13 +1650,13 @@ public final class RDFGenerator {
             // sentOffset = term.getOffset() + term.getLength();
             // lastSelected = nextSelected;
             // }
-            // emitMeta(mentionID, new URIImpl(KS.NAMESPACE + "context"),
+            // emitMeta(mentionID, new IRIImpl(KS_OLD.NAMESPACE + "context"),
             // FACTORY.createLiteral(sentBuilder.toString()));
 
             return mentionID;
         }
 
-        private URI emitTerm(final Term head) {
+        private IRI emitTerm(final Term head) {
 
             final ExternalRef synsetRef = NAFUtils.getRef(head, NAFUtils.RESOURCE_WN_SYNSET, null);
             final String headSynsetID = synsetRef == null ? null : synsetRef.getReference();
@@ -1674,15 +1664,15 @@ public final class RDFGenerator {
             final String headID = MoreObjects.firstNonNull(readableHeadSynsetID, //
                     head.getLemma().toLowerCase());
 
-            final List<URI> modifierURIs = Lists.newArrayList();
+            final List<IRI> modifierIRIs = Lists.newArrayList();
             final List<String> modifierIDs = Lists.newArrayList();
 
             for (final Term modifier : this.document.getTermsByDepAncestors(ImmutableSet.of(head),
                     "AMOD|NMOD")) {
                 if ("AGV".contains(modifier.getPos())) {
-                    final URI modifierURI = emitTerm(modifier);
-                    modifierURIs.add(modifierURI);
-                    modifierIDs.add(modifierURI.getLocalName());
+                    final IRI modifierIRI = emitTerm(modifier);
+                    modifierIRIs.add(modifierIRI);
+                    modifierIDs.add(modifierIRI.getLocalName());
                 }
             }
 
@@ -1707,21 +1697,21 @@ public final class RDFGenerator {
                 idBuilder.append(modifierID).append(separator);
             }
             final String id = idBuilder.append(headID).toString();
-            final URI uri = mintRefURI("attribute", id);
-            // final URI uri = this.emitter.mintURI(id + "-" + head.getId(), id);
+            final IRI uri = mintRefIRI("attribute", id);
+            // final IRI uri = this.emitter.mintIRI(id + "-" + head.getId(), id);
 
-            emitFact(uri, RDF.TYPE, KS.ATTRIBUTE, null, null);
+            emitFact(uri, RDF.TYPE, KS_OLD.ATTRIBUTE, null, null);
             emitFact(uri, RDFS.LABEL, label, null, null);
             if (headSynsetID != null) {
-                emitFact(uri, KS.HEAD_SYNSET, mintRefURI("syn", headSynsetID), null, null);
+                emitFact(uri, KS_OLD.HEAD_SYNSET, mintRefIRI("syn", headSynsetID), null, null);
             }
-            for (final URI modifierURI : modifierURIs) {
-                emitFact(uri, KS.MOD, modifierURI, null, null);
+            for (final IRI modifierIRI : modifierIRIs) {
+                emitFact(uri, KS_OLD.MOD, modifierIRI, null, null);
             }
 
-            final URI mentionURI = emitMention(terms);
-            emitMeta(mentionURI, RDF.TYPE, KS.ATTRIBUTE_MENTION);
-            emitMeta(uri, GAF.DENOTED_BY, mentionURI);
+            final IRI mentionIRI = emitMention(terms);
+            emitMeta(mentionIRI, RDF.TYPE, KS_OLD.ATTRIBUTE_MENTION);
+            emitMeta(uri, GAF.DENOTED_BY, mentionIRI);
 
             return uri;
         }
@@ -1782,8 +1772,8 @@ public final class RDFGenerator {
             return ann;
         }
 
-        private URI mintURI(final String id, @Nullable final String suggestedLocalName) {
-            String localName = this.mintedURIs.get(id);
+        private IRI mintIRI(final String id, @Nullable final String suggestedLocalName) {
+            String localName = this.mintedIRIs.get(id);
             if (localName == null) {
                 final String name = MoreObjects.firstNonNull(suggestedLocalName, id);
                 final StringBuilder builder = new StringBuilder();
@@ -1795,30 +1785,30 @@ public final class RDFGenerator {
                 int counter = 1;
                 while (true) {
                     localName = base + (counter == 1 ? "" : "_" + counter);
-                    if (!this.mintedURIs.inverse().containsKey(localName)) {
-                        this.mintedURIs.put(id, localName);
+                    if (!this.mintedIRIs.inverse().containsKey(localName)) {
+                        this.mintedIRIs.put(id, localName);
                         break;
                     }
                     ++counter;
                 }
             }
-            return FACTORY.createURI(Util.cleanIRI(this.baseURI + "#" + localName));
+            return FACTORY.createIRI(Util.cleanIRI(this.baseIRI + "#" + localName));
         }
 
         @Nullable
-        private URI mintRefURI(@Nullable final String resource, @Nullable final String reference) {
+        private IRI mintRefIRI(@Nullable final String resource, @Nullable final String reference) {
             if (!Strings.isNullOrEmpty(resource) && !Strings.isNullOrEmpty(reference)) {
                 final String normResource = resource.toLowerCase();
                 final String namespace = RDFGenerator.this.namespaceMap.get(normResource);
                 if (namespace != null) {
                     return FACTORY
-                            .createURI(Util.cleanIRI(namespace + reference.replace('#', '.')));
+                            .createIRI(Util.cleanIRI(namespace + reference.replace('#', '.')));
                 }
             }
             return null;
         }
 
-        private void emitMeta(@Nullable final URI subject, @Nullable final URI property,
+        private void emitMeta(@Nullable final IRI subject, @Nullable final IRI property,
                 @Nullable final Object objects) {
             if (subject != null && property != null) {
                 for (final Value object : extract(Value.class, objects,
@@ -1828,23 +1818,23 @@ public final class RDFGenerator {
             }
         }
 
-        private void emitFact(@Nullable final URI subject, @Nullable final URI property,
-                @Nullable final Object objects, @Nullable final URI mention,
+        private void emitFact(@Nullable final IRI subject, @Nullable final IRI property,
+                @Nullable final Object objects, @Nullable final IRI mention,
                 @Nullable final Object confidence) {
             if (subject != null && property != null) {
                 for (final Value object : extract(Value.class, objects,
                         RDF.TYPE.equals(property) ? RDFGenerator.this.typeMap : null)) {
-                    final URI factURI = hash(subject, property, object);
+                    final IRI factIRI = hash(subject, property, object);
                     this.statements.add(FACTORY
-                            .createStatement(subject, property, object, factURI));
+                            .createStatement(subject, property, object, factIRI));
                     if (mention != null) {
-                        this.statements.add(FACTORY.createStatement(factURI, KS.EXPRESSED_BY,
+                        this.statements.add(FACTORY.createStatement(factIRI, KS_OLD.EXPRESSED_BY,
                                 mention));
                     }
                     if (confidence instanceof Number) {
                         final double confidenceValue = ((Number) confidence).doubleValue();
                         if (confidenceValue != 0.0) {
-                            // this.statements.add(FACTORY.createStatement(factURI, KS.CONFIDENCE,
+                            // this.statements.add(FACTORY.createStatement(factIRI, KS_OLD.CONFIDENCE,
                             // FACTORY.createLiteral(confidenceValue)));
                         }
                     }
@@ -1856,13 +1846,15 @@ public final class RDFGenerator {
                 throws RDFHandlerException {
 
             final List<Statement> smushedStmts = Lists.newArrayList();
-            RDFProcessors.smush("http://dbpedia.org/resource/").wrap(RDFSources.wrap(stmts))
+
+            ///???????
+            RDFProcessors.smush(null, true, "http://dbpedia.org/resource/").wrap(RDFSources.wrap(stmts))
                     .emit(RDFHandlers.wrap(smushedStmts), 1);
 
             final Set<Resource> named = Sets.newHashSet();
             final Multimap<Resource, Resource> groups = HashMultimap.create();
             for (final Statement stmt : smushedStmts) {
-                if (stmt.getPredicate().equals(KS.INCLUDE)) {
+                if (stmt.getPredicate().equals(KS_OLD.INCLUDE)) {
                     groups.put(stmt.getSubject(), (Resource) stmt.getObject());
                 } else if (stmt.getPredicate().equals(FOAF.NAME)) {
                     named.add(stmt.getSubject());
@@ -1878,7 +1870,7 @@ public final class RDFGenerator {
                 final boolean subjIsGroup = groups.containsKey(subj);
                 final boolean objIsGroup = groups.containsKey(obj);
                 if (stmt.getPredicate().equals(OWL.SAMEAS)
-                        && (obj instanceof BNode || obj.stringValue().startsWith(this.baseURI))) {
+                        && (obj instanceof BNode || obj.stringValue().startsWith(this.baseIRI))) {
                     // discard statement
                 } else if (subjIsGroup && objIsGroup && !subj.equals(obj)) {
                     groupRels.put(subj, stmt);
@@ -1896,8 +1888,8 @@ public final class RDFGenerator {
             final ValueFactory vf = Statements.VALUE_FACTORY;
             for (final Resource composite : groups.keySet()) {
                 final Collection<Resource> components = groups.get(composite);
-                final boolean isNamed = composite instanceof URI
-                        && ((URI) composite).getNamespace().equals("http://dbpedia.org/resource/")
+                final boolean isNamed = composite instanceof IRI
+                        && ((IRI) composite).getNamespace().equals("http://dbpedia.org/resource/")
                         || named.contains(composite);
                 if (isNamed) {
                     output.addAll(groupProps.get(composite));
@@ -1913,7 +1905,7 @@ public final class RDFGenerator {
                 } else {
                     for (final Statement stmt : groupRels.removeAll(composite)) {
                         final Resource subj = stmt.getSubject();
-                        final URI pred = stmt.getPredicate();
+                        final IRI pred = stmt.getPredicate();
                         final Value obj = stmt.getObject();
                         final Resource ctx = stmt.getContext();
                         if (subj.equals(composite)) {
@@ -1931,13 +1923,13 @@ public final class RDFGenerator {
                         }
                     }
                     for (final Statement stmt : groupProps.get(composite)) {
-                        final URI pred = stmt.getPredicate();
+                        final IRI pred = stmt.getPredicate();
                         final Resource ctx = stmt.getContext();
                         Collection<Resource> subjs = ImmutableList.of(stmt.getSubject());
                         Collection<? extends Value> objs = ImmutableList.of(stmt.getObject());
                         if (composite.equals(stmt.getSubject())) {
                             subjs = components;
-                            if (KS.INCLUDE.equals(pred) || RDFS.LABEL.equals(pred)) {
+                            if (KS_OLD.INCLUDE.equals(pred) || RDFS.LABEL.equals(pred)) {
                                 continue;
                             }
                         }
@@ -1984,10 +1976,10 @@ public final class RDFGenerator {
             }
         }
 
-        private URI hash(final Resource subject, final URI predicate, final Value object) {
+        private IRI hash(final Resource subject, final IRI predicate, final Value object) {
             final List<String> list = Lists.newArrayList();
             for (final Value value : new Value[] { subject, predicate, object }) {
-                if (value instanceof URI) {
+                if (value instanceof IRI) {
                     list.add("\u0001");
                     list.add(value.stringValue());
                 } else if (value instanceof BNode) {
@@ -1997,15 +1989,15 @@ public final class RDFGenerator {
                     final Literal l = (Literal) value;
                     list.add("\u0003");
                     list.add(l.getLabel());
-                    if (l.getDatatype() != null) {
+                    if (!l.getDatatype().equals(XMLSchema.STRING)) {
                         list.add(l.getDatatype().stringValue());
-                    } else if (l.getLanguage() != null) {
-                        list.add(l.getLanguage());
+                    } else if (l.getLanguage().isPresent()) {
+                        list.add(l.getLanguage().get());
                     }
                 }
             }
             final String id = Hash.murmur3(list.toArray(new String[list.size()])).toString();
-            return FACTORY.createURI("fact:" + id);
+            return FACTORY.createIRI("fact:" + id);
         }
 
     }
@@ -2016,15 +2008,15 @@ public final class RDFGenerator {
 
         final List<Term> extent;
 
-        URI objectURI;
+        IRI objectIRI;
 
-        URI predicateURI;
+        IRI predicateIRI;
 
         Annotation(final Term head, final Iterable<Term> extent) {
             this.head = head;
             this.extent = ImmutableList.copyOf(extent);
-            this.objectURI = null;
-            this.predicateURI = null;
+            this.objectIRI = null;
+            this.predicateIRI = null;
         }
 
     }

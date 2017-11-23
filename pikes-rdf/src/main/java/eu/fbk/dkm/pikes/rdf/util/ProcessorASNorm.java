@@ -1,22 +1,28 @@
 package eu.fbk.dkm.pikes.rdf.util;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
-import org.openrdf.model.BNode;
-import org.openrdf.model.Literal;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.rio.RDFHandler;
-import org.openrdf.rio.RDFHandlerException;
 
-import eu.fbk.utils.svm.Util;
+import com.google.common.collect.Ordering;
+import eu.fbk.rdfpro.util.Namespaces;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
+import org.eclipse.rdf4j.rio.RDFHandler;
+import org.eclipse.rdf4j.rio.RDFHandlerException;
+
 import eu.fbk.rdfpro.Mapper;
 import eu.fbk.rdfpro.RDFProcessor;
 import eu.fbk.rdfpro.RDFProcessors;
@@ -24,6 +30,8 @@ import eu.fbk.rdfpro.Reducer;
 import eu.fbk.rdfpro.util.Hash;
 import eu.fbk.rdfpro.util.Options;
 import eu.fbk.rdfpro.util.Statements;
+
+import javax.annotation.Nullable;
 
 public final class ProcessorASNorm implements RDFProcessor {
 
@@ -36,6 +44,11 @@ public final class ProcessorASNorm implements RDFProcessor {
     private final Reducer factReducer;
 
     private final Reducer metaReducer;
+
+    private static final Ordering<Value> DEFAULT_VALUE_ORDERING = new ValueOrdering(null);
+
+    private static final Ordering<Statement> DEFAULT_STATEMENT_ORDERING = new StatementOrdering(
+            "spoc", new ValueOrdering(ImmutableList.of(RDF.NAMESPACE)));
 
     static RDFProcessor create(final String name, final String... args) {
         final Options options = Options.parse("!", args);
@@ -59,13 +72,13 @@ public final class ProcessorASNorm implements RDFProcessor {
     }
 
     private boolean match(final Value value) {
-        return value instanceof URI && ((URI) value).getNamespace().equals(this.namespace);
+        return value instanceof IRI && ((IRI) value).getNamespace().equals(this.namespace);
     }
 
-    private URI hash(final Resource subject, final URI predicate, final Value object) {
+    private IRI hash(final Resource subject, final IRI predicate, final Value object) {
         final List<String> list = Lists.newArrayList();
         for (final Value value : new Value[] { subject, predicate, object }) {
-            if (value instanceof URI) {
+            if (value instanceof IRI) {
                 list.add("\u0001");
                 list.add(value.stringValue());
             } else if (value instanceof BNode) {
@@ -75,18 +88,18 @@ public final class ProcessorASNorm implements RDFProcessor {
                 final Literal l = (Literal) value;
                 list.add("\u0003");
                 list.add(l.getLabel());
-                if (l.getDatatype() != null) {
+                if (!l.getDatatype().equals(XMLSchema.STRING)) {
                     list.add(l.getDatatype().stringValue());
-                } else if (l.getLanguage() != null) {
-                    list.add(l.getLanguage());
+                } else if (l.getLanguage().isPresent()) {
+                    list.add(l.getLanguage().get());
                 }
             }
         }
         final String hash = Hash.murmur3(list.toArray(new String[list.size()])).toString();
-        return Statements.VALUE_FACTORY.createURI(this.namespace, hash);
+        return Statements.VALUE_FACTORY.createIRI(this.namespace, hash);
     }
 
-    private URI hash(final URI id, final Iterable<Statement> statements) {
+    private IRI hash(final IRI id, final Iterable<Statement> statements) {
         final List<String> list = Lists.newArrayList();
         for (final Statement stmt : statements) {
             for (final Value value : new Value[] { stmt.getSubject(), stmt.getPredicate(),
@@ -95,7 +108,7 @@ public final class ProcessorASNorm implements RDFProcessor {
                     list.add("\u0004");
                 } else if (value.equals(id)) {
                     list.add("\u0005");
-                } else if (value instanceof URI) {
+                } else if (value instanceof IRI) {
                     list.add("\u0001");
                     list.add(value.stringValue());
                 } else if (value instanceof BNode) {
@@ -105,16 +118,16 @@ public final class ProcessorASNorm implements RDFProcessor {
                     final Literal l = (Literal) value;
                     list.add("\u0003");
                     list.add(l.getLabel());
-                    if (l.getDatatype() != null) {
+                    if (!l.getDatatype().equals(XMLSchema.STRING)) {
                         list.add(l.getDatatype().stringValue());
-                    } else if (l.getLanguage() != null) {
-                        list.add(l.getLanguage());
+                    } else if (l.getLanguage().isPresent()) {
+                        list.add(l.getLanguage().get());
                     }
                 }
             }
         }
         final String hash = Hash.murmur3(list.toArray(new String[list.size()])).toString();
-        return Statements.VALUE_FACTORY.createURI(this.namespace, hash);
+        return Statements.VALUE_FACTORY.createIRI(this.namespace, hash);
     }
 
     @SuppressWarnings("unchecked")
@@ -127,7 +140,7 @@ public final class ProcessorASNorm implements RDFProcessor {
         }
     }
 
-    private void emit(final RDFHandler handler, final Value oldID, final URI newID,
+    private void emit(final RDFHandler handler, final Value oldID, final IRI newID,
             final Statement factStmt, final Iterable<Statement> metaStmts)
             throws RDFHandlerException {
 
@@ -144,7 +157,7 @@ public final class ProcessorASNorm implements RDFProcessor {
                     factStmt.getSubject(), factStmt.getPredicate(), factStmt.getObject(), newID));
             for (final Statement metaStmt : metaStmts) {
                 final Resource metaSubj = replace(metaStmt.getSubject(), oldID, newID);
-                final URI metaPred = replace(metaStmt.getPredicate(), oldID, newID);
+                final IRI metaPred = replace(metaStmt.getPredicate(), oldID, newID);
                 final Value metaObj = replace(metaStmt.getObject(), oldID, newID);
                 final Resource metaCtx = replace(metaStmt.getContext(), oldID, newID);
                 if (metaCtx == null) {
@@ -225,7 +238,7 @@ public final class ProcessorASNorm implements RDFProcessor {
 
             // Emit each fact statement with its own metadata statements, possibly changing IDs
             for (final Statement factStmt : factStmts) {
-                final URI newID = hash(factStmt.getSubject(), factStmt.getPredicate(),
+                final IRI newID = hash(factStmt.getSubject(), factStmt.getPredicate(),
                         factStmt.getObject());
                 emit(handler, id, newID, factStmt, metaStmts);
             }
@@ -235,8 +248,8 @@ public final class ProcessorASNorm implements RDFProcessor {
 
     private final class MetaReducer implements Reducer {
 
-        private final Comparator<Statement> comparator = Util.statementOrdering("spoc",
-                Util.valueOrdering(ProcessorASNorm.this.namespace));
+        private final Comparator<Statement> comparator = statementOrdering("spoc",
+                valueOrdering(ProcessorASNorm.this.namespace));
 
         @Override
         public void reduce(final Value key, final Statement[] stmts, final RDFHandler handler)
@@ -257,10 +270,128 @@ public final class ProcessorASNorm implements RDFProcessor {
 
             // Emit statements changing the annotation ID
             Collections.sort(metaStmts, this.comparator);
-            final URI metadataID = hash((URI) key, metaStmts);
+            final IRI metadataID = hash((IRI) key, metaStmts);
             emit(handler, key, metadataID, factStmt, metaStmts);
         }
 
     }
 
+    private  static Ordering<Statement> statementOrdering(@Nullable final String components,
+                                                          @Nullable final Comparator<? super Value> valueComparator) {
+        if (components == null) {
+            return valueComparator == null ? DEFAULT_STATEMENT_ORDERING //
+                    : new StatementOrdering("spoc", valueComparator);
+        } else {
+            return new StatementOrdering(components,
+                    valueComparator == null ? DEFAULT_VALUE_ORDERING : valueComparator);
+        }
+    }
+
+    public static Ordering<Value> valueOrdering(final String... rankedNamespaces) {
+        return rankedNamespaces == null || rankedNamespaces.length == 0 ? DEFAULT_VALUE_ORDERING
+                : new ValueOrdering(Arrays.asList(rankedNamespaces));
+    }
+
+
+    private static final class ValueOrdering extends Ordering<Value> {
+
+        private final List<String> rankedNamespaces;
+
+        public ValueOrdering(@Nullable final Iterable<? extends String> rankedNamespaces) {
+            this.rankedNamespaces = rankedNamespaces == null ? ImmutableList.of() : ImmutableList
+                    .copyOf(rankedNamespaces);
+        }
+
+        @Override
+        public int compare(final Value v1, final Value v2) {
+            if (v1 instanceof IRI) {
+                if (v2 instanceof IRI) {
+                    final int rank1 = this.rankedNamespaces.indexOf(((IRI) v1).getNamespace());
+                    final int rank2 = this.rankedNamespaces.indexOf(((IRI) v2).getNamespace());
+                    if (rank1 >= 0 && (rank1 < rank2 || rank2 < 0)) {
+                        return -1;
+                    } else if (rank2 >= 0 && (rank2 < rank1 || rank1 < 0)) {
+                        return 1;
+                    }
+                    final String string1 = Statements.formatValue(v1, Namespaces.DEFAULT);
+                    final String string2 = Statements.formatValue(v2, Namespaces.DEFAULT);
+                    return string1.compareTo(string2);
+                } else {
+                    return -1;
+                }
+            } else if (v1 instanceof BNode) {
+                if (v2 instanceof BNode) {
+                    return ((BNode) v1).getID().compareTo(((BNode) v2).getID());
+                } else if (v2 instanceof IRI) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            } else if (v1 instanceof Literal) {
+                if (v2 instanceof Literal) {
+                    return ((Literal) v1).getLabel().compareTo(((Literal) v2).getLabel());
+                } else if (v2 instanceof Resource) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            } else {
+                if (v1 == v2) {
+                    return 0;
+                } else {
+                    return 1;
+                }
+            }
+        }
+
+    }
+
+    private static final class StatementOrdering extends Ordering<Statement> {
+
+        private final String components;
+
+        private final Comparator<? super Value> valueComparator;
+
+        public StatementOrdering(final String components,
+                                 final Comparator<? super Value> valueComparator) {
+            this.components = components.trim().toLowerCase();
+            this.valueComparator = Preconditions.checkNotNull(valueComparator);
+            for (int i = 0; i < this.components.length(); ++i) {
+                final char c = this.components.charAt(i);
+                if (c != 's' && c != 'p' && c != 'o' && c != 'c') {
+                    throw new IllegalArgumentException("Invalid components: " + components);
+                }
+            }
+        }
+
+        @Override
+        public int compare(final Statement s1, final Statement s2) {
+            for (int i = 0; i < this.components.length(); ++i) {
+                final char c = this.components.charAt(i);
+                final Value v1 = getValue(s1, c);
+                final Value v2 = getValue(s2, c);
+                final int result = this.valueComparator.compare(v1, v2);
+                if (result != 0) {
+                    return result;
+                }
+            }
+            return 0;
+        }
+
+        private Value getValue(final Statement statement, final char component) {
+            switch (component) {
+                case 's':
+                    return statement.getSubject();
+                case 'p':
+                    return statement.getPredicate();
+                case 'o':
+                    return statement.getObject();
+                case 'c':
+                    return statement.getContext();
+                default:
+                    throw new Error();
+            }
+        }
+
+    }
 }

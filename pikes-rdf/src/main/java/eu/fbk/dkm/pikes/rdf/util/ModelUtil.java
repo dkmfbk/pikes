@@ -1,13 +1,15 @@
 package eu.fbk.dkm.pikes.rdf.util;
 
 import com.google.common.collect.*;
-import eu.fbk.utils.vocab.GAF;
-import eu.fbk.utils.vocab.KS;
-import eu.fbk.utils.vocab.NIF;
+import eu.fbk.dkm.pikes.rdf.vocab.KS_OLD;
+import eu.fbk.dkm.pikes.rdf.vocab.KS;
+import eu.fbk.dkm.pikes.rdf.vocab.NIF;
+import eu.fbk.dkm.pikes.rdf.vocab.GAF;
 import eu.fbk.rdfpro.util.QuadModel;
 import eu.fbk.rdfpro.util.Statements;
-import org.openrdf.model.*;
-import org.openrdf.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.*;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -18,24 +20,25 @@ import java.util.Set;
 // TODO: define RDFModel (quad extension of Model) and KSModel (with methods specific to KS
 // schema)
 
+
 public final class ModelUtil {
 
-    private static final Map<String, URI> LANGUAGE_CODES_TO_URIS;
+    private static final Map<String, IRI> LANGUAGE_CODES_TO_IRIS;
 
-    private static final Map<URI, String> LANGUAGE_URIS_TO_CODES;
+    private static final Map<IRI, String> LANGUAGE_IRIS_TO_CODES;
 
     static {
-        final Map<String, URI> codesToURIs = Maps.newHashMap();
-        final Map<URI, String> urisToCodes = Maps.newHashMap();
+        final Map<String, IRI> codesToIRIs = Maps.newHashMap();
+        final Map<IRI, String> urisToCodes = Maps.newHashMap();
         for (final String language : Locale.getISOLanguages()) {
             final Locale locale = new Locale(language);
-            final URI uri = Statements.VALUE_FACTORY.createURI("http://lexvo.org/id/iso639-3/",
+            final IRI uri = Statements.VALUE_FACTORY.createIRI("http://lexvo.org/id/iso639-3/",
                     locale.getISO3Language());
-            codesToURIs.put(language, uri);
+            codesToIRIs.put(language, uri);
             urisToCodes.put(uri, language);
         }
-        LANGUAGE_CODES_TO_URIS = ImmutableMap.copyOf(codesToURIs);
-        LANGUAGE_URIS_TO_CODES = ImmutableMap.copyOf(urisToCodes);
+        LANGUAGE_CODES_TO_IRIS = ImmutableMap.copyOf(codesToIRIs);
+        LANGUAGE_IRIS_TO_CODES = ImmutableMap.copyOf(urisToCodes);
     }
 
     public static Set<Resource> getMentions(final QuadModel model) {
@@ -69,13 +72,13 @@ public final class ModelUtil {
             result.addAll(model.filter(mentionID, null, null));
             for (final Statement triple : model.filter(null, null, mentionID)) {
                 result.add(triple);
-                if (triple.getPredicate().equals(KS.EXPRESSED_BY)) {
+                if (triple.getPredicate().equals(KS_OLD.EXPRESSED_BY)) {
                     final Resource factID = triple.getSubject();
                     result.addAll(model.filter(factID, null, null));
                     for (final Statement factTriple : model.filter(null, null, null, factID)) {
                         result.add(factTriple);
                         final Resource factSubj = factTriple.getSubject();
-                        final URI factPred = factTriple.getPredicate();
+                        final IRI factPred = factTriple.getPredicate();
                         final Value factObj = factTriple.getObject();
                         nodes.add(factSubj);
                         if (factObj instanceof Resource && !factPred.equals(GAF.DENOTED_BY)) {
@@ -95,7 +98,7 @@ public final class ModelUtil {
             for (final Statement triple : model.filter(node, null, null)) {
                 if (triple.getContext() != null) {
                     final Resource context = triple.getContext();
-                    if (model.filter(context, KS.EXPRESSED_BY, null).isEmpty()) {
+                    if (model.filter(context, KS_OLD.EXPRESSED_BY, null).isEmpty()) {
                         result.add(triple);
                         if (triple.getObject() instanceof Resource) {
                             final Resource obj = (Resource) triple.getObject();
@@ -110,21 +113,21 @@ public final class ModelUtil {
         return result;
     }
 
-    public static URI languageCodeToURI(@Nullable final String code)
+    public static IRI languageCodeToIRI(@Nullable final String code)
             throws IllegalArgumentException {
         if (code == null) {
             return null;
         }
         final int length = code.length();
         if (length == 2) {
-            final URI uri = LANGUAGE_CODES_TO_URIS.get(code);
+            final IRI uri = LANGUAGE_CODES_TO_IRIS.get(code);
             if (uri != null) {
                 return uri;
             }
         } else if (length == 3) {
-            final URI uri = Statements.VALUE_FACTORY.createURI("http://lexvo.org/id/iso639-3/"
+            final IRI uri = Statements.VALUE_FACTORY.createIRI("http://lexvo.org/id/iso639-3/"
                     + code);
-            if (LANGUAGE_URIS_TO_CODES.containsKey(uri)) {
+            if (LANGUAGE_IRIS_TO_CODES.containsKey(uri)) {
                 return uri;
             }
         }
@@ -132,16 +135,16 @@ public final class ModelUtil {
     }
 
     @Nullable
-    public static String languageURIToCode(@Nullable final URI uri)
+    public static String languageIRIToCode(@Nullable final IRI uri)
             throws IllegalArgumentException {
         if (uri == null) {
             return null;
         }
-        final String code = LANGUAGE_URIS_TO_CODES.get(uri);
+        final String code = LANGUAGE_IRIS_TO_CODES.get(uri);
         if (code != null) {
             return code;
         }
-        throw new IllegalArgumentException("Invalid language URI: " + uri);
+        throw new IllegalArgumentException("Invalid language IRI: " + uri);
     }
 
     /**
@@ -160,7 +163,7 @@ public final class ModelUtil {
         // structure
 
         // We implement the cleaning suggestions provided at the following URL (section 'So what
-        // exactly should I do?'), extended to deal with IRIs instead of URIs:
+        // exactly should I do?'), extended to deal with IRIs instead of IRIs:
         // https://unspecified.wordpress.com/2012/02/12/how-do-you-escape-a-complete-uri/
 
         // Handle null input
@@ -189,7 +192,7 @@ public final class ModelUtil {
             }
         }
 
-        // Return the cleaned IRI (no Java validation as it is an IRI, not a URI)
+        // Return the cleaned IRI (no Java validation as it is an IRI, not a IRI)
         return builder.toString();
     }
 

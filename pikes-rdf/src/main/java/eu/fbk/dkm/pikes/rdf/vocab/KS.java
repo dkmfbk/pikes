@@ -1,9 +1,9 @@
 package eu.fbk.dkm.pikes.rdf.vocab;
 
-import org.openrdf.model.Namespace;
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.NamespaceImpl;
-import org.openrdf.model.impl.ValueFactoryImpl;
+import org.eclipse.rdf4j.model.Namespace;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.impl.SimpleNamespace;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 public final class KS {
 
@@ -11,126 +11,126 @@ public final class KS {
 
     public static final String NAMESPACE = "http://dkm.fbk.eu/ontologies/knowledgestore#";
 
-    public static final Namespace NS = new NamespaceImpl(PREFIX, NAMESPACE);
+    public static final Namespace NS = new SimpleNamespace(PREFIX, NAMESPACE);
 
     // RESOURCE LAYER
 
-    public static final URI RESOURCE = createURI("Resource");
+    public static final IRI RESOURCE = createIRI("Resource");
 
-    public static final URI TEXT = createURI("Text");
+    public static final IRI TEXT = createIRI("Text");
 
-    public static final URI NAF = createURI("NAF");
+    public static final IRI NAF = createIRI("NAF");
 
-    public static final URI TEXT_HASH = createURI("textHash");
+    public static final IRI TEXT_HASH = createIRI("textHash");
 
-    public static final URI ANNOTATED_WITH = createURI("annotatedWith");
+    public static final IRI ANNOTATED_WITH = createIRI("annotatedWith");
 
-    public static final URI ANNOTATION_OF = createURI("annotationOf");
+    public static final IRI ANNOTATION_OF = createIRI("annotationOf");
 
-    public static final URI VERSION = createURI("version");
+    public static final IRI VERSION = createIRI("version");
 
-    public static final URI LAYER = createURI("layer");
+    public static final IRI LAYER = createIRI("layer");
 
-    public static final URI NAF_FILE_NAME = createURI("nafFileName");
+    public static final IRI NAF_FILE_NAME = createIRI("nafFileName");
 
-    public static final URI NAF_FILE_TYPE = createURI("nafFileType");
+    public static final IRI NAF_FILE_TYPE = createIRI("nafFileType");
 
-    public static final URI NAF_PAGES = createURI("nafPages");
+    public static final IRI NAF_PAGES = createIRI("nafPages");
 
     // MENTION LAYER
 
-    public static final URI MENTION = createURI("Mention");
+    public static final IRI MENTION = createIRI("Mention");
 
-    public static final URI INSTANCE_MENTION = createURI("InstanceMention");
+    public static final IRI INSTANCE_MENTION = createIRI("InstanceMention");
 
-    public static final URI ATTRIBUTE_MENTION = createURI("AttributeMention");
+    public static final IRI ATTRIBUTE_MENTION = createIRI("AttributeMention");
 
-    public static final URI TIME_MENTION = createURI("TimeMention");
+    public static final IRI TIME_MENTION = createIRI("TimeMention");
 
-    public static final URI FRAME_MENTION = createURI("FrameMention");
+    public static final IRI FRAME_MENTION = createIRI("FrameMention");
 
-    public static final URI NAME_MENTION = createURI("NameMention");
+    public static final IRI NAME_MENTION = createIRI("NameMention");
 
-    public static final URI PARTICIPATION_MENTION = createURI("ParticipationMention");
+    public static final IRI PARTICIPATION_MENTION = createIRI("ParticipationMention");
 
-    public static final URI COREFERENCE_MENTION = createURI("CoreferenceMention");
+    public static final IRI COREFERENCE_MENTION = createIRI("CoreferenceMention");
 
-    public static final URI LINKED_TO = createURI("linkedTo");
+    public static final IRI LINKED_TO = createIRI("linkedTo");
 
-    public static final URI SYNSET = createURI("synset");
+    public static final IRI SYNSET = createIRI("synset");
 
-    public static final URI MODIFIER_SYNSET = createURI("modifierSynset");
+    public static final IRI MODIFIER_SYNSET = createIRI("modifierSynset");
 
-    public static final URI NORMALIZED_VALUE = createURI("normalizedValue");
+    public static final IRI NORMALIZED_VALUE = createIRI("normalizedValue");
 
-    public static final URI BEGIN_POINT = createURI("normalizedValue"); // TODO
+    public static final IRI BEGIN_POINT = createIRI("normalizedValue"); // TODO
 
-    public static final URI END_POINT = createURI("endPointValue"); // TODO
+    public static final IRI END_POINT = createIRI("endPointValue"); // TODO
 
-    public static final URI ANCHOR_TIME = createURI("anchorTime"); // TODO
+    public static final IRI ANCHOR_TIME = createIRI("anchorTime"); // TODO
 
-    public static final URI ROLESET = createURI("roleset");
+    public static final IRI ROLESET = createIRI("roleset");
 
-    public static final URI FACTUALITY = createURI("factuality"); // TODO
+    public static final IRI FACTUALITY = createIRI("factuality"); // TODO
 
-    public static final URI POLARITY = createURI("polarity"); // TODO
+    public static final IRI POLARITY = createIRI("polarity"); // TODO
 
-    public static final URI NERC_TYPE = createURI("nercType");
+    public static final IRI NERC_TYPE = createIRI("nercType");
 
-    public static final URI FRAME_PROPERTY = createURI("frame");
+    public static final IRI FRAME_PROPERTY = createIRI("frame");
 
-    public static final URI ARGUMENT = createURI("argument");
+    public static final IRI ARGUMENT = createIRI("argument");
 
-    public static final URI ROLE = createURI("role");
+    public static final IRI ROLE = createIRI("role");
 
-    public static final URI COREFERENTIAL = createURI("coreferential");
+    public static final IRI COREFERENTIAL = createIRI("coreferential");
 
-    public static final URI COREFERENTIAL_CONJUNCT = createURI("coreferentialConjunct");
+    public static final IRI COREFERENTIAL_CONJUNCT = createIRI("coreferentialConjunct");
 
-    public static final URI EXPRESSES = createURI("expresses");
+    public static final IRI EXPRESSES = createIRI("expresses");
 
-    public static final URI DENOTES = createURI("denotes");
+    public static final IRI DENOTES = createIRI("denotes");
 
-    public static final URI IMPLIES = createURI("implies");
+    public static final IRI IMPLIES = createIRI("implies");
 
-    public static final URI MENTION_OF = createURI("mentionOf");
+    public static final IRI MENTION_OF = createIRI("mentionOf");
 
-    public static final URI COMPOUND_STRING = createURI("CompoundString");
+    public static final IRI COMPOUND_STRING = createIRI("CompoundString");
 
-    public static final URI COMPONENT_SUB_STRING = createURI("componentSubString");
+    public static final IRI COMPONENT_SUB_STRING = createIRI("componentSubString");
 
-    public static final URI LEMMA = createURI("lemma"); // TODO
+    public static final IRI LEMMA = createIRI("lemma"); // TODO
 
-    public static final URI SST = createURI("sst"); // TODO
+    public static final IRI SST = createIRI("sst"); // TODO
 
-    public static final URI PLURAL = createURI("plural"); // TODO
+    public static final IRI PLURAL = createIRI("plural"); // TODO
 
     // ENTITY LAYER
 
-    public static final URI INSTANCE = createURI("Instance");
+    public static final IRI INSTANCE = createIRI("Instance");
 
-    public static final URI ATTRIBUTE = createURI("Attribute");
+    public static final IRI ATTRIBUTE = createIRI("Attribute");
 
-    public static final URI TIME = createURI("Time");
+    public static final IRI TIME = createIRI("Time");
 
-    public static final URI FRAME = createURI("Frame");
+    public static final IRI FRAME = createIRI("Frame");
 
-    public static final URI INCLUDE = createURI("include");
+    public static final IRI INCLUDE = createIRI("include");
 
     // MAPPING
 
-    public static final URI ARGUMENT_NOMINALIZATION = createURI("ArgumentNominalization");
+    public static final IRI ARGUMENT_NOMINALIZATION = createIRI("ArgumentNominalization");
 
-    public static final URI MAPPED_TO = createURI("mappedTo");
+    public static final IRI MAPPED_TO = createIRI("mappedTo");
 
-    public static final URI SUBJECT_ROLE = createURI("subjectRole");
+    public static final IRI SUBJECT_ROLE = createIRI("subjectRole");
 
-    public static final URI COMPLEMENT_ROLE = createURI("complementRole");
+    public static final IRI COMPLEMENT_ROLE = createIRI("complementRole");
 
     // HELPER METHODS
 
-    private static URI createURI(final String localName) {
-        return ValueFactoryImpl.getInstance().createURI(NAMESPACE, localName);
+    private static IRI createIRI(final String localName) {
+        return SimpleValueFactory.getInstance().createIRI(NAMESPACE, localName);
     }
 
     private KS() {

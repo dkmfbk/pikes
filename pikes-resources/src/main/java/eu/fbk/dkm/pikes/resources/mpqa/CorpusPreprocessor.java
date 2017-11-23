@@ -9,10 +9,10 @@ import com.google.common.collect.Sets;
 import com.google.common.html.HtmlEscapers;
 import com.google.common.io.CharStreams;
 import com.google.common.io.Files;
+import eu.fbk.rdfpro.util.Statements;
 import eu.fbk.utils.core.CommandLine;
 import eu.fbk.rdfpro.util.IO;
 import ixa.kaflib.KAFDocument;
-import org.openrdf.model.impl.URIImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -188,7 +188,7 @@ public class CorpusPreprocessor {
 		document.setRawText(builder.toString());
 
 		document.createPublic();
-		document.getPublic().publicId = new URIImpl(documentURI).getLocalName();
+		document.getPublic().publicId = Statements.VALUE_FACTORY.createIRI(documentURI).getLocalName();
 		document.getPublic().uri = documentURI;
 
 		document.createFileDesc();

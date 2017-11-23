@@ -46,7 +46,7 @@ import ixa.kaflib.Timex3;
 import ixa.kaflib.WF;
 
 import eu.fbk.rdfpro.util.IO;
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 public final class NAFUtils {
 
@@ -992,7 +992,7 @@ public final class NAFUtils {
     }
 
 
-    public static URI createPreMOnSemanticClassURIfor(String model, String predicate){
+    public static IRI createPreMOnSemanticClassIRIfor(String model, String predicate){
 
         String prefix = "";
         switch (model) {
@@ -1007,12 +1007,12 @@ public final class NAFUtils {
         //works for fn15,pb17,vn32,nb10... in case of other version, some cautions have to be take on predicate (e.g.m FedEx or UPS in pb215)
         String localname=prefix+predicate.toLowerCase();
 
-        return Statements.VALUE_FACTORY.createURI(PREMON_NAMESPACE, localname);
+        return Statements.VALUE_FACTORY.createIRI(PREMON_NAMESPACE, localname);
 
     }
 
 
-    public static URI createPreMOnSemanticRoleURIfor(String model, String predicate, String role){
+    public static IRI createPreMOnSemanticRoleIRIfor(String model, String predicate, String role){
 
         String prefix = "";
 
@@ -1041,7 +1041,7 @@ public final class NAFUtils {
 
         String localname=prefix+predicate.toLowerCase()+PREMON_ARGUMENT_SEPARATOR+role;
 
-        return Statements.VALUE_FACTORY.createURI(PREMON_NAMESPACE, localname);
+        return Statements.VALUE_FACTORY.createIRI(PREMON_NAMESPACE, localname);
 
     }
 

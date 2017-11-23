@@ -20,13 +20,14 @@ import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.io.Resources;
 
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.impl.ValueFactoryImpl;
-import org.openrdf.model.vocabulary.RDFS;
-import org.openrdf.rio.RDFHandlerException;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.model.impl.ValueFactoryImpl;
+import org.eclipse.rdf4j.model.vocabulary.RDFS;
+import org.eclipse.rdf4j.rio.RDFHandlerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -114,19 +115,19 @@ public final class YagoTaxonomy {
     }
 
     @Nullable
-    public static URI getDBpediaYagoURI(@Nullable final String synsetID) {
+    public static IRI getDBpediaYagoIRI(@Nullable final String synsetID) {
         if (synsetID != null) {
             final Integer offset = Integer.valueOf(synsetID.substring(0, synsetID.length() - 2));
             final Concept concept = OFFSET_INDEX.get(offset);
             if (concept != null) {
-                return ValueFactoryImpl.getInstance().createURI(NAMESPACE + concept.id);
+                return SimpleValueFactory.getInstance() .createIRI(NAMESPACE + concept.id);
             }
         }
         return null;
     }
 
-    public static Set<URI> getDBpediaYagoURIs(@Nullable final Iterable<String> synsetIDs) {
-        final Set<URI> uris = Sets.newHashSet();
+    public static Set<IRI> getDBpediaYagoIRIs(@Nullable final Iterable<String> synsetIDs) {
+        final Set<IRI> uris = Sets.newHashSet();
         final Set<String> hypernyms = Sets.newHashSet();
         final List<String> queue = Lists.newLinkedList();
         if (synsetIDs != null) {
@@ -134,7 +135,7 @@ public final class YagoTaxonomy {
         }
         while (!queue.isEmpty()) {
             final String synsetID = queue.remove(0);
-            final URI uri = getDBpediaYagoURI(synsetID);
+            final IRI uri = getDBpediaYagoIRI(synsetID);
             if (uri != null) {
                 uris.add(uri);
             } else {
@@ -149,9 +150,9 @@ public final class YagoTaxonomy {
     }
 
     @Nullable
-    public static String getSynsetID(@Nullable final URI dbpediaYagoURI) {
-        if (dbpediaYagoURI != null && dbpediaYagoURI.stringValue().startsWith(NAMESPACE)) {
-            final String s = dbpediaYagoURI.stringValue();
+    public static String getSynsetID(@Nullable final IRI dbpediaYagoIRI) {
+        if (dbpediaYagoIRI != null && dbpediaYagoIRI.stringValue().startsWith(NAMESPACE)) {
+            final String s = dbpediaYagoIRI.stringValue();
             final int l = s.length();
             if (l > 9) {
                 for (int i = l - 9; i < l; ++i) {
@@ -165,20 +166,20 @@ public final class YagoTaxonomy {
         return null;
     }
 
-    public static Set<URI> getSubClasses(final URI parentURI, final boolean recursive) {
-        final Set<URI> result = Sets.newHashSet();
-        final List<URI> queue = Lists.newLinkedList();
-        queue.add(parentURI);
+    public static Set<IRI> getSubClasses(final IRI parentIRI, final boolean recursive) {
+        final Set<IRI> result = Sets.newHashSet();
+        final List<IRI> queue = Lists.newLinkedList();
+        queue.add(parentIRI);
         while (!queue.isEmpty()) {
-            final URI uri = queue.remove(0);
+            final IRI uri = queue.remove(0);
             final String id = uri.stringValue().substring(NAMESPACE.length());
             final Concept concept = ID_INDEX.get(id);
             if (concept != null) {
                 for (final String childID : concept.children) {
-                    final URI childURI = ValueFactoryImpl.getInstance().createURI(
+                    final IRI childIRI = SimpleValueFactory.getInstance().createIRI(
                             NAMESPACE + childID);
-                    if (result.add(childURI) && recursive) {
-                        queue.add(childURI);
+                    if (result.add(childIRI) && recursive) {
+                        queue.add(childIRI);
                     }
                 }
             }
@@ -186,20 +187,20 @@ public final class YagoTaxonomy {
         return result;
     }
 
-    public static Set<URI> getSuperClasses(final URI childURI, final boolean recursive) {
-        final Set<URI> result = Sets.newHashSet();
-        final List<URI> queue = Lists.newLinkedList();
-        queue.add(childURI);
+    public static Set<IRI> getSuperClasses(final IRI childIRI, final boolean recursive) {
+        final Set<IRI> result = Sets.newHashSet();
+        final List<IRI> queue = Lists.newLinkedList();
+        queue.add(childIRI);
         while (!queue.isEmpty()) {
-            final URI uri = queue.remove(0);
+            final IRI uri = queue.remove(0);
             final String id = uri.stringValue().substring(NAMESPACE.length());
             final Concept concept = ID_INDEX.get(id);
             if (concept != null) {
                 for (final String parentID : concept.parents) {
-                    final URI parentURI = ValueFactoryImpl.getInstance().createURI(
+                    final IRI parentIRI = SimpleValueFactory.getInstance().createIRI(
                             NAMESPACE + parentID);
-                    if (result.add(parentURI) && recursive) {
-                        queue.add(parentURI);
+                    if (result.add(parentIRI) && recursive) {
+                        queue.add(parentIRI);
                     }
                 }
             }
@@ -207,18 +208,18 @@ public final class YagoTaxonomy {
         return result;
     }
 
-    public static boolean isSubClassOf(final URI childURI, final URI parentURI) {
-        if (childURI.equals(parentURI)) {
+    public static boolean isSubClassOf(final IRI childIRI, final IRI parentIRI) {
+        if (childIRI.equals(parentIRI)) {
             return true;
         }
-        final String childID = childURI.stringValue().substring(NAMESPACE.length());
+        final String childID = childIRI.stringValue().substring(NAMESPACE.length());
         final Concept child = ID_INDEX.get(childID);
         if (child == null) {
             return false;
         }
         for (final String parentID : child.parents) {
-            final URI uri = ValueFactoryImpl.getInstance().createURI(NAMESPACE + parentID);
-            if (isSubClassOf(uri, parentURI)) {
+            final IRI uri = SimpleValueFactory.getInstance().createIRI(NAMESPACE + parentID);
+            if (isSubClassOf(uri, parentIRI)) {
                 return true;
             }
         }
@@ -231,7 +232,7 @@ public final class YagoTaxonomy {
                     .parser()
                     .withName("eu.fbk.dkm.pikes.resources.YagoTaxonomy")
                     .withHeader(
-                            "Generate a TSV file with mappings from offsets to DBpedia Yago URIs")
+                            "Generate a TSV file with mappings from offsets to DBpedia Yago IRIs")
                     .withOption("i", "input", "the input RDF file with the DBpedia Yago taxonomy",
                             "FILE", Type.FILE_EXISTING, true, false, true)
                     .withOption("o", "output", "the output TSV file", "FILE", Type.FILE, true,
@@ -240,28 +241,26 @@ public final class YagoTaxonomy {
             final File input = cmd.getOptionValue("i", File.class);
             final File output = cmd.getOptionValue("o", File.class);
 
-            TQL.register();
-
             final Set<String> ids = Sets.newHashSet();
             final Multimap<String, String> parents = HashMultimap.create();
-            final RDFSource source = RDFSources.read(false, true, null, null,
+            final RDFSource source = RDFSources.read(false, true, null, null, null, true,
                     input.getAbsolutePath());
             source.emit(new AbstractRDFHandler() {
 
                 @Override
                 public void handleStatement(final Statement stmt) throws RDFHandlerException {
                     final Resource s = stmt.getSubject();
-                    final URI p = stmt.getPredicate();
+                    final IRI p = stmt.getPredicate();
                     final Value o = stmt.getObject();
-                    if (p.equals(RDFS.SUBCLASSOF) && s instanceof URI && o instanceof URI
+                    if (p.equals(RDFS.SUBCLASSOF) && s instanceof IRI && o instanceof IRI
                             && s.stringValue().startsWith(NAMESPACE)
                             && o.stringValue().startsWith(NAMESPACE)) {
                         final String childID = s.stringValue().substring(NAMESPACE.length());
                         final String parentID = o.stringValue().substring(NAMESPACE.length());
-                        if (getSynsetID((URI) o) != null) {
+                        if (getSynsetID((IRI) o) != null) {
                             ids.add(parentID);
                         }
-                        if (getSynsetID((URI) s) != null) {
+                        if (getSynsetID((IRI) s) != null) {
                             ids.add(childID);
                             parents.put(childID, parentID);
                         }

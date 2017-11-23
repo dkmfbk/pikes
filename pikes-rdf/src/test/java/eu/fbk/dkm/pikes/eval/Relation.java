@@ -4,28 +4,28 @@ import java.util.Objects;
 
 import javax.annotation.Nullable;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 public final class Relation implements Comparable<Relation> {
 
-    private final URI first;
+    private final IRI first;
 
-    private final URI second;
+    private final IRI second;
 
     private final boolean extra;
 
-    public Relation(final URI first, final URI second, final boolean extra) {
+    public Relation(final IRI first, final IRI second, final boolean extra) {
         final boolean swap = Util.VALUE_ORDERING.compare(first, second) > 0;
         this.first = swap ? second : first;
         this.second = swap ? first : second;
         this.extra = extra;
     }
 
-    public URI getFirst() {
+    public IRI getFirst() {
         return this.first;
     }
 
-    public URI getSecond() {
+    public IRI getSecond() {
         return this.second;
     }
 
@@ -59,8 +59,8 @@ public final class Relation implements Comparable<Relation> {
         return Objects.hash(this.first, this.second);
     }
 
-    public String toString(@Nullable final URI baseURI) {
-        return "(" + Util.format(baseURI, this.first) + ", " + Util.format(baseURI, this.second)
+    public String toString(@Nullable final IRI baseIRI) {
+        return "(" + Util.format(baseIRI, this.first) + ", " + Util.format(baseIRI, this.second)
                 + ")";
     }
 

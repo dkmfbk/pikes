@@ -7,7 +7,7 @@ import eu.fbk.dkm.pikes.tintop.AnnotationPipeline;
 import ixa.kaflib.KAFDocument;
 import org.glassfish.grizzly.http.server.Request;
 import org.glassfish.grizzly.http.server.Response;
-import org.openrdf.model.Model;
+import org.eclipse.rdf4j.model.Model;
 
 import java.io.StringReader;
 import java.io.StringWriter;

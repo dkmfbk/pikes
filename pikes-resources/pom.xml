@@ -66,11 +66,6 @@
         </dependency>
         <dependency>
             <groupId>eu.fbk.utils</groupId>
-            <artifactId>utils-vocab</artifactId>
-            <version>${utils-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>eu.fbk.utils</groupId>
             <artifactId>utils-eval</artifactId>
             <version>${utils-version}</version>
         </dependency>
@@ -91,8 +86,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.openrdf.sesame</groupId>
-            <artifactId>sesame-model</artifactId>
+            <groupId>org.eclipse.rdf4j</groupId>
+            <artifactId>rdf4j-model</artifactId>
+            <version>${rdf4j-version}</version>
         </dependency>
         <dependency>
             <groupId>eu.fbk.rdfpro</groupId>
@@ -105,8 +101,9 @@
             <version>${rdfpro-version}</version>
         </dependency>
         <dependency>
-            <groupId>org.openrdf.sesame</groupId>
-            <artifactId>sesame-rio-api</artifactId>
+            <groupId>org.eclipse.rdf4j</groupId>
+            <artifactId>rdf4j-rio-api</artifactId>
+            <version>${rdf4j-version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.findbugs</groupId>

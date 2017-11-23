@@ -26,16 +26,16 @@ import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.google.common.html.HtmlEscapers;
 
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.ValueFactory;
-import org.openrdf.model.vocabulary.DCTERMS;
-import org.openrdf.model.vocabulary.OWL;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.query.BindingSet;
-import org.openrdf.query.algebra.TupleExpr;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
+import org.eclipse.rdf4j.model.vocabulary.OWL;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.query.BindingSet;
+import org.eclipse.rdf4j.query.algebra.TupleExpr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -248,19 +248,19 @@ public final class Evaluation {
 
         private final QuadModel model;
 
-        private final Map<URI, String> systemMap;
+        private final Map<IRI, String> systemMap;
 
-        private final Map<URI, URI> sentenceMap;
+        private final Map<IRI, IRI> sentenceMap;
 
-        private final Map<URI, String> sentenceLabels;
+        private final Map<IRI, String> sentenceLabels;
 
         private final List<String> systems;
 
-        private final Multimap<URI, Relation> ignorableRelations;
+        private final Multimap<IRI, Relation> ignorableRelations;
 
-        private final Multimap<URI, Relation> forbiddenRelations;
+        private final Multimap<IRI, Relation> forbiddenRelations;
 
-        private final Multimap<URI, Relation> ignorableTypes;
+        private final Multimap<IRI, Relation> ignorableTypes;
 
         private final Evaluation evaluation;
 
@@ -269,25 +269,25 @@ public final class Evaluation {
             this.model = alignedStmts instanceof QuadModel ? (QuadModel) alignedStmts : QuadModel
                     .create(alignedStmts);
 
-            final Set<URI> sentenceURIs = Sets.newHashSet();
+            final Set<IRI> sentenceIRIs = Sets.newHashSet();
             this.systemMap = Maps.newHashMap();
             this.sentenceMap = Maps.newHashMap();
             for (final Resource graphID : this.model.filter(null, RDF.TYPE, EVAL.KNOWLEDGE_GRAPH,
                     EVAL.METADATA).subjects()) {
                 final String system = this.model.filter(graphID, DCTERMS.CREATOR, null, //
                         EVAL.METADATA).objectLiteral().stringValue();
-                final URI sentenceURI = this.model.filter(graphID, DCTERMS.SOURCE, null, //
+                final IRI sentenceIRI = this.model.filter(graphID, DCTERMS.SOURCE, null, //
                         EVAL.METADATA).objectURI();
-                this.systemMap.put((URI) graphID, system);
-                this.sentenceMap.put((URI) graphID, sentenceURI);
-                sentenceURIs.add(sentenceURI);
+                this.systemMap.put((IRI) graphID, system);
+                this.sentenceMap.put((IRI) graphID, sentenceIRI);
+                sentenceIRIs.add(sentenceIRI);
             }
 
             this.sentenceLabels = Maps.newHashMap();
             int index = 1;
-            for (final URI sentenceURI : Ordering.from(Statements.valueComparator()).sortedCopy(
-                    sentenceURIs)) {
-                this.sentenceLabels.put(sentenceURI, "S" + index++);
+            for (final IRI sentenceIRI : Ordering.from(Statements.valueComparator()).sortedCopy(
+                    sentenceIRIs)) {
+                this.sentenceLabels.put(sentenceIRI, "S" + index++);
             }
 
             this.systems = Lists.newArrayList(Sets.newHashSet(this.systemMap.values()));
@@ -302,12 +302,12 @@ public final class Evaluation {
                     this.model.filter(null, EVAL.ASSOCIABLE_TO, null),
                     this.model.filter(null, EVAL.NOT_ASSOCIABLE_TO, null),
                     this.model.filter(null, EVAL.CLASSIFIABLE_AS, null))) {
-                final URI sentenceID = this.sentenceMap.get(stmt.getContext());
+                final IRI sentenceID = this.sentenceMap.get(stmt.getContext());
                 final String system = this.systemMap.get(stmt.getContext());
                 if (sentenceID != null && system.equals("gold")) {
-                    final URI p = stmt.getPredicate();
-                    final Relation relation = new Relation((URI) stmt.getSubject(),
-                            (URI) stmt.getObject(), false);
+                    final IRI p = stmt.getPredicate();
+                    final Relation relation = new Relation((IRI) stmt.getSubject(),
+                            (IRI) stmt.getObject(), false);
                     (EVAL.CLASSIFIABLE_AS.equals(p) ? this.ignorableTypes : EVAL.ASSOCIABLE_TO
                             .equals(p) ? this.ignorableRelations : this.forbiddenRelations).put(
                             sentenceID, relation);
@@ -401,23 +401,23 @@ public final class Evaluation {
 
             final StringBuilder out = new StringBuilder();
 
-            final Table<URI, String, List<URI>> nodesTable = HashBasedTable.create();
+            final Table<IRI, String, List<IRI>> nodesTable = HashBasedTable.create();
             for (final Statement stmt : this.model.filter(null, RDF.TYPE, EVAL.NODE)) {
-                final URI sentenceID = this.sentenceMap.get(stmt.getContext());
+                final IRI sentenceID = this.sentenceMap.get(stmt.getContext());
                 final String system = this.systemMap.get(stmt.getContext());
                 if (sentenceID != null && system != null) {
-                    getList(nodesTable, sentenceID, system).add((URI) stmt.getSubject());
+                    getList(nodesTable, sentenceID, system).add((IRI) stmt.getSubject());
                 }
             }
 
-            final Table<URI, String, Multimap<URI, URI>> alignmentTable = HashBasedTable.create();
+            final Table<IRI, String, Multimap<IRI, IRI>> alignmentTable = HashBasedTable.create();
             for (final Statement stmt : this.model.filter(null, EVAL.MAPPED_TO, null)) {
-                final URI graphID = (URI) stmt.getContext();
-                final URI sentenceID = this.sentenceMap.get(graphID);
+                final IRI graphID = (IRI) stmt.getContext();
+                final IRI sentenceID = this.sentenceMap.get(graphID);
                 final String system = this.systemMap.get(graphID);
                 if (sentenceID != null && system != null) {
-                    final URI goldNode = (URI) stmt.getObject();
-                    final URI testNode = (URI) stmt.getSubject();
+                    final IRI goldNode = (IRI) stmt.getObject();
+                    final IRI testNode = (IRI) stmt.getSubject();
                     getMultimap(alignmentTable, sentenceID, system).put(goldNode, testNode);
                 }
             }
@@ -426,23 +426,23 @@ public final class Evaluation {
             final Map<String, PrecisionRecall.Evaluator> unionEvaluators = initPR();
             emitHeader(out, "Instances");
 
-            String sentenceURICell = "";
-            for (final URI sentenceURI : Util.VALUE_ORDERING.sortedCopy(nodesTable.rowKeySet())) {
-                final Multimap<String, URI> alignedNodes = HashMultimap.create();
-                sentenceURICell = this.sentenceLabels.get(sentenceURI);
-                out.append("\n<!-- sentence " + escape(sentenceURICell) + " -->");
-                final List<URI> goldNodes = Util.VALUE_ORDERING.sortedCopy(nodesTable.get(
-                        sentenceURI, "gold"));
+            String sentenceIRICell = "";
+            for (final IRI sentenceIRI : Util.VALUE_ORDERING.sortedCopy(nodesTable.rowKeySet())) {
+                final Multimap<String, IRI> alignedNodes = HashMultimap.create();
+                sentenceIRICell = this.sentenceLabels.get(sentenceIRI);
+                out.append("\n<!-- sentence " + escape(sentenceIRICell) + " -->");
+                final List<IRI> goldNodes = Util.VALUE_ORDERING.sortedCopy(nodesTable.get(
+                        sentenceIRI, "gold"));
                 String style = " style=\"border-top: 4px solid #dddddd\"";
-                for (final URI goldNode : goldNodes) {
+                for (final IRI goldNode : goldNodes) {
                     out.append(String.format("\n<tr%s><td>%s</td><td>%s", style,
-                            escape(sentenceURICell), escape(Util.format(sentenceURI, goldNode))));
+                            escape(sentenceIRICell), escape(Util.format(sentenceIRI, goldNode))));
                     style = "";
-                    sentenceURICell = "";
+                    sentenceIRICell = "";
                     for (final String system : this.systems) {
-                        final Multimap<URI, URI> alignments = alignmentTable.get(sentenceURI,
+                        final Multimap<IRI, IRI> alignments = alignmentTable.get(sentenceIRI,
                                 system);
-                        final Collection<URI> testNodes = alignments == null ? ImmutableSet.of()
+                        final Collection<IRI> testNodes = alignments == null ? ImmutableSet.of()
                                 : alignments.get(goldNode);
                         if (testNodes.isEmpty()) {
                             goldEvaluators.get(system).addFN(1);
@@ -452,35 +452,35 @@ public final class Evaluation {
                             alignedNodes.putAll(system, testNodes);
                         }
                         out.append(String.format("</td><td>%s",
-                                escape(Util.format(sentenceURI, testNodes.toArray()))));
+                                escape(Util.format(sentenceIRI, testNodes.toArray()))));
                     }
                     out.append("</td></tr>");
                 }
                 for (final String system : this.systems) {
-                    final Set<URI> testNodes = Sets
-                            .newHashSet(nodesTable.get(sentenceURI, system));
+                    final Set<IRI> testNodes = Sets
+                            .newHashSet(nodesTable.get(sentenceIRI, system));
                     testNodes.removeAll(alignedNodes.get(system));
                     goldEvaluators.get(system).addFP(testNodes.size());
                     unionEvaluators.get(system).addFP(testNodes.size());
-                    for (final URI testNode : Util.VALUE_ORDERING.sortedCopy(testNodes)) {
+                    for (final IRI testNode : Util.VALUE_ORDERING.sortedCopy(testNodes)) {
                         out.append("\n<tr><td></td><td>");
                         for (final String s : this.systems) {
                             out.append(String.format("</td><td>%s",
-                                    s.equals(system) ? escape(Util.format(sentenceURI, testNode))
+                                    s.equals(system) ? escape(Util.format(sentenceIRI, testNode))
                                             : ""));
                         }
                         out.append("</td></tr>");
                     }
                 }
-                final Set<URI> union = Sets.newHashSet();
+                final Set<IRI> union = Sets.newHashSet();
                 for (final String system : this.systems) {
-                    union.addAll(getMultimap(alignmentTable, sentenceURI, system).keySet());
+                    union.addAll(getMultimap(alignmentTable, sentenceIRI, system).keySet());
                 }
                 union.retainAll(goldNodes);
                 for (final String system : this.systems) {
                     unionEvaluators.get(system).addFN(
                             Sets.difference(union,
-                                    getMultimap(alignmentTable, sentenceURI, system).keySet())
+                                    getMultimap(alignmentTable, sentenceIRI, system).keySet())
                                     .size());
                 }
             }
@@ -495,18 +495,18 @@ public final class Evaluation {
 
             final StringBuilder out = new StringBuilder();
 
-            final Table<URI, String, List<Relation>> relationTable = HashBasedTable.create();
-            final Table<URI, String, Multimap<Relation, Relation>> mappingTable = HashBasedTable
+            final Table<IRI, String, List<Relation>> relationTable = HashBasedTable.create();
+            final Table<IRI, String, Multimap<Relation, Relation>> mappingTable = HashBasedTable
                     .create();
             for (final BindingSet bindings : Util.query(this.model, RELATION_QUERY)) {
-                final URI g = (URI) bindings.getValue("g");
-                final URI sentenceID = this.sentenceMap.get(g);
+                final IRI g = (IRI) bindings.getValue("g");
+                final IRI sentenceID = this.sentenceMap.get(g);
                 final String system = this.systemMap.get(g);
                 if (sentenceID != null && system != null) {
-                    final URI s = (URI) bindings.getValue("s");
-                    final URI o = (URI) bindings.getValue("o");
-                    final URI sm = (URI) bindings.getValue("sm");
-                    final URI om = (URI) bindings.getValue("om");
+                    final IRI s = (IRI) bindings.getValue("s");
+                    final IRI o = (IRI) bindings.getValue("o");
+                    final IRI sm = (IRI) bindings.getValue("sm");
+                    final IRI om = (IRI) bindings.getValue("om");
                     if (sm != null && om != null && sm.equals(om)) {
                         continue; // self relation after mapping
                     }
@@ -522,22 +522,22 @@ public final class Evaluation {
             final Map<String, PrecisionRecall.Evaluator> unionEvaluators = initPR();
             emitHeader(out, "Edges");
 
-            String sentenceURICell = "";
-            for (final URI sentenceURI : Util.VALUE_ORDERING.sortedCopy(relationTable.rowKeySet())) {
+            String sentenceIRICell = "";
+            for (final IRI sentenceIRI : Util.VALUE_ORDERING.sortedCopy(relationTable.rowKeySet())) {
 
-                sentenceURICell = this.sentenceLabels.get(sentenceURI);
-                out.append("\n<!-- sentence " + escape(sentenceURICell) + " -->");
+                sentenceIRICell = this.sentenceLabels.get(sentenceIRI);
+                out.append("\n<!-- sentence " + escape(sentenceIRICell) + " -->");
 
                 String style = " style=\"border-top: 4px solid #dddddd\"";
-                final List<Relation> goldRelations = relationTable.get(sentenceURI, "gold");
+                final List<Relation> goldRelations = relationTable.get(sentenceIRI, "gold");
                 for (final Relation goldRelation : Ordering.natural().sortedCopy(goldRelations)) {
                     out.append(String.format("\n<tr%s><td>%s</td><td>%s", style,
-                            escape(sentenceURICell), escape(goldRelation.toString(sentenceURI))));
+                            escape(sentenceIRICell), escape(goldRelation.toString(sentenceIRI))));
                     style = "";
-                    sentenceURICell = "";
+                    sentenceIRICell = "";
                     for (final String system : this.systems) {
                         final Multimap<Relation, Relation> alignments = getMultimap(mappingTable,
-                                sentenceURI, system);
+                                sentenceIRI, system);
                         final Collection<Relation> testRelations = alignments == null ? ImmutableSet
                                 .of() : alignments.get(goldRelation);
                         if (testRelations.isEmpty()) {
@@ -547,7 +547,7 @@ public final class Evaluation {
                             unionEvaluators.get(system).addTP(1);
                         }
                         out.append(String.format("</td><td>%s",
-                                escape(Util.format(sentenceURI, testRelations.toArray()))));
+                                escape(Util.format(sentenceIRI, testRelations.toArray()))));
                     }
                     out.append("</td></tr>");
                 }
@@ -556,15 +556,15 @@ public final class Evaluation {
                 final Set<Relation> goldRelationSet = ImmutableSet.copyOf(goldRelations);
                 for (final String system : this.systems) {
                     final Multimap<Relation, Relation> multimap = getMultimap(mappingTable,
-                            sentenceURI, system);
+                            sentenceIRI, system);
                     for (final Relation keyRelation : Ordering.natural().sortedCopy(
                             multimap.keySet())) {
                         if (!goldRelationSet.contains(keyRelation)) {
                             final boolean ignore = keyRelation.isExtra()
-                                    || this.ignorableRelations.containsEntry(sentenceURI,
+                                    || this.ignorableRelations.containsEntry(sentenceIRI,
                                             keyRelation);
                             if (!ignore
-                                    && !this.forbiddenRelations.containsEntry(sentenceURI,
+                                    && !this.forbiddenRelations.containsEntry(sentenceIRI,
                                             keyRelation)) {
                                 unknownRelations.add(keyRelation);
                             }
@@ -577,7 +577,7 @@ public final class Evaluation {
                                 out.append(String.format(
                                         "</td><td>%s",
                                         !s.equals(system) ? "" : (ignore ? "* " : "")
-                                                + escape(Util.format(sentenceURI,
+                                                + escape(Util.format(sentenceIRI,
                                                         multimap.get(keyRelation).toArray()))));
                             }
                             out.append("</td></tr>");
@@ -586,19 +586,19 @@ public final class Evaluation {
                 }
 
                 if (!unknownRelations.isEmpty()) {
-                    LOGGER.warn("Unknown relations for sentence " + sentenceURI + ":\n"
+                    LOGGER.warn("Unknown relations for sentence " + sentenceIRI + ":\n"
                             + Joiner.on('\n').join(unknownRelations));
                 }
 
                 final Set<Relation> union = Sets.newHashSet();
                 for (final String system : this.systems) {
-                    union.addAll(getList(relationTable, sentenceURI, system));
+                    union.addAll(getList(relationTable, sentenceIRI, system));
                 }
                 union.retainAll(goldRelationSet);
                 for (final String system : this.systems) {
                     unionEvaluators.get(system).addFN(
                             Sets.difference(union,
-                                    getMultimap(mappingTable, sentenceURI, system).keySet())
+                                    getMultimap(mappingTable, sentenceIRI, system).keySet())
                                     .size());
                 }
             }
@@ -614,21 +614,21 @@ public final class Evaluation {
             final StringBuilder out = new StringBuilder();
 
             final ValueFactory vf = Statements.VALUE_FACTORY;
-            final URI extraCtx = vf.createURI("eval:Extra");
+            final IRI extraCtx = vf.createIRI("eval:Extra");
 
-            final Table<URI, String, List<Statement>> stmtTable = HashBasedTable.create();
-            final Table<URI, String, Multimap<Statement, Statement>> mappingTable = HashBasedTable
+            final Table<IRI, String, List<Statement>> stmtTable = HashBasedTable.create();
+            final Table<IRI, String, Multimap<Statement, Statement>> mappingTable = HashBasedTable
                     .create();
             for (final BindingSet bindings : Util.query(this.model, LABELLED_QUERY)) {
-                final URI g = (URI) bindings.getValue("g");
-                final URI sentenceID = this.sentenceMap.get(g);
+                final IRI g = (IRI) bindings.getValue("g");
+                final IRI sentenceID = this.sentenceMap.get(g);
                 final String system = this.systemMap.get(g);
                 if (sentenceID != null && system != null) {
-                    final URI s = (URI) bindings.getValue("s");
-                    final URI p = (URI) bindings.getValue("p");
-                    final URI o = (URI) bindings.getValue("o");
-                    final URI sm = (URI) bindings.getValue("sm");
-                    final URI om = (URI) bindings.getValue("om");
+                    final IRI s = (IRI) bindings.getValue("s");
+                    final IRI p = (IRI) bindings.getValue("p");
+                    final IRI o = (IRI) bindings.getValue("o");
+                    final IRI sm = (IRI) bindings.getValue("sm");
+                    final IRI om = (IRI) bindings.getValue("om");
                     if (namespaces != null && !namespaces.contains(p.getNamespace())) {
                         continue;
                     }
@@ -647,23 +647,23 @@ public final class Evaluation {
             final Map<String, PrecisionRecall.Evaluator> unionEvaluators = initPR();
             emitHeader(out, type);
 
-            String sentenceURICell = "";
-            for (final URI sentenceURI : Util.VALUE_ORDERING.sortedCopy(stmtTable.rowKeySet())) {
+            String sentenceIRICell = "";
+            for (final IRI sentenceIRI : Util.VALUE_ORDERING.sortedCopy(stmtTable.rowKeySet())) {
 
-                sentenceURICell = this.sentenceLabels.get(sentenceURI);
-                out.append("\n<!-- sentence " + escape(sentenceURICell) + " -->");
+                sentenceIRICell = this.sentenceLabels.get(sentenceIRI);
+                out.append("\n<!-- sentence " + escape(sentenceIRICell) + " -->");
 
                 String style = " style=\"border-top: 4px solid #dddddd\"";
                 final List<Statement> goldStmts = MoreObjects.firstNonNull(
-                        stmtTable.get(sentenceURI, "gold"), ImmutableList.<Statement>of());
+                        stmtTable.get(sentenceIRI, "gold"), ImmutableList.<Statement>of());
                 for (final Statement goldStmt : Util.STMT_ORDERING.sortedCopy(goldStmts)) {
                     out.append(String.format("\n<tr%s><td>%s</td><td>%s", style,
-                            escape(sentenceURICell), escape(Util.format(sentenceURI, goldStmt))));
+                            escape(sentenceIRICell), escape(Util.format(sentenceIRI, goldStmt))));
                     style = "";
-                    sentenceURICell = "";
+                    sentenceIRICell = "";
                     for (final String system : this.systems) {
                         final Multimap<Statement, Statement> alignments = getMultimap(
-                                mappingTable, sentenceURI, system);
+                                mappingTable, sentenceIRI, system);
                         final Collection<Statement> testStmts = alignments == null ? ImmutableSet
                                 .of() : alignments.get(goldStmt);
                         if (testStmts.isEmpty()) {
@@ -673,7 +673,7 @@ public final class Evaluation {
                             unionEvaluators.get(system).addTP(1);
                         }
                         out.append(String.format("</td><td>%s",
-                                escape(Util.format(sentenceURI, testStmts.toArray()))));
+                                escape(Util.format(sentenceIRI, testStmts.toArray()))));
                     }
                     out.append("</td></tr>");
                 }
@@ -681,16 +681,16 @@ public final class Evaluation {
                 final Set<Statement> goldStmtSet = ImmutableSet.copyOf(goldStmts);
                 for (final String system : this.systems) {
                     final Multimap<Statement, Statement> multimap = getMultimap(mappingTable,
-                            sentenceURI, system);
+                            sentenceIRI, system);
                     for (final Statement keyStmt : Util.STMT_ORDERING
                             .sortedCopy(multimap.keySet())) {
                         if (!goldStmtSet.contains(keyStmt)) {
-                            final Relation keyRelation = keyStmt.getSubject() instanceof URI
-                                    && keyStmt.getObject() instanceof URI ? new Relation(
-                                    (URI) keyStmt.getSubject(), (URI) keyStmt.getObject(), false)
+                            final Relation keyRelation = keyStmt.getSubject() instanceof IRI
+                                    && keyStmt.getObject() instanceof IRI ? new Relation(
+                                    (IRI) keyStmt.getSubject(), (IRI) keyStmt.getObject(), false)
                                     : null;
                             final boolean ignore = extraCtx.equals(keyStmt.getContext())
-                                    || this.ignorableRelations.containsEntry(sentenceURI,
+                                    || this.ignorableRelations.containsEntry(sentenceIRI,
                                             keyRelation);
                             if (!ignore) {
                                 goldEvaluators.get(system).addFP(1);
@@ -701,7 +701,7 @@ public final class Evaluation {
                                 out.append(String.format(
                                         "</td><td>%s",
                                         !s.equals(system) ? "" : (ignore ? "* " : "")
-                                                + escape(Util.format(sentenceURI,
+                                                + escape(Util.format(sentenceIRI,
                                                         multimap.get(keyStmt).toArray()))));
                             }
                             out.append("</td></tr>");
@@ -711,13 +711,13 @@ public final class Evaluation {
 
                 final Set<Statement> union = Sets.newHashSet();
                 for (final String system : this.systems) {
-                    union.addAll(getList(stmtTable, sentenceURI, system));
+                    union.addAll(getList(stmtTable, sentenceIRI, system));
                 }
                 union.retainAll(goldStmtSet);
                 for (final String system : this.systems) {
                     unionEvaluators.get(system).addFN(
                             Sets.difference(union,
-                                    getMultimap(mappingTable, sentenceURI, system).keySet())
+                                    getMultimap(mappingTable, sentenceIRI, system).keySet())
                                     .size());
                 }
             }
@@ -728,29 +728,29 @@ public final class Evaluation {
             return new Stats(goldPRs, unionPRs, out.toString());
         }
 
-        private Stats attributeEvaluation(@Nullable final URI predicate,
+        private Stats attributeEvaluation(@Nullable final IRI predicate,
                 @Nullable final Set<String> valueNS, final String type) {
 
             final StringBuilder out = new StringBuilder();
 
             final ValueFactory vf = Statements.VALUE_FACTORY;
-            final URI extraCtx = vf.createURI("eval:Extra");
+            final IRI extraCtx = vf.createIRI("eval:Extra");
 
-            final Table<URI, String, List<Statement>> stmtTable = HashBasedTable.create();
-            final Table<URI, String, Multimap<Statement, Statement>> mappingTable = HashBasedTable
+            final Table<IRI, String, List<Statement>> stmtTable = HashBasedTable.create();
+            final Table<IRI, String, Multimap<Statement, Statement>> mappingTable = HashBasedTable
                     .create();
             for (final BindingSet bindings : Util.query(this.model, ATTRIBUTE_QUERY)) {
-                final URI g = (URI) bindings.getValue("g");
-                final URI sentenceID = this.sentenceMap.get(g);
+                final IRI g = (IRI) bindings.getValue("g");
+                final IRI sentenceID = this.sentenceMap.get(g);
                 final String system = this.systemMap.get(g);
                 if (sentenceID != null && system != null) {
-                    final URI s = (URI) bindings.getValue("s");
-                    final URI p = (URI) bindings.getValue("p");
+                    final IRI s = (IRI) bindings.getValue("s");
+                    final IRI p = (IRI) bindings.getValue("p");
                     final Value o = bindings.getValue("o");
-                    final URI sm = (URI) bindings.getValue("sm");
+                    final IRI sm = (IRI) bindings.getValue("sm");
                     if (predicate != null && !p.equals(predicate) //
-                            || valueNS != null && (!(o instanceof URI) || //
-                            !valueNS.contains(((URI) o).getNamespace()))) {
+                            || valueNS != null && (!(o instanceof IRI) || //
+                            !valueNS.contains(((IRI) o).getNamespace()))) {
                         continue;
                     }
                     final Statement stmt = vf.createStatement(s, p, o);
@@ -765,23 +765,23 @@ public final class Evaluation {
             final Map<String, PrecisionRecall.Evaluator> unionEvaluators = initPR();
             emitHeader(out, type);
 
-            String sentenceURICell = "";
-            for (final URI sentenceURI : Util.VALUE_ORDERING.sortedCopy(stmtTable.rowKeySet())) {
+            String sentenceIRICell = "";
+            for (final IRI sentenceIRI : Util.VALUE_ORDERING.sortedCopy(stmtTable.rowKeySet())) {
 
-                sentenceURICell = this.sentenceLabels.get(sentenceURI);
-                out.append("\n<!-- sentence " + escape(sentenceURICell) + " -->");
+                sentenceIRICell = this.sentenceLabels.get(sentenceIRI);
+                out.append("\n<!-- sentence " + escape(sentenceIRICell) + " -->");
 
                 String style = " style=\"border-top: 4px solid #dddddd\"";
                 final List<Statement> goldStmts = MoreObjects.firstNonNull(
-                        stmtTable.get(sentenceURI, "gold"), ImmutableList.<Statement>of());
+                        stmtTable.get(sentenceIRI, "gold"), ImmutableList.<Statement>of());
                 for (final Statement goldStmt : Util.STMT_ORDERING.sortedCopy(goldStmts)) {
                     out.append(String.format("\n<tr%s><td>%s</td><td>%s", style,
-                            escape(sentenceURICell), escape(Util.format(sentenceURI, goldStmt))));
+                            escape(sentenceIRICell), escape(Util.format(sentenceIRI, goldStmt))));
                     style = "";
-                    sentenceURICell = "";
+                    sentenceIRICell = "";
                     for (final String system : this.systems) {
                         final Multimap<Statement, Statement> alignments = getMultimap(
-                                mappingTable, sentenceURI, system);
+                                mappingTable, sentenceIRI, system);
                         final Collection<Statement> testStmts = alignments == null ? ImmutableSet
                                 .of() : alignments.get(goldStmt);
                         if (testStmts.isEmpty()) {
@@ -791,7 +791,7 @@ public final class Evaluation {
                             unionEvaluators.get(system).addTP(1);
                         }
                         out.append(String.format("</td><td>%s",
-                                escape(Util.format(sentenceURI, testStmts.toArray()))));
+                                escape(Util.format(sentenceIRI, testStmts.toArray()))));
                     }
                     out.append("</td></tr>");
                 }
@@ -799,16 +799,16 @@ public final class Evaluation {
                 final Set<Statement> goldStmtSet = ImmutableSet.copyOf(goldStmts);
                 for (final String system : this.systems) {
                     final Multimap<Statement, Statement> multimap = getMultimap(mappingTable,
-                            sentenceURI, system);
+                            sentenceIRI, system);
                     for (final Statement keyStmt : Util.STMT_ORDERING
                             .sortedCopy(multimap.keySet())) {
                         if (!goldStmtSet.contains(keyStmt)) {
-                            final Relation keyRelation = keyStmt.getSubject() instanceof URI
-                                    && keyStmt.getObject() instanceof URI ? new Relation(
-                                    (URI) keyStmt.getSubject(), (URI) keyStmt.getObject(), false)
+                            final Relation keyRelation = keyStmt.getSubject() instanceof IRI
+                                    && keyStmt.getObject() instanceof IRI ? new Relation(
+                                    (IRI) keyStmt.getSubject(), (IRI) keyStmt.getObject(), false)
                                     : null;
                             final boolean ignore = extraCtx.equals(keyStmt.getContext())
-                                    || this.ignorableTypes.containsEntry(sentenceURI, keyRelation);
+                                    || this.ignorableTypes.containsEntry(sentenceIRI, keyRelation);
                             if (!ignore) {
                                 goldEvaluators.get(system).addFP(1);
                                 unionEvaluators.get(system).addFP(1);
@@ -818,7 +818,7 @@ public final class Evaluation {
                                 out.append(String.format(
                                         "</td><td>%s",
                                         !s.equals(system) ? "" : (ignore ? "* " : "")
-                                                + escape(Util.format(sentenceURI,
+                                                + escape(Util.format(sentenceIRI,
                                                         multimap.get(keyStmt).toArray()))));
                             }
                             out.append("</td></tr>");
@@ -828,13 +828,13 @@ public final class Evaluation {
 
                 final Set<Statement> union = Sets.newHashSet();
                 for (final String system : this.systems) {
-                    union.addAll(getList(stmtTable, sentenceURI, system));
+                    union.addAll(getList(stmtTable, sentenceIRI, system));
                 }
                 union.retainAll(goldStmtSet);
                 for (final String system : this.systems) {
                     unionEvaluators.get(system).addFN(
                             Sets.difference(union,
-                                    getMultimap(mappingTable, sentenceURI, system).keySet())
+                                    getMultimap(mappingTable, sentenceIRI, system).keySet())
                                     .size());
                 }
             }
@@ -1008,7 +1008,7 @@ public final class Evaluation {
             // Read the input
             final Map<String, String> namespaces = Maps.newHashMap();
             final List<Statement> stmts = Lists.newArrayList();
-            RDFSources.read(false, false, null, null,
+            RDFSources.read(false, false, null, null,null,true,
                     inputFiles.toArray(new String[inputFiles.size()])).emit(
                     RDFHandlers.wrap(stmts, namespaces), 1);
 

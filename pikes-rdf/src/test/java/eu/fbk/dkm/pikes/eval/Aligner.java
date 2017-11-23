@@ -15,13 +15,13 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.vocabulary.DCTERMS;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.rio.RDFHandler;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.rio.RDFHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,28 +46,28 @@ public class Aligner {
 
         for (final Resource sentenceID : model
                 .filter(null, RDF.TYPE, EVAL.SENTENCE, EVAL.METADATA).subjects()) {
-            final Map<String, URI> graphs = Maps.newHashMap();
+            final Map<String, IRI> graphs = Maps.newHashMap();
             for (final Resource graphID : model.filter(null, DCTERMS.SOURCE, sentenceID,
                     EVAL.METADATA).subjects()) {
                 if (model.contains(graphID, RDF.TYPE, EVAL.KNOWLEDGE_GRAPH, EVAL.METADATA)) {
                     final String creator = model
                             .filter(graphID, DCTERMS.CREATOR, null, EVAL.METADATA).objectLiteral()
                             .stringValue();
-                    graphs.put(creator, (URI) graphID);
+                    graphs.put(creator, (IRI) graphID);
                 }
             }
-            final URI goldGraphID = graphs.get("gold");
+            final IRI goldGraphID = graphs.get("gold");
             Preconditions.checkNotNull(goldGraphID);
             final Collection<Statement> goldGraph = model.filter(null, null, null, goldGraphID);
             LOGGER.info("Processing sentence {}, {} gold statements, {} test graphs", sentenceID,
                     goldGraph.size(), graphs.size() - 1);
             for (final String creator : graphs.keySet()) {
                 if (!creator.equals("gold")) {
-                    final URI testGraphID = graphs.get(creator);
+                    final IRI testGraphID = graphs.get(creator);
                     final Collection<Statement> testGraph = model.filter(null, null, null,
                             testGraphID);
-                    final Map<URI, URI> sentenceMapping = align(goldGraph, testGraph);
-                    for (final Map.Entry<URI, URI> entry : sentenceMapping.entrySet()) {
+                    final Map<IRI, IRI> sentenceMapping = align(goldGraph, testGraph);
+                    for (final Map.Entry<IRI, IRI> entry : sentenceMapping.entrySet()) {
                         mappingStmts.add(Statements.VALUE_FACTORY.createStatement(entry.getKey(),
                                 EVAL.MAPPED_TO, entry.getValue(), testGraphID));
                     }
@@ -78,42 +78,42 @@ public class Aligner {
         return mappingStmts;
     }
 
-    public static Map<URI, URI> align(final Iterable<Statement> goldStmts,
+    public static Map<IRI, IRI> align(final Iterable<Statement> goldStmts,
             final Iterable<Statement> testStmts) {
 
         int goldNodesCount = 0;
-        final Multimap<URI, URI> goldMap = HashMultimap.create();
+        final Multimap<IRI, IRI> goldMap = HashMultimap.create();
         for (final Statement stmt : goldStmts) {
             if (stmt.getPredicate().equals(EVAL.DENOTED_BY)) {
                 ++goldNodesCount;
-                goldMap.put((URI) stmt.getObject(), (URI) stmt.getSubject());
+                goldMap.put((IRI) stmt.getObject(), (IRI) stmt.getSubject());
             }
         }
 
         int testNodesCount = 0;
-        final Multimap<URI, URI> testMap = HashMultimap.create();
+        final Multimap<IRI, IRI> testMap = HashMultimap.create();
         for (final Statement stmt : testStmts) {
             if (stmt.getPredicate().equals(EVAL.DENOTED_BY)) {
                 ++testNodesCount;
                 if (goldMap.containsKey(stmt.getObject())) {
-                    testMap.put((URI) stmt.getObject(), (URI) stmt.getSubject());
+                    testMap.put((IRI) stmt.getObject(), (IRI) stmt.getSubject());
                 }
             }
         }
 
-        final Map<URI, URI> baseMapping = Maps.newHashMap();
-        final List<URI> alternativesTestNodes = Lists.newArrayList();
-        final List<URI[]> alternativesGoldNodes = Lists.newArrayList();
+        final Map<IRI, IRI> baseMapping = Maps.newHashMap();
+        final List<IRI> alternativesTestNodes = Lists.newArrayList();
+        final List<IRI[]> alternativesGoldNodes = Lists.newArrayList();
         int alternativesCount = 1;
-        for (final URI term : testMap.keySet()) {
-            final Collection<URI> testNodes = testMap.get(term);
-            final Collection<URI> goldNodes = goldMap.get(term);
-            for (final URI testNode : testNodes) {
+        for (final IRI term : testMap.keySet()) {
+            final Collection<IRI> testNodes = testMap.get(term);
+            final Collection<IRI> goldNodes = goldMap.get(term);
+            for (final IRI testNode : testNodes) {
                 if (goldNodes.size() == 1) {
                     baseMapping.put(testNode, goldNodes.iterator().next());
                 } else {
                     alternativesTestNodes.add(testNode);
-                    alternativesGoldNodes.add(goldNodes.toArray(new URI[goldNodes.size()]));
+                    alternativesGoldNodes.add(goldNodes.toArray(new IRI[goldNodes.size()]));
                     alternativesCount *= goldNodes.size();
                 }
             }
@@ -122,7 +122,7 @@ public class Aligner {
         final Set<Relation> goldRelations = relationsFor(goldStmts);
         final Set<Relation> testRelations = relationsFor(testStmts);
 
-        Map<URI, URI> bestMapping = baseMapping;
+        Map<IRI, IRI> bestMapping = baseMapping;
         PrecisionRecall bestPR = null;
         int bestCount = 0;
 
@@ -132,12 +132,12 @@ public class Aligner {
 
         } else {
             for (int i = 0; i < alternativesCount; ++i) {
-                final Map<URI, URI> mapping = Maps.newHashMap(baseMapping);
+                final Map<IRI, IRI> mapping = Maps.newHashMap(baseMapping);
                 int n = i;
                 for (int j = 0; j < alternativesTestNodes.size(); ++j) {
-                    final URI testNode = alternativesTestNodes.get(j);
-                    final URI[] goldNodes = alternativesGoldNodes.get(j);
-                    final URI goldNode = goldNodes[n % goldNodes.length];
+                    final IRI testNode = alternativesTestNodes.get(j);
+                    final IRI[] goldNodes = alternativesGoldNodes.get(j);
+                    final IRI goldNode = goldNodes[n % goldNodes.length];
                     n = n / goldNodes.length;
                     mapping.put(testNode, goldNode);
                 }
@@ -162,7 +162,7 @@ public class Aligner {
         numOptimalSolutions = Math.max(1, numOptimalSolutions);
 
         if (LOGGER.isInfoEnabled()) {
-            final String creator = ((URI) testStmts.iterator().next().getContext()).getLocalName();
+            final String creator = ((IRI) testStmts.iterator().next().getContext()).getLocalName();
             LOGGER.info(
                     "{} - {} gold nodes, {} test nodes, {} mapped nodes, {} alternatives, best PR ({}): {}",
                     creator, goldNodesCount, testNodesCount, bestMapping.size(),
@@ -173,7 +173,7 @@ public class Aligner {
     }
 
     private static PrecisionRecall evaluate(final Set<Relation> goldRelations,
-            final Set<Relation> testRelations, final Map<URI, URI> mapping) {
+            final Set<Relation> testRelations, final Map<IRI, IRI> mapping) {
 
         final Set<Relation> rewrittenTestRelations = new HashSet<>();
         for (final Relation relation : testRelations) {
@@ -190,16 +190,16 @@ public class Aligner {
         return PrecisionRecall.forCounts(tp, fp, fn);
     }
 
-    private static Relation rewrite(final Relation relation, final Map<URI, URI> mapping) {
-        final URI first = (URI) rewrite(relation.getFirst(), mapping);
-        final URI second = (URI) rewrite(relation.getSecond(), mapping);
+    private static Relation rewrite(final Relation relation, final Map<IRI, IRI> mapping) {
+        final IRI first = (IRI) rewrite(relation.getFirst(), mapping);
+        final IRI second = (IRI) rewrite(relation.getSecond(), mapping);
         return first == relation.getFirst() && second == relation.getSecond() ? relation
                 : new Relation(first, second, relation.isExtra());
     }
 
-    private static Value rewrite(final Value value, final Map<URI, URI> mapping) {
-        if (value instanceof URI) {
-            final URI mappedValue = mapping.get(value);
+    private static Value rewrite(final Value value, final Map<IRI, IRI> mapping) {
+        if (value instanceof IRI) {
+            final IRI mappedValue = mapping.get(value);
             if (mappedValue != null) {
                 return mappedValue;
             }
@@ -208,10 +208,10 @@ public class Aligner {
     }
 
     private static Set<Relation> relationsFor(final Iterable<Statement> stmts) {
-        final Set<URI> nodes = Sets.newHashSet();
+        final Set<IRI> nodes = Sets.newHashSet();
         for (final Statement stmt : stmts) {
             if (stmt.getPredicate().equals(EVAL.DENOTED_BY)) {
-                nodes.add((URI) stmt.getSubject());
+                nodes.add((IRI) stmt.getSubject());
             }
         }
         final Set<Relation> relations = Sets.newHashSet();
@@ -223,7 +223,7 @@ public class Aligner {
                     && nodes.contains(stmt.getSubject()) //
                     && (nodes.contains(stmt.getObject()) || stmt.getPredicate().equals(RDF.TYPE))) {
                 relations
-                        .add(new Relation((URI) stmt.getSubject(), (URI) stmt.getObject(), false));
+                        .add(new Relation((IRI) stmt.getSubject(), (IRI) stmt.getObject(), false));
             }
         }
         return relations;
@@ -250,7 +250,7 @@ public class Aligner {
             // Read the input
             final Map<String, String> namespaces = Maps.newHashMap();
             final QuadModel input = QuadModel.create();
-            RDFSources.read(false, false, null, null,
+            RDFSources.read(false, false, null, null, null,true,
                     inputFiles.toArray(new String[inputFiles.size()])).emit(
                     RDFHandlers.wrap(input, namespaces), 1);
 

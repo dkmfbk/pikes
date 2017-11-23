@@ -7,9 +7,9 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.*;
 import com.google.common.html.HtmlEscapers;
 import eu.fbk.rdfpro.util.*;
-import org.openrdf.model.*;
-import org.openrdf.model.impl.URIImpl;
-import org.openrdf.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.*;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,9 +30,9 @@ public final class RDFGraphvizRenderer {
 
     private final Set<Resource> nodeTypes;
 
-    private final Set<URI> ignoredProperties;
+    private final Set<IRI> ignoredProperties;
 
-    private final Set<URI> collapsedProperties;
+    private final Set<IRI> collapsedProperties;
 
     private final Map<? super Resource, String> colorMap;
 
@@ -136,9 +136,9 @@ public final class RDFGraphvizRenderer {
         final Set<Resource> nodes = Sets.newHashSet();
         if (!this.nodeNamespaces.isEmpty()) {
             for (final Value value : Iterables.concat(model.subjects(), model.objects())) {
-                if (value instanceof URI
-                        && this.nodeNamespaces.contains(((URI) value).getNamespace())) {
-                    nodes.add((URI) value);
+                if (value instanceof IRI
+                        && this.nodeNamespaces.contains(((IRI) value).getNamespace())) {
+                    nodes.add((IRI) value);
                 }
             }
         }
@@ -200,19 +200,19 @@ public final class RDFGraphvizRenderer {
             final String targetId = hash(targetNode);
 
             // Retrieve the predicates associated to the edge
-            final List<URI> properties = this.valueComparator.sortedCopy(model.filter(sourceNode,
+            final List<IRI> properties = this.valueComparator.sortedCopy(model.filter(sourceNode,
                     null, targetNode).predicates());
 
             // Select edge style
-            final List<URI> keys = Lists.newArrayList(properties);
+            final List<IRI> keys = Lists.newArrayList(properties);
             for (final Value sourceType : model.filter(sourceNode, RDF.TYPE, null).objects()) {
-                if (sourceType instanceof URI) {
-                    keys.add(new URIImpl(sourceType.stringValue() + "-from"));
+                if (sourceType instanceof IRI) {
+                    keys.add(Statements.VALUE_FACTORY.createIRI(sourceType.stringValue() + "-from"));
                 }
             }
             for (final Value targetType : model.filter(targetNode, RDF.TYPE, null).objects()) {
-                if (targetType instanceof URI) {
-                    keys.add(new URIImpl(targetType.stringValue() + "-to"));
+                if (targetType instanceof IRI) {
+                    keys.add(Statements.VALUE_FACTORY.createIRI(targetType.stringValue() + "-to"));
                 }
             }
 
@@ -236,7 +236,7 @@ public final class RDFGraphvizRenderer {
             final Resource node, final int indent, final Set<Resource> excludedNodes,
             final Set<Resource> expandedNodes) throws IOException {
         boolean notEmpty = false;
-        for (final URI pred : this.valueComparator.sortedCopy(model.filter(node, null, null)
+        for (final IRI pred : this.valueComparator.sortedCopy(model.filter(node, null, null)
                 .predicates())) {
             if (this.ignoredProperties.contains(pred)) {
                 continue;
@@ -275,29 +275,29 @@ public final class RDFGraphvizRenderer {
     }
 
     private String format(final Value value) {
-        if (value instanceof URI) {
-            final URI uri = (URI) value;
-            final String ns = uri.getNamespace();
+        if (value instanceof IRI) {
+            final IRI IRI = (IRI) value;
+            final String ns = IRI.getNamespace();
             final String prefix = this.namespaces.prefixFor(ns);
             if (prefix == null) {
-                return escape("<.." + ns.charAt(ns.length() - 1) + uri.getLocalName() + ">");
+                return escape("<.." + ns.charAt(ns.length() - 1) + IRI.getLocalName() + ">");
             } else {
-                return prefix + ":" + escape(uri.getLocalName());
+                return prefix + ":" + escape(IRI.getLocalName());
             }
         }
         return escape(Statements.formatValue(value, this.namespaces));
     }
 
     @Nullable
-    private String shorten(@Nullable final URI uri) {
-        if (uri == null) {
+    private String shorten(@Nullable final IRI IRI) {
+        if (IRI == null) {
             return null;
         }
-        final String prefix = this.namespaces.prefixFor(uri.getNamespace());
+        final String prefix = this.namespaces.prefixFor(IRI.getNamespace());
         if (prefix != null) {
-            return prefix + ':' + uri.getLocalName();
+            return prefix + ':' + IRI.getLocalName();
         }
-        return "&lt;../" + uri.getLocalName() + "&gt;";
+        return "&lt;../" + IRI.getLocalName() + "&gt;";
     }
 
     private static String select(@Nullable final Map<? super Resource, String> map,
@@ -326,7 +326,7 @@ public final class RDFGraphvizRenderer {
 
     private static String hash(final Value value) {
         final StringBuilder builder = new StringBuilder();
-        if (value instanceof URI) {
+        if (value instanceof IRI) {
             builder.append((char) 1);
             builder.append(value.stringValue());
         } else if (value instanceof BNode) {
@@ -336,10 +336,10 @@ public final class RDFGraphvizRenderer {
             final Literal literal = (Literal) value;
             builder.append((char) 3);
             builder.append(literal.getLabel());
-            if (literal.getLanguage() != null) {
+            if (literal.getLanguage().isPresent()) {
                 builder.append((char) 4);
-                builder.append(literal.getLanguage());
-            } else if (literal.getDatatype() != null) {
+                builder.append(literal.getLanguage().get());
+            } else if (!literal.getDatatype().equals(XMLSchema.STRING)) {
                 builder.append((char) 5);
                 builder.append(literal.getDatatype().stringValue());
             }
@@ -360,10 +360,10 @@ public final class RDFGraphvizRenderer {
         private Iterable<? extends Resource> nodeTypes;
 
         @Nullable
-        private Iterable<? extends URI> ignoredProperties;
+        private Iterable<? extends IRI> ignoredProperties;
 
         @Nullable
-        private Iterable<? extends URI> collapsedProperties;
+        private Iterable<? extends IRI> collapsedProperties;
 
         @Nullable
         private Map<? super Resource, String> colorMap;
@@ -385,19 +385,19 @@ public final class RDFGraphvizRenderer {
             return this;
         }
 
-        public Builder withNodeTypes(@Nullable final Iterable<? extends URI> nodeTypes) {
+        public Builder withNodeTypes(@Nullable final Iterable<? extends IRI> nodeTypes) {
             this.nodeTypes = nodeTypes;
             return this;
         }
 
         public Builder withIgnoredProperties(
-                @Nullable final Iterable<? extends URI> ignoredProperties) {
+                @Nullable final Iterable<? extends IRI> ignoredProperties) {
             this.ignoredProperties = ignoredProperties;
             return this;
         }
 
         public Builder withCollapsedProperties(
-                @Nullable final Iterable<? extends URI> collapsedProperties) {
+                @Nullable final Iterable<? extends IRI> collapsedProperties) {
             this.collapsedProperties = collapsedProperties;
             return this;
         }

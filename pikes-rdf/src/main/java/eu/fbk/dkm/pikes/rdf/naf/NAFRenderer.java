@@ -16,19 +16,19 @@ import eu.fbk.dkm.pikes.rdf.util.ModelUtil;
 import eu.fbk.dkm.pikes.rdf.util.RDFGraphvizRenderer;
 import eu.fbk.dkm.pikes.rdf.vocab.KS;
 import eu.fbk.dkm.pikes.resources.NAFUtils;
-import eu.fbk.utils.vocab.NIF;
-import eu.fbk.utils.vocab.NWR;
-import eu.fbk.utils.vocab.OWLTIME;
-import eu.fbk.utils.vocab.SUMO;
+import eu.fbk.dkm.pikes.rdf.vocab.NIF;
+import eu.fbk.dkm.pikes.rdf.vocab.NWR;
+import eu.fbk.dkm.pikes.rdf.vocab.OWLTIME;
+import eu.fbk.dkm.pikes.rdf.vocab.SUMO;
 import eu.fbk.rdfpro.util.Hash;
 import eu.fbk.rdfpro.util.Namespaces;
 import eu.fbk.rdfpro.util.QuadModel;
 import eu.fbk.rdfpro.util.Statements;
 import ixa.kaflib.KAFDocument;
 import ixa.kaflib.Term;
-import org.openrdf.model.*;
-import org.openrdf.model.impl.URIImpl;
-import org.openrdf.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.*;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +45,7 @@ public class NAFRenderer implements Renderer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Renderer.class);
 
-    private static final Set<URI> DEFAULT_NODE_TYPES = ImmutableSet.of(KS.INSTANCE, KS.ATTRIBUTE);
+    private static final Set<IRI> DEFAULT_NODE_TYPES = ImmutableSet.of(KS.INSTANCE, KS.ATTRIBUTE);
 
     private static final Set<String> DEFAULT_NODE_NAMESPACES = ImmutableSet
             .of("http://dbpedia.org/resource/");
@@ -147,7 +147,7 @@ public class NAFRenderer implements Renderer {
         documentModel.put("sentences", sentencesModel);
         documentModel.put("metadata", (Callable<String>) () -> {
             return renderProperties(new StringBuilder(), model, //
-                    new URIImpl(doc.getPublic().uri), true).toString();
+                    Statements.VALUE_FACTORY.createIRI(doc.getPublic().uri), true).toString();
         });
         documentModel.put("mentions", (Callable<String>) () -> {
             return renderMentionsTable(new StringBuilder(), model).toString();
@@ -208,7 +208,7 @@ public class NAFRenderer implements Renderer {
     }
 
     private <T extends Appendable> T renderProperties(final T out, final QuadModel model,
-            final Resource node, final boolean emitID, final URI... excludedProperties)
+            final Resource node, final boolean emitID, final IRI... excludedProperties)
             throws IOException {
 
         final Set<Resource> seen = Sets.newHashSet(node);
@@ -219,7 +219,7 @@ public class NAFRenderer implements Renderer {
 
     private <T extends Appendable> T renderPropertiesHelper(final T out, final QuadModel model,
             final Resource node, final boolean emitID, final Set<Resource> seen,
-            final Set<URI> excludedProperties) throws IOException {
+            final Set<IRI> excludedProperties) throws IOException {
 
         // Open properties table
         out.append("<table class=\"properties table table-condensed\">\n<tbody>\n");
@@ -232,7 +232,7 @@ public class NAFRenderer implements Renderer {
         }
 
         // Emit other properties
-        for (final URI pred : this.valueComparator.sortedCopy(model.filter(node, null, null)
+        for (final IRI pred : this.valueComparator.sortedCopy(model.filter(node, null, null)
                 .predicates())) {
             if (excludedProperties.contains(pred)) {
                 continue;
@@ -336,7 +336,7 @@ public class NAFRenderer implements Renderer {
             out.append("</td><td>");
             final QuadModel mentionModel = QuadModel.create();
             for (final Statement statement : model.filter(mentionID, null, null)) {
-                final URI pred = statement.getPredicate();
+                final IRI pred = statement.getPredicate();
                 if (!NIF.BEGIN_INDEX.equals(pred) && !NIF.END_INDEX.equals(pred)
                         && !NIF.ANCHOR_OF.equals(pred) && !RDF.TYPE.equals(pred)
                         && !KS.MENTION_OF.equals(pred)) {
@@ -372,16 +372,16 @@ public class NAFRenderer implements Renderer {
     private <T extends Appendable> T renderObject(final T out, final Object object,
             @Nullable final QuadModel model) throws IOException {
 
-        if (object instanceof URI) {
-            final URI uri = (URI) object;
+        if (object instanceof IRI) {
+            final IRI uri = (IRI) object;
             out.append("<a>").append(shorten(uri)).append("</a>");
 
         } else if (object instanceof Literal) {
             final Literal literal = (Literal) object;
             out.append("<span");
-            if (literal.getLanguage() != null) {
-                out.append(" title=\"@").append(literal.getLanguage()).append("\"");
-            } else if (literal.getDatatype() != null) {
+            if (literal.getLanguage().isPresent()) {
+                out.append(" title=\"@").append(literal.getLanguage().get()).append("\"");
+            } else if (!literal.getDatatype().equals(XMLSchema.STRING)) {
                 out.append(" title=\"").append(shorten(literal.getDatatype())).append("\"");
             }
             out.append(">").append(literal.stringValue()).append("</span>");
@@ -417,9 +417,9 @@ public class NAFRenderer implements Renderer {
             final Resource instance = (Resource) stmt.getObject();
             final String color = select(colorMap,
                     model.filter(instance, RDF.TYPE, null).objects(), null);
-            if (stmt.getSubject() instanceof URI && color != null) {
-                final URI mentionURI = (URI) stmt.getSubject();
-                final String name = mentionURI.getLocalName();
+            if (stmt.getSubject() instanceof IRI && color != null) {
+                final IRI mentionIRI = (IRI) stmt.getSubject();
+                final String name = mentionIRI.getLocalName();
                 if (name.indexOf(';') < 0) {
                     final int index = name.indexOf(',');
                     final int start = Integer.parseInt(name.substring(5, index));
@@ -444,7 +444,7 @@ public class NAFRenderer implements Renderer {
             final Iterable<? extends Value> keys, final String defaultColor) {
         String color = null;
         for (final Value key : keys) {
-            if (key instanceof URI) {
+            if (key instanceof IRI) {
                 final String mappedColor = map.get(key);
                 if (mappedColor != null) {
                     if (color == null) {
@@ -463,7 +463,7 @@ public class NAFRenderer implements Renderer {
     }
 
     @Nullable
-    private static String shorten(@Nullable final URI uri) {
+    private static String shorten(@Nullable final IRI uri) {
         if (uri == null) {
             return null;
         }
@@ -516,7 +516,7 @@ public class NAFRenderer implements Renderer {
     public static final class Builder {
 
         @Nullable
-        private Iterable<? extends URI> nodeTypes;
+        private Iterable<? extends IRI> nodeTypes;
 
         @Nullable
         private Iterable<String> nodeNamespaces;
@@ -556,7 +556,7 @@ public class NAFRenderer implements Renderer {
             return this;
         }
 
-        public Builder withNodeTypes(@Nullable final Iterable<? extends URI> nodeTypes) {
+        public Builder withNodeTypes(@Nullable final Iterable<? extends IRI> nodeTypes) {
             this.nodeTypes = nodeTypes;
             return this;
         }

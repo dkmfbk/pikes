@@ -120,19 +120,22 @@
 			<version>2.3.21</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openrdf.sesame</groupId>
-			<artifactId>sesame-rio-datatypes</artifactId>
+			<groupId>org.eclipse.rdf4j</groupId>
+			<artifactId>rdf4j-rio-datatypes</artifactId>
 			<scope>runtime</scope>
+			<version>${rdf4j-version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openrdf.sesame</groupId>
-			<artifactId>sesame-rio-languages</artifactId>
+			<groupId>org.eclipse.rdf4j</groupId>
+			<artifactId>rdf4j-rio-languages</artifactId>
 			<scope>runtime</scope>
+			<version>${rdf4j-version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openrdf.sesame</groupId>
-			<artifactId>sesame-rio-trig</artifactId>
+			<groupId>org.eclipse.rdf4j</groupId>
+			<artifactId>rdf4j-rio-trig</artifactId>
 			<scope>runtime</scope>
+			<version>${rdf4j-version}</version>
 		</dependency>
 
 		<dependency>
@@ -175,12 +178,14 @@
 			<artifactId>commons-cli</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.openrdf.sesame</groupId>
-			<artifactId>sesame-model</artifactId>
+			<groupId>org.eclipse.rdf4j</groupId>
+			<artifactId>rdf4j-model</artifactId>
+			<version>${rdf4j-version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openrdf.sesame</groupId>
-			<artifactId>sesame-rio-api</artifactId>
+			<groupId>org.eclipse.rdf4j</groupId>
+			<artifactId>rdf4j-rio-api</artifactId>
+			<version>${rdf4j-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>eu.fbk.rdfpro</groupId>

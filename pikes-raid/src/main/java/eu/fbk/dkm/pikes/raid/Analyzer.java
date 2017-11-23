@@ -15,11 +15,12 @@ import eu.fbk.dkm.pikes.rdf.RDFGenerator;
 import eu.fbk.dkm.pikes.rdf.Renderer;
 import eu.fbk.dkm.pikes.resources.NAFUtils;
 import eu.fbk.dkm.pikes.resources.WordNet;
+import eu.fbk.rdfpro.util.Statements;
 import eu.fbk.utils.core.CommandLine;
 import eu.fbk.utils.core.CommandLine.Type;
 import eu.fbk.utils.core.Range;
 import eu.fbk.utils.svm.Util;
-import eu.fbk.utils.vocab.KS;
+import eu.fbk.dkm.pikes.rdf.vocab.KS_OLD;
 import eu.fbk.rdfpro.util.IO;
 import eu.fbk.rdfpro.util.QuadModel;
 import eu.fbk.rdfpro.util.Tracker;
@@ -27,9 +28,8 @@ import ixa.kaflib.KAFDocument;
 import ixa.kaflib.Opinion;
 import ixa.kaflib.Opinion.Polarity;
 import ixa.kaflib.Term;
-import org.openrdf.model.Model;
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.URIImpl;
+import org.eclipse.rdf4j.model.Model;
+import org.eclipse.rdf4j.model.IRI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -89,22 +89,22 @@ public final class Analyzer {
 
         Renderer renderer = null;
         if (reportPath != null) {
-            final List<URI> nodeTypes = ImmutableList.<URI>builder()
-                    .addAll(Renderer.DEFAULT_NODE_TYPES).add(KS.ATTRIBUTE).build();
+            final List<IRI> nodeTypes = ImmutableList.<IRI>builder()
+                    .addAll(Renderer.DEFAULT_NODE_TYPES).add(KS_OLD.ATTRIBUTE).build();
             final Map<Object, String> colorMap = ImmutableMap.<Object, String>builder()
                     .putAll(Renderer.DEFAULT_COLOR_MAP).build();
             final Map<Object, String> styleMap = ImmutableMap
                     .<Object, String>builder()
                     .putAll(Renderer.DEFAULT_STYLE_MAP)
-                    .put(KS.ATTRIBUTE, "fontname=\"helvetica-oblique\"")
-                    .put(KS.POSITIVE_OPINION, "fontcolor=green4 fontname=\"helvetica-bold\"")
-                    .put(new URIImpl(KS.POSITIVE_OPINION + "-from"),
+                    .put(KS_OLD.ATTRIBUTE, "fontname=\"helvetica-oblique\"")
+                    .put(KS_OLD.POSITIVE_OPINION, "fontcolor=green4 fontname=\"helvetica-bold\"")
+                    .put(Statements.VALUE_FACTORY.createIRI(KS_OLD.POSITIVE_OPINION + "-from"),
                             "color=green4 fontcolor=green4 penwidth=0.5")
-                    .put(KS.NEGATIVE_OPINION, "fontcolor=red4 fontname=\"helvetica-bold\"")
-                    .put(new URIImpl(KS.NEGATIVE_OPINION + "-from"),
+                    .put(KS_OLD.NEGATIVE_OPINION, "fontcolor=red4 fontname=\"helvetica-bold\"")
+                    .put(Statements.VALUE_FACTORY.createIRI(KS_OLD.NEGATIVE_OPINION + "-from"),
                             "color=red4 fontcolor=red4 penwidth=0.5")
-                    .put(KS.NEUTRAL_OPINION, "fontcolor=ivory4 fontname=\"helvetica-bold\" ")
-                    .put(new URIImpl(KS.NEUTRAL_OPINION + "-from"),
+                    .put(KS_OLD.NEUTRAL_OPINION, "fontcolor=ivory4 fontname=\"helvetica-bold\" ")
+                    .put(Statements.VALUE_FACTORY.createIRI(KS_OLD.NEUTRAL_OPINION + "-from"),
                             "color=ivory4 fontcolor=ivory4 penwidth=0.5").build();
             renderer = Renderer.builder().withNodeTypes(nodeTypes).withColorMap(colorMap)
                     .withStyleMap(styleMap).withNodeNamespaces(ImmutableSet.of()).build();

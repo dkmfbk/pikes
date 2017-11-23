@@ -14,8 +14,8 @@ import eu.fbk.rdfpro.RDFSources;
 import eu.fbk.rdfpro.tql.TQL;
 import eu.fbk.rdfpro.util.Environment;
 import eu.fbk.rdfpro.util.Statements;
-import org.openrdf.model.*;
-import org.openrdf.rio.RDFHandlerException;
+import org.eclipse.rdf4j.model.*;
+import org.eclipse.rdf4j.rio.RDFHandlerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,26 +31,26 @@ public class SenticNet extends Lexicon<SenticNet.Lexeme> {
 
     private static final String NS_CONCEPT = "http://sentic.net/api/en/concept/";
 
-    private static final URI PROP_APTITUDE = Statements.VALUE_FACTORY
-            .createURI("http://sentic.net/apiaptitude");
+    private static final IRI PROP_APTITUDE = Statements.VALUE_FACTORY
+            .createIRI("http://sentic.net/apiaptitude");
 
-    private static final URI PROP_ATTENTION = Statements.VALUE_FACTORY
-            .createURI("http://sentic.net/apiattention");
+    private static final IRI PROP_ATTENTION = Statements.VALUE_FACTORY
+            .createIRI("http://sentic.net/apiattention");
 
-    private static final URI PROP_PLEASENTNESS = Statements.VALUE_FACTORY
-            .createURI("http://sentic.net/apipleasantness");
+    private static final IRI PROP_PLEASENTNESS = Statements.VALUE_FACTORY
+            .createIRI("http://sentic.net/apipleasantness");
 
-    private static final URI PROP_POLARITY = Statements.VALUE_FACTORY
-            .createURI("http://sentic.net/apipolarity");
+    private static final IRI PROP_POLARITY = Statements.VALUE_FACTORY
+            .createIRI("http://sentic.net/apipolarity");
 
-    private static final URI PROP_SENSITIVITY = Statements.VALUE_FACTORY
-            .createURI("http://sentic.net/apisensitivity");
+    private static final IRI PROP_SENSITIVITY = Statements.VALUE_FACTORY
+            .createIRI("http://sentic.net/apisensitivity");
 
-    private static final URI PROP_SEMANTICS = Statements.VALUE_FACTORY
-            .createURI("http://sentic.net/apisemantics");
+    private static final IRI PROP_SEMANTICS = Statements.VALUE_FACTORY
+            .createIRI("http://sentic.net/apisemantics");
 
-    private static final URI PROP_TEXT = Statements.VALUE_FACTORY
-            .createURI("http://sentic.net/apitext");
+    private static final IRI PROP_TEXT = Statements.VALUE_FACTORY
+            .createIRI("http://sentic.net/apitext");
 
     private static SenticNet instance = null;
 
@@ -76,34 +76,32 @@ public class SenticNet extends Lexicon<SenticNet.Lexeme> {
         if (value == null) {
             return null;
         }
-        if (!(value instanceof URI)) {
-            throw new IllegalArgumentException("Not a concept URI: " + value);
+        if (!(value instanceof IRI)) {
+            throw new IllegalArgumentException("Not a concept IRI: " + value);
         }
-        final URI uri = (URI) value;
+        final IRI uri = (IRI) value;
         if (!uri.getNamespace().equals(NS_CONCEPT)) {
-            throw new IllegalArgumentException("Unexpected namespace for concept URI: " + value);
+            throw new IllegalArgumentException("Unexpected namespace for concept IRI: " + value);
         }
         return uri.getLocalName();
     }
 
     @Nullable
-    public static URI uriFor(@Nullable final String id) {
-        return id == null ? null : Statements.VALUE_FACTORY.createURI(NS_CONCEPT, id);
+    public static IRI uriFor(@Nullable final String id) {
+        return id == null ? null : Statements.VALUE_FACTORY.createIRI(NS_CONCEPT, id);
     }
 
     public static SenticNet index(final String resourceFile) throws IOException {
 
-        TQL.register();
-
         final Map<String, LexemeData> data = Maps.newHashMap();
         try {
-            RDFSources.read(false, true, null, null, resourceFile).emit(new AbstractRDFHandler() {
+            RDFSources.read(false, true, null, null, null, true, resourceFile).emit(new AbstractRDFHandler() {
 
                 @Override
                 public void handleStatement(final Statement statement) throws RDFHandlerException {
 
                     final Resource subj = statement.getSubject();
-                    final URI pred = statement.getPredicate();
+                    final IRI pred = statement.getPredicate();
                     final Value obj = statement.getObject();
 
                     try {

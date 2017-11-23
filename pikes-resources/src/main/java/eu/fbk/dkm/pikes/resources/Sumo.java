@@ -19,16 +19,14 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.io.Resources;
 
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.URIImpl;
-
-import eu.fbk.utils.vocab.SUMO;
+import eu.fbk.rdfpro.util.Statements;
+import org.eclipse.rdf4j.model.IRI;
 
 public final class Sumo {
 
-    public static final String NAMESPACE = "http://www.ontologyportal.org/SUMO.owl#";
+    public static final String SUMO_NAMESPACE = "http://www.ontologyportal.org/SUMO.owl#";
 
-    private static final Map<URI, Concept> URI_INDEX;
+    private static final Map<IRI, Concept> IRI_INDEX;
 
     private static final Map<String, Concept> SYNSET_INDEX;
 
@@ -36,8 +34,8 @@ public final class Sumo {
         try (final BufferedReader reader = Resources.asCharSource(
                 NomBank.class.getResource("Sumo.tsv"), Charsets.UTF_8).openBufferedStream()) {
 
-            final Map<String, URI> uriIndex = Maps.newHashMap();
-            final Map<URI, Concept> nameIndex = Maps.newHashMap();
+            final Map<String, IRI> uriIndex = Maps.newHashMap();
+            final Map<IRI, Concept> nameIndex = Maps.newHashMap();
             final Map<String, Concept> synsetIndex = Maps.newHashMap();
 
             String line;
@@ -53,43 +51,43 @@ public final class Sumo {
                 final List<String> synsets = tokens[3] == null ? ImmutableList.of() : Splitter
                         .on('|').trimResults().omitEmptyStrings().splitToList(tokens[3]);
 
-                final URI[][] uriArrays = new URI[3][];
+                final IRI[][] uriArrays = new IRI[3][];
                 final List<List<String>> stringLists = ImmutableList.of(ImmutableList.of(name),
                         parents, children);
 
                 for (int i = 0; i < 3; ++i) {
                     final List<String> stringList = stringLists.get(i);
-                    final URI[] uriArray = new URI[stringList.size()];
+                    final IRI[] uriArray = new IRI[stringList.size()];
                     uriArrays[i] = uriArray;
                     for (int j = 0; j < stringList.size(); ++j) {
-                        final String uriString = (SUMO.NAMESPACE + stringList.get(j).trim())
+                        final String uriString = (SUMO_NAMESPACE + stringList.get(j).trim())
                                 .intern();
-                        URI uri = uriIndex.get(uriString);
+                        IRI uri = uriIndex.get(uriString);
                         if (uri == null) {
-                            uri = new URIImpl(uriString);
+                            uri = Statements.VALUE_FACTORY.createIRI(uriString);
                             uriIndex.put(uriString, uri);
                         }
                         uriArray[j] = uri;
                     }
                 }
 
-                final URI conceptURI = uriArrays[0][0];
+                final IRI conceptIRI = uriArrays[0][0];
 
                 final String[] synsetsArray = new String[synsets.size()];
                 for (int i = 0; i < synsets.size(); ++i) {
                     synsetsArray[i] = synsets.get(i).trim().intern();
                 }
 
-                final Concept concept = new Concept(conceptURI, uriArrays[1], uriArrays[2],
+                final Concept concept = new Concept(conceptIRI, uriArrays[1], uriArrays[2],
                         synsetsArray);
 
-                nameIndex.put(conceptURI, concept);
+                nameIndex.put(conceptIRI, concept);
                 for (final String synset : synsets) {
                     synsetIndex.put(synset, concept);
                 }
             }
 
-            URI_INDEX = ImmutableMap.copyOf(nameIndex);
+            IRI_INDEX = ImmutableMap.copyOf(nameIndex);
             SYNSET_INDEX = ImmutableMap.copyOf(synsetIndex);
 
         } catch (final IOException ex) {
@@ -98,7 +96,7 @@ public final class Sumo {
     }
 
     @Nullable
-    public static URI synsetToConcept(@Nullable final String synsetID) {
+    public static IRI synsetToConcept(@Nullable final String synsetID) {
         if (synsetID == null) {
             return null;
         }
@@ -106,29 +104,29 @@ public final class Sumo {
         return concept == null ? null : concept.uri;
     }
 
-    public static Set<URI> synsetsToConcepts(@Nullable final Iterable<String> synsetIDs) {
-        final Set<URI> conceptURIs = Sets.newHashSet();
+    public static Set<IRI> synsetsToConcepts(@Nullable final Iterable<String> synsetIDs) {
+        final Set<IRI> conceptIRIs = Sets.newHashSet();
         for (final String synsetID : synsetIDs) {
-            final URI conceptURI = Sumo.synsetToConcept(synsetID);
-            if (conceptURI != null) {
-                conceptURIs.add(conceptURI);
+            final IRI conceptIRI = Sumo.synsetToConcept(synsetID);
+            if (conceptIRI != null) {
+                conceptIRIs.add(conceptIRI);
             }
         }
-        return filterAncestors(conceptURIs);
+        return filterAncestors(conceptIRIs);
     }
 
-    public static Set<String> conceptToSynsets(@Nullable final URI conceptURI) {
-        if (conceptURI == null) {
+    public static Set<String> conceptToSynsets(@Nullable final IRI conceptIRI) {
+        if (conceptIRI == null) {
             return null;
         }
-        final Concept concept = URI_INDEX.get(conceptURI);
+        final Concept concept = IRI_INDEX.get(conceptIRI);
         return concept == null ? ImmutableSet.of() : ImmutableSet.copyOf(concept.synsets);
     }
 
-    public static Set<URI> filterAncestors(@Nullable final Iterable<? extends URI> conceptURIs) {
-        final Set<URI> result = Sets.newHashSet(conceptURIs);
-        outer: for (final URI uri1 : conceptURIs) {
-            for (final URI uri2 : conceptURIs) {
+    public static Set<IRI> filterAncestors(@Nullable final Iterable<? extends IRI> conceptIRIs) {
+        final Set<IRI> result = Sets.newHashSet(conceptIRIs);
+        outer: for (final IRI uri1 : conceptIRIs) {
+            for (final IRI uri2 : conceptIRIs) {
                 if (!uri1.equals(uri2) && isSubClassOf(uri1, uri2)) {
                     continue outer;
                 }
@@ -138,14 +136,14 @@ public final class Sumo {
         return result;
     }
 
-    public static Set<URI> getSubClasses(final URI parentURI) {
-        final Set<URI> result = Sets.newHashSet();
-        final List<URI> queue = Lists.newLinkedList();
-        queue.add(parentURI);
+    public static Set<IRI> getSubClasses(final IRI parentIRI) {
+        final Set<IRI> result = Sets.newHashSet();
+        final List<IRI> queue = Lists.newLinkedList();
+        queue.add(parentIRI);
         while (!queue.isEmpty()) {
-            final Concept concept = URI_INDEX.get(queue.remove(0));
+            final Concept concept = IRI_INDEX.get(queue.remove(0));
             if (concept != null) {
-                for (final URI uri : concept.children) {
+                for (final IRI uri : concept.children) {
                     if (result.add(uri)) {
                         queue.add(uri);
                     }
@@ -155,14 +153,14 @@ public final class Sumo {
         return result;
     }
 
-    public static Set<URI> getSuperClasses(final URI childURI) {
-        final Set<URI> result = Sets.newHashSet();
-        final List<URI> queue = Lists.newLinkedList();
-        queue.add(childURI);
+    public static Set<IRI> getSuperClasses(final IRI childIRI) {
+        final Set<IRI> result = Sets.newHashSet();
+        final List<IRI> queue = Lists.newLinkedList();
+        queue.add(childIRI);
         while (!queue.isEmpty()) {
-            final Concept concept = URI_INDEX.get(queue.remove(0));
+            final Concept concept = IRI_INDEX.get(queue.remove(0));
             if (concept != null) {
-                for (final URI uri : concept.parents) {
+                for (final IRI uri : concept.parents) {
                     if (result.add(uri)) {
                         queue.add(uri);
                     }
@@ -172,16 +170,16 @@ public final class Sumo {
         return result;
     }
 
-    public static boolean isSubClassOf(final URI childURI, final URI parentURI) {
-        final Concept child = URI_INDEX.get(childURI);
+    public static boolean isSubClassOf(final IRI childIRI, final IRI parentIRI) {
+        final Concept child = IRI_INDEX.get(childIRI);
         if (child == null) {
             return false;
         }
-        if (childURI.equals(parentURI)) {
+        if (childIRI.equals(parentIRI)) {
             return true;
         }
-        for (final URI uri : child.parents) {
-            if (isSubClassOf(uri, parentURI)) {
+        for (final IRI uri : child.parents) {
+            if (isSubClassOf(uri, parentIRI)) {
                 return true;
             }
         }
@@ -190,15 +188,15 @@ public final class Sumo {
 
     private static final class Concept {
 
-        public final URI uri;
+        public final IRI uri;
 
-        public final URI[] parents;
+        public final IRI[] parents;
 
-        public final URI[] children;
+        public final IRI[] children;
 
         public final String[] synsets;
 
-        Concept(final URI uri, final URI[] parents, final URI[] children, final String[] synsets) {
+        Concept(final IRI uri, final IRI[] parents, final IRI[] children, final String[] synsets) {
             this.uri = uri;
             this.parents = parents;
             this.children = children;

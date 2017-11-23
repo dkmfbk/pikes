@@ -1,9 +1,9 @@
 package eu.fbk.dkm.pikes.resources.mpqa;
 
 import com.google.common.io.Files;
+import eu.fbk.rdfpro.util.Statements;
 import eu.fbk.utils.core.CommandLine;
 import ixa.kaflib.KAFDocument;
-import org.openrdf.model.impl.URIImpl;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -187,7 +187,7 @@ public class JohanssonPreprocessor {
 				document.setRawText(text);
 
 				document.createPublic();
-				document.getPublic().publicId = new URIImpl(documentURI).getLocalName();
+				document.getPublic().publicId = Statements.VALUE_FACTORY.createIRI(documentURI).getLocalName();
 				document.getPublic().uri = documentURI;
 
 				document.createFileDesc();

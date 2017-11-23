@@ -3,7 +3,6 @@ package eu.fbk.dkm.pikes.resources.conllAIDA;
 import eu.fbk.utils.core.CommandLine;
 import ixa.kaflib.KAFDocument;
 import org.apache.commons.lang.StringUtils;
-import org.openrdf.query.algebra.Str;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;

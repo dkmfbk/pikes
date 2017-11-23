@@ -33,10 +33,10 @@ import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.io.Resources;
 
+import eu.fbk.rdfpro.util.Statements;
 import eu.fbk.utils.svm.Util;
-import eu.fbk.utils.vocab.SUMO;
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.URIImpl;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,6 +69,11 @@ import ixa.kaflib.WF;
  * </p>
  */
 public final class NAFFilter implements Consumer<KAFDocument> {
+
+    public static final String SUMO_NAMESPACE = "http://www.ontologyportal.org/SUMO.owl#";
+
+    public static final IRI SUMO_PROCESS = SimpleValueFactory.getInstance().createIRI(SUMO_NAMESPACE, "Process");
+//    public static final IRI SUMO_PROCESS = SimpleValueFactory.getInstance().createIRI(SUMO_NAMESPACE, "Process");
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NAFFilter.class);
 
@@ -187,7 +192,7 @@ public final class NAFFilter implements Consumer<KAFDocument> {
 
     private final boolean srlRoleLinkingUsingCoref;
 
-    private final boolean srlPreMOnURIs;
+    private final boolean srlPreMOnIRIs;
 
     private final boolean opinionLinking;
 
@@ -221,7 +226,7 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         this.srlRoleLinkingUsingCoref = MoreObjects.firstNonNull(builder.srlRoleLinkingUsingCoref,
                 true);
 
-        this.srlPreMOnURIs = MoreObjects.firstNonNull(builder.srlPreMOnURIs,
+        this.srlPreMOnIRIs = MoreObjects.firstNonNull(builder.srlPreMOnIRIs,
                 true);
         this.opinionLinking = MoreObjects.firstNonNull(builder.opinionLinking, true);
         this.opinionLinkingUsingCoref = MoreObjects.firstNonNull(builder.opinionLinkingUsingCoref,
@@ -306,9 +311,9 @@ public final class NAFFilter implements Consumer<KAFDocument> {
             applySRLRoleLinking(document);
         }
 
-        //added for replacing with premon URIs
-        if (this.srlPreMOnURIs) {
-            applySRLPreMOnURIs(document);
+        //added for replacing with premon IRIs
+        if (this.srlPreMOnIRIs) {
+            applySRLPreMOnIRIs(document);
         }
 
 
@@ -410,34 +415,34 @@ public final class NAFFilter implements Consumer<KAFDocument> {
             final String lemma = term.getLemma().toLowerCase();
             if (sumoRefs.isEmpty() && synsetRef != null && !lemma.equals("be")) {
                 Set<String> synsetIDs = Sets.newHashSet(synsetRef.getReference());
-                Set<URI> conceptURIs = Sumo.synsetsToConcepts(synsetIDs);
-                while (conceptURIs.isEmpty() && !synsetIDs.isEmpty()) {
+                Set<IRI> conceptIRIs = Sumo.synsetsToConcepts(synsetIDs);
+                while (conceptIRIs.isEmpty() && !synsetIDs.isEmpty()) {
                     final Set<String> oldSynsetIDs = synsetIDs;
                     synsetIDs = Sets.newHashSet();
                     for (final String oldSynsetID : oldSynsetIDs) {
                         synsetIDs.addAll(WordNet.getHypernyms(oldSynsetID));
                     }
-                    conceptURIs = Sumo.synsetsToConcepts(synsetIDs);
+                    conceptIRIs = Sumo.synsetsToConcepts(synsetIDs);
                 }
-                if (conceptURIs.isEmpty()) {
+                if (conceptIRIs.isEmpty()) {
                     synsetIDs = WordNet.getHyponyms(synsetRef.getReference());
-                    conceptURIs = Sumo.synsetsToConcepts(synsetIDs);
+                    conceptIRIs = Sumo.synsetsToConcepts(synsetIDs);
                 }
-                if (!conceptURIs.isEmpty()) {
-                    for (final URI conceptURI : conceptURIs) {
-                        final String sumoID = conceptURI.getLocalName();
+                if (!conceptIRIs.isEmpty()) {
+                    for (final IRI conceptIRI : conceptIRIs) {
+                        final String sumoID = conceptIRI.getLocalName();
                         final ExternalRef sumoRef = document.newExternalRef(
                                 NAFUtils.RESOURCE_SUMO, sumoID);
                         NAFUtils.setRef(term, sumoRef);
                         LOGGER.debug("Added SUMO mapping: " + NAFUtils.toString(term)
-                                + " -> sumo:" + conceptURI.getLocalName());
+                                + " -> sumo:" + conceptIRI.getLocalName());
                     }
                 }
             }
 
             // Apply mapping to Yago if synset is available
             if (yagoRefs.isEmpty() && synsetRef != null) {
-                for (final URI uri : YagoTaxonomy.getDBpediaYagoURIs(ImmutableList.of(synsetRef
+                for (final IRI uri : YagoTaxonomy.getDBpediaYagoIRIs(ImmutableList.of(synsetRef
                         .getReference()))) {
                     final String yagoID = uri.stringValue().substring(
                             YagoTaxonomy.NAMESPACE.length());
@@ -651,7 +656,7 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                     boolean accept = named;
                     if (!accept) {
                         final String textStr = span.getStr().toLowerCase().replaceAll("\\s+", "_");
-                        final String entityStr = new URIImpl(le.getReference()).getLocalName()
+                        final String entityStr = Statements.VALUE_FACTORY.createIRI(le.getReference()).getLocalName()
                                 .toLowerCase();
                         accept = textStr.equals(entityStr);
                     }
@@ -771,8 +776,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                 if (!isEvent) {
                     for (final ExternalRef ref : NAFUtils.getRefs(span1.getHead(),
                             NAFUtils.RESOURCE_SUMO, null)) {
-                        final URI sumoID = new URIImpl(Sumo.NAMESPACE + ref.getReference());
-                        if (Sumo.isSubClassOf(sumoID, SUMO.PROCESS)) {
+                        final IRI sumoID = Statements.VALUE_FACTORY.createIRI(SUMO_NAMESPACE + ref.getReference());
+                        if (Sumo.isSubClassOf(sumoID, SUMO_PROCESS)) {
                             isEvent = true;
                         }
                     }
@@ -1373,7 +1378,7 @@ public final class NAFFilter implements Consumer<KAFDocument> {
             for (final ExternalRef ref : ImmutableList.copyOf(predicate.getExternalRefs())) {
                 if (ref.getResource().equalsIgnoreCase("framenet")) {
                     final String frame = ref.getReference();
-                    final URI fnClass = FrameBase.classFor(frame, lemma, pos);
+                    final IRI fnClass = FrameBase.classFor(frame, lemma, pos);
                     if (fnClass != null) {
                         NAFUtils.setRef(predicate,
                                 new ExternalRef("FrameBase", fnClass.getLocalName()));
@@ -1390,7 +1395,7 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                         if (index > 0) {
                             final String frame = s.substring(0, index);
                             final String fe = s.substring(index + 1);
-                            final URI fnProperty = FrameBase.propertyFor(frame, fe);
+                            final IRI fnProperty = FrameBase.propertyFor(frame, fe);
                             if (fnProperty != null) {
                                 NAFUtils.setRef(role,
                                         new ExternalRef("FrameBase", fnProperty.getLocalName()));
@@ -1588,7 +1593,7 @@ public final class NAFFilter implements Consumer<KAFDocument> {
     }
 
 
-    private void applySRLPreMOnURIs(final KAFDocument document) {
+    private void applySRLPreMOnIRIs(final KAFDocument document) {
         // Process each predicate and role in the SRL layer
 
         final List<String> models = Arrays.asList(NAFUtils.RESOURCE_FRAMENET, NAFUtils.RESOURCE_VERBNET, NAFUtils.RESOURCE_PROPBANK, NAFUtils.RESOURCE_NOMBANK);
@@ -1607,9 +1612,9 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                     final String pred = predRef.getReference();
                     final String source = predRef.getSource();
 
-                    final URI premonURI = NAFUtils.createPreMOnSemanticClassURIfor(refStr,pred);
-                    if (premonURI != null) {
-                        ExternalRef e = new ExternalRef("PreMOn+"+refStr, premonURI.getLocalName());
+                    final IRI premonIRI = NAFUtils.createPreMOnSemanticClassIRIfor(refStr,pred);
+                    if (premonIRI != null) {
+                        ExternalRef e = new ExternalRef("PreMOn+"+refStr, premonIRI.getLocalName());
                         if (source!=null) e.setSource(source);
                         NAFUtils.setRef(predicate, e);
 
@@ -1649,9 +1654,9 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                             final String pred = predicateAndRole.substring(0, index);
                             final String rol = predicateAndRole.substring(index + 1);
 
-                            final URI premonURI = NAFUtils.createPreMOnSemanticRoleURIfor(refStr,pred,rol);
-                            if (premonURI != null) {
-                                ExternalRef e = new ExternalRef("PreMOn+"+refStr, premonURI.getLocalName());
+                            final IRI premonIRI = NAFUtils.createPreMOnSemanticRoleIRIfor(refStr,pred,rol);
+                            if (premonIRI != null) {
+                                ExternalRef e = new ExternalRef("PreMOn+"+refStr, premonIRI.getLocalName());
                                 if (source!=null) e.setSource(source);
                                 NAFUtils.setRef(role, e);
                             }
@@ -1704,7 +1709,7 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                 .withSRLSenseMapping(enableAll) //
                 .withSRLRoleLinking(enableAll, enableAll) //
                 .withOpinionLinking(enableAll, enableAll)
-                .withSRLPreMOnURIs(enableAll);
+                .withSRLPreMOnIRIs(enableAll);
     }
 
     /**
@@ -1899,7 +1904,7 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         private Boolean srlRoleLinkingUsingCoref;
 
         @Nullable
-        private Boolean srlPreMOnURIs;
+        private Boolean srlPreMOnIRIs;
 
         @Nullable
         private Boolean opinionLinking;
@@ -1982,8 +1987,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                         } else {
                             throw new IllegalArgumentException("Invalid '" + value + "' srlRoleLinking property. Supported: none exact coref ");
                         }
-                    } else if ("srlPreMOnURIs".equals(name)){
-                        withSRLPreMOnURIs(Boolean.valueOf(value));
+                    } else if ("srlPreMOnIRIs".equals(name)){
+                        withSRLPreMOnIRIs(Boolean.valueOf(value));
                     } else if ("opinionLinking".equals(name)) {
                         if ("none".equalsIgnoreCase(value)) {
                             withOpinionLinking(false, false);
@@ -2288,14 +2293,14 @@ public final class NAFFilter implements Consumer<KAFDocument> {
 
 
         /**
-         * Specifies replace reference of predicate models in NAF with premon URIs
+         * Specifies replace reference of predicate models in NAF with premon IRIs
          *
-         * @param srlPreMOnURIs
-         *            true to enable URI replacement, null to use default value
+         * @param srlPreMOnIRIs
+         *            true to enable IRI replacement, null to use default value
          * @return this builder object, for call chaining
          */
-        public Builder withSRLPreMOnURIs(@Nullable final Boolean srlPreMOnURIs) {
-            this.srlPreMOnURIs = srlPreMOnURIs;
+        public Builder withSRLPreMOnIRIs(@Nullable final Boolean srlPreMOnIRIs) {
+            this.srlPreMOnIRIs = srlPreMOnIRIs;
             return this;
         }
 

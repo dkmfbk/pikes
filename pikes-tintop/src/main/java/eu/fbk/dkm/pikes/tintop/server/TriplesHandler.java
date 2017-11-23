@@ -9,10 +9,10 @@ import eu.fbk.rdfpro.RDFSources;
 import ixa.kaflib.KAFDocument;
 import org.glassfish.grizzly.http.server.Request;
 import org.glassfish.grizzly.http.server.Response;
-import org.openrdf.model.Statement;
-import org.openrdf.rio.RDFFormat;
-import org.openrdf.rio.RDFWriter;
-import org.openrdf.rio.Rio;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.RDFWriter;
+import org.eclipse.rdf4j.rio.Rio;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

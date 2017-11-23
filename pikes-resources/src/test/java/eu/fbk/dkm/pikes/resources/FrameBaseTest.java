@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 import eu.fbk.dkm.pikes.resources.FrameBase.POS;
 
@@ -22,7 +22,7 @@ public class FrameBaseTest {
                     + FrameBase.propertyFor(frame, role).getLocalName());
         }
         for (final String synsetID : WordNet.getSynsetsForLemma("romanticism", "n")) {
-            final URI uri = YagoTaxonomy.getDBpediaYagoURI(synsetID);
+            final IRI uri = YagoTaxonomy.getDBpediaYagoIRI(synsetID);
             if (uri != null) {
                 System.out.println("--> " + uri);
             }

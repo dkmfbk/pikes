@@ -12,19 +12,19 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.common.xml.XmlEscapers;
 
-import org.openrdf.model.Literal;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.ValueFactory;
-import org.openrdf.model.vocabulary.DC;
-import org.openrdf.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.DC;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import eu.fbk.utils.core.CommandLine;
-import eu.fbk.utils.vocab.NIF;
+import eu.fbk.dkm.pikes.rdf.vocab.NIF;
 import eu.fbk.rdfpro.RDFSources;
 import eu.fbk.rdfpro.util.IO;
 import eu.fbk.rdfpro.util.QuadModel;
@@ -36,20 +36,20 @@ public final class Yovisto {
 
     private static final ValueFactory VF = Statements.VALUE_FACTORY;
 
-    private static final URI SI_QUERY = VF.createURI("http://sindice.com/vocab/search#Query");
+    private static final IRI SI_QUERY = VF.createIRI("http://sindice.com/vocab/search#Query");
 
-    private static final URI SI_RESULT = VF.createURI("http://sindice.com/vocab/search#result");
+    private static final IRI SI_RESULT = VF.createIRI("http://sindice.com/vocab/search#result");
 
-    private static final URI SI_RANK = VF.createURI("http://sindice.com/vocab/search#rank");
+    private static final IRI SI_RANK = VF.createIRI("http://sindice.com/vocab/search#rank");
 
-    private static final URI YV_QUERY_ID = VF.createURI("http://yovisto.com/eval#queryId");
+    private static final IRI YV_QUERY_ID = VF.createIRI("http://yovisto.com/eval#queryId");
 
-    private static final URI YV_DOCUMENT_ID = VF.createURI("http://yovisto.com/eval#documentId");
+    private static final IRI YV_DOCUMENT_ID = VF.createIRI("http://yovisto.com/eval#documentId");
 
-    private static final URI YV_DOCUMENT = VF.createURI("http://yovisto.com/eval#Document");
+    private static final IRI YV_DOCUMENT = VF.createIRI("http://yovisto.com/eval#Document");
 
-    private static final URI ITSRDF_TA_IDENT_REF = VF
-            .createURI("http://www.w3.org/2005/11/its/rdf#taIdentRef");
+    private static final IRI ITSRDF_TA_IDENT_REF = VF
+            .createIRI("http://www.w3.org/2005/11/its/rdf#taIdentRef");
 
     private static final Pattern SPLIT_PATTERN = Pattern
             .compile("[^ ][ ]([ ]+[A-Z]|The |This |That |These |Those |My |Your |His |Her |Its "
@@ -85,7 +85,7 @@ public final class Yovisto {
 
             // Read RDF file
             final QuadModel model = QuadModel.create();
-            for (final Statement stmt : RDFSources.read(false, true, null, null,
+            for (final Statement stmt : RDFSources.read(false, true, null, null,null,true,
                     input.getAbsolutePath())) {
                 try {
                     model.add(stmt);
@@ -94,8 +94,8 @@ public final class Yovisto {
                 }
             }
 
-            // Define a URI -> ID map
-            final Map<URI, String> ids = Maps.newHashMap();
+            // Define a IRI -> ID map
+            final Map<IRI, String> ids = Maps.newHashMap();
 
             // Emit queries
             int numResults = 0;
@@ -103,13 +103,13 @@ public final class Yovisto {
             for (final Resource query : model.filter(null, RDF.TYPE, SI_QUERY).subjects()) {
                 final String id = String.format("q%02d", model.filter(query, YV_QUERY_ID, null)
                         .objectLiteral().intValue());
-                ids.put((URI) query, id);
+                ids.put((IRI) query, id);
                 final String text = fixQuery(model.filter(query, NIF.IS_STRING, null)
                         .objectLiteral().stringValue());
                 final Map<Integer, String> resultMap = Maps.newHashMap();
                 final Map<String, Integer> rankMap = Maps.newHashMap();
                 for (final Value result : model.filter(query, SI_RESULT, null).objects()) {
-                    final URI uri = (URI) result;
+                    final IRI uri = (IRI) result;
                     final int num = Integer.parseInt(uri.getLocalName());
                     final int rank = model.filter(uri, SI_RANK, null).objectLiteral().intValue();
                     final String documentId = String.format("d%03d",
@@ -129,7 +129,7 @@ public final class Yovisto {
                 }
                 queryLines.add(builder.toString());
                 final int index = query.stringValue().indexOf('#');
-                final URI queryURI = index < 0 ? (URI) query : VF.createURI(query.stringValue()
+                final IRI queryIRI = index < 0 ? (IRI) query : VF.createIRI(query.stringValue()
                         .substring(0, index));
                 try (Writer writer = IO
                         .utf8Writer(IO.buffer(IO.write(output + "." + id + ".naf")))) {
@@ -139,7 +139,7 @@ public final class Yovisto {
                     writer.write("    <fileDesc creationtime=\"2015-07-09T00:00:00+00:00\" />\n");
                     writer.write("    <public publicId=\""
                             + XmlEscapers.xmlAttributeEscaper().escape(id) + "\" uri=\""
-                            + XmlEscapers.xmlAttributeEscaper().escape(queryURI.stringValue())
+                            + XmlEscapers.xmlAttributeEscaper().escape(queryIRI.stringValue())
                             + "\"/>\n");
                     writer.write("  </nafHeader>\n");
                     writer.write("  <raw><![CDATA[");
@@ -165,9 +165,9 @@ public final class Yovisto {
                 final String text = fixDocument(model.filter(document, NIF.IS_STRING, null)
                         .objectLiteral().stringValue());
                 final int index = document.stringValue().indexOf('#');
-                final URI documentURI = index < 0 ? (URI) document : VF.createURI(document
+                final IRI documentIRI = index < 0 ? (IRI) document : VF.createIRI(document
                         .stringValue().substring(0, index));
-                ids.put((URI) document, id);
+                ids.put((IRI) document, id);
                 try (Writer writer = IO
                         .utf8Writer(IO.buffer(IO.write(output + "." + id + ".naf")))) {
                     writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
@@ -177,7 +177,7 @@ public final class Yovisto {
                             + XmlEscapers.xmlAttributeEscaper().escape(title) + "\"/>\n");
                     writer.write("    <public publicId=\""
                             + XmlEscapers.xmlAttributeEscaper().escape(id) + "\" uri=\""
-                            + XmlEscapers.xmlAttributeEscaper().escape(documentURI.stringValue())
+                            + XmlEscapers.xmlAttributeEscaper().escape(documentIRI.stringValue())
                             + "\"/>\n");
                     writer.write("  </nafHeader>\n");
                     writer.write("  <raw><![CDATA[");
@@ -195,9 +195,9 @@ public final class Yovisto {
             // Emit entities
             final Map<String, String> entityLines = Maps.newHashMap();
             for (final Statement stmt : model.filter(null, ITSRDF_TA_IDENT_REF, null)) {
-                final URI entity = (URI) stmt.getSubject();
-                final URI reference = VF.createURI(stmt.getObject().stringValue());
-                final URI context = VF.createURI(model.filter(entity, NIF.REFERENCE_CONTEXT, null)
+                final IRI entity = (IRI) stmt.getSubject();
+                final IRI reference = VF.createIRI(stmt.getObject().stringValue());
+                final IRI context = VF.createIRI(model.filter(entity, NIF.REFERENCE_CONTEXT, null)
                         .objectValue().stringValue());
                 final String id = ids.get(context);
                 final String text = model.filter(entity, NIF.ANCHOR_OF, null).objectLiteral()
@@ -294,7 +294,7 @@ public final class Yovisto {
         return builder.toString();
     }
 
-    private static int getInt(final QuadModel model, final Resource subject, final URI property) {
+    private static int getInt(final QuadModel model, final Resource subject, final IRI property) {
         for (final Value value : model.filter(subject, property, null).objects()) {
             try {
                 return ((Literal) value).intValue();

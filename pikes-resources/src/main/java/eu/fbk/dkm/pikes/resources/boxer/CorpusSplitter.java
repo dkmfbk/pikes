@@ -1,8 +1,8 @@
 package eu.fbk.dkm.pikes.resources.boxer;
 
+import eu.fbk.rdfpro.util.Statements;
 import eu.fbk.utils.core.CommandLine;
 import ixa.kaflib.KAFDocument;
-import org.openrdf.model.impl.URIImpl;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
@@ -36,7 +36,7 @@ public class CorpusSplitter {
 		final KAFDocument document = new KAFDocument("en", "v3");
 		document.setRawText(text);
 		document.createPublic();
-		document.getPublic().publicId = new URIImpl(documentURI).getLocalName();
+		document.getPublic().publicId = Statements.VALUE_FACTORY.createIRI(documentURI).getLocalName();
 		document.getPublic().uri = documentURI;
 		document.createFileDesc();
 		document.getFileDesc().filename = nafFileName;

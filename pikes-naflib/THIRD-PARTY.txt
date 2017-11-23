@@ -42,9 +42,6 @@ List of third-party dependencies grouped by their license type.
             * liblinear (de.bwaldvogel:liblinear:1.95)
             * jwnl (jwnl:jwnl:1.3.3)
             * Hamcrest Core (org.hamcrest:hamcrest-core:1.3)
-            * OpenRDF Sesame: Model (org.openrdf.sesame:sesame-model:2.7.14)
-            * OpenRDF Sesame: Rio - API (org.openrdf.sesame:sesame-rio-api:2.7.14)
-            * OpenRDF Sesame: util (org.openrdf.sesame:sesame-util:2.7.14)
             * snowball (org.tartarus.snowball:snowball:1.0)
             * LIBSVM (tw.edu.ntu.csie:libsvm:3.17)
 
