@@ -2,7 +2,6 @@ package eu.fbk.dkm.pikes.rdf.util;
 
 import com.google.common.collect.*;
 import eu.fbk.dkm.pikes.rdf.vocab.KS_OLD;
-import eu.fbk.dkm.pikes.rdf.vocab.KS;
 import eu.fbk.dkm.pikes.rdf.vocab.NIF;
 import eu.fbk.dkm.pikes.rdf.vocab.GAF;
 import eu.fbk.rdfpro.util.QuadModel;
@@ -42,13 +41,13 @@ public final class ModelUtil {
     }
 
     public static Set<Resource> getMentions(final QuadModel model) {
-        return model.filter(null, RDF.TYPE, KS.MENTION).subjects();
+        return model.filter(null, RDF.TYPE, KS_OLD.MENTION).subjects();
     }
 
     public static Set<Resource> getMentions(final QuadModel model, final int beginIndex,
             final int endIndex) {
         final List<Resource> mentionIDs = Lists.newArrayList();
-        for (final Resource mentionID : model.filter(null, RDF.TYPE, KS.MENTION).subjects()) {
+        for (final Resource mentionID : model.filter(null, RDF.TYPE, KS_OLD.MENTION).subjects()) {
             final Literal begin = model.filter(mentionID, NIF.BEGIN_INDEX, null).objectLiteral();
             final Literal end = model.filter(mentionID, NIF.END_INDEX, null).objectLiteral();
             if (begin != null && begin.intValue() >= beginIndex && end != null
