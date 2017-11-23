@@ -9,3 +9,5 @@ dkm-commandlist.txt
 */.project
 */.settings
 *.versionsBackup
+pikes.ipr
+pikes.iws
