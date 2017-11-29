@@ -78,8 +78,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
     private static final Logger LOGGER = LoggerFactory.getLogger(NAFFilter.class);
 
     private static final Map<String, String> ENTITY_SST_TO_TYPES = ImmutableMap
-            .<String, String>builder().put("person", "PERSON").put("group", "ORGANIZATION")
-            .put("location", "LOCATION").put("quantity", "QUANTITY").put("artifact", "PRODUCT")
+            .<String, String>builder().put("person", "PER").put("group", "ORG")
+            .put("location", "LOC").put("quantity", "QUANTITY").put("artifact", "PRODUCT")
             .put("act", "EVENT").put("event", "EVENT").put("phenomenon", "EVENT")
             .put("process", "EVENT").put("state", "EVENT").put("animal", "MISC")
             .put("plant", "MISC").put("body", "MISC").put("shape", "MISC").put("motive", "MISC")

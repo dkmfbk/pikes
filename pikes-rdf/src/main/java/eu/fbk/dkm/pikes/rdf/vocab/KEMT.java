@@ -23,7 +23,7 @@ public class KEMT {
     public static final String NAMESPACE = "http://knowledgestore.fbk.eu/ontologies/kem/text#";
 
     /** Immutable {@link Namespace} constant for the vocabulary namespace. */
-    public static final Namespace NS = new SimpleNamespace(VOID.PREFIX, VOID.NAMESPACE);
+    public static final Namespace NS = new SimpleNamespace(PREFIX, NAMESPACE);
 
     // CLASSES
 
@@ -554,7 +554,7 @@ public class KEMT {
     // HELPER METHODS
 
     private static IRI createIRI(final String localName) {
-        return SimpleValueFactory.getInstance().createIRI(VOID.NAMESPACE, localName);
+        return SimpleValueFactory.getInstance().createIRI(NAMESPACE, localName);
     }
 
     private KEMT() {

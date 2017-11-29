@@ -569,6 +569,9 @@ public final class RDFGenerator {
                 }
             }
 
+
+
+
             // 4. Process <factvalue> annotations; must be done after 3
             for (final Factuality factuality : this.document.getFactualities()) {
                 if (this.sentenceIDs[factuality.getWord().getSent()]) {

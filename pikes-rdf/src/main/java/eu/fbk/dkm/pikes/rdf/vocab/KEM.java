@@ -23,7 +23,7 @@ public class KEM {
     public static final String NAMESPACE = "http://knowledgestore.fbk.eu/ontologies/kem/core#";
 
     /** Immutable {@link Namespace} constant for the vocabulary namespace. */
-    public static final Namespace NS = new SimpleNamespace(VOID.PREFIX, VOID.NAMESPACE);
+    public static final Namespace NS = new SimpleNamespace(PREFIX, NAMESPACE);
 
     // CLASSES
 
@@ -95,6 +95,10 @@ public class KEM {
     /** Object property kem:isAbout. */
     public static final IRI IS_ABOUT = createIRI("isAbout");
 
+    /** Datatype property kem:hasConfidence. */
+    public static final IRI HAS_CONFIDENCE = createIRI("hasConfidence");
+
+
     // ALL TERMS
 
     /** Set of terms defined in this vocabulary. */
@@ -107,7 +111,7 @@ public class KEM {
     // HELPER METHODS
 
     private static IRI createIRI(final String localName) {
-        return SimpleValueFactory.getInstance().createIRI(VOID.NAMESPACE, localName);
+        return SimpleValueFactory.getInstance().createIRI(NAMESPACE, localName);
     }
 
     private KEM() {

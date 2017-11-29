@@ -1,24 +1,28 @@
 package eu.fbk.dkm.pikes.rdf.naf;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.Nullable;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Ordering;
+import com.google.common.collect.*;
 
 
-import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.ValueFactory;
+//import eu.fbk.dkm.pikes.rdf.RDFGenerator;
+import eu.fbk.dkm.pikes.rdf.util.OWLTime;
+import eu.fbk.dkm.pikes.rdf.vocab.*;
+import eu.fbk.dkm.pikes.resources.Sumo;
+import eu.fbk.dkm.pikes.resources.YagoTaxonomy;
+import eu.fbk.utils.svm.Util;
+import org.eclipse.rdf4j.model.*;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
-import org.eclipse.rdf4j.model.vocabulary.DCTERMS;
-import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.vocabulary.*;
 import org.eclipse.rdf4j.rio.RDFHandlerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,28 +43,38 @@ import ixa.kaflib.WF;
 
 import eu.fbk.dkm.pikes.rdf.api.Extractor;
 import eu.fbk.dkm.pikes.rdf.util.ModelUtil;
-import eu.fbk.dkm.pikes.rdf.util.OWLTime.Duration;
-import eu.fbk.dkm.pikes.rdf.util.OWLTime.Interval;
-import eu.fbk.dkm.pikes.rdf.vocab.BBN;
-import eu.fbk.dkm.pikes.rdf.vocab.KS;
 import eu.fbk.dkm.pikes.resources.NAFUtils;
-import eu.fbk.dkm.pikes.resources.WordNet;
-import eu.fbk.dkm.pikes.rdf.vocab.NIF;
 import eu.fbk.rdfpro.RDFHandlers;
 import eu.fbk.rdfpro.util.Hash;
-import eu.fbk.rdfpro.util.QuadModel;
 import eu.fbk.rdfpro.util.Statements;
 
 public class NAFExtractor implements Extractor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NAFExtractor.class);
 
+    public void generate(final Object document, final Model model, @Nullable final Iterable<Integer> sentenceIDs) throws Exception {
+        KAFDocument doc = (KAFDocument) document;
+        IRI IRI = SimpleValueFactory.getInstance().createIRI(doc.getPublic().uri);
+
+        final boolean[] ids = new boolean[doc.getNumSentences() + 1];
+        if (sentenceIDs == null) {
+            Arrays.fill(ids, true);
+        } else {
+            for (final Integer sentenceID : sentenceIDs) {
+                ids[sentenceID] = true;
+            }
+        }
+
+        new Extraction(IRI, model,
+                doc, ids).run();
+    }
+
     @Override
-    public void extract(final Object document, final QuadModel model) throws Exception {
+    public void extract(final Object document, final Model model, final boolean[] sentenceIDs) throws Exception {
         KAFDocument doc = (KAFDocument) document;
         IRI IRI = SimpleValueFactory.getInstance().createIRI(doc.getPublic().uri);
         new Extraction(IRI, model,
-                doc).run();
+                doc, sentenceIDs).run();
     }
 
     private static boolean isAttributeTerm(final Term term) {
@@ -68,9 +82,89 @@ public class NAFExtractor implements Extractor {
         return pos.startsWith("JJ") || pos.startsWith("RB") || pos.startsWith("VB");
     }
 
+
+    //todo adapta to UD
+    private static final String MODIFIER_REGEX = "(NMOD|AMOD|TMP|LOC|TITLE) PMOD? (COORD CONJ?)* PMOD?";
+
+    //todo adapta to UD
+    private static final String PARTICIPATION_REGEX = ""
+            + "SUB? (COORD CONJ?)* (PMOD (COORD CONJ?)*)? ((VC OPRD?)|(IM OPRD?))*";
+
+    private static final Multimap<String, IRI> DEFAULT_TYPE_MAP = ImmutableMultimap
+            .<String, IRI>builder() //
+            .put("entity.person", NWR.PERSON) //
+            .put("entity.organization", NWR.ORGANIZATION) //
+            .put("entity.location", NWR.LOCATION) //
+            .put("entity.misc", NWR.MISC) //
+            .put("entity.money", GR.PRICE_SPECIFICATION) //
+            .put("entity.date", OWLTIME.DATE_TIME_INTERVAL) //
+            .put("entity.time", OWLTIME.DATE_TIME_INTERVAL) //
+            .put("timex.date", OWLTIME.DATE_TIME_INTERVAL) //
+            .put("timex.duration", OWLTIME.PROPER_INTERVAL) //
+            .build();
+
+    private static final Map<String, String> DEFAULT_NAMESPACE_MAP = ImmutableMap
+            .<String, String>builder()
+            .put("propbank", "http://www.newsreader-project.eu/ontologies/propbank/")
+            .put("nombank", "http://www.newsreader-project.eu/ontologies/nombank/")
+            .put("framenet", "http://www.newsreader-project.eu/ontologies/framenet/")
+            .put("verbnet", "http://www.newsreader-project.eu/ontologies/verbnet/")
+            .put("premon+propbank", "http://premon.fbk.eu/resource/")
+            .put("premon+nombank", "http://premon.fbk.eu/resource/")
+            .put("premon+framenet", "http://premon.fbk.eu/resource/")
+            .put("premon+verbnet", "http://premon.fbk.eu/resource/")
+            .put("eso", "http://www.newsreader-project.eu/domain-ontology#")
+            .put("framebase", "http://framebase.org/ns/") //
+            .put("wordnet","http://wordnet.org/ili/") //
+            .put("wn30-ukb","http://pikes.fbk.eu/wn/syn/")
+            .put("wn30-sst","http://pikes.fbk.eu/wn/sst/")
+            .put("bbn","http://pikes.fbk.eu/bbn/")
+            .put(KEM.PREFIX, KEM.NAMESPACE) //
+            .put(KEMT.PREFIX, KEMT.NAMESPACE) //
+            .put("attribute", "attr:")
+            // TODO: change this namespace
+            .put("syn", "http://wordnet-rdf.princeton.edu/wn30/")
+            // TODO .put("conn", "http://www.newsreader-project.eu/conn/")
+            .put(SUMO.PREFIX, SUMO.NAMESPACE)//
+            .put("yago", YagoTaxonomy.NAMESPACE).build();
+
+    private static final String DEFAULT_OWLTIME_NAMESPACE = "http://pikes.fbk.eu/time/";
+    private static final String DEFAULT_NER_NAMESPACE = "http://pikes.fbk.eu/ner/";
+    private static final String DEFAULT_WN_SST = "http://pikes.fbk.eu/wn/sst/";
+    private static final String DEFAULT_WN_SYN = "http://pikes.fbk.eu/wn/syn/";
+
+
+    public static final NAFExtractor DEFAULT = NAFExtractor.builder().build();
+
+    private final Multimap<String, IRI> typeMap;
+
+    private final Map<String, String> namespaceMap;
+
+    private final String owltimeNamespace;
+
+    private final boolean merging;
+
+    private final boolean normalization;
+
+
+
+
+
+
+    public NAFExtractor(final Builder builder) {
+        this.typeMap = ImmutableMultimap.copyOf(MoreObjects.firstNonNull(builder.typeMap,
+                DEFAULT_TYPE_MAP));
+        this.namespaceMap = ImmutableMap.copyOf(MoreObjects.firstNonNull(builder.namespaceMap,
+                DEFAULT_NAMESPACE_MAP));
+        this.owltimeNamespace = MoreObjects.firstNonNull(builder.owltimeNamespace,
+                DEFAULT_OWLTIME_NAMESPACE);
+        this.merging = MoreObjects.firstNonNull(builder.merging, Boolean.FALSE);
+        this.normalization = MoreObjects.firstNonNull(builder.normalization, Boolean.FALSE);
+    }
+
     private final class Extraction {
 
-        private final QuadModel model;
+        private final Model model;
 
         private final KAFDocument document;
 
@@ -80,11 +174,110 @@ public class NAFExtractor implements Extractor {
 
         private final IRI documentIRI;
 
+        private final boolean[] sentenceIDs;
+
+        private final BiMap<String, String> mintedIRIs;
+
         private final IRI contextIRI;
 
-        private final Map<Term, InstanceMention> mentions;
+//        private final Map<Term, InstanceMention> mentions;
 
-        Extraction(final IRI IRI, final QuadModel model, final KAFDocument document) {
+        private final Map<String, Set<Mention>> mentions;
+        private final Map<Mention, Set<Annotation>> annotations;
+
+        private final Map<String, Mention> nafIdMentions;
+//        private final Map<String, Set<Annotation>> nafIdAnnotations;
+
+
+        //check if there is already a mention with that head and span
+        private Mention getMention(final String head, List<Term> terms){
+
+            Mention mention = null;
+            if (this.mentions.containsKey(head)) {
+                Set<Mention> mentions = this.mentions.get(head);
+                for (Mention m : mentions
+                     ) {
+                    if (m.extent.equals(terms))
+                        mention = m;
+                }
+            }
+            return mention;
+        }
+
+        //get the BEST mention for a given head (used in coordination, coreference, roles)
+        private Mention getBestMention(final String head){
+
+            Mention BestMention = null;
+            if (this.mentions.containsKey(head)) {
+                Set<Mention> mentions = this.mentions.get(head);
+                BestMention =  this.mentions.get(head).iterator().next();
+                for (Mention m : mentions
+                        ) {
+                    if (BestMention.extent.size()<m.extent.size())
+                        BestMention = m;
+                }
+            }
+            return BestMention;
+        }
+
+        private void safeMentionPutInMap(final String ID, final Mention mention) {
+            Set<Mention> mentions;
+
+            if (this.mentions.containsKey(ID))
+                mentions = this.mentions.get(ID);
+            else
+                mentions = Sets.newHashSet();
+            mentions.add(mention);
+            this.mentions.put(ID, mentions);
+        }
+
+        private void safeAnnotationPutInMap(final Mention mention, final Annotation annotation) {
+            Set<Annotation> annotations;
+
+            if (this.annotations.containsKey(mention))
+                annotations = this.annotations.get(mention);
+            else
+                annotations = Sets.newHashSet();
+            annotations.add(annotation);
+            this.annotations.put(mention, annotations);
+        }
+
+//        private <T,S> void safePutInMap(final T key, final S value, Map<T, Set<S>> map){
+//            Set<S> values;
+//            if (map.containsKey(key))
+//                values = map.get(key);
+//            else
+//                values = Sets.newHashSet();
+//            values.add(value);
+//            map.put(key, values);
+//        }
+
+
+
+
+
+//        private Annotation getBestAnnotationOnHead(String ID, Set<IRI> admissibleType) {
+//
+//            //null type means all
+//
+//
+//            Set<Annotation> annotations = this.annotations.get(ID);
+//            //get first element
+//            Annotation bestAnnotation=this.annotations.get(ID).iterator().next();
+//
+//            for (Annotation ann : annotations
+//                 ) {
+//                //take tge annotation with the largest span
+//                //restrict to entity annotation or
+//
+//            }
+//
+//            return annotation
+//        }
+
+
+
+        Extraction(final IRI IRI, final Model model, final KAFDocument document, final boolean[] sentenceIDs) {
 
             // Reconstruct the document text using term offsets to avoid alignment issues
             final StringBuilder builder = new StringBuilder();
@@ -103,91 +296,44 @@ public class NAFExtractor implements Extractor {
             // Initialize the object
             this.model = model;
             this.document = document;
+            this.mintedIRIs = HashBiMap.create();
             this.vf = Statements.VALUE_FACTORY;
             this.documentText = builder.toString();
             this.documentIRI = IRI;
             //contextIRI: nif:Context (from NIF) is the maximal fragment associated to a kemt:TextResource
-            this.contextIRI = vf.createIRI(documentIRI.toString()+"text");
-//            this.contextIRI = (IRI) Iterables.getOnlyElement(
-//                    model.filter(null, NIF.SOURCE_URL, IRI).subjects(), null);
+
+            //used for processing only some sentences
+            this.sentenceIDs = sentenceIDs;
+
+            this.contextIRI = Statements.VALUE_FACTORY.createIRI(this.documentIRI.stringValue() + "#ctx");
+
+            this.model.add(this.contextIRI, NIF.SOURCE_URL, IRI);
+            this.model.add(this.contextIRI, RDF.TYPE, NIF.CONTEXT);
+            this.model.add(this.contextIRI, NIF.IS_STRING, Statements.VALUE_FACTORY.createLiteral(documentText));
             this.mentions = Maps.newHashMap();
+            this.annotations = Maps.newHashMap();
+            this.nafIdMentions = Maps.newHashMap();
+//            this.nafIdAnnotations = Maps.newHashMap();
         }
 
         void run() {
 
-            // 1. Process NAF metadata
-            processMetadata();
+//            order in 0-3 doesn't matter'
+            processMetadata(); // 0. Process NAF metadata DONE
+            processTimexes(); // 1. Process all <timex3> annotations DONE
+            processEntities(); // 2. Process all <entity> annotations DONE
+            processPredicates(); // 3. Process <predicate> annotations DONE?
 
-            // 2. Process <timex3> annotations
-            for (final Timex3 timex : this.document.getTimeExs()) {
-                try {
-                    processTimex(timex);
-                } catch (final Throwable ex) {
-                    LOGGER.error("Error processing " + NAFUtils.toString(timex) + ", type "
-                            + timex.getType() + ", value " + timex.getValue(), ex);
-                }
-            }
+//            next one has to come after 0-3
+            processCoordinations(); // 4. Process all <entity> annotations which are involved in a coordination
 
-            // 3. Process <entity> annotations
-            for (final Entity entity : this.document.getEntities()) {
-                try {
-                    processEntity(entity);
-                } catch (final Throwable ex) {
-                    LOGGER.error("Error processing " + NAFUtils.toString(entity) + ", type "
-                            + entity.getType(), ex);
-                }
-            }
-
-            // 4. Process <predicate> annotations; must be done after 1, 2
-            for (final Predicate predicate : this.document.getPredicates()) {
-                try {
-                    processPredicate(predicate);
-                } catch (final Throwable ex) {
-                    LOGGER.error("Error processing " + NAFUtils.toString(predicate), ex);
-                }
-            }
-
-            // 5. Process attributes
-            for (final Term term : this.document.getTerms()) {
-                if (isAttributeTerm(term)) {
-                    final Dep dep = this.document.getDepToTerm(term);
-                    if (dep == null || !isAttributeTerm(dep.getFrom())) {
-                        processAttribute(term);
-                    }
-                }
-            }
-
-            // 6. Process <coref> annotations; must be done after 1, 2, 3
-            for (final Coref coref : this.document.getCorefs()) {
-                if (!"event".equalsIgnoreCase(coref.getType())) {
-                    try {
-                        processCoref(coref);
-                    } catch (final Throwable ex) {
-                        LOGGER.error("Error processing " + NAFUtils.toString(coref), ex);
-                    }
-                }
-            }
-
-            // 7. Process head <term>s in <role> annotations; must be done after 1, 2, 3
-            for (final Predicate predicate : this.document.getPredicates()) {
-                for (final Role role : predicate.getRoles()) {
-                    final Term roleHead = NAFUtils.extractHead(this.document, role.getSpan());
-                    if (roleHead != null) {
-                        for (final Term argHead : this.document.getTermsByDepAncestors(
-                                Collections.singleton(roleHead), "SUB? (COORD CONJ?)*"
-                                        + " (PMOD (COORD CONJ?)*)? ((VC OPRD?)|(IM OPRD?))*")) {
-                            try {
-                                processRole(predicate, role, argHead);
-                            } catch (final Throwable ex) {
-                                LOGGER.error("Error processing " + NAFUtils.toString(role)
-                                        + " of " + NAFUtils.toString(predicate) + ", argument "
-                                        + NAFUtils.toString(argHead), ex);
-                            }
-                        }
-                    }
-                }
-            }
+//            next ones have to come after coordination
+            processCoreferences(); // 6. Process <coref> annotations
+            processRoles(); // 7. Process head <term>s in <role> annotations
         }
+
+
+
 
         private void processMetadata() {
 
@@ -196,27 +342,22 @@ public class NAFExtractor implements Extractor {
             final IRI nafIRI = this.vf.createIRI(docIRI.stringValue() + ".naf");
 
             // Emit document types
-            this.model.add(docIRI, RDF.TYPE, KS.RESOURCE);
-            this.model.add(docIRI, RDF.TYPE, KS.TEXT);
+            emitTriple(docIRI, RDF.TYPE, new IRI[] { KEMT.TEXT_RESOURCE, KS.RESOURCE, KS.TEXT });
 
             // Emit title, author and DCT from the <fileDesc> element, if present
             if (this.document.getFileDesc() != null) {
                 final FileDesc fd = this.document.getFileDesc();
-                if (!Strings.isNullOrEmpty(fd.title)) {
-                    this.model.add(docIRI, DCTERMS.TITLE, this.vf.createLiteral(fd.title));
-                }
-                if (!Strings.isNullOrEmpty(fd.author)) {
-                    this.model.add(docIRI, DCTERMS.CREATOR, this.vf.createLiteral(fd.author));
-                }
-                if (!Strings.isNullOrEmpty(fd.creationtime)) {
-                    this.model.add(docIRI, DCTERMS.CREATED, //
-                            this.vf.createLiteral(fd.creationtime));
-                }
+                emitTriple(docIRI, DCTERMS.TITLE, fd.title);
+                emitTriple(docIRI, DCTERMS.CREATOR, fd.author);
+                emitTriple(docIRI, DCTERMS.CREATED, fd.creationtime);
+                emitTriple(docIRI, KS.NAF_FILE_NAME, fd.filename);
+                emitTriple(docIRI, KS.NAF_FILE_TYPE, fd.filetype);
+                emitTriple(docIRI, KS.NAF_PAGES, fd.pages);
             }
 
             // Emit the document language, if available
             if (this.document.getLang() != null) {
-                this.model.add(docIRI, DCTERMS.LANGUAGE,
+                emitTriple(docIRI, DCTERMS.LANGUAGE,
                         ModelUtil.languageCodeToIRI(this.document.getLang()));
             }
 
@@ -237,31 +378,23 @@ public class NAFExtractor implements Extractor {
                         builder.append(c);
                     }
                 }
-                this.model.add(docIRI, KS.TEXT_HASH,
-                        this.vf.createLiteral(Hash.murmur3(builder.toString()).toString()));
+                emitTriple(docIRI, KS.TEXT_HASH, Hash.murmur3(builder.toString()).toString());
             }
 
             // Link document to its NAF annotation
-            this.model.add(docIRI, KS.ANNOTATED_WITH, nafIRI);
-            this.model.add(nafIRI, KS.ANNOTATION_OF, docIRI);
+            emitTriple(docIRI, KS.ANNOTATED_WITH, nafIRI);
+            emitTriple(nafIRI, KS.ANNOTATION_OF, docIRI);
 
             // Emit types, version and publicId of NAF resource
-            this.model.add(nafIRI, RDF.TYPE, KS.RESOURCE);
-            this.model.add(nafIRI, RDF.TYPE, KS.NAF);
-            if (!Strings.isNullOrEmpty(this.document.getVersion())) {
-                this.model.add(nafIRI, KS.VERSION,
-                        this.vf.createLiteral(this.document.getVersion()));
-            }
-            if (!Strings.isNullOrEmpty(this.document.getPublic().publicId)) {
-                this.model.add(nafIRI, DCTERMS.IDENTIFIER,
-                        this.vf.createLiteral(this.document.getPublic().publicId));
-            }
+            emitTriple(nafIRI, RDF.TYPE, new IRI[] { KEMT.TEXT_RESOURCE, KS.RESOURCE, KS.NAF });
+            emitTriple(nafIRI, KS.VERSION, this.document.getVersion());
+            emitTriple(nafIRI, DCTERMS.IDENTIFIER, this.document.getPublic().publicId);
 
             // Emit information about linguistic processors: dct:created, dct:creatro, ego:layer
             String timestamp = null;
             for (final Map.Entry<String, List<LinguisticProcessor>> entry : this.document
                     .getLinguisticProcessors().entrySet()) {
-                this.model.add(nafIRI, KS.LAYER,
+                emitTriple(nafIRI, KS.LAYER,
                         this.vf.createIRI(KS.NAMESPACE, "layer_" + entry.getKey()));
                 for (final LinguisticProcessor lp : entry.getValue()) {
                     if (timestamp == null) {
@@ -272,21 +405,35 @@ public class NAFExtractor implements Extractor {
                         }
                     }
                     final IRI lpIRI = this.vf.createIRI(ModelUtil.cleanIRI(KS.NAMESPACE
-                            + lp.getName().replace(' ', '_').replaceAll("[()*]", "")
-                            + (lp.getVersion() == null ? "" : '_' + lp.getVersion())));
-                    this.model.add(nafIRI, DCTERMS.CREATOR, lpIRI);
-                    if (lp.getName() != null) {
-                        this.model.add(lpIRI, DCTERMS.TITLE, this.vf.createLiteral(lp.getName()));
-                    }
-                    if (lp.getVersion() != null) {
-                        this.model.add(lpIRI, KS.VERSION, this.vf.createLiteral(lp.getVersion()));
+                            + lp.getName() + '.' + lp.getVersion()));
+                    emitTriple(nafIRI, DCTERMS.CREATOR, lpIRI);
+                    emitTriple(lpIRI, DCTERMS.TITLE, lp.getName());
+                    emitTriple(lpIRI, KS.VERSION, lp.getVersion());
+                }
+            }
+            emitTriple(nafIRI, DCTERMS.CREATED, timestamp);
+
+        }
+
+
+
+        private void processTimexes() {
+            for (final Timex3 timex : this.document.getTimeExs()) {
+
+                //filter only the annotations in the requested sentences
+                if (timex.getSpan() == null
+                        || this.sentenceIDs[timex.getSpan().getFirstTarget().getSent()]) {
+                    try {
+                        processTimex(timex);
+                    } catch (final Throwable ex) {
+                        LOGGER.error("Error processing " + NAFUtils.toString(timex) + ", type "
+                                + timex.getType() + ", value " + timex.getValue(), ex);
                     }
                 }
             }
-            this.model.add(nafIRI, DCTERMS.CREATED, this.vf.createLiteral(timestamp));
         }
 
-        private void processTimex(final Timex3 timex) throws RDFHandlerException {
+        private void processTimex(final Timex3 timex){
 
             // Abort if timex has no span (e.g., the DCT)
             if (timex.getSpan() == null) {
@@ -296,39 +443,95 @@ public class NAFExtractor implements Extractor {
             // Extract terms, head and label
             final List<Term> terms = this.document.getTermsByWFs(timex.getSpan().getTargets());
             final Term head = NAFUtils.extractHead(this.document, KAFDocument.newTermSpan(terms));
-            if (head == null) {
-                return;
-            }
+            final String label = NAFUtils.getText(NAFUtils.filterTerms(terms));
+            final String type = timex.getType().trim().toLowerCase();
 
-            // Emit a mention and its triples for the current timex. Abort in case of conflicts
-            final IRI mentionIRI = emitInstanceMention(terms, head, InstanceMention.TIME,
-                    InstanceMention.ALL);
-            if (mentionIRI == null) {
-                return;
-            }
 
+            // create mention if not already existing
+            Mention mention = getMention(head.getId(),terms);
+            final IRI mentionIRI;
+            if (mention==null) {
+                //emit mentions
+                mentionIRI = emitMention(terms);
+                mention = new Mention(head,terms,mentionIRI);
+                safeMentionPutInMap(head.getId(),mention);
+            } else
+                //reuse mention IRI
+                mentionIRI = mention.mentionIRI;
+
+            this.nafIdMentions.put(timex.getId(),mention);
+
+            //emit semantic annotation of type timex and store in the map of annotation per mention
+            final IRI semAnnoIRI = createSemanticAnnotationIRI(timex.getId(),mentionIRI,KEMT.TIMEX);
+            Annotation ann = new Annotation(semAnnoIRI,KEMT.TIMEX);
+            safeAnnotationPutInMap(mention,ann);
+
+            IRI timexIRI = null;
             // Emit type specific statements
             if (timex.getValue() != null) {
                 IRI owltimeIRI = null;
-                final String type = timex.getType().trim().toLowerCase();
+//                final String type = timex.getType().trim().toLowerCase();
                 if (type.equals("date") || type.equals("time")) {
-                    final Interval interval = Interval.parseTimex(timex.getValue());
+                    if (type.equals("date")) emitTriple(semAnnoIRI, KEMT.TYPE_P, KEMT.TT_DATE);
+                    else emitTriple(semAnnoIRI, KEMT.TYPE_P, KEMT.TT_TIME);
+
+                    final OWLTime.Interval interval = OWLTime.Interval
+                            .parseTimex(timex.getValue());
                     if (interval != null) {
-                        owltimeIRI = interval
-                                .toRDF(RDFHandlers.wrap(this.model), "owltime:", null);
+                        timexIRI = interval.toRDF(RDFHandlers.wrap(this.model),
+                                NAFExtractor.this.owltimeNamespace, null);
+                    } else {
+                        LOGGER.debug("Could not represent date/time value '" + timex.getValue()
+                                + "' of " + NAFUtils.toString(timex));
                     }
+
                 } else if (type.equals("duration")) {
-                    final Duration duration = Duration.parseTimex(timex.getValue());
+                    emitTriple(semAnnoIRI, KEMT.TYPE_P, KEMT.TT_DURATION);
+                    final OWLTime.Duration duration = OWLTime.Duration
+                            .parseTimex(timex.getValue());
                     if (duration != null) {
-                        owltimeIRI = duration
-                                .toRDF(RDFHandlers.wrap(this.model), "owltime:", null);
+                        timexIRI = this.vf.createIRI(NAFExtractor.this.owltimeNamespace,
+                                duration.toString());
+                        final IRI durationIRI = duration.toRDF(RDFHandlers.wrap(this.model),
+                                NAFExtractor.this.owltimeNamespace, null);
+                        emitTriple(timexIRI, OWLTIME.HAS_DURATION_DESCRIPTION, durationIRI);
+                    } else {
+                        LOGGER.debug("Could not represent duration value '" + timex.getValue()
+                                + "' of " + NAFUtils.toString(timex));
                     }
-                }
-                if (owltimeIRI == null) {
-                    LOGGER.warn("Could not represent TIMEX value '" + timex.getValue() + "' of "
-                            + NAFUtils.toString(timex));
                 } else {
-                    this.model.add(mentionIRI, KS.NORMALIZED_VALUE, owltimeIRI);
+
+                    // TODO: support SET?
+                    throw new UnsupportedOperationException("Unsupported TIMEX3 type: " + type);
+                }
+            }
+
+            // Generate a default timex IRI on failure
+            if (timexIRI == null) {
+                timexIRI = mintIRI(timex.getId(),
+                        MoreObjects.firstNonNull(timex.getValue(), timex.getSpan().getStr()));
+            }
+
+//            attach timex to semantic annotation
+            emitTriple(semAnnoIRI, KEMT.OBJECT_VALUE, timexIRI);
+
+        }
+
+
+
+        private void processEntities() {
+            for (final Entity entity : this.document.getEntities()) {
+                for (final Span<Term> span : entity.getSpans()) {
+                    //filter only the annotations in the requested sentences
+                    if (this.sentenceIDs[span.getFirstTarget().getSent()]) {
+                        try {
+                            processEntity(entity);
+                        } catch (final Throwable ex) {
+                            LOGGER.error("Error processing " + NAFUtils.toString(entity)
+                                    + ", type " + entity.getType(), ex);
+                        }
+                        break; // move to next entity
+                    }
                 }
             }
         }
@@ -337,331 +540,574 @@ public class NAFExtractor implements Extractor {
 
             // Retrieve terms, head and label
             final List<Term> terms = entity.getSpans().get(0).getTargets();
+            final String label = NAFUtils.getText(NAFUtils.filterTerms(terms));
             final Term head = NAFUtils.extractHead(this.document, entity.getSpans().get(0));
             if (head == null) {
                 return;
             }
 
-            // Determine type and exclude masks; abort if cannot be determined
-            int typeMask;
-            int excludeMask;
-            if (entity.isNamed()) {
-                typeMask = InstanceMention.NAME;
-                excludeMask = InstanceMention.ALL;
-            } else {
-                final String pos = head.getMorphofeat();
-                if (pos.startsWith("NN")) {
-                    typeMask = InstanceMention.NOUN;
-                    excludeMask = InstanceMention.ALL & ~InstanceMention.PREDICATE;
-                } else if (pos.startsWith("PRP") || pos.startsWith("WP")) {
-                    typeMask = InstanceMention.PRONOUN;
-                    excludeMask = InstanceMention.ALL;
-                } else {
+            // Extract type information (type IRI, whether timex or attribute) based on NER tag
+            String type = entity.getType();
+            type = type == null ? null : type.toLowerCase();
+//            final boolean isLinked = !entity.getExternalRefs().isEmpty();
+            final boolean isProperty = "money".equals(type) || "cardinal".equals(type)
+                    || "ordinal".equals(type) || "percent".equals(type) || "language".equals(type)
+                    || "norp".equals(type) || "quantity".equals(type);
+
+            //check if named entity
+            final boolean named = entity.isNamed() || "romanticism".equalsIgnoreCase(label)
+                    || "operant conditioning chamber".equalsIgnoreCase(label); // TODO
+
+            // Discard attributes in modifier position
+            final Dep dep = this.document.getDepToTerm(head);
+            if (isProperty && dep != null) {
+                final String depLabel = dep.getRfunc().toUpperCase();
+                if (depLabel.contains("NMOD") || depLabel.contains("AMOD")) {
                     return;
                 }
             }
 
-            // Emit a mention and its triples for the current entity
-            final IRI mentionIRI = emitInstanceMention(terms, head, typeMask, excludeMask);
+            // create mention if not already existing
+            Mention mention = getMention(head.getId(),terms);
+            final IRI mentionIRI;
+            if (mention==null) {
+                //emit mentions
+                mentionIRI = emitMention(terms);
+                mention = new Mention(head,terms,mentionIRI);
+                safeMentionPutInMap(head.getId(),mention);
+            } else
+                //reuse mention IRI
+                mentionIRI = mention.mentionIRI;
 
-            // Extract type information (type IRI, whether timex or attribute) based on NER tag
-            final IRI nercType = BBN.resolve(entity.getType());
-            if (nercType != null) {
-                this.model.add(mentionIRI, KS.NERC_TYPE, nercType);
+            this.nafIdMentions.put(entity.getId(),mention);
+
+            //CREATE THE NER ANNOTATION(S)
+            //check external ref for other NERC types
+            boolean hasOtherNercTypes = false;
+            for (final ExternalRef ref : entity.getExternalRefs()) {
+                    final String resource = ref.getResource();
+                    if ((resource.equals("value-confidence"))||(resource.equals("nerc-probmodel"))) {
+                        hasOtherNercTypes=true;
+                        //                        emit semantic annotation
+                        String reference = ref.getReference();
+                        //emit semantic annotation and store in the map of annotation per mention
+                        final IRI semAnnoIRI = createSemanticAnnotationIRI(entity.getId()+reference,mentionIRI,KEMT.ENTITY_ANNOTATION);
+                        Annotation ann = new Annotation(semAnnoIRI,KEMT.ENTITY_ANNOTATION);
+                        safeAnnotationPutInMap(mention,ann);
+                        //emit type
+                        emitTriple(semAnnoIRI, ITSRDF.TA_CLASS_REF, this.vf.createIRI(DEFAULT_NER_NAMESPACE+reference));
+                        //emit confidence if available
+                        if (ref.hasConfidence()) emitTriple(semAnnoIRI,KEM.HAS_CONFIDENCE , ref.getConfidence());
+                        if (named) {
+                            emitTriple(semAnnoIRI, RDF.TYPE, KEMT.NAMED_ENTITY);
+                            emitTriple(semAnnoIRI, KEMT.PROPER_NAME, label);
+                        }
+                    }
+            }
+            //there are no other nerc types, use the type attribute of the entity
+            if ((!hasOtherNercTypes)&&(type!=null)) {
+                //emit semantic annotation of type timex and store in the map of annotation per mention
+                final IRI semAnnoIRI = createSemanticAnnotationIRI(entity.getId()+type,mentionIRI,KEMT.ENTITY_ANNOTATION);
+                Annotation ann = new Annotation(semAnnoIRI,KEMT.ENTITY_ANNOTATION);
+                safeAnnotationPutInMap(mention,ann);
+                emitTriple(semAnnoIRI, ITSRDF.TA_CLASS_REF, this.vf.createIRI(DEFAULT_NER_NAMESPACE+type));
+                if (isProperty) {
+                    emitEntityAttributes(entity, semAnnoIRI);
+                }
+                if (named) {
+                    emitTriple(semAnnoIRI, RDF.TYPE, KEMT.NAMED_ENTITY);
+                    emitTriple(semAnnoIRI, KEMT.PROPER_NAME, label);
+                }
             }
 
-            // Extract links to external references (e.g. DBpedia)
+            //CREATE THE LINKING ANNOTATION(S)
             for (final ExternalRef ref : entity.getExternalRefs()) {
-                try {
-                    final IRI refIRI = this.vf.createIRI(ref.getReference());
-                    this.model.add(mentionIRI, KS.LINKED_TO, refIRI);
-                } catch (final Throwable ex) {
-                    // ignore: not a IRI
+                final String resource = ref.getResource();
+                if (resource.startsWith("dbpedia-")) {
+                    final IRI refIRI = this.vf.createIRI(Util.cleanIRI(ref.getReference()));
+                    final IRI semAnnoIRI = createSemanticAnnotationIRI(entity.getId()+"_"+refIRI.getLocalName(),mentionIRI,KEMT.ENTITY_ANNOTATION);
+                    Annotation ann = new Annotation(semAnnoIRI,KEMT.ENTITY_ANNOTATION);
+                    safeAnnotationPutInMap(mention,ann);
+                    //emit linking
+                    emitTriple(semAnnoIRI, ITSRDF.TA_IDENT_REF, refIRI);
+                    //emit confidence if available
+                    if (ref.hasConfidence()) emitTriple(semAnnoIRI,KEM.HAS_CONFIDENCE , ref.getConfidence());
+                    if (named) {
+                        emitTriple(semAnnoIRI, RDF.TYPE, KEMT.NAMED_ENTITY);
+                        emitTriple(semAnnoIRI, KEMT.PROPER_NAME, label);
+                    }
+                }
+            }
+
+            //CREATE TERM ANNOTATIONS (WSD, SST)
+            emitCommonAttributesAnnotation(entity.getId()+"_semann",mention,head,label,true);
+
+        }
+
+
+
+        private void processPredicates(){
+            for (final Predicate predicate : this.document.getPredicates()) {
+                //filter only the annotations in the requested sentences
+                if (this.sentenceIDs[predicate.getSpan().getFirstTarget().getSent()]) {
+                    try {
+                        processPredicate(predicate);
+                    } catch (final Throwable ex) {
+                        LOGGER.error("Error processing " + NAFUtils.toString(predicate), ex);
+                    }
                 }
             }
         }
+
+
 
         private void processPredicate(final Predicate predicate) throws RDFHandlerException {
 
             // Retrieve terms, head and label
             final List<Term> terms = predicate.getSpan().getTargets();
+            final String label = NAFUtils.getText(NAFUtils.filterTerms(terms));
             final Term head = NAFUtils.extractHead(this.document, predicate.getSpan());
-            if (head == null) {
-                return;
-            }
 
-            // Extract the roleset IRI
-            IRI rolesetIRI = null;
+            // create mention if not already existing
+            Mention mention = getMention(head.getId(),terms);
+            final IRI mentionIRI;
+            if (mention==null) {
+                //emit mentions
+                mentionIRI = emitMention(terms);
+                mention = new Mention(head,terms,mentionIRI);
+                safeMentionPutInMap(head.getId(),mention);
+            } else
+                //reuse mention IRI
+                mentionIRI = mention.mentionIRI;
+
+            this.nafIdMentions.put(predicate.getId(),mention);
+
+            // Process framenet/verbnet/etc external refs
             for (final ExternalRef ref : predicate.getExternalRefs()) {
-                if (ref.getSource() != null && !ref.getReference().isEmpty()) {
-                    if (ref.getResource().equalsIgnoreCase("nombank")) {
-                        rolesetIRI = this.vf.createIRI(
-                                "http://www.newsreader-project.eu/ontologies/nombank/",
-                                ref.getReference());
-                    } else if (ref.getResource().equalsIgnoreCase("propbank")) {
-                        rolesetIRI = this.vf.createIRI(
-                                "http://www.newsreader-project.eu/ontologies/propbank/",
-                                ref.getReference());
-                    }
+//                we don't wnat dbpedia on predicates'
+                if (ref.getResource().startsWith("dbpedia")){
+                    continue;
                 }
-            }
-            if (rolesetIRI == null) {
-                return;
+                if ("".equals(ref.getReference())) {
+                    continue;
+                }
+                final IRI typeIRI = mintRefIRI(ref.getResource(), ref.getReference());
+                //emit semantic annotation of type timex and store in the map of annotation per mention
+                final IRI semAnnoIRI = createSemanticAnnotationIRI(predicate.getId()+"_"+typeIRI.getLocalName(),mentionIRI,KEMT.PREDICATE_C);
+                Annotation ann = new Annotation(semAnnoIRI,KEMT.PREDICATE_C);
+                safeAnnotationPutInMap(mention,ann);
+
+                emitTriple(semAnnoIRI,ITSRDF.TA_CLASS_REF,typeIRI);
             }
 
-            // Emit a mention and its triples
-            final IRI mentionIRI = emitInstanceMention(terms, head, InstanceMention.PREDICATE,
-                    InstanceMention.ALL & ~InstanceMention.NOUN);
-
-            // Emit roleset
-            this.model.add(mentionIRI, KS.ROLESET, rolesetIRI);
+            //CREATE TERM ANNOTATIONS (WSD, SST)
+            emitCommonAttributesAnnotation(predicate.getId()+"_semann",mention,head,label,true);
         }
 
-        private void processAttribute(final Term head) {
 
-            // Extract IRI and readable ID of head WN synset. Abort if not possible
-            final ExternalRef synsetRef = NAFUtils.getRef(head, NAFUtils.RESOURCE_WN_SYNSET, null);
-            if (synsetRef == null) {
-                return;
-            }
-            final String synsetID = WordNet.getReadableSynsetID(synsetRef.getReference());
-            final IRI synsetIRI = this.vf.createIRI("http://wordnet-rdf.princeton.edu/wn30/",
-                    synsetRef.getReference());
 
-            // Extract IRI and readable ID of modifiers synsets, identifying also the extent
-            final List<Term> extent = Lists.newArrayList(head);
-            final List<String> modIDs = Lists.newArrayList();
-            final List<IRI> modIRIs = Lists.newArrayList();
-            for (final Dep dep : this.document.getDepsFromTerm(head)) {
-                if (dep.getRfunc().equals("AMOD") || dep.getRfunc().equals("NMOD")) {
-                    final Term modifier = dep.getTo();
-                    final ExternalRef modifierRef = NAFUtils.getRef(modifier,
-                            NAFUtils.RESOURCE_WN_SYNSET, null);
-                    if (modifierRef == null || !isAttributeTerm(modifier)) {
-                        continue;
-                    }
-                    extent.add(modifier);
-                    modIDs.add(WordNet.getReadableSynsetID(modifierRef.getReference()));
-                    modIRIs.add(this.vf.createIRI("http://wordnet-rdf.princeton.edu/wn30/",
-                            synsetRef.getReference()));
-                }
-            }
+        private void  processCoordinations (){
 
-            // Emit a mention and its triples (abort if conflicting with other mention)
-            final IRI mentionIRI = emitInstanceMention(extent, head, InstanceMention.ATTRIBUTE,
-                    InstanceMention.ALL);
-            if (mentionIRI == null) {
-                return;
-            }
+//            hashmap (sentenceID, set of entity annotation in that sentence)
+            Map<Integer, Set<Mention>> sentenceMentions = Maps.newHashMap();
+//            hashmap (entityA, set of entity depending from entity A via cordination)
+            Map<Mention, Set<Mention>> coordinatedMentions = Maps.newHashMap();
 
-            // Emit synset information
-            this.model.add(mentionIRI, KS.SYNSET, synsetIRI);
-            for (final IRI modIRI : modIRIs) {
-                this.model.add(mentionIRI, KS.MODIFIER_SYNSET, modIRI);
-            }
 
-            // Emit normalized value
-            Collections.sort(modIDs);
-            final String id = String.join("_", modIDs) + "_" + synsetID;
-            final IRI valueIRI = this.vf.createIRI("attr:", id);
-            this.model.add(mentionIRI, KS.NORMALIZED_VALUE, valueIRI);
-        }
+            // iterate over all entities, and populate an
+            for (String headID: this.mentions.keySet()
+                    ) {
 
-        private void processCoref(final Coref coref) {
+                final Mention mention = getBestMention(headID);
+                final Term head = mention.head;
+                final Integer sentenceID = head.getSent();
 
-            // Extract coreferential / coreferential conjunct mentions
-            final List<Term> extent = Lists.newArrayList();
-            final List<IRI> coreferentials = Lists.newArrayList();
-            final List<IRI> coreferentialConjuncts = Lists.newArrayList();
-            for (final Span<Term> span : coref.getSpans()) {
-                final Term head = NAFUtils.extractHead(this.document, span);
-                if (head != null) {
-                    final List<IRI> IRIs = Lists.newArrayList();
-                    for (final Term term : this.document.getTermsByDepAncestors(
-                            Collections.singleton(head), "(COORD CONJ?)*")) {
-                        if (span.getTargets().contains(term)) {
-                            final InstanceMention mention = this.mentions.get(term);
-                            if (mention != null && mention.head == term) {
-                                IRIs.add(mention.IRI);
-                                extent.addAll(mention.extent);
-                            }
+//                    store the mention in its sentence bucket
+                Set<Mention> mentions;
+                if (sentenceMentions.containsKey(sentenceID))
+                    mentions = sentenceMentions.get(sentenceID);
+                else
+                    mentions = Sets.newHashSet();
+                mentions.add(mention);
+                sentenceMentions.put(mention.head.getSent(), mentions);
+
+//                    dependency pattern for coordination
+                Set<Term> coordinatedTerms = this.document.getTermsByDepAncestors(
+                        Collections.singleton(head), "(COORD CONJ?)*");
+
+//                    there have to be at least two coordinated term, otherwise nothing to do
+                if (coordinatedTerms.size()>1) {
+                    for (final Term term : coordinatedTerms) {
+
+//                        term is an entry in the dependency that is linked to the head of the mention via (COORD CONJ?)*
+                        final Mention depMen = getBestMention(term.getId());
+                        if (depMen != null) {
+
+//                                store the dependent annotation in the head annotation bucket
+                            Set<Mention> depMentions;
+                            if (coordinatedMentions.containsKey(mention))
+                                depMentions = coordinatedMentions.get(mention);
+                            else
+                                depMentions = Sets.newHashSet();
+                            depMentions.add(depMen);
+                            coordinatedMentions.put(mention, depMentions);
+
                         }
                     }
-                    if (IRIs.size() == 1) {
-                        coreferentials.addAll(IRIs);
-                    } else if (IRIs.size() > 1 && coreferentialConjuncts.isEmpty()) {
-                        coreferentialConjuncts.addAll(IRIs);
+
+                }
+
+            }
+
+//            Now cycle over sentences and keep maximal coordinatedEntities
+            for (Integer sentenceID:sentenceMentions.keySet()
+                    ) {
+
+//                retrieve the mentions in that sentence
+                Set<Mention> sentMen = sentenceMentions.get(sentenceID);
+                Set<Mention> mentionsToKeep = Sets.newHashSet();
+
+                for (Mention A:sentMen) {
+//                    check if it has coordinated terms
+                    if (!coordinatedMentions.containsKey(A)) continue;
+                    if (coordinatedMentions.get(A).size()==1) continue;
+                    boolean keep = true;
+                    for (Mention B : sentMen) {
+                        if (A.equals(B)) continue;
+//                        check if it has coordinated terms
+                        if (!coordinatedMentions.containsKey(B)) continue;
+                        if (coordinatedMentions.get(B).contains(A)) {
+//                            A is a coordinated term of B, drop A
+                            keep=false;
+                            break;
+                        }
+                    }
+                    if (keep) mentionsToKeep.add(A);
+                }
+
+//                mentionsToKeep contains all the head of "independent" coordination dependency paths to keep
+                Integer counter = 0;
+                for (Mention men:mentionsToKeep
+                        ) {
+
+                    counter++;
+//                    collect extents and URI of coordinated mentions
+                    List<Term> terms = Lists.newArrayList();
+                    List<IRI> mentionsIRI = Lists.newArrayList();
+                    List<IRI> coordinatedIRI = Lists.newArrayList();
+
+                    for (Mention depMen: coordinatedMentions.get(men)
+                            ) {
+                        terms.addAll(depMen.extent);
+                        mentionsIRI.add(depMen.mentionIRI);
+
+                        //emit the entity annotation for each coordinated entity
+                        final IRI semAnnoIRI = createSemanticAnnotationIRI("coordItem",depMen.mentionIRI,KEMT.ENTITY_ANNOTATION);
+                        coordinatedIRI.add(semAnnoIRI);
+                        final Annotation ann = new Annotation(semAnnoIRI,KEMT.ENTITY_ANNOTATION);
+                        safeAnnotationPutInMap(depMen,ann);
+                    }
+
+                    //emit group entity mention (it can't already exists)
+                    final IRI groupEntityMentionIRI = emitMention(terms);
+                    final Mention groupEntityMention = new Mention(men.head,terms,groupEntityMentionIRI);
+                    safeMentionPutInMap(men.head.getId(),groupEntityMention);
+
+                    //emit group entity annotation
+                    final IRI groupEntityIRI = createSemanticAnnotationIRI("group",groupEntityMentionIRI,KEMT.ENTITY_ANNOTATION);
+                    final Annotation groupEntityAnn = new Annotation(groupEntityIRI,KEMT.ENTITY_ANNOTATION);
+                    safeAnnotationPutInMap(groupEntityMention,groupEntityAnn);
+
+
+                    //emit coordination mention (for the time being, we reuse the group entity one)
+                    final IRI coordinationMentionIRI = groupEntityMentionIRI;
+                    final Mention coordinationMention = new Mention(men.head,terms,coordinationMentionIRI);
+                    safeMentionPutInMap(men.head.getId(),coordinationMention);
+
+                    //emit semantic annotation of type coordination
+                    final IRI coordinationIRI = createSemanticAnnotationIRI("coord",coordinationMentionIRI,KEMT.COORDINATION);
+                    final Annotation coordinationAnn = new Annotation(groupEntityIRI,KEMT.COORDINATION);
+                    safeAnnotationPutInMap(coordinationMention,coordinationAnn);
+
+                    emitTriple(coordinationIRI,KEMT.GROUP,groupEntityIRI);
+
+                    for (IRI conjunctIRI:coordinatedIRI
+                            )
+                        emitTriple(coordinationIRI,KEMT.CONJUNCT,conjunctIRI);
+
+                    for (IRI conjunctMentionIRI:mentionsIRI)
+                        emitTriple(coordinationIRI,KEMT.CONJUNCT_STRING,conjunctMentionIRI);
+                }
+            }
+        }
+
+
+
+        private void processCoreferences() {
+            for (final Coref coref : this.document.getCorefs()) {
+                if ("event".equalsIgnoreCase(coref.getType())) {
+                    continue;
+                }
+                final List<Span<Term>> spans = Lists.newArrayList();
+                for (final Span<Term> span : coref.getSpans()) {
+                    if (this.sentenceIDs[span.getFirstTarget().getSent()]) {
+                        spans.add(span);
+                    }
+                }
+                if (!spans.isEmpty()) {
+                    try {
+                        processCoref(spans,coref.getId());
+                    } catch (final Throwable ex) {
+                        LOGGER.error("Error processing " + NAFUtils.toString(coref), ex);
+                    }
+                }
+            }
+        }
+
+        @SuppressWarnings("Duplicates")
+        private void processCoref(final List<Span<Term>> spans, String corefID) {
+
+            // Build three correlated lists containing, for each member of the coref cluster, its
+            // span, the head terms in the span and the associated IRIs
+            final List<Span<Term>> corefSpans = Lists.newArrayList();
+            final List<Mention> corefMentions = Lists.newArrayList();
+            final List<Term> corefTerms = Lists.newArrayList();
+
+            //iterate over all spans of a coreference, keep only the spans for which there exists a mention
+            for (final Span<Term> span : spans) {
+                final Term head = NAFUtils.extractHead(this.document, span);
+                if (head != null) {
+                    Mention correspondingMention = getBestMention(head.getId());
+                    if (correspondingMention!=null) {
+                        corefMentions.add(correspondingMention);
+                        corefSpans.add(span);
+                        corefTerms.addAll(correspondingMention.extent);
                     }
                 }
             }
 
-            // Abort in case there is only one member in the coref cluster
-            if (coreferentials.size() + (coreferentialConjuncts.isEmpty() ? 0 : 1) < 2) {
+            // Abort in case there is only one reamining member in the coref cluster
+            if (corefSpans.size() <= 1) {
                 return;
             }
 
-            // Emit the mention
-            final IRI mentionIRI = emitRelationMention(extent, KS.COREFERENCE_MENTION);
+            //there is no need to create a Mention object, as cooreferences are relations (i.e., we will not attach a role to a coreference mention...
+            //emit coreference mention (it can't already exists)
+            final IRI coreferenceMentionIRI = emitMention(corefTerms);
 
-            // Emit links to coreferential / coreferential conjunct mentions
-            for (final IRI coreferential : coreferentials) {
-                this.model.add(mentionIRI, KS.COREFERENTIAL, coreferential);
+            //emit coreference annotation annotation
+            final IRI coreferenceIRI = createSemanticAnnotationIRI(corefID,coreferenceMentionIRI,KEMT.COREFERENCE);
+
+            for (Mention mention:corefMentions
+                 ) {
+                final IRI coreferentIRI = createSemanticAnnotationIRI(corefID,mention.mentionIRI,KEMT.ENTITY_ANNOTATION);
+                emitTriple(coreferenceIRI,KEMT.COREFERRING,coreferentIRI);
             }
-            for (final IRI coreferentialConjunct : coreferentialConjuncts) {
-                this.model.add(mentionIRI, KS.COREFERENTIAL_CONJUNCT, coreferentialConjunct);
+
+            for (Span<Term> span:corefSpans
+                 ) {
+                final IRI mention = emitMention(span.getTargets());
+                emitTriple(coreferenceIRI,KEMT.COREFERRING_STRING,mention);
+            }
+
+        }
+
+        private void processRoles() {
+            for (final Predicate predicate : this.document.getPredicates()) {
+                for (final Role role : predicate.getRoles()) {
+                    final Term roleHead = NAFUtils.extractHead(this.document, role.getSpan());
+                    if (roleHead != null) {
+                        try {
+                            processRole(predicate, role, roleHead);
+                        } catch (final Throwable ex) {
+                            LOGGER.error("Error processing " + NAFUtils.toString(role)
+                                    + " of " + NAFUtils.toString(predicate) + ", argument "
+                                    + NAFUtils.toString(roleHead), ex);
+                        }
+                    }
+                }
             }
         }
+
 
         private void processRole(final Predicate predicate, final Role role, final Term argHead) {
 
-            // Lookup the instance mention corresponding to the predicate. Abort if missing
-            final Term predHead = NAFUtils.extractHead(this.document, predicate.getSpan());
-            final InstanceMention predMention = this.mentions.get(predHead);
-            if (predMention == null || predMention.head != predHead) {
-                return;
-            }
 
-            // Lookup the instance mention corresponding to the argument. Abort if missing
-            final InstanceMention argMention = this.mentions.get(argHead);
-            if (argMention == null || argMention.head != argHead) {
-                return;
-            }
+            //get predicate mention
+            final Mention predMention = this.nafIdMentions.get(predicate.getId());
 
-            // Extract the role name (0-9 for A0-A9, MNR... for AM-MNR etc). Abort if undefined
-            String semRole = role.getSemRole();
-            if (semRole == null) {
-                return;
-            }
-            semRole = semRole.toLowerCase();
-            final int index = semRole.lastIndexOf('-');
-            if (index >= 0) {
-                semRole = semRole.substring(index + 1);
-            }
-            if (Character.isDigit(semRole.charAt(semRole.length() - 1))) {
-                semRole = semRole.substring(semRole.length() - 1);
-            }
+//            //retrieve the annotation for the predicate TODO: There may me more annotations attached to the predicate mentions
+//            final Set<Annotation> mentionAnnotations = this.annotations.get(predMention);
+//
+//            Annotation predAnn = null;
+//            for (Annotation ann:mentionAnnotations
+//                 ) {
+//                if (ann.type.equals(KEMT.PREDICATE_C)) predAnn=ann;
+//            }
 
-            // Extract the role IRI, by combining name with predicate sense. Abort if undefined
-            IRI roleIRI = null;
-            for (final ExternalRef ref : predicate.getExternalRefs()) {
-                if (ref.getSource() != null && !ref.getReference().isEmpty()) {
-                    if (ref.getResource().equalsIgnoreCase("nombank")) {
-                        roleIRI = this.vf.createIRI(
-                                "http://www.newsreader-project.eu/ontologies/nombank/",
-                                ref.getReference() + "_" + semRole);
-                    } else if (ref.getResource().equalsIgnoreCase("propbank")) {
-                        roleIRI = this.vf.createIRI(
-                                "http://www.newsreader-project.eu/ontologies/propbank/",
-                                ref.getReference() + "_" + semRole);
-                    }
+            //get the role mention
+            Mention correspondingMention = getBestMention(argHead.getId());
+            if (correspondingMention==null) return;
+
+            for (final ExternalRef ref : role.getExternalRefs()) {
+                if ("".equals(ref.getReference())) {
+                    continue;
                 }
-            }
-            if (roleIRI == null) {
-                return;
+                //emit coreference annotation annotation
+                final IRI typeIRI = mintRefIRI(ref.getResource(), ref.getReference());
+                final IRI roleIRI = createSemanticAnnotationIRI(role.getId()+"_"+typeIRI.getLocalName(),correspondingMention.mentionIRI,KEMT.ARGUMENT_C);
+                Annotation ann = new Annotation(roleIRI,KEMT.ARGUMENT_C);
+                safeAnnotationPutInMap(correspondingMention,ann);
+                emitTriple(roleIRI,ITSRDF.TA_PROP_REF,typeIRI);
             }
 
-            // Emit a participation mention
-            final IRI mentionIRI = emitRelationMention(
-                    Iterables.concat(predMention.extent, argMention.extent),
-                    KS.PARTICIPATION_MENTION);
+            //emit participation
+            final IRI partMentionIRI = emitMention(Stream.concat(predMention.extent.stream(), correspondingMention.extent.stream())
+                    .collect(Collectors.toList()));
+            final IRI partMentionRawIRI = emitMention(Stream.concat(predicate.getTerms().stream(), role.getTerms().stream())
+                    .collect(Collectors.toList()));
+            final IRI participationIRI = createSemanticAnnotationIRI(predicate.getId()+role.getId(),partMentionIRI,KEMT.PARTICIPATION);
 
-            // Emit the links to predicate and argument, as well as the role triple
-            this.model.add(mentionIRI, KS.ROLE, roleIRI);
-            this.model.add(mentionIRI, KS.FRAME_PROPERTY, predMention.IRI);
-            this.model.add(mentionIRI, KS.ARGUMENT, argMention.IRI);
+            //emit fake participant
+            final IRI fakePredIRI = createSemanticAnnotationIRI(predicate.getId(),predMention.mentionIRI,KEMT.PREDICATE_C);
+            final IRI fakeRoleIRI = createSemanticAnnotationIRI(role.getId(),correspondingMention.mentionIRI,KEMT.ARGUMENT_C);
+
+            emitTriple(participationIRI,KEMT.PREDICATE_P,fakePredIRI);
+            emitTriple(participationIRI,KEMT.ARGUMENT_P,fakeRoleIRI);
+            emitTriple(participationIRI,KEMT.RAW_STRING,partMentionRawIRI);
+
+
+//            // Lookup the instance mention corresponding to the predicate. Abort if missing
+//            final Term predHead = NAFUtils.extractHead(this.document, predicate.getSpan());
+//            final InstanceMention predMention = this.mentions.get(predHead);
+//            if (predMention == null || predMention.head != predHead) {
+//                return;
+//            }
+//
+//            // Lookup the instance mention corresponding to the argument. Abort if missing
+//            final InstanceMention argMention = this.mentions.get(argHead);
+//            if (argMention == null || argMention.head != argHead) {
+//                return;
+//            }
+//
+//            // Extract the role name (0-9 for A0-A9, MNR... for AM-MNR etc). Abort if undefined
+//            String semRole = role.getSemRole();
+//            if (semRole == null) {
+//                return;
+//            }
+//            semRole = semRole.toLowerCase();
+//            final int index = semRole.lastIndexOf('-');
+//            if (index >= 0) {
+//                semRole = semRole.substring(index + 1);
+//            }
+//            if (Character.isDigit(semRole.charAt(semRole.length() - 1))) {
+//                semRole = semRole.substring(semRole.length() - 1);
+//            }
+//
+//            // Extract the role IRI, by combining name with predicate sense. Abort if undefined
+//            IRI roleIRI = null;
+//            for (final ExternalRef ref : predicate.getExternalRefs()) {
+//                if (ref.getSource() != null && !ref.getReference().isEmpty()) {
+//                    if (ref.getResource().equalsIgnoreCase("nombank")) {
+//                        roleIRI = this.vf.createIRI(
+//                                "http://www.newsreader-project.eu/ontologies/nombank/",
+//                                ref.getReference() + "_" + semRole);
+//                    } else if (ref.getResource().equalsIgnoreCase("propbank")) {
+//                        roleIRI = this.vf.createIRI(
+//                                "http://www.newsreader-project.eu/ontologies/propbank/",
+//                                ref.getReference() + "_" + semRole);
+//                    }
+//                }
+//            }
+//            if (roleIRI == null) {
+//                return;
+//            }
+//
+//            // Emit a participation mention
+//            final IRI mentionIRI = emitRelationMention(
+//                    Iterables.concat(predMention.extent, argMention.extent),
+//                    KS.PARTICIPATION_MENTION);
+//
+//            // Emit the links to predicate and argument, as well as the role triple
+//            this.model.add(mentionIRI, KS.ROLE, roleIRI);
+//            this.model.add(mentionIRI, KS.FRAME_PROPERTY, predMention.IRI);
+//            this.model.add(mentionIRI, KS.ARGUMENT, argMention.IRI);
         }
 
+
+        @SuppressWarnings("Duplicates")
         @Nullable
-        private IRI emitInstanceMention(final Iterable<Term> extent, final Term head,
-                                        final int typeMask, final int excludeMask) {
+        private IRI emitMention(final Iterable<Term> terms) {
 
-            // Do not emit a mention if (i) it overlaps with another mention with different head;
-            // or (ii) it overlaps with a mention with same head that is not compatible with its
-            // types (based on comparison of types and excludes bit masks)
-            final List<Term> terms = Ordering.from(Term.OFFSET_COMPARATOR).sortedCopy(extent);
-            for (final Term term : terms) {
-                final InstanceMention mention = this.mentions.get(term);
-                if (mention != null
-                        && (mention.head != head || (mention.excludeMask & typeMask) != 0)) {
-                    return null;
+            final List<Term> sortedTerms = Ordering.from(Term.OFFSET_COMPARATOR).sortedCopy(terms);
+            final int numTerms = sortedTerms.size();
+            if (numTerms == 0) {
+                return null;
+            }
+
+            final String text = this.documentText;
+            final List<IRI> componentIRIs = Lists.newArrayList();
+            final int begin = NAFUtils.getBegin(sortedTerms.get(0));
+            int offset = begin;
+            int startTermIdx = 0;
+
+            final StringBuilder anchorBuilder = new StringBuilder();
+            final StringBuilder uriBuilder = new StringBuilder(this.documentIRI.stringValue())
+                    .append("#char=").append(begin).append(",");
+
+            for (int i = 0; i < numTerms; ++i) {
+                final Term term = sortedTerms.get(i);
+                final int termOffset = NAFUtils.getBegin(term);
+                if (termOffset > offset && !text.substring(offset, termOffset).trim().isEmpty()) {
+                    final int start = NAFUtils.getBegin(sortedTerms.get(startTermIdx));
+                    anchorBuilder.append(text.substring(start, offset)).append(" [...] ");
+                    uriBuilder.append(offset).append(";").append(termOffset).append(',');
+                    componentIRIs.add(emitMention(sortedTerms.subList(startTermIdx, i)));
+                    startTermIdx = i;
+                }
+                offset = NAFUtils.getEnd(term);
+            }
+            if (startTermIdx > 0) {
+                componentIRIs.add(emitMention(sortedTerms.subList(startTermIdx, numTerms)));
+            }
+
+
+            anchorBuilder.append(text.substring(NAFUtils.getBegin(sortedTerms.get(startTermIdx)),
+                    offset));
+            uriBuilder.append(offset);
+
+            final String anchor = anchorBuilder.toString();
+            final IRI mentionID = this.vf.createIRI(uriBuilder.toString());
+            emitTriple(mentionID, KEM.FRAGMENT_OF, this.documentIRI);
+//            emitTriple(this.documentIRI, KS_OLD.HAS_MENTION, mentionID);
+            emitTriple(mentionID, RDF.TYPE, KEM.MENTION);
+
+            if (!componentIRIs.isEmpty()) {
+                emitTriple(mentionID, RDF.TYPE, KEM.COMPOSITE_FRAGMENT);
+                for (final IRI componentIRI : componentIRIs) {
+                    emitTriple(mentionID, KEM.HAS_COMPONENT, componentIRI);
                 }
             }
 
-            // Either reuse (and update) a previous mention for the same head or create a new one
-            InstanceMention mention = this.mentions.get(head);
-            if (mention != null) {
+            emitTriple(mentionID, NIF.BEGIN_INDEX, this.vf.createLiteral(begin));
+            emitTriple(mentionID, NIF.END_INDEX, this.vf.createLiteral(offset));
+            emitTriple(mentionID, NIF.ANCHOR_OF, this.vf.createLiteral(anchor));
 
-                // Enlarge mention extent, if necessary, updating also the 'mentions' index
-                boolean modified = false;
-                for (final Term term : terms) {
-                    if (!mention.extent.contains(term)) {
-                        mention.extent.add(term);
-                        this.mentions.put(term, mention);
-                        modified = true;
-                    }
-                }
-                if (modified) {
-                    Collections.sort(mention.extent, Term.OFFSET_COMPARATOR);
-                }
-
-            } else {
-
-                // Generate mention IRI and NIF triples and create corresponding Mention object
-                final IRI mentionIRI = emitNIF(terms);
-                mention = new InstanceMention(mentionIRI, head, terms);
-                for (final Term term : terms) {
-                    this.mentions.put(term, mention);
-                }
-
-                // Link the mention to the document
-                this.model.add(mention.IRI, KS.MENTION_OF, this.documentIRI);
-
-                // Emit mention properties based on the mention head
-                final char pos = Character.toUpperCase(head.getPos().charAt(0));
-                if (pos == 'N' || pos == 'V') {
-                    this.model.add(mention.IRI, KS.LEMMA, this.vf.createLiteral(head.getLemma()));
-                }
-                final ExternalRef sstRef = NAFUtils.getRef(head, NAFUtils.RESOURCE_WN_SST, null);
-                if (sstRef != null) {
-                    final String sst = sstRef.getReference();
-                    final IRI IRI = this.vf.createIRI("http://www.newsreader-project.eu/sst/",
-                            sst.substring(sst.lastIndexOf('-') + 1));
-                    this.model.add(mention.IRI, KS.SST, IRI);
-                }
-                final ExternalRef synsetRef = NAFUtils.getRef(head, NAFUtils.RESOURCE_WN_SYNSET,
-                        null);
-                if (synsetRef != null) {
-                    final IRI IRI = this.vf.createIRI("http://wordnet-rdf.princeton.edu/wn30/",
-                            synsetRef.getReference());
-                    this.model.add(mention.IRI, KS.SYNSET, IRI);
-                }
-                final String p = head.getMorphofeat().toUpperCase();
-                if (p.equals("NNS") || p.equals("NNPS")) {
-                    this.model.add(mention.IRI, KS.PLURAL, this.vf.createLiteral(true));
-                }
-            }
-
-            // Add mention type
-            this.model.add(mention.IRI, RDF.TYPE, KS.INSTANCE_MENTION);
-            if ((typeMask & InstanceMention.TIME) != 0) {
-                this.model.add(mention.IRI, RDF.TYPE, KS.TIME_MENTION);
-            }
-            if ((typeMask & InstanceMention.NAME) != 0) {
-                this.model.add(mention.IRI, RDF.TYPE, KS.NAME_MENTION);
-            }
-            if ((typeMask & InstanceMention.PREDICATE) != 0) {
-                this.model.add(mention.IRI, RDF.TYPE, KS.FRAME_MENTION);
-            }
-            if ((typeMask & InstanceMention.ATTRIBUTE) != 0) {
-                this.model.add(mention.IRI, RDF.TYPE, KS.ATTRIBUTE_MENTION);
-            }
-
-            // Update exclude mask
-            mention.excludeMask |= excludeMask;
-
-            // Return the IRI of the mention
-            return mention.IRI;
+            return mentionID;
         }
+
+
+        private IRI createSemanticAnnotationIRI(final String id, final IRI mentionIRI, final IRI type){
+
+
+            final IRI semanticAnnotationIRI = this.vf.createIRI(mentionIRI.toString()+id);
+            this.model.add(semanticAnnotationIRI,RDF.TYPE,type);
+            this.model.add(mentionIRI,KEM.HAS_ANNOTATION,semanticAnnotationIRI);
+
+            return semanticAnnotationIRI;
+
+        }
+
 
         private IRI emitRelationMention(final Iterable<Term> extent, final IRI type) {
             final List<Term> terms = Ordering.from(Term.OFFSET_COMPARATOR).sortedCopy(extent);
@@ -724,38 +1170,338 @@ public class NAFExtractor implements Extractor {
             return IRI;
         }
 
-    }
 
-    private static final class InstanceMention {
+        private void emitTriple(@Nullable final IRI subject, @Nullable final IRI property,
+                              @Nullable final Object objects) {
+            if (subject != null && property != null) {
+                for (final Value object : extract(Value.class, objects,
+                        RDF.TYPE.equals(property) ? NAFExtractor.this.typeMap : null)) {
+                    this.model.add(this.vf.createStatement(subject, property, object));
+                }
+            }
+        }
 
-        static final int TIME = 0x01;
+        private IRI hash(final Resource subject, final IRI predicate, final Value object) {
+            final List<String> list = Lists.newArrayList();
+            for (final Value value : new Value[] { subject, predicate, object }) {
+                if (value instanceof IRI) {
+                    list.add("\u0001");
+                    list.add(value.stringValue());
+                } else if (value instanceof BNode) {
+                    list.add("\u0002");
+                    list.add(((BNode) value).getID());
+                } else if (value instanceof Literal) {
+                    final Literal l = (Literal) value;
+                    list.add("\u0003");
+                    list.add(l.getLabel());
+                    if (!l.getDatatype().equals(XMLSchema.STRING)) {
+                        list.add(l.getDatatype().stringValue());
+                    } else if (l.getLanguage().isPresent()) {
+                        list.add(l.getLanguage().get());
+                    }
+                }
+            }
+            final String id = Hash.murmur3(list.toArray(new String[list.size()])).toString();
+            return this.vf.createIRI("fact:" + id);
+        }
 
-        static final int NAME = 0x02;
+        private IRI mintIRI(final String id, @Nullable final String suggestedLocalName) {
+            String localName = this.mintedIRIs.get(id);
+            if (localName == null) {
+                final String name = MoreObjects.firstNonNull(suggestedLocalName, id);
+                final StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < name.length(); ++i) {
+                    final char c = name.charAt(i);
+                    builder.append(Character.isWhitespace(c) ? '_' : c);
+                }
+                final String base = builder.toString();
+                int counter = 1;
+                while (true) {
+                    localName = base + (counter == 1 ? "" : "_" + counter);
+                    if (!this.mintedIRIs.inverse().containsKey(localName)) {
+                        this.mintedIRIs.put(id, localName);
+                        break;
+                    }
+                    ++counter;
+                }
+            }
+            return this.vf.createIRI(Util.cleanIRI(this.documentIRI + "#" + localName));
+        }
 
-        static final int NOUN = 0x04;
 
-        static final int PRONOUN = 0x08;
+        @Nullable
+        private IRI mintRefIRI(@Nullable final String resource, @Nullable final String reference) {
+            if (!Strings.isNullOrEmpty(resource) && !Strings.isNullOrEmpty(reference)) {
+                final String normResource = resource.toLowerCase();
+                final String namespace = NAFExtractor.this.namespaceMap.get(normResource);
+                if (namespace != null) {
+                    return this.vf
+                            .createIRI(Util.cleanIRI(namespace + reference.replace('#', '.')));
+                } else System.out.println(normResource);
+            }
+            return null;
+        }
 
-        static final int PREDICATE = 0x10;
 
-        static final int ATTRIBUTE = 0x20;
+        private void emitEntityAttributes(final Entity entity, final IRI subject)
+                throws RDFHandlerException {
 
-        static final int ALL = TIME | NAME | NOUN | PRONOUN | PREDICATE | ATTRIBUTE;
+            // Retrieve normalized value and NER tag
+            final ExternalRef valueRef = NAFUtils.getRef(entity, "value", null);
+            String nerTag = entity.getType();
+            nerTag = nerTag == null ? null : nerTag.toLowerCase();
 
-        final IRI IRI;
+            //TODO CHECK WITH FRA... I guess we can drop this
+            // For NORP and LANGUAGE entities we use the DBpedia IRIs from entity linking
+//            if (Objects.equal(nerTag, "norp") || Objects.equal(nerTag, "language")) {
+//                final IRI attribute = Objects.equal(nerTag, "norp") ? KS_OLD.PROVENANCE : KS_OLD.LANGUAGE;
+//                for (final ExternalRef ref : entity.getExternalRefs()) {
+//                    try {
+//                        final IRI refIRI = this.vf.createIRI(Util.cleanIRI(ref.getReference()));
+//                        emitQuad(subject, attribute, refIRI, (double) ref.getConfidence());
+//                    } catch (final Throwable ex) {
+//                        // ignore: not a IRI
+//                    }
+//                }
+//
+//            } else
+                if (valueRef != null) {
+                // Otherwise, we use the normalized value from Stanford
+                try {
+                    final String s = valueRef.getReference().trim();
+                    if (s.isEmpty()) {
+                        return;
+                    }
+                    if (Objects.equal(nerTag, "cardinal") || Objects.equal(nerTag, "quantity")) {
+                        emitTriple(subject, KEMT.OBJECT_VALUE, Double.parseDouble(s));
 
-        final Term head;
+                    } else if (Objects.equal(nerTag, "ordinal")) {
+                        emitTriple(subject, KEMT.OBJECT_VALUE, Double.parseDouble(s));
 
-        final List<Term> extent;
+                    } else if (Objects.equal(nerTag, "percent")) {
+                        final int index = s.indexOf('%');
+                        emitTriple(subject, KEMT.OBJECT_VALUE, Double.parseDouble(s.substring(index + 1)));
+                    } else if (Objects.equal(nerTag, "money")) {
+                        int index = 0;
+                        while (index < s.length()) {
+                            final char c = s.charAt(index);
+                            if (c == '€') {
+                                emitTriple(subject, KEMT.UNIT, "EUR");
+                            } else if (c == '$') {
+                                emitTriple(subject, KEMT.UNIT, "USD");
+                            } else if (c == '¥') {
+                                emitTriple(subject, KEMT.UNIT, "YEN");
+                            } else if (Character.isDigit(c)) {
+                                break;
+                            }
+                            ++index;
+                        }
+                        emitTriple(subject, KEMT.OBJECT_VALUE, Double.parseDouble(s.substring(index)));
+                    }
+                } catch (final NumberFormatException ex) {
+                    LOGGER.debug("Could not process normalized value: " + valueRef.getReference());
+                }
+            }
+        }
 
-        int excludeMask;
 
-        InstanceMention(final IRI IRI, final Term head, final List<Term> extent) {
-            this.IRI = IRI;
-            this.head = head;
-            this.extent = Lists.newArrayList(extent);
+
+        private void emitCommonAttributesAnnotation(final String id, final Mention mention, final Term head, final String label, final boolean emitSumo)
+                throws RDFHandlerException {
+
+
+
+            final IRI semanticAnnotationIRI = createSemanticAnnotationIRI(id,mention.mentionIRI,KEMT.ENTITY_ANNOTATION);
+            Annotation ann = new Annotation(semanticAnnotationIRI,KEM.SEMANTIC_ANNOTATION);
+            safeAnnotationPutInMap(mention,ann);
+
+            //check
+//            if ("QPD".indexOf(head.getPos()) < 0 && label != null && !label.isEmpty()) {
+//                emitTriple(semanticAnnotationIRI,RDFS.LABEL, label);
+//            }
+
+            //emit LEMMA
+//            final char pos = Character.toUpperCase(head.getPos().charAt(0));
+//            if (pos == 'N' || pos == 'V') {
+//                emitTriple(semanticAnnotationIRI,KS_OLD.LEMMA, label);
+//            }
+
+            final ExternalRef sstRef = NAFUtils.getRef(head, NAFUtils.RESOURCE_WN_SST, null);
+            if (sstRef != null) {
+                final String sst = sstRef.getReference();
+                final IRI uri = this.vf.createIRI(DEFAULT_WN_SST,
+                        sst.substring(sst.lastIndexOf('-') + 1));
+                emitTriple(semanticAnnotationIRI, ITSRDF.TERM_INFO_REF, uri);
+            }
+
+            final ExternalRef synsetRef = NAFUtils.getRef(head, NAFUtils.RESOURCE_WN_SYNSET, null);
+            if (synsetRef != null) {
+                final IRI uri = this.vf.createIRI(DEFAULT_WN_SYN,
+                        synsetRef.getReference());
+                emitTriple(semanticAnnotationIRI, ITSRDF.TERM_INFO_REF, uri);
+            }
+
+//            final String p = head.getMorphofeat().toUpperCase();
+//            if (p.equals("NNS") || p.equals("NNPS")) {
+//                emitTriple(semanticAnnotationIRI, KS_OLD.PLURAL, true);
+//                // this.emitter.emitFact(instanceID, EGO.PLURAL, true, mentionID, null);
+//            }
+
+//            TODO CHECK WITH FRA IF STILL NEEDED HERE
+            for (final ExternalRef ref : head.getExternalRefs()) {
+                final IRI typeIRI = mintRefIRI(ref.getResource(), ref.getReference());
+                if (ref.getResource().equals(NAFUtils.RESOURCE_SUMO))
+                    if (emitSumo) {
+                        emitTriple(semanticAnnotationIRI, ITSRDF.TA_CLASS_REF, typeIRI);
+                        emitTriple(semanticAnnotationIRI, ITSRDF.TA_CLASS_REF, Sumo.getSuperClasses(typeIRI));
+                    }
+//                } else {
+//                    emitTriple(semanticAnnotationIRI, ITSRDF.TA_CLASS_REF, typeIRI);
+//                }
+            }
+        }
+
+
+
+
+
+        private <T extends Value> Collection<T> extract(final Class<T> clazz,
+                                                        @Nullable final Object object, @Nullable final Multimap<String, ? extends T> map) {
+            if (object == null) {
+                return ImmutableList.of();
+            } else if (clazz.isInstance(object)) {
+                return ImmutableList.of((T) object);
+            } else if (object instanceof Iterable<?>) {
+                final List<T> list = Lists.newArrayList();
+                for (final Object element : (Iterable<?>) object) {
+                    list.addAll(extract(clazz, element, map));
+                }
+                return list;
+            } else if (object.getClass().isArray()) {
+                final List<T> list = Lists.newArrayList();
+                final int length = Array.getLength(object);
+                for (int i = 0; i < length; ++i) {
+                    list.addAll(extract(clazz, Array.get(object, i), map));
+                }
+                return list;
+            } else if (map != null) {
+                return (Collection<T>) map.get(object.toString());
+            } else {
+                return ImmutableList.of(Statements.convert(object, clazz));
+            }
         }
 
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static final class Builder {
+
+        @Nullable
+        private Multimap<String, IRI> typeMap;
+
+        @Nullable
+        private Multimap<String, IRI> propertyMap;
+
+        @Nullable
+        private Map<String, String> namespaceMap;
+
+        @Nullable
+        private String owltimeNamespace;
+
+        @Nullable
+        private Boolean merging;
+
+        @Nullable
+        private Boolean normalization;
+
+        /**
+         * Sets all the properties in the map supplied, matching an optional prefix.
+         *
+         * @param properties
+         *            the properties to configure, not null
+         * @param prefix
+         *            an optional prefix used to select the relevant properties in the map
+         * @return this builder object, for call chaining
+         */
+        public Builder withProperties(final Map<?, ?> properties, @Nullable final String prefix) {
+            final String p = prefix == null ? "" : prefix.endsWith(".") ? prefix : prefix + ".";
+            for (final Map.Entry<?, ?> entry : properties.entrySet()) {
+                if (entry.getKey() != null && entry.getValue() != null
+                        && entry.getKey().toString().startsWith(p)) {
+                    final String name = entry.getKey().toString().substring(p.length());
+                    final String value = Strings.emptyToNull(entry.getValue().toString());
+                    if ("fusion".equals(name)) {
+                        withMerging(Boolean.valueOf(value));
+                    } else if ("normalization".equals(name)) {
+                        withNormalization(Boolean.valueOf(value));
+                    }
+                }
+            }
+            return this;
+        }
+
+        public Builder withTypeMap(@Nullable final Multimap<String, IRI> typeMap) {
+            this.typeMap = typeMap;
+            return this;
+        }
+
+        public Builder withPropertyMap(@Nullable final Multimap<String, IRI> propertyMap) {
+            this.propertyMap = propertyMap;
+            return this;
+        }
+
+        public Builder withNamespaceMap(@Nullable final Map<String, String> namespaceMap) {
+            this.namespaceMap = namespaceMap;
+            return this;
+        }
+
+        public Builder withOWLTimeNamespace(@Nullable final String owltimeNamespace) {
+            this.owltimeNamespace = owltimeNamespace;
+            return this;
+        }
+
+        public Builder withMerging(@Nullable final Boolean merging) {
+            this.merging = merging;
+            return this;
+        }
+
+        public Builder withNormalization(@Nullable final Boolean normalization) {
+            this.normalization = normalization;
+            return this;
+        }
+
+        public NAFExtractor build() {
+            return new NAFExtractor(this);
+        }
+
+    }
+
+
+    private static final class Mention {
+
+        IRI mentionIRI;
+        final Term head;
+        final List<Term> extent;
+
+        Mention(final Term head, final Iterable<Term> extent, final IRI mentionIRI) {
+            this.head = head;
+            this.extent = ImmutableList.copyOf(extent);
+            this.mentionIRI = mentionIRI;
+        }
+    }
+
+
+    private static final class Annotation {
+
+        IRI annotationIRI;
+        IRI type;
+
+        Annotation(final IRI annotationIRI, final IRI type) {
+            this.annotationIRI = annotationIRI;
+            this.type = type;
+        }
+    }
 }

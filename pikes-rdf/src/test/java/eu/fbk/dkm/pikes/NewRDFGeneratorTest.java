@@ -4,17 +4,16 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.io.Files;
 import eu.fbk.dkm.pikes.rdf.naf.NAFExtractor;
+import eu.fbk.dkm.pikes.rdf.vocab.*;
 import eu.fbk.rdfpro.RDFSources;
 import eu.fbk.rdfpro.util.IO;
-import eu.fbk.rdfpro.util.QuadModel;
 import eu.fbk.rdfpro.util.Statements;
 import eu.fbk.utils.core.CommandLine;
-import eu.fbk.dkm.pikes.rdf.vocab.KS;
-import eu.fbk.dkm.pikes.rdf.vocab.NIF;
-import eu.fbk.dkm.pikes.rdf.vocab.OWLTIME;
 import ixa.kaflib.KAFDocument;
+import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.Namespace;
 import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.impl.LinkedHashModel;
 import org.eclipse.rdf4j.model.impl.SimpleNamespace;
 import org.eclipse.rdf4j.model.vocabulary.*;
 import org.eclipse.rdf4j.rio.RDFFormat;
@@ -91,10 +90,12 @@ public class NewRDFGeneratorTest {
                         final KAFDocument document = KAFDocument.createFromStream(reader);
                         reader.close();
 
-                        final QuadModel model = QuadModel.create();
+                        final Model model = new LinkedHashModel();
 
-                        NAFExtractor extractor = new NAFExtractor();
-                        extractor.extract(document,model);
+                        NAFExtractor extractor= NAFExtractor.builder().build();
+
+                        extractor.generate(document,model,null);
+
                         OutputStream outputstream = IO.buffer(IO.write(outputFile.getAbsolutePath()));
 
                         writeGraph(model, outputstream, outputFileName);
@@ -113,7 +114,7 @@ public class NewRDFGeneratorTest {
     }
 
 
- private static void writeGraph(final QuadModel graph, final OutputStream stream,
+ private static void writeGraph(final Model graph, final OutputStream stream,
                                    final String fileName) throws IOException {
 
         final RDFFormat rdfFormat = Rio.getWriterFormatForFileName(fileName).get();
@@ -135,6 +136,8 @@ public class NewRDFGeneratorTest {
             namespaces.add(OWL.NS); // not strictly necessary
             namespaces.add(RDF.NS); // not strictly necessary
             namespaces.add(RDFS.NS);
+            namespaces.add(KEM.NS);
+            namespaces.add(KEMT.NS);
             namespaces.add(new SimpleNamespace("dbpedia", "http://dbpedia.org/resource/"));
             namespaces.add(new SimpleNamespace("wn30", "http://wordnet-rdf.princeton.edu/wn30/"));
             namespaces.add(new SimpleNamespace("sst", "http://www.newsreader-project.eu/sst/"));

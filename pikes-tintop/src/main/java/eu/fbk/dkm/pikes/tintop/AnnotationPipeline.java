@@ -433,6 +433,8 @@ public class AnnotationPipeline {
                 Entity thisEntity = null;
                 Timex3 thisTimex = null;
 
+
+
                 switch (entity.getLabel()) {
                     case "PERSON":
                     case "LOCATION":
@@ -448,7 +450,8 @@ public class AnnotationPipeline {
                     case "ORG":
 
                         thisEntity = NAFdocument.newEntity(thisTermList);
-                        thisEntity.setType(entity.getLabel());
+                        String entityLabel = entity.getLabel().replace("PERSON","PER").replace("ORGANIZATION","ORG").replace("LOCATION","LOC");
+                        thisEntity.setType(entityLabel);
 
                         // Normalized value
                         if (entity.getNormalizedValue() != null && entity.getNormalizedValue().length() > 0) {
@@ -509,7 +512,7 @@ public class AnnotationPipeline {
                 if (thisEntity != null && entity.getScoredLabels() != null) {
                     for (Entry<String, Double> entry : entity.getScoredLabels().entrySet()) {
                         ExternalRef ref = NAFdocument.createExternalRef("value-confidence",
-                                entry.getKey());
+                                entry.getKey().replace("PERSON","PER").replace("ORGANIZATION","ORG").replace("LOCATION","LOC"));
                         ref.setConfidence(entry.getValue().floatValue());
                         thisEntity.addExternalRef(ref);
                     }
