@@ -433,7 +433,7 @@ public class AnnotationPipeline {
                 Entity thisEntity = null;
                 Timex3 thisTimex = null;
 
-
+                entity.setLabel(entity.getLabel().toUpperCase());
 
                 switch (entity.getLabel()) {
                     case "PERSON":

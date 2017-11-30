@@ -330,8 +330,53 @@ public final class NAFFilter implements Consumer<KAFDocument> {
             applyOpinionLinking(document);
         }
 
+
+
+
         LOGGER.debug("Done in {} ms", System.currentTimeMillis() - ts);
     }
+
+
+//    private void applyEntityTypeFixing(final KAFDocument document) {
+//
+//        for (final Entity entity : ImmutableList.copyOf(document.getEntities())) {
+//
+//
+//
+//
+//            // Remove initial determiners and prepositions, plus all the terms not containing at
+//            // least a letter or a digit. Move to next entity if no change was applied
+//            final List<Term> filteredTerms = NAFUtils.filterTerms(entity.getTerms());
+//            if (filteredTerms.size() == entity.getTerms().size()) {
+//                continue;
+//            }
+//
+//            // Remove the old entity
+//            document.removeAnnotation(entity);
+//
+//            // If some term remained, add the filtered entity, reusing old type, named flag and
+//            // external references
+//            Entity newEntity = null;
+//            if (!filteredTerms.isEmpty()) {
+//                newEntity = document.newEntity(ImmutableList.of(KAFDocument
+//                        .newTermSpan(filteredTerms)));
+//                newEntity.setType(entity.getType());
+//                newEntity.setNamed(entity.isNamed());
+//                for (final ExternalRef ref : entity.getExternalRefs()) {
+//                    newEntity.addExternalRef(ref);
+//                }
+//            }
+//
+//            // Log the change
+//            if (LOGGER.isDebugEnabled()) {
+//                LOGGER.debug((newEntity == null ? "Removed" : "Replaced") + " invalid " //
+//                        + NAFUtils.toString(entity) + (newEntity == null ? "" : " with filtered " //
+//                        + NAFUtils.toString(newEntity)));
+//            }
+//        }
+//
+//    }
+
 
     private void applyTermSenseFiltering(final KAFDocument document) {
 
@@ -411,48 +456,48 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                 }
             }
 
-            // Apply mapping to SUMO if synset is available
-            final String lemma = term.getLemma().toLowerCase();
-            if (sumoRefs.isEmpty() && synsetRef != null && !lemma.equals("be")) {
-                Set<String> synsetIDs = Sets.newHashSet(synsetRef.getReference());
-                Set<IRI> conceptIRIs = Sumo.synsetsToConcepts(synsetIDs);
-                while (conceptIRIs.isEmpty() && !synsetIDs.isEmpty()) {
-                    final Set<String> oldSynsetIDs = synsetIDs;
-                    synsetIDs = Sets.newHashSet();
-                    for (final String oldSynsetID : oldSynsetIDs) {
-                        synsetIDs.addAll(WordNet.getHypernyms(oldSynsetID));
-                    }
-                    conceptIRIs = Sumo.synsetsToConcepts(synsetIDs);
-                }
-                if (conceptIRIs.isEmpty()) {
-                    synsetIDs = WordNet.getHyponyms(synsetRef.getReference());
-                    conceptIRIs = Sumo.synsetsToConcepts(synsetIDs);
-                }
-                if (!conceptIRIs.isEmpty()) {
-                    for (final IRI conceptIRI : conceptIRIs) {
-                        final String sumoID = conceptIRI.getLocalName();
-                        final ExternalRef sumoRef = document.newExternalRef(
-                                NAFUtils.RESOURCE_SUMO, sumoID);
-                        NAFUtils.setRef(term, sumoRef);
-                        LOGGER.debug("Added SUMO mapping: " + NAFUtils.toString(term)
-                                + " -> sumo:" + conceptIRI.getLocalName());
-                    }
-                }
-            }
-
-            // Apply mapping to Yago if synset is available
-            if (yagoRefs.isEmpty() && synsetRef != null) {
-                for (final IRI uri : YagoTaxonomy.getDBpediaYagoIRIs(ImmutableList.of(synsetRef
-                        .getReference()))) {
-                    final String yagoID = uri.stringValue().substring(
-                            YagoTaxonomy.NAMESPACE.length());
-                    final ExternalRef yagoRef = document.newExternalRef(NAFUtils.RESOURCE_YAGO,
-                            yagoID);
-                    NAFUtils.setRef(term, yagoRef);
-                    LOGGER.debug("Added Yago mapping: " + NAFUtils.toString(term) + " -> yago:"
-                            + yagoID);
-                }
-            }
+//            // Apply mapping to SUMO if synset is available
+//            final String lemma = term.getLemma().toLowerCase();
+//            if (sumoRefs.isEmpty() && synsetRef != null && !lemma.equals("be")) {
+//                Set<String> synsetIDs = Sets.newHashSet(synsetRef.getReference());
+//                Set<IRI> conceptIRIs = Sumo.synsetsToConcepts(synsetIDs);
+//                while (conceptIRIs.isEmpty() && !synsetIDs.isEmpty()) {
+//                    final Set<String> oldSynsetIDs = synsetIDs;
+//                    synsetIDs = Sets.newHashSet();
+//                    for (final String oldSynsetID : oldSynsetIDs) {
+//                        synsetIDs.addAll(WordNet.getHypernyms(oldSynsetID));
+//                    }
+//                    conceptIRIs = Sumo.synsetsToConcepts(synsetIDs);
+//                }
+//                if (conceptIRIs.isEmpty()) {
+//                    synsetIDs = WordNet.getHyponyms(synsetRef.getReference());
+//                    conceptIRIs = Sumo.synsetsToConcepts(synsetIDs);
+//                }
+//                if (!conceptIRIs.isEmpty()) {
+//                    for (final IRI conceptIRI : conceptIRIs) {
+//                        final String sumoID = conceptIRI.getLocalName();
+//                        final ExternalRef sumoRef = document.newExternalRef(
+//                                NAFUtils.RESOURCE_SUMO, sumoID);
+//                        NAFUtils.setRef(term, sumoRef);
+//                        LOGGER.debug("Added SUMO mapping: " + NAFUtils.toString(term)
+//                                + " -> sumo:" + conceptIRI.getLocalName());
+//                    }
+//                }
+//            }
+//
+//            // Apply mapping to Yago if synset is available
+//            if (yagoRefs.isEmpty() && synsetRef != null) {
+//                for (final IRI uri : YagoTaxonomy.getDBpediaYagoIRIs(ImmutableList.of(synsetRef
+//                        .getReference()))) {
+//                    final String yagoID = uri.stringValue().substring(
+//                            YagoTaxonomy.NAMESPACE.length());
+//                    final ExternalRef yagoRef = document.newExternalRef(NAFUtils.RESOURCE_YAGO,
+//                            yagoID);
+//                    NAFUtils.setRef(term, yagoRef);
+//                    LOGGER.debug("Added Yago mapping: " + NAFUtils.toString(term) + " -> yago:"
+//                            + yagoID);
+//                }
+//            }
         }
     }
 
@@ -571,7 +616,7 @@ public final class NAFFilter implements Consumer<KAFDocument> {
 
             // Add the entity, setting its type and 'named' flag
             final Entity entity = document.newEntity(ImmutableList.of(span));
-            entity.setType(type);
+            if (type!= null) entity.setType(type.toUpperCase().replace("PERSON","PER").replace("ORGANIZATION","ORG").replace("LOCATION","LOC"));
             entity.setNamed(pos == 'R');
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("Added " + (entity.isNamed() ? "named " : "")

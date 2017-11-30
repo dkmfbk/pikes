@@ -88,7 +88,11 @@ public class NAFExtractor implements Extractor {
 
     //todo adapta to UD
     private static final String PARTICIPATION_REGEX = ""
-            + "SUB? (COORD CONJ?)* (PMOD (COORD CONJ?)*)? ((VC OPRD?)|(IM OPRD?))*";
+//            + "SUB? (COORD CONJ?)* (PMOD (COORD CONJ?)*)? ((VC OPRD?)|(IM OPRD?))*";
+            + "SUB? ( (COORD CONJ?)* PMOD)? ((VC OPRD?)|(IM OPRD?))*";
+
+
+    private static final String COORDINATION_REGEX = "(COORD CONJ?)*";
 
     private static final Multimap<String, IRI> DEFAULT_TYPE_MAP = ImmutableMultimap
             .<String, IRI>builder() //
@@ -115,9 +119,10 @@ public class NAFExtractor implements Extractor {
             .put("premon+verbnet", "http://premon.fbk.eu/resource/")
             .put("eso", "http://www.newsreader-project.eu/domain-ontology#")
             .put("framebase", "http://framebase.org/ns/") //
-            .put("wordnet","http://wordnet.org/ili/") //
+            .put("wordnet","http://sli.uvigo.gal/rdf_galnet/") //
             .put("wn30-ukb","http://pikes.fbk.eu/wn/syn/")
             .put("wn30-sst","http://pikes.fbk.eu/wn/sst/")
+            .put("wn30","http://wordnet-rdf.princeton.edu/wn30/")
             .put("bbn","http://pikes.fbk.eu/bbn/")
             .put(KEM.PREFIX, KEM.NAMESPACE) //
             .put(KEMT.PREFIX, KEMT.NAMESPACE) //
@@ -130,9 +135,9 @@ public class NAFExtractor implements Extractor {
 
     private static final String DEFAULT_OWLTIME_NAMESPACE = "http://pikes.fbk.eu/time/";
     private static final String DEFAULT_NER_NAMESPACE = "http://pikes.fbk.eu/ner/";
-    private static final String DEFAULT_WN_SST = "http://pikes.fbk.eu/wn/sst/";
-    private static final String DEFAULT_WN_SYN = "http://pikes.fbk.eu/wn/syn/";
-
+    private static final String DEFAULT_WN_SST_NAMESPACE = "http://wordnet-rdf.princeton.edu/wn30/";
+    private static final String DEFAULT_WN_SYN_NAMESPACE = "http://pikes.fbk.eu/wn/syn/";
+    private static final String DEFAULT_BBN_NAMESPACE = "http://pikes.fbk.eu/bbn/";
 
     public static final NAFExtractor DEFAULT = NAFExtractor.builder().build();
 
@@ -241,41 +246,6 @@ public class NAFExtractor implements Extractor {
             annotations.add(annotation);
             this.annotations.put(mention, annotations);
         }
-
-//        private <T,S> void safePutInMap(final T key, final S value, Map<T, Set<S>> map){
-//            Set<S> values;
-//            if (map.containsKey(key))
-//                values = map.get(key);
-//            else
-//                values = Sets.newHashSet();
-//            values.add(value);
-//            map.put(key, values);
-//        }
-
-
-
-
-
-//        private Annotation getBestAnnotationOnHead(String ID, Set<IRI> admissibleType) {
-//
-//            //null type means all
-//
-//
-//            Set<Annotation> annotations = this.annotations.get(ID);
-//            //get first element
-//            Annotation bestAnnotation=this.annotations.get(ID).iterator().next();
-//
-//            for (Annotation ann : annotations
-//                 ) {
-//                //take tge annotation with the largest span
-//                //restrict to entity annotation or
-//
-//            }
-//
-//            return annotation
-//        }
-
-
 
         Extraction(final IRI IRI, final Model model, final KAFDocument document, final boolean[] sentenceIDs) {
 
@@ -604,7 +574,7 @@ public class NAFExtractor implements Extractor {
                         }
                     }
             }
-            //there are no other nerc types, use the type attribute of the entity
+            //there are no other nerc types in external ref, use the type attribute of the entity
             if ((!hasOtherNercTypes)&&(type!=null)) {
                 //emit semantic annotation of type timex and store in the map of annotation per mention
                 final IRI semAnnoIRI = createSemanticAnnotationIRI(entity.getId()+type,mentionIRI,KEMT.ENTITY_ANNOTATION);
@@ -632,10 +602,6 @@ public class NAFExtractor implements Extractor {
                     emitTriple(semAnnoIRI, ITSRDF.TA_IDENT_REF, refIRI);
                     //emit confidence if available
                     if (ref.hasConfidence()) emitTriple(semAnnoIRI,KEM.HAS_CONFIDENCE , ref.getConfidence());
-                    if (named) {
-                        emitTriple(semAnnoIRI, RDF.TYPE, KEMT.NAMED_ENTITY);
-                        emitTriple(semAnnoIRI, KEMT.PROPER_NAME, label);
-                    }
                 }
             }
 
@@ -733,7 +699,7 @@ public class NAFExtractor implements Extractor {
 
 //                    dependency pattern for coordination
                 Set<Term> coordinatedTerms = this.document.getTermsByDepAncestors(
-                        Collections.singleton(head), "(COORD CONJ?)*");
+                        Collections.singleton(head), NAFExtractor.COORDINATION_REGEX);
 
 //                    there have to be at least two coordinated term, otherwise nothing to do
                 if (coordinatedTerms.size()>1) {
@@ -917,12 +883,19 @@ public class NAFExtractor implements Extractor {
                 for (final Role role : predicate.getRoles()) {
                     final Term roleHead = NAFUtils.extractHead(this.document, role.getSpan());
                     if (roleHead != null) {
-                        try {
-                            processRole(predicate, role, roleHead);
-                        } catch (final Throwable ex) {
-                            LOGGER.error("Error processing " + NAFUtils.toString(role)
-                                    + " of " + NAFUtils.toString(predicate) + ", argument "
-                                    + NAFUtils.toString(roleHead), ex);
+
+
+                        final Set<Term> argHeads = this.document.getTermsByDepAncestors(
+                                Collections.singleton(roleHead), PARTICIPATION_REGEX);
+
+                        for (final Term argHead : argHeads) {
+                            try {
+                                processRole(predicate, role, argHead);
+                            } catch (final Throwable ex) {
+                                LOGGER.error("Error processing " + NAFUtils.toString(role)
+                                        + " of " + NAFUtils.toString(predicate)
+                                        + ", argument " + NAFUtils.toString(argHead), ex);
+                            }
                         }
                     }
                 }
@@ -936,15 +909,6 @@ public class NAFExtractor implements Extractor {
             //get predicate mention
             final Mention predMention = this.nafIdMentions.get(predicate.getId());
 
-//            //retrieve the annotation for the predicate TODO: There may me more annotations attached to the predicate mentions
-//            final Set<Annotation> mentionAnnotations = this.annotations.get(predMention);
-//
-//            Annotation predAnn = null;
-//            for (Annotation ann:mentionAnnotations
-//                 ) {
-//                if (ann.type.equals(KEMT.PREDICATE_C)) predAnn=ann;
-//            }
-
             //get the role mention
             Mention correspondingMention = getBestMention(argHead.getId());
             if (correspondingMention==null) return;
@@ -955,7 +919,7 @@ public class NAFExtractor implements Extractor {
                 }
                 //emit coreference annotation annotation
                 final IRI typeIRI = mintRefIRI(ref.getResource(), ref.getReference());
-                final IRI roleIRI = createSemanticAnnotationIRI(role.getId()+"_"+typeIRI.getLocalName(),correspondingMention.mentionIRI,KEMT.ARGUMENT_C);
+                final IRI roleIRI = createSemanticAnnotationIRI(role.getId()+"_"+argHead.getId()+"_"+typeIRI.getLocalName(),correspondingMention.mentionIRI,KEMT.ARGUMENT_C);
                 Annotation ann = new Annotation(roleIRI,KEMT.ARGUMENT_C);
                 safeAnnotationPutInMap(correspondingMention,ann);
                 emitTriple(roleIRI,ITSRDF.TA_PROP_REF,typeIRI);
@@ -966,72 +930,15 @@ public class NAFExtractor implements Extractor {
                     .collect(Collectors.toList()));
             final IRI partMentionRawIRI = emitMention(Stream.concat(predicate.getTerms().stream(), role.getTerms().stream())
                     .collect(Collectors.toList()));
-            final IRI participationIRI = createSemanticAnnotationIRI(predicate.getId()+role.getId(),partMentionIRI,KEMT.PARTICIPATION);
+            final IRI participationIRI = createSemanticAnnotationIRI(predicate.getId()+"_"+role.getId()+"_"+argHead.getId(),partMentionIRI,KEMT.PARTICIPATION);
 
             //emit fake participant
             final IRI fakePredIRI = createSemanticAnnotationIRI(predicate.getId(),predMention.mentionIRI,KEMT.PREDICATE_C);
-            final IRI fakeRoleIRI = createSemanticAnnotationIRI(role.getId(),correspondingMention.mentionIRI,KEMT.ARGUMENT_C);
+            final IRI fakeRoleIRI = createSemanticAnnotationIRI(role.getId()+"_"+argHead.getId(),correspondingMention.mentionIRI,KEMT.ARGUMENT_C);
 
             emitTriple(participationIRI,KEMT.PREDICATE_P,fakePredIRI);
             emitTriple(participationIRI,KEMT.ARGUMENT_P,fakeRoleIRI);
             emitTriple(participationIRI,KEMT.RAW_STRING,partMentionRawIRI);
-
-
-//            // Lookup the instance mention corresponding to the predicate. Abort if missing
-//            final Term predHead = NAFUtils.extractHead(this.document, predicate.getSpan());
-//            final InstanceMention predMention = this.mentions.get(predHead);
-//            if (predMention == null || predMention.head != predHead) {
-//                return;
-//            }
-//
-//            // Lookup the instance mention corresponding to the argument. Abort if missing
-//            final InstanceMention argMention = this.mentions.get(argHead);
-//            if (argMention == null || argMention.head != argHead) {
-//                return;
-//            }
-//
-//            // Extract the role name (0-9 for A0-A9, MNR... for AM-MNR etc). Abort if undefined
-//            String semRole = role.getSemRole();
-//            if (semRole == null) {
-//                return;
-//            }
-//            semRole = semRole.toLowerCase();
-//            final int index = semRole.lastIndexOf('-');
-//            if (index >= 0) {
-//                semRole = semRole.substring(index + 1);
-//            }
-//            if (Character.isDigit(semRole.charAt(semRole.length() - 1))) {
-//                semRole = semRole.substring(semRole.length() - 1);
-//            }
-//
-//            // Extract the role IRI, by combining name with predicate sense. Abort if undefined
-//            IRI roleIRI = null;
-//            for (final ExternalRef ref : predicate.getExternalRefs()) {
-//                if (ref.getSource() != null && !ref.getReference().isEmpty()) {
-//                    if (ref.getResource().equalsIgnoreCase("nombank")) {
-//                        roleIRI = this.vf.createIRI(
-//                                "http://www.newsreader-project.eu/ontologies/nombank/",
-//                                ref.getReference() + "_" + semRole);
-//                    } else if (ref.getResource().equalsIgnoreCase("propbank")) {
-//                        roleIRI = this.vf.createIRI(
-//                                "http://www.newsreader-project.eu/ontologies/propbank/",
-//                                ref.getReference() + "_" + semRole);
-//                    }
-//                }
-//            }
-//            if (roleIRI == null) {
-//                return;
-//            }
-//
-//            // Emit a participation mention
-//            final IRI mentionIRI = emitRelationMention(
-//                    Iterables.concat(predMention.extent, argMention.extent),
-//                    KS.PARTICIPATION_MENTION);
-//
-//            // Emit the links to predicate and argument, as well as the role triple
-//            this.model.add(mentionIRI, KS.ROLE, roleIRI);
-//            this.model.add(mentionIRI, KS.FRAME_PROPERTY, predMention.IRI);
-//            this.model.add(mentionIRI, KS.ARGUMENT, argMention.IRI);
         }
 
 
@@ -1108,69 +1015,6 @@ public class NAFExtractor implements Extractor {
 
         }
 
-
-        private IRI emitRelationMention(final Iterable<Term> extent, final IRI type) {
-            final List<Term> terms = Ordering.from(Term.OFFSET_COMPARATOR).sortedCopy(extent);
-            final IRI mentionIRI = emitNIF(terms);
-            this.model.add(mentionIRI, KS.MENTION_OF, this.documentIRI);
-            this.model.add(mentionIRI, RDF.TYPE, type);
-            return mentionIRI;
-        }
-
-        @Nullable
-        private IRI emitNIF(final List<Term> extent) {
-
-            Preconditions.checkArgument(!extent.isEmpty());
-
-            final String text = this.documentText;
-            final List<IRI> componentIRIs = Lists.newArrayList();
-            final int begin = extent.get(0).getOffset();
-            int offset = begin;
-            int startTermIdx = 0;
-
-            final StringBuilder anchorBuilder = new StringBuilder();
-            final StringBuilder IRIBuilder = new StringBuilder(this.documentIRI.stringValue())
-                    .append("#char=").append(begin).append(",");
-
-            for (int i = 0; i < extent.size(); ++i) {
-                final Term term = extent.get(i);
-                final int termOffset = term.getOffset();
-                if (termOffset > offset && !text.substring(offset, termOffset).trim().isEmpty()) {
-                    final int start = extent.get(startTermIdx).getOffset();
-                    anchorBuilder.append(text.substring(start, offset)).append(" [...] ");
-                    IRIBuilder.append(offset).append(";").append(termOffset).append(',');
-                    componentIRIs.add(emitNIF(extent.subList(startTermIdx, i)));
-                    startTermIdx = i;
-                }
-                offset = NAFUtils.getEnd(term);
-            }
-            if (startTermIdx > 0) {
-                componentIRIs.add(emitNIF(extent.subList(startTermIdx, extent.size())));
-            }
-            anchorBuilder.append(text.substring(extent.get(startTermIdx).getOffset(), offset));
-            IRIBuilder.append(offset);
-
-            final String anchor = anchorBuilder.toString();
-            final IRI IRI = this.vf.createIRI(IRIBuilder.toString());
-
-            if (!componentIRIs.isEmpty()) {
-                this.model.add(IRI, RDF.TYPE, KS.COMPOUND_STRING);
-                for (final IRI componentIRI : componentIRIs) {
-                    this.model.add(IRI, KS.COMPONENT_SUB_STRING, componentIRI);
-                }
-            } else {
-                this.model.add(IRI, RDF.TYPE, NIF.RFC5147_STRING);
-            }
-
-            this.model.add(IRI, NIF.REFERENCE_CONTEXT, this.contextIRI);
-            this.model.add(IRI, NIF.BEGIN_INDEX, this.vf.createLiteral(begin));
-            this.model.add(IRI, NIF.END_INDEX, this.vf.createLiteral(offset));
-            this.model.add(IRI, NIF.ANCHOR_OF, this.vf.createLiteral(anchor));
-
-            return IRI;
-        }
-
-
         private void emitTriple(@Nullable final IRI subject, @Nullable final IRI property,
                               @Nullable final Object objects) {
             if (subject != null && property != null) {
@@ -1179,30 +1023,6 @@ public class NAFExtractor implements Extractor {
                     this.model.add(this.vf.createStatement(subject, property, object));
                 }
             }
-        }
-
-        private IRI hash(final Resource subject, final IRI predicate, final Value object) {
-            final List<String> list = Lists.newArrayList();
-            for (final Value value : new Value[] { subject, predicate, object }) {
-                if (value instanceof IRI) {
-                    list.add("\u0001");
-                    list.add(value.stringValue());
-                } else if (value instanceof BNode) {
-                    list.add("\u0002");
-                    list.add(((BNode) value).getID());
-                } else if (value instanceof Literal) {
-                    final Literal l = (Literal) value;
-                    list.add("\u0003");
-                    list.add(l.getLabel());
-                    if (!l.getDatatype().equals(XMLSchema.STRING)) {
-                        list.add(l.getDatatype().stringValue());
-                    } else if (l.getLanguage().isPresent()) {
-                        list.add(l.getLanguage().get());
-                    }
-                }
-            }
-            final String id = Hash.murmur3(list.toArray(new String[list.size()])).toString();
-            return this.vf.createIRI("fact:" + id);
         }
 
         private IRI mintIRI(final String id, @Nullable final String suggestedLocalName) {
@@ -1251,20 +1071,6 @@ public class NAFExtractor implements Extractor {
             String nerTag = entity.getType();
             nerTag = nerTag == null ? null : nerTag.toLowerCase();
 
-            //TODO CHECK WITH FRA... I guess we can drop this
-            // For NORP and LANGUAGE entities we use the DBpedia IRIs from entity linking
-//            if (Objects.equal(nerTag, "norp") || Objects.equal(nerTag, "language")) {
-//                final IRI attribute = Objects.equal(nerTag, "norp") ? KS_OLD.PROVENANCE : KS_OLD.LANGUAGE;
-//                for (final ExternalRef ref : entity.getExternalRefs()) {
-//                    try {
-//                        final IRI refIRI = this.vf.createIRI(Util.cleanIRI(ref.getReference()));
-//                        emitQuad(subject, attribute, refIRI, (double) ref.getConfidence());
-//                    } catch (final Throwable ex) {
-//                        // ignore: not a IRI
-//                    }
-//                }
-//
-//            } else
                 if (valueRef != null) {
                 // Otherwise, we use the normalized value from Stanford
                 try {
@@ -1309,55 +1115,33 @@ public class NAFExtractor implements Extractor {
         private void emitCommonAttributesAnnotation(final String id, final Mention mention, final Term head, final String label, final boolean emitSumo)
                 throws RDFHandlerException {
 
-
-
             final IRI semanticAnnotationIRI = createSemanticAnnotationIRI(id,mention.mentionIRI,KEMT.ENTITY_ANNOTATION);
             Annotation ann = new Annotation(semanticAnnotationIRI,KEM.SEMANTIC_ANNOTATION);
             safeAnnotationPutInMap(mention,ann);
 
-            //check
-//            if ("QPD".indexOf(head.getPos()) < 0 && label != null && !label.isEmpty()) {
-//                emitTriple(semanticAnnotationIRI,RDFS.LABEL, label);
-//            }
-
-            //emit LEMMA
-//            final char pos = Character.toUpperCase(head.getPos().charAt(0));
-//            if (pos == 'N' || pos == 'V') {
-//                emitTriple(semanticAnnotationIRI,KS_OLD.LEMMA, label);
-//            }
-
+            //WN SST
             final ExternalRef sstRef = NAFUtils.getRef(head, NAFUtils.RESOURCE_WN_SST, null);
             if (sstRef != null) {
                 final String sst = sstRef.getReference();
-                final IRI uri = this.vf.createIRI(DEFAULT_WN_SST,
+                final IRI uri = this.vf.createIRI(DEFAULT_WN_SST_NAMESPACE,
                         sst.substring(sst.lastIndexOf('-') + 1));
                 emitTriple(semanticAnnotationIRI, ITSRDF.TERM_INFO_REF, uri);
             }
 
+            //WN SYNSET
             final ExternalRef synsetRef = NAFUtils.getRef(head, NAFUtils.RESOURCE_WN_SYNSET, null);
             if (synsetRef != null) {
-                final IRI uri = this.vf.createIRI(DEFAULT_WN_SYN,
+                final IRI uri = this.vf.createIRI(DEFAULT_WN_SYN_NAMESPACE,
                         synsetRef.getReference());
                 emitTriple(semanticAnnotationIRI, ITSRDF.TERM_INFO_REF, uri);
             }
 
-//            final String p = head.getMorphofeat().toUpperCase();
-//            if (p.equals("NNS") || p.equals("NNPS")) {
-//                emitTriple(semanticAnnotationIRI, KS_OLD.PLURAL, true);
-//                // this.emitter.emitFact(instanceID, EGO.PLURAL, true, mentionID, null);
-//            }
-
-//            TODO CHECK WITH FRA IF STILL NEEDED HERE
-            for (final ExternalRef ref : head.getExternalRefs()) {
-                final IRI typeIRI = mintRefIRI(ref.getResource(), ref.getReference());
-                if (ref.getResource().equals(NAFUtils.RESOURCE_SUMO))
-                    if (emitSumo) {
-                        emitTriple(semanticAnnotationIRI, ITSRDF.TA_CLASS_REF, typeIRI);
-                        emitTriple(semanticAnnotationIRI, ITSRDF.TA_CLASS_REF, Sumo.getSuperClasses(typeIRI));
-                    }
-//                } else {
-//                    emitTriple(semanticAnnotationIRI, ITSRDF.TA_CLASS_REF, typeIRI);
-//                }
+            //BBN
+            final ExternalRef bbnRef = NAFUtils.getRef(head, NAFUtils.RESOURCE_BBN, null);
+            if (bbnRef != null) {
+                final IRI uri = this.vf.createIRI(DEFAULT_BBN_NAMESPACE,
+                        bbnRef.getReference());
+                emitTriple(semanticAnnotationIRI, ITSRDF.TERM_INFO_REF, uri);
             }
         }
 
