@@ -95,9 +95,6 @@ public class KEM {
     /** Object property kem:isAbout. */
     public static final IRI IS_ABOUT = createIRI("isAbout");
 
-    /** Datatype property kem:hasConfidence. */
-    public static final IRI HAS_CONFIDENCE = createIRI("hasConfidence");
-
 
     // ALL TERMS
 
