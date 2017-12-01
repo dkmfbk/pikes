@@ -120,7 +120,7 @@ public class NAFExtractor implements Extractor {
             .put("eso", "http://www.newsreader-project.eu/domain-ontology#")
             .put("framebase", "http://framebase.org/ns/") //
             .put("wordnet","http://sli.uvigo.gal/rdf_galnet/") //
-            .put("wn30-ukb","http://pikes.fbk.eu/wn/syn/")
+            .put("wn30-ukb","http://wordnet-rdf.princeton.edu/wn30/")
             .put("wn30-sst","http://pikes.fbk.eu/wn/sst/")
             .put("wn30","http://wordnet-rdf.princeton.edu/wn30/")
             .put("bbn","http://pikes.fbk.eu/bbn/")
@@ -135,8 +135,8 @@ public class NAFExtractor implements Extractor {
 
     private static final String DEFAULT_OWLTIME_NAMESPACE = "http://pikes.fbk.eu/time/";
     private static final String DEFAULT_NER_NAMESPACE = "http://pikes.fbk.eu/ner/";
-    private static final String DEFAULT_WN_SST_NAMESPACE = "http://wordnet-rdf.princeton.edu/wn30/";
-    private static final String DEFAULT_WN_SYN_NAMESPACE = "http://pikes.fbk.eu/wn/syn/";
+    private static final String DEFAULT_WN_SST_NAMESPACE = "http://pikes.fbk.eu/wn/sst/";
+    private static final String DEFAULT_WN_SYN_NAMESPACE = "http://wordnet-rdf.princeton.edu/wn30/";
     private static final String DEFAULT_BBN_NAMESPACE = "http://pikes.fbk.eu/bbn/";
 
     public static final NAFExtractor DEFAULT = NAFExtractor.builder().build();
@@ -485,6 +485,9 @@ public class NAFExtractor implements Extractor {
 //            attach timex to semantic annotation
             emitTriple(semAnnoIRI, KEMT.OBJECT_VALUE, timexIRI);
 
+            //attach raw string to timex annotation
+            emitTriple(semAnnoIRI, KEMT.RAW_STRING, emitFragment(terms));
+
         }
 
 
@@ -553,6 +556,7 @@ public class NAFExtractor implements Extractor {
 
             //CREATE THE NER ANNOTATION(S)
             //check external ref for other NERC types
+            boolean typeAnnotation = false;
             boolean hasOtherNercTypes = false;
             for (final ExternalRef ref : entity.getExternalRefs()) {
                     final String resource = ref.getResource();
@@ -566,12 +570,15 @@ public class NAFExtractor implements Extractor {
                         safeAnnotationPutInMap(mention,ann);
                         //emit type
                         emitTriple(semAnnoIRI, ITSRDF.TA_CLASS_REF, this.vf.createIRI(DEFAULT_NER_NAMESPACE+reference));
+                        typeAnnotation=true;
                         //emit confidence if available
-                        if (ref.hasConfidence()) emitTriple(semAnnoIRI,KEM.HAS_CONFIDENCE , ref.getConfidence());
+                        if (ref.hasConfidence()) emitTriple(semAnnoIRI,NIF.CONFIDENCE , ref.getConfidence());
                         if (named) {
                             emitTriple(semAnnoIRI, RDF.TYPE, KEMT.NAMED_ENTITY);
                             emitTriple(semAnnoIRI, KEMT.PROPER_NAME, label);
                         }
+                        //attach raw string to annotation
+                        emitTriple(semAnnoIRI, KEMT.RAW_STRING, emitFragment(terms));
                     }
             }
             //there are no other nerc types in external ref, use the type attribute of the entity
@@ -581,6 +588,7 @@ public class NAFExtractor implements Extractor {
                 Annotation ann = new Annotation(semAnnoIRI,KEMT.ENTITY_ANNOTATION);
                 safeAnnotationPutInMap(mention,ann);
                 emitTriple(semAnnoIRI, ITSRDF.TA_CLASS_REF, this.vf.createIRI(DEFAULT_NER_NAMESPACE+type));
+                typeAnnotation=true;
                 if (isProperty) {
                     emitEntityAttributes(entity, semAnnoIRI);
                 }
@@ -588,8 +596,11 @@ public class NAFExtractor implements Extractor {
                     emitTriple(semAnnoIRI, RDF.TYPE, KEMT.NAMED_ENTITY);
                     emitTriple(semAnnoIRI, KEMT.PROPER_NAME, label);
                 }
+                //attach raw string to annotation
+                emitTriple(semAnnoIRI, KEMT.RAW_STRING, emitFragment(terms));
             }
 
+            boolean linkingAnnotation = false;
             //CREATE THE LINKING ANNOTATION(S)
             for (final ExternalRef ref : entity.getExternalRefs()) {
                 final String resource = ref.getResource();
@@ -600,13 +611,18 @@ public class NAFExtractor implements Extractor {
                     safeAnnotationPutInMap(mention,ann);
                     //emit linking
                     emitTriple(semAnnoIRI, ITSRDF.TA_IDENT_REF, refIRI);
+                    linkingAnnotation = true;
                     //emit confidence if available
-                    if (ref.hasConfidence()) emitTriple(semAnnoIRI,KEM.HAS_CONFIDENCE , ref.getConfidence());
+                    if (ref.hasConfidence()) emitTriple(semAnnoIRI,NIF.CONFIDENCE , ref.getConfidence());
+                    //attach raw string to annotation
+                    emitTriple(semAnnoIRI, KEMT.RAW_STRING, emitFragment(terms));
                 }
             }
 
+
+            //forceSemanticAnnotationCreation
             //CREATE TERM ANNOTATIONS (WSD, SST)
-            emitCommonAttributesAnnotation(entity.getId()+"_semann",mention,head,label,true);
+            emitCommonAttributesAnnotation(entity.getId()+"_semann",mention,head,terms, (!linkingAnnotation)&&(!typeAnnotation));
 
         }
 
@@ -664,10 +680,14 @@ public class NAFExtractor implements Extractor {
                 safeAnnotationPutInMap(mention,ann);
 
                 emitTriple(semAnnoIRI,ITSRDF.TA_CLASS_REF,typeIRI);
+
+                //attach raw string to annotation
+                emitTriple(semAnnoIRI, KEMT.RAW_STRING, emitFragment(terms));
+
             }
 
             //CREATE TERM ANNOTATIONS (WSD, SST)
-            emitCommonAttributesAnnotation(predicate.getId()+"_semann",mention,head,label,true);
+            emitCommonAttributesAnnotation(predicate.getId()+"_semann",mention,head,terms,false);
         }
 
 
@@ -772,6 +792,11 @@ public class NAFExtractor implements Extractor {
                         coordinatedIRI.add(semAnnoIRI);
                         final Annotation ann = new Annotation(semAnnoIRI,KEMT.ENTITY_ANNOTATION);
                         safeAnnotationPutInMap(depMen,ann);
+
+                        //attach raw string to annotation (here is the same as the mention)
+                        emitTriple(semAnnoIRI, KEMT.RAW_STRING, depMen.mentionIRI);
+
+
                     }
 
                     //emit group entity mention (it can't already exists)
@@ -784,6 +809,8 @@ public class NAFExtractor implements Extractor {
                     final Annotation groupEntityAnn = new Annotation(groupEntityIRI,KEMT.ENTITY_ANNOTATION);
                     safeAnnotationPutInMap(groupEntityMention,groupEntityAnn);
 
+                    //attach raw string to annotation (here is the same as the mention)
+                    emitTriple(groupEntityIRI, KEMT.RAW_STRING, groupEntityMentionIRI);
 
                     //emit coordination mention (for the time being, we reuse the group entity one)
                     final IRI coordinationMentionIRI = groupEntityMentionIRI;
@@ -794,6 +821,9 @@ public class NAFExtractor implements Extractor {
                     final IRI coordinationIRI = createSemanticAnnotationIRI("coord",coordinationMentionIRI,KEMT.COORDINATION);
                     final Annotation coordinationAnn = new Annotation(groupEntityIRI,KEMT.COORDINATION);
                     safeAnnotationPutInMap(coordinationMention,coordinationAnn);
+
+                    //attach raw string to annotation (here is the same as the mention)
+                    emitTriple(coordinationIRI, KEMT.RAW_STRING, coordinationMentionIRI);
 
                     emitTriple(coordinationIRI,KEMT.GROUP,groupEntityIRI);
 
@@ -836,8 +866,9 @@ public class NAFExtractor implements Extractor {
             // Build three correlated lists containing, for each member of the coref cluster, its
             // span, the head terms in the span and the associated IRIs
             final List<Span<Term>> corefSpans = Lists.newArrayList();
+            final List<Term> corefRawTerms = Lists.newArrayList();
             final List<Mention> corefMentions = Lists.newArrayList();
-            final List<Term> corefTerms = Lists.newArrayList();
+            final List<Term> corefMentionTerms = Lists.newArrayList();
 
             //iterate over all spans of a coreference, keep only the spans for which there exists a mention
             for (final Span<Term> span : spans) {
@@ -847,7 +878,8 @@ public class NAFExtractor implements Extractor {
                     if (correspondingMention!=null) {
                         corefMentions.add(correspondingMention);
                         corefSpans.add(span);
-                        corefTerms.addAll(correspondingMention.extent);
+                        corefMentionTerms.addAll(correspondingMention.extent);
+                        corefRawTerms.addAll(span.getTargets());
                     }
                 }
             }
@@ -859,23 +891,21 @@ public class NAFExtractor implements Extractor {
 
             //there is no need to create a Mention object, as cooreferences are relations (i.e., we will not attach a role to a coreference mention...
             //emit coreference mention (it can't already exists)
-            final IRI coreferenceMentionIRI = emitMention(corefTerms);
+            final IRI coreferenceMentionIRI = emitMention(corefMentionTerms);
 
             //emit coreference annotation annotation
             final IRI coreferenceIRI = createSemanticAnnotationIRI(corefID,coreferenceMentionIRI,KEMT.COREFERENCE);
 
-            for (Mention mention:corefMentions
-                 ) {
-                final IRI coreferentIRI = createSemanticAnnotationIRI(corefID,mention.mentionIRI,KEMT.ENTITY_ANNOTATION);
+            for (int i = 0; i < corefMentions.size(); i++) {
+                //emit coreferent
+                final IRI coreferentIRI = createSemanticAnnotationIRI(corefID,corefMentions.get(i).mentionIRI,KEMT.ENTITY_ANNOTATION);
                 emitTriple(coreferenceIRI,KEMT.COREFERRING,coreferentIRI);
+                //emit coreferent raw string (i.e., its original span)
+                emitTriple(coreferentIRI, KEMT.RAW_STRING, emitFragment(corefSpans.get(i).getTargets()));
             }
 
-            for (Span<Term> span:corefSpans
-                 ) {
-                final IRI mention = emitMention(span.getTargets());
-                emitTriple(coreferenceIRI,KEMT.COREFERRING_STRING,mention);
-            }
-
+            //emit coreference raw string (i.e., its original span)
+            emitTriple(coreferenceIRI, KEMT.RAW_STRING, emitFragment(corefRawTerms));
         }
 
         private void processRoles() {
@@ -913,38 +943,60 @@ public class NAFExtractor implements Extractor {
             Mention correspondingMention = getBestMention(argHead.getId());
             if (correspondingMention==null) return;
 
+            //emit fake predicate and role for participation relation
+            final IRI fakePredIRI = createSemanticAnnotationIRI(predicate.getId(),predMention.mentionIRI,KEMT.PREDICATE_C);
+            final IRI fakeRoleIRI = createSemanticAnnotationIRI(role.getId()+"_"+argHead.getId(),correspondingMention.mentionIRI,KEMT.ARGUMENT_C);
+
+            //emit fake predicate and role raw string
+            final IRI fakePredRawString = emitFragment(predicate.getSpan().getTargets());
+            emitTriple(fakePredIRI,KEMT.RAW_STRING,fakePredRawString);
+            final IRI fakeRoleRawString = emitFragment(role.getSpan().getTargets());
+            emitTriple(fakeRoleIRI,KEMT.RAW_STRING,fakeRoleRawString);
+
+            //emit participation mention
+            final IRI partMentionIRI = emitMention(Stream.concat(predMention.extent.stream(), correspondingMention.extent.stream())
+                    .collect(Collectors.toList()));
+            //emit participation raw string
+            final IRI partRawIRI = emitMention(Stream.concat(predicate.getSpan().getTargets().stream(), role.getSpan().getTargets().stream())
+                    .collect(Collectors.toList()));
+            //emit participation annotation
+            final IRI participationIRI = createSemanticAnnotationIRI(predicate.getId()+"_"+role.getId()+"_"+argHead.getId(),partMentionIRI,KEMT.PARTICIPATION);
+
+            emitTriple(participationIRI,KEMT.PREDICATE_P,fakePredIRI);
+            emitTriple(participationIRI,KEMT.ARGUMENT_P,fakeRoleIRI);
+            emitTriple(participationIRI,KEMT.RAW_STRING,partRawIRI);
+
             for (final ExternalRef ref : role.getExternalRefs()) {
                 if ("".equals(ref.getReference())) {
                     continue;
                 }
-                //emit coreference annotation annotation
+                //emit role annotation
                 final IRI typeIRI = mintRefIRI(ref.getResource(), ref.getReference());
                 final IRI roleIRI = createSemanticAnnotationIRI(role.getId()+"_"+argHead.getId()+"_"+typeIRI.getLocalName(),correspondingMention.mentionIRI,KEMT.ARGUMENT_C);
                 Annotation ann = new Annotation(roleIRI,KEMT.ARGUMENT_C);
                 safeAnnotationPutInMap(correspondingMention,ann);
                 emitTriple(roleIRI,ITSRDF.TA_PROP_REF,typeIRI);
+                emitTriple(roleIRI,KEMT.RAW_STRING,fakeRoleRawString);
             }
-
-            //emit participation
-            final IRI partMentionIRI = emitMention(Stream.concat(predMention.extent.stream(), correspondingMention.extent.stream())
-                    .collect(Collectors.toList()));
-            final IRI partMentionRawIRI = emitMention(Stream.concat(predicate.getTerms().stream(), role.getTerms().stream())
-                    .collect(Collectors.toList()));
-            final IRI participationIRI = createSemanticAnnotationIRI(predicate.getId()+"_"+role.getId()+"_"+argHead.getId(),partMentionIRI,KEMT.PARTICIPATION);
-
-            //emit fake participant
-            final IRI fakePredIRI = createSemanticAnnotationIRI(predicate.getId(),predMention.mentionIRI,KEMT.PREDICATE_C);
-            final IRI fakeRoleIRI = createSemanticAnnotationIRI(role.getId()+"_"+argHead.getId(),correspondingMention.mentionIRI,KEMT.ARGUMENT_C);
-
-            emitTriple(participationIRI,KEMT.PREDICATE_P,fakePredIRI);
-            emitTriple(participationIRI,KEMT.ARGUMENT_P,fakeRoleIRI);
-            emitTriple(participationIRI,KEMT.RAW_STRING,partMentionRawIRI);
         }
 
 
-        @SuppressWarnings("Duplicates")
         @Nullable
         private IRI emitMention(final Iterable<Term> terms) {
+
+            final List<Term> sortedTerms = Ordering.from(Term.OFFSET_COMPARATOR).sortedCopy(terms);
+            final int numTerms = sortedTerms.size();
+            if (numTerms == 0) {
+                return null;
+            }
+
+            final IRI mentionID = emitFragment(sortedTerms);
+            emitTriple(mentionID, RDF.TYPE, KEM.MENTION);
+            return mentionID;
+        }
+
+
+        private IRI emitFragment(final Iterable<Term> terms) {
 
             final List<Term> sortedTerms = Ordering.from(Term.OFFSET_COMPARATOR).sortedCopy(terms);
             final int numTerms = sortedTerms.size();
@@ -969,13 +1021,13 @@ public class NAFExtractor implements Extractor {
                     final int start = NAFUtils.getBegin(sortedTerms.get(startTermIdx));
                     anchorBuilder.append(text.substring(start, offset)).append(" [...] ");
                     uriBuilder.append(offset).append(";").append(termOffset).append(',');
-                    componentIRIs.add(emitMention(sortedTerms.subList(startTermIdx, i)));
+                    componentIRIs.add(emitFragment(sortedTerms.subList(startTermIdx, i)));
                     startTermIdx = i;
                 }
                 offset = NAFUtils.getEnd(term);
             }
             if (startTermIdx > 0) {
-                componentIRIs.add(emitMention(sortedTerms.subList(startTermIdx, numTerms)));
+                componentIRIs.add(emitFragment(sortedTerms.subList(startTermIdx, numTerms)));
             }
 
 
@@ -984,28 +1036,27 @@ public class NAFExtractor implements Extractor {
             uriBuilder.append(offset);
 
             final String anchor = anchorBuilder.toString();
-            final IRI mentionID = this.vf.createIRI(uriBuilder.toString());
-            emitTriple(mentionID, KEM.FRAGMENT_OF, this.documentIRI);
-//            emitTriple(this.documentIRI, KS_OLD.HAS_MENTION, mentionID);
-            emitTriple(mentionID, RDF.TYPE, KEM.MENTION);
+            final IRI fragmentID = this.vf.createIRI(uriBuilder.toString());
+            emitTriple(fragmentID, KEM.FRAGMENT_OF, this.documentIRI);
 
+
+//            if not composite --> RFC5147
             if (!componentIRIs.isEmpty()) {
-                emitTriple(mentionID, RDF.TYPE, KEM.COMPOSITE_FRAGMENT);
+                emitTriple(fragmentID, RDF.TYPE, KEM.COMPOSITE_FRAGMENT);
                 for (final IRI componentIRI : componentIRIs) {
-                    emitTriple(mentionID, KEM.HAS_COMPONENT, componentIRI);
+                    emitTriple(fragmentID, KEM.HAS_COMPONENT, componentIRI);
                 }
-            }
+            } else emitTriple(fragmentID, RDF.TYPE, NIF.RFC5147_STRING);
 
-            emitTriple(mentionID, NIF.BEGIN_INDEX, this.vf.createLiteral(begin));
-            emitTriple(mentionID, NIF.END_INDEX, this.vf.createLiteral(offset));
-            emitTriple(mentionID, NIF.ANCHOR_OF, this.vf.createLiteral(anchor));
+            emitTriple(fragmentID, NIF.BEGIN_INDEX, this.vf.createLiteral(begin));
+            emitTriple(fragmentID, NIF.END_INDEX, this.vf.createLiteral(offset));
+            emitTriple(fragmentID, NIF.ANCHOR_OF, this.vf.createLiteral(anchor));
 
-            return mentionID;
+            return fragmentID;
         }
 
 
         private IRI createSemanticAnnotationIRI(final String id, final IRI mentionIRI, final IRI type){
-
 
             final IRI semanticAnnotationIRI = this.vf.createIRI(mentionIRI.toString()+id);
             this.model.add(semanticAnnotationIRI,RDF.TYPE,type);
@@ -1112,36 +1163,47 @@ public class NAFExtractor implements Extractor {
 
 
 
-        private void emitCommonAttributesAnnotation(final String id, final Mention mention, final Term head, final String label, final boolean emitSumo)
+        private void emitCommonAttributesAnnotation(final String id, final Mention mention, final Term head, final List<Term> terms, final boolean forceSemanticAnnotationCreation)
                 throws RDFHandlerException {
 
-            final IRI semanticAnnotationIRI = createSemanticAnnotationIRI(id,mention.mentionIRI,KEMT.ENTITY_ANNOTATION);
-            Annotation ann = new Annotation(semanticAnnotationIRI,KEM.SEMANTIC_ANNOTATION);
-            safeAnnotationPutInMap(mention,ann);
+            //create semann only if
 
-            //WN SST
             final ExternalRef sstRef = NAFUtils.getRef(head, NAFUtils.RESOURCE_WN_SST, null);
-            if (sstRef != null) {
-                final String sst = sstRef.getReference();
-                final IRI uri = this.vf.createIRI(DEFAULT_WN_SST_NAMESPACE,
-                        sst.substring(sst.lastIndexOf('-') + 1));
-                emitTriple(semanticAnnotationIRI, ITSRDF.TERM_INFO_REF, uri);
-            }
-
-            //WN SYNSET
             final ExternalRef synsetRef = NAFUtils.getRef(head, NAFUtils.RESOURCE_WN_SYNSET, null);
-            if (synsetRef != null) {
-                final IRI uri = this.vf.createIRI(DEFAULT_WN_SYN_NAMESPACE,
-                        synsetRef.getReference());
-                emitTriple(semanticAnnotationIRI, ITSRDF.TERM_INFO_REF, uri);
-            }
-
-            //BBN
             final ExternalRef bbnRef = NAFUtils.getRef(head, NAFUtils.RESOURCE_BBN, null);
-            if (bbnRef != null) {
-                final IRI uri = this.vf.createIRI(DEFAULT_BBN_NAMESPACE,
-                        bbnRef.getReference());
-                emitTriple(semanticAnnotationIRI, ITSRDF.TERM_INFO_REF, uri);
+
+            if ((forceSemanticAnnotationCreation)||(sstRef != null)||(synsetRef != null)||(bbnRef != null)) {
+
+                final IRI semanticAnnotationIRI = createSemanticAnnotationIRI(id, mention.mentionIRI, KEMT.ENTITY_ANNOTATION);
+                Annotation ann = new Annotation(semanticAnnotationIRI, KEM.SEMANTIC_ANNOTATION);
+                safeAnnotationPutInMap(mention, ann);
+
+                //WN SST
+                if (sstRef != null) {
+                    final String sst = sstRef.getReference();
+                    final IRI uri = this.vf.createIRI(DEFAULT_WN_SST_NAMESPACE,
+                            sst.substring(sst.lastIndexOf('-') + 1));
+                    emitTriple(semanticAnnotationIRI, ITSRDF.TERM_INFO_REF, uri);
+                }
+
+                //WN SYNSET
+
+                if (synsetRef != null) {
+                    final IRI uri = this.vf.createIRI(DEFAULT_WN_SYN_NAMESPACE,
+                            synsetRef.getReference());
+                    emitTriple(semanticAnnotationIRI, ITSRDF.TERM_INFO_REF, uri);
+                }
+
+                //BBN
+
+                if (bbnRef != null) {
+                    final IRI uri = this.vf.createIRI(DEFAULT_BBN_NAMESPACE,
+                            bbnRef.getReference());
+                    emitTriple(semanticAnnotationIRI, ITSRDF.TERM_INFO_REF, uri);
+                }
+
+                //attach raw string to timex annotation
+                emitTriple(semanticAnnotationIRI, KEMT.RAW_STRING, emitFragment(terms));
             }
         }
 

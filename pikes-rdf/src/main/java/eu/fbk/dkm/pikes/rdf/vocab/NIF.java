@@ -86,6 +86,9 @@ public final class NIF {
 
     // PROPERTIES
 
+    /** Property nif:confidence. */
+    public static final IRI CONFIDENCE = createIRI("confidence");
+
     /** Property nif:after. */
     public static final IRI AFTER = createIRI("after");
 

@@ -138,14 +138,16 @@ public class NewRDFGeneratorTest {
             namespaces.add(RDFS.NS);
             namespaces.add(KEM.NS);
             namespaces.add(KEMT.NS);
+            namespaces.add(ITSRDF.NS);
             namespaces.add(new SimpleNamespace("dbpedia", "http://dbpedia.org/resource/"));
             namespaces.add(new SimpleNamespace("wn30", "http://wordnet-rdf.princeton.edu/wn30/"));
-            namespaces.add(new SimpleNamespace("sst", "http://www.newsreader-project.eu/sst/"));
-            namespaces.add(new SimpleNamespace("bbn", "http://dkm.fbk.eu/ontologies/bbn#"));
-            namespaces.add(new SimpleNamespace("pb",
-                    "http://www.newsreader-project.eu/ontologies/propbank/"));
-            namespaces.add(new SimpleNamespace("nb",
-                    "http://www.newsreader-project.eu/ontologies/nombank/"));
+            namespaces.add(new SimpleNamespace("sst", "http://pikes.fbk.eu/wn/sst/"));
+            namespaces.add(new SimpleNamespace("bbn", "http://pikes.fbk.eu/bbn/"));
+            namespaces.add(new SimpleNamespace("pm", "http://premon.fbk.eu/resource/"));
+            namespaces.add(new SimpleNamespace("ili", "http://sli.uvigo.gal/rdf_galnet/"));
+            namespaces.add(new SimpleNamespace("ner", "http://pikes.fbk.eu/ner/"));
+
+            //add missing namespace http://premon.fbk.eu/resource/,  http://pikes.fbk.eu/ner/ http://lexvo.org/id/iso639-3/
             RDFSources.wrap(stmts, namespaces).emit(writer, 1);
         } catch (final Throwable ex) {
             throw new IOException(ex);
