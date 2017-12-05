@@ -9,15 +9,11 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.*;
 
-
-//import eu.fbk.dkm.pikes.rdf.RDFGenerator;
 import eu.fbk.dkm.pikes.rdf.util.OWLTime;
 import eu.fbk.dkm.pikes.rdf.vocab.*;
-import eu.fbk.dkm.pikes.resources.Sumo;
 import eu.fbk.dkm.pikes.resources.YagoTaxonomy;
 import eu.fbk.utils.svm.Util;
 import org.eclipse.rdf4j.model.*;
@@ -77,21 +73,16 @@ public class NAFExtractor implements Extractor {
                 doc, sentenceIDs).run();
     }
 
-    private static boolean isAttributeTerm(final Term term) {
-        final String pos = term.getMorphofeat();
-        return pos.startsWith("JJ") || pos.startsWith("RB") || pos.startsWith("VB");
-    }
 
-
-    //todo adapta to UD
+    //todo adapt for UD (not needed)
     private static final String MODIFIER_REGEX = "(NMOD|AMOD|TMP|LOC|TITLE) PMOD? (COORD CONJ?)* PMOD?";
 
-    //todo adapta to UD
+    //todo adapt for UD
     private static final String PARTICIPATION_REGEX = ""
 //            + "SUB? (COORD CONJ?)* (PMOD (COORD CONJ?)*)? ((VC OPRD?)|(IM OPRD?))*";
             + "SUB? ( (COORD CONJ?)* PMOD)? ((VC OPRD?)|(IM OPRD?))*";
 
-
+    //todo adapt for UD
     private static final String COORDINATION_REGEX = "(COORD CONJ?)*";
 
     private static final Multimap<String, IRI> DEFAULT_TYPE_MAP = ImmutableMultimap
@@ -129,7 +120,6 @@ public class NAFExtractor implements Extractor {
             .put("attribute", "attr:")
             // TODO: change this namespace
             .put("syn", "http://wordnet-rdf.princeton.edu/wn30/")
-            // TODO .put("conn", "http://www.newsreader-project.eu/conn/")
             .put(SUMO.PREFIX, SUMO.NAMESPACE)//
             .put("yago", YagoTaxonomy.NAMESPACE).build();
 
@@ -138,6 +128,10 @@ public class NAFExtractor implements Extractor {
     private static final String DEFAULT_WN_SST_NAMESPACE = "http://pikes.fbk.eu/wn/sst/";
     private static final String DEFAULT_WN_SYN_NAMESPACE = "http://wordnet-rdf.princeton.edu/wn30/";
     private static final String DEFAULT_BBN_NAMESPACE = "http://pikes.fbk.eu/bbn/";
+
+
+    private static final String DEFAULT_OLIA_UD_POS = "http://fginter.github.io/docs/u/pos/all.html#";
+    private static final String DEFAULT_OLIA_PENN_POS = "http://purl.org/olia/penn.owl#";
 
     public static final NAFExtractor DEFAULT = NAFExtractor.builder().build();
 
@@ -150,10 +144,6 @@ public class NAFExtractor implements Extractor {
     private final boolean merging;
 
     private final boolean normalization;
-
-
-
-
 
 
     public NAFExtractor(final Builder builder) {
@@ -439,8 +429,6 @@ public class NAFExtractor implements Extractor {
             IRI timexIRI = null;
             // Emit type specific statements
             if (timex.getValue() != null) {
-                IRI owltimeIRI = null;
-//                final String type = timex.getType().trim().toLowerCase();
                 if (type.equals("date") || type.equals("time")) {
                     if (type.equals("date")) emitTriple(semAnnoIRI, KEMT.TYPE_P, KEMT.TT_DATE);
                     else emitTriple(semAnnoIRI, KEMT.TYPE_P, KEMT.TT_TIME);
@@ -650,6 +638,16 @@ public class NAFExtractor implements Extractor {
             final String label = NAFUtils.getText(NAFUtils.filterTerms(terms));
             final Term head = NAFUtils.extractHead(this.document, predicate.getSpan());
 
+            // Determine the lemma, handling multiwords
+            final StringBuilder builder = new StringBuilder();
+            for (final Term term : terms) {
+                builder.append(builder.length() == 0 ? "" : "_");
+                builder.append(term.getLemma().toLowerCase());
+            }
+            final String lemma = builder.toString();
+//            todo next should become for UD --> final String POS = head.getUpos();
+            final String POS = head.getPos();
+
             // create mention if not already existing
             Mention mention = getMention(head.getId(),terms);
             final IRI mentionIRI;
@@ -663,6 +661,12 @@ public class NAFExtractor implements Extractor {
                 mentionIRI = mention.mentionIRI;
 
             this.nafIdMentions.put(predicate.getId(),mention);
+
+            //add lemma and pos for framebase mappings
+            emitTriple(mentionIRI,NIF.LEMMA,lemma);
+            //            todo next should become for UD
+//          emitTriple(mentionIRI,NIF.OLIA_LINK,this.vf.createIRI(DEFAULT_OLIA_UD_POS+POS));
+            emitTriple(mentionIRI,NIF.OLIA_LINK,this.vf.createIRI(DEFAULT_OLIA_PENN_POS+POS));
 
             // Process framenet/verbnet/etc external refs
             for (final ExternalRef ref : predicate.getExternalRefs()) {
@@ -884,7 +888,7 @@ public class NAFExtractor implements Extractor {
                 }
             }
 
-            // Abort in case there is only one reamining member in the coref cluster
+            // Abort in case there is only one remaining member in the coref cluster
             if (corefSpans.size() <= 1) {
                 return;
             }

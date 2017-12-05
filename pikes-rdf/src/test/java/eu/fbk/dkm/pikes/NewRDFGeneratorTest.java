@@ -32,8 +32,8 @@ import java.util.Set;
 public class NewRDFGeneratorTest {
 
 
-    final static String DEFAULT_PATH_INPUT = "/Users/marcorospocher/Downloads/input-naf";
-    final static String DEFAULT_PATH_OUTPUT = "/Users/marcorospocher/Downloads/output-rdf";
+    final static String DEFAULT_PATH_INPUT = "/Users/marcorospocher/Downloads/pikes-kem-ud/input-naf";
+    final static String DEFAULT_PATH_OUTPUT = "/Users/marcorospocher/Downloads/pikes-kem-ud/output-rdf";
 
     public static void main(final String... args) {
 
@@ -146,6 +146,8 @@ public class NewRDFGeneratorTest {
             namespaces.add(new SimpleNamespace("pm", "http://premon.fbk.eu/resource/"));
             namespaces.add(new SimpleNamespace("ili", "http://sli.uvigo.gal/rdf_galnet/"));
             namespaces.add(new SimpleNamespace("ner", "http://pikes.fbk.eu/ner/"));
+            namespaces.add(new SimpleNamespace("olia-penn-pos","http://purl.org/olia/penn.owl#"));
+            namespaces.add(new SimpleNamespace("olia-ud-pos","http://fginter.github.io/docs/u/pos/all.html#"));
 
             //add missing namespace http://premon.fbk.eu/resource/,  http://pikes.fbk.eu/ner/ http://lexvo.org/id/iso639-3/
             RDFSources.wrap(stmts, namespaces).emit(writer, 1);
