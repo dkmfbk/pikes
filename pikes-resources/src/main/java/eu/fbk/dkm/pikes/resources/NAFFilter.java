@@ -572,6 +572,7 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         }
     }
 
+//    todo check if need to be revised for UD (part on dependency)
     private void applyEntityAddition(final KAFDocument document) {
 
         for (final Term term : document.getTerms()) {
@@ -667,6 +668,7 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         }
     }
 
+    //    todo check if need to be revised for UD (part on dependency, checking on same head)
     private void applyLinkingCompletion(final KAFDocument document) {
 
         for (final LinkedEntity le : document.getLinkedEntities()) {
@@ -682,7 +684,7 @@ public final class NAFFilter implements Consumer<KAFDocument> {
             Entity entityToModify = null;
             for (final Entity entity : document.getEntitiesByTerm(head)) {
                 if (head.equals(document.getTermsHead(entity.getTerms()))) {
-                    entityToModify = entity;
+                    entityToModify = entity; //only one entity?
                 }
             }
             if (entityToModify == null) {
@@ -782,6 +784,7 @@ public final class NAFFilter implements Consumer<KAFDocument> {
     }
 
     @SuppressWarnings("deprecation")
+    //    todo check if need to be revised for UD (part on remove spans without valid head)
     private void applyCorefSpanFixing(final KAFDocument document) {
 
         // Process each <coref> element in the NAF document
@@ -890,6 +893,9 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         }
     }
 
+
+
+    //    todo check if need to be revised for UD (checks on POS and UD)
     private void applyCorefForRoleDependencies(final KAFDocument document) {
 
         outer: for (final Dep dep : document.getDeps()) {
@@ -979,6 +985,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         }
     }
 
+
+    //    todo check if need to be revised for UD (predicate with invalid head)
     private void applySRLPreprocess(final KAFDocument document) {
 
         // Allocate two maps to store term -> predicate pairs
@@ -1103,6 +1111,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         }
     }
 
+
+    //    todo check if need to be revised for UD (check on head, and pos for nombank/propbank)
     private void applySRLRemoveWrongRefs(final KAFDocument document) {
 
         // Scan all predicates in the SRL layer
@@ -1157,6 +1167,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         }
     }
 
+
+    //    todo check if need to be revised for UD (check on head, and pos for nombank/propbank)
     private void applySRLRemoveUnknownPredicates(final KAFDocument document) {
 
         // Scan all predicates in the SRL layer
@@ -1183,6 +1195,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         }
     }
 
+
+    //    todo check if need to be revised for UD (check on head, and pos)
     private void applySRLPredicateAddition(final KAFDocument document) {
 
         for (final Term term : document.getTerms()) {
@@ -1240,6 +1254,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         }
     }
 
+
+    //    todo check if need to be revised for UD (check on head, depAncestors)
     private void applySRLSelfArgFixing(final KAFDocument document) {
 
         for (final Predicate predicate : document.getPredicates()) {
@@ -1304,6 +1320,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         }
     }
 
+
+    //    todo check if need to be revised for UD (check on POS for nombank/propbank, head, morphofeat)
     private void applySRLSenseMapping(final KAFDocument document) {
 
         for (final Predicate predicate : document.getPredicates()) {
@@ -1402,6 +1420,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         }
     }
 
+
+    //    todo check if need to be revised for UD (check on head, and pos correct mapping)
     private void applySRLFrameBaseMapping(final KAFDocument document) {
 
         // Process each predicate and role in the SRL layer
@@ -1418,6 +1438,7 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                 builder.append(term.getLemma().toLowerCase());
             }
             final String lemma = builder.toString();
+
 
             // Convert FrameNet refs to FrameBase refs at the predicate level
             for (final ExternalRef ref : ImmutableList.copyOf(predicate.getExternalRefs())) {
@@ -1452,6 +1473,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         }
     }
 
+
+    //    todo check if need to be revised for UD (check on head for head within role)
     private void applySRLRoleLinking(final KAFDocument document) {
 
         // Process all the roles in the SRL layer
@@ -1475,6 +1498,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         }
     }
 
+
+    //    todo Not needed no
     private void applyOpinionLinking(final KAFDocument document) {
 
         // Process all the opinions in the NAF document
@@ -1515,6 +1540,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         }
     }
 
+
+    //    todo check if still needed; need to be revised for UD (check on head, and pos correct mapping)
     private static void linkEntitiesTimexPredicates(final KAFDocument document,
             final Object annotation, final Span<Term> spanToModify, final Set<Term> heads,
             final boolean useCoref) {

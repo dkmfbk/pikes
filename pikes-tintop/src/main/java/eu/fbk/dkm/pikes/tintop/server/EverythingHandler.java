@@ -3,6 +3,7 @@ package eu.fbk.dkm.pikes.tintop.server;
 import eu.fbk.dkm.pikes.rdf.RDFGenerator;
 import eu.fbk.dkm.pikes.rdf.Renderer;
 import eu.fbk.dkm.pikes.resources.NAFFilter;
+import eu.fbk.dkm.pikes.resources.NAFFilterUD;
 import eu.fbk.dkm.pikes.tintop.AnnotationPipeline;
 import ixa.kaflib.KAFDocument;
 import org.glassfish.grizzly.http.server.Request;
@@ -80,7 +81,7 @@ public class EverythingHandler extends AbstractHandler {
 			demoProperties.put("generator.fusion", fusion);
 			demoProperties.put("generator.normalization", normalization);
 
-			NAFFilter filter = NAFFilter.builder().withProperties(pipeline.getDefaultConfig(), "filter").build();
+			NAFFilterUD filter = NAFFilterUD.builder().withProperties(pipeline.getDefaultConfig(), "filter").build();
 			RDFGenerator generator = RDFGenerator.builder().withProperties(demoProperties, "generator").build();
 			Renderer renderer = Renderer.builder().withProperties(demoProperties, "renderer").build();
 

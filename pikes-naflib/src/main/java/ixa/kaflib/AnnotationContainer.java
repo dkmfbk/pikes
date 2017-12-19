@@ -346,7 +346,7 @@ class AnnotationContainer implements Serializable {
 	/**
 	 * Returns all timeExpressions
 	 */
-	List<Timex3> getTimeExs() {
+	List<Timex3> 	getTimeExs() {
 		return timeExpressions;
 	}
 

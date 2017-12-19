@@ -88,13 +88,6 @@ public final class NAFUtils {
     public static final String PREMON_PBPREFIX = "pb17";
     public static final String PREMON_NBPREFIX = "nb10";
     public static final String PREMON_ARGUMENT_SEPARATOR = "@";
-    public static final String PREMON_RESOURCE_PROPBANK = "PreMOn+PropBank";
-
-    public static final String PREMON_RESOURCE_NOMBANK = "PreMOn+NomBank";
-
-    public static final String PREMON_RESOURCE_VERBNET = "PreMOn+VerbNet";
-
-    public static final String PREMON_RESOURCE_FRAMENET = "PreMOn+FrameNet";
 
     public static final Ordering<Opinion> OPINION_COMPARATOR = new Ordering<Opinion>() {
 
@@ -150,10 +143,18 @@ public final class NAFUtils {
         }
     }
 
+
+//    todo check if need to be revised for UD (part on pos check) DONE
     public static List<Term> filterTerms(final Iterable<Term> terms) {
         final List<Term> result = Lists.newArrayList();
         boolean atBeginning = true;
         for (final Term term : Ordering.from(Term.OFFSET_COMPARATOR).sortedCopy(terms)) {
+
+//            todo replace for UD with
+//            final char pos = term.getUpos();
+//            if (atBeginning && (pos.equals("DET") || pos.equals("PRON") || pos.equals("PART"))) {
+//                continue;
+//            }
             final char pos = Character.toUpperCase(term.getPos().charAt(0));
             if (atBeginning && (pos == 'D' || pos == 'P')) {
                 continue;
@@ -170,10 +171,13 @@ public final class NAFUtils {
         return result;
     }
 
+//    todo check if need to be revised for UD (part on pos check) DONE
     public static String getText(final Iterable<Term> terms) {
         final StringBuilder builder = new StringBuilder();
         boolean atBeginning = true;
         for (final Term term : Ordering.from(Term.OFFSET_COMPARATOR).sortedCopy(terms)) {
+//            todo replace for UD with DONE
+//            final boolean properNoun = term.getMorphofeat().equals("PROPN");
             final boolean properNoun = term.getMorphofeat().startsWith("NNP");
             for (final WF word : term.getWFs()) {
                 builder.append(atBeginning ? "" : " ");
@@ -190,7 +194,7 @@ public final class NAFUtils {
         if (span == null) {
             return null;
         }
-        Term head = null; // span.getHead(); TODO
+        Term head = null;
         if (head == null) {
 
             head = document.getTermsHead(span.getTargets()); // (re)compute
@@ -232,8 +236,13 @@ public final class NAFUtils {
     //todo adapt POS and DEP (UD)
     private static boolean extractHeadsHelper(final KAFDocument document, final Term term,
             final java.util.function.Predicate<Term> predicate, final Collection<Term> result) {
+
+        //we don't need extended pos here, just pos...
         final String pos = extendedPos(document, term);
         boolean accepted = false;
+
+//      todo with UD becomes
+//        if (pos.equals("VERB"))
         if (pos.startsWith("V")) {
             final Term srlHead = syntacticToSRLHead(document, term);
             if (!term.equals(srlHead)) {
@@ -258,6 +267,8 @@ public final class NAFUtils {
         return accepted;
     }
 
+    //check if head is the head of the given annotation
+    //shouldn't change with UD
     public static boolean hasHead(final KAFDocument document, final Object annotation,
             final Term head) {
         List<Span<Term>> spans;
@@ -283,6 +294,8 @@ public final class NAFUtils {
         return false;
     }
 
+
+    //todo check with FRA what for...
     public static Span<Term> getNominalSpan(final KAFDocument document, final Term term,
             final boolean includeCoord, final boolean includeModifiers) {
 
@@ -294,6 +307,7 @@ public final class NAFUtils {
         for (final Entity entity : document.getEntitiesByTerm(term)) {
             markables.put(document.getTermsHead(entity.getTerms()), entity.getTerms());
         }
+
         for (final WF wf : term.getWFs()) {
             for (final Timex3 timex : document.getTimeExsByWF(wf)) {
                 final List<Term> span = document.getTermsByWFs(timex.getSpan().getTargets());
@@ -392,7 +406,12 @@ public final class NAFUtils {
         return getEnd(term) - term.getOffset();
     }
 
+
+    //todo adapt to UD pipe
     public static String getRoleset(final Predicate predicate) {
+        //replace next with for UD pipe
+        //         final String res = predicate.getTerms().get(0).getUpos().equalsIgnoreCase("VERB") ? RESOURCE_PROPBANK
+//                : RESOURCE_NOMBANK;
         final String res = predicate.getTerms().get(0).getPos().equalsIgnoreCase("V") ? RESOURCE_PROPBANK
                 : RESOURCE_NOMBANK;
         String roleset = null;
@@ -535,6 +554,241 @@ public final class NAFUtils {
         }
     }
 
+
+    public static KAFDocument readDocument(@Nullable final Path path) throws IOException {
+        final KAFDocument document;
+        if (path == null) {
+            document = KAFDocument.createFromStream(IO.utf8Reader(IO.buffer(System.in)));
+            document.getPublic().publicId = "";
+        } else {
+            try (BufferedReader reader = Files.newBufferedReader(path)) {
+                document = KAFDocument.createFromStream(reader);
+                document.getPublic().publicId = path.toString();
+            }
+        }
+        return document;
+    }
+
+    public static void writeDocument(final KAFDocument document, @Nullable final Path location)
+            throws IOException {
+        if (location == null) {
+            System.out.write(document.toString().getBytes(Charsets.UTF_8));
+        } else {
+            try (Writer writer = IO.utf8Writer(IO.buffer(IO.write(location.toString())))) {
+                writer.write(document.toString());
+            }
+        }
+    }
+
+    //todo adapt DEP (UD): check VC and IM
+//    may not be needed anymore with UD, verb chain and infinite marker are handled differently (i.e. they are not head)
+    public static Term syntacticToSRLHead(final KAFDocument document, final Term term) {
+        for (final Dep dep : document.getDepsFromTerm(term)) {
+            final String func = dep.getRfunc();
+            if ("VC".equals(func) || "IM".equals(func)) {
+                return syntacticToSRLHead(document, dep.getTo());
+            }
+        }
+        return term;
+    }
+
+
+
+
+    // Accounts for demonstrative pronouns
+//  todo revise for UD Checkif we need the morphological feature or just use the Upos...
+//    just used in raid (we may drop it)
+    public static String extendedPos(final KAFDocument document, final Term term) {
+
+
+        final String pos = term.getMorphofeat();
+        final String lemma = term.getLemma().toLowerCase();
+        if ("some".equals(lemma) || "many".equals(lemma) || "all".equals(lemma)
+                || "few".equals(lemma) || "this".equals(lemma) || "these".equals(lemma)
+                || "that".equals(lemma) || "those".equals(lemma)) {
+            final Dep dep = document.getDepToTerm(term);
+            //todo check with FRA what for...
+            if (dep == null || !"NMOD".equals(dep.getRfunc())) {
+                return pos + "P"; // determiner (DT) or adj (JJ) used as demonstrative pronoun
+            }
+        }
+        return pos;
+    }
+
+
+
+
+
+    public static IRI createPreMOnSemanticClassIRIfor(String model, String predicate){
+
+        String prefix = "";
+        switch (model) {
+
+            case RESOURCE_FRAMENET : prefix+=PREMON_FNPREFIX+"-"; break;
+            case RESOURCE_VERBNET : prefix+=PREMON_VNPREFIX+"-"; break;
+            case RESOURCE_PROPBANK  : prefix+=PREMON_PBPREFIX+"-"; break;
+            case RESOURCE_NOMBANK  : prefix+=PREMON_NBPREFIX+"-"; break;
+
+        }
+
+        //works for fn15,pb17,vn32,nb10... in case of other version, some cautions have to be take on predicate (e.g.m FedEx or UPS in pb215)
+        String localname=prefix+predicate.toLowerCase();
+
+        return Statements.VALUE_FACTORY.createIRI(PREMON_NAMESPACE, localname);
+
+    }
+
+
+    public static IRI createPreMOnSemanticRoleIRIfor(String model, String predicate, String role){
+
+        String prefix = "";
+
+        //works for fn15,pb17,vn32,nb10... in case of other version, some cautions have to be take on predicate (e.g.m FedEx or UPS in pb215)
+        //expect role as follow
+        //PB,NB: A0,AA, AM-TMP
+        //VB,FN: don't care
+        switch (model) {
+            case RESOURCE_FRAMENET : prefix+=PREMON_FNPREFIX+"-";
+                role=role.toLowerCase();
+                break;
+            case RESOURCE_VERBNET : prefix+=PREMON_VNPREFIX+"-";
+                role=role.toLowerCase();
+                break;
+            case RESOURCE_PROPBANK  : prefix+=PREMON_PBPREFIX+"-";
+                role=role.toLowerCase();//.replace("arg-","a").replace("a","arg");
+                if (!role.contains("am-")) role=role.replace("a","arg");
+                else role=role.replace("am-","arg");
+                break;
+            case RESOURCE_NOMBANK  : prefix+=PREMON_NBPREFIX+"-";
+                role=role.toLowerCase();//.replace("arg-","a").replace("a","arg");
+                if (!role.contains("am-")) role=role.replace("a","arg");
+                else role=role.replace("am-","arg");
+                break;
+        }
+
+        String localname=prefix+predicate.toLowerCase()+PREMON_ARGUMENT_SEPARATOR+role;
+
+        return Statements.VALUE_FACTORY.createIRI(PREMON_NAMESPACE, localname);
+
+    }
+
+
+
+
+    //methods below are not used
+
+
+    //todo NOT USED... DROP?
+    public static Term srlToSyntacticHead(final KAFDocument document, final Term term) {
+        final Dep dep = document.getDepToTerm(term);
+        if (dep != null) {
+            final String func = dep.getRfunc();
+            if ("VC".equals(func) || "IM".equals(func)) {
+                return srlToSyntacticHead(document, dep.getFrom());
+            }
+        }
+        return term;
+    }
+
+
+    // todo not used... do we still need it?
+    // extracts descendents that are consecutive with the supplied head
+    public static Set<Term> getTermsByDepAncestor(final KAFDocument document, final Term head,
+                                                  final boolean consecutive) {
+        final Set<Term> descendants = document.getTermsByDepAncestors(ImmutableSet.of(head));
+        if (consecutive) {
+            final List<Term> sortedTerms = Ordering.from(Term.OFFSET_COMPARATOR).sortedCopy(
+                    descendants);
+            final int[] indexes = new int[sortedTerms.size()];
+            for (int i = 0; i < sortedTerms.size(); ++i) {
+                indexes[i] = document.getTerms().indexOf(sortedTerms.get(i));
+            }
+            final int h = sortedTerms.indexOf(head);
+            boolean filtered = false;
+            for (int i = h + 1; i < indexes.length; ++i) {
+                filtered |= indexes[i] > indexes[i - 1] + 1;
+                if (filtered) {
+                    descendants.remove(sortedTerms.get(i));
+                }
+            }
+            filtered = false;
+            for (int i = h - 1; i >= 0; --i) {
+                filtered |= indexes[i] < indexes[i + 1] - 1;
+                if (filtered) {
+                    descendants.remove(sortedTerms.get(i));
+                }
+            }
+        }
+        return descendants;
+    }
+
+    //end methods not used
+
+
+
+
+    //all methods below are used on in RAID
+
+
+
+    public static Boolean isActiveForm(final KAFDocument document, final Term term) {
+        final String word = term.getStr().toLowerCase();
+        final String pos = term.getMorphofeat();
+        if (!pos.startsWith("V")) {
+            return null;
+        }
+        if (word.equals("been") || !pos.equals("VBN")) {
+            return Boolean.TRUE;
+        }
+        return isActiveFormHelper(document, term);
+    }
+
+    private static Boolean isActiveFormHelper(final KAFDocument document, final Term term) {
+        final Dep dep = document.getDepToTerm(term);
+        if (dep == null) {
+            return Boolean.FALSE;
+        }
+        final Term parent = dep.getFrom();
+        final String word = parent.getStr().toLowerCase();
+        final String pos = parent.getMorphofeat();
+        if (pos.startsWith("NN")) {
+            return Boolean.FALSE;
+        }
+        if (word.matches("am|are|is|was|were|be|been|being")) {
+            return Boolean.FALSE;
+        }
+        if (word.matches("ha(ve|s|d|ving)")) {
+            return Boolean.TRUE;
+        }
+
+        if (pos.matches("VBZ|VBD|VBP|MD")) {
+            return Boolean.FALSE;
+        }
+        return isActiveFormHelper(document, parent);
+    }
+
+
+    //used only in RAID, old RDF generator, opinion linking
+    public static java.util.function.Predicate<Term> matchExtendedPos(final KAFDocument document,
+                                                                      final String... posPrefixes) {
+        return new java.util.function.Predicate<Term>() {
+
+            @Override
+            public boolean test(final Term term) {
+                final String pos = extendedPos(document, term);
+                for (final String prefix : posPrefixes) {
+                    if (pos.startsWith(prefix)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+        };
+    }
+
+
+    //todo used only in RAID
     public static List<Range> termRangesFor(final KAFDocument document, final Iterable<Term> terms) {
         final List<Range> ranges = Lists.newArrayList();
         int startIndex = -1;
@@ -555,6 +809,8 @@ public final class NAFUtils {
         return ranges;
     }
 
+
+    //todo used only in RAID
     public static List<Range> rangesFor(final KAFDocument document, final Iterable<Term> terms) {
         final List<Range> ranges = Lists.newArrayList();
         int startOffset = -1;
@@ -591,6 +847,8 @@ public final class NAFUtils {
         return Range.create(begin, end);
     }
 
+
+    //todo check on head here seems OK used only in old RDF generator for opinion
     @Nullable
     public static Span<Term> trimSpan(@Nullable final Span<Term> span, final int sentenceID) {
         if (span == null || span.isEmpty()) {
@@ -621,10 +879,12 @@ public final class NAFUtils {
         return result;
     }
 
+
+    //todo this is CRAZY.... luckily used only in in RAID
     // Span methods
 
     public static Span<Term> normalizeSpan(final KAFDocument document,
-            @Nullable final Span<Term> span) {
+                                           @Nullable final Span<Term> span) {
 
         // Handle null and empty span
         if (span == null || Iterables.isEmpty(span.getTargets())) {
@@ -722,8 +982,10 @@ public final class NAFUtils {
         }
     }
 
+
+    //todo  luckily used only in in RAID
     public static List<Span<Term>> mergeSpans(final KAFDocument document,
-            final Iterable<Span<Term>> spans, final boolean canAddTerms) {
+                                              final Iterable<Span<Term>> spans, final boolean canAddTerms) {
 
         // Build a map associating to each span head the other heads it is coordinated with
         final Map<Term, List<Term>> extents = Maps.newHashMap();
@@ -779,8 +1041,10 @@ public final class NAFUtils {
         return result;
     }
 
+
+    //not used.... DROP?
     public static final List<Span<Term>> splitSpans(final KAFDocument document,
-            final Iterable<Span<Term>> spans) {
+                                                    final Iterable<Span<Term>> spans) {
 
         // Identify all the heads taking coordination into consideration
         final Set<Term> heads = Sets.newHashSet();
@@ -824,8 +1088,9 @@ public final class NAFUtils {
         return result;
     }
 
+    //todo used only in RAID
     public static final List<Span<Term>> splitSpan(final KAFDocument document,
-            final Span<Term> span, final Iterable<Term> heads) {
+                                                   final Span<Term> span, final Iterable<Term> heads) {
 
         final Set<Term> excludedTerms = document.getTermsByDepDescendants(heads);
         final List<Span<Term>> spans = Lists.newArrayList();
@@ -842,207 +1107,8 @@ public final class NAFUtils {
         return spans;
     }
 
-    // End
-
-    public static KAFDocument readDocument(@Nullable final Path path) throws IOException {
-        final KAFDocument document;
-        if (path == null) {
-            document = KAFDocument.createFromStream(IO.utf8Reader(IO.buffer(System.in)));
-            document.getPublic().publicId = "";
-        } else {
-            try (BufferedReader reader = Files.newBufferedReader(path)) {
-                document = KAFDocument.createFromStream(reader);
-                document.getPublic().publicId = path.toString();
-            }
-        }
-        return document;
-    }
-
-    public static void writeDocument(final KAFDocument document, @Nullable final Path location)
-            throws IOException {
-        if (location == null) {
-            System.out.write(document.toString().getBytes(Charsets.UTF_8));
-        } else {
-            try (Writer writer = IO.utf8Writer(IO.buffer(IO.write(location.toString())))) {
-                writer.write(document.toString());
-            }
-        }
-    }
-
-    //todo adapt DEP (UD): check VC and IM
-    public static Term syntacticToSRLHead(final KAFDocument document, final Term term) {
-        for (final Dep dep : document.getDepsFromTerm(term)) {
-            final String func = dep.getRfunc();
-            if ("VC".equals(func) || "IM".equals(func)) {
-                return syntacticToSRLHead(document, dep.getTo());
-            }
-        }
-        return term;
-    }
-
-    public static Term srlToSyntacticHead(final KAFDocument document, final Term term) {
-        final Dep dep = document.getDepToTerm(term);
-        if (dep != null) {
-            final String func = dep.getRfunc();
-            if ("VC".equals(func) || "IM".equals(func)) {
-                return srlToSyntacticHead(document, dep.getFrom());
-            }
-        }
-        return term;
-    }
-
-    // Accounts for demonstrative pronouns
-
-    public static String extendedPos(final KAFDocument document, final Term term) {
-        final String pos = term.getMorphofeat();
-        final String lemma = term.getLemma().toLowerCase();
-        if ("some".equals(lemma) || "many".equals(lemma) || "all".equals(lemma)
-                || "few".equals(lemma) || "this".equals(lemma) || "these".equals(lemma)
-                || "that".equals(lemma) || "those".equals(lemma)) {
-            final Dep dep = document.getDepToTerm(term);
-            if (dep == null || !"NMOD".equals(dep.getRfunc())) {
-                return pos + "P"; // determiner (DT) or adj (JJ) used as demonstrative pronoun
-            }
-        }
-        return pos;
-    }
-
-    public static Boolean isActiveForm(final KAFDocument document, final Term term) {
-        final String word = term.getStr().toLowerCase();
-        final String pos = term.getMorphofeat();
-        if (!pos.startsWith("V")) {
-            return null;
-        }
-        if (word.equals("been") || !pos.equals("VBN")) {
-            return Boolean.TRUE;
-        }
-        return isActiveFormHelper(document, term);
-    }
-
-    private static Boolean isActiveFormHelper(final KAFDocument document, final Term term) {
-        final Dep dep = document.getDepToTerm(term);
-        if (dep == null) {
-            return Boolean.FALSE;
-        }
-        final Term parent = dep.getFrom();
-        final String word = parent.getStr().toLowerCase();
-        final String pos = parent.getMorphofeat();
-        if (pos.startsWith("NN")) {
-            return Boolean.FALSE;
-        }
-        if (word.matches("am|are|is|was|were|be|been|being")) {
-            return Boolean.FALSE;
-        }
-        if (word.matches("ha(ve|s|d|ving)")) {
-            return Boolean.TRUE;
-        }
-
-        if (pos.matches("VBZ|VBD|VBP|MD")) {
-            return Boolean.FALSE;
-        }
-        return isActiveFormHelper(document, parent);
-    }
-
-    public static java.util.function.Predicate<Term> matchExtendedPos(final KAFDocument document,
-            final String... posPrefixes) {
-        return new java.util.function.Predicate<Term>() {
-
-            @Override
-            public boolean test(final Term term) {
-                final String pos = extendedPos(document, term);
-                for (final String prefix : posPrefixes) {
-                    if (pos.startsWith(prefix)) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-        };
-    }
-
-    // extracts descendents that are consecutive with the supplied head
-    public static Set<Term> getTermsByDepAncestor(final KAFDocument document, final Term head,
-            final boolean consecutive) {
-        final Set<Term> descendants = document.getTermsByDepAncestors(ImmutableSet.of(head));
-        if (consecutive) {
-            final List<Term> sortedTerms = Ordering.from(Term.OFFSET_COMPARATOR).sortedCopy(
-                    descendants);
-            final int[] indexes = new int[sortedTerms.size()];
-            for (int i = 0; i < sortedTerms.size(); ++i) {
-                indexes[i] = document.getTerms().indexOf(sortedTerms.get(i));
-            }
-            final int h = sortedTerms.indexOf(head);
-            boolean filtered = false;
-            for (int i = h + 1; i < indexes.length; ++i) {
-                filtered |= indexes[i] > indexes[i - 1] + 1;
-                if (filtered) {
-                    descendants.remove(sortedTerms.get(i));
-                }
-            }
-            filtered = false;
-            for (int i = h - 1; i >= 0; --i) {
-                filtered |= indexes[i] < indexes[i + 1] - 1;
-                if (filtered) {
-                    descendants.remove(sortedTerms.get(i));
-                }
-            }
-        }
-        return descendants;
-    }
 
 
-    public static IRI createPreMOnSemanticClassIRIfor(String model, String predicate){
 
-        String prefix = "";
-        switch (model) {
-
-            case RESOURCE_FRAMENET : prefix+=PREMON_FNPREFIX+"-"; break;
-            case RESOURCE_VERBNET : prefix+=PREMON_VNPREFIX+"-"; break;
-            case RESOURCE_PROPBANK  : prefix+=PREMON_PBPREFIX+"-"; break;
-            case RESOURCE_NOMBANK  : prefix+=PREMON_NBPREFIX+"-"; break;
-
-        }
-
-        //works for fn15,pb17,vn32,nb10... in case of other version, some cautions have to be take on predicate (e.g.m FedEx or UPS in pb215)
-        String localname=prefix+predicate.toLowerCase();
-
-        return Statements.VALUE_FACTORY.createIRI(PREMON_NAMESPACE, localname);
-
-    }
-
-
-    public static IRI createPreMOnSemanticRoleIRIfor(String model, String predicate, String role){
-
-        String prefix = "";
-
-        //works for fn15,pb17,vn32,nb10... in case of other version, some cautions have to be take on predicate (e.g.m FedEx or UPS in pb215)
-        //expect role as follow
-        //PB,NB: A0,AA, AM-TMP
-        //VB,FN: don't care
-        switch (model) {
-            case RESOURCE_FRAMENET : prefix+=PREMON_FNPREFIX+"-";
-                role=role.toLowerCase();
-                break;
-            case RESOURCE_VERBNET : prefix+=PREMON_VNPREFIX+"-";
-                role=role.toLowerCase();
-                break;
-            case RESOURCE_PROPBANK  : prefix+=PREMON_PBPREFIX+"-";
-                role=role.toLowerCase();//.replace("arg-","a").replace("a","arg");
-                if (!role.contains("am-")) role=role.replace("a","arg");
-                else role=role.replace("am-","arg");
-                break;
-            case RESOURCE_NOMBANK  : prefix+=PREMON_NBPREFIX+"-";
-                role=role.toLowerCase();//.replace("arg-","a").replace("a","arg");
-                if (!role.contains("am-")) role=role.replace("a","arg");
-                else role=role.replace("am-","arg");
-                break;
-        }
-
-        String localname=prefix+predicate.toLowerCase()+PREMON_ARGUMENT_SEPARATOR+role;
-
-        return Statements.VALUE_FACTORY.createIRI(PREMON_NAMESPACE, localname);
-
-    }
 
 }

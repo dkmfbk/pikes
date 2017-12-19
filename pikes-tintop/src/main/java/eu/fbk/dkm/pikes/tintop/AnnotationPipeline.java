@@ -3,8 +3,6 @@ package eu.fbk.dkm.pikes.tintop;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Ordering;
 import edu.cmu.cs.lti.ark.fn.parsing.SemaforParseResult;
 import edu.stanford.nlp.coref.CorefCoreAnnotations;
 import edu.stanford.nlp.coref.data.CorefChain;
@@ -33,7 +31,7 @@ import eu.fbk.fcw.utils.AnnotatorUtils;
 import eu.fbk.fcw.wnpos.WNPosAnnotations;
 import eu.fbk.utils.core.PropertiesUtils;
 import eu.fbk.utils.corenlp.CustomAnnotations;
-import eu.fbk.utils.corenlp.outputters.JSONOutputter;
+
 import ixa.kaflib.*;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
@@ -83,14 +81,6 @@ public class AnnotationPipeline {
         for (Models model : Models.values()) {
             modelsLoaded.put(model, false);
         }
-    }
-
-    public void addToNerMap(String key, String value) {
-        nerMap.put(key, value);
-    }
-
-    public void deleteFromNerMap(String key) {
-        nerMap.remove(key);
     }
 
     public Properties getDefaultConfig() {
@@ -310,7 +300,6 @@ public class AnnotationPipeline {
             }
 
 
-//            @todo change next to UD??
             for (int i = 0; i < tokens.size(); i++) {
                 CoreLabel stanfordToken = tokens.get(i);
 
@@ -340,67 +329,6 @@ public class AnnotationPipeline {
                     }
                 }
             }
-
-            // Opinion
-
-//            boolean includeNeutral = config.getProperty("stanford_include_neutral", "0").equals("1");
-//
-//            Tree sentimentTree = stanfordSentence.get(SentimentCoreAnnotations.SentimentAnnotatedTree.class);
-//            if (sentimentTree != null) {
-//                HashMap<edu.stanford.nlp.ling.Word, Term> indexedWords = new HashMap<>();
-//                int wordIndex = -1;
-//                for (Tree t : sentimentTree.getLeaves()) {
-//                    wordIndex++;
-//                    List<edu.stanford.nlp.ling.Word> words = t.yieldWords();
-//                    for (edu.stanford.nlp.ling.Word w : words) {
-//                        indexedWords.put(w, terms.get(wordIndex));
-//                    }
-//                }
-//
-//                for (Tree tree : sentimentTree) {
-//
-//                    Integer predictedClass;
-//                    try {
-//                        predictedClass = RNNCoreAnnotations.getPredictedClass(tree);
-//                    } catch (Exception e) {
-//                        continue;
-//                    }
-//
-//                    if (predictedClass == null) {
-//                        continue;
-//                    }
-//
-//                    if (!includeNeutral && predictedClass == 2) {
-//                        continue;
-//                    }
-//
-//                    Span<Term> treeSpan = KAFDocument.newTermSpan();
-//                    for (edu.stanford.nlp.ling.Word word : tree.yieldWords()) {
-//                        treeSpan.addTarget(indexedWords.get(word));
-//                    }
-//
-//                    Opinion opinion = NAFdocument.createOpinion();
-//                    opinion.setLabel("stanford-sentiment");
-//                    Opinion.OpinionExpression opinionExpression = opinion.createOpinionExpression(treeSpan);
-//                    opinionExpression.setPolarity(stanfordSentimentLabels[predictedClass]);
-//
-//                    NumberFormat nf = NumberFormat.getNumberInstance();
-//                    nf.setMaximumFractionDigits(2);
-//
-//                    SimpleMatrix predictions = RNNCoreAnnotations.getPredictions(tree);
-//                    StringBuffer stringBuffer = new StringBuffer();
-//                    stringBuffer.append(nf.format(predictions.get(0)));
-//                    stringBuffer.append("|");
-//                    stringBuffer.append(nf.format(predictions.get(1)));
-//                    stringBuffer.append("|");
-//                    stringBuffer.append(nf.format(predictions.get(2)));
-//                    stringBuffer.append("|");
-//                    stringBuffer.append(nf.format(predictions.get(3)));
-//                    stringBuffer.append("|");
-//                    stringBuffer.append(nf.format(predictions.get(4)));
-//                    opinionExpression.setStrength(stringBuffer.toString());
-//                }
-//            }
 
             // Entities
 
@@ -540,8 +468,7 @@ public class AnnotationPipeline {
 
                     ExternalRef e;
                     // If it's a verb -> PropBank, if it's a noun -> NomBank
-//                    @todo change next to UD
-                    if (thisTerm.getPos().equals("V")) {
+                    if (thisTerm.getUpos().equals("VERB")) {
                         e = NAFdocument.newExternalRef("PropBank", mateSense);
                         e.setSource("mate");
                         sense = mateSense;
@@ -880,14 +807,14 @@ public class AnnotationPipeline {
 
                         Predicate.Role role = NAFdocument.newRole(predicate, "", roleTermSpan);
 
-//                        @todo change next to UD
-                        final Term head = NAFUtils.extractHead(NAFdocument, role.getSpan());
-                        if (head != null) {
-                            final Span<Term> newSpan = KAFDocument
-                                    .newTermSpan(Ordering.from(Term.OFFSET_COMPARATOR).sortedCopy(
-                                            NAFdocument.getTermsByDepAncestors(ImmutableList.of(head))));
-                            role.setSpan(newSpan);
-                        }
+////                        @todo change next to UD (DISABLED)
+//                        final Term head = NAFUtils.extractHead(NAFdocument, role.getSpan());
+//                        if (head != null) {
+//                            final Span<Term> newSpan = KAFDocument
+//                                    .newTermSpan(Ordering.from(Term.OFFSET_COMPARATOR).sortedCopy(
+//                                            NAFdocument.getTermsByDepAncestors(ImmutableList.of(head))));
+//                            role.setSpan(newSpan);
+//                        }
                         ExternalRef roleNameExt = NAFdocument.createExternalRef("FrameNet", frameName + "@" + roleName);
                         roleNameExt.setSource("semafor");
                         role.addExternalRef(roleNameExt);
@@ -898,13 +825,15 @@ public class AnnotationPipeline {
                 }
             }
 
+
+            // @todo change next to UD
             // Constituency: do we need it?
             Tree tree = stanfordSentence.get(TreeCoreAnnotations.TreeAnnotation.class);
             if (tree != null) {
                 NAFdocument.addConstituencyString(tree.toString(), sentIndex + 1);
                 try {
                     logger.debug("Tree: " + tree.toString());
-//                    @todo change next to UD
+
                     addHeads(tree);
                     NAFdocument.addConstituencyFromParentheses(tree.toString(), sentIndex + 1);
                 } catch (Exception e) {
@@ -1027,7 +956,7 @@ public class AnnotationPipeline {
             LinguisticProcessor linguisticProcessor = new LinguisticProcessor("naf-filter", "NAF filter");
             linguisticProcessor.setBeginTimestamp();
             try {
-                NAFFilter filter = NAFFilter.builder().withProperties(properties, "filter").build();
+                NAFFilterUD filter = NAFFilterUD.builder().withProperties(properties, "filter").build();
                 filter.filter(NAFdocument);
 
                 //NAFFilter.builder().withProperties(properties,"filter").build().filter(NAFdocument);

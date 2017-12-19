@@ -1884,7 +1884,13 @@ public class KAFDocument implements Serializable {
     private static final Map<String, Pattern> DEP_PATH_REGEXS = new ConcurrentHashMap<String, Pattern>();
 
     private static char getDepPathChar(final String label) {
-        final String key = label.toLowerCase();
+
+        String key = label.toLowerCase();
+        int index = key.indexOf(':');
+        if (index > 0) {
+            key = key.substring(0, index);
+        }
+
         Character letter = DEP_PATH_CHARS.get(key);
         if (letter == null) {
             synchronized (DEP_PATH_CHARS) {

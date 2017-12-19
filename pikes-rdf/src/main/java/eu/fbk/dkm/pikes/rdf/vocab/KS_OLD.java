@@ -9,7 +9,7 @@ public final class KS_OLD {
 
     public static final String PREFIX = "ks";
 
-    public static final String NAMESPACE = "http://dkm.fbk.eu/ontologies/knowledgestore#";
+    public static final String NAMESPACE = "https://dkm.fbk.eu/ontologies/knowledgestore#";
 
     public static final Namespace NS = new SimpleNamespace(PREFIX, NAMESPACE);
 

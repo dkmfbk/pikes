@@ -19,8 +19,8 @@ public class KEMT {
     /** Recommended prefix for the vocabulary namespace: "kemt". */
     public static final String PREFIX = "kemt";
 
-    /** Vocabulary namespace: "http://knowledgestore.fbk.eu/ontologies/kem/text#". */
-    public static final String NAMESPACE = "http://knowledgestore.fbk.eu/ontologies/kem/text#";
+    /** Vocabulary namespace: "https://knowledgestore.fbk.eu/ontologies/kem/text#". */
+    public static final String NAMESPACE = "https://knowledgestore.fbk.eu/ontologies/kem/text#";
 
     /** Immutable {@link Namespace} constant for the vocabulary namespace. */
     public static final Namespace NS = new SimpleNamespace(PREFIX, NAMESPACE);
@@ -166,6 +166,9 @@ public class KEMT {
 
     /** Object property kemt:dominates. */
     public static final IRI DOMINATES = createIRI("dominates");
+
+    /** Object property kemt:hasSameHeadAs. */
+    public static final IRI HAS_SAME_HEAD_AS = createIRI("hasSameHeadAs");
 
     /** Object property kemt:factValue. */
     public static final IRI FACT_VALUE_P = createIRI("factValue");

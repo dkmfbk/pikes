@@ -1048,6 +1048,11 @@ class ReadWriteManager {
         if (tMorphofeat != null) {
             newTerm.setMorphofeat(tMorphofeat);
         }
+        String upos = getOptAttribute("upos", termElem);
+        if (upos != null) {
+            newTerm.setUpos(upos);
+        }
+        //todo Aprosio: add reading of features
         String tHead = getOptAttribute("head", termElem);
         String termcase = getOptAttribute("case", termElem);
         if (termcase != null) {
