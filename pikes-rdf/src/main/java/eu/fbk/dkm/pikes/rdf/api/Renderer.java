@@ -1,10 +1,26 @@
 package eu.fbk.dkm.pikes.rdf.api;
 
+import java.util.Map;
 
-import eu.fbk.rdfpro.util.QuadModel;
+import javax.annotation.Nullable;
 
-public interface Renderer {
+public interface Renderer extends AutoCloseable {
 
-    void render(Object document, QuadModel model, Appendable out) throws Exception;
+    final Renderer NIL = new Renderer() {
+
+        @Override
+        public void render(final Document document, final Appendable out,
+                final Map<String, String> options) {
+            // do nothing
+        }
+
+    };
+
+    void render(Document document, Appendable out, @Nullable Map<String, String> options);
+
+    @Override
+    default void close() {
+        // do nothing
+    }
 
 }

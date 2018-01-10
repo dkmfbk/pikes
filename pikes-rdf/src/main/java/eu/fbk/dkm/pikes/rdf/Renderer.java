@@ -57,8 +57,6 @@ import ixa.kaflib.Term;
 
 import eu.fbk.dkm.pikes.naflib.NafRenderUtils;
 import eu.fbk.dkm.pikes.naflib.NafRenderUtils.Markable;
-import eu.fbk.dkm.pikes.rdf.util.ModelUtil;
-import eu.fbk.dkm.pikes.rdf.util.RDFGraphvizRenderer;
 import eu.fbk.dkm.pikes.resources.NAFFilter;
 import eu.fbk.dkm.pikes.resources.NAFUtils;
 import eu.fbk.rdfpro.util.Hash;

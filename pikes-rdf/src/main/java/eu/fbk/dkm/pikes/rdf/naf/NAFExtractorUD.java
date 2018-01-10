@@ -2,11 +2,14 @@ package eu.fbk.dkm.pikes.rdf.naf;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.*;
+
+import eu.fbk.dkm.pikes.rdf.util.OWLTime;
+import eu.fbk.dkm.pikes.rdf.api.Document;
 import eu.fbk.dkm.pikes.rdf.api.Extractor;
 import eu.fbk.dkm.pikes.rdf.util.ModelUtil;
-import eu.fbk.dkm.pikes.rdf.util.OWLTime;
 import eu.fbk.dkm.pikes.rdf.vocab.*;
 import eu.fbk.dkm.pikes.resources.NAFUtils;
 import eu.fbk.dkm.pikes.resources.NAFUtilsUD;
@@ -64,15 +67,34 @@ public class NAFExtractorUD implements Extractor {
 
         LOGGER.debug("Done in {} ms", System.currentTimeMillis() - ts);
     }
-
+    
     @Override
-    public void extract(final Object document, final Model model, final boolean[] sentenceIDs) throws Exception {
-        KAFDocument doc = (KAFDocument) document;
-        IRI IRI = SimpleValueFactory.getInstance().createIRI(doc.getPublic().uri);
-        new Extraction(IRI, model,
-                doc, sentenceIDs).run();
-    }
+    public void extract(Document document, Map<String, String> options) {
 
+        // Process all NAFAnnotations in the document
+        for (eu.fbk.dkm.pikes.rdf.api.Annotation a : document.getAnnotations()) {
+            if (a instanceof NAFAnnotation) {
+
+                // Extract NAF
+                KAFDocument naf = ((NAFAnnotation) a).getNAF();
+
+                // Extract sentence IDs: process all sentences unless option 'sentences' is given
+                final boolean[] sentenceIDs = new boolean[naf.getNumSentences()];
+                if (!options.containsKey("sentences")) {
+                    Arrays.fill(sentenceIDs, true);
+                } else {
+                    Arrays.fill(sentenceIDs, false);
+                    for (String i : Splitter.onPattern("[,;\\s]+").omitEmptyStrings().trimResults()
+                            .split(options.get("sentences"))) {
+                        sentenceIDs[Integer.parseInt(i)] = true;
+                    }
+                }
+
+                // Perform extraction from current NAFAnnotation
+                new Extraction(document.getIRI(), document.getModel(), naf, sentenceIDs).run();
+            }
+        }
+    }
 
     //todo adapt for UD (not needed)
 //    private static final String MODIFIER_REGEX = "(NMOD|AMOD|TMP|LOC|TITLE) PMOD? (COORD CONJ?)* PMOD?";

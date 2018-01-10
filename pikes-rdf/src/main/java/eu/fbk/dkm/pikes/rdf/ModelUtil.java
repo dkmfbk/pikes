@@ -1,4 +1,4 @@
-package eu.fbk.dkm.pikes.rdf.util;
+package eu.fbk.dkm.pikes.rdf;
 
 import com.google.common.collect.*;
 import eu.fbk.dkm.pikes.rdf.vocab.KS_OLD;
@@ -18,6 +18,7 @@ import java.util.Set;
 
 // TODO: define RDFModel (quad extension of Model) and KSModel (with methods specific to KS
 // schema)
+
 
 public final class ModelUtil {
 
@@ -123,8 +124,8 @@ public final class ModelUtil {
                 return uri;
             }
         } else if (length == 3) {
-            final IRI uri = Statements.VALUE_FACTORY
-                    .createIRI("http://lexvo.org/id/iso639-3/" + code);
+            final IRI uri = Statements.VALUE_FACTORY.createIRI("http://lexvo.org/id/iso639-3/"
+                    + code);
             if (LANGUAGE_IRIS_TO_CODES.containsKey(uri)) {
                 return uri;
             }
@@ -177,8 +178,8 @@ public final class ModelUtil {
             final char c = string.charAt(i);
             if (c >= 'a' && c <= 'z' || c >= '?' && c <= '[' || c >= '&' && c <= ';' || c == '#'
                     || c == '$' || c == '!' || c == '=' || c == ']' || c == '_' || c == '~'
-                    || c >= 0xA0 && c <= 0xD7FF || c >= 0xF900 && c <= 0xFDCF
-                    || c >= 0xFDF0 && c <= 0xFFEF) {
+                    || c >= 0xA0 && c <= 0xD7FF || c >= 0xF900 && c <= 0xFDCF || c >= 0xFDF0
+                    && c <= 0xFFEF) {
                 builder.append(c);
             } else if (c == '%' && i < string.length() - 2
                     && Character.digit(string.charAt(i + 1), 16) >= 0

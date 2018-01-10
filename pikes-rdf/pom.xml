@@ -23,6 +23,12 @@
     <url>http://pikes.fbk.eu/pikes-rdf/</url>
 
     <dependencies>
+    	<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
         <dependency>
             <groupId>eu.fbk.pikes</groupId>
             <artifactId>pikes-naflib</artifactId>

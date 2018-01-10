@@ -72,9 +72,6 @@ import ixa.kaflib.Timex3;
 import ixa.kaflib.WF;
 
 import eu.fbk.dkm.pikes.naflib.Corpus;
-import eu.fbk.dkm.pikes.rdf.util.ModelUtil;
-import eu.fbk.dkm.pikes.rdf.util.OWLTime;
-import eu.fbk.dkm.pikes.rdf.util.ProcessorASNorm;
 import eu.fbk.dkm.pikes.resources.NAFFilter;
 import eu.fbk.dkm.pikes.resources.NAFUtils;
 import eu.fbk.dkm.pikes.resources.PropBank;

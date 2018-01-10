@@ -1,5 +1,21 @@
 package eu.fbk.dkm.pikes.rdf.naf;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.UncheckedIOException;
+import java.io.Writer;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.Callable;
+
+import javax.annotation.Nullable;
+
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.util.LatchedWriter;
@@ -7,39 +23,47 @@ import com.google.common.base.Charsets;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import com.google.common.collect.*;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 import com.google.common.html.HtmlEscapers;
-import eu.fbk.dkm.pikes.naflib.NafRenderUtils;
-import eu.fbk.dkm.pikes.naflib.NafRenderUtils.Markable;
-import eu.fbk.dkm.pikes.rdf.api.Renderer;
-import eu.fbk.dkm.pikes.rdf.util.ModelUtil;
-import eu.fbk.dkm.pikes.rdf.util.RDFGraphvizRenderer;
-import eu.fbk.dkm.pikes.rdf.vocab.KS;
-import eu.fbk.dkm.pikes.resources.NAFUtils;
-import eu.fbk.dkm.pikes.rdf.vocab.NIF;
-import eu.fbk.dkm.pikes.rdf.vocab.NWR;
-import eu.fbk.dkm.pikes.rdf.vocab.OWLTIME;
-import eu.fbk.dkm.pikes.rdf.vocab.SUMO;
-import eu.fbk.rdfpro.util.Hash;
-import eu.fbk.rdfpro.util.Namespaces;
-import eu.fbk.rdfpro.util.QuadModel;
-import eu.fbk.rdfpro.util.Statements;
-import ixa.kaflib.KAFDocument;
-import ixa.kaflib.Term;
-import org.eclipse.rdf4j.model.*;
+
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nullable;
-import java.io.*;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.Callable;
+import eu.fbk.dkm.pikes.naflib.NafRenderUtils;
+import eu.fbk.dkm.pikes.naflib.NafRenderUtils.Markable;
+import eu.fbk.dkm.pikes.rdf.util.RDFGraphvizRenderer;
+import eu.fbk.dkm.pikes.rdf.api.Annotation;
+import eu.fbk.dkm.pikes.rdf.api.Document;
+import eu.fbk.dkm.pikes.rdf.api.Renderer;
+import eu.fbk.dkm.pikes.rdf.util.ModelUtil;
+import eu.fbk.dkm.pikes.rdf.vocab.KS;
+import eu.fbk.dkm.pikes.rdf.vocab.NIF;
+import eu.fbk.dkm.pikes.rdf.vocab.NWR;
+import eu.fbk.dkm.pikes.rdf.vocab.OWLTIME;
+import eu.fbk.dkm.pikes.rdf.vocab.SUMO;
+import eu.fbk.dkm.pikes.resources.NAFUtils;
+import eu.fbk.rdfpro.util.Hash;
+import eu.fbk.rdfpro.util.Namespaces;
+import eu.fbk.rdfpro.util.QuadModel;
+import eu.fbk.rdfpro.util.Statements;
+
+import ixa.kaflib.KAFDocument;
+import ixa.kaflib.Term;
 
 public class NAFRenderer implements Renderer {
 
@@ -86,18 +110,16 @@ public class NAFRenderer implements Renderer {
     private final RDFGraphvizRenderer graphvizRenderer;
 
     private NAFRenderer(final Builder builder) {
-        this.colorMap = builder.colorMap == null ? DEFAULT_COLOR_MAP : ImmutableMap
-                .copyOf(builder.colorMap);
-        this.valueComparator = Ordering.from(Statements.valueComparator(Iterables.toArray(
-                builder.rankedNamespaces == null ? DEFAULT_RANKED_NAMESPACES
-                        : builder.rankedNamespaces, String.class)));
-        this.statementComparator = Ordering.from(Statements.statementComparator("spoc",
-                this.valueComparator));
-        this.graphvizRenderer = RDFGraphvizRenderer
-                .builder()
-                .withNodeNamespaces(
-                        builder.nodeNamespaces == null ? DEFAULT_NODE_NAMESPACES
-                                : builder.nodeNamespaces)
+        this.colorMap = builder.colorMap == null ? DEFAULT_COLOR_MAP
+                : ImmutableMap.copyOf(builder.colorMap);
+        this.valueComparator = Ordering
+                .from(Statements.valueComparator(Iterables.toArray(builder.rankedNamespaces == null
+                        ? DEFAULT_RANKED_NAMESPACES : builder.rankedNamespaces, String.class)));
+        this.statementComparator = Ordering
+                .from(Statements.statementComparator("spoc", this.valueComparator));
+        this.graphvizRenderer = RDFGraphvizRenderer.builder()
+                .withNodeNamespaces(builder.nodeNamespaces == null ? DEFAULT_NODE_NAMESPACES
+                        : builder.nodeNamespaces)
                 .withNodeTypes(builder.nodeTypes == null ? DEFAULT_NODE_TYPES : builder.nodeTypes)
                 .withValueComparator(this.valueComparator) //
                 .withColorMap(this.colorMap) //
@@ -108,46 +130,58 @@ public class NAFRenderer implements Renderer {
     }
 
     @Override
-    public void render(final Object document, final QuadModel model, final Appendable out)
-            throws IOException {
+    public void render(final Document document, final Appendable out,
+            final Map<String, String> options) {
 
         final long ts = System.currentTimeMillis();
-        final KAFDocument doc = (KAFDocument) document;
+
+        final QuadModel model = QuadModel.create(document.getModel());
+
+        NAFAnnotation na = null;
+        for (final Annotation a : document.getAnnotations()) {
+            if (a instanceof NAFAnnotation) {
+                na = (NAFAnnotation) a;
+                break;
+            }
+        }
+        if (na == null) {
+            throw new IllegalArgumentException("NAF not available for document " + document);
+        }
+        final KAFDocument naf = na.getNAF();
 
         final List<Map<String, Object>> sentencesModel = Lists.newArrayList();
-        for (int i = 1; i <= doc.getNumSentences(); ++i) {
+        for (int i = 1; i <= naf.getNumSentences(); ++i) {
             final int sentenceID = i;
             final Map<String, Object> sm = Maps.newHashMap();
             sm.put("id", i);
             sm.put("markup", (Callable<String>) () -> {
-                return renderText(new StringBuilder(), doc, doc.getTermsBySent(sentenceID), model)
+                return renderText(new StringBuilder(), naf, naf.getTermsBySent(sentenceID), model)
                         .toString();
             });
             sm.put("parsing", (Callable<String>) () -> {
-                return renderParsing(new StringBuilder(), doc, model, sentenceID).toString();
+                return renderParsing(new StringBuilder(), naf, model, sentenceID).toString();
             });
-            sm.put("graph",
-                    (Callable<String>) () -> {
-                        int begin = Integer.MAX_VALUE;
-                        int end = Integer.MIN_VALUE;
-                        for (final Term term : doc.getSentenceTerms(sentenceID)) {
-                            begin = Math.min(begin, NAFUtils.getBegin(term));
-                            end = Math.max(end, NAFUtils.getEnd(term));
-                        }
-                        final QuadModel sentenceModel = ModelUtil.getSubModel(model,
-                                ModelUtil.getMentions(model, begin, end));
-                        return renderGraph(new StringBuilder(), sentenceModel).toString();
+            sm.put("graph", (Callable<String>) () -> {
+                int begin = Integer.MAX_VALUE;
+                int end = Integer.MIN_VALUE;
+                for (final Term term : naf.getSentenceTerms(sentenceID)) {
+                    begin = Math.min(begin, NAFUtils.getBegin(term));
+                    end = Math.max(end, NAFUtils.getEnd(term));
+                }
+                final QuadModel sentenceModel = ModelUtil.getSubModel(model,
+                        ModelUtil.getMentions(model, begin, end));
+                return renderGraph(new StringBuilder(), sentenceModel).toString();
 
-                    });
+            });
             sentencesModel.add(sm);
         }
 
         final Map<String, Object> documentModel = Maps.newHashMap();
-        documentModel.put("title", doc.getPublic().uri);
+        documentModel.put("title", naf.getPublic().uri);
         documentModel.put("sentences", sentencesModel);
         documentModel.put("metadata", (Callable<String>) () -> {
             return renderProperties(new StringBuilder(), model, //
-                    Statements.VALUE_FACTORY.createIRI(doc.getPublic().uri), true).toString();
+                    Statements.VALUE_FACTORY.createIRI(naf.getPublic().uri), true).toString();
         });
         documentModel.put("mentions", (Callable<String>) () -> {
             return renderMentionsTable(new StringBuilder(), model).toString();
@@ -159,7 +193,7 @@ public class NAFRenderer implements Renderer {
             return renderGraph(new StringBuilder(), model).toString();
         });
         documentModel.put("naf", (Callable<String>) () -> {
-            return doc.toString();
+            return naf.toString();
         });
 
         documentModel.putAll(this.templateParameters);
@@ -169,17 +203,21 @@ public class NAFRenderer implements Renderer {
 
         final Mustache actualTemplate = this.template != null ? loadTemplate(this.template)
                 : this.template;
-        if (out instanceof Writer) {
-            Writer outWriter;
-            outWriter = actualTemplate.execute((Writer) out, documentModel);
-            if (outWriter instanceof LatchedWriter) {
-                ((LatchedWriter) outWriter).await();
-                outWriter.flush();
+        try {
+            if (out instanceof Writer) {
+                Writer outWriter;
+                outWriter = actualTemplate.execute((Writer) out, documentModel);
+                if (outWriter instanceof LatchedWriter) {
+                    ((LatchedWriter) outWriter).await();
+                    outWriter.flush();
+                }
+            } else {
+                final StringWriter writer = new StringWriter();
+                actualTemplate.execute(writer, documentModel).close();
+                out.append(writer.toString());
             }
-        } else {
-            final StringWriter writer = new StringWriter();
-            actualTemplate.execute(writer, documentModel).close();
-            out.append(writer.toString());
+        } catch (final IOException ex) {
+            throw new UncheckedIOException(ex);
         }
 
         if (LOGGER.isDebugEnabled()) {
@@ -232,8 +270,8 @@ public class NAFRenderer implements Renderer {
         }
 
         // Emit other properties
-        for (final IRI pred : this.valueComparator.sortedCopy(model.filter(node, null, null)
-                .predicates())) {
+        for (final IRI pred : this.valueComparator
+                .sortedCopy(model.filter(node, null, null).predicates())) {
             if (excludedProperties.contains(pred)) {
                 continue;
             }
@@ -242,8 +280,8 @@ public class NAFRenderer implements Renderer {
             out.append(":</td><td>");
             final List<Resource> nested = Lists.newArrayList();
             String separator = "";
-            for (final Value obj : this.valueComparator.sortedCopy(model.filter(node, pred, null)
-                    .objects())) {
+            for (final Value obj : this.valueComparator
+                    .sortedCopy(model.filter(node, pred, null).objects())) {
                 if (obj instanceof Literal || model.filter((Resource) obj, null, null).isEmpty()) {
                     out.append(separator);
                     renderObject(out, obj, model);
@@ -294,8 +332,8 @@ public class NAFRenderer implements Renderer {
                 renderObject(out, statement.getObject(), model);
                 out.append("</td><td>");
                 String separator = "";
-                for (final Resource mentionID : model.filter(statement.getContext(), KS.EXPRESSES,
-                        null).subjects()) {
+                for (final Resource mentionID : model
+                        .filter(statement.getContext(), KS.EXPRESSES, null).subjects()) {
                     final String extent = model.filter(mentionID, NIF.ANCHOR_OF, null)
                             .objectLiteral().stringValue();
                     out.append(separator);
@@ -319,14 +357,15 @@ public class NAFRenderer implements Renderer {
         out.append(shorten(NIF.ANCHOR_OF));
         out.append("</th><th width='11%' class='col-mt'>");
         out.append(shorten(RDF.TYPE));
-        out.append("</th><th width='18%' class='col-mo'>mention attributes</th><th width='11%' class='col-md'>");
+        out.append(
+                "</th><th width='18%' class='col-mo'>mention attributes</th><th width='11%' class='col-md'>");
         out.append(shorten(KS.DENOTES)).append("/").append(shorten(KS.IMPLIES));
         out.append("</th><th width='30%' class='col-me'>");
         out.append(shorten(KS.EXPRESSES));
         out.append("</th></tr>\n</thead>\n<tbody>\n");
 
-        for (final Resource mentionID : this.valueComparator.sortedCopy(ModelUtil
-                .getMentions(model))) {
+        for (final Resource mentionID : this.valueComparator
+                .sortedCopy(ModelUtil.getMentions(model))) {
             out.append("<tr><td>");
             renderObject(out, mentionID, model);
             out.append("</td><td>");
@@ -347,12 +386,12 @@ public class NAFRenderer implements Renderer {
                 renderProperties(out, mentionModel, mentionID, false);
             }
             out.append("</td><td>");
-            renderObject(out, Iterables.concat(
-                    model.filter(mentionID, KS.DENOTES, null).objects(),
+            renderObject(out, Iterables.concat(model.filter(mentionID, KS.DENOTES, null).objects(),
                     model.filter(mentionID, KS.IMPLIES, null).objects()), model);
             out.append("</td><td><ol>");
             for (final Value factID : model.filter(mentionID, KS.EXPRESSES, null).objects()) {
-                for (final Statement statement : model.filter(null, null, null, (Resource) factID)) {
+                for (final Statement statement : model.filter(null, null, null,
+                        (Resource) factID)) {
                     out.append("<li>");
                     renderObject(out, statement.getSubject(), model);
                     out.append(", ");
@@ -415,8 +454,8 @@ public class NAFRenderer implements Renderer {
         final List<Markable> markables = Lists.newArrayList();
         for (final Statement stmt : model.filter(null, KS.DENOTES, null)) {
             final Resource instance = (Resource) stmt.getObject();
-            final String color = select(colorMap,
-                    model.filter(instance, RDF.TYPE, null).objects(), null);
+            final String color = select(colorMap, model.filter(instance, RDF.TYPE, null).objects(),
+                    null);
             if (stmt.getSubject() instanceof IRI && color != null) {
                 final IRI mentionIRI = (IRI) stmt.getSubject();
                 final String name = mentionIRI.getLocalName();
@@ -430,8 +469,8 @@ public class NAFRenderer implements Renderer {
                         while (e < offsets.length && offsets[e] < end) {
                             ++e;
                         }
-                        markables.add(new Markable(ImmutableList.copyOf(terms.subList(s, e)),
-                                color));
+                        markables.add(
+                                new Markable(ImmutableList.copyOf(terms.subList(s, e)), color));
                     }
                 }
             }

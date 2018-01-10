@@ -1,4 +1,4 @@
-package eu.fbk.dkm.pikes.rdf.util;
+package eu.fbk.dkm.pikes.rdf;
 
 import java.util.Arrays;
 import java.util.Collections;
