@@ -1,7 +1,7 @@
 @prefix rdf:       <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:      <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl:       <http://www.w3.org/2002/07/owl#> .
-@prefix rr:        <http://dkm.fbk.eu/rdfpro-rules#> .
+@prefix rr:        <http://rdfpro.fbk.eu/ontologies/rules#> .
 @prefix nif:       <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
 @prefix kem:       <https://knowledgestore.fbk.eu/ontologies/kem/core#> .
 @prefix kemt:      <https://knowledgestore.fbk.eu/ontologies/kem/text#> .
@@ -50,10 +50,10 @@ pk: rr:prefix "pk" .
 
 :instance-creation-argument-nominalization a rr:Rule;
     rr:head """ ?a kem:subject ?if; kem:involves ?i; kem:substantiates ?g. ?m kem:refersTo ?i; kem:isAbout ?if.
-                GRAPH ?g { ?i a kem:Instance. ?if a kem:Instance, framebase:Frame """;
+                GRAPH ?g { ?i a kem:Instance. ?if a kem:Instance, framebase:Frame }""";
     rr:body """ ?m a kem:Mention; nif:anchorOf ?s; nif:annotation ?a.
                 ?a a kemt:Predicate; itsrdf:taClassRef [ a pk:ArgumentNominalization ] 
-                BIND (pk:mint(concat(?s, "_pred"), ?m) AS ?i) }
+                BIND (pk:mint(concat(?s, "_pred"), ?m) AS ?if)
                 BIND (pk:mint(?s, ?m) AS ?i)
                 BIND (pk:mint(?a) AS ?g) """.
 
@@ -121,14 +121,14 @@ pk: rr:prefix "pk" .
                 FILTER (?i1 != ?i2)
                 BIND (pk:mint(?a) AS ?g) """.
 
-:coreference-copular-verbs a rr:Rule;
-    rr:head """ ?a kem:substantiates ?g. GRAPH ?g { ?i1 owl:sameas ?i2 } """;
-    rr:body """ [] a kemt:PredicateArgumentStructure; kemt:argument ?aa1, ?aa2.
-                ?aa1 itsrdf:taPropRef ?r1; kem:subject ?i1.
-                ?aa2 itsrdf:taPropRef ?r2; kem:subject ?i2.
-                [] a pk:CopularVerb; pk:subjectRole ?r1; pk:complementRole ?r2.
-                FILTER EXISTS { ?aa2 ^nif:annotation/nif:annotation [ a kemt:Predicate, itsrdf:taClassRef [ a pk:ArgumentNominalization ] ] }
-                BIND (pk:mint(?a) AS ?g) """.
+#:coreference-copular-verbs a rr:Rule;
+#    rr:head """ ?a kem:substantiates ?g. GRAPH ?g { ?i1 owl:sameas ?i2 } """;
+#    rr:body """ [] a kemt:PredicateArgumentStructure; kemt:argument ?aa1, ?aa2.
+#                ?aa1 itsrdf:taPropRef ?r1; kem:subject ?i1.
+#                ?aa2 itsrdf:taPropRef ?r2; kem:subject ?i2.
+#                [] a pk:CopularVerb; pk:subjectRole ?r1; pk:complementRole ?r2.
+#                FILTER EXISTS { ?aa2 ^nif:annotation/nif:annotation [ a kemt:Predicate; itsrdf:taClassRef [ a pk:ArgumentNominalization ] ] }
+#                BIND (pk:mint(?a) AS ?g) """.
 
 
 ### COORDINATION ###
@@ -159,3 +159,8 @@ pk: rr:prefix "pk" .
     rr:body """ ?a1 kem:substantiates ?g1. GRAPH ?g1 { ?ig ?p ?i FILTER (?p != pk:include) }
                 ?a2 kem:substantiates ?g2. GRAPH ?g2 { ?ig pk:include ?im }
                 BIND (pk:mint(?g1, ?g2) as ?g) """.
+
+
+:fakeRule a rr:Rule;
+    rr:head """ ?v1 rdf:type kemt:Marco .""";
+    rr:body """ ?v1 rdf:type kemt:Predicate .""".
