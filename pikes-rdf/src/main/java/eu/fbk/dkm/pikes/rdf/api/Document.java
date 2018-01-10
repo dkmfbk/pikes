@@ -292,11 +292,11 @@ public class Document implements Cloneable, Comparable<Document>, Serializable {
             return this.url.toString() + " " + this.extensions;
         }
 
-        public static Location create(final URL baseUrl, final Iterable<String> extensions) {
+        public static Location from(final URL baseUrl, final Iterable<String> extensions) {
             return new Location(baseUrl, extensions, null);
         }
 
-        public static Location create(final Path basePath, final Iterable<String> extensions) {
+        public static Location from(final Path basePath, final Iterable<String> extensions) {
             try {
                 return new Location(basePath.toUri().toURL(), extensions, basePath);
             } catch (final MalformedURLException ex) {
@@ -304,7 +304,7 @@ public class Document implements Cloneable, Comparable<Document>, Serializable {
             }
         }
 
-        public static Location find(final Path path) {
+        public static Location from(final Path path) {
             try {
                 final String base = split(path)[0];
                 final List<String> extensions = Lists.newArrayList();
@@ -314,13 +314,13 @@ public class Document implements Cloneable, Comparable<Document>, Serializable {
                         extensions.add(parts[1]);
                     }
                 });
-                return create(path, extensions);
+                return from(path, extensions);
             } catch (final IOException ex) {
                 throw new UncheckedIOException(ex);
             }
         }
 
-        public static Stream<Location> findAll(final Path folder, final boolean recursive) {
+        public static Stream<Location> list(final Path folder, final boolean recursive) {
             try {
                 Stream<Location> s = null;
                 final Multimap<String, String> files = HashMultimap.create();
@@ -332,12 +332,12 @@ public class Document implements Cloneable, Comparable<Document>, Serializable {
                         final int c = Spliterator.DISTINCT | Spliterator.IMMUTABLE
                                 | Spliterator.NONNULL | Spliterator.ORDERED;
                         final Stream<Location> childStream = StreamSupport
-                                .stream(() -> findAll(path, recursive).spliterator(), c, false);
+                                .stream(() -> list(path, recursive).spliterator(), c, false);
                         s = s == null ? childStream : Stream.concat(s, childStream);
                     }
                 }
                 return Stream.concat(files.asMap().entrySet().stream()
-                        .map(e -> create(Paths.get(e.getKey()), e.getValue())), s);
+                        .map(e -> from(Paths.get(e.getKey()), e.getValue())), s);
             } catch (final IOException ex) {
                 throw new UncheckedIOException(ex);
             }

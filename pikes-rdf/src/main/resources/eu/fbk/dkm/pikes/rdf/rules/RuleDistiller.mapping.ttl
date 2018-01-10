@@ -1,0 +1,12 @@
+@prefix rdf:       <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:      <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:       <http://www.w3.org/2002/07/owl#> .
+@prefix itsrdf:    <http://www.w3.org/2005/11/its/rdf#> .
+@prefix framebase: <http://framebase.org/ns/> .
+@prefix ontolex:   <http://www.w3.org/ns/lemon/ontolex#> .
+@prefix pmo:       <http://premon.fbk.eu/ontology/core#> .
+@prefix foaf:      <http://xmlns.com/foaf/0.1/> .
+@prefix pk:        <http://pikes.fbk.eu/mappings#> .
+@prefix :          <http://pikes.fbk.eu/rules#> .
+
+# TODO: fill this file
