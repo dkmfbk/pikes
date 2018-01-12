@@ -1,0 +1,4586 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix itsrdf: <http://www.w3.org/2005/11/its/rdf#> .
+@prefix framebase: <http://framebase.org/ns/> .
+@prefix ontolex: <http://www.w3.org/ns/lemon/ontolex#> .
+@prefix pmo: <http://premon.fbk.eu/ontology/core#> .
+@prefix : <http://premon.fbk.eu/ontology/all#> .
+@prefix nif: <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix lime: <http://www.w3.org/ns/lemon/lime#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix pmofn: <http://premon.fbk.eu/ontology/fn#> .
+@prefix pmonb: <http://premon.fbk.eu/ontology/nb#> .
+@prefix pmopb: <http://premon.fbk.eu/ontology/pb#> .
+@prefix pmovn: <http://premon.fbk.eu/ontology/vn#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix pk: <http://pikes.fbk.eu/mappings#> .
+@prefix ns1: <http://pikes.fbk.eu/rules#> .
+#  TODO: fill this file
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix fise: <http://fise.iks-project.eu/ontology/> .
+@prefix lvont: <http://lexvo.org/ontology#> .
+@prefix marl: <http://purl.org/marl/ns#> .
+@prefix oa: <http://www.w3.org/ns/oa#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .
+# ################################################################
+# 
+#     Annotation properties
+# 
+# ################################################################
+# ##  http://purl.org/dc/terms/creator
+# ##  http://purl.org/dc/terms/description
+# ##  http://purl.org/dc/terms/publisher
+# ##  http://purl.org/dc/terms/rights
+# ##  http://purl.org/dc/terms/license
+# ##  http://purl.org/dc/terms/title
+# ##  http://purl.org/vocab/vann/preferredNamespacePrefix
+# ##  http://purl.org/vocab/vann/preferredNamespaceUri
+# ################################################################
+# 
+#     Object Properties
+# 
+# ################################################################
+# ##  http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#annotation
+# ##  http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#referenceContext
+@prefix cc: <http://creativecommons.org/ns#> .
+# ##  http://premon.fbk.eu/ontology/core#classRel
+@prefix owl2xml: <http://www.w3.org/2006/12/owl2-xml#> .
+@prefix semiotics: <http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#> .
+# ##  http://premon.fbk.eu/ontology/core#evokedConcept
+# ##  http://premon.fbk.eu/ontology/core#evokingEntry
+# ##  http://premon.fbk.eu/ontology/core#first
+# ##  http://premon.fbk.eu/ontology/core#item
+# ##  http://premon.fbk.eu/ontology/core#next
+# ##  http://premon.fbk.eu/ontology/core#roleRel
+# ##  http://premon.fbk.eu/ontology/core#semRole
+# ##  http://premon.fbk.eu/ontology/core#semRoleMapping
+# ##  http://premon.fbk.eu/ontology/core#valueObj
+# ##  http://www.w3.org/2004/02/skos/core#broader
+# ##  http://www.w3.org/ns/lemon/ontolex#evokes
+# ##  http://premon.fbk.eu/ontology/core#ontologyMatch
+# ################################################################
+# 
+#     Data properties
+# 
+# ################################################################
+# ##  http://premon.fbk.eu/ontology/core#abbreviation
+# ##  http://premon.fbk.eu/ontology/core#valueDt
+# ################################################################
+# 
+#     Classes
+# 
+# ################################################################
+# ##  http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Annotation
+# ##  http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Context
+# ##  http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#RFC5147String
+# ##  http://premon.fbk.eu/ontology/core#AnnotationSet
+# ##  http://premon.fbk.eu/ontology/core#Conceptualization
+# ##  http://premon.fbk.eu/ontology/core#ConceptualizationMapping
+# ##  http://premon.fbk.eu/ontology/core#Example
+# ##  http://premon.fbk.eu/ontology/core#Mapping
+# ##  http://premon.fbk.eu/ontology/core#Markable
+# ##  http://premon.fbk.eu/ontology/core#SemanticClass
+# ##  http://premon.fbk.eu/ontology/core#SemanticClassMapping
+# ##  http://premon.fbk.eu/ontology/core#SemanticRole
+# ##  http://premon.fbk.eu/ontology/core#SemanticRoleMapping
+
+pmo:SemanticClassMapping owl:sameAs pmo:SemanticClassMapping .
+
+ontolex:phoneticRep rdfs:domain _:node1c3h5bnvlx53 .
+
+nif:Title a owl:Class .
+
+ontolex:concept rdfs:label "concept"@en .
+
+ontolex:sense rdfs:label "acepción"@es .
+
+_:node1c3h5bnvlx20 owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger .
+
+ontolex:reference rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+nif:hasContext rdfs:subPropertyOf nif:hasContext .
+
+pmo:Example a owl:Class .
+
+nif:broaderContext rdfs:range nif:String .
+
+ontolex:usage rdfs:domain semiotics:Meaning .
+
+nif:isString rdfs:domain _:node1c3h5bnvlx35 .
+
+owl:onDataRange owl:sameAs owl:onDataRange .
+
+<http://premon.fbk.eu/ontology/core> dcterms:creator "Marco Rospocher <https://dkm.fbk.eu/rospocher>" .
+
+ontolex:isEvokedBy rdfs:comment "The inverse relation to evokes."@en .
+
+<https://sites.google.com/site/francescafrontini/> owl:sameAs <https://sites.google.com/site/francescafrontini/> .
+
+ontolex:MultiWordExpression rdfs:label "Mehrwortausdruck"@de .
+
+owl:Thing a owl:Class .
+
+ontolex:isConceptOf rdfs:label "is konsep van"@af .
+
+nif:dependency rdfs:range _:node1c3h5bnvlx36 .
+
+_:node1c3h5bnvlx1 <sys:chain2prop1> pmo:item .
+
+owl:topObjectProperty owl:equivalentProperty owl:topObjectProperty .
+
+<http://premon.fbk.eu/ontology/core> dcterms:license <http://creativecommons.org/licenses/by-sa/4.0/> .
+
+xsd:short owl:sameAs xsd:short .
+
+rdf:langString owl:sameAs rdf:langString .
+
+pmo:valueObj rdfs:comment "generic property to associate an object value to an instance"@en .
+
+dcterms:publisher owl:sameAs dcterms:publisher .
+
+pmo:roleRel rdfs:domain skos:Concept .
+
+ontolex:isConceptOf rdfs:label "is concept van"@nl .
+
+pmo:first a owl:ObjectProperty .
+
+nif:Structure rdfs:comment """A structure is a more or less arbitrary label for a partitioning of a string. We do not follow a strict approach for what a word, phrase, sentence, title, paragraph is. These labels enable the definition processes for tool chains, e.g. tool analyses nif:Paragraph and calculates term frequency. 
+    
+    This is an abstract class and should not be serialized. 
+    
+    Changelog
+    0.1.1 not to be serialized comment
+    """ .
+
+ontolex:sense rdfs:label "senso"@it .
+
+nif:tail rdfs:label "tail"@en .
+
+_:node1c3h5bnvlx22 owl:sameAs _:node1c3h5bnvlx22 .
+
+ontolex:isSenseOf rdfs:range _:node1c3h5bnvlx55 .
+
+dc:title owl:sameAs dc:title .
+
+pmo:next owl:sameAs pmo:next .
+
+xsd:NCName a rdfs:Datatype .
+
+nif:nextSentenceTrans owl:versionInfo "0.1.1" .
+
+nif:ContextHashBasedString rdfs:comment " cf. https://www.google.de/search?q=Linked-Data+Aware+URI+Schemes+for+Referencing+Text" .
+
+nif:confidence rdfs:domain _:node1c3h5bnvlx9 .
+
+nif:lastWord rdfs:domain nif:Sentence .
+
+nif:dependencyTrans rdfs:subPropertyOf nif:dependencyTrans .
+
+ontolex:writtenRep rdfs:domain _:node1c3h5bnvlx53 .
+
+ontolex:concept rdfs:label "Konzept"@de .
+
+nif:subString owl:sameAs nif:subString .
+
+ontolex:sense rdfs:domain semiotics:Expression .
+
+nif:previousWordTrans rdfs:domain nif:Structure .
+
+_:node1c3h5bnvlx15 owl:onProperty pmo:evokingEntry .
+
+owl:someValuesFrom owl:sameAs owl:someValuesFrom .
+
+ontolex:lexicalForm a owl:ObjectProperty .
+
+ontolex:morphologicalPattern rdfs:domain _:node1c3h5bnvlx55 .
+
+nif:URIScheme a owl:Class .
+
+nif:lang owl:versionInfo "0.0.0" .
+
+_:node1c3h5bnvlx23 rdfs:subClassOf _:node1c3h5bnvlx16 .
+
+dcterms:publisher a owl:AnnotationProperty .
+
+nif:nextSentence rdfs:domain nif:Sentence .
+
+ontolex:isReferenceOf rdfs:label "is referentie van"@nl .
+
+nif:nextSentence rdfs:subPropertyOf nif:nextSentence .
+
+xsd:language owl:sameAs xsd:language .
+
+nif:sentimentValue owl:equivalentProperty nif:sentimentValue .
+
+_:node1c3h5bnvlx42 owl:allValuesFrom nif:Context .
+
+nif:contextAsLiteral rdfs:comment """
+      The string that the nif:anchorOf is embedded in. FILTER ( strlen (nif:referenceContext [ nif:isString ] ) ) 
+    """@en .
+
+nif:beginIndex rdfs:range xsd:nonNegativeInteger .
+
+ontolex:morphologicalPattern rdfs:label "model morfologic"@ro .
+
+rdf:PlainLiteral owl:sameAs rdf:PlainLiteral .
+
+_:node1c3h5bnvlx49 <sys:expandUnion> rdf:nil .
+
+rdf:type owl:sameAs rdf:type .
+
+_:node1c3h5bnvlx6 <sys:chain2prop2> pmo:evokedConcept .
+
+nif:confidence rdfs:label "keyword" .
+
+nif:Sentence rdfs:comment """
+    A sentence.
+    Changelog:
+    * 0.1.1 fixed spelling, added language tag
+    """@en .
+
+marl:extractedFrom owl:sameAs marl:extractedFrom .
+
+_:node1c3h5bnvlx25 owl:onProperty pmo:item .
+
+_:node1c3h5bnvlx20 owl:onProperty pmo:item .
+
+ontolex:denotes rdfs:domain ontolex:LexicalEntry .
+
+nif:posTag rdfs:domain _:node1c3h5bnvlx36 .
+
+pmo:classRel rdfs:range ontolex:LexicalConcept .
+
+nif:previousSentenceTrans rdfs:range nif:Structure .
+
+nif:predLang rdfs:range lvont:Language .
+
+_:node1c3h5bnvlx7 owl:inverseOf pmo:evokingEntry .
+
+ontolex:morphologicalPattern rdfs:label "morphologisches Muster"@de .
+
+owl:equivalentClass owl:sameAs owl:equivalentClass .
+
+nif:previousWordTrans rdfs:range nif:String .
+
+nif:inter rdfs:subPropertyOf nif:inter .
+
+pmo:abbreviation rdfs:subPropertyOf pmo:abbreviation .
+
+nif:dependencyRelationType owl:equivalentProperty nif:dependencyRelationType .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> owl:versionInfo "Versioning done on resource level. See https://github.com/NLP2RDF/ontologies/blob/master/nif-core/nif-core.ttl" .
+
+ontolex:Word rdfs:label "woord"@af .
+
+pmo:roleRel rdfs:subPropertyOf pmo:roleRel .
+
+_:node1c3h5bnvlx1 owl:sameAs _:node1c3h5bnvlx1 .
+
+_:node1c3h5bnvlx50 owl:sameAs _:node1c3h5bnvlx50 .
+
+pmo:semRoleMapping a owl:ObjectProperty .
+
+nif:referenceContext rdfs:range nif:Context .
+
+_:node1c3h5bnvlx16 rdfs:subClassOf _:node1c3h5bnvlx21 .
+
+<http://john.mccr.ae/> owl:sameAs <http://john.mccr.ae/> .
+
+pmo:Conceptualization a owl:Class .
+
+nif:CString a owl:Class .
+
+nif:firstWord rdfs:range _:node1c3h5bnvlx36 .
+
+ontolex:writtenRep rdfs:label "representação escrita"@pt .
+
+ontolex:Word a owl:Class .
+
+ontolex:morphologicalPattern rdfs:label "patrón morfológico"@es .
+
+pmo:item rdfs:comment "first, item, next are used to model set-like construct"@en .
+
+ontolex:reference a owl:FunctionalProperty .
+
+nif:predLang rdfs:subPropertyOf nif:predLang .
+
+pmo:ConceptualizationMapping a owl:Class .
+
+ontolex:isSenseOf owl:equivalentProperty ontolex:isSenseOf .
+
+nif:OffsetBasedString a owl:Class .
+
+ontolex:Word rdfs:subClassOf _:node1c3h5bnvlx55 .
+
+ontolex:isConceptOf rdfs:subPropertyOf ontolex:isConceptOf .
+
+nif:posTag rdfs:label "Part of speech tag"@en .
+
+ontolex:sense rdfs:subPropertyOf ontolex:sense .
+
+nif:previousSentenceTrans rdfs:domain _:node1c3h5bnvlx36 .
+
+nif:previousWord owl:sameAs nif:previousWord .
+
+pmo:item owl:equivalentProperty pmo:item .
+
+nif:stem rdfs:subPropertyOf nif:stem .
+
+nif:endIndex rdfs:domain nif:String .
+
+nif:wasConvertedFrom owl:equivalentProperty nif:wasConvertedFrom .
+
+nif:RFC5147String rdfs:subClassOf _:node1c3h5bnvlx13 .
+
+ontolex:otherForm rdfs:domain _:node1c3h5bnvlx56 .
+
+nif:inter rdfs:range _:node1c3h5bnvlx36 .
+
+marl:Opinion owl:sameAs marl:Opinion .
+
+<http://www.w3.org/ns/lemon/ontolex> dc:contributor <http://art.uniroma2.it/stellato/> .
+
+ontolex:morphologicalPattern rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+pmo:Conceptualization rdfs:subClassOf skos:Concept .
+
+nif:sentimentValue rdfs:domain nif:String .
+
+nif:dependency rdfs:comment """
+		A dependency relation pointing from gov to dep.
+		Changelog: 
+		* 0.1.0 initial commit of property \"dependency\"
+		* 0.1.1 made the property subproperty of dependencyTrans
+    """@en .
+
+<sys:expandUnion> owl:sameAs <sys:expandUnion> .
+
+_:node1c3h5bnvlx38 rdf:first ontolex:reference .
+
+ontolex:isLexicalizedSenseOf a owl:ObjectProperty .
+
+pmo:Markable rdfs:subClassOf _:node1c3h5bnvlx28 .
+
+pmo:semRoleMapping rdfs:range _:node1c3h5bnvlx20 .
+
+owl:Nothing a owl:Class .
+
+nif:sentimentValue rdfs:comment "Between -1 negative and 1 positive "@en .
+
+ontolex:LexicalEntry a owl:Class .
+
+_:node1c3h5bnvlx27 owl:allValuesFrom pmo:SemanticRole .
+
+nif:CStringInst rdfs:subClassOf _:node1c3h5bnvlx18 .
+
+owl:Ontology owl:sameAs owl:Ontology .
+
+xsd:dateTime owl:sameAs xsd:dateTime .
+
+pmo:classRel owl:sameAs pmo:classRel .
+
+ontolex:LexicalEntry rdfs:subClassOf _:node1c3h5bnvlx55 .
+
+nif:head rdfs:domain nif:String .
+
+nif:previousWordTrans rdfs:range nif:Word .
+
+<http://www.paulbuitelaar.net/> owl:sameAs <http://www.paulbuitelaar.net/> .
+
+xsd:decimal a rdfs:Datatype .
+
+nif:hasContext a owl:ObjectProperty .
+
+_:node1c3h5bnvlx14 owl:sameAs _:node1c3h5bnvlx14 .
+
+_:node1c3h5bnvlx43 <sys:chain2prop1> ontolex:sense .
+
+nif:Phrase rdfs:subClassOf nif:String .
+
+<http://premon.fbk.eu/ontology/core> dcterms:modified "2017-05-01"^^xsd:date .
+
+_:node1c3h5bnvlx12 owl:onProperty pmo:item .
+
+_:node1c3h5bnvlx17 owl:allValuesFrom pmo:Markable .
+
+nif:isString rdfs:domain _:node1c3h5bnvlx31 .
+
+ontolex:Form rdfs:label "forma"@es , "forma"@it .
+
+pmo:Mapping rdfs:label "Mapping"@en .
+
+pmo:ontologyMatch owl:sameAs pmo:ontologyMatch .
+
+ontolex:sense rdfs:range _:node1c3h5bnvlx58 .
+
+xsd:Name owl:sameAs xsd:Name .
+
+ontolex:concept rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+_:node1c3h5bnvlx55 owl:sameAs _:node1c3h5bnvlx55 .
+
+owl:priorVersion owl:sameAs owl:priorVersion .
+
+ontolex:evokes rdfs:label "evoca"@pt .
+
+pmo:valueDt rdfs:comment "generic property to associate an data value to an instance"@en .
+
+pmo:Markable owl:sameAs pmo:Markable .
+
+_:node1c3h5bnvlx24 owl:sameAs _:node1c3h5bnvlx24 .
+
+ontolex:evokes rdfs:domain semiotics:Expression .
+
+nif:topic owl:versionInfo "0.0.1" .
+
+_:node1c3h5bnvlx47 rdf:rest rdf:nil .
+
+ontolex:LexicalConcept rdfs:label "lexikaliskt begrepp"@sv .
+
+ontolex:reference a owl:ObjectProperty .
+
+ontolex:isConceptOf rdfs:label "é conceito de"@pt .
+
+nif:before rdfs:domain _:node1c3h5bnvlx36 .
+
+nif:literalAnnotation rdfs:subPropertyOf nif:literalAnnotation .
+
+nif:predLang owl:versionInfo "0.0.0" .
+
+pmo:Mapping a owl:Class .
+
+rdf:PlainLiteral a rdfs:Datatype .
+
+ontolex:denotes owl:propertyChainAxiom _:node1c3h5bnvlx37 .
+
+nif:word rdfs:range nif:Structure .
+
+nif:beginIndex rdfs:subPropertyOf nif:beginIndex .
+
+ontolex:concept rdfs:label "konsep"@af .
+
+ontolex:evokes rdfs:subPropertyOf ontolex:evokes .
+
+pmo:valueObj a owl:ObjectProperty .
+
+nif:contextAsLiteral rdfs:domain _:node1c3h5bnvlx36 .
+
+pmo:roleRel a owl:ObjectProperty .
+
+nif:Paragraph rdfs:subClassOf _:node1c3h5bnvlx36 .
+
+nif:category rdfs:label "category" .
+
+_:node1c3h5bnvlx41 rdf:rest rdf:nil .
+
+<http://www.w3.org/ns/lemon/ontolex> cc:license <https://creativecommons.org/publicdomain/zero/1.0/> .
+
+owl:Class owl:sameAs owl:Class .
+
+pmo:semRoleMapping rdfs:range pmo:Mapping .
+
+nif:lemma rdfs:domain _:node1c3h5bnvlx36 .
+
+nif:superStringTrans rdfs:range _:node1c3h5bnvlx36 .
+
+ontolex:Word owl:sameAs ontolex:Word .
+
+ontolex:LexicalEntry rdfs:label "lexikoningång"@sv .
+
+nif:Context owl:sameAs nif:Context .
+
+ontolex:Word rdfs:label "ord"@sv .
+
+ontolex:isSenseOf rdfs:comment "The property isSenseOf is the inverse property of sense."@en .
+
+ontolex:canonicalForm rdfs:label "kanonisk form "@sv .
+
+_:node1c3h5bnvlx46 owl:sameAs _:node1c3h5bnvlx46 .
+
+_:node1c3h5bnvlx31 owl:hasSelf "true"^^xsd:boolean .
+
+nif:word rdfs:domain _:node1c3h5bnvlx36 .
+
+pmo:SemanticRoleMapping owl:sameAs pmo:SemanticRoleMapping .
+
+_:node1c3h5bnvlx37 rdf:rest _:node1c3h5bnvlx38 .
+
+nif:taMsClassRef rdfs:label "most specific class reference"@en .
+
+ontolex:evokes rdfs:label "evoca"@es .
+
+owl:priorVersion a owl:AnnotationProperty .
+
+nif:nextWord owl:equivalentProperty nif:nextWord .
+
+nif:superString rdfs:label "super String"@en .
+
+pmo:Example rdfs:label "Example"@en .
+
+pmo:abbreviation a owl:DatatypeProperty .
+
+pmo:SemanticRole rdfs:comment """SemanticRoles tepresent the roles the arguments of a SemanticClass can play.
+
+Semantic roles are defined locally to semantic classes, so VN agent is represented as multiple semantic roles, one for each verb class it occurs in, and with each semantic role linked to its specific selectional restrictions (if any)."""@en .
+
+nif:hasContext owl:versionInfo "0.2.0" .
+
+pmo:classRel rdfs:domain semiotics:Meaning .
+
+ontolex:concept rdfs:comment "The 'concept' property relates an ontological entity to a lexical concept that represents the corresponding meaning."@en .
+
+ontolex:Affix a owl:Class .
+
+xsd:token owl:sameAs xsd:token .
+
+_:node1c3h5bnvlx6 owl:sameAs _:node1c3h5bnvlx6 .
+
+nif:isString rdfs:domain _:node1c3h5bnvlx36 .
+
+nif:word owl:sameAs nif:word .
+
+nif:anchorOf rdfs:label "anchor of"@en .
+
+nif:RFC5147String owl:versionInfo "1.1.0" .
+
+ontolex:morphologicalPattern rdfs:label "morphological pattern"@en .
+
+nif:dependency owl:equivalentProperty nif:dependency .
+
+_:node1c3h5bnvlx21 owl:unionOf _:node1c3h5bnvlx22 .
+
+ontolex:Affix rdfs:subClassOf _:node1c3h5bnvlx55 .
+
+pmo:valueObj rdfs:subPropertyOf pmo:valueObj .
+
+<http://premon.fbk.eu/ontology/core> dcterms:title "Predicate Model for Ontologies (PreMOn) - Core ontology module"@en .
+
+ontolex:Form rdfs:label "vorm"@nl .
+
+ontolex:LexicalEntry rdfs:label "leksikale inskrywing"@af .
+
+nif:subStringTrans rdfs:range _:node1c3h5bnvlx36 .
+
+nif:topic rdfs:range nif:Annotation .
+
+nif:superStringTrans owl:equivalentProperty nif:superStringTrans .
+
+pmo:evokingEntry rdfs:domain skos:Concept .
+
+_:node1c3h5bnvlx35 owl:sameAs _:node1c3h5bnvlx35 .
+
+nif:broaderContext a owl:ObjectProperty .
+
+ontolex:canonicalForm rdfs:domain ontolex:LexicalEntry .
+
+nif:oliaConf rdfs:subPropertyOf nif:oliaConf .
+
+pmo:semRoleMapping owl:sameAs pmo:semRoleMapping .
+
+nif:posTag owl:sameAs nif:posTag .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> vann:preferredNamespacePrefix "nif" .
+
+ontolex:denotes rdfs:subPropertyOf semiotics:denotes .
+
+pmo:next rdfs:comment "first, item, next are used to model set-like construct"@en .
+
+nif:subString rdfs:domain _:node1c3h5bnvlx36 .
+
+nif:lang owl:equivalentProperty nif:lang .
+
+ontolex:canonicalForm rdfs:range _:node1c3h5bnvlx53 .
+
+ontolex:isDenotedBy rdfs:label "is denoted by"@en .
+
+nif:previousSentence rdfs:subPropertyOf nif:previousSentence .
+
+nif:sourceUrl a owl:ObjectProperty .
+
+_:node1c3h5bnvlx55 owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger .
+
+nif:opinion owl:equivalentProperty nif:opinion .
+
+<http://www.w3.org/ns/lemon/ontolex> dc:description "A model for the representation of lexical information relative to ontologies. Core module."@en .
+
+nif:previousWordTrans a owl:TransitiveProperty .
+
+ontolex:isReferenceOf rdfs:subPropertyOf ontolex:isReferenceOf .
+
+nif:narrowerContext rdfs:domain nif:Context .
+
+_:node1c3h5bnvlx37 owl:sameAs _:node1c3h5bnvlx37 .
+
+nif:anchorOf rdfs:comment "The string, which the URI is representing as an RDF Literal. Some use cases require this property, as it is necessary for certain sparql queries. " .
+
+ontolex:morphologicalPattern a owl:ObjectProperty .
+
+pmo:evokedConcept rdfs:domain _:node1c3h5bnvlx15 .
+
+dcterms:title a owl:AnnotationProperty .
+
+nif:anchorOf a owl:DatatypeProperty .
+
+ontolex:writtenRep rdfs:label "geskrewe voorstelling"@af .
+
+_:node1c3h5bnvlx8 rdf:first pmo:evokedConcept .
+
+ontolex:isEvokedBy rdfs:range semiotics:Expression .
+
+nif:sentence rdfs:range nif:Structure .
+
+pmo:SemanticRoleMapping a owl:Class .
+
+ontolex:LexicalConcept rdfs:label "leksikale konsep"@af .
+
+nif:oliaCategory rdfs:comment """This property links a string URI to classes of the OLiA Reference model. It provides a direct link for querying, thus it is a redundant optimization. 
+    Changelog:
+    0.1.1 - added subproperty of nif:classAnnotation as per http://svn.aksw.org/papers/2012/PeoplesWeb/public_preprint.pdf‎ page 21 
+    0.1.2 - removed domain axiom for annotationproperty
+    0.1.3 - improved documentation
+    """@en .
+
+nif:Phrase rdfs:comment """A nif:Phrase can be a nif:String, that is a chunk of several words or a word itself (e.g. a NounPhrase as a Named Entity). The term is underspecified and can be compatible with many defintitions of phrase. Please subClass it to specify the meaning (e.g. for Chunking or Phrase Structure Grammar). Example: ((My dog)(also)(likes)(eating (sausage))) 
+    Changelog:
+    * 0.1.1 fixed spelling
+    """ .
+
+_:node1c3h5bnvlx18 owl:cardinality "1"^^xsd:nonNegativeInteger .
+
+ontolex:writtenRep rdfs:label "skriven form "@sv .
+
+xsd:unsignedLong a rdfs:Datatype .
+
+nif:previousWordTrans a owl:ObjectProperty .
+
+nif:dependencyRelationType rdfs:domain _:node1c3h5bnvlx36 .
+
+ontolex:canonicalForm rdfs:subPropertyOf ontolex:lexicalForm .
+
+_:node1c3h5bnvlx16 rdfs:subClassOf _:node1c3h5bnvlx23 .
+
+nif:classAnnotation rdfs:label "classAnnotation"@en .
+
+ontolex:isDenotedBy owl:equivalentProperty ontolex:isDenotedBy .
+
+pmo:roleRel rdfs:label "semantic role relation"@en .
+
+ontolex:concept rdfs:label "concept"@fr .
+
+nif:sentence rdfs:domain _:node1c3h5bnvlx36 .
+
+ontolex:isSenseOf rdfs:domain _:node1c3h5bnvlx58 .
+
+owl:inverseOf owl:sameAs owl:inverseOf .
+
+_:node1c3h5bnvlx39 <sys:keyNrest> rdf:nil .
+
+<http://www.w3.org/ns/lemon/ontolex> dc:contributor <http://www.oeg-upm.net/index.php/teachers/53-lupe> .
+
+nif:NormalizedCollectionOccurrence a owl:Class .
+
+nif:ContextHashBasedString rdfs:label "Context Hash Based String"@en .
+
+_:node1c3h5bnvlx39 rdf:first nif:referenceContext .
+
+nif:dependencyRelationType rdfs:label "dependency relation type" .
+
+ontolex:lexicalizedSense rdfs:comment "The 'lexicalized sense' property relates a lexical concept to a corresponding lexical sense that lexicalizes the concept."@en .
+
+_:node1c3h5bnvlx31 a owl:Restriction .
+
+_:node1c3h5bnvlx27 rdfs:subClassOf _:node1c3h5bnvlx21 .
+
+pmo:Markable rdfs:subClassOf _:node1c3h5bnvlx13 .
+
+ontolex:otherForm rdfs:label "altă formă"@ro .
+
+nif:nextWordTrans owl:sameAs nif:nextWordTrans .
+
+nif:Word rdfs:subClassOf nif:String .
+
+ontolex:lexicalizedSense rdfs:label "senso lessicalizzato"@it .
+
+nif:anchorOf rdfs:subPropertyOf nif:anchorOf .
+
+ontolex:Form rdfs:comment "A form represents one grammatical realization of a lexical entry."@en .
+
+nif:stem rdfs:range xsd:string .
+
+nif:annotation owl:sameAs nif:annotation .
+
+ontolex:MultiWordExpression rdfs:subClassOf ontolex:LexicalEntry .
+
+nif:Title rdfs:subClassOf nif:String .
+
+_:node1c3h5bnvlx41 owl:sameAs _:node1c3h5bnvlx41 .
+
+_:node1c3h5bnvlx13 a owl:Restriction .
+
+nif:previousSentenceTrans rdfs:subPropertyOf nif:previousSentenceTrans .
+
+xsd:double owl:sameAs xsd:double .
+
+_:node1c3h5bnvlx39 <sys:keyNprop1> nif:referenceContext .
+
+ontolex:representation rdfs:range rdf:langString .
+
+ontolex:ConceptSet a owl:Class .
+
+nif:referenceContext rdfs:subPropertyOf nif:referenceContext .
+
+ontolex:otherForm rdfs:label "altra forma"@it .
+
+ontolex:LexicalEntry rdfs:label "entrée lexicale"@fr .
+
+pmo:Example rdfs:subClassOf nif:String .
+
+ontolex:Word rdfs:label "palabra"@es .
+
+pmo:semRole rdfs:domain pmo:SemanticClass .
+
+nif:subStringTrans owl:sameAs nif:subStringTrans .
+
+ontolex:lexicalForm rdfs:domain _:node1c3h5bnvlx45 .
+
+nif:oliaConf a owl:DatatypeProperty .
+
+xsd:long a rdfs:Datatype .
+
+ontolex:sense rdfs:range _:node1c3h5bnvlx57 .
+
+_:node1c3h5bnvlx13 owl:sameAs _:node1c3h5bnvlx13 .
+
+nif:broaderContext rdfs:domain nif:String .
+
+nif:wasConvertedFrom owl:versionInfo "0.1.0" .
+
+ontolex:concept a owl:ObjectProperty .
+
+nif:after rdfs:domain nif:String .
+
+nif:OffsetBasedString rdfs:subClassOf nif:CString .
+
+ontolex:evokes rdfs:range skos:Concept .
+
+nif:annotation owl:versionInfo "0.1.1" .
+
+<http://www.w3.org/ns/lemon/synsem#OntoMap> a owl:Class .
+
+_:node1c3h5bnvlx42 owl:sameAs _:node1c3h5bnvlx42 .
+
+nif:dependency rdfs:domain _:node1c3h5bnvlx36 .
+
+ontolex:ConceptSet owl:equivalentClass _:node1c3h5bnvlx52 .
+
+nif:sourceUrl rdfs:domain nif:String .
+
+ontolex:representation rdfs:comment "The 'representation' property indicates a string by which the form is represented according to some orthography. "@en .
+
+nif:wasConvertedFrom rdfs:comment """This property should be used, when mapping one nif:String or nif:Context to another and is often confused with nif:sourceUrl. 
+    While nif:sourceUrl is built on PROV-O and is used to link the nif:Context to the document URL for provenance information, nif:convertedFrom is more precise and pinpoints exact locations where a certain NIF String \"wasConvertedFrom\".
+    nif:wasConvertedFrom is therefore used to provide *exact* provenance during a conversion process, e.g. when removing tags from XHTML and then linking XPath URIs to NIF index based URIs (e.g.  RFC 5147 with char=x,y). An example of the usage of this property can be found here: http://www.w3.org/TR/its20/#conversion-to-nif
+    
+    Example 
+    # \"Dublin\"
+<http://example.com/myitsservice?informat=html&intype=url&input=http://example.com/doc.html&char=11,17> 
+ nif:wasConvertedFrom
+ <http://example.com/myitsservice?informat=html&intype=url&input=http://example.com/doc.html&xpath=/html/body[1]/h2[1]/span[1]/text()[1]>.
+    """@en .
+
+_:node1c3h5bnvlx49 owl:unionOf _:node1c3h5bnvlx50 .
+
+nif:superString rdfs:subPropertyOf nif:superStringTrans .
+
+ontolex:isDenotedBy rdfs:label "betecknas av"@sv .
+
+dcterms:description a owl:AnnotationProperty .
+
+_:node1c3h5bnvlx32 a owl:Restriction .
+
+ontolex:Word rdfs:label "parola"@it .
+
+nif:firstWord rdfs:range nif:Structure .
+
+_:node1c3h5bnvlx53 owl:sameAs _:node1c3h5bnvlx53 .
+
+ontolex:otherForm rdfs:range ontolex:Form .
+
+ontolex:representation rdfs:label "voorstelling"@af .
+
+_:node1c3h5bnvlx39 owl:sameAs _:node1c3h5bnvlx39 .
+
+ontolex:Form rdfs:label "forme"@fr .
+
+pmo:evokingEntry a owl:FunctionalProperty .
+
+xsd:nonNegativeInteger owl:sameAs xsd:nonNegativeInteger .
+
+nif:nextSentenceTrans rdfs:subPropertyOf nif:nextSentenceTrans .
+
+ontolex:canonicalForm rdfs:label "canonieke vorm"@nl .
+
+_:node1c3h5bnvlx39 <sys:keyNprop3> nif:endIndex .
+
+owl:maxQualifiedCardinality owl:sameAs owl:maxQualifiedCardinality .
+
+ontolex:isDenotedBy rdfs:range _:node1c3h5bnvlx55 .
+
+nif:URIScheme rdfs:subClassOf nif:String .
+
+nif:sourceUrl owl:versionInfo "0.2.0" .
+
+nif:category owl:versionInfo "0.2.0" .
+
+ontolex:isReferenceOf rdfs:label "ist Referenz von"@de .
+
+pmo:classRel rdfs:domain ontolex:LexicalConcept .
+
+nif:keyword a owl:DatatypeProperty .
+
+ontolex:isReferenceOf rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+ontolex:lexicalForm rdfs:comment "The 'lexical form' property relates a lexical entry to one grammatical form variant of the lexical entry."@en .
+
+_:node1c3h5bnvlx25 rdfs:subClassOf _:node1c3h5bnvlx30 .
+
+nif:contextAsLiteral owl:sameAs nif:contextAsLiteral .
+
+nif:posTag owl:versionInfo "discouraged" .
+
+ontolex:representation owl:sameAs ontolex:representation .
+
+ontolex:isLexicalizedSenseOf rdfs:label "è il senso lessicalizzato di"@it .
+
+rdf:Resource a owl:Class .
+
+ontolex:Word rdfs:label "Wort"@de .
+
+_:node1c3h5bnvlx30 owl:sameAs _:node1c3h5bnvlx30 .
+
+ontolex:ConceptSet rdfs:label "banca concetti"@it .
+
+nif:firstWord rdfs:domain _:node1c3h5bnvlx36 .
+
+_:node1c3h5bnvlx2 owl:sameAs _:node1c3h5bnvlx2 .
+
+pmo:valueDt owl:sameAs pmo:valueDt .
+
+ontolex:otherForm owl:sameAs ontolex:otherForm .
+
+owl:unionOf owl:sameAs owl:unionOf .
+
+ontolex:sense rdfs:label "zin"@nl .
+
+nif:previousSentence owl:versionInfo "0.1.1" .
+
+dcterms:creator owl:sameAs dcterms:creator .
+
+ontolex:isConceptOf rdfs:label "este concept a(l)"@ro .
+
+ontolex:evokes rdfs:label "roep op"@af .
+
+nif:nextSentenceTrans rdfs:comment "see nif:nextSentence"@en .
+
+_:node1c3h5bnvlx50 rdf:first ontolex:LexicalEntry .
+
+xsd:unsignedByte a rdfs:Datatype .
+
+nif:dependencyTrans rdfs:range _:node1c3h5bnvlx36 .
+
+nif:lastWord rdfs:subPropertyOf nif:word .
+
+nif:dependencyTrans rdfs:subPropertyOf nif:inter .
+
+nif:CString rdfs:comment """A URI Scheme for NIF which is able to refer to a single, consecutive string in a context. Note that any scheme subclassing this class, requires the existence of beginIndex, endIndex and referenceContext . 
+    This is an abstract class and should not be serialized. 
+    """@en .
+
+nif:hasContext owl:equivalentProperty nif:hasContext .
+
+ontolex:lexicalForm rdfs:label "forme lexicale"@fr .
+
+ontolex:isSenseOf rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core/nif-core-ontology_web.png> owl:sameAs <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core/nif-core-ontology_web.png> .
+
+nif:dependencyTrans owl:equivalentProperty nif:dependencyTrans .
+
+rdf:rest owl:sameAs rdf:rest .
+
+nif:previousSentenceTrans rdfs:domain nif:Structure .
+
+nif:predLang rdfs:comment """
+	Defines the predominant language of the text. If this annotation is given on a nif:Context, all NIF tools have to treat the text to be in this language unless specified differently for a subpart. To change the language for a smaller substring nif:lang must be used.
+	
+	This property requires a uri as an argument. We expect this to be a URI from the lexvo.org namespace, e.g. http://lexvo.org/id/iso639-3/eng using ISO639-3 
+	
+	
+	Examples
+	\"The dealer says: \"Rien ne va plus!\" \"
+	has nif:predomintLanguage http://lexvo.org/id/iso639-3/eng and nif:lang http://www.lexvo.org/id/iso639-3/fra
+	
+	see also: http://www.w3.org/TR/its20/#selection-local
+	
+	Tests for RDFUnit (not written yet):
+	- write a test for RDFUnit, so people do not use http://www.lexvo.org/page/iso639-3/eng 
+	
+	"""@en .
+
+ontolex:MultiWordExpression rdfs:label "multiwoorduitdrukking"@af .
+
+pmo:Example rdfs:subClassOf _:node1c3h5bnvlx17 .
+
+ontolex:isReferenceOf rdfs:domain rdfs:Resource .
+
+ontolex:LexicalEntry rdfs:label "entrata lessicale"@it .
+
+<sys:chain2prop1> owl:sameAs <sys:chain2prop1> .
+
+vann:changes owl:sameAs vann:changes .
+
+nif:predLang rdfs:domain nif:Context .
+
+nif:inter rdfs:domain _:node1c3h5bnvlx36 .
+
+nif:previousWordTrans rdfs:domain nif:String .
+
+ontolex:otherForm rdfs:domain semiotics:Expression .
+
+nif:superString owl:versionInfo "0.1.0" .
+
+nif:previousSentenceTrans rdfs:range nif:String .
+
+ontolex:usage rdfs:subPropertyOf ontolex:usage .
+
+nif:CString rdfs:subClassOf nif:String .
+
+xsd:language a rdfs:Datatype .
+
+_:node1c3h5bnvlx16 a owl:Restriction .
+
+pmo:SemanticRoleMapping rdfs:subClassOf _:node1c3h5bnvlx32 .
+
+nif:nextSentence owl:equivalentProperty nif:nextSentence .
+
+ontolex:lexicalizedSense rdfs:range _:node1c3h5bnvlx58 .
+
+semiotics:denotes rdfs:subPropertyOf semiotics:denotes .
+
+skos:ConceptScheme a owl:Class .
+
+nif:nextWord owl:versionInfo "0.1.1" .
+
+nif:sentimentValue owl:versionInfo "0.0.0" .
+
+nif:classAnnotation owl:versionInfo "0.1.1" .
+
+nif:OffsetBasedString rdfs:subClassOf nif:String .
+
+ontolex:lexicalForm rdfs:domain _:node1c3h5bnvlx49 .
+
+nif:hasContext rdfs:label "has context"@en .
+
+pmo:semRole rdfs:subPropertyOf pmo:semRole .
+
+nif:sourceUrl rdfs:subPropertyOf prov:hadPrimarySource .
+
+owl:deprecated a owl:AnnotationProperty .
+
+pmo:evokingEntry rdfs:range _:node1c3h5bnvlx45 .
+
+ontolex:canonicalForm rdfs:subPropertyOf ontolex:canonicalForm .
+
+pmo:evokingEntry a owl:ObjectProperty .
+
+_:node1c3h5bnvlx9 owl:onProperty _:node1c3h5bnvlx10 .
+
+xsd:unsignedInt owl:sameAs xsd:unsignedInt .
+
+<http://www.w3.org/ns/lemon/ontolex> dc:contributor <http://www.ilc.cnr.it/en/content/anas-fahad-khan> .
+
+ontolex:ConceptSet rdfs:subClassOf skos:ConceptScheme .
+
+_:node1c3h5bnvlx56 owl:sameAs _:node1c3h5bnvlx56 .
+
+nif:before rdfs:label "before"@en .
+
+pmo:semRoleMapping rdfs:range _:node1c3h5bnvlx21 .
+
+pmo:evokedConcept rdfs:domain _:node1c3h5bnvlx14 .
+
+_:node1c3h5bnvlx34 owl:allValuesFrom pmo:SemanticRole .
+
+ontolex:concept rdfs:label "concetto"@it .
+
+nif:inter owl:equivalentProperty nif:inter .
+
+nif:CStringInst rdfs:comment "An abitrary URI (e.g. a URN) for an arbitrary string of the context. This is roughly the same as TextAnnotations are currently implemented in Stanbol."@en .
+
+pmo:abbreviation owl:equivalentProperty pmo:abbreviation .
+
+ontolex:denotes rdfs:subPropertyOf ontolex:denotes .
+
+nif:Paragraph rdfs:subClassOf nif:Structure .
+
+nif:previousWord owl:versionInfo "0.1.1" .
+
+_:node1c3h5bnvlx26 rdf:first _:node1c3h5bnvlx27 .
+
+owl:topObjectProperty owl:sameAs owl:topObjectProperty .
+
+pmo:AnnotationSet rdfs:subClassOf _:node1c3h5bnvlx12 .
+
+ontolex:Form rdfs:label "form"@en .
+
+_:node1c3h5bnvlx23 owl:equivalentClass _:node1c3h5bnvlx16 .
+
+nif:lastWord owl:sameAs nif:lastWord .
+
+rdfs:isDefinedBy a owl:AnnotationProperty .
+
+foaf:Person a owl:Class .
+
+nif:Sentence owl:versionInfo "0.1.1" .
+
+nif:broaderContext rdfs:subPropertyOf nif:broaderContext .
+
+rdf:first owl:sameAs rdf:first .
+
+_:node1c3h5bnvlx57 owl:onClass ontolex:LexicalEntry .
+
+<http://premon.fbk.eu/ontology/core> owl:versionInfo "2017a" .
+
+ontolex:isSenseOf rdfs:domain _:node1c3h5bnvlx57 .
+
+ontolex:otherForm rdfs:label "annan form"@sv .
+
+ontolex:isConceptOf owl:equivalentProperty ontolex:isConceptOf .
+
+ontolex:sense owl:equivalentProperty ontolex:sense .
+
+ontolex:isSenseOf rdfs:label "är betydelse för"@sv .
+
+nif:subStringTrans rdfs:label "transitive version of subString"@en .
+
+nif:previousWordTrans rdfs:domain nif:Word .
+
+_:node1c3h5bnvlx22 rdf:first _:node1c3h5bnvlx23 .
+
+<http://www.w3.org/ns/lemon/synsem#OntoMap> owl:sameAs <http://www.w3.org/ns/lemon/synsem#OntoMap> .
+
+nif:word rdfs:domain nif:Structure .
+
+ontolex:LexicalConcept rdfs:label "concepto lexicalizado"@es .
+
+nif:stem owl:equivalentProperty nif:stem .
+
+nif:hasContext rdfs:range nif:Context .
+
+xsd:NMTOKEN owl:sameAs xsd:NMTOKEN .
+
+nif:endIndex rdfs:comment """The end index of a character range as defined in http://tools.ietf.org/html/rfc5147#section-2.2.1 and http://tools.ietf.org/html/rfc5147#section-2.2.2, measured as the gap between two characters, starting to count from 0 (the position before the first character of a text). 
+    Example: Index \"2\" is the postion between \"Mr\" and \".\"  in \"Mr. Sandman\".
+    Note: RFC 5147 is re-used for the definition of character ranges. RFC 5147 is assuming a text/plain MIME type. NIF builds upon Unicode and is content agnostic. 
+    Requirement (1): This property has the same value the \"Character position\" of RFC 5147 and it must therefore be an xsd:nonNegativeInteger .  
+    Requirement (2): The index of the subject string MUST be calculated relative to the nif:referenceContext of the subject. If available, this is the rdf:Literal of the nif:isString property.""" .
+
+ontolex:sense rdfs:domain _:node1c3h5bnvlx55 .
+
+nif:nextSentenceTrans rdfs:range _:node1c3h5bnvlx36 .
+
+_:node1c3h5bnvlx23 owl:onProperty pmo:item .
+
+nif:stem owl:versionInfo "0.1.0" .
+
+_:node1c3h5bnvlx43 owl:sameAs _:node1c3h5bnvlx43 .
+
+pmo:semRole rdfs:label "semantic role"@en .
+
+ontolex:sense rdfs:label "signification"@fr .
+
+pmo:roleRel owl:equivalentProperty pmo:roleRel .
+
+ontolex:isConceptOf rdfs:label "es concepto de"@es .
+
+nif:sentimentValue owl:sameAs nif:sentimentValue .
+
+nif:nextSentence owl:versionInfo "0.1.1" .
+
+<http://premon.fbk.eu/ontology/core> dcterms:creator "Francesco Corcoglioniti" .
+
+pmo:SemanticClassMapping rdfs:comment "An individual of this class represents a mapping between SemanticClasses"@en .
+
+_:node1c3h5bnvlx36 owl:onProperty nif:referenceContext .
+
+<http://premon.fbk.eu/ontology/core> dcterms:rights "This ontology is licensed under CC-BY-SA <http://creativecommons.org/licenses/by-sa/4.0/>"@en .
+
+nif:hasContext rdfs:domain nif:ContextCollection .
+
+nif:superStringTrans rdfs:domain _:node1c3h5bnvlx36 .
+
+ontolex:LexicalConcept rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+nif:narrowerContext rdfs:label "narrower Context"@en .
+
+nif:Paragraph a owl:Class .
+
+ontolex:representation rdfs:domain _:node1c3h5bnvlx53 .
+
+nif:predLang owl:equivalentProperty nif:predLang .
+
+ontolex:isSenseOf a owl:FunctionalProperty .
+
+_:node1c3h5bnvlx29 owl:onProperty nif:referenceContext .
+
+nif:topic rdfs:range _:node1c3h5bnvlx9 .
+
+<http://www.w3.org/ns/lemon/ontolex> dc:creator <http://john.mccr.ae/> .
+
+owl:Nothing owl:sameAs owl:Nothing .
+
+_:node1c3h5bnvlx3 a owl:Class .
+
+_:node1c3h5bnvlx9 a owl:Restriction .
+
+<http://www.istc.cnr.it/people/aldo-gangemi> owl:sameAs <http://www.istc.cnr.it/people/aldo-gangemi> .
+
+nif:word rdfs:range nif:String .
+
+nif:nextWordTrans owl:versionInfo "0.1.1" .
+
+nif:dependencyRelationType owl:sameAs nif:dependencyRelationType .
+
+nif:wasConvertedFrom rdfs:label "was converted from"@en .
+
+ontolex:denotes rdfs:label "denota"@it .
+
+pmo:evokingEntry rdfs:range _:node1c3h5bnvlx49 .
+
+ontolex:canonicalForm rdfs:label "kanoniese vorm"@af .
+
+nif:broaderContext rdfs:range nif:Context .
+
+ontolex:isSenseOf owl:sameAs ontolex:isSenseOf .
+
+xsd:unsignedLong owl:sameAs xsd:unsignedLong .
+
+pmo:evokedConcept rdfs:subPropertyOf pmo:evokedConcept .
+
+<http://www.w3.org/ns/lemon/ontolex> dc:contributor <http://mayor2.dia.fi.upm.es/oeg-upm/index.php/en/teachers/52-emontiel> .
+
+nif:URIScheme rdfs:label "URI Scheme"@en .
+
+_:node1c3h5bnvlx54 owl:members nif:ContextHashBasedString .
+
+pmo:item owl:sameAs pmo:item .
+
+nif:confidence rdfs:comment """The confidence of an annotation as decimal between 0 and 1
+    Changelog:
+    * 0.0.1 initial commit of property"""@en .
+
+ontolex:isSenseOf a owl:ObjectProperty .
+
+ontolex:isReferenceOf rdfs:range _:node1c3h5bnvlx45 .
+
+<http://www.w3.org/ns/lemon/ontolex> dc:issued "2016-01-10"^^xsd:date .
+
+ontolex:MultiWordExpression rdfs:label "expression à mots multiples"@fr .
+
+ontolex:evokes rdfs:comment "The 'evokes' property relates a lexical entry to one of the lexical concepts it evokes, i.e. the mental concept that speakers of a language might associate when hearing the lexical entry."@en .
+
+ontolex:isReferenceOf a owl:ObjectProperty .
+
+nif:beginIndex owl:equivalentProperty nif:beginIndex .
+
+ontolex:evokes owl:equivalentProperty ontolex:evokes .
+
+nif:previousWord rdfs:subPropertyOf nif:previousWordTrans .
+
+_:node1c3h5bnvlx3 owl:sameAs _:node1c3h5bnvlx3 .
+
+ontolex:isSenseOf rdfs:label "est signification de"@fr .
+
+nif:after rdfs:label "after"@en .
+
+prov:wasDerivedFrom owl:sameAs prov:wasDerivedFrom .
+
+_:node1c3h5bnvlx52 owl:sameAs _:node1c3h5bnvlx52 .
+
+ontolex:reference rdfs:domain _:node1c3h5bnvlx49 .
+
+nif:oliaLink owl:versionInfo "0.1.1" .
+
+nif:endIndex a owl:DatatypeProperty .
+
+ontolex:sense rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+nif:sentence rdfs:domain nif:Structure .
+
+nif:subString rdfs:range nif:String .
+
+nif:subStringTrans rdfs:domain _:node1c3h5bnvlx36 .
+
+ontolex:phoneticRep rdfs:label "reprezentare fonetică"@ro .
+
+pmo:evokedConcept rdfs:label "evoked concept"@en .
+
+nif:hasContext rdfs:comment """Links a nif:ContextCollection to its contexts. 
+    
+    Changelog
+    * 0.2.0. renamed property since a lot of people where too confused by nif:context
+    """@en .
+
+rdfs:seeAlso owl:sameAs rdfs:seeAlso .
+
+nif:taMsClassRef owl:versionInfo "0.1.0" .
+
+ontolex:evokes rdfs:label "lokt uit"@nl .
+
+nif:RFC5147String rdfs:subClassOf _:node1c3h5bnvlx18 .
+
+ontolex:isReferenceOf rdfs:label "est référence de"@fr .
+
+pmo:Example rdfs:comment "Represent the text associated to an example"@en .
+
+dcterms:creator a owl:AnnotationProperty .
+
+ontolex:isSenseOf rdfs:range _:node1c3h5bnvlx45 .
+
+ontolex:denotes rdfs:domain _:node1c3h5bnvlx56 .
+
+ontolex:isLexicalizedSenseOf rdfs:label "este sens lexicalizat de"@ro .
+
+pmo:SemanticClassMapping rdfs:subClassOf _:node1c3h5bnvlx3 .
+
+nif:after rdfs:comment "For each string you can include a snippet (e.g. 10-40 characters of text), that occurs immediately after the subject string." .
+
+_:node1c3h5bnvlx19 owl:inverseOf nif:referenceContext .
+
+nif:after rdfs:subPropertyOf nif:after .
+
+pmo:classRel rdfs:range pmo:SemanticClass .
+
+nif:word rdfs:range nif:Word .
+
+nif:Paragraph owl:sameAs nif:Paragraph .
+
+nif:literalAnnotation owl:equivalentProperty nif:literalAnnotation .
+
+_:node1c3h5bnvlx9 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger .
+
+nif:wasConvertedFrom owl:sameAs nif:wasConvertedFrom .
+
+rdf:nil owl:sameAs rdf:nil .
+
+xsd:NMTOKEN a rdfs:Datatype .
+
+ontolex:morphologicalPattern rdfs:domain _:node1c3h5bnvlx45 .
+
+nif:CStringInst rdfs:subClassOf nif:URIScheme .
+
+nif:tail rdfs:domain nif:String .
+
+ontolex:usage rdfs:domain ontolex:LexicalSense .
+
+ontolex:lexicalizedSense rdfs:range _:node1c3h5bnvlx57 .
+
+nif:previousSentenceTrans a owl:TransitiveProperty .
+
+xsd:integer owl:sameAs xsd:integer .
+
+xsd:unsignedShort owl:sameAs xsd:unsignedShort .
+
+nif:head a owl:DatatypeProperty .
+
+vann:preferredNamespaceUri owl:sameAs vann:preferredNamespaceUri .
+
+nif:literalAnnotation a owl:DatatypeProperty .
+
+foaf:Organization a owl:Class .
+
+pmo:valueObj owl:equivalentProperty pmo:valueObj .
+
+nif:sentence rdfs:range nif:String .
+
+pmo:item owl:propertyChainAxiom _:node1c3h5bnvlx1 .
+
+<http://www.w3.org/ns/lemon/ontolex> dc:contributor <http://www.istc.cnr.it/people/aldo-gangemi> .
+
+_:node1c3h5bnvlx28 owl:sameAs _:node1c3h5bnvlx28 .
+
+ontolex:isSenseOf rdfs:label "ist Sinn von"@de .
+
+nif:lang rdfs:comment """
+	Defines the language of a substring of the context. If the language for the nif:Context should be specified, nif:predominantLanguage must be used. 
+	see nif:predominantLanguage for more info.
+	"""@en .
+
+semiotics:Meaning owl:sameAs semiotics:Meaning .
+
+ontolex:denotes rdfs:label "dénote"@fr .
+
+<https://github.com/NLP2RDF/persistence.uni-leipzig.org/commits/master/ontologies/nif-core> owl:sameAs <https://github.com/NLP2RDF/persistence.uni-leipzig.org/commits/master/ontologies/nif-core> .
+
+nif:sentimentValue a owl:DatatypeProperty .
+
+nif:oliaConf owl:equivalentProperty nif:oliaConf .
+
+nif:narrowerContext rdfs:subPropertyOf nif:narrowerContext .
+
+nif:wasConvertedFrom rdfs:range _:node1c3h5bnvlx36 .
+
+pmo:abbreviation rdfs:range xsd:string .
+
+ontolex:evokes rdfs:domain _:node1c3h5bnvlx55 .
+
+_:node1c3h5bnvlx48 a owl:Class .
+
+nif:endIndex rdfs:subPropertyOf nif:endIndex .
+
+xsd:unsignedByte owl:sameAs xsd:unsignedByte .
+
+nif:opinion rdfs:range marl:Opinion .
+
+ontolex:isReferenceOf owl:inverseOf ontolex:reference .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> dcterms:title "NIF 2.0 Core Ontology"@en .
+
+<http://jogracia.url.ph/web/> owl:sameAs <http://jogracia.url.ph/web/> .
+
+_:node1c3h5bnvlx49 owl:sameAs _:node1c3h5bnvlx49 .
+
+ontolex:isLexicalizedSenseOf rdfs:range semiotics:Meaning .
+
+nif:annotation rdfs:label "annotation"@en .
+
+nif:nextWord owl:inverseOf nif:previousWord .
+
+nif:previousSentence owl:equivalentProperty nif:previousSentence .
+
+skos:broader rdfs:subPropertyOf skos:broader .
+
+nif:String owl:sameAs nif:String .
+
+ontolex:isReferenceOf owl:equivalentProperty ontolex:isReferenceOf .
+
+nif:NormalizedContextOccurrence owl:sameAs nif:NormalizedContextOccurrence .
+
+xsd:unsignedShort a rdfs:Datatype .
+
+ontolex:isLexicalizedSenseOf rdfs:label "is geleksikaliseerde sin van"@af .
+
+pmo:ConceptualizationMapping rdfs:subClassOf _:node1c3h5bnvlx20 .
+
+ontolex:phoneticRep rdfs:label "fonetische voorstelling"@nl .
+
+ontolex:isSenseOf rdfs:range _:node1c3h5bnvlx49 .
+
+_:node1c3h5bnvlx23 owl:allValuesFrom pmo:Conceptualization .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> rdfs:label "NIF 2.0 Core Ontology"@en .
+
+_:node1c3h5bnvlx27 a owl:Restriction .
+
+nif:oliaCategory owl:sameAs nif:oliaCategory .
+
+ontolex:Word rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+owl:backwardCompatibleWith owl:sameAs owl:backwardCompatibleWith .
+
+ontolex:isLexicalizedSenseOf rdfs:label "är lexikaliserad betydelse för"@sv .
+
+nif:previousSentenceTrans a owl:ObjectProperty .
+
+ontolex:MultiWordExpression rdfs:label "expresión multipalabra"@es .
+
+pmo:semRole rdfs:range skos:Concept .
+
+ontolex:Word rdfs:subClassOf _:node1c3h5bnvlx45 .
+
+ontolex:morphologicalPattern rdfs:domain _:node1c3h5bnvlx49 .
+
+nif:nextWord owl:sameAs nif:nextWord .
+
+dcterms:description owl:sameAs dcterms:description .
+
+pmo:evokingEntry rdfs:domain pmo:Conceptualization .
+
+nif:firstWord rdfs:domain nif:Structure .
+
+ontolex:lexicalizedSense rdfs:label "acepción lexicalizada"@es .
+
+rdfs:comment owl:sameAs rdfs:comment .
+
+_:node1c3h5bnvlx34 rdfs:subClassOf _:node1c3h5bnvlx21 .
+
+ontolex:denotes rdfs:label "duidet aan"@nl .
+
+nif:dependency rdfs:range nif:String .
+
+ontolex:writtenRep rdfs:label "schriftlijke voorstelling"@nl .
+
+ontolex:evokes rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+ontolex:LexicalSense rdfs:label "sens lexical"@ro .
+
+nif:Annotation rdfs:comment """Individuals of this class are annotations of strings. This class can be used if an annotation statement has to be annotated with further information, like confidence or annotation provenance (like which tool produced the annotation). 
+    Changelog:
+    * 0.0.1 initial commit of class"""@en .
+
+ontolex:reference rdfs:label "reference"@en .
+
+nif:dependency owl:sameAs nif:dependency .
+
+_:node1c3h5bnvlx2 rdf:rest rdf:nil .
+
+ontolex:isConceptOf rdfs:label "är begrepp för"@sv .
+
+nif:CString owl:sameAs nif:CString .
+
+owl:complementOf owl:sameAs owl:complementOf .
+
+_:node1c3h5bnvlx52 owl:onClass ontolex:LexicalConcept .
+
+nif:superStringTrans owl:sameAs nif:superStringTrans .
+
+nif:lang rdfs:label "language of the string" .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> dc:contributor "Martin Brümmer" .
+
+ontolex:sense rdfs:label "Sinn"@de .
+
+pmo:Mapping rdfs:comment "An individual of this class represents a mapping between skos:Concepts"@en .
+
+nif:oliaLink rdfs:comment """This property links a string to a URI from one of the OLiA Annotation model, e.g. http://purl.org/olia/penn.owl#NNP 
+   
+    Changelog
+    0.1.1 - added subproperty of nif:annotation as per http://svn.aksw.org/papers/2012/PeoplesWeb/public_preprint.pdf‎ page 21 
+    """@en .
+
+lvont:Language owl:sameAs lvont:Language .
+
+nif:opinion rdfs:label "opinion" .
+
+ontolex:LexicalEntry rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+nif:superString rdfs:range _:node1c3h5bnvlx36 .
+
+<http://www.w3.org/ns/lemon/ontolex> dc:title "Lexicon Model for Ontologies - Core"@en .
+
+_:node1c3h5bnvlx14 owl:onClass ontolex:LexicalConcept .
+
+pmo:valueObj rdfs:label "value"@en .
+
+ontolex:LexicalEntry rdfs:subClassOf _:node1c3h5bnvlx45 .
+
+pmo:ontologyMatch rdfs:range rdfs:Resource .
+
+nif:previousSentenceTrans owl:equivalentProperty nif:previousSentenceTrans .
+
+_:node1c3h5bnvlx27 rdfs:subClassOf _:node1c3h5bnvlx34 .
+
+nif:isString a owl:FunctionalProperty .
+
+ontolex:lexicalizedSense rdfs:label "lexicalized sense"@en .
+
+nif:firstWord rdfs:range nif:String .
+
+pmo:ConceptualizationMapping rdfs:subClassOf pmo:Mapping .
+
+nif:opinion owl:sameAs nif:opinion .
+
+pmo:first rdfs:subPropertyOf pmo:item .
+
+_:node1c3h5bnvlx54 owl:members nif:RFC5147String .
+
+nif:CollectionOccurrence owl:sameAs nif:CollectionOccurrence .
+
+_:node1c3h5bnvlx2 rdf:first pmo:next .
+
+_:node1c3h5bnvlx10 owl:inverseOf pmo:item .
+
+ontolex:sense a owl:ObjectProperty .
+
+nif:NormalizedCollectionOccurrence owl:sameAs nif:NormalizedCollectionOccurrence .
+
+_:node1c3h5bnvlx16 owl:equivalentClass _:node1c3h5bnvlx23 .
+
+ontolex:isConceptOf rdfs:domain semiotics:Meaning .
+
+ontolex:Word rdfs:subClassOf _:node1c3h5bnvlx49 .
+
+ontolex:isEvokedBy rdfs:range _:node1c3h5bnvlx55 .
+
+nif:oliaCategory owl:versionInfo "0.1.3" .
+
+nif:Sentence rdfs:subClassOf _:node1c3h5bnvlx36 .
+
+nif:posTag rdfs:domain nif:String .
+
+pmo:Markable rdfs:label "Markable"@en .
+
+nif:isString rdfs:comment """The reference text as rdf:Literal for this nif:Context resource.  
+    NIF requires that the reference text (i.e. the context) is always included in the RDF as an rdf:Literal.
+    Note, that the isString property is *the* place to keep the string itself in RDF.
+    All other nif:Strings and nif:URISchemes relate to the text of this property to calculate character position and indices. 
+    
+    Changelog
+    * 1.0.0: Introduced stable version.
+    * 1.0.1 improved documentation
+    * 1.0.2: merged val+inf
+    """@en .
+
+nif:word a owl:ObjectProperty .
+
+_:node1c3h5bnvlx56 owl:onProperty ontolex:lexicalForm .
+
+nif:inter rdfs:range nif:String .
+
+nif:Word owl:sameAs nif:Word .
+
+nif:anchorOf owl:equivalentProperty nif:anchorOf .
+
+ontolex:isEvokedBy rdfs:label "è evocato da"@it .
+
+_:node1c3h5bnvlx52 rdfs:subClassOf ontolex:ConceptSet .
+
+nif:dependencyRelationType rdfs:comment "String denoting the kind of dependency relation"@en .
+
+dc:contributor owl:sameAs dc:contributor .
+
+ontolex:phoneticRep rdfs:domain ontolex:Form .
+
+ontolex:isDenotedBy owl:sameAs ontolex:isDenotedBy .
+
+nif:lang owl:sameAs nif:lang .
+
+foaf:Organization owl:sameAs foaf:Organization .
+
+ontolex:phoneticRep rdfs:label "rappresentazione fonetica"@it .
+
+nif:dependencyTrans rdfs:domain _:node1c3h5bnvlx36 .
+
+nif:referenceContext owl:equivalentProperty nif:referenceContext .
+
+_:node1c3h5bnvlx52 rdfs:subClassOf skos:ConceptScheme .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> dc:creator "Sebastian Hellmann" .
+
+nif:nextSentenceTrans owl:equivalentProperty nif:nextSentenceTrans .
+
+nif:Context rdfs:subClassOf _:node1c3h5bnvlx35 .
+
+nif:Structure owl:versionInfo "0.1.0" .
+
+ontolex:ConceptSet rdfs:label "concept set"@en .
+
+nif:CStringInst rdfs:subClassOf _:node1c3h5bnvlx36 .
+
+nif:ContextCollection owl:sameAs nif:ContextCollection .
+
+ontolex:isSenseOf rdfs:label "es acepción de"@es .
+
+pmo:Markable rdfs:subClassOf _:node1c3h5bnvlx18 .
+
+_:node1c3h5bnvlx55 owl:onClass ontolex:Form .
+
+ontolex:canonicalForm rdfs:domain _:node1c3h5bnvlx56 .
+
+ontolex:ConceptSet owl:sameAs ontolex:ConceptSet .
+
+ontolex:Affix rdfs:label "affiks"@af .
+
+nif:narrowerContext owl:versionInfo "0.1.0" .
+
+nif:previousSentenceTrans rdfs:domain nif:String .
+
+_:node1c3h5bnvlx54 owl:members nif:CStringInst .
+
+ontolex:isDenotedBy rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+owl:minQualifiedCardinality owl:sameAs owl:minQualifiedCardinality .
+
+<http://www.apache.org/licenses/LICENSE-2.0> owl:sameAs <http://www.apache.org/licenses/LICENSE-2.0> .
+
+ontolex:Form a owl:Class .
+
+nif:before rdfs:subPropertyOf nif:before .
+
+pmo:Mapping rdfs:subClassOf _:node1c3h5bnvlx20 .
+
+ontolex:reference rdfs:label "referință"@ro .
+
+nif:nextSentenceTrans rdfs:range nif:Structure .
+
+_:node1c3h5bnvlx30 rdfs:subClassOf _:node1c3h5bnvlx25 .
+
+ontolex:otherForm rdfs:label "outra forma"@pt .
+
+ontolex:LexicalEntry rdfs:subClassOf _:node1c3h5bnvlx49 .
+
+nif:previousSentence rdfs:comment "see nif:nextSentence"@en .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> dc:rights "This ontology is licensed under Apache 2.0 (http://www.apache.org/licenses/LICENSE-2.0) and CC-BY (http://creativecommons.org/licenses/by/3.0/)"@en .
+
+nif:firstWord rdfs:range nif:Word .
+
+xsd:nonPositiveInteger owl:sameAs xsd:nonPositiveInteger .
+
+dc:creator owl:sameAs dc:creator .
+
+pmo:AnnotationSet owl:sameAs pmo:AnnotationSet .
+
+nif:subString a owl:ObjectProperty .
+
+rdfs:label a owl:AnnotationProperty .
+
+owl:Restriction owl:sameAs owl:Restriction .
+
+ontolex:lexicalForm rdfs:domain ontolex:LexicalEntry .
+
+nif:keyword rdfs:range xsd:string .
+
+ontolex:lexicalizedSense rdfs:label "sens lexicalizat"@ro .
+
+ontolex:denotes rdfs:label "denota"@es .
+
+ontolex:writtenRep rdfs:domain ontolex:Form .
+
+ontolex:Word rdfs:label "cuvânt"@ro .
+
+ontolex:isConceptOf rdfs:label "è concetto di "@it .
+
+ontolex:Affix rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+_:node1c3h5bnvlx28 a owl:Restriction .
+
+owl:topObjectProperty a owl:ObjectProperty .
+
+_:node1c3h5bnvlx12 owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger .
+
+_:node1c3h5bnvlx21 owl:sameAs _:node1c3h5bnvlx21 .
+
+nif:nextSentenceTrans rdfs:domain _:node1c3h5bnvlx36 .
+
+ontolex:lexicalForm rdfs:range _:node1c3h5bnvlx53 .
+
+ontolex:Affix rdfs:subClassOf _:node1c3h5bnvlx45 .
+
+nif:before rdfs:domain nif:String .
+
+xsd:byte a rdfs:Datatype .
+
+owl:imports owl:sameAs owl:imports .
+
+nif:String rdfs:label "String"@en .
+
+ontolex:usage owl:equivalentProperty ontolex:usage .
+
+nif:oliaConf rdfs:range xsd:decimal .
+
+ontolex:MultiWordExpression rdfs:label "multi-word expression"@en .
+
+nif:nextWord rdfs:comment "see nif:nextSentence"@en .
+
+_:node1c3h5bnvlx5 owl:sameAs _:node1c3h5bnvlx5 .
+
+nif:nextSentence rdfs:subPropertyOf nif:nextSentenceTrans .
+
+nif:contextAsLiteral rdfs:domain nif:String .
+
+nif:word owl:versionInfo "0.2.0" .
+
+ontolex:phoneticRep rdfs:label "représentation phonétique"@fr .
+
+nif:after a owl:DatatypeProperty .
+
+nif:oliaProv rdfs:range xsd:decimal .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> dc:description <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core/nif-core-ontology_web.png> .
+
+pmo:semRoleMapping rdfs:range _:node1c3h5bnvlx34 .
+
+ontolex:evokes rdfs:label "évoque"@fr .
+
+nif:word rdfs:comment "This property links sentences to their words."@en .
+
+pmo:SemanticClass owl:sameAs pmo:SemanticClass .
+
+_:node1c3h5bnvlx25 owl:equivalentClass _:node1c3h5bnvlx30 .
+
+pmo:semRole owl:equivalentProperty pmo:semRole .
+
+ontolex:lexicalizedSense rdfs:domain skos:Concept .
+
+ontolex:concept rdfs:range semiotics:Meaning .
+
+ontolex:evokes rdfs:label "evocă"@ro .
+
+nif:narrowerContext rdfs:range _:node1c3h5bnvlx35 .
+
+ontolex:canonicalForm owl:equivalentProperty ontolex:canonicalForm .
+
+nif:keyword owl:versionInfo "0.0.1" .
+
+nif:sentence a owl:ObjectProperty .
+
+nif:sourceUrl rdfs:subPropertyOf nif:sourceUrl .
+
+nif:superStringTrans rdfs:range nif:String .
+
+ontolex:lexicalForm rdfs:subPropertyOf ontolex:lexicalForm .
+
+ontolex:canonicalForm rdfs:label "forma canonica"@it .
+
+nif:previousSentence rdfs:range _:node1c3h5bnvlx36 .
+
+pmo:classRel rdfs:label "semantic class relation"@en .
+
+ontolex:LexicalSense owl:sameAs ontolex:LexicalSense .
+
+nif:word rdfs:domain nif:String .
+
+ontolex:LexicalSense rdfs:label "leksikale sin"@af .
+
+ontolex:MultiWordExpression rdfs:subClassOf _:node1c3h5bnvlx56 .
+
+pmo:first rdfs:label "first"@en .
+
+ontolex:isConceptOf rdfs:domain ontolex:LexicalConcept .
+
+<http://premon.fbk.eu/images/core.svg> owl:sameAs <http://premon.fbk.eu/images/core.svg> .
+
+nif:previousWord rdfs:comment "see nif:nextSentence"@en .
+
+_:node1c3h5bnvlx12 owl:onClass nif:Annotation .
+
+ontolex:lexicalizedSense rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+ontolex:LexicalEntry rdfs:label "entrada léxica"@es .
+
+nif:annotation rdfs:comment """
+      see Towards Web-Scale Collaborative Knowledge Extraction  http://svn.aksw.org/papers/2012/PeoplesWeb/public_preprint.pdf‎ page 21 .
+      Changelog:
+      * 0.1.1 Fixed page number
+    """@en .
+
+ontolex:isConceptOf rdfs:comment "This property formalizes the meaning of a Lexical Concept by linking it to a particular ontological meaning."@en .
+
+nif:broaderContext rdfs:label "broader Context"@en .
+
+semiotics:denotes owl:equivalentProperty semiotics:denotes .
+
+nif:Paragraph rdfs:subClassOf nif:String .
+
+_:node1c3h5bnvlx41 rdf:first nif:endIndex .
+
+_:node1c3h5bnvlx51 rdf:first <http://www.w3.org/ns/lemon/synsem#OntoMap> .
+
+rdfs:domain owl:sameAs rdfs:domain .
+
+ontolex:isDenotedBy rdfs:label "è denotato da"@it .
+
+_:node1c3h5bnvlx11 owl:allValuesFrom nif:Annotation .
+
+ontolex:evokes a owl:ObjectProperty .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> owl:sameAs <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
+
+nif:broaderContext owl:equivalentProperty nif:broaderContext .
+
+pmo:SemanticRoleMapping rdfs:subClassOf _:node1c3h5bnvlx20 .
+
+nif:lemma rdfs:domain nif:String .
+
+nif:previousSentenceTrans rdfs:range nif:Sentence .
+
+ontolex:Affix rdfs:subClassOf _:node1c3h5bnvlx49 .
+
+_:node1c3h5bnvlx18 a owl:Restriction .
+
+nif:hasContext owl:sameAs nif:hasContext .
+
+nif:Structure rdfs:subClassOf _:node1c3h5bnvlx36 .
+
+pmo:Conceptualization owl:sameAs pmo:Conceptualization .
+
+nif:dependencyTrans owl:sameAs nif:dependencyTrans .
+
+<http://www.w3.org/ns/lemon/ontolex> dc:contributor <http://www.dfki.de/~declerck/> .
+
+skos:ConceptScheme owl:sameAs skos:ConceptScheme .
+
+pmo:AnnotationSet rdfs:subClassOf _:node1c3h5bnvlx11 .
+
+ontolex:Affix rdfs:label "Affix"@de .
+
+ontolex:LexicalEntry rdfs:label "lexikaal item"@nl .
+
+ontolex:MultiWordExpression rdfs:label "espressione di gruppi di parole"@it .
+
+nif:firstWord a owl:FunctionalProperty .
+
+ontolex:otherForm rdfs:domain _:node1c3h5bnvlx55 .
+
+<sys:keyNprop1> owl:sameAs <sys:keyNprop1> .
+
+ontolex:representation rdfs:label "rappresentazione"@it .
+
+nif:subString rdfs:domain nif:String .
+
+nif:dependency a owl:ObjectProperty .
+
+ontolex:denotes owl:equivalentProperty ontolex:denotes .
+
+pmo:Example rdfs:subClassOf nif:Context .
+
+ontolex:Form owl:sameAs ontolex:Form .
+
+_:node1c3h5bnvlx51 owl:sameAs _:node1c3h5bnvlx51 .
+
+_:node1c3h5bnvlx45 a owl:Class .
+
+nif:isString rdfs:domain nif:String .
+
+nif:firstWord rdfs:subPropertyOf nif:firstWord .
+
+nif:classAnnotation rdfs:comment """
+      see Towards Web-Scale Collaborative Knowledge Extraction  http://svn.aksw.org/papers/2012/PeoplesWeb/public_preprint.pdf‎ page 12 .
+      Changelog:
+      * 0.1.1 Fixed page number
+    """@en .
+
+<http://www.w3.org/ns/lemon/synsem#OntoMap> rdfs:subClassOf _:node1c3h5bnvlx45 .
+
+nif:broaderContext rdfs:domain nif:Context .
+
+pmo:evokingEntry rdfs:range ontolex:LexicalEntry .
+
+ontolex:lexicalForm rdfs:label "lexikaal vorm"@nl .
+
+nif:subStringTrans rdfs:range nif:String .
+
+ontolex:denotes rdfs:domain semiotics:Expression .
+
+nif:previousWord rdfs:range _:node1c3h5bnvlx36 .
+
+nif:nextWord rdfs:range _:node1c3h5bnvlx36 .
+
+nif:endIndex rdfs:range xsd:nonNegativeInteger .
+
+ontolex:usage rdfs:label "uso"@it .
+
+pmo:classRel rdfs:domain pmo:SemanticClass .
+
+pmo:SemanticClassMapping a owl:Class .
+
+nif:inter rdfs:comment """
+		This object property models a relation between two nif:Strings. The name \"inter\" is kept generic and can be used to express any kind of relation in between (inter) two nif:Strings. Extensions can create rdfs:subPropertyOf for \"head\", \"dependent\", nif:substring and nif:nextWord.  
+		
+		Changelog: 
+		* 0.1.0 initial commit of property \"dependency\"
+		* 0.2.0 changed name to \"inter\" which is more general than \"dependency\".
+    """@en .
+
+pmo:roleRel rdfs:range pmo:SemanticRole .
+
+nif:Context rdfs:subClassOf _:node1c3h5bnvlx31 .
+
+nif:sentence owl:versionInfo "0.2.0" .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> rdfs:comment "The NLP Interchange Format (NIF) is an RDF/OWL-based format that aims to achieve interoperability between Natural Language Processing (NLP) tools, language resources and annotations. NIF consists of specifications, ontologies and software, which are combined under the version identifier \"2.0\", but are versioned individually. This ontology is developed by the NLP2RDF project (http://nlp2rdf.org) and provided as part of NIF 2.0 under CC-BY license as well as Apache 2.0. The ontology contains seven core URIs (String, RFC5147String, Context, isString, referenceContext, beginIndex, endIndex) that provide the foundation  to express NLP annotations effectively in RDF."@en .
+
+_:node1c3h5bnvlx28 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger .
+
+nif:nextWordTrans rdfs:comment "see nif:nextSentence"@en .
+
+nif:taMsClassRef rdfs:comment "This property marks the most specific class from itsrdf:taClassRef. The rule is: from the set S of itsrdf:taClassRef attached to this resource taMscRef points to the one that does not have any subclasses in the set S except itself. So if taClassRef is owl:Thing, dbo:Agent, dbo:Person, dbp:Actor taMsClassRef is dbo:Actor "@en .
+
+nif:sourceUrl rdfs:domain nif:Context .
+
+nif:head rdfs:subPropertyOf nif:head .
+
+_:node1c3h5bnvlx40 owl:sameAs _:node1c3h5bnvlx40 .
+
+ontolex:isReferenceOf rdfs:label "este referință a(l)"@ro .
+
+nif:head rdfs:label "head"@en .
+
+ontolex:morphologicalPattern rdfs:label "motivo morfologico"@it .
+
+ontolex:isLexicalizedSenseOf rdfs:label "is lexicalized sense of"@en .
+
+xsd:nonPositiveInteger a rdfs:Datatype .
+
+nif:nextSentence owl:sameAs nif:nextSentence .
+
+nif:firstWord a owl:ObjectProperty .
+
+ontolex:otherForm rdfs:comment "The  'other form' property relates a lexical entry to a non-preferred (\"non-lemma\") form that realizes the given lexical entry."@en .
+
+nif:endIndex rdfs:label "end index"@en .
+
+pmo:Example owl:sameAs pmo:Example .
+
+ontolex:writtenRep rdfs:subPropertyOf ontolex:writtenRep .
+
+pmo:SemanticClassMapping rdfs:subClassOf _:node1c3h5bnvlx30 .
+
+nif:sentence rdfs:domain nif:String .
+
+nif:oliaProv owl:versionInfo "0.1.0" .
+
+owl:InverseFunctionalProperty owl:sameAs owl:InverseFunctionalProperty .
+
+pmo:SemanticRoleMapping rdfs:subClassOf pmo:Mapping .
+
+_:node1c3h5bnvlx3 <sys:expandUnion> rdf:nil .
+
+ontolex:phoneticRep rdfs:subPropertyOf ontolex:phoneticRep .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> vann:changes <https://github.com/NLP2RDF/persistence.uni-leipzig.org/commits/master/ontologies/nif-core> .
+
+_:node1c3h5bnvlx30 rdfs:subClassOf _:node1c3h5bnvlx21 .
+
+_:node1c3h5bnvlx40 rdf:rest _:node1c3h5bnvlx41 .
+
+nif:topic rdfs:domain _:node1c3h5bnvlx36 .
+
+nif:confidence rdfs:subPropertyOf nif:confidence .
+
+_:node1c3h5bnvlx29 owl:allValuesFrom pmo:Example .
+
+nif:nextSentence rdfs:range _:node1c3h5bnvlx36 .
+
+_:node1c3h5bnvlx36 owl:sameAs _:node1c3h5bnvlx36 .
+
+nif:beginIndex rdfs:domain _:node1c3h5bnvlx36 .
+
+ontolex:isConceptOf owl:sameAs ontolex:isConceptOf .
+
+ontolex:Form rdfs:label "Forma"@pt .
+
+ontolex:ConceptSet rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+ontolex:sense owl:sameAs ontolex:sense .
+
+xsd:normalizedString a rdfs:Datatype .
+
+ontolex:isDenotedBy rdfs:range _:node1c3h5bnvlx45 .
+
+nif:stem owl:sameAs nif:stem .
+
+_:node1c3h5bnvlx38 owl:sameAs _:node1c3h5bnvlx38 .
+
+ontolex:isDenotedBy a owl:ObjectProperty .
+
+nif:dependencyRelationType rdfs:domain nif:String .
+
+xsd:unsignedInt a rdfs:Datatype .
+
+ontolex:isLexicalizedSenseOf rdfs:domain semiotics:Meaning .
+
+nif:firstWord rdfs:comment """This property links sentences to their first word.
+    Changelog:
+    * 0.1.1 merged inf+val
+    """@en .
+
+ontolex:denotes rdfs:label "betecknar"@sv .
+
+nif:inter owl:sameAs nif:inter .
+
+ontolex:lexicalizedSense rdfs:subPropertyOf ontolex:lexicalizedSense .
+
+owl:DatatypeProperty owl:sameAs owl:DatatypeProperty .
+
+pmo:abbreviation owl:sameAs pmo:abbreviation .
+
+nif:referenceContext rdfs:range _:node1c3h5bnvlx35 .
+
+xsd:int a rdfs:Datatype .
+
+pmo:roleRel owl:sameAs pmo:roleRel .
+
+nif:CollectionOccurrence a owl:Class .
+
+nif:lastWord rdfs:range _:node1c3h5bnvlx36 .
+
+ontolex:isDenotedBy rdfs:label "wordt aangeduidet door"@nl .
+
+ontolex:LexicalConcept rdfs:subClassOf semiotics:Meaning .
+
+ontolex:otherForm rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+_:node1c3h5bnvlx46 rdf:first ontolex:LexicalEntry .
+
+nif:predLang owl:sameAs nif:predLang .
+
+nif:OffsetBasedString rdfs:comment """cf. Linked-Data Aware URI Schemes for Referencing Text Fragments by Sebastian Hellmann, Jens Lehmann und Sören Auer in EKAW 2012 http://jens-lehmann.org/files/2012/ekaw_nif.pdf
+	
+	requires the existence of begin, endIndex and referenceContext
+	
+	Changelog: 
+	* 1.0.0 originally a plain text string was attached to this uri scheme, but this was removed later, because of complaints and complexity. 
+	* 1.1.0 subclassing of nif:CString
+    """@en .
+
+<http://mayor2.dia.fi.upm.es/oeg-upm/index.php/en/teachers/52-emontiel> owl:sameAs <http://mayor2.dia.fi.upm.es/oeg-upm/index.php/en/teachers/52-emontiel> .
+
+pmo:evokedConcept owl:equivalentProperty pmo:evokedConcept .
+
+nif:wasConvertedFrom rdfs:domain _:node1c3h5bnvlx36 .
+
+pmo:semRole rdfs:domain skos:Concept .
+
+xsd:boolean a rdfs:Datatype .
+
+nif:narrowerContext rdfs:range _:node1c3h5bnvlx31 .
+
+_:node1c3h5bnvlx34 a owl:Restriction .
+
+ontolex:concept rdfs:range ontolex:LexicalConcept .
+
+_:node1c3h5bnvlx42 a owl:Restriction .
+
+nif:Context rdfs:subClassOf _:node1c3h5bnvlx36 .
+
+pmo:SemanticClass rdfs:label "Semantic Class"@en .
+
+nif:dependency rdfs:domain nif:String .
+
+nif:inter a owl:ObjectProperty .
+
+nif:sentimentValue rdfs:label "sentiment value" .
+
+ontolex:ConceptSet rdfs:comment "A concept set represents a collection of lexical concepts."@en .
+
+ontolex:isDenotedBy rdfs:comment "The object property isDenotedBy is the inverse of the object property denotes."@en .
+
+<http://www.w3.org/ns/lemon/synsem#OntoMap> rdfs:subClassOf _:node1c3h5bnvlx49 .
+
+ontolex:lexicalizedSense a owl:ObjectProperty .
+
+ontolex:representation rdfs:label "representación"@es .
+
+_:node1c3h5bnvlx3 <sys:expandUnion> _:node1c3h5bnvlx5 .
+
+pmo:ontologyMatch rdfs:domain skos:Concept .
+
+ontolex:morphologicalPattern rdfs:label "morfologiskt mönster"@sv .
+
+ontolex:lexicalForm rdfs:label "leksikale vorm"@af .
+
+nif:nextWordTrans rdfs:range _:node1c3h5bnvlx36 .
+
+ontolex:usage rdfs:label "gebruik"@nl .
+
+nif:CString rdfs:subClassOf _:node1c3h5bnvlx13 .
+
+_:node1c3h5bnvlx58 owl:onProperty ontolex:reference .
+
+nif:Sentence rdfs:subClassOf nif:Structure .
+
+nif:narrowerContext owl:equivalentProperty nif:narrowerContext .
+
+nif:String owl:hasKey _:node1c3h5bnvlx39 .
+
+nif:superString rdfs:domain _:node1c3h5bnvlx36 .
+
+nif:literalAnnotation owl:versionInfo "0.1.1" .
+
+nif:after owl:equivalentProperty nif:after .
+
+pmo:ConceptualizationMapping rdfs:subClassOf _:node1c3h5bnvlx21 .
+
+nif:String owl:subClassOf _:node1c3h5bnvlx42 .
+
+nif:endIndex owl:equivalentProperty nif:endIndex .
+
+ontolex:canonicalForm rdfs:range ontolex:Form .
+
+nif:superStringTrans a owl:TransitiveProperty .
+
+nif:OffsetBasedString rdfs:subClassOf _:node1c3h5bnvlx13 .
+
+nif:beginIndex owl:sameAs nif:beginIndex .
+
+pmo:SemanticRole owl:sameAs pmo:SemanticRole .
+
+<http://www.ilc.cnr.it/en/content/anas-fahad-khan> owl:sameAs <http://www.ilc.cnr.it/en/content/anas-fahad-khan> .
+
+nif:Sentence a owl:Class .
+
+ontolex:LexicalSense rdfs:label "acepción léxica"@es .
+
+_:node1c3h5bnvlx17 owl:onProperty _:node1c3h5bnvlx19 .
+
+nif:sentence rdfs:range nif:Sentence .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> dcterms:license <http://creativecommons.org/licenses/by/3.0/> .
+
+_:node1c3h5bnvlx17 owl:sameAs _:node1c3h5bnvlx17 .
+
+skos:broader owl:equivalentProperty skos:broader .
+
+_:node1c3h5bnvlx31 owl:onProperty nif:referenceContext .
+
+ontolex:MultiWordExpression rdfs:label "mutliwoorduitdrukking"@nl .
+
+ontolex:sense rdfs:label "sens"@ro .
+
+nif:sentence rdfs:subPropertyOf nif:sentence .
+
+pmo:evokedConcept rdfs:range skos:Concept .
+
+nif:superStringTrans a owl:ObjectProperty .
+
+ontolex:phoneticRep rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+ontolex:isSenseOf rdfs:range ontolex:LexicalEntry .
+
+dcterms:modified owl:sameAs dcterms:modified .
+
+ontolex:isDenotedBy rdfs:range _:node1c3h5bnvlx49 .
+
+owl:topDataProperty rdfs:subPropertyOf owl:topDataProperty .
+
+dcterms:rights owl:sameAs dcterms:rights .
+
+nif:superString rdfs:subPropertyOf nif:superString .
+
+nif:classAnnotation a owl:AnnotationProperty .
+
+dcterms:title owl:sameAs dcterms:title .
+
+<http://premon.fbk.eu/ontology/core> dcterms:issued "2015-10-28"^^xsd:date .
+
+nif:subStringTrans a owl:TransitiveProperty .
+
+nif:narrowerContext rdfs:range _:node1c3h5bnvlx36 .
+
+_:node1c3h5bnvlx11 a owl:Restriction .
+
+nif:taMsClassRef a owl:AnnotationProperty .
+
+ontolex:LexicalConcept rdfs:label "concept lexical"@fr .
+
+cc:license owl:sameAs cc:license .
+
+nif:literalAnnotation owl:sameAs nif:literalAnnotation .
+
+nif:RFC5147String rdfs:subClassOf nif:URIScheme .
+
+_:node1c3h5bnvlx47 rdf:first <http://www.w3.org/ns/lemon/synsem#OntoMap> .
+
+ontolex:morphologicalPattern rdfs:domain ontolex:LexicalEntry .
+
+nif:firstWord rdfs:domain nif:String .
+
+ontolex:evokes owl:sameAs ontolex:evokes .
+
+_:node1c3h5bnvlx52 owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger .
+
+nif:NormalizedContextOccurrence a owl:Class .
+
+ontolex:sense rdfs:domain _:node1c3h5bnvlx45 .
+
+nif:inter owl:versionInfo "0.2.0" .
+
+nif:sentimentValue rdfs:range xsd:decimal .
+
+ontolex:isLexicalizedSenseOf rdfs:subPropertyOf ontolex:isLexicalizedSenseOf .
+
+_:node1c3h5bnvlx55 a owl:Restriction .
+
+ontolex:Word rdfs:label "word"@en .
+
+ontolex:LexicalSense rdfs:label "senso lessicale"@it .
+
+ontolex:isLexicalizedSenseOf rdfs:comment "The object property isLexicalizedSenseOf is the inverse property of lexicalized sense."@en .
+
+_:node1c3h5bnvlx33 owl:sameAs _:node1c3h5bnvlx33 .
+
+_:node1c3h5bnvlx36 owl:someValuesFrom nif:Context .
+
+ontolex:isLexicalizedSenseOf rdfs:domain ontolex:LexicalConcept .
+
+nif:stem rdfs:label "stem"@en .
+
+pmo:abbreviation rdfs:label "abbreviation"@en .
+
+ontolex:usage rdfs:range rdfs:Resource .
+
+_:node1c3h5bnvlx57 owl:onProperty ontolex:isSenseOf .
+
+<http://creativecommons.org/licenses/by/3.0/> owl:sameAs <http://creativecommons.org/licenses/by/3.0/> .
+
+ontolex:isSenseOf rdfs:label "este sens a(l)"@ro .
+
+_:node1c3h5bnvlx14 owl:onProperty pmo:evokedConcept .
+
+<http://www.w3.org/ns/lemon/ontolex> vann:preferredNamespacePrefix "ontolex" .
+
+ontolex:canonicalForm rdfs:domain semiotics:Expression .
+
+<http://www.w3.org/ns/lemon/ontolex> dc:contributor <http://art.uniroma2.it/fiorelli/> .
+
+nif:dependencyTrans rdfs:range nif:String .
+
+nif:nextSentenceTrans rdfs:domain nif:Structure .
+
+pmo:AnnotationSet rdfs:label "Annotation Set"@en .
+
+nif:CStringInst a owl:Class .
+
+nif:inter rdfs:domain nif:String .
+
+nif:oliaConf owl:sameAs nif:oliaConf .
+
+ontolex:writtenRep rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+xsd:integer a rdfs:Datatype .
+
+nif:ContextHashBasedString rdfs:subClassOf nif:URIScheme .
+
+semiotics:Expression owl:sameAs semiotics:Expression .
+
+_:node1c3h5bnvlx53 owl:onDataRange rdf:langString .
+
+nif:ContextOccurrence owl:sameAs nif:ContextOccurrence .
+
+pmo:Mapping rdfs:subClassOf _:node1c3h5bnvlx21 .
+
+ontolex:isEvokedBy rdfs:domain skos:Concept .
+
+ontolex:writtenRep rdfs:label "rappresentazione scritta"@it .
+
+nif:previousSentence owl:sameAs nif:previousSentence .
+
+ontolex:reference rdfs:subPropertyOf ontolex:reference .
+
+nif:OffsetBasedString owl:versionInfo "1.1.0" .
+
+nif:referenceContext rdfs:range _:node1c3h5bnvlx31 .
+
+pmo:SemanticClass a owl:Class .
+
+nif:subStringTrans a owl:ObjectProperty .
+
+pmo:valueObj owl:sameAs pmo:valueObj .
+
+_:node1c3h5bnvlx35 owl:cardinality "1"^^xsd:nonNegativeInteger .
+
+nif:previousSentence rdfs:range nif:Structure .
+
+ontolex:otherForm a owl:ObjectProperty .
+
+nif:ContextCollection rdfs:label "Context Collection"@en .
+
+_:node1c3h5bnvlx16 owl:sameAs _:node1c3h5bnvlx16 .
+
+_:node1c3h5bnvlx57 owl:sameAs _:node1c3h5bnvlx57 .
+
+nif:oliaConf rdfs:comment """The confidence is relative to the tool and can be between 0.0 and 1.0, it is for nif:oliaLink and therefore also for nif:oliaCategory.
+    Changelog:
+    0.2.0 merged confidence for category and link
+    """@en .
+
+<http://premon.fbk.eu/ontology/core> dcterms:description <http://premon.fbk.eu/images/core.svg> .
+
+<http://www.w3.org/ns/lemon/ontolex> vann:preferredNamespaceUri "http://www.w3.org/ns/lemon/ontolex#" .
+
+ontolex:Word rdfs:subClassOf ontolex:LexicalEntry .
+
+_:node1c3h5bnvlx19 owl:sameAs _:node1c3h5bnvlx19 .
+
+nif:nextSentenceTrans rdfs:range nif:String .
+
+ontolex:isEvokedBy rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+nif:topic rdfs:label "topic" .
+
+pmo:ConceptualizationMapping rdfs:comment "An individual of this class represents a mapping between Conceptualizations"@en .
+
+rdfs:label owl:sameAs rdfs:label .
+
+<http://purl.org/vocommons/voaf#Vocabulary> owl:sameAs <http://purl.org/vocommons/voaf#Vocabulary> .
+
+nif:stem rdfs:domain _:node1c3h5bnvlx36 .
+
+ontolex:canonicalForm rdfs:comment "The 'canonical form' property relates a lexical entry to its canoncical or dictionary form. This usually indicates the \"lemma\" form of a lexical entry. "@en .
+
+ontolex:LexicalSense rdfs:label "lexikalischer Sinn"@de .
+
+_:node1c3h5bnvlx48 owl:sameAs _:node1c3h5bnvlx48 .
+
+pmo:first rdfs:comment "first, item, next are used to model set-like construct"@en .
+
+_:node1c3h5bnvlx45 owl:unionOf _:node1c3h5bnvlx46 .
+
+nif:Title rdfs:comment """
+    A title within a text.
+    Changelog:
+    * 0.1.1 fixed spelling, added language tag
+    """@en .
+
+xsd:string owl:sameAs xsd:string .
+
+nif:narrowerContext rdfs:domain _:node1c3h5bnvlx35 .
+
+nif:superStringTrans rdfs:domain nif:String .
+
+ontolex:denotes rdfs:range rdfs:Resource .
+
+ontolex:morphologicalPattern rdfs:label "morfologiese patroon"@af .
+
+nif:previousSentence rdfs:domain _:node1c3h5bnvlx36 .
+
+ontolex:isSenseOf rdfs:label "is sense of"@en .
+
+pmo:SemanticClass rdfs:subClassOf skos:Concept .
+
+ontolex:isReferenceOf owl:sameAs ontolex:isReferenceOf .
+
+nif:Annotation owl:versionInfo "0.0.1" .
+
+ontolex:LexicalSense rdfs:subClassOf _:node1c3h5bnvlx58 .
+
+ontolex:denotes rdfs:comment "The 'denotes' property relates a lexical entry to a predicate in a given ontology that represents its meaning and has some denotational or model-theoretic semantics. "@en .
+
+ontolex:isDenotedBy rdfs:label "word aangedui deur"@af .
+
+ontolex:phoneticRep rdfs:label "representación fonética"@es .
+
+nif:classAnnotation owl:sameAs nif:classAnnotation .
+
+dcterms:license owl:sameAs dcterms:license .
+
+owl:versionInfo a owl:AnnotationProperty .
+
+_:node1c3h5bnvlx27 owl:equivalentClass _:node1c3h5bnvlx34 .
+
+ontolex:isConceptOf rdfs:label "ist Konzept von"@de .
+
+<http://creativecommons.org/licenses/by-sa/4.0/> owl:sameAs <http://creativecommons.org/licenses/by-sa/4.0/> .
+
+ontolex:MultiWordExpression rdfs:subClassOf semiotics:Expression .
+
+nif:keyword rdfs:subPropertyOf nif:keyword .
+
+nif:before owl:equivalentProperty nif:before .
+
+nif:oliaCategory rdfs:subPropertyOf nif:classAnnotation .
+
+pmo:Mapping owl:sameAs pmo:Mapping .
+
+ontolex:writtenRep rdfs:label "representación escrita"@es .
+
+nif:Structure a owl:Class .
+
+nif:oliaLink rdfs:subPropertyOf nif:oliaLink .
+
+ontolex:denotes rdfs:label "dui aan"@af .
+
+_:node1c3h5bnvlx39 rdf:rest _:node1c3h5bnvlx40 .
+
+_:node1c3h5bnvlx40 rdf:first nif:beginIndex .
+
+ontolex:LexicalSense a owl:Class .
+
+owl:qualifiedCardinality owl:sameAs owl:qualifiedCardinality .
+
+ontolex:sense rdfs:domain _:node1c3h5bnvlx49 .
+
+ontolex:usage rdfs:label "uso"@es .
+
+ontolex:writtenRep rdfs:label "written representation"@en .
+
+_:node1c3h5bnvlx29 rdfs:subClassOf _:node1c3h5bnvlx42 .
+
+rdf:langString a rdfs:Datatype .
+
+pmo:ontologyMatch a owl:ObjectProperty .
+
+<http://www.w3.org/ns/lemon/ontolex> dc:contributor <http://www.paulbuitelaar.net/> .
+
+owl:onProperty owl:sameAs owl:onProperty .
+
+_:node1c3h5bnvlx26 owl:sameAs _:node1c3h5bnvlx26 .
+
+nif:previousSentenceTrans owl:sameAs nif:previousSentenceTrans ;
+	rdfs:domain nif:Sentence .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> vann:preferredNamespaceUri "http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#" .
+
+nif:nextWord rdfs:range nif:Structure .
+
+pmo:semRole a owl:ObjectProperty .
+
+_:node1c3h5bnvlx52 owl:equivalentClass ontolex:ConceptSet .
+
+ontolex:isDenotedBy rdfs:label "é denotado por"@pt .
+
+nif:oliaProv rdfs:comment "Links to the URI describing the provenance"@en .
+
+pmo:ConceptualizationMapping rdfs:subClassOf _:node1c3h5bnvlx23 .
+
+ontolex:Affix rdfs:label "affix"@sv .
+
+nif:lemma rdfs:comment "The lemma(s) of the nif:String."@en .
+
+nif:opinion rdfs:domain _:node1c3h5bnvlx36 .
+
+semiotics:Expression a owl:Class .
+
+ontolex:morphologicalPattern rdfs:comment "The 'morphological pattern' property indicates the morphological class of a word."@en .
+
+ontolex:isDenotedBy rdfs:label "est dénoté par"@fr .
+
+pmo:SemanticRoleMapping rdfs:subClassOf _:node1c3h5bnvlx21 .
+
+nif:head owl:versionInfo "0.1.0" .
+
+<http://www.w3.org/ns/lemon/ontolex> dc:rights "CC-Zero" ;
+	dc:creator <http://www.cimiano.de/> .
+
+nif:anchorOf owl:sameAs nif:anchorOf .
+
+_:node1c3h5bnvlx30 owl:allValuesFrom pmo:SemanticClass .
+
+ontolex:evokes rdfs:domain _:node1c3h5bnvlx45 .
+
+pmo:valueDt a owl:DatatypeProperty .
+
+nif:posTag a owl:DatatypeProperty .
+
+nif:subStringTrans rdfs:domain nif:String .
+
+nif:RFC5147String rdfs:subClassOf _:node1c3h5bnvlx36 .
+
+nif:nextWord rdfs:domain _:node1c3h5bnvlx36 .
+
+nif:referenceContext owl:sameAs nif:referenceContext .
+
+_:node1c3h5bnvlx30 owl:equivalentClass _:node1c3h5bnvlx25 .
+
+pmo:roleRel rdfs:domain pmo:SemanticRole .
+
+ontolex:isLexicalizedSenseOf rdfs:range ontolex:LexicalSense .
+
+nif:sourceUrl owl:equivalentProperty nif:sourceUrl .
+
+rdfs:Datatype owl:sameAs rdfs:Datatype .
+
+nif:OffsetBasedString owl:sameAs nif:OffsetBasedString .
+
+nif:previousWord rdfs:range nif:Structure .
+
+ontolex:lexicalForm owl:equivalentProperty ontolex:lexicalForm .
+
+nif:referenceContext rdfs:range _:node1c3h5bnvlx36 .
+
+ontolex:evokes rdfs:label "evokes"@en .
+
+ontolex:lexicalForm rdfs:label "lexikonform"@sv .
+
+ontolex:otherForm rdfs:label "other form"@en .
+
+nif:nextSentence rdfs:range nif:Structure .
+
+nif:isString rdfs:subPropertyOf nif:isString .
+
+ontolex:isEvokedBy rdfs:label "est évoqué par"@fr .
+
+nif:oliaProv rdfs:subPropertyOf nif:oliaProv .
+
+_:node1c3h5bnvlx16 owl:onProperty pmo:item .
+
+ontolex:isEvokedBy rdfs:label "is evoked by"@en .
+
+ontolex:LexicalSense rdfs:label "signification lexicale"@fr .
+
+_:node1c3h5bnvlx44 rdf:rest rdf:nil .
+
+ontolex:reference rdfs:label "referencia"@es .
+
+pmo:Markable rdfs:subClassOf nif:URIScheme .
+
+ontolex:evokes owl:propertyChainAxiom _:node1c3h5bnvlx6 .
+
+nif:Context owl:versionInfo "1.0.2" .
+
+_:node1c3h5bnvlx8 rdf:rest rdf:nil .
+
+xsd:negativeInteger owl:sameAs xsd:negativeInteger .
+
+owl:TransitiveProperty owl:sameAs owl:TransitiveProperty .
+
+<http://www.w3.org/ns/lemon/ontolex> dc:publisher <http://www.w3.org/community/ontolex> .
+
+pmo:classRel rdfs:range skos:Concept .
+
+_:node1c3h5bnvlx20 owl:sameAs _:node1c3h5bnvlx20 .
+
+nif:CStringInst owl:sameAs nif:CStringInst .
+
+nif:ContextHashBasedString rdfs:subClassOf _:node1c3h5bnvlx36 .
+
+nif:confidence a owl:DatatypeProperty .
+
+ontolex:sense rdfs:range semiotics:Meaning .
+
+nif:category rdfs:comment """A simple annotation for machine learning purposes. The object can be anything, e.g. the literal \"A. PRESS: Reportage\" from Brown or any URI.  
+	ChangeLog:
+	* 0.2.0 changed nif:class to nif:category due to conflict with Java 
+	"""@en .
+
+nif:lastWord rdfs:range nif:Structure .
+
+ontolex:isDenotedBy owl:inverseOf ontolex:denotes .
+
+ontolex:Affix rdfs:label "affix"@en .
+
+_:node1c3h5bnvlx5 rdf:first pmo:SemanticClassMapping .
+
+nif:previousWord rdfs:domain _:node1c3h5bnvlx36 .
+
+nif:nextSentence rdfs:domain _:node1c3h5bnvlx36 .
+
+_:node1c3h5bnvlx25 rdfs:subClassOf _:node1c3h5bnvlx21 .
+
+nif:nextSentenceTrans owl:sameAs nif:nextSentenceTrans .
+
+<http://art.uniroma2.it/stellato/> owl:sameAs <http://art.uniroma2.it/stellato/> .
+
+nif:topic rdfs:subPropertyOf nif:topic .
+
+ontolex:Affix rdfs:subClassOf ontolex:LexicalEntry .
+
+ontolex:isLexicalizedSenseOf rdfs:label "is lexikaal zin van"@nl .
+
+ontolex:isEvokedBy rdfs:subPropertyOf ontolex:isEvokedBy .
+
+nif:dependencyTrans rdfs:comment """
+		Changelog: 
+		* 0.1.0 initial commit of property
+		* 0.1.1 merged inf model
+    """@en ;
+	a owl:TransitiveProperty .
+
+ontolex:evokes rdfs:domain _:node1c3h5bnvlx49 .
+
+nif:RFC5147String rdfs:label "RFC 5147 String"@en .
+
+ontolex:usage owl:sameAs ontolex:usage .
+
+pmo:first rdfs:subPropertyOf pmo:first .
+
+ontolex:usage rdfs:domain _:node1c3h5bnvlx58 .
+
+ontolex:isReferenceOf rdfs:label "är referens för"@sv .
+
+nif:lastWord rdfs:domain _:node1c3h5bnvlx36 .
+
+ontolex:morphologicalPattern rdfs:subPropertyOf ontolex:morphologicalPattern .
+
+_:node1c3h5bnvlx21 <sys:expandUnion> _:node1c3h5bnvlx24 .
+
+nif:before a owl:DatatypeProperty .
+
+owl:hasSelf owl:sameAs owl:hasSelf .
+
+ontolex:Form rdfs:label "vorm"@af .
+
+nif:firstWord owl:equivalentProperty nif:firstWord .
+
+ontolex:representation rdfs:domain ontolex:Form .
+
+_:node1c3h5bnvlx30 a owl:Restriction .
+
+_:node1c3h5bnvlx15 a owl:Restriction .
+
+pmo:semRole owl:sameAs pmo:semRole .
+
+ontolex:concept rdfs:subPropertyOf ontolex:concept .
+
+nif:nextWordTrans rdfs:range nif:Structure .
+
+pmo:semRoleMapping rdfs:range _:node1c3h5bnvlx27 .
+
+nif:word rdfs:domain nif:Sentence .
+
+nif:dependencyTrans a owl:ObjectProperty .
+
+xsd:long owl:sameAs xsd:long .
+
+ontolex:canonicalForm owl:sameAs ontolex:canonicalForm .
+
+skos:inScheme rdfs:label "in scheme"@en .
+
+nif:predLang rdfs:domain _:node1c3h5bnvlx35 .
+
+nif:previousWordTrans owl:versionInfo "0.1.1" .
+
+ontolex:isConceptOf rdfs:label "est un concept pour "@fr .
+
+nif:broaderContext rdfs:comment "This property should be used to express that one Context is contained in another Context, e.g. several sentences of a document are modelled indivudally and refer to the broader context of the whole document."@en .
+
+ontolex:isSenseOf rdfs:label "is zin van"@nl .
+
+ontolex:isReferenceOf rdfs:label "é referência de"@pt .
+
+ontolex:lexicalizedSense rdfs:label "lexikaal zin"@nl .
+
+_:node1c3h5bnvlx56 owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger .
+
+ontolex:sense owl:inverseOf ontolex:isSenseOf .
+
+nif:wasConvertedFrom rdfs:range nif:String .
+
+_:node1c3h5bnvlx45 <sys:expandUnion> rdf:nil .
+
+nif:CString rdfs:label "Consecutive String"@en .
+
+nif:head owl:equivalentProperty nif:head .
+
+ontolex:isEvokedBy rdfs:range _:node1c3h5bnvlx45 .
+
+xsd:int owl:sameAs xsd:int .
+
+nif:Context a owl:Class .
+
+ontolex:lexicalizedSense rdfs:label "lexikalisierter Sinn"@de .
+
+ontolex:isEvokedBy a owl:ObjectProperty .
+
+nif:nextWordTrans rdfs:domain _:node1c3h5bnvlx36 .
+
+ontolex:representation rdfs:label "voorstelling"@nl .
+
+ontolex:ConceptSet rdfs:label "Konzeptsatz"@de .
+
+semiotics:denotes owl:sameAs semiotics:denotes .
+
+_:node1c3h5bnvlx28 owl:onClass pmo:Example .
+
+_:node1c3h5bnvlx54 a owl:AllDisjointClasses .
+
+<http://purl.org/vocommons/voaf#Vocabulary> a owl:Class .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> dc:description """For a more concise description about NIF, we refer the reader to the ISWC 2013 in Use paper: Integrating NLP using Linked Data by Sebastian Hellmann, Jens Lehmann, Sören Auer, and Martin Brümmer available at: http://svn.aksw.org/papers/2013/ISWC_NIF/public.pdf Also the NLP2RDF project page (http://nlp2rdf.org) provides more general documentation and pointers.
+    The NIF 2.0 Core Ontology (http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#) provides classes and properties to describe the relations between substrings, text, documents by assigning URIs to strings. These URIs can then be used as subjects in RDF triples and therefore they can be annotated easily. The NIF 2.0 Core Specification defines how such URIs are created and used: http://persistence.uni-leipzig.org/nlp2rdf/specification/core.html and it makes sense to read this document first, so you can understand the definitions in this ontology better. 
+    
+    The main class in this ontology is nif:String, which is the class of all words over the alphabet of Unicode characters (sometimes called Σ∗). We built NIF upon the Unicode Normalization Form C, as this follows the recommendation of the RDF standard for rdf:Literal. Indices are to be counted in code units as is common in most programming language and SPARQL engines ( see 17.4.3.2 STRLEN and 17.4.3.3 SUBSTR on http://www.w3.org/TR/sparql11-query/). 
+    
+    Each URI Scheme (nif:URIScheme) used to address strings is a subclass of nif:String and puts further restrictions over the syntax of the URIs.  For example, instances of type nif:RFC5147String have to adhere to the Syntax and Semantics of RFC 5147 (http://tools.ietf.org/html/rfc5147). Users of NIF can create their own URI schemes by subclassing nif:String and providing documentation on the Web in the rdfs:comment field.
+    
+    Another important  subclass of nif:String is the nif:Context OWL class. This class is assigned to the whole string of the text (i.e. all characters). The purpose of an individual of this class is special, because the string of this individual is used to calculate the indices for all substrings. Therefore, all substrings have to have a relation nif:referenceContext pointing to an instance of nif:Context. Furthermore, the datatype property nif:isString can be used to include the reference text as a literal within the RDF as is required for the web service scenario. An example of NIF Core can be seen on the top left of the example Figure.  
+	
+    Additional Resources
+    The project also provides serveral additional resources:
+    * various NIF representations of corpora
+    * different demos for NIF Webservices and a NIF Web Service Combinator
+    * a validation service for NIF RDF documents
+    * a draft of a Stanbol Profile Specification
+    Please find references to these (and other) resources in the NIF Dashboard: http://dashboard.nlp2rdf.aksw.org/
+
+	Feedback
+	If you'd like to leave feedback, please open an issue on GitHub (https://github.com/NLP2RDF/ontologies/issues) and read the README (https://github.com/NLP2RDF/ontologies#readme) or write an email to the mailing list: http://lists.informatik.uni-leipzig.de/mailman/listinfo/nlp2rdf
+
+	Versioning process is explained here: http://persistence.uni-leipzig.org/nlp2rdf/specification/version.html Changelog is written to rdfs:comment (resource level versioning).
+"""@en .
+
+nif:nextSentenceTrans a owl:TransitiveProperty .
+
+ontolex:Form rdfs:label "formă"@ro .
+
+nif:Annotation rdfs:subClassOf _:node1c3h5bnvlx9 .
+
+owl:incompatibleWith owl:sameAs owl:incompatibleWith .
+
+ontolex:phoneticRep owl:equivalentProperty ontolex:phoneticRep .
+
+nif:narrowerContext rdfs:domain _:node1c3h5bnvlx31 .
+
+nif:confidence owl:equivalentProperty nif:confidence .
+
+_:node1c3h5bnvlx24 rdf:first _:node1c3h5bnvlx25 .
+
+ontolex:LexicalSense rdfs:subClassOf _:node1c3h5bnvlx57 ;
+	rdfs:label "lexikonbetydelse"@sv .
+
+pmo:item a owl:ObjectProperty .
+
+ontolex:denotes rdfs:label "denota"@pt .
+
+ontolex:phoneticRep rdfs:subPropertyOf ontolex:representation .
+
+nif:beginIndex owl:versionInfo "1.0.1" .
+
+nif:CStringInst rdfs:subClassOf nif:CString .
+
+nif:lemma a owl:DatatypeProperty .
+
+_:node1c3h5bnvlx3 owl:unionOf _:node1c3h5bnvlx4 .
+
+ontolex:lexicalizedSense owl:equivalentProperty ontolex:lexicalizedSense .
+
+_:node1c3h5bnvlx58 owl:sameAs _:node1c3h5bnvlx58 .
+
+ontolex:Form rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+ontolex:usage rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+nif:oliaProv rdfs:label "Provenance of OLiA tag" .
+
+xsd:dateTime a rdfs:Datatype .
+
+ontolex:denotes owl:sameAs ontolex:denotes .
+
+ontolex:evokes rdfs:range semiotics:Meaning .
+
+ontolex:lexicalForm rdfs:domain _:node1c3h5bnvlx56 .
+
+ontolex:Affix rdfs:label "affisso"@it .
+
+ontolex:writtenRep owl:equivalentProperty ontolex:writtenRep .
+
+nif:oliaLink rdfs:domain _:node1c3h5bnvlx36 .
+
+_:node1c3h5bnvlx15 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger .
+
+nif:Annotation owl:sameAs nif:Annotation .
+
+_:node1c3h5bnvlx31 owl:sameAs _:node1c3h5bnvlx31 .
+
+pmo:Conceptualization rdfs:subClassOf _:node1c3h5bnvlx15 .
+
+ontolex:usage rdfs:comment "The 'usage' property indicates usage conditions or pragmatic implications when using the lexical entry to refer to the given ontological meaning."@en .
+
+xsd:anyURI owl:sameAs xsd:anyURI .
+
+nif:contextAsLiteral rdfs:label "contextAsLiteral"@en .
+
+nif:broaderContext owl:sameAs nif:broaderContext .
+
+_:node1c3h5bnvlx24 rdf:rest _:node1c3h5bnvlx26 .
+
+nif:broaderContext owl:versionInfo "0.1.0" .
+
+nif:hasContext rdfs:range _:node1c3h5bnvlx35 .
+
+ontolex:denotes rdfs:label "denotes"@en .
+
+_:node1c3h5bnvlx18 owl:sameAs _:node1c3h5bnvlx18 .
+
+nif:isString a owl:DatatypeProperty .
+
+ontolex:denotes rdfs:domain _:node1c3h5bnvlx55 .
+
+nif:Sentence rdfs:subClassOf nif:String .
+
+nif:lemma rdfs:subPropertyOf nif:lemma .
+
+ontolex:isEvokedBy rdfs:range _:node1c3h5bnvlx49 .
+
+nif:after owl:versionInfo "0.1.0" .
+
+nif:dependency rdfs:label "dependency"@en .
+
+ontolex:canonicalForm rdfs:label "forma canónica"@es .
+
+nif:nextSentenceTrans a owl:ObjectProperty .
+
+nif:previousSentence rdfs:subPropertyOf nif:previousSentenceTrans .
+
+rdfs:comment a owl:AnnotationProperty .
+
+nif:superString rdfs:range nif:String .
+
+ontolex:writtenRep rdfs:subPropertyOf ontolex:representation .
+
+nif:Phrase rdfs:label "Phrase"@en .
+
+prov:hadPrimarySource owl:sameAs prov:hadPrimarySource .
+
+pmo:Markable rdfs:subClassOf _:node1c3h5bnvlx36 .
+
+nif:dependencyTrans rdfs:domain nif:String .
+
+ontolex:isSenseOf rdfs:domain semiotics:Meaning .
+
+_:node1c3h5bnvlx16 owl:allValuesFrom pmo:Conceptualization .
+
+xsd:decimal owl:sameAs xsd:decimal .
+
+pmo:evokedConcept rdfs:domain skos:Concept .
+
+_:node1c3h5bnvlx46 rdf:rest _:node1c3h5bnvlx47 .
+
+nif:CStringInst rdfs:subClassOf nif:String .
+
+nif:previousWordTrans rdfs:subPropertyOf nif:previousWordTrans .
+
+_:node1c3h5bnvlx34 owl:sameAs _:node1c3h5bnvlx34 .
+
+ontolex:Word rdfs:label "mot"@fr .
+
+rdfs:isDefinedBy owl:sameAs rdfs:isDefinedBy .
+
+ontolex:isDenotedBy rdfs:range ontolex:LexicalEntry .
+
+nif:narrowerContext rdfs:domain _:node1c3h5bnvlx36 .
+
+_:node1c3h5bnvlx25 owl:sameAs _:node1c3h5bnvlx25 .
+
+_:node1c3h5bnvlx53 owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger .
+
+ontolex:otherForm rdfs:label "autre forme"@fr .
+
+_:node1c3h5bnvlx13 owl:onProperty nif:beginIndex .
+
+_:node1c3h5bnvlx54 owl:sameAs _:node1c3h5bnvlx54 .
+
+_:node1c3h5bnvlx44 owl:sameAs _:node1c3h5bnvlx44 .
+
+nif:lang rdfs:domain _:node1c3h5bnvlx36 .
+
+nif:narrowerContext rdfs:comment "The inverse of nif:narrowerContext"@en .
+
+nif:Context rdfs:comment """The string that serves as a context for its substrings.  The Unicode String given in the nif:isString property must be used to calculate the begin and endIndex for all nif:Strings that have a nif:referenceContext property to this URI. For further information, see http://svn.aksw.org/papers/2013/ISWC_NIF/public.pdf 
+    
+    Changelog
+    * 1.0.1. improved documentation
+    * 1.0.2. merged inf model
+    """@en .
+
+nif:isString rdfs:subPropertyOf nif:anchorOf .
+
+_:node1c3h5bnvlx5 rdf:rest rdf:nil .
+
+ontolex:writtenRep rdfs:label "reprezentare scrisă"@ro .
+
+ontolex:Form rdfs:label "Form"@de .
+
+ontolex:evokes owl:propertyChainAxiom _:node1c3h5bnvlx43 .
+
+nif:dependencyRelationType a owl:DatatypeProperty .
+
+nif:broaderContext rdfs:range _:node1c3h5bnvlx35 .
+
+ontolex:LexicalConcept rdfs:label "lexical concept"@en .
+
+rdfs:subClassOf owl:sameAs rdfs:subClassOf .
+
+pmo:evokingEntry rdfs:subPropertyOf pmo:evokingEntry .
+
+nif:lastWord owl:versionInfo "0.1.2" .
+
+nif:beginIndex a owl:FunctionalProperty .
+
+pmo:semRoleMapping rdfs:comment "relates a mapping between semantic roles to the corresponding mapping between semantic classes and/or conceptualizations"@en .
+
+ontolex:usage rdfs:label "usage"@fr .
+
+pmo:semRoleMapping rdfs:range pmo:SemanticRoleMapping .
+
+pmo:evokedConcept owl:sameAs pmo:evokedConcept .
+
+dcterms:license a owl:AnnotationProperty .
+
+nif:lastWord rdfs:comment """This property links sentences to their last word.
+	 Changelog:
+	 * 0.1.1 fixed label
+	 * 0.1.2 merged inf+val
+    """@en .
+
+nif:superString owl:equivalentProperty nif:superString .
+
+_:node1c3h5bnvlx38 rdf:rest rdf:nil .
+
+xsd:float a rdfs:Datatype .
+
+nif:superStringTrans rdfs:comment "see nif:subStringTrans" .
+
+ontolex:LexicalConcept owl:sameAs ontolex:LexicalConcept .
+
+pmo:SemanticRoleMapping rdfs:label "Semantic Role Mapping"@en .
+
+vann:preferredNamespacePrefix a owl:AnnotationProperty .
+
+skos:inScheme rdfs:subPropertyOf skos:inScheme .
+
+nif:isString rdfs:domain nif:Context .
+
+nif:anchorOf rdfs:domain _:node1c3h5bnvlx36 .
+
+ontolex:denotes rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+ontolex:usage rdfs:domain _:node1c3h5bnvlx57 .
+
+ontolex:isLexicalizedSenseOf owl:equivalentProperty ontolex:isLexicalizedSenseOf .
+
+pmo:evokingEntry rdfs:range _:node1c3h5bnvlx56 .
+
+ontolex:otherForm rdfs:domain _:node1c3h5bnvlx45 .
+
+ontolex:isLexicalizedSenseOf rdfs:label "ist lexikalisierter Sinn von"@de .
+
+xsd:Name a rdfs:Datatype .
+
+nif:sourceUrl rdfs:comment """The URL the context was extracted from, e.g. the blog or news article url. Doesn't matter whether it is HTML or XML or plain text. rdfs:range is foaf:Document.  Subproperty of prov:hadPrimarySource. In case the string comes from another NIF String and gives the exact provenance, please use nif:wasConvertedFrom or a subProperty thereof.
+    Changelog:
+    * 0.2.0 added subPropertyOf prov:hadPrimarySource
+    * 0.2.1 clarification
+    """@en .
+
+nif:CString rdfs:subClassOf _:node1c3h5bnvlx18 .
+
+nif:sentence owl:equivalentProperty nif:sentence .
+
+nif:previousSentence rdfs:domain nif:Structure .
+
+pmo:item rdfs:label "item"@en .
+
+pmo:SemanticClassMapping rdfs:subClassOf _:node1c3h5bnvlx20 .
+
+nif:OffsetBasedString rdfs:subClassOf _:node1c3h5bnvlx18 .
+
+nif:wasConvertedFrom rdfs:subPropertyOf prov:wasDerivedFrom .
+
+nif:subString rdfs:subPropertyOf nif:subString .
+
+owl:topDataProperty owl:equivalentProperty owl:topDataProperty .
+
+nif:firstWord rdfs:domain nif:Sentence .
+
+nif:nextSentenceTrans rdfs:domain nif:String .
+
+dc:description owl:sameAs dc:description .
+
+nif:narrowerContext owl:sameAs nif:narrowerContext .
+
+nif:after owl:sameAs nif:after .
+
+ontolex:MultiWordExpression owl:sameAs ontolex:MultiWordExpression .
+
+pmo:evokingEntry rdfs:domain _:node1c3h5bnvlx15 .
+
+nif:predLang rdfs:domain _:node1c3h5bnvlx31 .
+
+nif:literalAnnotation rdfs:comment """
+      see Towards Web-Scale Collaborative Knowledge Extraction  http://svn.aksw.org/papers/2012/PeoplesWeb/public_preprint.pdf‎ page 21 .
+      Changelog:
+      * 0.1.1 Fixed page number
+    """@en .
+
+nif:posTag rdfs:comment "To include the pos tag as it comes out of the NLP tool as RDF Literal. This property is discouraged to use alone, please use oliaLink and oliaCategory.  We included it, because some people might still want it and will even create their own property, if the string variant is missing " .
+
+nif:oliaCategory rdfs:label "OLiA Category"@en .
+
+ontolex:LexicalEntry owl:sameAs ontolex:LexicalEntry .
+
+<https://creativecommons.org/publicdomain/zero/1.0/> owl:sameAs <https://creativecommons.org/publicdomain/zero/1.0/> .
+
+_:node1c3h5bnvlx20 owl:onClass skos:Concept .
+
+nif:subString rdfs:subPropertyOf nif:subStringTrans .
+
+_:node1c3h5bnvlx27 owl:onProperty pmo:item .
+
+_:node1c3h5bnvlx29 owl:sameAs _:node1c3h5bnvlx29 .
+
+nif:endIndex owl:versionInfo "1.0.2" .
+
+nif:nextWord rdfs:domain nif:Structure .
+
+rdfs:Literal owl:sameAs rdfs:Literal .
+
+skos:broader owl:sameAs skos:broader .
+
+_:node1c3h5bnvlx43 rdf:rest _:node1c3h5bnvlx44 .
+
+<http://premon.fbk.eu/ontology/core> a owl:Ontology .
+
+<http://www.w3.org/ns/lemon/ontolex> a owl:Ontology .
+
+_:node1c3h5bnvlx37 <sys:chain2prop2> ontolex:reference .
+
+_:node1c3h5bnvlx27 owl:sameAs _:node1c3h5bnvlx27 .
+
+pmo:next a owl:ObjectProperty .
+
+owl:equivalentProperty owl:sameAs owl:equivalentProperty .
+
+pmo:next rdfs:subPropertyOf pmo:next .
+
+_:node1c3h5bnvlx34 rdfs:subClassOf _:node1c3h5bnvlx27 .
+
+nif:RFC5147String a owl:Class .
+
+ontolex:evokes rdfs:range ontolex:LexicalConcept .
+
+_:node1c3h5bnvlx45 <sys:expandUnion> _:node1c3h5bnvlx47 .
+
+nif:Structure rdfs:subClassOf nif:String .
+
+ontolex:isLexicalizedSenseOf rdfs:label "es l'acepción lexicalizado de"@es .
+
+nif:previousSentence rdfs:range nif:String .
+
+pmo:Markable rdfs:subClassOf nif:RFC5147String .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> a owl:Ontology .
+
+nif:Structure owl:sameAs nif:Structure .
+
+nif:wasConvertedFrom a owl:ObjectProperty .
+
+ontolex:isLexicalizedSenseOf owl:inverseOf ontolex:lexicalizedSense .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core/nif-core.ttl> owl:sameAs <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core/nif-core.ttl> .
+
+pmo:evokedConcept a owl:FunctionalProperty .
+
+ontolex:sense rdfs:label "sentido"@pt .
+
+owl:allValuesFrom owl:sameAs owl:allValuesFrom .
+
+nif:opinion owl:inverseOf marl:extractedFrom .
+
+_:node1c3h5bnvlx25 owl:allValuesFrom pmo:SemanticClass .
+
+pmo:Conceptualization rdfs:subClassOf _:node1c3h5bnvlx14 .
+
+ontolex:canonicalForm rdfs:label "forma canonica"@pt .
+
+ontolex:lexicalizedSense rdfs:range semiotics:Meaning .
+
+nif:hasContext rdfs:range _:node1c3h5bnvlx31 .
+
+nif:ContextHashBasedString owl:sameAs nif:ContextHashBasedString .
+
+nif:endIndex owl:sameAs nif:endIndex .
+
+ontolex:sense rdfs:domain ontolex:LexicalEntry .
+
+ontolex:otherForm rdfs:domain _:node1c3h5bnvlx49 .
+
+owl:cardinality owl:sameAs owl:cardinality .
+
+pmo:valueDt rdfs:comment "value"@en .
+
+ontolex:lexicalForm rdfs:label "lexikalische Form"@de .
+
+_:node1c3h5bnvlx28 owl:onProperty nif:referenceContext .
+
+_:node1c3h5bnvlx17 a owl:Restriction .
+
+ontolex:representation rdfs:label "reprezentare"@ro .
+
+nif:previousWord rdfs:domain nif:Structure .
+
+ontolex:reference owl:equivalentProperty ontolex:reference .
+
+ontolex:lexicalForm rdfs:label "forma lessicale"@it .
+
+nif:referenceContext rdfs:domain _:node1c3h5bnvlx36 .
+
+ontolex:usage a owl:ObjectProperty .
+
+pmo:SemanticClassMapping rdfs:subClassOf pmo:Mapping .
+
+nif:ContextHashBasedString a owl:Class .
+
+ontolex:reference rdfs:label "Referenz"@de .
+
+_:node1c3h5bnvlx9 owl:sameAs _:node1c3h5bnvlx9 .
+
+nif:nextWord rdfs:range nif:String .
+
+ontolex:isLexicalizedSenseOf rdfs:label "est le sens lexicalisé de"@fr .
+
+<http://art.uniroma2.it/fiorelli/> owl:sameAs <http://art.uniroma2.it/fiorelli/> .
+
+ontolex:isEvokedBy rdfs:label "framkallas av "@sv .
+
+_:node1c3h5bnvlx9 owl:onClass pmo:AnnotationSet .
+
+ontolex:representation rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+ontolex:canonicalForm rdfs:domain _:node1c3h5bnvlx55 .
+
+nif:previousWord rdfs:subPropertyOf nif:previousWord .
+
+rdfs:seeAlso a owl:AnnotationProperty .
+
+owl:AnnotationProperty owl:sameAs owl:AnnotationProperty .
+
+xsd:byte owl:sameAs xsd:byte .
+
+pmo:classRel rdfs:domain skos:Concept .
+
+xsd:NCName owl:sameAs xsd:NCName .
+
+nif:oliaLink owl:equivalentProperty nif:oliaLink .
+
+ontolex:Word rdfs:label "woord"@nl .
+
+nif:keyword rdfs:label "keyword" .
+
+nif:predLang rdfs:domain _:node1c3h5bnvlx36 .
+
+nif:oliaConf rdfs:domain _:node1c3h5bnvlx36 .
+
+pmo:evokedConcept a owl:ObjectProperty .
+
+_:node1c3h5bnvlx20 a owl:Restriction .
+
+pmo:SemanticRoleMapping rdfs:subClassOf _:node1c3h5bnvlx34 .
+
+ontolex:writtenRep rdfs:comment "The 'written representation' property indicates the written representation of a form."@en .
+
+semiotics:Meaning a owl:Class .
+
+nif:nextSentence rdfs:domain nif:Structure .
+
+nif:oliaProv rdfs:domain _:node1c3h5bnvlx36 .
+
+ontolex:isSenseOf rdfs:range _:node1c3h5bnvlx56 .
+
+owl:AllDisjointClasses owl:sameAs owl:AllDisjointClasses .
+
+nif:ContextCollection owl:versionInfo "0.1.1" .
+
+ontolex:phoneticRep rdfs:label "fonetisk representation "@sv .
+
+ontolex:lexicalForm rdfs:range ontolex:Form .
+
+nif:topic rdfs:domain nif:String .
+
+nif:previousWord rdfs:range nif:String .
+
+nif:nextSentenceTrans rdfs:range nif:Sentence .
+
+nif:Phrase owl:versionInfo "0.1.1" .
+
+nif:keyword owl:equivalentProperty nif:keyword .
+
+rdfs:Literal a rdfs:Datatype .
+
+ontolex:morphologicalPattern rdfs:domain _:node1c3h5bnvlx56 .
+
+nif:superString a owl:ObjectProperty .
+
+ontolex:LexicalConcept rdfs:label "lexikalisches Konzept"@de .
+
+<sys:keyNprop2> owl:sameAs <sys:keyNprop2> .
+
+nif:lastWord rdfs:domain nif:Structure .
+
+nif:hasContext rdfs:range _:node1c3h5bnvlx36 .
+
+nif:nextWordTrans rdfs:domain nif:Structure .
+
+xsd:nonNegativeInteger a rdfs:Datatype .
+
+_:node1c3h5bnvlx25 a owl:Restriction .
+
+_:node1c3h5bnvlx10 owl:sameAs _:node1c3h5bnvlx10 .
+
+_:node1c3h5bnvlx6 rdf:first _:node1c3h5bnvlx7 .
+
+nif:lastWord rdfs:range nif:String .
+
+xsd:boolean owl:sameAs xsd:boolean .
+
+<http://www.w3.org/ns/lemon/ontolex> owl:versionInfo "1.0"^^xsd:decimal .
+
+ontolex:denotes a owl:ObjectProperty .
+
+nif:keyword rdfs:domain _:node1c3h5bnvlx36 .
+
+nif:nextWord rdfs:range nif:Word .
+
+nif:wasConvertedFrom rdfs:domain nif:String .
+
+nif:nextSentence rdfs:range nif:String .
+
+nif:beginIndex rdfs:domain nif:String .
+
+nif:oliaProv owl:equivalentProperty nif:oliaProv .
+
+ontolex:MultiWordExpression a owl:Class .
+
+nif:broaderContext rdfs:range _:node1c3h5bnvlx31 .
+
+xsd:base64Binary owl:sameAs xsd:base64Binary .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core/nif-core-val.ttl> owl:sameAs <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core/nif-core-val.ttl> .
+
+ontolex:isSenseOf rdfs:label "è il senso di"@it .
+
+pmo:classRel rdfs:subPropertyOf pmo:classRel .
+
+<sys:keyNprop3> owl:sameAs <sys:keyNprop3> .
+
+_:node1c3h5bnvlx32 owl:onProperty _:node1c3h5bnvlx33 .
+
+ontolex:MultiWordExpression rdfs:subClassOf _:node1c3h5bnvlx55 .
+
+_:node1c3h5bnvlx4 owl:sameAs _:node1c3h5bnvlx4 .
+
+nif:posTag rdfs:range xsd:string .
+
+ontolex:lexicalForm rdfs:domain semiotics:Expression .
+
+ontolex:canonicalForm rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+nif:predLang rdfs:label "predominant language" .
+
+_:node1c3h5bnvlx18 owl:onProperty nif:endIndex .
+
+ontolex:otherForm rdfs:label "otra forma"@es .
+
+nif:tail owl:versionInfo "0.1.0" .
+
+nif:previousSentence a owl:FunctionalProperty .
+
+pmo:SemanticClassMapping rdfs:subClassOf _:node1c3h5bnvlx25 .
+
+nif:nextWordTrans rdfs:range nif:String .
+
+pmo:ontologyMatch rdfs:subPropertyOf pmo:ontologyMatch .
+
+nif:superString rdfs:comment "see nif:subString"@en .
+
+ontolex:isDenotedBy rdfs:label "wird bezeichnet von"@de .
+
+pmo:evokingEntry rdfs:domain _:node1c3h5bnvlx14 .
+
+ontolex:ConceptSet rdfs:label "verzameling van begrippen"@nl .
+
+nif:previousWord rdfs:range nif:Word .
+
+pmo:AnnotationSet a owl:Class .
+
+_:node1c3h5bnvlx12 a owl:Restriction .
+
+nif:previousSentenceTrans owl:versionInfo "0.1.1" .
+
+_:node1c3h5bnvlx15 owl:sameAs _:node1c3h5bnvlx15 .
+
+ontolex:Word rdfs:subClassOf _:node1c3h5bnvlx56 .
+
+ontolex:isConceptOf rdfs:label "is concept of"@en .
+
+pmo:ConceptualizationMapping owl:sameAs pmo:ConceptualizationMapping .
+
+nif:isString owl:equivalentProperty nif:isString .
+
+ontolex:isEvokedBy owl:equivalentProperty ontolex:isEvokedBy .
+
+nif:RFC5147String owl:sameAs nif:RFC5147String .
+
+nif:Context rdfs:subClassOf nif:String .
+
+owl:FunctionalProperty owl:sameAs owl:FunctionalProperty .
+
+nif:before owl:sameAs nif:before .
+
+nif:confidence owl:versionInfo "0.0.1" .
+
+pmo:Markable rdfs:comment "Represent a piece of text to which some annotation is attached to"@en .
+
+ontolex:evokes rdfs:domain ontolex:LexicalEntry .
+
+ontolex:writtenRep rdfs:label "schriftliche Darstellung"@de .
+
+_:node1c3h5bnvlx52 owl:onProperty skos:inScheme .
+
+ontolex:morphologicalPattern owl:equivalentProperty ontolex:morphologicalPattern .
+
+nif:RFC5147String rdfs:comment """cf. http://tools.ietf.org/html/rfc5147 URIs of this class have to conform with the syntax of RFC 5147 in a way that the end on a valid identifier, if you remove the prefix. Note that unlike RFC 5147 NIF does not requrire '#' URIs. So valid URIs are http://example.org#char=0,28 , http://example.org/whatever/char=0,28 , http://example.org/nif?char=0,28
+    Changelog:
+    * 1.1.0 changed subclass to CString .
+    * 1.1.1 typo in rdfs:label and extension of comment
+    """ .
+
+_:node1c3h5bnvlx42 owl:onProperty nif:referenceContext .
+
+nif:word rdfs:subPropertyOf nif:word .
+
+ontolex:concept owl:equivalentProperty ontolex:concept .
+
+pmo:evokingEntry rdfs:label "evoking entry"@en .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> dcterms:license <http://www.apache.org/licenses/LICENSE-2.0> .
+
+xsd:short a rdfs:Datatype .
+
+owl:onClass owl:sameAs owl:onClass .
+
+ontolex:sense rdfs:label "betydelse"@sv .
+
+nif:previousWordTrans rdfs:comment "see nif:nextSentence"@en .
+
+xsd:float owl:sameAs xsd:float .
+
+ontolex:morphologicalPattern rdfs:label "morfologische patroon"@nl .
+
+nif:sourceUrl owl:sameAs nif:sourceUrl .
+
+ontolex:phoneticRep rdfs:comment "The 'phonetic representation' property indicates one phonetic representation of the pronunciation of the form using a scheme such as the International Phonetic Alphabet (IPA). "@en .
+
+nif:topic owl:equivalentProperty nif:topic .
+
+_:node1c3h5bnvlx23 rdfs:subClassOf _:node1c3h5bnvlx21 .
+
+ontolex:lexicalForm owl:sameAs ontolex:lexicalForm .
+
+nif:confidence rdfs:range xsd:decimal .
+
+_:node1c3h5bnvlx49 <sys:expandUnion> _:node1c3h5bnvlx51 .
+
+owl:members owl:sameAs owl:members .
+
+nif:superString rdfs:domain nif:String .
+
+nif:CStringInst rdfs:label "Consecutive String Instantiation"@en .
+
+nif:broaderContext rdfs:range _:node1c3h5bnvlx36 .
+
+nif:posTag rdfs:subPropertyOf nif:posTag .
+
+ontolex:LexicalEntry rdfs:subClassOf _:node1c3h5bnvlx56 .
+
+owl:topDataProperty a owl:DatatypeProperty .
+
+pmo:first owl:equivalentProperty pmo:first .
+
+pmo:ontologyMatch rdfs:label "ontology (exact) match"@en .
+
+nif:nextWord rdfs:subPropertyOf nif:nextWordTrans .
+
+pmo:ConceptualizationMapping rdfs:subClassOf _:node1c3h5bnvlx16 .
+
+_:node1c3h5bnvlx54 owl:members nif:OffsetBasedString .
+
+nif:annotation a owl:ObjectProperty .
+
+nif:lastWord rdfs:range nif:Word .
+
+nif:nextWord a owl:FunctionalProperty .
+
+nif:lastWord rdfs:label "has last word"@en .
+
+nif:nextWordTrans rdfs:range nif:Word .
+
+_:node1c3h5bnvlx11 owl:sameAs _:node1c3h5bnvlx11 .
+
+<sys:chain2prop2> owl:sameAs <sys:chain2prop2> .
+
+_:node1c3h5bnvlx35 a owl:Restriction .
+
+dcterms:issued owl:sameAs dcterms:issued .
+
+pmo:Markable a owl:Class .
+
+nif:previousSentence a owl:ObjectProperty .
+
+<http://premon.fbk.eu/ontology/core> owl:imports <http://www.w3.org/ns/lemon/ontolex> .
+
+nif:subString owl:inverseOf nif:superString .
+
+_:node1c3h5bnvlx58 owl:cardinality "1"^^xsd:nonNegativeInteger .
+
+pmo:SemanticRole a owl:Class .
+
+ontolex:canonicalForm rdfs:label "kanonische Form"@de .
+
+pmo:semRoleMapping rdfs:subPropertyOf pmo:semRoleMapping .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core/nif-core-inf.ttl> owl:sameAs <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core/nif-core-inf.ttl> .
+
+nif:narrowerContext rdfs:range nif:String .
+
+nif:Annotation a owl:Class .
+
+nif:opinion a owl:ObjectProperty .
+
+ontolex:MultiWordExpression rdfs:comment "A multiword expression is a lexical entry that consists of two or more words."@en .
+
+ontolex:canonicalForm a owl:FunctionalProperty .
+
+pmo:evokingEntry rdfs:range semiotics:Expression .
+
+ontolex:isDenotedBy rdfs:label "este denotat cu"@ro .
+
+ontolex:representation rdfs:label "representação"@pt .
+
+nif:tail rdfs:comment """
+      The last few chars of the nif:anchorOf. Typically used if the nif:anchorOf
+      is to long for inclusion as RDF literal.
+    """@en .
+
+nif:previousWord a owl:FunctionalProperty .
+
+nif:nextSentence a owl:FunctionalProperty .
+
+nif:firstWord owl:sameAs nif:firstWord .
+
+ontolex:LexicalSense rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+<http://premon.fbk.eu/ontology/core> dcterms:publisher "DKM, Fondazione Bruno Kessler <http://dkm.fbk.eu/>" .
+
+dc:publisher owl:sameAs dc:publisher .
+
+<http://www.w3.org/ns/lemon/ontolex> dc:modified "2016-01-10"^^xsd:date .
+
+pmo:SemanticRole rdfs:label "Semantic Role"@en .
+
+_:node1c3h5bnvlx6 rdf:rest _:node1c3h5bnvlx8 .
+
+ontolex:lexicalForm rdfs:label "forma léxica"@es .
+
+nif:lemma rdfs:range xsd:string .
+
+pmo:classRel a owl:ObjectProperty .
+
+nif:Title owl:versionInfo "0.1.1" .
+
+nif:lemma owl:equivalentProperty nif:lemma .
+
+nif:RFC5147String rdfs:subClassOf nif:CString .
+
+ontolex:denotes rdfs:label "bezeichnet"@de .
+
+ontolex:isEvokedBy rdfs:range ontolex:LexicalEntry .
+
+nif:ContextOccurrence a owl:Class .
+
+nif:stem rdfs:domain nif:String .
+
+_:node1c3h5bnvlx8 owl:sameAs _:node1c3h5bnvlx8 .
+
+_:node1c3h5bnvlx37 rdf:first ontolex:sense .
+
+xsd:positiveInteger a rdfs:Datatype .
+
+dcterms:rights a owl:AnnotationProperty .
+
+nif:lastWord a owl:FunctionalProperty .
+
+ontolex:phoneticRep a owl:DatatypeProperty .
+
+xsd:normalizedString owl:sameAs xsd:normalizedString .
+
+pmo:Example rdfs:subClassOf _:node1c3h5bnvlx35 .
+
+nif:Title owl:sameAs nif:Title .
+
+nif:previousWordTrans rdfs:range _:node1c3h5bnvlx36 .
+
+_:node1c3h5bnvlx6 <sys:chain2prop1> _:node1c3h5bnvlx7 .
+
+ontolex:representation rdfs:label "representation"@en .
+
+nif:subString rdfs:label "sub string"@en .
+
+nif:broaderContext rdfs:domain _:node1c3h5bnvlx35 .
+
+ontolex:isReferenceOf rdfs:label "es referencia de"@es .
+
+nif:Word rdfs:comment """
+    The Word class represents strings that are tokens or words. A string is a Word, if it is a word. We don't nitpic about whether it is a a pronoun, a name, a punctuation mark or an apostrophe or whether it is separated by white space from another Word or something else. The string 'He enters the room.' for example has 5 words. Words are assigned by a tokenizer NIF Implementation. Single word phrases might be tagged as nif:Word and nif:Phrase. 
+    
+    Example 1: \"The White House\" are three Words separated by whitespace
+        
+    Comment 1: We adopted the definition style from foaf:Person, see here: http://xmlns.com/foaf/spec/#term_Person We are well aware that the world out there is much more complicated, but we are ignorant about it, for the following reasons:
+    Comment 2:  
+    
+    1. NIF has a client-server and the client has the ability to dictate the tokenization to the server (i.e. the NIF Implementation) by sending properly tokenized NIF annotated with nif:Word. All NIF Implementations are supposed to honor and respect the current assignment of the Word class. Thus the client should decide which NIF Implementation should create the tokenization. Therefore this class is not descriptive, but prescriptive.
+    2. The client may choose to send an existing tokenization to a NIF Implementation, with the capability to change (for better or for worse) the tokenization. 
+    
+    
+   
+    The class has not been named 'Token' as the NLP definition of 'token' is descriptive (and not well-defined), while the assignment of what is a Word and what not is prescriptive, e.g. \"can't\" could be described as one, two or three tokens or defined as being one, two or three words. For further reading, we refer the reader to: By all these lovely tokens... Merging conflicting tokenizations by Christian Chiarcos, Julia Ritz, and Manfred Stede. Language Resources and Evaluation 46(1):53-74 (2012) or the short form: http://www.aclweb.org/anthology/W09-3005
+    There the task at hand is to merge two tokenization T_1 and T_2 which is normally not the case in the NIF world as tokenization is prescribed, i.e. given as a baseline (Note that this ideal state might not be achieved by all implementations.)
+    
+    Changelog:
+    * 0.1.1 fixed spelling
+    * 0.2.1 added a proper definition.
+    * 0.2.3 added examples and clarifications
+    """@en .
+
+ontolex:canonicalForm a owl:ObjectProperty .
+
+semiotics:denotes a owl:ObjectProperty .
+
+ontolex:reference rdfs:label "referência"@pt .
+
+pmo:next rdfs:label "next"@en .
+
+nif:subStringTrans rdfs:subPropertyOf nif:subStringTrans .
+
+<http://www.w3.org/community/ontolex> owl:sameAs <http://www.w3.org/community/ontolex> .
+
+ontolex:isEvokedBy rdfs:label "es evocado por"@es .
+
+nif:Paragraph rdfs:label "Paragraph"@en .
+
+nif:previousWordTrans owl:equivalentProperty nif:previousWordTrans .
+
+nif:previousWord a owl:ObjectProperty .
+
+nif:nextWord a owl:ObjectProperty .
+
+ontolex:Affix rdfs:subClassOf _:node1c3h5bnvlx56 .
+
+pmo:evokedConcept rdfs:domain pmo:Conceptualization .
+
+nif:firstWord rdfs:label "has first word"@en .
+
+nif:confidence owl:sameAs nif:confidence .
+
+ontolex:lexicalForm rdfs:label "lexical form"@en .
+
+<http://premon.fbk.eu/ontology/core> dcterms:description """###  Semantic Classes and Roles
+
+The *PreMOn Ontology Core Module* extends *lemon* by introducing classes [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass) and [pmo:SemanticRole](http://premon.fbk.eu/ontology/core#SemanticRole). [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass) homogeneously represents the semantic classes from the various predicate models. That is, individuals of this class correspond to rolesets in PB and NB (e.g., *pm:nb10-seller.01* and *pm:pb17-sell.01*), verb classes in VN (e.g., *pm:vn32-give-13.1-1*), and frames in FN (e.g., *pm:fn15-commerce sell*). An instance of [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass) typically has (via property [pmo:semRole](http://premon.fbk.eu/ontology/core#semRole)) a number of [pmo:SemanticRole](http://premon.fbk.eu/ontology/core#SemanticRole)s, representing, from a semantic point of view, the roles the arguments of that [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass) can play.
+
+Semantic roles are defined locally to semantic classes, so VN *agent* is represented as multiple semantic roles, one for each verb class it occurs in, and with each semantic role linked to its specific selectional restrictions (if any). Note that [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass) is defined as subclass of [ontolex:LexicalConcept](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Concept), as we see [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass)es as essentially informal concepts rather than well defined concepts of a formal ontology (although an ontology can be derived from them, cf., FrameBase and ESO). In particular, being [ontolex:LexicalConcept](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Concept)s, [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass)es inherit the link to lexical entries.
+
+Properties [pmo:classRel](http://premon.fbk.eu/ontology/core#classRel) and [pmo:roleRel](http://premon.fbk.eu/ontology/core#roleRel), and their resource-specific subproperties, are introduced to express the relations between elements at each level, such as subtyping, and predicate and role inheritance (e.g., [pmofn:inheritsFrom](http://premon.fbk.eu/ontology/fn#inheritsFrom) and [pmofn:inheritsFromFER](http://premon.fbk.eu/ontology/fn#inheritsFromFER) for FN). Additional resource-specific classes (e.g., [pmovn:ThematicRole](http://premon.fbk.eu/ontology/vn#ThematicRole)) and properties (e.g., [pmovn:thematicRole](http://premon.fbk.eu/ontology/vn#thematicRole)) further characterize important aspects of each predicate model, like commonalities between semantic roles.
+
+### Mappings
+
+Mappings between different predicate models are practically relevant but cannot be expressed using only the classes above, as they are often defined (e.g., in SemLink and PredicateMatrix) in terms of <[pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass), [ontolex:LexicalEntry](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Entry)> pairs. To model these pairs, one could reuse the notion of ontolex:LexicalSense. However, its formalization in lemon as reified relation depends on the existence of (exactly) one ontological entity for each <[ontolex:LexicalConcept](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Concept), [ontolex:LexicalEntry](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Entry)> pair, a strong constraint that we do not necessarily need for our purposes. Therefore, we introduce the [pmo:Conceptualization](http://premon.fbk.eu/ontology/core#Conceptualization) class. Structurally, a [pmo:Conceptualization](http://premon.fbk.eu/ontology/core#Conceptualization) can be seen as the reification of the [ontolex:evokes](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Evokes) relation between [ontolex:LexicalEntry](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Entry) and [ontolex:LexicalConcept](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Concept). Semantically, it can be seen as a very specific intensional concept (among many, in case of polysemy) evoked by a single [ontolex:LexicalEntry](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Entry), which can be generalized to a [ontolex:LexicalConcept](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Concept) when multiple entries are considered but with a possible loss of information that prevents precise alignments to be represented.
+
+Mappings are explicitly represented as individuals of class [pmo:Mapping](http://premon.fbk.eu/ontology/core#Mapping), and can be seen as sets of (or n-ary relations between) either (i) [pmo:Conceptualization](http://premon.fbk.eu/ontology/core#Conceptualization)s, (ii) [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass)es, and (iii) [pmo:SemanticRole](http://premon.fbk.eu/ontology/core#SemanticRole)s, with role mappings anchored to conceptualization or class mappings via property [pmo:semRoleMapping](http://premon.fbk.eu/ontology/core#semRoleMapping). We rely on this set-like modeling, since mappings are not necessarily represented as binary relations in predicate mapping resources: e.g., in the PredicateMatrix, each row represents the mapping of a semantic role / lexical entry pair over the different resources (e.g., <*13.1-1-agent*, *deal*> in VN, <*sell.01-arg0*, *sell*> in PB, <*Commerce Sell-seller*, *sell*> in FN) as well as the corresponding WordNet verb sense. Reifying the n-ary mapping relation also allows us, if needed, to further characterize each single mapping, asserting additional information such as confidence and reliability. Moreover, it is possible to further specialize mappings
+(e.g., to model mappings holding only in one direction, from a resource to another one, or to represent different types of relationships among the members of the mapping) by subtyping the [pmo:Mapping](http://premon.fbk.eu/ontology/core#Mapping) class or the property (pmo:item) relating a [pmo:Mapping](http://premon.fbk.eu/ontology/core#Mapping) to its members.
+
+### Ontological Mappings
+
+Building on *lemon*, *PreMOn* inherits the capability of linking lexical content to ontological resources. In particular, being [ontolex:LexicalConcept](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Concept)s, [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass)es inherit the link (via [ontolex:isConceptOf](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Concept)) to the ontological entities formalizing them, typically event classes.
+
+However, in order to properly align predicate models to existing frame/event-based ontologies such as FrameBase and ESO, *PreMOn* introduces the property [pmo:ontologyMatch](http://premon.fbk.eu/ontology/core#ontologyMatch), having as domain 
+[skos:Concept](https://www.w3.org/2009/08/skos-reference/skos.html#Concept), to enable the possibility of linking to ontological entities also other resources than [ontolex:LexicalConcept](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Concept)s. In particular, [pmo:ontologyMatch](http://premon.fbk.eu/ontology/core#ontologyMatch) property enables the alignment to ontology elements of resources such as: 
+
+* [pmo:Conceptualization](http://premon.fbk.eu/ontology/core#Conceptualization)s
+* [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass)es (in this case, [ontolex:isConceptOf](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Concept) can be seen as a subproperty of [pmo:ontologyMatch](http://premon.fbk.eu/ontology/core#ontologyMatch), although we abstained from formally enforcing this)
+* [pmo:SemanticRole](http://premon.fbk.eu/ontology/core#SemanticRole)s.
+
+### Annotations
+
+Predicate models are typically complemented by examples showing concrete occurrences of semantic classes and roles in text. More generally, a text can be annotated with semantic classes and roles as a result of manual or automatic SRL.
+
+The PreMOn Ontology provides some common primitives, based on the [NLP Interchange Format](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core/nif-core.html) (NIF) by Hellmann et al. (2013), which aim at properly modeling the heterogeneous annotations of a text for different predicate models. NIF introduces the general notion of [nif:String](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#String) to represent arbitrary text strings. [nif:Context](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Context) is a particular subclass of [nif:String](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#String), representing a whole string of text. Any substring (itself a [nif:String](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#String)) has a [nif:referenceContext](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#referenceContext) relation to the [nif:Context](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Context) individual representing the whole text containing it.
+
+To specifically model the aforementioned examples complementing predicate models, we introduce [pmo:Example](http://premon.fbk.eu/ontology/core#Example), subclass of [nif:Context](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Context), to represent the string associated with the example. The occurrence of a [ontolex:LexicalEntry](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Entry), [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass), or [pmo:SemanticRole](http://premon.fbk.eu/ontology/core#SemanticRole) in a [nif:Context](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Context) is denoted by an instance of [nif:Annotation](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Annotation), related to the given [ontolex:LexicalEntry](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Entry), [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass), or [pmo:SemanticRole](http://premon.fbk.eu/ontology/core#SemanticRole) via property [pmo:valueObj](http://premon.fbk.eu/ontology/core#valueObj) (the value attached to the annotation), and to the [nif:Context](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Context) instance via property [nif:annotation](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#annotation). If detailed information on the specific span of text (i.e., substring) denoting the [ontolex:LexicalEntry](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Entry), [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass), or [pmo:SemanticRole](http://premon.fbk.eu/ontology/core#SemanticRole) is available (e.g., FN provides the specific offsets of lexical units, frames, and frame elements, in the example text) an additional instance of [pmo:Markable](http://premon.fbk.eu/ontology/core#Markable), subclass of [nif:String](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#String), is created and linked to the specific [nif:Annotation](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Annotation) and [nif:Context](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Context) via properties [nif:annotation](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#annotation) and [nif:referenceContext](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#referenceContext), respectively. As the same [nif:Context](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Context) may contain multiple [nif:Annotation](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Annotation)s referring to one or more semantic classes and their corresponding roles, an additional [pmo:AnnotationSet](http://premon.fbk.eu/ontology/core#AnnotationSet) instance is created to cluster annotations from the same predicate structure."""@en .
+
+nif:sourceUrl rdfs:domain _:node1c3h5bnvlx35 .
+
+nif:category owl:sameAs nif:category .
+
+pmo:SemanticRole rdfs:subClassOf skos:Concept .
+
+nif:nextSentence owl:inverseOf nif:previousSentence .
+
+_:node1c3h5bnvlx45 owl:sameAs _:node1c3h5bnvlx45 .
+
+nif:endIndex rdfs:domain _:node1c3h5bnvlx36 .
+
+nif:nextWordTrans rdfs:subPropertyOf nif:nextWordTrans .
+
+nif:head owl:sameAs nif:head .
+
+nif:subString owl:versionInfo "0.1.1" .
+
+ontolex:otherForm rdfs:label "ander form"@af .
+
+nif:annotation rdfs:subPropertyOf nif:annotation .
+
+ontolex:reference rdfs:label "référence"@fr .
+
+ontolex:lexicalizedSense owl:sameAs ontolex:lexicalizedSense .
+
+nif:URIScheme owl:versionInfo "0.1.1" .
+
+ontolex:representation rdfs:label "Darstellung"@de .
+
+ontolex:ConceptSet rdfs:label "conjunto de conceptos"@es .
+
+nif:nextSentence rdfs:comment """This property (and nif:previousSentence, nif:nextWord, nif:previousWord and their transitive extension) can be used to make resources of nif:Sentence and nif:Word traversable, it can not be assumed that no gaps or whitespaces between sentences or words exist, i.e. string adjacency is not mandatory. The transitivity axioms are included in nif-core-inf.ttl and need to be included separately to keep a low reasoning profile. They are modeled after skos:broader and skos:broaderTransitive
+    """@en .
+
+ontolex:writtenRep owl:sameAs ontolex:writtenRep .
+
+rdfs:Resource owl:sameAs rdfs:Resource .
+
+nif:sentimentValue rdfs:domain _:node1c3h5bnvlx36 .
+
+nif:previousSentence rdfs:domain nif:String .
+
+rdf:XMLLiteral a rdfs:Datatype .
+
+pmo:evokingEntry owl:equivalentProperty pmo:evokingEntry .
+
+_:node1c3h5bnvlx34 owl:onProperty pmo:item .
+
+skos:inScheme a owl:ObjectProperty .
+
+nif:nextSentence a owl:ObjectProperty .
+
+ontolex:phoneticRep owl:sameAs ontolex:phoneticRep ;
+	rdfs:label "phonetische Darstellung"@de .
+
+ontolex:reference rdfs:label "referens"@sv .
+
+nif:sentence rdfs:comment """This property links words and other structures to their sentence.
+    Changelog:
+    * 0.2.0 Changed domain from nif:Word to nif:Structure, not longer inverseOf nif:word"""@en .
+
+nif:nextWordTrans a owl:TransitiveProperty .
+
+ontolex:lexicalizedSense rdfs:domain semiotics:Meaning .
+
+nif:opinion rdfs:domain nif:String .
+
+nif:lemma rdfs:label "lemma"@en .
+
+skos:Concept a owl:Class .
+
+_:node1c3h5bnvlx1 rdf:rest _:node1c3h5bnvlx2 .
+
+pmo:SemanticClassMapping rdfs:subClassOf _:node1c3h5bnvlx21 .
+
+_:node1c3h5bnvlx56 owl:onClass ontolex:Form .
+
+nif:head rdfs:domain _:node1c3h5bnvlx36 .
+
+skos:inScheme owl:equivalentProperty skos:inScheme .
+
+nif:inter rdfs:label "inter"@en .
+
+ontolex:otherForm rdfs:subPropertyOf ontolex:otherForm .
+
+nif:Structure rdfs:label "Structure"@en .
+
+nif:dependencyRelationType rdfs:range xsd:string .
+
+_:node1c3h5bnvlx21 <sys:expandUnion> _:node1c3h5bnvlx26 .
+
+nif:Phrase rdfs:subClassOf _:node1c3h5bnvlx36 .
+
+nif:lastWord a owl:ObjectProperty .
+
+nif:RFC5147String rdfs:subClassOf nif:String .
+
+nif:referenceContext rdfs:label "reference context"@en .
+
+nif:nextWordTrans a owl:ObjectProperty .
+
+ontolex:writtenRep a owl:DatatypeProperty .
+
+nif:tail owl:sameAs nif:tail .
+
+<http://premon.fbk.eu/ns/core.ttl> owl:sameAs <http://premon.fbk.eu/ns/core.ttl> .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> dc:publisher "AKSW, University Leipzig" .
+
+nif:referenceContext rdfs:range nif:String .
+
+_:node1c3h5bnvlx11 owl:onProperty pmo:item .
+
+xsd:positiveInteger owl:sameAs xsd:positiveInteger .
+
+ontolex:sense rdfs:range ontolex:LexicalSense .
+
+nif:firstWord rdfs:subPropertyOf nif:word .
+
+ontolex:LexicalConcept rdfs:label "concept lexical"@ro .
+
+owl:Thing owl:sameAs owl:Thing .
+
+nif:Context rdfs:label "Context"@en .
+
+ontolex:denotes rdfs:label "denotă"@ro .
+
+owl:subClassOf owl:sameAs owl:subClassOf .
+
+nif:before owl:versionInfo "0.1.0" .
+
+ontolex:representation rdfs:subPropertyOf ontolex:representation .
+
+_:node1c3h5bnvlx7 owl:sameAs _:node1c3h5bnvlx7 .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> dc:contributor "Navid Nourbakhsh" .
+
+nif:Annotation rdfs:label "keyword" .
+
+ontolex:isDenotedBy rdfs:label "es denotado por"@es .
+
+ontolex:LexicalEntry rdfs:label "lexical entry"@en .
+
+_:node1c3h5bnvlx57 a owl:Restriction .
+
+pmo:valueDt rdfs:subPropertyOf pmo:valueDt .
+
+nif:ContextHashBasedString rdfs:subClassOf nif:String .
+
+nif:dependencyRelationType owl:versionInfo "0.0.1" .
+
+nif:contextAsLiteral owl:versionInfo "0.1.0" .
+
+rdfs:range owl:sameAs rdfs:range .
+
+skos:ConceptScheme rdfs:label "concept scheme"@en .
+
+ontolex:isSenseOf rdfs:range semiotics:Expression .
+
+nif:previousWord rdfs:domain nif:String .
+
+nif:nextWord rdfs:domain nif:String .
+
+_:node1c3h5bnvlx21 a owl:Class .
+
+ontolex:isLexicalizedSenseOf rdfs:range _:node1c3h5bnvlx58 .
+
+nif:nextSentenceTrans rdfs:domain nif:Sentence .
+
+_:node1c3h5bnvlx12 owl:sameAs _:node1c3h5bnvlx12 .
+
+ontolex:reference rdfs:comment "The 'reference' property relates a lexical sense to an ontological predicate that represents the denotation of the corresponding lexical entry. "@en .
+
+pmo:next owl:equivalentProperty pmo:next .
+
+nif:oliaLink a owl:ObjectProperty .
+
+pmo:semRoleMapping rdfs:domain _:node1c3h5bnvlx3 .
+
+ontolex:isReferenceOf rdfs:label "è riferimento di"@it .
+
+nif:anchorOf owl:versionInfo "1.0.0" .
+
+ontolex:sense rdfs:comment "The 'sense' property relates a lexical entry to one of its lexical senses. "@en .
+
+_:node1c3h5bnvlx32 owl:sameAs _:node1c3h5bnvlx32 .
+
+ontolex:morphologicalPattern rdfs:domain semiotics:Expression .
+
+nif:subString owl:equivalentProperty nif:subString .
+
+ontolex:usage rdfs:label "usage"@en .
+
+nif:oliaLink rdfs:label "OLiA link"@en .
+
+nif:stem rdfs:comment "The stem(s) of the nif:String."@en .
+
+_:node1c3h5bnvlx37 <sys:chain2prop1> ontolex:sense .
+
+xsd:hexBinary owl:sameAs xsd:hexBinary .
+
+pmo:SemanticClassMapping rdfs:label "Semantic Class Mapping"@en .
+
+ontolex:concept rdfs:label "conceito"@pt .
+
+pmo:semRole rdfs:range pmo:SemanticRole .
+
+nif:oliaCategory a owl:AnnotationProperty .
+
+ontolex:otherForm rdfs:domain ontolex:LexicalEntry .
+
+owl:topObjectProperty rdfs:subPropertyOf owl:topObjectProperty .
+
+ontolex:isLexicalizedSenseOf owl:sameAs ontolex:isLexicalizedSenseOf .
+
+nif:previousSentence rdfs:range nif:Sentence .
+
+ontolex:lexicalizedSense rdfs:label "signification lexicalisé"@fr .
+
+pmo:Example rdfs:subClassOf _:node1c3h5bnvlx31 .
+
+nif:lastWord rdfs:subPropertyOf nif:lastWord .
+
+nif:dependency rdfs:subPropertyOf nif:dependencyTrans .
+
+owl:backwardCompatibleWith a owl:AnnotationProperty .
+
+nif:subStringTrans rdfs:comment """transitive version of subString
+    
+    Inferences (nif-core-inf.ttl): 
+    Transitive definition kept in a different ontology
+    
+    Changelog:
+    * 0.1.0: Initial version
+    * 0.1.1: merged inf
+    """@en .
+
+nif:nextSentence rdfs:domain nif:String .
+
+nif:lang rdfs:domain _:node1c3h5bnvlx48 .
+
+nif:sentence owl:sameAs nif:sentence .
+
+ontolex:LexicalConcept rdfs:label "lexikaal concept"@nl .
+
+owl:versionInfo owl:sameAs owl:versionInfo .
+
+nif:broaderContext rdfs:domain _:node1c3h5bnvlx31 .
+
+ontolex:isDenotedBy rdfs:range _:node1c3h5bnvlx56 .
+
+ontolex:otherForm rdfs:range _:node1c3h5bnvlx53 .
+
+nif:Title rdfs:label "Title"@en .
+
+nif:lemma owl:versionInfo "0.1.0" .
+
+ontolex:isReferenceOf rdfs:label "is reference of"@en .
+
+nif:oliaConf rdfs:label "Confidence of OLiA tag" .
+
+nif:category a owl:AnnotationProperty .
+
+owl:topDataProperty owl:sameAs owl:topDataProperty .
+
+ontolex:phoneticRep rdfs:label "fonetiese voorstelling"@af .
+
+nif:narrowerContext a owl:ObjectProperty .
+
+ontolex:isReferenceOf a owl:InverseFunctionalProperty .
+
+nif:superString owl:sameAs nif:superString .
+
+_:node1c3h5bnvlx52 a owl:Restriction .
+
+nif:firstWord owl:versionInfo "0.1.1" .
+
+ontolex:denotes rdfs:domain _:node1c3h5bnvlx45 .
+
+nif:OffsetBasedString rdfs:subClassOf nif:URIScheme .
+
+_:node1c3h5bnvlx34 owl:equivalentClass _:node1c3h5bnvlx27 .
+
+nif:lastWord rdfs:domain nif:String .
+
+nif:keyword rdfs:comment """A general keyword associated with a string
+    Changelog:
+    * 0.0.1 initial commit of property"""@en .
+
+ontolex:Affix rdfs:label "afijo"@es .
+
+nif:String rdfs:subClassOf _:node1c3h5bnvlx36 .
+
+nif:nextWord rdfs:domain nif:Word .
+
+nif:Sentence rdfs:label "Sentence"@en .
+
+_:node1c3h5bnvlx14 a owl:Restriction .
+
+_:node1c3h5bnvlx22 rdf:rest _:node1c3h5bnvlx24 .
+
+ontolex:otherForm rdfs:subPropertyOf ontolex:lexicalForm .
+
+ontolex:sense rdfs:label "sinne"@af .
+
+pmo:Conceptualization rdfs:label "Conceptualization"@en .
+
+dc:rights owl:sameAs dc:rights .
+
+_:node1c3h5bnvlx1 <sys:chain2prop2> pmo:next .
+
+ontolex:Word rdfs:subClassOf semiotics:Expression .
+
+<http://premon.fbk.eu/ontology/core> rdfs:comment "The [PreMOn Ontology](http://premon.fbk.eu) is an extension of [lemon](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification) (W3C Ontology Lexicon Community Group, 2015) for representing *predicate models* and their *mappings*. The Core Module of the PreMOn Ontology defines the main abstractions for modelling *semantic classes* with their *semantic roles*, *mappings* between different predicate models, and *annotations*."@en .
+
+ontolex:evokes rdfs:label "ruft hervor"@de .
+
+ontolex:reference rdfs:label "riferimento"@it .
+
+ontolex:LexicalConcept rdfs:comment "A lexical concept represents a mental abstraction, concept or unit of thought that can be lexicalized by a given collection of senses."@en .
+
+pmo:Markable rdfs:subClassOf _:node1c3h5bnvlx29 .
+
+semiotics:Expression rdfs:label "expression"@en .
+
+nif:previousWord owl:equivalentProperty nif:previousWord .
+
+_:node1c3h5bnvlx49 a owl:Class .
+
+pmo:Markable rdfs:subClassOf nif:CString .
+
+nif:CString rdfs:subClassOf nif:URIScheme .
+
+ontolex:concept owl:inverseOf ontolex:isConceptOf .
+
+ontolex:evokes rdfs:label "evoca"@it .
+
+nif:referenceContext owl:versionInfo "1.0.0" .
+
+xsd:anyURI a rdfs:Datatype .
+
+nif:Word rdfs:subClassOf _:node1c3h5bnvlx36 .
+
+pmo:semRoleMapping rdfs:range _:node1c3h5bnvlx32 .
+
+nif:CStringInst rdfs:subClassOf _:node1c3h5bnvlx13 .
+
+nif:sourceUrl rdfs:domain _:node1c3h5bnvlx31 .
+
+ontolex:writtenRep rdfs:label "représentation écrite"@fr .
+
+nif:Title rdfs:subClassOf _:node1c3h5bnvlx36 .
+
+nif:nextWordTrans rdfs:domain nif:String .
+
+ontolex:lexicalizedSense rdfs:domain ontolex:LexicalConcept .
+
+nif:lang a owl:ObjectProperty .
+
+_:node1c3h5bnvlx57 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger .
+
+nif:previousWord rdfs:domain nif:Word .
+
+nif:sentimentValue rdfs:subPropertyOf nif:sentimentValue .
+
+_:node1c3h5bnvlx23 a owl:Restriction .
+
+<http://www.cimiano.de/> owl:sameAs <http://www.cimiano.de/> .
+
+ontolex:reference owl:sameAs ontolex:reference .
+
+ontolex:canonicalForm rdfs:label "canonical form"@en .
+
+nif:oliaLink rdfs:subPropertyOf nif:annotation .
+
+foaf:Person owl:sameAs foaf:Person .
+
+_:node1c3h5bnvlx47 owl:sameAs _:node1c3h5bnvlx47 .
+
+ontolex:concept rdfs:label "begrepp"@sv .
+
+pmo:roleRel rdfs:range skos:Concept .
+
+pmo:ontologyMatch rdfs:comment "PreMOn generic property to associate a SKOS concept to an ontological entity"@en .
+
+ontolex:isSenseOf rdfs:subPropertyOf ontolex:isSenseOf .
+
+pmo:Markable rdfs:subClassOf _:node1c3h5bnvlx42 .
+
+ontolex:isSenseOf rdfs:domain ontolex:LexicalSense .
+
+nif:broaderContext rdfs:domain _:node1c3h5bnvlx36 .
+
+ontolex:LexicalEntry rdfs:subClassOf semiotics:Expression .
+
+ontolex:denotes rdfs:domain _:node1c3h5bnvlx49 .
+
+nif:after rdfs:domain _:node1c3h5bnvlx36 .
+
+ontolex:usage rdfs:label "Gebrauch"@de .
+
+nif:CString owl:versionInfo "0.1.0" .
+
+xsd:token a rdfs:Datatype .
+
+pmo:classRel owl:equivalentProperty pmo:classRel .
+
+nif:literalAnnotation rdfs:label "literalAnnotation"@en .
+
+ontolex:LexicalEntry rdfs:label "înregistrare lexicală"@ro .
+
+pmo:semRole rdfs:domain semiotics:Meaning .
+
+ontolex:phoneticRep rdfs:label "phonetic representation"@en .
+
+_:node1c3h5bnvlx4 rdf:first pmo:ConceptualizationMapping .
+
+nif:dependencyRelationType rdfs:subPropertyOf nif:dependencyRelationType .
+
+<http://premon.fbk.eu/ontology/core> owl:sameAs <http://premon.fbk.eu/ontology/core> .
+
+nif:referenceContext a owl:FunctionalProperty .
+
+nif:nextSentence rdfs:range nif:Sentence .
+
+ontolex:isConceptOf rdfs:domain skos:Concept .
+
+nif:word rdfs:label "has word"@en .
+
+<http://www.w3.org/ns/lemon/ontolex> dc:contributor <https://sites.google.com/site/francescafrontini/> .
+
+pmo:ontologyMatch owl:equivalentProperty pmo:ontologyMatch .
+
+ontolex:LexicalSense rdfs:comment """A lexical sense represents the lexical meaning of a lexical entry when interpreted as referring to the corresponding ontology element. A lexical sense thus represents a reification of a pair of a uniquely determined lexical entry and a uniquely determined ontology entity it refers to. 
+A link between a lexical entry and an ontology entity via a Lexical Sense object implies that the lexical entry can be used to refer to the ontology entity in question."""@en .
+
+nif:oliaLink rdfs:domain nif:String .
+
+nif:Paragraph rdfs:comment """
+    A paragraph.
+    Changelog:
+    * 0.1.1 fixed spelling, added language tag
+    """@en .
+
+nif:previousSentenceTrans rdfs:comment "see nif:nextSentence"@en .
+
+pmo:SemanticRoleMapping rdfs:subClassOf _:node1c3h5bnvlx27 .
+
+pmo:Example rdfs:subClassOf _:node1c3h5bnvlx36 .
+
+_:node1c3h5bnvlx53 owl:onProperty ontolex:writtenRep .
+
+nif:confidence rdfs:domain nif:Annotation .
+
+nif:narrowerContext rdfs:domain nif:String .
+
+ontolex:representation rdfs:label "représentation"@fr .
+
+pmo:item rdfs:subPropertyOf pmo:item .
+
+ontolex:reference rdfs:range rdfs:Resource .
+
+ontolex:concept rdfs:label "concept"@ro .
+
+pmo:evokedConcept rdfs:range semiotics:Meaning .
+
+nif:keyword owl:sameAs nif:keyword .
+
+ontolex:sense rdfs:domain _:node1c3h5bnvlx56 .
+
+nif:wasConvertedFrom rdfs:subPropertyOf nif:wasConvertedFrom .
+
+_:node1c3h5bnvlx43 <sys:chain2prop2> ontolex:isLexicalizedSenseOf .
+
+nif:topic a owl:DatatypeProperty .
+
+nif:oliaLink owl:sameAs nif:oliaLink .
+
+nif:dependency owl:versionInfo "0.1.0" .
+
+nif:previousWordTrans rdfs:range nif:Structure .
+
+nif:ContextCollection rdfs:comment """A collection of contexts used to create an unordered set of context via the nif:hasContext property. This can be compared to a document collection, but here it is a collection of nif:Context and therefore a collection of annotated strings, not documents. 
+    
+    Open Issues
+    Investigate ordered collections
+    
+    Changelog
+    * 0.1.1 improved documentation
+    """@en .
+
+nif:nextWordTrans rdfs:domain nif:Word .
+
+nif:sourceUrl rdfs:domain _:node1c3h5bnvlx36 .
+
+ontolex:isEvokedBy owl:inverseOf ontolex:evokes .
+
+nif:superStringTrans owl:versionInfo "0.1.1" .
+
+pmo:Markable rdfs:subClassOf nif:String .
+
+nif:word owl:equivalentProperty nif:word .
+
+<http://premon.fbk.eu/ontology/core> rdfs:isDefinedBy <http://premon.fbk.eu/ns/core.ttl> .
+
+_:node1c3h5bnvlx13 owl:cardinality "1"^^xsd:nonNegativeInteger .
+
+vann:preferredNamespacePrefix owl:sameAs vann:preferredNamespacePrefix .
+
+ontolex:Affix rdfs:label "aplică"@ro .
+
+nif:before rdfs:comment "For each string you can include a snippet (e.g. 10-40 characters of text), that occurs immediately before the subject string." .
+
+ontolex:isLexicalizedSenseOf rdfs:range _:node1c3h5bnvlx57 .
+
+semiotics:Meaning rdfs:label "meaning"@en .
+
+_:node1c3h5bnvlx14 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger .
+
+ontolex:Affix rdfs:label "affix"@nl .
+
+<http://www.dfki.de/~declerck/> owl:sameAs <http://www.dfki.de/~declerck/> .
+
+nif:URIScheme rdfs:subClassOf _:node1c3h5bnvlx36 ;
+	rdfs:comment """A URI Scheme for NIF, subclasses need to define guidelines on the URI Scheme as well as the text it refers to. This class is just to keep some order, and should not be serialized. 
+    
+    This is an abstract class and should not be serialized. 
+    
+    Changelog:
+    * 0.1.1 changed comment
+    """@en .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> rdfs:isDefinedBy <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core/nif-core-val.ttl> .
+
+xsd:negativeInteger a rdfs:Datatype .
+
+ontolex:isReferenceOf rdfs:label "is verwysing van"@af .
+
+nif:previousWordTrans rdfs:domain _:node1c3h5bnvlx36 .
+
+nif:posTag owl:equivalentProperty nif:posTag .
+
+nif:isString rdfs:label "is string"@en .
+
+xsd:dateTimeStamp a rdfs:Datatype .
+
+ontolex:isConceptOf rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+_:node1c3h5bnvlx30 owl:onProperty pmo:item .
+
+<http://www.w3.org/ns/lemon/ontolex> dc:contributor <http://jogracia.url.ph/web/> .
+
+nif:lang rdfs:domain nif:String .
+
+nif:Phrase owl:sameAs nif:Phrase .
+
+nif:CString rdfs:subClassOf _:node1c3h5bnvlx36 .
+
+pmo:Conceptualization rdfs:comment "Structurally, it can be seen as the reification of the ontolex:evokes relation between ontolex:LexicalEntry and ontolex:LexicalConcept. Semantically, it can be seen as a very specific intensional concept (among many, in case of polysemy) evoked by a single ontolex:LexicalEntry, which can be generalized to a ontolex:LexicalConcept when multiple entries are considered but with a possible loss of information that prevents precise alignments to be represented."@en .
+
+nif:beginIndex a owl:DatatypeProperty .
+
+ontolex:isEvokedBy rdfs:label "wordt uitgelokt door"@nl , "word opgeroep deur"@af .
+
+nif:predLang a owl:ObjectProperty .
+
+_:node1c3h5bnvlx33 owl:inverseOf pmo:semRoleMapping .
+
+ontolex:lexicalizedSense rdfs:range ontolex:LexicalSense .
+
+ontolex:Form rdfs:subClassOf _:node1c3h5bnvlx53 .
+
+nif:OffsetBasedString rdfs:subClassOf _:node1c3h5bnvlx36 .
+
+ontolex:concept rdfs:label "concepto"@es .
+
+ontolex:Affix rdfs:subClassOf semiotics:Expression .
+
+ontolex:canonicalForm rdfs:label "forme canonique"@fr .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> rdfs:isDefinedBy <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core/nif-core.ttl> .
+
+nif:referenceContext a owl:ObjectProperty .
+
+nif:oliaProv a owl:ObjectProperty .
+
+ontolex:isReferenceOf rdfs:comment "The object property isReferenceOf is the inverse property of reference."@en .
+
+ontolex:isEvokedBy rdfs:domain semiotics:Meaning .
+
+nif:isString owl:sameAs nif:isString .
+
+pmo:ConceptualizationMapping rdfs:subClassOf _:node1c3h5bnvlx3 .
+
+ontolex:isSenseOf rdfs:label "is sin van"@af .
+
+nif:oliaProv owl:sameAs nif:oliaProv .
+
+ontolex:isEvokedBy owl:sameAs ontolex:isEvokedBy .
+
+owl:ObjectProperty owl:sameAs owl:ObjectProperty .
+
+ontolex:otherForm rdfs:label "andere vorm"@nl .
+
+pmo:semRoleMapping owl:equivalentProperty pmo:semRoleMapping .
+
+ontolex:MultiWordExpression rdfs:label "expresie din mai multe cuvinte"@ro .
+
+rdf:XMLLiteral owl:sameAs rdf:XMLLiteral .
+
+ontolex:canonicalForm rdfs:domain _:node1c3h5bnvlx45 .
+
+rdfs:subPropertyOf owl:sameAs rdfs:subPropertyOf .
+
+nif:previousSentenceTrans rdfs:range _:node1c3h5bnvlx36 .
+
+nif:anchorOf rdfs:domain nif:String .
+
+owl:incompatibleWith a owl:AnnotationProperty .
+
+ontolex:lexicalizedSense rdfs:label "geleksikaliseerde Sin"@af .
+
+nif:Phrase rdfs:subClassOf nif:Structure .
+
+xsd:hexBinary a rdfs:Datatype .
+
+nif:subStringTrans owl:versionInfo "0.1.1" .
+
+nif:sourceUrl rdfs:label "source URL"@en .
+
+ontolex:lexicalForm rdfs:domain _:node1c3h5bnvlx55 .
+
+ontolex:concept owl:sameAs ontolex:concept .
+
+ontolex:otherForm rdfs:label "andere Form"@de .
+
+_:node1c3h5bnvlx4 rdf:rest _:node1c3h5bnvlx5 .
+
+nif:Phrase a owl:Class .
+
+pmo:semRole rdfs:domain ontolex:LexicalConcept .
+
+ontolex:sense a owl:InverseFunctionalProperty .
+
+nif:Sentence owl:sameAs nif:Sentence .
+
+nif:Word owl:versionInfo "0.2.2" .
+
+nif:topic owl:sameAs nif:topic .
+
+nif:opinion owl:versionInfo "0.0.0" .
+
+nif:superStringTrans rdfs:label "transitive version of superString"@en .
+
+nif:String rdfs:comment """Individuals of this class are a string, i.e. Unicode characters, who have been given a URI and are used in the subject of an RDF statement.  
+    This class is abstract and should not be serialized. 
+    
+    NIF-Stanbol (nif-stanbol.ttl):
+    subclassOf nifs:Annotation because it \"annotates\" strings for example with begin and end index. The class is similar to fise:TextAnnotation
+    
+    Changelog
+    * 1.0.1. improved documentation
+    * 1.0.2. merged inf and val model
+    """@en .
+
+nif:Word rdfs:label "Word"@en .
+
+_:node1c3h5bnvlx48 owl:complementOf nif:Context .
+
+pmo:SemanticClass rdfs:subClassOf semiotics:Meaning .
+
+_:node1c3h5bnvlx36 a owl:Restriction .
+
+skos:broader a owl:ObjectProperty .
+
+xsd:double a rdfs:Datatype .
+
+nif:nextWord rdfs:subPropertyOf nif:nextWord .
+
+ontolex:sense rdfs:label "sense"@en .
+
+pmo:first owl:sameAs pmo:first .
+
+dc:modified owl:sameAs dc:modified .
+
+ontolex:concept rdfs:range skos:Concept .
+
+_:node1c3h5bnvlx55 owl:onProperty ontolex:canonicalForm .
+
+_:node1c3h5bnvlx29 a owl:Restriction .
+
+ontolex:Affix rdfs:comment """An affix is a lexical entry that represents a morpheme (suffix, prefix, infix, circumfix) that is attached to a word stem to form a new word.
+"""@en .
+
+nif:ContextCollection a owl:Class .
+
+ontolex:phoneticRep rdfs:range rdf:langString .
+
+ontolex:morphologicalPattern owl:sameAs ontolex:morphologicalPattern .
+
+ontolex:LexicalConcept rdfs:label "conceito léxico"@pt .
+
+nif:referenceContext rdfs:comment """Links a URI of a string to its reference context of type nif:Context.  The reference context determines the calculation of begin and end index
+    Each String that is not an instance of nif:Context MUST have exactly one reference context. 
+    
+    Inferences (nif-core-inf.ttl): 
+    Instances of nif:Context do have itself as reference context, this is inferred automatically, MAY be materialized, as well.  
+    
+    OWL validation (nif-core-val.ttl): 
+    This property is functional.
+    
+    Changelog:
+    * 1.0.0: Introduced stable version.
+    * 1.0.1: merged val model
+    """@en .
+
+owl:deprecated owl:sameAs owl:deprecated .
+
+ontolex:Affix owl:sameAs ontolex:Affix .
+
+nif:OffsetBasedString rdfs:label "Offset-based String"@en .
+
+nif:opinion rdfs:subPropertyOf nif:opinion .
+
+ontolex:reference rdfs:label "referntie"@nl .
+
+nif:oliaConf owl:versionInfo "0.2.0" .
+
+nif:dependency rdfs:subPropertyOf nif:dependency .
+
+owl:propertyChainAxiom owl:sameAs owl:propertyChainAxiom .
+
+nif:head rdfs:comment """
+      The first few chars of the nif:anchorOf. Typically used if the nif:anchorOf
+      is to long for inclusion as RDF literal.
+    """@en .
+
+ontolex:lexicalForm rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+_:node1c3h5bnvlx56 a owl:Restriction .
+
+<sys:keyNrest> owl:sameAs <sys:keyNrest> .
+
+ontolex:canonicalForm rdfs:domain _:node1c3h5bnvlx49 .
+
+nif:superStringTrans rdfs:subPropertyOf nif:superStringTrans .
+
+_:node1c3h5bnvlx15 owl:onClass ontolex:LexicalEntry .
+
+ontolex:evokes rdfs:domain _:node1c3h5bnvlx56 .
+
+nif:nextWordTrans owl:equivalentProperty nif:nextWordTrans .
+
+pmo:SemanticClass rdfs:comment "SemanticClass homogeneously represents the semantic classes from the various predicate models. That is, individuals of this class correspond to rolesets in PB and NB (e.g., pm:nb10-seller.01 and pm:pb17-sell.01), verb classes in VN (e.g., pm:vn32-give-13.1-1), and frames in FN (e.g., pm:fn15-commerce sell)."@en .
+
+<http://www.w3.org/ns/lemon/ontolex> owl:sameAs <http://www.w3.org/ns/lemon/ontolex> .
+
+nif:word rdfs:range _:node1c3h5bnvlx36 .
+
+nif:predLang rdfs:domain nif:String .
+
+nif:annotation owl:equivalentProperty nif:annotation .
+
+nif:oliaConf rdfs:domain nif:String .
+
+ontolex:MultiWordExpression rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> ;
+	rdfs:subClassOf _:node1c3h5bnvlx45 .
+
+nif:lang rdfs:subPropertyOf nif:lang .
+
+pmo:evokedConcept rdfs:range ontolex:LexicalConcept .
+
+ontolex:concept rdfs:label "begrip"@nl .
+
+nif:referenceContext rdfs:domain nif:String .
+
+ontolex:LexicalSense rdfs:subClassOf semiotics:Meaning .
+
+xsd:base64Binary a rdfs:Datatype .
+
+nif:String owl:versionInfo "1.0.2" .
+
+ontolex:canonicalForm rdfs:label "formă canonică"@ro .
+
+_:node1c3h5bnvlx1 rdf:first pmo:item .
+
+nif:subStringTrans owl:equivalentProperty nif:subStringTrans .
+
+pmo:semRoleMapping rdfs:label "semantic role mapping"@en .
+
+<http://premon.fbk.eu/ontology/core> vann:preferredNamespaceUri "http://premon.fbk.eu/ontology/core#" .
+
+_:node1c3h5bnvlx23 owl:sameAs _:node1c3h5bnvlx23 .
+
+nif:ContextHashBasedString owl:versionInfo "1.0.0" .
+
+ontolex:writtenRep rdfs:range rdf:langString .
+
+_:node1c3h5bnvlx44 rdf:first ontolex:isLexicalizedSenseOf .
+
+ontolex:morphologicalPattern rdfs:label "patron morphologique"@fr .
+
+rdf:Resource owl:sameAs rdf:Resource .
+
+skos:Concept owl:sameAs skos:Concept .
+
+nif:CStringInst owl:versionInfo "0.0.0" .
+
+ontolex:LexicalConcept a owl:Class .
+
+ontolex:otherForm owl:equivalentProperty ontolex:otherForm .
+
+pmo:ConceptualizationMapping rdfs:label "Conceptualization Mapping"@en .
+
+ontolex:LexicalSense rdfs:label "lexikaal zin"@nl .
+
+ontolex:isConceptOf a owl:ObjectProperty .
+
+ontolex:Word rdfs:comment "A word is a lexical entry that consists of a single token."@en .
+
+ontolex:isEvokedBy rdfs:label "wird hervorgerufen von"@de .
+
+nif:dependencyTrans rdfs:label "transitive version of dependency"@en .
+
+skos:Concept rdfs:label "concept"@en .
+
+ontolex:isDenotedBy rdfs:subPropertyOf ontolex:isDenotedBy .
+
+_:node1c3h5bnvlx39 <sys:keyNprop2> nif:beginIndex .
+
+pmo:evokingEntry rdfs:range _:node1c3h5bnvlx55 .
+
+nif:keyword rdfs:domain nif:String .
+
+nif:beginIndex rdfs:label "begin index"@en .
+
+nif:stem a owl:DatatypeProperty .
+
+nif:subString rdfs:range _:node1c3h5bnvlx36 .
+
+nif:oliaProv rdfs:domain nif:String .
+
+nif:URIScheme owl:sameAs nif:URIScheme .
+
+ontolex:isDenotedBy rdfs:range semiotics:Expression .
+
+owl:hasKey owl:sameAs owl:hasKey .
+
+pmo:classRel rdfs:range semiotics:Meaning .
+
+nif:topic rdfs:comment """The topic of a string
+    Changelog:
+    * 0.0.1 initial commit of property"""@en .
+
+ontolex:Affix rdfs:label "affixe"@fr .
+
+ontolex:isEvokedBy rdfs:label "este evocat de"@ro .
+
+nif:subString rdfs:comment "This property together with nif:subString, nif:superString, and their transitive extension can be used to express that one string is contained in another one. Examples: \"a\" nif:subString \"apple\" , \"apple\" nif:subString \"apple\".  The transitivity axioms are included in nif-core-inf.ttl and need to be included separately to keep a low reasoning profile. They are modeled after skos:broader and skos:broaderTransitive"@en .
+
+ontolex:ConceptSet rdfs:subClassOf _:node1c3h5bnvlx52 .
+
+ontolex:MultiWordExpression rdfs:label "flerordsuttryck"@sv .
+
+_:node1c3h5bnvlx53 a owl:Restriction .
+
+<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> rdfs:isDefinedBy <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core/nif-core-inf.ttl> .
+
+nif:endIndex a owl:FunctionalProperty .
+
+nif:Paragraph owl:versionInfo "0.1.1" .
+
+nif:lemma owl:sameAs nif:lemma .
+
+_:node1c3h5bnvlx50 rdf:rest _:node1c3h5bnvlx51 .
+
+nif:lang rdfs:range lvont:Language .
+
+ontolex:representation owl:equivalentProperty ontolex:representation .
+
+ontolex:lexicalizedSense rdfs:label "lexikaliserad betydelse"@sv .
+
+ontolex:LexicalConcept rdfs:subClassOf skos:Concept .
+
+ontolex:isEvokedBy rdfs:domain ontolex:LexicalConcept .
+
+ontolex:MultiWordExpression rdfs:subClassOf _:node1c3h5bnvlx49 .
+
+nif:hasContext rdfs:range nif:String .
+
+nif:previousSentence rdfs:domain nif:Sentence .
+
+pmo:SemanticRoleMapping rdfs:comment "An individual of this class represents a mapping between SemanticRoles"@en .
+
+pmo:valueDt owl:equivalentProperty pmo:valueDt .
+
+ontolex:reference rdfs:label "verwysing"@af .
+
+ontolex:Form rdfs:label "form"@sv .
+
+nif:tail rdfs:domain _:node1c3h5bnvlx36 .
+
+_:node1c3h5bnvlx35 owl:onProperty nif:isString .
+
+ontolex:LexicalEntry rdfs:label "Lexikoneintrag"@de .
+
+ontolex:representation rdfs:label "representation"@sv .
+
+ontolex:evokes rdfs:label "framkallar"@sv .
+
+nif:taMsClassRef owl:sameAs nif:taMsClassRef .
+
+ontolex:ConceptSet rdfs:label "banque de conepts"@fr .
+
+ontolex:isSenseOf rdfs:label "é sentido de"@pt .
+
+dc:issued owl:sameAs dc:issued .
+
+ontolex:LexicalSense rdfs:label "lexical sense"@en .
+
+pmo:AnnotationSet rdfs:comment "Represent each annotation of a semantic class, togheter with its semantic roles, in an example"@en .
+
+nif:String a owl:Class .
+
+nif:opinion rdfs:comment "This property is used to link to a marl:Opinion. We have not investigated marl, so it might be replaced. http://marl.gi2mo.org/?page_id=1#overview . InverseOf marl:extractedFrom"@en .
+
+pmo:evokingEntry owl:sameAs pmo:evokingEntry .
+
+nif:previousWordTrans owl:sameAs nif:previousWordTrans .
+
+_:node1c3h5bnvlx58 a owl:Restriction .
+
+xsd:string a rdfs:Datatype .
+
+nif:sentence rdfs:range _:node1c3h5bnvlx36 .
+
+ontolex:isLexicalizedSenseOf rdfs:domain skos:Concept .
+
+<http://premon.fbk.eu/ontology/core> vann:preferredNamespacePrefix "pmo" .
+
+nif:narrowerContext rdfs:range nif:Context .
+
+ontolex:lexicalForm rdfs:label "formă lexicală"@ro .
+
+<http://www.oeg-upm.net/index.php/teachers/53-lupe> owl:sameAs <http://www.oeg-upm.net/index.php/teachers/53-lupe> .
+
+ontolex:isEvokedBy rdfs:range _:node1c3h5bnvlx56 .
+
+nif:isString owl:versionInfo "1.0.2" .
+
+_:node1c3h5bnvlx26 rdf:rest rdf:nil .
+
+nif:Word rdfs:subClassOf nif:Structure .
+
+_:node1c3h5bnvlx51 rdf:rest rdf:nil .
+
+_:node1c3h5bnvlx21 <sys:expandUnion> rdf:nil .
+
+skos:inScheme owl:sameAs skos:inScheme .
+
+ontolex:LexicalConcept rdfs:label "concetto lessicale"@it .
+
+nif:Title rdfs:subClassOf nif:Structure .
+
+ontolex:representation a owl:DatatypeProperty .
+
+ontolex:LexicalEntry rdfs:comment "A lexical entry represents a unit of analysis of the lexicon that consists of a set of forms that are grammatically related and a set of base meanings that are associated with all of these forms. Thus, a lexical entry is a word, multiword expression or affix with a single part-of-speech, morphological pattern, etymology and set of senses."@en .
+
+nif:dependency rdfs:subPropertyOf nif:inter .
+
+pmo:SemanticClass rdfs:subClassOf ontolex:LexicalConcept .
+
+nif:dependencyTrans owl:versionInfo "0.1.1" .
+
+_:node1c3h5bnvlx43 rdf:first ontolex:sense .
+
+vann:preferredNamespaceUri a owl:AnnotationProperty .
+
+ontolex:isLexicalizedSenseOf rdfs:isDefinedBy <http://www.w3.org/ns/lemon/ontolex> .
+
+nif:Word a owl:Class .
+
+nif:lastWord owl:equivalentProperty nif:lastWord .
+
+nif:beginIndex rdfs:comment """The begin index of a character range as defined in http://tools.ietf.org/html/rfc5147#section-2.2.1 and http://tools.ietf.org/html/rfc5147#section-2.2.2, measured as the gap between two characters, starting to count from 0 (the position before the first character of a text). 
+    Example: Index \"2\" is the postion between \"Mr\" and \".\"  in \"Mr. Sandman\".
+    Note: RFC 5147 is re-used for the definition of character ranges. RFC 5147 is assuming a text/plain MIME type. NIF builds upon Unicode and is content agnostic. 
+    Requirement (1): This property has the same value the \"Character position\" of RFC 5147 and it MUST therefore be castable to xsd:nonNegativeInteger, i.e. it MUST not have negative values.  
+    Requirement (2): The index of the subject string MUST be calculated relative to the nif:referenceContext of the subject. If available, this is the rdf:Literal of the nif:isString property.
+    
+    Changelog: 
+    * 1.0.0: Introduced stable version.
+    * 1.0.1: merged val+inf, added range
+    """ .
+
+xsd:dateTimeStamp owl:sameAs xsd:dateTimeStamp .
