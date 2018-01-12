@@ -128,6 +128,10 @@ public class NAFExtractorUD implements Extractor {
             .put("premon+nombank", "http://premon.fbk.eu/resource/")
             .put("premon+framenet", "http://premon.fbk.eu/resource/")
             .put("premon+verbnet", "http://premon.fbk.eu/resource/")
+            .put("premon+propbank+co", "http://premon.fbk.eu/resource/")
+            .put("premon+nombank+co", "http://premon.fbk.eu/resource/")
+            .put("premon+framenet+co", "http://premon.fbk.eu/resource/")
+            .put("premon+verbnet+co", "http://premon.fbk.eu/resource/")
             .put("eso", "http://www.newsreader-project.eu/domain-ontology#")
             .put("framebase", "http://framebase.org/ns/") //
             .put("wordnet","http://sli.uvigo.gal/rdf_galnet/") //

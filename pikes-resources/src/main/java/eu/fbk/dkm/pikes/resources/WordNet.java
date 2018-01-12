@@ -174,6 +174,48 @@ public final class WordNet {
         }
     }
 
+
+    public static Iterator getNounSynsets() {
+        try {
+            synchronized (WordNet.class) {
+                return WordNet.getDictionary().getSynsetIterator(POS.NOUN);
+            }
+        } catch (final JWNLException ex) {
+            throw new Error(ex);
+        }
+    }
+
+
+    public static Iterator getADJSynsets() {
+        try {
+            synchronized (WordNet.class) {
+                return WordNet.getDictionary().getSynsetIterator(POS.ADJECTIVE);
+            }
+        } catch (final JWNLException ex) {
+            throw new Error(ex);
+        }
+    }
+
+    public static Iterator getADVSynsets() {
+        try {
+            synchronized (WordNet.class) {
+                return WordNet.getDictionary().getSynsetIterator(POS.ADVERB);
+            }
+        } catch (final JWNLException ex) {
+            throw new Error(ex);
+        }
+    }
+
+    public static Iterator getVerbSynsets() {
+        try {
+            synchronized (WordNet.class) {
+                return WordNet.getDictionary().getSynsetIterator(POS.VERB);
+            }
+        } catch (final JWNLException ex) {
+            throw new Error(ex);
+        }
+    }
+
     public static String getPath() {
         synchronized (WordNet.class) {
             return dictionaryPath;

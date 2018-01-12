@@ -564,7 +564,13 @@ BELOW HERE METHODS ARE UD-SAFE
                 if (models.contains(refStr)) {
                     final String pred = predRef.getReference();
                     final String source = predRef.getSource();
+
+                    final String pos = predicate.getTerms().get(0).getUpos();
+                    final String lemma = predicate.getTerms().get(0).getLemma();
+
                     final IRI premonIRI = NAFUtilsUD.createPreMOnSemanticClassIRIfor(refStr,pred);
+                    final IRI premonConcIRI = NAFUtilsUD.createPreMOnConceptualizationIRIfor(refStr,pred,lemma,pos);
+
                     predicateExtRefToRemove.add(predRef);
                     if (premonIRI != null) {
                         ExternalRef e = new ExternalRef("PreMOn+"+refStr, premonIRI.getLocalName());
@@ -579,6 +585,22 @@ BELOW HERE METHODS ARE UD-SAFE
                             LOGGER.debug("Can't PreMOn-ize predicate '{}'. Removed.", pred);
                         }
                     }
+
+                    if (premonConcIRI!= null) {
+                        ExternalRef e = new ExternalRef("PreMOn+"+refStr+"+co", premonConcIRI.getLocalName());
+                        if (source!=null) e.setSource(source);
+                        NAFUtilsUD.setRef(predicate, e);
+                        if (LOGGER.isDebugEnabled()) {
+                            LOGGER.debug("PreMOn-ized Conceptualization for predicate '{}' with lemma '{}' and pos '{}': '{}'", pred, lemma, pos,
+                                    premonIRI.getLocalName());
+                        }
+                    } else {
+                        if (LOGGER.isDebugEnabled()) {
+                            LOGGER.debug("Can't PreMOn-ize Conceptualization for predicate '{}' with lemma '{}' and pos '{}'. Removed.", pred, lemma, pos);
+                        }
+                    }
+
+
                 }
             }
 

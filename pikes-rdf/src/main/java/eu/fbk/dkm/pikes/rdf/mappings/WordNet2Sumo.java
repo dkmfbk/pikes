@@ -46,8 +46,8 @@ public class WordNet2Sumo {
 
         final CommandLine cmd = CommandLine
                 .parser()
-                .withName("WordNet2Yago")
-                .withHeader("Generates mappings from WN to DBYAGO")
+                .withName("WordNet2Sumo")
+                .withHeader("Generates mappings from WN to SUMO")
                 .withOption("i", "input",
                         String.format("input folder"), "FOLDER",
                         CommandLine.Type.DIRECTORY_EXISTING, true, false, false)
@@ -66,7 +66,7 @@ public class WordNet2Sumo {
         File outputFile  = cmd.getOptionValue("output", File.class);
 
         final ValueFactory vf= Statements.VALUE_FACTORY;
-        final Model model =  new LinkedHashModel();;
+        final Model model =  new LinkedHashModel();
 
         Iterator<Synset> nounIterator = WordNet.getNounSynsets();
         generateMappings(nounIterator, model, vf,WordNet.POS_NOUN);

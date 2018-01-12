@@ -724,6 +724,31 @@ BELOW HERE METHODS ARE UD-SAFE
     }
 
 
+    public static IRI createPreMOnConceptualizationIRIfor(String model, String predicate, String lemma, String upos){
+
+        //works for fn15,pb17,vn32,nb10... in case of other version, some cautions have to be taken on predicate (e.g.m FedEx or UPS in pb215)
+        String prefix = "co";
+        String pos="";
+        switch (upos.toLowerCase()) {
+            case "noun" : pos="n"; break;
+            case "propn" : pos="n"; break; //added for some capitalization issues
+            case "verb" : pos="v"; break;
+            case "adj" : pos="adj"; break;
+            case "adv" : pos="adv"; break;
+        }
+        lemma=lemma.toLowerCase();
+        if (pos.isEmpty()||lemma.isEmpty()) return null;
+        prefix = prefix+"-"+pos+"-"+lemma+"-";
+        switch (model) {
+            case RESOURCE_FRAMENET : prefix+=PREMON_FNPREFIX+"-"; break;
+            case RESOURCE_VERBNET : prefix+=PREMON_VNPREFIX+"-"; break;
+            case RESOURCE_PROPBANK  : prefix+=PREMON_PBPREFIX+"-"; break;
+            case RESOURCE_NOMBANK  : prefix+=PREMON_NBPREFIX+"-"; break;
+        }
+        String localname=prefix+predicate.toLowerCase();
+        return Statements.VALUE_FACTORY.createIRI(PREMON_NAMESPACE, localname);
+    }
+
     public static IRI createPreMOnSemanticClassIRIfor(String model, String predicate){
 
         //works for fn15,pb17,vn32,nb10... in case of other version, some cautions have to be taken on predicate (e.g.m FedEx or UPS in pb215)
