@@ -34,7 +34,7 @@ public class RuleDistiller implements Distiller {
         DEFAULT_MAPPINGS = new LinkedHashModel();
         RDFSources
                 .read(false, true, null, null, null, true,
-                        RuleDistiller.class.getResource("RuleDistiller.mapping.ttl").toString())
+                        RuleDistiller.class.getResource("RuleDistiller.data.ttl").toString())
                 .emit(RDFHandlers.wrap(DEFAULT_MAPPINGS), 1);
     }
 

@@ -1,0 +1,2442 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix nif: <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ontolex: <http://www.w3.org/ns/lemon/ontolex#> .
+@prefix kem: <http://knowledgestore.fbk.eu/ontologies/kem/core#> .
+@prefix kemt: <http://knowledgestore.fbk.eu/ontologies/kem/text#> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
+@prefix lmm: <http://www.ontologydesignpatterns.org/ont/lmm/LMM_L1.owl#> .
+
+kemt:mod_approx rdfs:comment """Temporal modifier denoting approximation (e.g., 'about' in 'about three years ago').
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=21> and <ftp://jaguar.ncsl.nist.gov/ace/phase2/docs/mtrinstructionmanual_v1_32.pdf#page=20>."""@en .
+
+vann:preferredNamespaceUri a owl:AnnotationProperty .
+
+dc:creator a owl:AnnotationProperty .
+
+dc:description a owl:AnnotationProperty .
+
+kemt:mod_approx rdfs:label "approx"@en .
+
+vann:preferredNamespacePrefix a owl:AnnotationProperty .
+
+kemt:mod_on_or_after a owl:NamedIndividual .
+
+dc:publisher a owl:AnnotationProperty .
+
+kemt:mod_on_or_after a kemt:TemporalModifier .
+
+dc:title a owl:AnnotationProperty .
+
+dc:rights a owl:AnnotationProperty .
+
+dcterms:license a owl:AnnotationProperty .
+
+kemt:mod_on_or_after rdfs:comment """Temporal modifier denoting a point in time occurring on or after a given temporal expression (e.g., 'no less than' in 'no less than a year ago').
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=21> and <ftp://jaguar.ncsl.nist.gov/ace/phase2/docs/mtrinstructionmanual_v1_32.pdf#page=20>."""@en ;
+	rdfs:label "on or after"@en .
+
+kemt:mod_after a owl:NamedIndividual , kemt:TemporalModifier .
+
+nif:Word rdfs:comment """In the integration of KEM and NIF, a nif:Word is equated to the tokens returned by the NLP tokenization task.
+
+The use of the following properties is suggested:
+
+(1) nif:lemma, to represent the lemma of the token
+(2) nif:stem, to represent the stem of the token
+(3) nif:oliaLink, together with a constant from olia_top:MorphosyntacticCategory (e.g., from Penn OLiA module) to represent the part-of-speech.
+(4) nif:dependency and nif:dependencyRelationType (the latter together with constants from OLiA, e.g. the dependency labels in the stanford module) to link a token to its immediate children in the dependency tree"""@en ;
+	rdfs:subClassOf kemt:ConstituentString .
+
+kemt:mod_after rdfs:comment """Temporal modifier denoting an after relation (e.g., 'less than' in 'less than a year ago').
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=21> and <ftp://jaguar.ncsl.nist.gov/ace/phase2/docs/mtrinstructionmanual_v1_32.pdf#page=20>."""@en ;
+	rdfs:label "after"@en .
+
+kemt:mod_end a owl:NamedIndividual , kemt:TemporalModifier ;
+	rdfs:comment """Temporal modifier denoting the end of a temporal expression (e.g., 'end of 2010').
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=21> and <ftp://jaguar.ncsl.nist.gov/ace/phase2/docs/mtrinstructionmanual_v1_32.pdf#page=20>."""@en ;
+	rdfs:label "end"@en .
+
+kemt:mod_equal_or_more a owl:NamedIndividual , kemt:TemporalModifier ;
+	rdfs:comment """Temporal modifier denoting an interval equal to or larger than a given temporal expression (e.g., 'at least' in 'at least 10 days').
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=21> and <ftp://jaguar.ncsl.nist.gov/ace/phase2/docs/mtrinstructionmanual_v1_32.pdf#page=20>."""@en ;
+	rdfs:label "equal or more"@en .
+
+kemt:mod_start a owl:NamedIndividual , kemt:TemporalModifier ;
+	rdfs:comment """Temporal modifier denoting the start of a temporal expression (e.g., 'dawn' in 'the dawn of 2000').
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=21> and <ftp://jaguar.ncsl.nist.gov/ace/phase2/docs/mtrinstructionmanual_v1_32.pdf#page=20>."""@en ;
+	rdfs:label "start"@en .
+
+kemt:mod_equal_or_less a owl:NamedIndividual , kemt:TemporalModifier ;
+	rdfs:comment """Temporal modifier denoting an interval equal to or smaller than a given temporal expression (e.g., 'no more' in 'no more than 10 days').
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=21> and <ftp://jaguar.ncsl.nist.gov/ace/phase2/docs/mtrinstructionmanual_v1_32.pdf#page=20>."""@en ;
+	rdfs:label "equal or less"@en .
+
+kemt:mod_before a owl:NamedIndividual , kemt:TemporalModifier ;
+	rdfs:comment """Temporal modifier denoting a before relation (e.g., 'more than' in 'more than a decade ago').
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=21> and <ftp://jaguar.ncsl.nist.gov/ace/phase2/docs/mtrinstructionmanual_v1_32.pdf#page=20>."""@en ;
+	rdfs:label "before"@en .
+
+kemt:mod_mid a owl:NamedIndividual , kemt:TemporalModifier ;
+	rdfs:comment """Temporal modifier denoting the middle of a temporal expression (e.g., 'mid' in 'mid-February').
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=21> and <ftp://jaguar.ncsl.nist.gov/ace/phase2/docs/mtrinstructionmanual_v1_32.pdf#page=20>."""@en ;
+	rdfs:label "mid"@en .
+
+kemt:tense_infinitive a owl:NamedIndividual , kemt:Tense ;
+	rdfs:comment """Tense value denoting the infinitive verb tense.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=36>."""@en ;
+	rdfs:label "infinitive"@en .
+
+kemt:tense_future a owl:NamedIndividual , kemt:Tense ;
+	rdfs:comment """Tense value denoting the future verb tense.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=36>."""@en ;
+	rdfs:label "future"@en .
+
+kemt:tense_past a owl:NamedIndividual , kemt:Tense ;
+	rdfs:comment """Tense value denoting the past verb tense.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=36>."""@en ;
+	rdfs:label "past"@en .
+
+kemt:tense_prespart a owl:NamedIndividual , kemt:Tense ;
+	rdfs:comment """Tense value denoting the present participle verb tense.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=36>."""@en ;
+	rdfs:label "present participle"@en .
+
+kemt:tense_none a owl:NamedIndividual , kemt:Tense ;
+	rdfs:comment """Tense value associated to kemt:EventInstance(s) expressed by verbs preceded by a modal auxiliary, and to kemt:EventInstance(s) not expressed by verbs (e.g., realized by nominalizations).
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=38>."""@en ;
+	rdfs:label "none"@en .
+
+kemt:tense_pastpart a owl:NamedIndividual , kemt:Tense ;
+	rdfs:comment """Tense value denoting the past participle verb tense.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=36>."""@en ;
+	rdfs:label "past participle"@en .
+
+kemt:tense_present a owl:NamedIndividual , kemt:Tense ;
+	rdfs:comment """Tense value denoting the present verb tense.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=36>."""@en ;
+	rdfs:label "present"@en .
+
+kemt:TextResource a owl:Class ;
+	rdfs:comment """A textual resource (kem:Resource) consisting of plain text without any structure or markup.
+
+In the alignment of KEM to NIF, this class plays (also) the role of the document class a nif:Context is attached to via property nif:sourceURL."""@en ;
+	rdfs:label "text resource"@en ;
+	rdfs:subClassOf kem:Resource , _:node1ag8gochjx123 .
+
+kemt:tt_duration a owl:NamedIndividual , kemt:TimexType ;
+	rdfs:comment """Indicates temporal durations (e.g., 2 months, 3 hours).
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=22>."""@en ;
+	rdfs:label "duration"@en .
+
+kemt:tt_set a owl:NamedIndividual , kemt:TimexType ;
+	rdfs:comment """Indicates a set of times (e.g., twice a week).
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=23>."""@en ;
+	rdfs:label "set"@en .
+
+kemt:tt_time a owl:NamedIndividual , kemt:TimexType ;
+	rdfs:comment """Indicates a time of the day, even in an indefinite way (e.g., last night).
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=22>."""@en ;
+	rdfs:label "time"@en .
+
+kemt:tt_date a owl:NamedIndividual , kemt:TimexType ;
+	rdfs:comment """Indicates calendar times (e.g., October 1, 1999).
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=21>."""@en ;
+	rdfs:label "date"@en .
+
+kemt:arel_continues a owl:NamedIndividual , kemt:AspectualRelation ;
+	rdfs:comment """Aspectual relation expressed by verbs (source kemt:EventInstance) such as 'continue', 'keep', 'go on', 'proceed', 'go along', 'carry on', 'uphold', 'bear on', 'persist', and 'persevere'.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=9> and <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=56>."""@en ;
+	rdfs:label "continues"@en .
+
+kemt:arel_culminates a owl:NamedIndividual , kemt:AspectualRelation ;
+	rdfs:comment """Aspectual relation expressed by verbs (source kemt:EventInstance) such as 'finish' and 'complete'.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=9> and <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=56>."""@en ;
+	rdfs:label "culminates"@en .
+
+kemt:arel_initiates a owl:NamedIndividual , kemt:AspectualRelation ;
+	rdfs:comment """Aspectual relation expressed by verbs (source kemt:EventInstance) such as 'begin', 'start', 'commence', 'set out', 'set about', 'lead off', 'originate', and 'initiate'.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=9> and <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=56>."""@en ;
+	rdfs:label "initiates"@en .
+
+kemt:arel_reinitiates a owl:NamedIndividual , kemt:AspectualRelation ;
+	rdfs:comment """Aspectual relation expressed by verbs (source kemt:EventInstance) such as 'restart', 'reinitiate', and 'reignite'.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=9> and <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=56>."""@en ;
+	rdfs:label "reinitiates"@en .
+
+kemt:arel_terminates a owl:NamedIndividual , kemt:AspectualRelation ;
+	rdfs:comment """Aspectual relation expressed by verbs (source kemt:EventInstance) such as 'stop', 'cancel', 'end', 'halt', 'terminate', 'cease', 'discontinue', 'interrupt', 'quit', 'give up', 'abandon', 'block', 'break off', 'lay off', 'call off', and 'wind up'.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=9> and <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=56>."""@en ;
+	rdfs:label "terminates"@en .
+
+kemt:cause a owl:NamedIndividual , kemt:CausalRelation ;
+	rdfs:comment """The only causality relation defined so far.
+
+See <http://www.aclweb.org/website/old_anthology/C/C14/C14-1198.pdf#page=2>."""@en ;
+	rdfs:label "cause"@en .
+
+kemt:srel_conditional a owl:NamedIndividual , kemt:SubordinateRelation ;
+	rdfs:comment """Subordinate relation where the source kemt:EventInstance must occur in order for the target kemt:EventInstance to possibly occur (e.g., 'if he buy beer, he will get drunk').
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=52>."""@en ;
+	rdfs:label "conditional"@en .
+
+kemt:srel_counter_factive a owl:NamedIndividual , kemt:SubordinateRelation ;
+	rdfs:comment """Subordinate relation where the source kemt:EventInstance allows to infer that the target kemt:EventInstance is false / did not occur (e.g., 'he forget to buy sth').
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=51>."""@en ;
+	rdfs:label "counter-factive"@en .
+
+kemt:srel_evidential a owl:NamedIndividual , kemt:SubordinateRelation ;
+	rdfs:comment """Subordinate relation where the source kemt:EventInstance provides positive evidence about the veracity of the target kemt:EventInstance (e.g., 'he said he bought sth').
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=51>."""@en .
+
+nif:superString owl:propertyChainAxiom _:node1ag8gochjx7 .
+
+kemt:srel_evidential rdfs:label "evidential"@en .
+
+kemt:srel_factive a owl:NamedIndividual .
+
+nif:Annotation rdfs:subClassOf kem:Annotation .
+
+kemt:srel_factive a kemt:SubordinateRelation .
+
+nif:Annotation rdfs:subClassOf _:node1ag8gochjx132 .
+
+kemt:srel_factive rdfs:comment """Subordinate relation where the source kemt:EventInstance allows to infer that the target kemt:EventInstance is true / actually occurred (e.g., 'he managed to buy sth').
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=51>."""@en ;
+	rdfs:label "factive"@en .
+
+kemt:srel_modal a owl:NamedIndividual , kemt:SubordinateRelation .
+
+nif:String rdfs:comment """A nif:String is treated here as a specific kind of resource fragment, namely the resource fragment associated to a kemt:TextResource.
+
+We consider here also non-consecutive strings, which are represented by typing them both as nif:String and as kem:CompositeFragment, with kem:hasComponent links to the consecutive nif:String(s)  they are composed of.
+
+As for NIF specification, properties nif:beginIndex, nif:endIndex, and nif:anchorOf should be always specified for a nif:String.
+
+Property itsrdf:termInfoRef (from the Internationalized Tag Set W3C standard) can be used to associate a nif:String to a lexical sense or lexical concept it can be disambiguated with.
+
+Property kemt:lexicalEntry (introduced here) can be used to link a nif:String to the ontolex:LexicalEntry it represents an occurrence of in the text (a type/token relation)."""@en ;
+	rdfs:subClassOf kem:Fragment , _:node1ag8gochjx134 .
+
+kemt:srel_modal rdfs:comment """Subordinate relation where the source kemt:EventInstance references a possible state of affairs conveyed by the target kemt:EventInstance (e.g., 'he promised to buy sth').
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=51>."""@en .
+
+nif:annotation rdfs:subPropertyOf kem:hasAnnotation .
+
+kemt:srel_modal rdfs:label "modal"@en .
+
+nif:sourceUrl owl:propertyChainAxiom _:node1ag8gochjx4 .
+
+kemt:srel_neg_evidential a owl:NamedIndividual .
+
+nif:referenceContext owl:propertyChainAxiom _:node1ag8gochjx1 .
+
+kemt:srel_neg_evidential a kemt:SubordinateRelation .
+
+nif:superStringTrans rdfs:subPropertyOf kem:hasPart .
+
+nif:Sentence rdfs:comment "A nif:Sentence is here considered a kemt:ConstituentString."@en .
+
+kemt:srel_neg_evidential rdfs:comment """Subordinate relation where the source kemt:EventInstance provides negative evidence about the veracity of the target kemt:EventInstance (e.g., 'he denied he bought sth').
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=52>."""@en .
+
+nif:Sentence rdfs:subClassOf kemt:ConstituentString .
+
+kemt:srel_neg_evidential rdfs:label "negative evidential"@en .
+
+nif:Context rdfs:comment "In the integration of KEM and NIF, a nif:Context represents the maximal fragment of a kemt:TextResource."@en .
+
+kemt:trel_after a owl:NamedIndividual .
+
+<http://knowledgestore.fbk.eu/ontologies/kem/text> a owl:Ontology .
+
+kemt:trel_after a kemt:TemporalRelation .
+
+<http://knowledgestore.fbk.eu/ontologies/kem/text> vann:preferredNamespaceUri "http://knowledgestore.fbk.eu/ontologies/kem/text#" ;
+	dc:creator "Francesco Corcoglioniti" .
+
+kemt:trel_after rdfs:comment """Temporal relation where the source kemt:TemporalElement is temporally located after the target kemt:TemporalElement.
+
+Inverse of kemt:trel_before.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=45>."""@en .
+
+<http://knowledgestore.fbk.eu/ontologies/kem/text> dc:creator "Marco Rospocher <https://dkm.fbk.eu/people/profile/rospocher>" .
+
+kemt:trel_after rdfs:label "after"@en .
+
+<http://knowledgestore.fbk.eu/ontologies/kem/text> dc:description <http://knowledgestore.fbk.eu/ontologies/kem/text.svg> .
+
+kemt:trel_before a owl:NamedIndividual , kemt:TemporalRelation ;
+	rdfs:comment """Temporal relation where the source kemt:TemporalElement is temporally located before the target kemt:TemporalElement.
+
+Inverse of kemt:trel_after.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=45>."""@en ;
+	rdfs:label "before"@en .
+
+kemt:trel_begins a owl:NamedIndividual , kemt:TemporalRelation ;
+	rdfs:comment """Temporal relation where the source kemt:TemporalElement is the beginning of the target kemt:TemporalElement.
+
+Inverse of kemt:trel_begun_by.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=46>."""@en ;
+	rdfs:label "begins"@en .
+
+kemt:trel_begun_by a owl:NamedIndividual , kemt:TemporalRelation ;
+	rdfs:comment """Temporal relation where the target kemt:TemporalElement is the beginning of the source kemt:TemporalElement.
+
+Inverse of kemt:trel_begins.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=46>."""@en ;
+	rdfs:label "begun by"@en .
+
+kemt:trel_during a owl:NamedIndividual , kemt:TemporalRelation ;
+	rdfs:comment """Temporal relation where the source kemt:TemporalElement (a kemt:EventInstance) persists through the whole duration of the target kemt:TemporalElement (a duration kemt:Timex).
+
+Inverse of kemt:trel_during_inv.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=45>."""@en ;
+	rdfs:label "during"@en .
+
+kemt:trel_during_inv a owl:NamedIndividual , kemt:TemporalRelation .
+
+<http://knowledgestore.fbk.eu/ontologies/kem/text> dc:description """KEM (Knowledge Extraction Model), is an ontological model that supports the RDF/OWL representation and alignment of all the contents involved in Knowledge Extraction from unstructured resources. KEM is built around the semiotic notions of reference and meaning, and consists of two modules: KEM Core and KEM Text.
+
+This ontology is the Text module of KEM (prefix kemt) and builds on KEM Core and NIF (NLP Interchange Format). KEM Text introduces several subclasses of kem:SemanticAnnotation for modeling the entities and the semantic relations among them that can be extracted from text via NLP. These semantic annotations can be instantiated based on NLP outputs, and aim at: (i) generalizing the heterogeneous annotations produced by tools for typical NLP tasks, usually coming in different formats, thus enabling to uniformly handle the different types of linguistic annotations produced; and (ii) representing, in a structured form, all the linguistic information needed to extract the knowledge conveyed by the text, such that access to the original text is not needed for further processing.
+
+#### Main Concepts (box 2)
+
+The definition of KEM Text starts by introducing some main concepts that specialize KEM Core for text media, reusing where appropriate terms from NIF:
+
+  * kemt:TextResource, refinement of kem:Resource, represents a textual resource consisting of plain text without any structure or markup.
+  * nif:String (from NIF) is declared as a specialization of kem:Fragment.
+  * nif:Context (from NIF) is the maximal fragment associated to a kemt:TextResource. Compatibility with NIF is achieved by requiring that: (i) a nif:Context must be always present for a kemt:TextResource; (ii) property nif:sourceURL, subproperty of kem:fragmentOf, must be used to link a nif:Context to its kemt:TextResource; and (iii) all the nif:String fragments of the kemt:TextResource must be also associated to the nif:Context via property nif:referenceContext.
+  * nif:Annotation (from NIF) is declared as a specialization of kem:Annotation, and property nif:annotation is declared subproperty of kem:hasAnnotation.
+  * kemt:EntityAnnotation and kemt:RelationAnnotation are introduced as subclasses of kem:SemanticAnnotation and nif:Annotation. The first describes an entity lexicalized in the text (e.g., a named entity). The second describes a relation between the entities of the former annotations (e.g., coreference). 
+  
+#### Text Structure (box 3)
+
+KEM integrates the concepts of NIF for modeling fragments of text with specific syntactic roles: nif:Paragraph, nif:Sentence, nif:Word (a token) and its properties. We complement these concepts by: (i) introducing a notion of kemt:ConstituentString, to which kemt:ConstituentNodes can be attached to in order to represent the constituency parse tree; and (ii) supporting the representation of word decomposition in components (classes kemt:CompoundWord and kemt:WordComponent).
+
+#### Named Entities, Coreference, Coordination (box 4)
+
+Properties itsrdf:taClassRef and itsrdf:taIdentRef can be used on kemt:EntityAnnotations to represent the category of an entity and link it to an URI in an external knowledge base (e.g., DBpedia). The semantic annotation of named entities is supported via kemt:NamedEntity, which provides additional properties for representing the name or value associated to the entity. The coreference relation between lexicalized entities is modeled with class kemt:Coreference. Class kemt:Coreference allows linking the kem:EntityAnnotations whose entities are coordinated conjuncts (e.g., 'X, Y, and Z') in a span of text representing a group entity.
+
+#### Time Expressions, Events, Factuality and Causality (box 5)
+
+Inspired by TimeML, temporal entities can be annotated via kemt:TemporalElement and its subclasses: kemt:Timex for temporal expressions (e.g., “yesterday”) and kemt:EventInstance for events (e.g., the noun “earthquake”). Binary semantic relations (links) betwee temporal entities are modeled via kemt:Link and its subclasses: kemt:TemporalLink, kemt:SubordinateLink, kemt:AspectualLink, kemt:CausalLink, kemt:FactualityLink. The latter refers to FactBank, and allows representing the factuality assigned by a source agent (a kemt:EntityAnnotation) to a kemt:EventInstance.
+
+#### Semantic Role Labeling (box 6)
+
+Predicate-argument structures in the text can be annotated using kemt:Predicate and kemt:Argument (special kemt:EntityAnnotations) and kemt:Participation (a kind of kemt:RelationAnnotation). kemt:Predicate describes the event, relation or other structured entity (i.e., semantic frame) a predicate is about, using itsrdf:taClassRef to represent its disambiguated semantic class. kemt:Argument describes any argument entity (of any kind) associated to a predicate, using itsrdf:taPropRef to represent its disambiguated semantic role. kem:Participation links a kemt:Predicate to all its kem:Arguments."""@en .
+
+kemt:trel_during_inv rdfs:comment """Temporal relation where the target kemt:TemporalElement (a kemt:EventInstance) persists through the whole duration of the source kemt:TemporalElement (a duration kemt:Timex).
+
+Inverse of kemt:trel_during.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=45>."""@en .
+
+<http://knowledgestore.fbk.eu/ontologies/kem/text> vann:preferredNamespacePrefix "kemt" ;
+	dc:publisher "DKM, Fondazione Bruno Kessler <http://dkm.fbk.eu/>" .
+
+kemt:trel_during_inv rdfs:label "during (inverse)"@en .
+
+kemt:trel_ended_by a owl:NamedIndividual , kemt:TemporalRelation .
+
+<http://knowledgestore.fbk.eu/ontologies/kem/text> dc:title "Knowledge Extraction Model - Text Module"@en ;
+	dc:rights "This ontology is licensed under CC-BY <http://creativecommons.org/licenses/by/4.0/>"@en .
+
+kemt:trel_ended_by rdfs:comment """Temporal relation where the target kemt:TemporalElement is the end of the source kemt:TemporalElement.
+
+Inverse of kemt:trel_ends.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=46>."""@en ;
+	rdfs:label "ended by"@en .
+
+<http://knowledgestore.fbk.eu/ontologies/kem/text> rdfs:comment "This ontology provides the Text module of KEM, the Knowledge Extraction Model. It provides specializations of resources, mentions, and (semantic) annotations of KEM Core for the textual media, targeting the scenario of Knowledge Extraction from text."@en .
+
+kemt:trel_ends a owl:NamedIndividual .
+
+<http://knowledgestore.fbk.eu/ontologies/kem/text> dcterms:license <http://creativecommons.org/licenses/by/4.0/> .
+
+kemt:trel_ends a kemt:TemporalRelation .
+
+<http://knowledgestore.fbk.eu/ontologies/kem/text> owl:imports <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> , <http://knowledgestore.fbk.eu/ontologies/kem/core> ;
+	rdfs:isDefinedBy <http://knowledgestore.fbk.eu/ontologies/kem/text.ttl> .
+
+kemt:argument a owl:InverseFunctionalProperty .
+
+kemt:trel_ends rdfs:comment """Temporal relation where the source kemt:TemporalElement is the end of the target kemt:TemporalElement.
+
+Inverse of kemt:trel_ended_by.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=46>."""@en .
+
+kemt:argument a owl:ObjectProperty .
+
+kemt:trel_ends rdfs:label "ends"@en .
+
+kemt:argument rdfs:comment "Links a kemt:Participation relation to one of the kemt:Argument(s) for the predicate of the participation."@en .
+
+kemt:trel_iafter a owl:NamedIndividual , kemt:TemporalRelation .
+
+kemt:argument rdfs:label "argument"@en ;
+	rdfs:range kemt:Argument ;
+	rdfs:domain kemt:Participation ;
+	rdfs:subPropertyOf kemt:relates .
+
+kemt:Argument a owl:Class .
+
+kemt:trel_iafter rdfs:comment """Temporal relation where the source kemt:TemporalElement is temporally located immediately after the target kemt:TemporalElement.
+
+Inverse of kemt:trel_ibefore.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=45>."""@en ;
+	rdfs:label "immediately after"@en .
+
+kemt:trel_ibefore a owl:NamedIndividual , kemt:TemporalRelation .
+
+kemt:Argument rdfs:comment """Entity annotation for an argument entity (of any kind) associated to a predicate.
+
+The disambiguated semantic role of the argument within the predicate-argument structure can be expressed via property itsrdf:taPropRef, possibly using semantic role URIs from PreMOn - http://premon.fbk.eu/
+
+Annotations of this kind can be generated via the Semantic Role Labeling (SRL) NLP task."""@en ;
+	rdfs:label "argument"@en ;
+	rdfs:subClassOf kemt:EntityAnnotation .
+
+kemt:trel_ibefore rdfs:comment """Temporal relation where the source kemt:TemporalElement is temporally located immediately before the target kemt:TemporalElement.
+
+Inverse of kemt:trel_iafter.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=45>."""@en .
+
+kemt:Argument rdfs:subClassOf _:node1ag8gochjx11 .
+
+kemt:trel_ibefore rdfs:label "immediately before"@en .
+
+kemt:Participation a owl:Class .
+
+kemt:trel_identity a owl:NamedIndividual , kemt:TemporalRelation ;
+	rdfs:comment """Temporal relation indicating that the source and target kemt:TemporalElement(s) are exactly the same (used for kemt:EventInstance).
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=46>."""@en .
+
+kemt:Participation rdfs:comment """Relation annotation describing a (so-called) predicate-argument structure where zero or more arguments (kemt:Argument annotations) participate to a predicate (kemt:Predicate).
+
+A kemt:Participation individual is linked to its components via properties:
+
+(1) kemt:predicate - linking the kemt:Predicate
+(2) kemt:argument - linking any kemt:Argument for the predicate (the role of the predicate is represented inside the argument via itsrdf:taPropRef)
+
+Note that a kemt:Predicate or kemt:Argument can be linked only to a kemt:Participation annotation.
+
+Annotations of this kind can be generated via the Semantic Role Labeling (SRL) NLP task."""@en .
+
+kemt:trel_identity rdfs:label "identity"@en .
+
+kemt:trel_includes a owl:NamedIndividual .
+
+kemt:Participation rdfs:label "participation"@en .
+
+kemt:trel_includes a kemt:TemporalRelation .
+
+kemt:Participation rdfs:subClassOf kemt:RelationAnnotation , _:node1ag8gochjx85 , _:node1ag8gochjx86 .
+
+kemt:trel_includes rdfs:comment """Temporal relation where the source kemt:TemporalElement temporally includes the target kemt:TemporalElement.
+
+Inverse of kemt:trel_is_included.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=45>."""@en .
+
+kemt:Participation rdfs:subClassOf _:node1ag8gochjx88 .
+
+kemt:relates a owl:ObjectProperty .
+
+kemt:trel_includes rdfs:label "includes"@en .
+
+kemt:trel_is_included a owl:NamedIndividual , kemt:TemporalRelation .
+
+kemt:relates rdfs:comment "Links a kemt:RelationAnnotation to all the kemt:EntityAnnotation involved in the described relation."@en ;
+	rdfs:label "relates"@en .
+
+kemt:trel_is_included rdfs:comment """Temporal relation where the source kemt:TemporalElement is temporally included in the target kemt:TemporalElement.
+
+Inverse of kemt:trel_includes.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=45>."""@en .
+
+kemt:relates rdfs:range kemt:EntityAnnotation ;
+	rdfs:domain kemt:RelationAnnotation .
+
+kemt:trel_is_included rdfs:label "is included"@en .
+
+kemt:relates rdfs:subPropertyOf kem:involvesSubjectOf .
+
+kemt:trel_simultaneous a owl:NamedIndividual .
+
+kemt:aspect a owl:ObjectProperty .
+
+kemt:trel_simultaneous a kemt:TemporalRelation .
+
+kemt:aspect a owl:FunctionalProperty ;
+	rdfs:comment """Specifies the aspect of the verb (if any) associated to a kemt:EventInstance.
+
+Corresponds to attribute aspect of TimeML element MAKEINSTANCE. See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=36>."""@en .
+
+kemt:trel_simultaneous rdfs:comment """Temporal relation where the source and target kemt:TemporalElement(s) happen at the same time, or are temporally indistinguishable in context, i.e. they occur close enough to the same time that further distinguishing their times makes no difference to the temporal interpretation of the text.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=44>."""@en .
+
+kemt:aspect rdfs:label "aspect"@en .
+
+kemt:trel_simultaneous rdfs:label "simultaneous"@en .
+
+kemt:aspect rdfs:range kemt:Aspect .
+
+kemt:trel_timex_anchor_time a owl:NamedIndividual .
+
+kemt:aspect rdfs:domain kemt:EventInstance .
+
+kemt:trel_timex_anchor_time a kemt:TemporalRelation .
+
+kemt:aspect rdfs:subPropertyOf kemt:feature .
+
+kemt:Aspect a owl:Class .
+
+kemt:trel_timex_anchor_time rdfs:comment """Temporal relation between two kemt:Timex annotations, indicating that the normalized value of the source kemt:Timex can be calculated as a function of the normalized value of the target kemt:Timex.
+
+This relation corresponds to the anchorTime attribute of TimeML, rather than a particular type of TLink."""@en .
+
+kemt:Aspect rdfs:comment """Enumeration of aspect values (progressive, perfective, perfective/progressive, none) characterizing the verbs expressing kemt:EventInstance(s).
+
+This class and its enumerated instances corresponds to the set of values of attibute tense of TimeML element MAKEINSTANCE; see <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=36>."""@en .
+
+kemt:trel_timex_anchor_time rdfs:label "timex anchor time"@en .
+
+kemt:trel_timex_begin_point a owl:NamedIndividual .
+
+kemt:Aspect rdfs:label "aspect"@en .
+
+kemt:trel_timex_begin_point a kemt:TemporalRelation .
+
+kemt:Aspect rdfs:subClassOf kemt:Feature , _:node1ag8gochjx13 .
+
+kemt:EventInstance a owl:Class .
+
+kemt:trel_timex_begin_point rdfs:comment """Temporal relation between two kemt:Timex annotations, the source one denoting a duration and the target one denoting the begin time instant of the duration.
+
+This relation corresponds to the beginPoint attribute of TimeML, rather than a particular type of TLink."""@en ;
+	rdfs:label "timex begin point"@en .
+
+kemt:trel_timex_end_point a owl:NamedIndividual , kemt:TemporalRelation ;
+	rdfs:comment """Temporal relation between two kemt:Timex annotations, the source one denoting a duration and the target one denoting the end time instant of the duration.
+
+This relation corresponds to the endPoint attribute of TimeML, rather than a particular type of TLink."""@en ;
+	rdfs:label "timex end point"@en .
+
+kemt:EventInstance rdfs:comment """Temporal element annotation corresponding to an occurrence (or a set of occurrences) of an event, i.e., a situation that happens or occurs, being punctual or lasting for a period of time.
+
+An kemt:EventInstance is characterized by a kemt:type, taking values from kemt:EventType.
+
+If the event instance is expressed by a verb predicate, properties kemt:aspect and kemt:tense can be used to specify its aspect and tense (these properties are defined on kemt:EventInstance, and not on the annotated nif:String, for better consistency with TimeML).
+
+The EventInstance can be modified by enumerated properties kemt:modality (e.g., 'should') and kemt:polarity (negative if the event is to be negated, i.e., the opposite holds).
+
+An optional kemt:signalString can be specified to specify an additional string (w.r.t. the one annotated by the kemt:EventInstance) that provides evidence for a specific EventInstance among the ones denoted by the annotated string. E.g., \"John taught yesterday but not today\" gives rise to two kemt:EventInstances, both having \"taught\" as event and possibly with different signals.
+
+This class derives from the MAKEINSTANCE element of TimeML, while the string annotated with this class roughly corresponds to the EVENT markable in TIMEML. See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=32>."""@en .
+
+_:node1ag8gochjx1 rdf:first kem:fragmentOf .
+
+kemt:EventInstance rdfs:label "event instance"@en .
+
+_:node1ag8gochjx1 rdf:rest _:node1ag8gochjx2 .
+
+kemt:EventInstance rdfs:subClassOf kemt:TemporalElement .
+
+_:node1ag8gochjx10 owl:inverseOf kem:hasAnnotation .
+
+kemt:EventInstance rdfs:subClassOf _:node1ag8gochjx39 .
+
+_:node1ag8gochjx100 a owl:Restriction .
+
+kemt:EventInstance rdfs:subClassOf _:node1ag8gochjx40 .
+
+_:node1ag8gochjx100 owl:onProperty kemt:relation .
+
+kemt:feature a owl:ObjectProperty .
+
+_:node1ag8gochjx100 owl:allValuesFrom kemt:TemporalRelation .
+
+_:node1ag8gochjx101 a owl:Restriction ;
+	owl:onProperty kemt:source .
+
+kemt:feature rdfs:comment "Superproperty used to tag an annotation or other element with a kemt:Feature value. See specific subproperties for more details."@en .
+
+_:node1ag8gochjx101 owl:allValuesFrom kemt:TemporalElement .
+
+kemt:feature rdfs:label "feature"@en .
+
+_:node1ag8gochjx102 a owl:Class .
+
+kemt:feature rdfs:range kemt:Feature .
+
+_:node1ag8gochjx102 owl:oneOf _:node1ag8gochjx103 .
+
+kemt:conjunct a owl:ObjectProperty .
+
+_:node1ag8gochjx103 rdf:first kemt:mod_less_than ;
+	rdf:rest _:node1ag8gochjx104 .
+
+kemt:conjunct rdfs:comment "Links a kemt:Coordination annotation to the conjunct kemt:EntityAnnotation(s) it relates."@en .
+
+_:node1ag8gochjx104 rdf:first kemt:mod_more_than .
+
+kemt:conjunct rdfs:label "conjunct"@en .
+
+_:node1ag8gochjx104 rdf:rest _:node1ag8gochjx105 .
+
+kemt:conjunct rdfs:domain kemt:Coordination .
+
+_:node1ag8gochjx105 rdf:first kemt:mod_on_or_before .
+
+kemt:conjunct rdfs:subPropertyOf kemt:relates .
+
+kemt:Coordination a owl:Class .
+
+_:node1ag8gochjx105 rdf:rest _:node1ag8gochjx106 .
+
+_:node1ag8gochjx106 rdf:first kemt:mod_approx ;
+	rdf:rest _:node1ag8gochjx107 .
+
+_:node1ag8gochjx107 rdf:first kemt:mod_on_or_after ;
+	rdf:rest _:node1ag8gochjx108 .
+
+_:node1ag8gochjx108 rdf:first kemt:mod_after .
+
+kemt:Coordination rdfs:comment """Relation annotation describing the coordination relation between multiple kemt:EntityAnnotation(s), linked via property kemt:conjuct. A kemt:EntityAnnotation for the group entity having conjunct entities as members can be linked via property kemt:group.
+
+In case only an indication of coordinated conjunct strings is available, property kemt:conjunctString can be used to link the kemt:Coordination annotation to those nif:String(s) (a similar property is not provided for the group entity, as it is expected that its string corresponds to the string annotated with kemt:Coordination)."""@en .
+
+_:node1ag8gochjx108 rdf:rest _:node1ag8gochjx109 .
+
+kemt:Coordination rdfs:label "coordination"@en .
+
+_:node1ag8gochjx109 rdf:first kemt:mod_end .
+
+kemt:Coordination rdfs:subClassOf kemt:RelationAnnotation .
+
+_:node1ag8gochjx109 rdf:rest _:node1ag8gochjx110 .
+
+kemt:Coordination rdfs:subClassOf _:node1ag8gochjx35 .
+
+_:node1ag8gochjx11 a owl:Restriction .
+
+kemt:conjunctString a owl:ObjectProperty .
+
+_:node1ag8gochjx11 owl:onProperty _:node1ag8gochjx12 ;
+	owl:someValuesFrom owl:Thing .
+
+kemt:conjunctString rdfs:comment "Links a kemt:Coordination annotation to its conjunct nif:String(s). Note that these strings are treated as kem:Mention(s)."@en .
+
+_:node1ag8gochjx110 rdf:first kemt:mod_equal_or_more ;
+	rdf:rest _:node1ag8gochjx111 .
+
+kemt:conjunctString rdfs:label "conjunct string"@en .
+
+_:node1ag8gochjx111 rdf:first kemt:mod_start .
+
+kemt:conjunctString rdfs:domain kemt:Coordination .
+
+_:node1ag8gochjx111 rdf:rest _:node1ag8gochjx112 .
+
+kemt:conjunctString rdfs:subPropertyOf kem:involvesReferentOf .
+
+kemt:coreferring a owl:ObjectProperty .
+
+_:node1ag8gochjx112 rdf:first kemt:mod_equal_or_less ;
+	rdf:rest _:node1ag8gochjx113 .
+
+kemt:coreferring rdfs:comment "Links a kemt:Coreference relation annotation to the kemt:EntityAnnotation of coreferring entities."@en .
+
+_:node1ag8gochjx113 rdf:first kemt:mod_before ;
+	rdf:rest _:node1ag8gochjx114 .
+
+kemt:coreferring rdfs:label "coreferring"@en .
+
+_:node1ag8gochjx114 rdf:first kemt:mod_mid .
+
+kemt:coreferring rdfs:domain kemt:Coreference ;
+	rdfs:subPropertyOf kemt:relates .
+
+_:node1ag8gochjx114 rdf:rest rdf:nil .
+
+kemt:Coreference a owl:Class .
+
+_:node1ag8gochjx115 a owl:Class ;
+	owl:oneOf _:node1ag8gochjx116 .
+
+_:node1ag8gochjx116 rdf:first kemt:tense_infinitive .
+
+kemt:Coreference rdfs:comment """Relation annotation describing a coreference relation between multiple kemt:EntityAnnotation, linked via property kemt:coreferring.
+
+If only an indication of coreferring nif:Strings is available, property kemt:coreferringString can be used to link the kemt:Coreference annotation to these strings."""@en .
+
+_:node1ag8gochjx116 rdf:rest _:node1ag8gochjx117 .
+
+_:node1ag8gochjx117 rdf:first kemt:tense_future .
+
+kemt:Coreference rdfs:label "coreference"@en .
+
+_:node1ag8gochjx117 rdf:rest _:node1ag8gochjx118 .
+
+kemt:Coreference rdfs:subClassOf kemt:RelationAnnotation .
+
+_:node1ag8gochjx118 rdf:first kemt:tense_past .
+
+kemt:Coreference rdfs:subClassOf _:node1ag8gochjx37 .
+
+kemt:coreferringString a owl:ObjectProperty .
+
+_:node1ag8gochjx118 rdf:rest _:node1ag8gochjx119 .
+
+_:node1ag8gochjx119 rdf:first kemt:tense_prespart ;
+	rdf:rest _:node1ag8gochjx120 .
+
+kemt:coreferringString rdfs:comment "Links a kemt:Coreference annotation to the coreferring nif:String(s) it relates. Note that these nif:String(s) are considered kem:Mention(s) as they must have a referent which is coreferred."@en .
+
+_:node1ag8gochjx12 owl:inverseOf nif:annotation .
+
+_:node1ag8gochjx120 rdf:first kemt:tense_none .
+
+kemt:coreferringString rdfs:label "coreferring string"@en .
+
+_:node1ag8gochjx120 rdf:rest _:node1ag8gochjx121 .
+
+kemt:coreferringString rdfs:domain kemt:Coreference ;
+	rdfs:subPropertyOf kem:involvesReferentOf .
+
+_:node1ag8gochjx121 rdf:first kemt:tense_pastpart .
+
+kemt:dominates a owl:ObjectProperty .
+
+_:node1ag8gochjx121 rdf:rest _:node1ag8gochjx122 .
+
+kemt:dominates a owl:AsymmetricProperty , owl:TransitiveProperty .
+
+_:node1ag8gochjx122 rdf:first kemt:tense_present ;
+	rdf:rest rdf:nil .
+
+_:node1ag8gochjx123 a owl:Restriction .
+
+kemt:dominates rdfs:comment "This is the asymmetric, transitive dominance relation between nodes of a constituency tree. Dominance implies string containment (container nif:superString contained) of associated constituency strings."@en .
+
+_:node1ag8gochjx123 owl:onProperty _:node1ag8gochjx124 .
+
+kemt:dominates rdfs:label "dominates"@en .
+
+_:node1ag8gochjx123 owl:allValuesFrom nif:String .
+
+kemt:dominates rdfs:range kemt:ConstituentNode .
+
+_:node1ag8gochjx124 owl:inverseOf kem:fragmentOf .
+
+kemt:dominates rdfs:domain kemt:ConstituentNode .
+
+_:node1ag8gochjx125 a owl:Restriction .
+
+kemt:ConstituentNode a owl:Class .
+
+_:node1ag8gochjx125 owl:onProperty kemt:type ;
+	owl:allValuesFrom kemt:TimexType .
+
+_:node1ag8gochjx126 a owl:Class ;
+	owl:oneOf _:node1ag8gochjx127 .
+
+_:node1ag8gochjx127 rdf:first kemt:tt_duration ;
+	rdf:rest _:node1ag8gochjx128 .
+
+_:node1ag8gochjx128 rdf:first kemt:tt_set ;
+	rdf:rest _:node1ag8gochjx129 .
+
+_:node1ag8gochjx129 rdf:first kemt:tt_time ;
+	rdf:rest _:node1ag8gochjx130 .
+
+_:node1ag8gochjx13 a owl:Class ;
+	owl:oneOf _:node1ag8gochjx14 .
+
+_:node1ag8gochjx130 rdf:first kemt:tt_date ;
+	rdf:rest rdf:nil .
+
+_:node1ag8gochjx131 a owl:Restriction ;
+	owl:onProperty nif:subStringTrans ;
+	owl:someValuesFrom nif:Word .
+
+_:node1ag8gochjx132 a owl:Restriction ;
+	owl:onProperty _:node1ag8gochjx133 ;
+	owl:allValuesFrom nif:String .
+
+_:node1ag8gochjx133 owl:inverseOf nif:annotation .
+
+_:node1ag8gochjx134 a owl:Restriction ;
+	owl:onProperty kem:fragmentOf ;
+	owl:allValuesFrom kemt:TextResource .
+
+_:node1ag8gochjx135 a owl:AllDifferent ;
+	owl:distinctMembers _:node1ag8gochjx136 .
+
+_:node1ag8gochjx136 rdf:first kemt:mod_after ;
+	rdf:rest _:node1ag8gochjx137 .
+
+_:node1ag8gochjx137 rdf:first kemt:mod_approx ;
+	rdf:rest _:node1ag8gochjx138 .
+
+_:node1ag8gochjx138 rdf:first kemt:mod_before ;
+	rdf:rest _:node1ag8gochjx139 .
+
+_:node1ag8gochjx139 rdf:first kemt:mod_end ;
+	rdf:rest _:node1ag8gochjx140 .
+
+_:node1ag8gochjx14 rdf:first kemt:aspect_perfective ;
+	rdf:rest _:node1ag8gochjx15 .
+
+_:node1ag8gochjx140 rdf:first kemt:mod_equal_or_less ;
+	rdf:rest _:node1ag8gochjx141 .
+
+_:node1ag8gochjx141 rdf:first kemt:mod_equal_or_more ;
+	rdf:rest _:node1ag8gochjx142 .
+
+_:node1ag8gochjx142 rdf:first kemt:mod_less_than ;
+	rdf:rest _:node1ag8gochjx143 .
+
+_:node1ag8gochjx143 rdf:first kemt:mod_mid ;
+	rdf:rest _:node1ag8gochjx144 .
+
+_:node1ag8gochjx144 rdf:first kemt:mod_more_than ;
+	rdf:rest _:node1ag8gochjx145 .
+
+_:node1ag8gochjx145 rdf:first kemt:mod_on_or_after ;
+	rdf:rest _:node1ag8gochjx146 .
+
+_:node1ag8gochjx146 rdf:first kemt:mod_on_or_before ;
+	rdf:rest _:node1ag8gochjx147 .
+
+_:node1ag8gochjx147 rdf:first kemt:mod_start ;
+	rdf:rest rdf:nil .
+
+_:node1ag8gochjx148 a owl:AllDifferent ;
+	owl:distinctMembers _:node1ag8gochjx149 .
+
+_:node1ag8gochjx149 rdf:first kemt:tt_date ;
+	rdf:rest _:node1ag8gochjx150 .
+
+_:node1ag8gochjx15 rdf:first kemt:aspect_progressive ;
+	rdf:rest _:node1ag8gochjx16 .
+
+_:node1ag8gochjx150 rdf:first kemt:tt_duration ;
+	rdf:rest _:node1ag8gochjx151 .
+
+_:node1ag8gochjx151 rdf:first kemt:tt_set ;
+	rdf:rest _:node1ag8gochjx152 .
+
+_:node1ag8gochjx152 rdf:first kemt:tt_time ;
+	rdf:rest rdf:nil .
+
+_:node1ag8gochjx153 a owl:AllDifferent ;
+	owl:distinctMembers _:node1ag8gochjx154 .
+
+_:node1ag8gochjx154 rdf:first kemt:arel_continues ;
+	rdf:rest _:node1ag8gochjx155 .
+
+_:node1ag8gochjx155 rdf:first kemt:arel_culminates ;
+	rdf:rest _:node1ag8gochjx156 .
+
+_:node1ag8gochjx156 rdf:first kemt:arel_initiates ;
+	rdf:rest _:node1ag8gochjx157 .
+
+_:node1ag8gochjx157 rdf:first kemt:arel_reinitiates ;
+	rdf:rest _:node1ag8gochjx158 .
+
+_:node1ag8gochjx158 rdf:first kemt:arel_terminates ;
+	rdf:rest rdf:nil .
+
+_:node1ag8gochjx159 a owl:AllDifferent ;
+	owl:distinctMembers _:node1ag8gochjx160 .
+
+_:node1ag8gochjx16 rdf:first kemt:aspect_none ;
+	rdf:rest _:node1ag8gochjx17 .
+
+_:node1ag8gochjx160 rdf:first kemt:aspect_none ;
+	rdf:rest _:node1ag8gochjx161 .
+
+_:node1ag8gochjx161 rdf:first kemt:aspect_perfective ;
+	rdf:rest _:node1ag8gochjx162 .
+
+_:node1ag8gochjx162 rdf:first kemt:aspect_perfective_progressive ;
+	rdf:rest _:node1ag8gochjx163 .
+
+_:node1ag8gochjx163 rdf:first kemt:aspect_progressive ;
+	rdf:rest rdf:nil .
+
+_:node1ag8gochjx164 a owl:AllDifferent ;
+	owl:distinctMembers _:node1ag8gochjx165 .
+
+_:node1ag8gochjx165 rdf:first kemt:et_aspectual ;
+	rdf:rest _:node1ag8gochjx166 .
+
+_:node1ag8gochjx166 rdf:first kemt:et_i_action ;
+	rdf:rest _:node1ag8gochjx167 .
+
+_:node1ag8gochjx167 rdf:first kemt:et_i_state ;
+	rdf:rest _:node1ag8gochjx168 .
+
+_:node1ag8gochjx168 rdf:first kemt:et_occurrence ;
+	rdf:rest _:node1ag8gochjx169 .
+
+_:node1ag8gochjx169 rdf:first kemt:et_perception ;
+	rdf:rest _:node1ag8gochjx170 .
+
+_:node1ag8gochjx17 rdf:first kemt:aspect_perfective_progressive ;
+	rdf:rest rdf:nil .
+
+_:node1ag8gochjx170 rdf:first kemt:et_reporting ;
+	rdf:rest _:node1ag8gochjx171 .
+
+_:node1ag8gochjx171 rdf:first kemt:et_state ;
+	rdf:rest rdf:nil .
+
+_:node1ag8gochjx172 a owl:AllDisjointClasses ;
+	owl:members _:node1ag8gochjx173 .
+
+_:node1ag8gochjx173 rdf:first kemt:AspectualRelation ;
+	rdf:rest _:node1ag8gochjx174 .
+
+_:node1ag8gochjx174 rdf:first kemt:CausalRelation ;
+	rdf:rest _:node1ag8gochjx175 .
+
+_:node1ag8gochjx175 rdf:first kemt:FactualityRelation ;
+	rdf:rest _:node1ag8gochjx176 .
+
+_:node1ag8gochjx176 rdf:first kemt:SubordinateRelation ;
+	rdf:rest _:node1ag8gochjx177 .
+
+_:node1ag8gochjx177 rdf:first kemt:TemporalRelation ;
+	rdf:rest rdf:nil .
+
+_:node1ag8gochjx178 a owl:AllDisjointClasses ;
+	owl:members _:node1ag8gochjx179 .
+
+_:node1ag8gochjx179 rdf:first kemt:Argument ;
+	rdf:rest _:node1ag8gochjx180 .
+
+_:node1ag8gochjx18 a owl:Restriction ;
+	owl:onProperty kemt:source ;
+	owl:allValuesFrom kemt:EventInstance .
+
+_:node1ag8gochjx180 rdf:first kemt:FactualitySource .
+
+kemt:ConstituentNode rdfs:comment """A node of a constituency parse tree, whose syntactic category is specified by property kemt:syntacticCategory. 
+
+Note that multiple kemt:ConstituentNode(s), having different syntactic categories, can correspond to the same span of text (kemt:ConstituentString), e.g., a NP (noun phrase) node and a N (noun) node.
+
+The identity of a kemt:ConstituentNode is given by the annotated constituent string and its syntactic category. 
+
+Constituent nodes are related by three relations:
+
+(1) kemt:immediatelyDominates - links a node to the node it immediately dominates in the constituency tree (i.e., its direct children)
+
+(2) kemt:dominates - the transitive closure of kemt:immediatelyDominates
+
+(3) kemt:headConstituentNode - link a node to the child node representing the head of the constituent"""@en .
+
+_:node1ag8gochjx180 rdf:rest _:node1ag8gochjx181 .
+
+kemt:ConstituentNode rdfs:label "constituent node"@en ;
+	rdfs:subClassOf nif:Annotation .
+
+_:node1ag8gochjx181 rdf:first kemt:NamedEntity ;
+	rdf:rest _:node1ag8gochjx182 .
+
+kemt:ConstituentNode rdfs:subClassOf _:node1ag8gochjx29 .
+
+_:node1ag8gochjx182 rdf:first kemt:Predicate .
+
+kemt:ConstituentNode rdfs:subClassOf _:node1ag8gochjx31 .
+
+_:node1ag8gochjx182 rdf:rest _:node1ag8gochjx183 .
+
+kemt:ConstituentNode rdfs:subClassOf _:node1ag8gochjx32 .
+
+_:node1ag8gochjx183 rdf:first kemt:TemporalElement .
+
+kemt:factValue a owl:ObjectProperty .
+
+_:node1ag8gochjx183 rdf:rest rdf:nil .
+
+kemt:factValue a owl:FunctionalProperty .
+
+_:node1ag8gochjx184 a owl:AllDisjointClasses ;
+	owl:members _:node1ag8gochjx185 .
+
+kemt:factValue rdfs:label "factuality value"@en .
+
+_:node1ag8gochjx185 rdf:first kemt:Aspect .
+
+kemt:factValue rdfs:range kemt:FactValue .
+
+_:node1ag8gochjx185 rdf:rest _:node1ag8gochjx186 .
+
+kemt:factValue rdfs:domain kemt:FactualityLink .
+
+_:node1ag8gochjx186 rdf:first kemt:FactValue .
+
+kemt:factValue rdfs:subPropertyOf kemt:feature .
+
+_:node1ag8gochjx186 rdf:rest _:node1ag8gochjx187 .
+
+kemt:FactValue a owl:Class .
+
+_:node1ag8gochjx187 rdf:first kemt:FunctionInDocument ;
+	rdf:rest _:node1ag8gochjx188 .
+
+_:node1ag8gochjx188 rdf:first kemt:Polarity ;
+	rdf:rest _:node1ag8gochjx189 .
+
+_:node1ag8gochjx189 rdf:first kemt:Relation ;
+	rdf:rest _:node1ag8gochjx190 .
+
+_:node1ag8gochjx19 a owl:Restriction ;
+	owl:onProperty kemt:target ;
+	owl:allValuesFrom kemt:EventInstance .
+
+_:node1ag8gochjx190 rdf:first kemt:TemporalModifier ;
+	rdf:rest _:node1ag8gochjx191 .
+
+_:node1ag8gochjx191 rdf:first kemt:Tense ;
+	rdf:rest _:node1ag8gochjx192 .
+
+_:node1ag8gochjx192 rdf:first kemt:Type ;
+	rdf:rest rdf:nil .
+
+_:node1ag8gochjx193 a owl:AllDifferent ;
+	owl:distinctMembers _:node1ag8gochjx194 .
+
+_:node1ag8gochjx194 rdf:first kemt:trel_after ;
+	rdf:rest _:node1ag8gochjx195 .
+
+_:node1ag8gochjx195 rdf:first kemt:trel_before ;
+	rdf:rest _:node1ag8gochjx196 .
+
+_:node1ag8gochjx196 rdf:first kemt:trel_begins ;
+	rdf:rest _:node1ag8gochjx197 .
+
+_:node1ag8gochjx197 rdf:first kemt:trel_begun_by ;
+	rdf:rest _:node1ag8gochjx198 .
+
+_:node1ag8gochjx198 rdf:first kemt:trel_during ;
+	rdf:rest _:node1ag8gochjx199 .
+
+_:node1ag8gochjx199 rdf:first kemt:trel_during_inv ;
+	rdf:rest _:node1ag8gochjx200 .
+
+_:node1ag8gochjx2 rdf:first _:node1ag8gochjx3 ;
+	rdf:rest rdf:nil .
+
+_:node1ag8gochjx20 a owl:Restriction ;
+	owl:onProperty kemt:relation ;
+	owl:allValuesFrom kemt:AspectualRelation .
+
+_:node1ag8gochjx200 rdf:first kemt:trel_ended_by ;
+	rdf:rest _:node1ag8gochjx201 .
+
+_:node1ag8gochjx201 rdf:first kemt:trel_ends ;
+	rdf:rest _:node1ag8gochjx202 .
+
+_:node1ag8gochjx202 rdf:first kemt:trel_iafter ;
+	rdf:rest _:node1ag8gochjx203 .
+
+_:node1ag8gochjx203 rdf:first kemt:trel_ibefore ;
+	rdf:rest _:node1ag8gochjx204 .
+
+_:node1ag8gochjx204 rdf:first kemt:trel_identity ;
+	rdf:rest _:node1ag8gochjx205 .
+
+_:node1ag8gochjx205 rdf:first kemt:trel_includes ;
+	rdf:rest _:node1ag8gochjx206 .
+
+_:node1ag8gochjx206 rdf:first kemt:trel_is_included ;
+	rdf:rest _:node1ag8gochjx207 .
+
+_:node1ag8gochjx207 rdf:first kemt:trel_simultaneous ;
+	rdf:rest _:node1ag8gochjx208 .
+
+_:node1ag8gochjx208 rdf:first kemt:trel_timex_anchor_time ;
+	rdf:rest _:node1ag8gochjx209 .
+
+_:node1ag8gochjx209 rdf:first kemt:trel_timex_begin_point ;
+	rdf:rest _:node1ag8gochjx210 .
+
+_:node1ag8gochjx21 a owl:Restriction ;
+	owl:onProperty kemt:source ;
+	owl:allValuesFrom kemt:EventInstance .
+
+_:node1ag8gochjx210 rdf:first kemt:trel_timex_end_point ;
+	rdf:rest rdf:nil .
+
+_:node1ag8gochjx211 a owl:AllDifferent ;
+	owl:distinctMembers _:node1ag8gochjx212 .
+
+_:node1ag8gochjx212 rdf:first kemt:srel_conditional ;
+	rdf:rest _:node1ag8gochjx213 .
+
+_:node1ag8gochjx213 rdf:first kemt:srel_counter_factive ;
+	rdf:rest _:node1ag8gochjx214 .
+
+_:node1ag8gochjx214 rdf:first kemt:srel_evidential ;
+	rdf:rest _:node1ag8gochjx215 .
+
+_:node1ag8gochjx215 rdf:first kemt:srel_factive ;
+	rdf:rest _:node1ag8gochjx216 .
+
+_:node1ag8gochjx216 rdf:first kemt:srel_modal ;
+	rdf:rest _:node1ag8gochjx217 .
+
+_:node1ag8gochjx217 rdf:first kemt:srel_neg_evidential ;
+	rdf:rest rdf:nil .
+
+_:node1ag8gochjx218 a owl:AllDifferent ;
+	owl:distinctMembers _:node1ag8gochjx219 .
+
+_:node1ag8gochjx219 rdf:first kemt:fn_creation_time ;
+	rdf:rest _:node1ag8gochjx220 .
+
+_:node1ag8gochjx22 a owl:Restriction ;
+	owl:onProperty kemt:relation ;
+	owl:allValuesFrom kemt:CausalRelation .
+
+_:node1ag8gochjx220 rdf:first kemt:fn_expiration_time ;
+	rdf:rest _:node1ag8gochjx221 .
+
+_:node1ag8gochjx221 rdf:first kemt:fn_modification_time ;
+	rdf:rest _:node1ag8gochjx222 .
+
+_:node1ag8gochjx222 rdf:first kemt:fn_none ;
+	rdf:rest _:node1ag8gochjx223 .
+
+_:node1ag8gochjx223 rdf:first kemt:fn_publication_time ;
+	rdf:rest _:node1ag8gochjx224 .
+
+_:node1ag8gochjx224 rdf:first kemt:fn_reception_time ;
+	rdf:rest _:node1ag8gochjx225 .
+
+_:node1ag8gochjx225 rdf:first kemt:fn_release_time ;
+	rdf:rest rdf:nil .
+
+_:node1ag8gochjx226 a owl:AllDifferent .
+
+kemt:FactValue rdfs:comment """Enumeration of factuality values (CT+,PR+,PS+,...) used in kemt:FactualityLink(s) to characterize the certainty and polarity of a kemt:EventInstance.
+
+This class and its enumerated instances corresponds to the set of values of attribute factValue of FactBank; see <https://catalog.ldc.upenn.edu/docs/LDC2009T23/annotationGuidelines.pdf#page=17>."""@en .
+
+_:node1ag8gochjx226 owl:distinctMembers _:node1ag8gochjx227 .
+
+_:node1ag8gochjx227 rdf:first kemt:frel_event_origin .
+
+kemt:FactValue rdfs:label "factuality value"@en .
+
+_:node1ag8gochjx227 rdf:rest _:node1ag8gochjx228 .
+
+kemt:FactValue rdfs:subClassOf kemt:Feature .
+
+_:node1ag8gochjx228 rdf:first kemt:frel_factuality_assignment .
+
+kemt:FactValue rdfs:subClassOf _:node1ag8gochjx50 .
+
+_:node1ag8gochjx228 rdf:rest _:node1ag8gochjx229 .
+
+kemt:FactualityLink a owl:Class .
+
+_:node1ag8gochjx229 rdf:first kemt:frel_source_introduction ;
+	rdf:rest rdf:nil .
+
+_:node1ag8gochjx23 a owl:Restriction ;
+	owl:onProperty kemt:target ;
+	owl:allValuesFrom kemt:EventInstance .
+
+_:node1ag8gochjx230 a owl:AllDifferent ;
+	owl:distinctMembers _:node1ag8gochjx231 .
+
+_:node1ag8gochjx231 rdf:first kemt:polarity_neg ;
+	rdf:rest _:node1ag8gochjx232 .
+
+_:node1ag8gochjx232 rdf:first kemt:polarity_pos ;
+	rdf:rest rdf:nil .
+
+_:node1ag8gochjx233 a owl:AllDisjointClasses .
+
+kemt:FactualityLink rdfs:comment """FactBank link expressing a binary factuality relation between a source kemt:EventInstance and a target kemt:EventSource.
+
+The range of kemt:relation is restricted to kemt:FactualityRelation, which covers the three cases of factuality assignment, factuality source introduction, and source-introducing predicate origination from another source.
+The ranges of kemt:source and kemt:target are restricted to kemt:EventInstance.
+
+For factuality assignment links, a further property kemt:factValue can be used to specify the factuality value assigned by the source to the event instance.
+
+This class is inspired by the modeling of factuality of FactBank <https://catalog.ldc.upenn.edu/docs/LDC2009T23/annotationGuidelines.pdf>. 
+We model factuality relations as binary links for consistency with other binary relations modeled this way, although in FactBank they are not called 'link’."""@en .
+
+_:node1ag8gochjx233 owl:members _:node1ag8gochjx234 .
+
+_:node1ag8gochjx234 rdf:first kemt:AspectualLink .
+
+kemt:FactualityLink rdfs:label "factuality link"@en ;
+	rdfs:subClassOf kemt:Link .
+
+_:node1ag8gochjx234 rdf:rest _:node1ag8gochjx235 .
+
+_:node1ag8gochjx235 rdf:first kemt:CausalLink .
+
+kemt:FactualityLink rdfs:subClassOf _:node1ag8gochjx63 .
+
+_:node1ag8gochjx235 rdf:rest _:node1ag8gochjx236 .
+
+kemt:FactualityLink rdfs:subClassOf _:node1ag8gochjx64 .
+
+_:node1ag8gochjx236 rdf:first kemt:FactualityLink .
+
+kemt:FactualityLink rdfs:subClassOf _:node1ag8gochjx65 .
+
+kemt:Feature a owl:Class .
+
+_:node1ag8gochjx236 rdf:rest _:node1ag8gochjx237 .
+
+_:node1ag8gochjx237 rdf:first kemt:SubordinateLink ;
+	rdf:rest _:node1ag8gochjx238 .
+
+_:node1ag8gochjx238 rdf:first kemt:TemporalLink ;
+	rdf:rest rdf:nil .
+
+kemt:Feature rdfs:comment """Enumeration of values / data categories for a feature used in annotations. 
+
+This is an abstact class covering all the different types of features used in KEM Text. See subclasses for more details."""@en .
+
+_:node1ag8gochjx239 a owl:AllDifferent ;
+	owl:distinctMembers _:node1ag8gochjx240 .
+
+kemt:Feature rdfs:label "feature"@en .
+
+_:node1ag8gochjx24 a owl:Class .
+
+kemt:functionInDocument a owl:ObjectProperty .
+
+_:node1ag8gochjx24 owl:intersectionOf _:node1ag8gochjx25 .
+
+kemt:functionInDocument a owl:FunctionalProperty .
+
+_:node1ag8gochjx240 rdf:first kemt:tense_future ;
+	rdf:rest _:node1ag8gochjx241 .
+
+_:node1ag8gochjx241 rdf:first kemt:tense_infinitive ;
+	rdf:rest _:node1ag8gochjx242 .
+
+_:node1ag8gochjx242 rdf:first kemt:tense_none .
+
+kemt:functionInDocument rdfs:comment """Specifies the function played by a kemt:Timex in the scope of the containing document.
+
+Default value kemt:fn_none can be used to express that the kemt:Timex has no particular function within the document.
+
+Corresponds to attribute functionInDocument of TimeML element TIMEX3. See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=29>."""@en .
+
+_:node1ag8gochjx242 rdf:rest _:node1ag8gochjx243 .
+
+_:node1ag8gochjx243 rdf:first kemt:tense_past .
+
+kemt:functionInDocument rdfs:label "function in document"@en .
+
+_:node1ag8gochjx243 rdf:rest _:node1ag8gochjx244 .
+
+kemt:functionInDocument rdfs:range kemt:FunctionInDocument .
+
+_:node1ag8gochjx244 rdf:first kemt:tense_pastpart .
+
+kemt:functionInDocument rdfs:domain kemt:Timex .
+
+_:node1ag8gochjx244 rdf:rest _:node1ag8gochjx245 .
+
+kemt:functionInDocument rdfs:subPropertyOf kemt:feature .
+
+kemt:FunctionInDocument a owl:Class .
+
+_:node1ag8gochjx245 rdf:first kemt:tense_present ;
+	rdf:rest _:node1ag8gochjx246 .
+
+_:node1ag8gochjx246 rdf:first kemt:tense_prespart ;
+	rdf:rest rdf:nil .
+
+_:node1ag8gochjx247 a owl:AllDifferent ;
+	owl:distinctMembers _:node1ag8gochjx248 .
+
+kemt:FunctionInDocument rdfs:comment """Enumeration of possible functions a kemt:Timex can play in the scope of the containing document.
+
+This class and its enumerated instances corresponds to the set of values of attibute functionInDocument of TimeML element TIMEX3; see <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=29>."""@en .
+
+_:node1ag8gochjx248 rdf:first kemt:fv_CTn ;
+	rdf:rest _:node1ag8gochjx249 .
+
+kemt:FunctionInDocument rdfs:label "function in document"@en .
+
+_:node1ag8gochjx249 rdf:first kemt:fv_CTp .
+
+kemt:FunctionInDocument rdfs:subClassOf kemt:Feature .
+
+_:node1ag8gochjx249 rdf:rest _:node1ag8gochjx250 .
+
+kemt:FunctionInDocument rdfs:subClassOf _:node1ag8gochjx70 .
+
+_:node1ag8gochjx25 rdf:first nif:Word .
+
+kemt:Timex a owl:Class .
+
+_:node1ag8gochjx25 rdf:rest _:node1ag8gochjx26 .
+
+_:node1ag8gochjx250 rdf:first kemt:fv_CTu ;
+	rdf:rest _:node1ag8gochjx251 .
+
+_:node1ag8gochjx251 rdf:first kemt:fv_PRn ;
+	rdf:rest _:node1ag8gochjx252 .
+
+_:node1ag8gochjx252 rdf:first kemt:fv_PRp ;
+	rdf:rest _:node1ag8gochjx253 .
+
+_:node1ag8gochjx253 rdf:first kemt:fv_PRu .
+
+kemt:Timex rdfs:comment """Temporal element annotation corresponding to a temporal expression (abbreviated timex).
+
+A kemt:Timex is characterized by a kemt:type, taking values from TimexType.
+
+The normalized value of the Timex is provided by the kemt:value property, if it can be determined. Boolean property kemt:temporalFunction is set to true if the normalized value is expressed as a function of another so-called anchor time expression (connected via a kemt:TemporalLink), The value of a kemt:Timex can be modified by an optional kemt:mod.
+
+Property kemt:functionInDocument provides the function the kemt:Timex plays in the associated document (e.g., creation time).
+
+If the temporal expression denotes a duration, it can be linked to the timex representing its begin and end points via kemt:TemporalLink(s).
+
+This class derives from the TIMEX3 element of TimeML. See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=14>."""@en .
+
+_:node1ag8gochjx253 rdf:rest _:node1ag8gochjx254 .
+
+_:node1ag8gochjx254 rdf:first kemt:fv_PSn .
+
+kemt:Timex rdfs:label "timex"@en .
+
+_:node1ag8gochjx254 rdf:rest _:node1ag8gochjx255 .
+
+kemt:Timex rdfs:subClassOf kemt:TemporalElement .
+
+_:node1ag8gochjx255 rdf:first kemt:fv_PSp .
+
+kemt:Timex rdfs:subClassOf _:node1ag8gochjx125 .
+
+_:node1ag8gochjx255 rdf:rest _:node1ag8gochjx256 .
+
+kemt:group a owl:ObjectProperty .
+
+_:node1ag8gochjx256 rdf:first kemt:fv_PSu ;
+	rdf:rest _:node1ag8gochjx257 .
+
+_:node1ag8gochjx257 rdf:first kemt:fv_Uu .
+
+kemt:group rdfs:comment "Links a kemt:Coordination annotation to the group entity kemt:EntityAnnotation(s) comprising all the conjuncts."@en .
+
+_:node1ag8gochjx257 rdf:rest _:node1ag8gochjx258 .
+
+_:node1ag8gochjx258 rdf:first kemt:fv_na .
+
+kemt:group rdfs:label "group"@en .
+
+_:node1ag8gochjx258 rdf:rest _:node1ag8gochjx259 .
+
+kemt:group rdfs:domain kemt:Coordination .
+
+_:node1ag8gochjx259 rdf:first kemt:fv_other .
+
+kemt:group rdfs:subPropertyOf kemt:relates .
+
+_:node1ag8gochjx259 rdf:rest rdf:nil .
+
+kemt:headComponent a owl:InverseFunctionalProperty .
+
+_:node1ag8gochjx26 rdf:first _:node1ag8gochjx27 .
+
+kemt:headComponent a owl:ObjectProperty .
+
+_:node1ag8gochjx26 rdf:rest rdf:nil .
+
+_:node1ag8gochjx27 a owl:Restriction .
+
+kemt:headComponent a owl:FunctionalProperty .
+
+_:node1ag8gochjx27 owl:onProperty kem:hasPart ;
+	owl:someValuesFrom kemt:WordComponent .
+
+_:node1ag8gochjx28 a owl:Restriction .
+
+kemt:headComponent rdfs:comment "Links a compound word (kemt:CompoundWord) to its component word stem (kemt:WordComponent) that acts as head (if an head exists - i.e., if the compound word is endocentric). Implies string containment."@en .
+
+_:node1ag8gochjx28 owl:onProperty nif:superString ;
+	owl:someValuesFrom kemt:WordComponent .
+
+kemt:headComponent rdfs:label "head component"@en .
+
+_:node1ag8gochjx29 a owl:Restriction .
+
+kemt:headComponent rdfs:range kemt:WordComponent .
+
+_:node1ag8gochjx29 owl:onProperty _:node1ag8gochjx30 .
+
+kemt:headComponent rdfs:domain nif:Word .
+
+_:node1ag8gochjx29 owl:allValuesFrom kemt:ConstituentString .
+
+_:node1ag8gochjx3 owl:inverseOf nif:sourceUrl .
+
+kemt:headComponent rdfs:subPropertyOf nif:superString .
+
+_:node1ag8gochjx30 owl:inverseOf nif:annotation .
+
+kemt:WordComponent a owl:Class .
+
+_:node1ag8gochjx31 a owl:Restriction ;
+	owl:onProperty kemt:syntacticCategory .
+
+kemt:WordComponent rdfs:comment "A component (word stem) of a compound word."@en .
+
+_:node1ag8gochjx31 owl:someValuesFrom owl:Thing .
+
+_:node1ag8gochjx32 a owl:Restriction .
+
+kemt:WordComponent rdfs:label "word component"@en .
+
+_:node1ag8gochjx32 owl:onProperty _:node1ag8gochjx33 ;
+	owl:someValuesFrom owl:Thing .
+
+kemt:WordComponent rdfs:subClassOf nif:Structure , _:node1ag8gochjx131 .
+
+kemt:headConstituentNode a owl:ObjectProperty , owl:FunctionalProperty ;
+	rdfs:comment "The relation between a node of the constituency tree and the node it immediately dominates that acts as its syntactic head (e.g., between the NP node for \"nice ontology\" and the N node for \"ontology\"). This is a 1:1 relation implying immediate dominance."@en ;
+	rdfs:label "head constituent node"@en ;
+	rdfs:subPropertyOf kemt:immediatelyDominates .
+
+kemt:immediatelyDominates a owl:InverseFunctionalProperty , owl:ObjectProperty ;
+	rdfs:comment "The immediate dominance relation between a parent node of the constituency tree and its immediate child nodes. This is a 1:N relation, implying the more general dominance relation."@en ;
+	rdfs:label "immediately dominates"@en ;
+	rdfs:subPropertyOf kemt:dominates .
+
+kemt:headWord a owl:ObjectProperty , owl:FunctionalProperty ;
+	rdfs:comment "Links a constituent string to its head word. Implies string containment."@en ;
+	rdfs:label "head word"@en ;
+	rdfs:range nif:Word ;
+	rdfs:domain kemt:ConstituentString ;
+	rdfs:subPropertyOf nif:superString .
+
+kemt:ConstituentString a owl:Class ;
+	rdfs:comment """A substring of a sentence acting as a syntactic constituent, i.e., including all the words that are dominated by a certain node in the consituency tree for the sentence.
+
+Sentences and words (as defined in NIF) are considered constituent strings.
+
+A kemt:ConstituentString is associated to one or more kemt:ConstituentNodes of the constituency tree, with distinct syntactic categories.
+
+Class nif:Phrase from could have in principle been used for denoting constituents, but its semantics is left open in NIF."""@en ;
+	rdfs:label "constituent string"@en ;
+	rdfs:subClassOf nif:Structure , _:node1ag8gochjx34 .
+
+kemt:modifier a owl:ObjectProperty , owl:FunctionalProperty ;
+	rdfs:comment """Specifies the possible modifier applied to a kemt:Timex.
+
+Corresponds to attribute mod of TimeML element TIMEX3. See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=26>."""@en ;
+	rdfs:label "modifier"@en ;
+	rdfs:range kemt:TemporalModifier ;
+	rdfs:domain kemt:Timex ;
+	rdfs:subPropertyOf kemt:feature .
+
+kemt:TemporalModifier a owl:Class ;
+	rdfs:comment """Enumeration of temporal modifiers further characterizing a kemt:Timex.
+
+This class and its enumerated instances corresponds to the set of values of attibute mod of TimeML element TIMEX3; see <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=26> and <ftp://jaguar.ncsl.nist.gov/ace/phase2/docs/mtrinstructionmanual_v1_32.pdf#page=20>."""@en ;
+	rdfs:label "temporal modifier"@en ;
+	rdfs:subClassOf kemt:Feature , _:node1ag8gochjx102 .
+
+kemt:objectValue a owl:ObjectProperty , owl:FunctionalProperty ;
+	rdfs:comment """Specifies a normalized object value associated to a kemt:EntityAnnotation.
+
+This property is currently used to provide normalized OWL Time values for for a kemt:Timex."""@en ;
+	rdfs:label "object value"@en ;
+	rdfs:domain kemt:EntityAnnotation .
+
+kemt:EntityAnnotation a owl:Class ;
+	rdfs:comment """A semantic annotation (kem:annotation) of a string (nif:annotation) that describes an entity lexicalized in the text (e.g., a named entity).
+
+The described entity is identified by property kem:subject and often corresponds to the referent of the string, although it can be any other entity which is implicated by the string (e.g., `player' refers to the person playing but also imply a play event - this is a case of argument nominalization).
+
+The following properties of the Internationalized Tag Set can be used with instances of this class:
+
+(1) itsrdf:taClassRef - for representing the entity category or class from some (possibly formal) taxonomy
+
+(2) itsrdf:taIdentRef - for linking the entity to some URI denoting it in an external knowledge base (e.g., to the corresponding DBpedia URI, as a result of Entity Linking)
+
+This class is subclasses based on the particular kind of entity described and/or NLP task responsible for the annotation."""@en ;
+	rdfs:label "entity annotation"@en ;
+	rdfs:subClassOf nif:Annotation , kem:SemanticAnnotation ;
+	owl:disjointWith kemt:RelationAnnotation .
+
+kemt:polarity a owl:ObjectProperty , owl:FunctionalProperty ;
+	rdfs:comment """Specifies the polarity of a kemt:EventInstance.
+
+Corresponds to attribute polarity of TimeML element MAKEINSTANCE. See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=44>."""@en ;
+	rdfs:label "polarity"@en ;
+	rdfs:range kemt:Polarity ;
+	rdfs:domain kemt:EventInstance ;
+	rdfs:subPropertyOf kemt:feature .
+
+kemt:Polarity a owl:Class ;
+	rdfs:comment """Enumeration of polarity values (positive, negative), which specify whether the action or state associated to a kemt:EventInstance is negated (i.e., the opposite holds).
+
+This class and its enumerated instances corresponds to the set of values of attibute polarity of TimeML element MAKEINSTANCE; see <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=44>."""@en ;
+	rdfs:label "polarity"@en ;
+	rdfs:subClassOf kemt:Feature , _:node1ag8gochjx89 .
+
+kemt:predicate a owl:InverseFunctionalProperty , owl:ObjectProperty , owl:FunctionalProperty ;
+	rdfs:comment "Links a kemt:Participation annotation to the mandatory, unique kemt:Predicate for that participation relation."@en ;
+	rdfs:label "predicate"@en ;
+	rdfs:range kemt:Predicate ;
+	rdfs:domain kemt:Participation ;
+	rdfs:subPropertyOf kemt:relates .
+
+kemt:Predicate a owl:Class ;
+	rdfs:comment """Entity annotation for the event, relation, or other structured entity lexicalized by a predicate.
+
+The disambiguated semantic class(es) of the predicate, according to some external predicate model, can be expressed via property itsrdf:taClassRef, possibly using semantic class URIs from PreMOn - http://premon.fbk.eu/
+
+Annotations of this kind can be generated via the Semantic Role Labeling (SRL) NLP task."""@en ;
+	rdfs:label "predicate"@en ;
+	rdfs:subClassOf kemt:EntityAnnotation .
+
+_:node1ag8gochjx33 owl:inverseOf nif:annotation .
+
+kemt:Predicate rdfs:subClassOf _:node1ag8gochjx92 .
+
+_:node1ag8gochjx34 a owl:Restriction .
+
+kemt:rawString a owl:ObjectProperty .
+
+_:node1ag8gochjx34 owl:onProperty nif:annotation ;
+	owl:someValuesFrom kemt:ConstituentNode .
+
+_:node1ag8gochjx35 a owl:Restriction ;
+	owl:onProperty _:node1ag8gochjx36 ;
+	owl:someValuesFrom owl:Thing .
+
+kemt:rawString rdfs:comment "Links a nif:Annotation to the raw string annotated by the NLP tool, before any normalization is possibly applied (e.g., to align the string to tokens, or to discard certain words such as prepositions and determiners)."@en .
+
+_:node1ag8gochjx36 owl:inverseOf nif:annotation .
+
+_:node1ag8gochjx37 a owl:Restriction .
+
+kemt:rawString rdfs:label "raw string"@en .
+
+_:node1ag8gochjx37 owl:onProperty _:node1ag8gochjx38 .
+
+kemt:rawString rdfs:range nif:String .
+
+_:node1ag8gochjx37 owl:someValuesFrom owl:Thing .
+
+kemt:rawString rdfs:domain nif:Annotation .
+
+_:node1ag8gochjx38 owl:inverseOf nif:annotation .
+
+_:node1ag8gochjx39 a owl:Restriction .
+
+kemt:RelationAnnotation a owl:Class .
+
+_:node1ag8gochjx39 owl:onProperty kemt:type ;
+	owl:allValuesFrom kemt:EventType .
+
+_:node1ag8gochjx4 rdf:first _:node1ag8gochjx5 ;
+	rdf:rest _:node1ag8gochjx6 .
+
+_:node1ag8gochjx40 a owl:Restriction ;
+	owl:onProperty _:node1ag8gochjx41 ;
+	owl:someValuesFrom owl:Thing .
+
+kemt:RelationAnnotation rdfs:comment """A semantic annotation (kem:annotation) of a string (nif:annotation) that describes a relation between the subjects of  (typically two or more) entity annotations (kemt:EntityAnnotation).
+
+Example of relations are coreference, coordination, predicate-argument participation, etc.
+
+The link between a kemt:RelationAnnotation and the kemt:EntityAnnotation(s) it involves is represented with property kemt:relates, which is specialized by annotation subclasses."""@en .
+
+_:node1ag8gochjx41 owl:inverseOf nif:annotation .
+
+_:node1ag8gochjx42 a owl:Class ;
+	owl:oneOf _:node1ag8gochjx43 .
+
+kemt:RelationAnnotation rdfs:label "relation annotation"@en .
+
+_:node1ag8gochjx43 rdf:first kemt:et_aspectual .
+
+kemt:RelationAnnotation rdfs:subClassOf nif:Annotation .
+
+_:node1ag8gochjx43 rdf:rest _:node1ag8gochjx44 .
+
+kemt:RelationAnnotation rdfs:subClassOf kem:SemanticAnnotation .
+
+_:node1ag8gochjx44 rdf:first kemt:et_state ;
+	rdf:rest _:node1ag8gochjx45 .
+
+kemt:RelationAnnotation rdfs:subClassOf _:node1ag8gochjx94 .
+
+_:node1ag8gochjx45 rdf:first kemt:et_i_action .
+
+kemt:relation a owl:ObjectProperty .
+
+_:node1ag8gochjx45 rdf:rest _:node1ag8gochjx46 .
+
+kemt:relation a owl:FunctionalProperty .
+
+_:node1ag8gochjx46 rdf:first kemt:et_i_state ;
+	rdf:rest _:node1ag8gochjx47 .
+
+_:node1ag8gochjx47 rdf:first kemt:et_perception ;
+	rdf:rest _:node1ag8gochjx48 .
+
+_:node1ag8gochjx48 rdf:first kemt:et_occurrence ;
+	rdf:rest _:node1ag8gochjx49 .
+
+_:node1ag8gochjx49 rdf:first kemt:et_reporting .
+
+kemt:relation rdfs:comment """Specifies the specific relation conveyed by a kemt:Link.
+
+With respect to TimeML, it corresponds to attribute relType of elements TLINK, SLINK and ALINK. See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=50>, <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=56> and <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=58>."""@en .
+
+_:node1ag8gochjx49 rdf:rest rdf:nil .
+
+_:node1ag8gochjx5 owl:inverseOf nif:referenceContext .
+
+kemt:relation rdfs:label "relation"@en .
+
+_:node1ag8gochjx50 a owl:Class .
+
+kemt:relation rdfs:range kemt:Relation .
+
+_:node1ag8gochjx50 owl:oneOf _:node1ag8gochjx51 .
+
+_:node1ag8gochjx51 rdf:first kemt:fv_PRu .
+
+kemt:relation rdfs:domain kemt:Link ;
+	rdfs:subPropertyOf kemt:feature .
+
+_:node1ag8gochjx51 rdf:rest _:node1ag8gochjx52 .
+
+kemt:Link a owl:Class .
+
+_:node1ag8gochjx52 rdf:first kemt:fv_PSu ;
+	rdf:rest _:node1ag8gochjx53 .
+
+_:node1ag8gochjx53 rdf:first kemt:fv_na ;
+	rdf:rest _:node1ag8gochjx54 .
+
+_:node1ag8gochjx54 rdf:first kemt:fv_PSp ;
+	rdf:rest _:node1ag8gochjx55 .
+
+_:node1ag8gochjx55 rdf:first kemt:fv_PRp ;
+	rdf:rest _:node1ag8gochjx56 .
+
+_:node1ag8gochjx56 rdf:first kemt:fv_PSn .
+
+kemt:Link rdfs:comment """Relation annotation describing a binary relation between a source and a target kemt:EntityAnnotation.
+
+A kemt:Link is described by the following properties:
+
+(1) kemt:source - the source kemt:EntityAnnotation
+(2) kemt:target - the target kemt:EntityAnnotation
+(3) kemt:relation - an enumerated constant further characterizing the specific kind of relation between source and target (as there are many of them, we only capture the main kinds of link with classes, and rely on this property to provide further details).
+
+This annotation is inspired by, and generalizes, the notions of TLink, SLink, and ALink of TimeML, which are all characterized by a source, target, relation, and optional signal string."""@en .
+
+_:node1ag8gochjx56 rdf:rest _:node1ag8gochjx57 .
+
+_:node1ag8gochjx57 rdf:first kemt:fv_PRn .
+
+kemt:Link rdfs:label "link"@en .
+
+_:node1ag8gochjx57 rdf:rest _:node1ag8gochjx58 .
+
+_:node1ag8gochjx58 rdf:first kemt:fv_other .
+
+kemt:Link rdfs:subClassOf kemt:RelationAnnotation .
+
+_:node1ag8gochjx58 rdf:rest _:node1ag8gochjx59 .
+
+kemt:Link rdfs:subClassOf _:node1ag8gochjx78 .
+
+_:node1ag8gochjx59 rdf:first kemt:fv_Uu .
+
+kemt:Link rdfs:subClassOf _:node1ag8gochjx80 .
+
+_:node1ag8gochjx59 rdf:rest _:node1ag8gochjx60 .
+
+kemt:Link rdfs:subClassOf _:node1ag8gochjx81 .
+
+_:node1ag8gochjx6 rdf:first kem:fragmentOf .
+
+kemt:Link rdfs:subClassOf _:node1ag8gochjx82 .
+
+_:node1ag8gochjx6 rdf:rest rdf:nil .
+
+kemt:Relation a owl:Class .
+
+_:node1ag8gochjx60 rdf:first kemt:fv_CTu ;
+	rdf:rest _:node1ag8gochjx61 .
+
+_:node1ag8gochjx61 rdf:first kemt:fv_CTn ;
+	rdf:rest _:node1ag8gochjx62 .
+
+kemt:Relation rdfs:comment """Enumeration of relations expressed by kemt:Link(s).
+
+This class is further specialized by subclasses corresponding 1:1 to the subclasses of kemt:Link.
+
+This class and its values corresponds to the set of values for attibute relType of TimeML elements TLINK, SLINK and ALINK (see subclasses)."""@en .
+
+_:node1ag8gochjx62 rdf:first kemt:fv_CTp ;
+	rdf:rest rdf:nil .
+
+kemt:Relation rdfs:label "relation"@en .
+
+_:node1ag8gochjx63 a owl:Restriction .
+
+kemt:Relation rdfs:subClassOf kemt:Feature .
+
+_:node1ag8gochjx63 owl:onProperty kemt:target .
+
+kemt:signalString a owl:ObjectProperty .
+
+_:node1ag8gochjx63 owl:allValuesFrom kemt:FactualitySource .
+
+_:node1ag8gochjx64 a owl:Restriction ;
+	owl:onProperty kemt:relation ;
+	owl:allValuesFrom kemt:FactualityRelation .
+
+_:node1ag8gochjx65 a owl:Restriction ;
+	owl:onProperty kemt:source ;
+	owl:allValuesFrom kemt:EventInstance .
+
+kemt:signalString rdfs:comment """Links the annotation of a string (the annotated string) to another string (the signal) that supports / justify the existence of the annotation itself.
+
+The notion is 'signal' is taken and generalized from TimeML (and extensions), where it is used to mark words such as 'after', 'because' that indicate (signal) the existence of some temporal, causal, or other relation, or permit to distinguish a particular event instance from another."""@en .
+
+_:node1ag8gochjx66 a owl:Class ;
+	owl:oneOf _:node1ag8gochjx67 .
+
+_:node1ag8gochjx67 rdf:first kemt:frel_factuality_assignment .
+
+kemt:signalString rdfs:label "signal string"@en .
+
+_:node1ag8gochjx67 rdf:rest _:node1ag8gochjx68 .
+
+kemt:signalString rdfs:range nif:String .
+
+_:node1ag8gochjx68 rdf:first kemt:frel_source_introduction .
+
+kemt:signalString rdfs:domain kem:Annotation .
+
+_:node1ag8gochjx68 rdf:rest _:node1ag8gochjx69 .
+
+kemt:source a owl:ObjectProperty .
+
+_:node1ag8gochjx69 rdf:first kemt:frel_event_origin .
+
+kemt:source a owl:FunctionalProperty .
+
+_:node1ag8gochjx69 rdf:rest rdf:nil .
+
+_:node1ag8gochjx7 rdf:first kem:hasAnnotation ;
+	rdf:rest _:node1ag8gochjx8 .
+
+_:node1ag8gochjx70 a owl:Class ;
+	owl:oneOf _:node1ag8gochjx71 .
+
+_:node1ag8gochjx71 rdf:first kemt:fn_none ;
+	rdf:rest _:node1ag8gochjx72 .
+
+_:node1ag8gochjx72 rdf:first kemt:fn_expiration_time ;
+	rdf:rest _:node1ag8gochjx73 .
+
+kemt:source rdfs:comment """Link a binary kemt:Link relation annotation to its source kemt:EntityAnnotation.
+
+As class kemt:Link, this property is inspired by TimeML, and corresponds to:
+- attribute eventInstanceID or timeID of element TLINK, see <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=50>
+- attribute eventInstanceID of element SLINK, see <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=55>
+- attribute eventInstanceID of element ALINK, see <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=58>"""@en .
+
+_:node1ag8gochjx73 rdf:first kemt:fn_publication_time ;
+	rdf:rest _:node1ag8gochjx74 .
+
+kemt:source rdfs:label "source"@en .
+
+_:node1ag8gochjx74 rdf:first kemt:fn_release_time .
+
+kemt:source rdfs:domain kemt:Link .
+
+_:node1ag8gochjx74 rdf:rest _:node1ag8gochjx75 .
+
+kemt:source rdfs:subPropertyOf kemt:relates .
+
+_:node1ag8gochjx75 rdf:first kemt:fn_creation_time ;
+	rdf:rest _:node1ag8gochjx76 .
+
+kemt:syntacticCategory a owl:ObjectProperty .
+
+_:node1ag8gochjx76 rdf:first kemt:fn_modification_time .
+
+kemt:syntacticCategory a owl:FunctionalProperty .
+
+_:node1ag8gochjx76 rdf:rest _:node1ag8gochjx77 .
+
+_:node1ag8gochjx77 rdf:first kemt:fn_reception_time ;
+	rdf:rest rdf:nil .
+
+kemt:syntacticCategory rdfs:comment """Specifies the syntactic category of a constituency tree node.
+
+The range is voluntarily unspecified. We suggest the use of olia-top:SyntacticCategory constants."""@en .
+
+_:node1ag8gochjx78 a owl:Restriction ;
+	owl:onProperty _:node1ag8gochjx79 ;
+	owl:someValuesFrom owl:Thing .
+
+kemt:syntacticCategory rdfs:label "syntactic category"@en .
+
+_:node1ag8gochjx79 owl:inverseOf nif:annotation .
+
+kemt:syntacticCategory rdfs:domain kemt:ConstituentNode .
+
+_:node1ag8gochjx8 rdf:first kemt:dominates .
+
+kemt:target a owl:ObjectProperty .
+
+_:node1ag8gochjx8 rdf:rest _:node1ag8gochjx9 .
+
+kemt:target a owl:FunctionalProperty .
+
+_:node1ag8gochjx80 a owl:Restriction ;
+	owl:onProperty kemt:source ;
+	owl:someValuesFrom owl:Thing .
+
+_:node1ag8gochjx81 a owl:Restriction ;
+	owl:onProperty kemt:target ;
+	owl:someValuesFrom owl:Thing .
+
+_:node1ag8gochjx82 a owl:Restriction ;
+	owl:onProperty kemt:relation ;
+	owl:someValuesFrom owl:Thing .
+
+kemt:target rdfs:comment """Link a binary kemt:Link relation annotation to its target kemt:EntityAnnotation.
+
+As class kemt:Link, this property is inspired by TimeML, and corresponds to:
+- attribute relatedToEventInstance or relatedToTime of element TLINK, see <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=50>
+- attribute subordinatedEventInstance of element SLINK, see <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=55>
+- attribute relatedToEventInstance of element ALINK, see <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=58>"""@en .
+
+_:node1ag8gochjx83 a owl:Restriction ;
+	owl:onProperty _:node1ag8gochjx84 .
+
+kemt:target rdfs:label "target"@en .
+
+_:node1ag8gochjx83 owl:someValuesFrom owl:Thing .
+
+kemt:target rdfs:domain kemt:Link .
+
+_:node1ag8gochjx84 owl:inverseOf nif:annotation .
+
+kemt:target rdfs:subPropertyOf kemt:relates .
+
+_:node1ag8gochjx85 a owl:Restriction .
+
+kemt:tense a owl:ObjectProperty .
+
+_:node1ag8gochjx85 owl:onProperty kemt:argument .
+
+kemt:tense a owl:FunctionalProperty .
+
+_:node1ag8gochjx85 owl:someValuesFrom owl:Thing .
+
+_:node1ag8gochjx86 a owl:Restriction ;
+	owl:onProperty _:node1ag8gochjx87 ;
+	owl:someValuesFrom owl:Thing .
+
+_:node1ag8gochjx87 owl:inverseOf nif:annotation .
+
+kemt:tense rdfs:comment """Specifies the tense of the verb (if any) associated to a kemt:EventInstance.
+
+Corresponds to attribute tense of TimeML element MAKEINSTANCE. See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=36>."""@en .
+
+_:node1ag8gochjx88 a owl:Restriction ;
+	owl:onProperty kemt:predicate .
+
+kemt:tense rdfs:label "tense"@en .
+
+_:node1ag8gochjx88 owl:someValuesFrom owl:Thing .
+
+_:node1ag8gochjx89 a owl:Class .
+
+kemt:tense rdfs:range kemt:Tense .
+
+_:node1ag8gochjx89 owl:oneOf _:node1ag8gochjx90 .
+
+kemt:tense rdfs:domain kemt:EventInstance .
+
+_:node1ag8gochjx9 rdf:first _:node1ag8gochjx10 .
+
+kemt:tense rdfs:subPropertyOf kemt:feature .
+
+_:node1ag8gochjx9 rdf:rest rdf:nil .
+
+kemt:Tense a owl:Class .
+
+_:node1ag8gochjx90 rdf:first kemt:polarity_pos ;
+	rdf:rest _:node1ag8gochjx91 .
+
+_:node1ag8gochjx91 rdf:first kemt:polarity_neg ;
+	rdf:rest rdf:nil .
+
+_:node1ag8gochjx92 a owl:Restriction ;
+	owl:onProperty _:node1ag8gochjx93 ;
+	owl:someValuesFrom owl:Thing .
+
+kemt:Tense rdfs:comment """Enumeration of tense values (future, infinitive, past, past participle, present, present participle, none) characterizing the verbs expressing a kemt:EventInstance.
+
+This class and its enumerated instances corresponds to the set of values of attibute tense of TimeML element MAKEINSTANCE; see <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=36>."""@en .
+
+_:node1ag8gochjx93 owl:inverseOf nif:annotation .
+
+_:node1ag8gochjx94 a owl:Restriction .
+
+kemt:Tense rdfs:label "tense"@en .
+
+_:node1ag8gochjx94 owl:onProperty kemt:relates .
+
+kemt:Tense rdfs:subClassOf kemt:Feature .
+
+_:node1ag8gochjx94 owl:someValuesFrom owl:Thing .
+
+kemt:Tense rdfs:subClassOf _:node1ag8gochjx115 .
+
+_:node1ag8gochjx95 a owl:Restriction .
+
+kemt:type a owl:ObjectProperty .
+
+_:node1ag8gochjx95 owl:onProperty kemt:source .
+
+kemt:type a owl:FunctionalProperty .
+
+_:node1ag8gochjx95 owl:allValuesFrom kemt:EventInstance .
+
+_:node1ag8gochjx96 a owl:Restriction ;
+	owl:onProperty kemt:target ;
+	owl:allValuesFrom kemt:EventInstance .
+
+_:node1ag8gochjx97 a owl:Restriction ;
+	owl:onProperty kemt:relation .
+
+kemt:type rdfs:comment """Specifies the type of a kemt:TemporalElement.
+
+Corresponds to attribute type of element TIMEX3 and attribute class of element EVENT (and, by extension, MAKE_INSTANCE). See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#21> and <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#9>."""@en .
+
+_:node1ag8gochjx97 owl:allValuesFrom kemt:SubordinateRelation .
+
+_:node1ag8gochjx98 a owl:Restriction .
+
+kemt:type rdfs:label "type"@en .
+
+_:node1ag8gochjx98 owl:onProperty kemt:type .
+
+kemt:type rdfs:range kemt:Type .
+
+_:node1ag8gochjx98 owl:someValuesFrom owl:Thing .
+
+_:node1ag8gochjx99 a owl:Restriction .
+
+kemt:type rdfs:domain kemt:TemporalElement .
+
+_:node1ag8gochjx99 owl:onProperty kemt:target .
+
+kemt:type rdfs:subPropertyOf kemt:feature .
+
+kemt:TemporalElement a owl:Class .
+
+_:node1ag8gochjx99 owl:allValuesFrom kemt:TemporalElement .
+
+kemt:TemporalElement rdfs:comment """Entity annotation for an event instance (kemt:EventInstance), a temporal entity (kemt:Timex) or anything that can be located in time, based on the modeling of TimeML and its extensions (e.g., FactBank).
+
+A kemt:TemporalElement is characterized by a kemt:type and can be the source and/or target of kemt:Link(s).
+
+This class derives from and generalizes the TimeML elements TIMEX3 and MAKEINSTANCE. See subclasses for more details."""@en ;
+	rdfs:label "temporal element"@en ;
+	rdfs:subClassOf kemt:EntityAnnotation , _:node1ag8gochjx98 .
+
+kemt:Type a owl:Class ;
+	rdfs:comment """Enumeration of type constants used in KEM Text.
+
+This class is specialized by two subclasses covering respectively kemt:Timex types and kemt:EventInstance types.
+
+This class and its values corresponds to the set of values for attibute class of element EVENT and attribute type of element TIMEX3 of TimeML; see subclasses."""@en ;
+	rdfs:label "type"@en ;
+	rdfs:subClassOf kemt:Feature .
+
+kemt:frequency a owl:FunctionalProperty , owl:DatatypeProperty ;
+	rdfs:comment """Specifies the frequency (e.g., 'twice' -> '2X') characterizing a kemt:tt_set kemt:Timex.
+
+Corresponds to attribute freq of TimeML element TIMEX3. See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=30>."""@en ;
+	rdfs:label "frequency"@en ;
+	rdfs:range xsd:string ;
+	rdfs:domain kemt:Timex .
+
+kemt:literalValue a owl:FunctionalProperty , owl:DatatypeProperty ;
+	rdfs:comment """Specifies a normalized literal value associated to a kemt:EntityAnnotation.
+
+This property is currently used to provide normalized values for certain categories of kemt:NamedEntity, and to provide a normalized temporal value (string) for a kemt:Timex."""@en ;
+	rdfs:label "literal value"@en ;
+	rdfs:range rdfs:Literal ;
+	rdfs:domain kemt:EntityAnnotation .
+
+kemt:modality a owl:FunctionalProperty , owl:DatatypeProperty ;
+	rdfs:comment """Specifies an optional modality term associated to a kemt:EventInstance (e.g., 'should').
+
+Corresponds to attribute modality of TimeML element MAKEINSTANCE. See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=44>."""@en ;
+	rdfs:label "modality"@en ;
+	rdfs:range xsd:string ;
+	rdfs:domain kemt:EventInstance .
+
+kemt:properName a owl:FunctionalProperty , owl:DatatypeProperty ;
+	rdfs:comment "Specifies the proper name of a kemt:NamedEntity, as used in the text."@en ;
+	rdfs:label "proper name"@en ;
+	rdfs:range xsd:string ;
+	rdfs:domain kemt:NamedEntity .
+
+kemt:NamedEntity a owl:Class ;
+	rdfs:comment """Entity annotation for named entities, i.e., entities referred with a proper name or another identifying expression in the text.
+
+The entity category and the identifier in an external knowledge base can be represented using attributes itsrdf:taClassRef and itsrdf:taIdentRef, respectively (as for a plain kemt:EntityAnnotation).
+
+In addition, the following specific properties can be used:
+
+(1) kemt:properName - to represent the proper name used in the text
+(2) kemt:value - to represent the normalized numeric or otherwise typed value represented by the named entity (e.g., a number or an amount of money)
+(3) kemt:unit - to represent a possible unit or other qualifier characterizing the value (e.g., a currency associated to an amount of money)"""@en ;
+	rdfs:label "named entity"@en ;
+	rdfs:subClassOf kemt:EntityAnnotation , _:node1ag8gochjx83 .
+
+kemt:quantifier a owl:FunctionalProperty , owl:DatatypeProperty ;
+	rdfs:comment """Specifies an optional quantifier (e.g., 'each', 'every') characterizing a kemt:tt_set kemt:Timex.
+
+Corresponds to attribute quant of TimeML element TIMEX3. See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=30>."""@en ;
+	rdfs:label "quantifier"@en ;
+	rdfs:range xsd:string ;
+	rdfs:domain kemt:Timex .
+
+kemt:temporalFunction a owl:FunctionalProperty , owl:DatatypeProperty ;
+	rdfs:comment """Specifies whether the normalized value of a kemt:Timex is expressed as a function applied to another anchor kemt:Timex.
+
+Corresponds to attribute temporalFunction of TimeML element TIMEX3. See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=26>."""@en ;
+	rdfs:label "temporal function"@en ;
+	rdfs:range xsd:boolean ;
+	rdfs:domain kemt:Timex .
+
+kemt:unit a owl:FunctionalProperty , owl:DatatypeProperty ;
+	rdfs:comment "Specifies a unit of measure or other qualifier that characterize the value associated to a kemt:NamedEntity (e.g., the currency associated to an amount of money)."@en ;
+	rdfs:label "unit"@en ;
+	rdfs:range xsd:string ;
+	rdfs:domain kemt:NamedEntity .
+
+kemt:aspect_perfective a owl:NamedIndividual , kemt:Aspect ;
+	rdfs:comment """Aspect value denoting the perfect(ive) verb aspect.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=36>."""@en ;
+	rdfs:label "perfective"@en .
+
+kemt:aspect_progressive a owl:NamedIndividual , kemt:Aspect ;
+	rdfs:comment """Aspect value denoting the progressive verb aspect.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=36>."""@en ;
+	rdfs:label "progressive"@en .
+
+kemt:aspect_none a owl:NamedIndividual , kemt:Aspect ;
+	rdfs:comment """Aspect value denoting the not perfect(ive), not progressive verb aspect; also applies to kemt:EventInstances not denoted by verbs.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=36>."""@en ;
+	rdfs:label "none"@en .
+
+kemt:aspect_perfective_progressive a owl:NamedIndividual , kemt:Aspect ;
+	rdfs:comment """Aspect value denoting the perfect(ive) and progressive verb aspect.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=36>."""@en ;
+	rdfs:label "perfective progressive"@en .
+
+kemt:AspectualLink a owl:Class ;
+	rdfs:comment """TimeML link connecting a source aspectual kemt:EventInstance to a target argument kemt:EventInstance, where the source indicates the initiation, reinitiation, termination, culmination or continuation of the target.
+
+The range of kemt:relation is restricted to kemt:AspectualRelation.
+The ranges of kemt:source and kemt:target are restricted to kemt:EventInstance.
+
+This class derives from the ALink element of TimeML - <http://www.timeml.org/site/publications/timeMLdocs/timeml_1.2.1.html#alink>."""@en ;
+	rdfs:label "aspectual link"@en ;
+	rdfs:subClassOf kemt:Link , _:node1ag8gochjx18 , _:node1ag8gochjx19 , _:node1ag8gochjx20 .
+
+kemt:AspectualRelation a owl:Class ;
+	rdfs:comment """Enumeration of relations expressed by kemt:AspectualLink(s).
+
+This class and its enumerated instances correspond to the values of attribute relType of TimeML element ALINK - <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=58>."""@en ;
+	rdfs:label "aspectual relation"@en ;
+	rdfs:subClassOf kemt:Relation .
+
+kemt:CausalLink a owl:Class ;
+	rdfs:comment """Link connecting a source kemt:EventInstance to a target kemt:EventInstance, where the source is the cause and the target is the effect determined by the cause.
+
+The range of kemt:relation is restricted to CausalRelation.
+The ranges of kemt:source and kemt:target are restricted to kemt:EventInstance.
+
+This class models the CLINK element defined in <http://www.aclweb.org/website/old_anthology/C/C14/C14-1198.pdf#page=2>."""@en ;
+	rdfs:label "causal link"@en ;
+	rdfs:subClassOf kemt:Link , _:node1ag8gochjx21 , _:node1ag8gochjx22 , _:node1ag8gochjx23 .
+
+kemt:CausalRelation a owl:Class ;
+	rdfs:comment """Enumeration of relations expressed by kemt:CausalLink(s).
+
+This class is defined for consistency with the modelling of kemt:Link binary relations, although currenty only one causal relation - 'cause' - has been defined.
+
+See <http://www.aclweb.org/website/old_anthology/C/C14/C14-1198.pdf#page=2>."""@en ;
+	rdfs:label "causal relation"@en ;
+	rdfs:subClassOf kemt:Relation .
+
+kemt:CompoundWord a owl:Class ;
+	rdfs:comment """A compound word is a word obtained by the composition of multiple word stems (WordComponent), one of them possibly acting as head component.
+
+Examples: keyboard (key + board=head), half sister (half + sister=head), mass-produced (mass + produced=head), white-collar (white + collar, no head)."""@en ;
+	rdfs:label "compound word"@en ;
+	rdfs:subClassOf nif:Word , _:node1ag8gochjx28 ;
+	owl:equivalentClass _:node1ag8gochjx24 .
+
+kemt:EventType a owl:Class ;
+	rdfs:comment """Enumeration of types characterizing kemt:EventInstance(s).
+
+This class and its enumerated instances corresponds to the values of attribute 'class' of TimeML element EVENT - <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=9>."""@en ;
+	rdfs:label "event type"@en ;
+	rdfs:subClassOf kemt:Type , _:node1ag8gochjx42 ;
+	owl:disjointWith kemt:TimexType .
+
+kemt:et_aspectual a owl:NamedIndividual , kemt:EventType ;
+	rdfs:comment """Indicates events associated to aspectual predication, i.e., denoting the initiation, reinitiation, termination, culmination or continuation of another argument event (the respective kemt:EventInstance(s) being associated by a kemt:AspectualLink).
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=9>."""@en ;
+	rdfs:label "aspectual"@en .
+
+kemt:et_state a owl:NamedIndividual , kemt:EventType ;
+	rdfs:comment """Indicates events describing the circumstances in which something obtains or holds true.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=13>."""@en ;
+	rdfs:label "state"@en .
+
+kemt:et_i_action a owl:NamedIndividual , kemt:EventType ;
+	rdfs:comment """Indicates events such as 'try', 'investigate', 'delay' and 'avoid' that denote actions that take another event as argument (action, situation), which may not have occurred yet.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=10>."""@en ;
+	rdfs:label "intensional action"@en .
+
+kemt:et_i_state a owl:NamedIndividual , kemt:EventType ;
+	rdfs:comment """Indicates events such as 'believe', 'want', 'hope', 'fear', and 'need' that refer to possible state of affairs.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=11>."""@en ;
+	rdfs:label "intensional state"@en .
+
+kemt:et_perception a owl:NamedIndividual , kemt:EventType ;
+	rdfs:comment """Indicates events involving the physical perception of another event, expressed by verbs such as 'see', 'watch', 'glimpse', 'behold', 'view', 'hear', 'listen', and 'overhear'.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=9>."""@en ;
+	rdfs:label "perception"@en .
+
+kemt:et_occurrence a owl:NamedIndividual , kemt:EventType ;
+	rdfs:comment """Indicates all the other events (not et_reporting, et_perception, et_i_action, et_i_state, et_state classes) that describe something that happens or occurs in the world.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=14>."""@en ;
+	rdfs:label "occurrence"@en .
+
+kemt:et_reporting a owl:NamedIndividual , kemt:EventType ;
+	rdfs:comment """Indicates events describing the action of an agent declaring something, narrating an event, informing about an event, etc; examples are 'say', 'report', 'tell', 'explain', and 'state'.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=9>."""@en ;
+	rdfs:label "reporting"@en .
+
+kemt:TimexType a owl:Class ;
+	rdfs:comment """Enumeration of types characterizing kemt:Timex annotations.
+
+This class and its enumerated instances corresponds to the values of attribute type of TimeML element TIMEX3 - <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=21>."""@en ;
+	rdfs:label "timex type"@en ;
+	rdfs:subClassOf kemt:Type , _:node1ag8gochjx126 .
+
+kemt:fv_PRu a owl:NamedIndividual , kemt:FactValue ;
+	rdfs:comment """Factuality value denoting that the source knows whether it is probably the case that the event occurred or not (but this is not expressed in the text).
+
+See <https://catalog.ldc.upenn.edu/docs/LDC2009T23/annotationGuidelines.pdf#page=17>."""@en ;
+	rdfs:label "probably positive or negative"@en .
+
+kemt:fv_PSu a owl:NamedIndividual , kemt:FactValue ;
+	rdfs:comment """Factuality value denoting that the source knows whether it is possibly the case that the event occurred or not (but this is not expressed in the text).
+
+See <https://catalog.ldc.upenn.edu/docs/LDC2009T23/annotationGuidelines.pdf#page=17>."""@en ;
+	rdfs:label "possibly positive or negative"@en .
+
+kemt:fv_na a owl:NamedIndividual , kemt:FactValue ;
+	rdfs:comment """Factuality value denoting that the factuality nature of the event cannot be evaluated.
+
+See <https://catalog.ldc.upenn.edu/docs/LDC2009T23/annotationGuidelines.pdf#page=17>."""@en ;
+	rdfs:label "non-applicable"@en .
+
+kemt:fv_PSp a owl:NamedIndividual , kemt:FactValue ;
+	rdfs:comment """Factuality value denoting that, according to the source, it is possibly the case that the event occurred.
+
+See <https://catalog.ldc.upenn.edu/docs/LDC2009T23/annotationGuidelines.pdf#page=17>."""@en ;
+	rdfs:label "possibly positive"@en .
+
+kemt:fv_PRp a owl:NamedIndividual , kemt:FactValue ;
+	rdfs:comment """Factuality value denoting that, according to the source, it is probably the case that the event occurred.
+
+See <https://catalog.ldc.upenn.edu/docs/LDC2009T23/annotationGuidelines.pdf#page=17>."""@en ;
+	rdfs:label "probably positive"@en .
+
+kemt:fv_PSn a owl:NamedIndividual , kemt:FactValue ;
+	rdfs:comment """Factuality value denoting that, according to the source, it is possibly not the case that the event occurred.
+
+See <https://catalog.ldc.upenn.edu/docs/LDC2009T23/annotationGuidelines.pdf#page=17>."""@en ;
+	rdfs:label "possibly negative"@en .
+
+kemt:fv_PRn a owl:NamedIndividual , kemt:FactValue ;
+	rdfs:comment """Factuality value denoting that, according to the source, it is probably not the case that the event occurred.
+
+See <https://catalog.ldc.upenn.edu/docs/LDC2009T23/annotationGuidelines.pdf#page=17>."""@en ;
+	rdfs:label "probably negative"@en .
+
+kemt:fv_other a owl:NamedIndividual , kemt:FactValue ;
+	rdfs:comment """Factuality value denoting that the a different (undefined) factuality value should be used or that the annotator does not know what value to assign.
+
+See <https://catalog.ldc.upenn.edu/docs/LDC2009T23/annotationGuidelines.pdf#page=17>."""@en ;
+	rdfs:label "other"@en .
+
+kemt:fv_Uu a owl:NamedIndividual , kemt:FactValue ;
+	rdfs:comment """Factuality value denoting that that the source does not know what is the factual status of the event, or does not commit to it.
+
+See <https://catalog.ldc.upenn.edu/docs/LDC2009T23/annotationGuidelines.pdf#page=17>."""@en ;
+	rdfs:label "fully underspecified"@en .
+
+kemt:fv_CTu a owl:NamedIndividual , kemt:FactValue ;
+	rdfs:comment """Factuality value denoting that the source certainly knows whether it is the case that the event occurred or not (but this is not expressed in the text).
+
+See <https://catalog.ldc.upenn.edu/docs/LDC2009T23/annotationGuidelines.pdf#page=17>."""@en ;
+	rdfs:label "certainly positive or negative"@en .
+
+kemt:fv_CTn a owl:NamedIndividual , kemt:FactValue ;
+	rdfs:comment """Factuality value denoting that, according to the source, it is certainly not the case that the event occurred.
+
+See <https://catalog.ldc.upenn.edu/docs/LDC2009T23/annotationGuidelines.pdf#page=17>."""@en ;
+	rdfs:label "certainly negative"@en .
+
+kemt:fv_CTp a owl:NamedIndividual , kemt:FactValue ;
+	rdfs:comment """Factuality value denoting that, according to the source, it is certainly the case that the event occurred.
+
+See <https://catalog.ldc.upenn.edu/docs/LDC2009T23/annotationGuidelines.pdf#page=17>."""@en ;
+	rdfs:label "certainly positive"@en .
+
+kemt:FactualitySource a owl:Class ;
+	rdfs:comment """Entity annotation for a source of factuality judgements.
+
+A kemt:FactualitySource can be explicitly stated in the text (and thus corresponds to a text markable) or it can be implicit, as in the case of the text author (thus, property nif:annotation is not mandatory).
+
+Apart from the implicit text author, other factuality sources are introduced by (so-called) source-introducing predicates, which are kemt:EventInstance(s) expressed by verbs such as 'say', 'believe', etc.
+
+kemt:FactualityLink(s) relate a kemt:FactualitySource to: (i) the event instance a factuality judgment is expressed for; (ii) the source-introducing event instance for that source; and (iii) an event instance that originates / is reported by the source.
+
+See <https://catalog.ldc.upenn.edu/docs/LDC2009T23/annotationGuidelines.pdf#page=3>."""@en ;
+	rdfs:label "factuality source"@en ;
+	rdfs:subClassOf kemt:EntityAnnotation .
+
+kemt:FactualityRelation a owl:Class ;
+	rdfs:comment """Enumeration of relations specified via kemt:FactualityLink.
+
+Currently three relations are defined, based on the factuality modeling of FactBank:
+
+  * kemt:frel_factuality_assignment - the assignment of a factuality value to an event instance by a source agent
+  * kemt:frel_source_introduction - the fact that a source agent is introduced in the discourse by an event (called source-introducing predicate)
+  * kemt:frel_event_origin - the fact that a source-introducing event originates from another source (this allows deriving the nesting relation of FactBank)
+
+See <https://catalog.ldc.upenn.edu/docs/LDC2009T23/annotationGuidelines.pdf>."""@en ;
+	rdfs:label "factuality relation"@en ;
+	rdfs:subClassOf kemt:Relation , _:node1ag8gochjx66 .
+
+kemt:frel_factuality_assignment a owl:NamedIndividual , kemt:FactualityRelation ;
+	rdfs:comment "Factuality relation indicating the assignment of a factuality value to an event instance by a source agent."@en ;
+	rdfs:label "factuality assignment"@en .
+
+kemt:frel_source_introduction a owl:NamedIndividual , kemt:FactualityRelation ;
+	rdfs:comment "Factuality relation indicating the fact that a source-introducing event originates from another source (this allows deriving the nesting relation of FactBank)."@en ;
+	rdfs:label "source introduction"@en .
+
+kemt:frel_event_origin a owl:NamedIndividual , kemt:FactualityRelation ;
+	rdfs:comment "Factuality relation indicating the fact that a source-introducing event originates from another source (this allows deriving the nesting relation of FactBank)."@en ;
+	rdfs:label "event origin"@en .
+
+kemt:fn_none a owl:NamedIndividual , kemt:FunctionInDocument ;
+	rdfs:comment """Indicates that a kemt:Timex does not corresponds to any special time associated to a kemt:TextResource (creation, expiration, modification, publication, reception, release).
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=29>."""@en ;
+	rdfs:label "none"@en .
+
+kemt:fn_expiration_time a owl:NamedIndividual , kemt:FunctionInDocument ;
+	rdfs:comment """Indicates that a kemt:Timex corresponds to the time the containing kemt:TextResource expires (if any).
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=29>."""@en ;
+	rdfs:label "expiration time"@en .
+
+kemt:fn_publication_time a owl:NamedIndividual , kemt:FunctionInDocument ;
+	rdfs:comment """Indicates that a kemt:Timex corresponds to the time the containing kemt:TextResource is published.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=29>."""@en ;
+	rdfs:label "publication time"@en .
+
+kemt:fn_release_time a owl:NamedIndividual , kemt:FunctionInDocument ;
+	rdfs:comment """Indicates that a kemt:Timex corresponds to the time the containing kemt:TextResource may be released (if not immediately).
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=29>."""@en ;
+	rdfs:label "release time"@en .
+
+kemt:fn_creation_time a owl:NamedIndividual , kemt:FunctionInDocument ;
+	rdfs:comment """Indicates that a kemt:Timex corresponds to the time the containing kemt:TextResource is created.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=29>."""@en ;
+	rdfs:label "creation time"@en .
+
+kemt:fn_modification_time a owl:NamedIndividual , kemt:FunctionInDocument ;
+	rdfs:comment """Indicates that a kemt:Timex corresponds to the time the containing kemt:TextResource is modified.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=29>."""@en ;
+	rdfs:label "modification time"@en .
+
+kemt:fn_reception_time a owl:NamedIndividual , kemt:FunctionInDocument ;
+	rdfs:comment """Indicates that a kemt:Timex corresponds to the time the containing kemt:TextResource is received by a customer.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=29>."""@en ;
+	rdfs:label "reception time"@en .
+
+kemt:polarity_pos a owl:NamedIndividual , kemt:Polarity ;
+	rdfs:comment """Polarity value indicating that the kemt:EventInstance it applies to is not negated.
+
+Inverse of kemt:polarity_neg.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=44>."""@en ;
+	rdfs:label "positive"@en .
+
+kemt:polarity_neg a owl:NamedIndividual , kemt:Polarity ;
+	rdfs:comment """Polarity value indicating that the kemt:EventInstance it applies to is negated (i.e., the opposite holds).
+
+Inverse of kemt:polarity_pos.
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=44>."""@en ;
+	rdfs:label "negative"@en .
+
+kemt:SubordinateLink a owl:Class ;
+	rdfs:comment """TimeML link connecting two kemt:EventInstance(s), where the source kemt:EventInstance predicates or operates on a subordinate target kemt:EventInstance.
+
+The range of kemt:relation is restricted to kemt:SubordinateRelation.
+The ranges of kemt:source and kemt:target are restricted to kemt:EventInstance.
+
+This class derives from the SLink element of TimeML - <http://www.timeml.org/site/publications/timeMLdocs/timeml_1.2.1.html#slink>."""@en ;
+	rdfs:label "subordinate link"@en ;
+	rdfs:subClassOf kemt:Link , _:node1ag8gochjx95 , _:node1ag8gochjx96 , _:node1ag8gochjx97 .
+
+kemt:SubordinateRelation a owl:Class ;
+	rdfs:comment """Enumeration of relations expressed by kemt:SubordinateLink(s).
+
+This class and its enumerated instances correspond to the values of attribute relType of TimeML element SLINK - <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=56>."""@en ;
+	rdfs:label "subordinate relation"@en ;
+	rdfs:subClassOf kemt:Relation .
+
+kemt:TemporalLink a owl:Class ;
+	rdfs:comment """TimeML link connecting a source and a target kemt:TemporalElement(s).
+
+The range of kemt:relation is restricted to kemt:TemporalRelation.
+The ranges of kemt:source and kemt:target are restricted to kemt:TemporalElement.
+
+This class derives from the TLink element of TimeML -  <http://www.timeml.org/site/publications/timeMLdocs/timeml_1.2.1.html#tlink>."""@en ;
+	rdfs:label "temporal link"@en ;
+	rdfs:subClassOf kemt:Link , _:node1ag8gochjx100 , _:node1ag8gochjx101 , _:node1ag8gochjx99 .
+
+kemt:TemporalRelation a owl:Class ;
+	rdfs:comment """Enumeration of relations expressed by kemt:TemporalLink(s).
+
+This class and its enumerated instances correspond to the values of attribute relType of TimeML element TLINK - <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=50>."""@en ;
+	rdfs:label "temporal relation"@en ;
+	rdfs:subClassOf kemt:Relation .
+
+kemt:mod_less_than a owl:NamedIndividual , kemt:TemporalModifier ;
+	rdfs:comment """Temporal modifier denoting an interval strictly smaller than a given temporal expression (e.g., 'nearly' in 'nearly four decades').
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=21> and <ftp://jaguar.ncsl.nist.gov/ace/phase2/docs/mtrinstructionmanual_v1_32.pdf#page=20>."""@en ;
+	rdfs:label "less than"@en .
+
+kemt:mod_more_than a owl:NamedIndividual , kemt:TemporalModifier ;
+	rdfs:comment """Temporal modifier denoting an interval strictly larger than a given temporal expression (e.g., 'more than' in 'more than 5 minutes').
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=21> and <ftp://jaguar.ncsl.nist.gov/ace/phase2/docs/mtrinstructionmanual_v1_32.pdf#page=20>."""@en ;
+	rdfs:label "more than"@en .
+
+kemt:mod_on_or_before a owl:NamedIndividual , kemt:TemporalModifier ;
+	rdfs:comment """Temporal modifier denoting a point in time occurring on or before a given temporal expression (e.g., 'no more than' in 'no more than a year ago').
+
+See <http://www.timeml.org/site/publications/timeMLdocs/annguide_1.2.1.pdf#page=21> and <ftp://jaguar.ncsl.nist.gov/ace/phase2/docs/mtrinstructionmanual_v1_32.pdf#page=20>."""@en ;
+	rdfs:label "on or before"@en .
+
+kemt:mod_approx a owl:NamedIndividual , kemt:TemporalModifier .

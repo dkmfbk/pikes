@@ -1,570 +1,357 @@
-@prefix : <http://premon.fbk.eu/ontology/all#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix nif: <http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix pmo: <http://premon.fbk.eu/ontology/core#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix lime: <http://www.w3.org/ns/lemon/lime#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix vann: <http://purl.org/vocab/vann/> .
 @prefix void: <http://rdfs.org/ns/void#> .
-@prefix pmofn: <http://premon.fbk.eu/ontology/fn#> .
-@prefix pmonb: <http://premon.fbk.eu/ontology/nb#> .
-@prefix pmopb: <http://premon.fbk.eu/ontology/pb#> .
-@prefix pmovn: <http://premon.fbk.eu/ontology/vn#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ontolex: <http://www.w3.org/ns/lemon/ontolex#> .
-@base <http://premon.fbk.eu/ontology/core> .
+@prefix kem: <http://knowledgestore.fbk.eu/ontologies/kem/core#> .
+@prefix kemt: <http://knowledgestore.fbk.eu/ontologies/kem/text#> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
+@prefix lmm: <http://www.ontologydesignpatterns.org/ont/lmm/LMM_L1.owl#> .
 
-<http://premon.fbk.eu/ontology/core> rdf:type owl:Ontology;
-                                     
-                                     dcterms:issued "2015-10-28"^^xsd:date ;
-                                     dcterms:modified "2017-05-01"^^xsd:date ;
-									 owl:versionInfo "2017a" ;                                     
-                                     
-                                     dcterms:creator "Marco Rospocher <https://dkm.fbk.eu/rospocher>" ,
-                                                "Francesco Corcoglioniti" ;
-                                     
-                                     dcterms:description """###  Semantic Classes and Roles
+dc:creator a owl:AnnotationProperty .
 
-The *PreMOn Ontology Core Module* extends *lemon* by introducing classes [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass) and [pmo:SemanticRole](http://premon.fbk.eu/ontology/core#SemanticRole). [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass) homogeneously represents the semantic classes from the various predicate models. That is, individuals of this class correspond to rolesets in PB and NB (e.g., *pm:nb10-seller.01* and *pm:pb17-sell.01*), verb classes in VN (e.g., *pm:vn32-give-13.1-1*), and frames in FN (e.g., *pm:fn15-commerce sell*). An instance of [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass) typically has (via property [pmo:semRole](http://premon.fbk.eu/ontology/core#semRole)) a number of [pmo:SemanticRole](http://premon.fbk.eu/ontology/core#SemanticRole)s, representing, from a semantic point of view, the roles the arguments of that [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass) can play.
+dc:publisher a owl:AnnotationProperty .
 
-Semantic roles are defined locally to semantic classes, so VN *agent* is represented as multiple semantic roles, one for each verb class it occurs in, and with each semantic role linked to its specific selectional restrictions (if any). Note that [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass) is defined as subclass of [ontolex:LexicalConcept](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Concept), as we see [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass)es as essentially informal concepts rather than well defined concepts of a formal ontology (although an ontology can be derived from them, cf., FrameBase and ESO). In particular, being [ontolex:LexicalConcept](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Concept)s, [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass)es inherit the link to lexical entries.
+vann:preferredNamespacePrefix a owl:AnnotationProperty .
 
-Properties [pmo:classRel](http://premon.fbk.eu/ontology/core#classRel) and [pmo:roleRel](http://premon.fbk.eu/ontology/core#roleRel), and their resource-specific subproperties, are introduced to express the relations between elements at each level, such as subtyping, and predicate and role inheritance (e.g., [pmofn:inheritsFrom](http://premon.fbk.eu/ontology/fn#inheritsFrom) and [pmofn:inheritsFromFER](http://premon.fbk.eu/ontology/fn#inheritsFromFER) for FN). Additional resource-specific classes (e.g., [pmovn:ThematicRole](http://premon.fbk.eu/ontology/vn#ThematicRole)) and properties (e.g., [pmovn:thematicRole](http://premon.fbk.eu/ontology/vn#thematicRole)) further characterize important aspects of each predicate model, like commonalities between semantic roles.
+vann:preferredNamespaceUri a owl:AnnotationProperty .
 
-### Mappings
+dc:description a owl:AnnotationProperty .
 
-Mappings between different predicate models are practically relevant but cannot be expressed using only the classes above, as they are often defined (e.g., in SemLink and PredicateMatrix) in terms of <[pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass), [ontolex:LexicalEntry](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Entry)> pairs. To model these pairs, one could reuse the notion of ontolex:LexicalSense. However, its formalization in lemon as reified relation depends on the existence of (exactly) one ontological entity for each <[ontolex:LexicalConcept](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Concept), [ontolex:LexicalEntry](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Entry)> pair, a strong constraint that we do not necessarily need for our purposes. Therefore, we introduce the [pmo:Conceptualization](http://premon.fbk.eu/ontology/core#Conceptualization) class. Structurally, a [pmo:Conceptualization](http://premon.fbk.eu/ontology/core#Conceptualization) can be seen as the reification of the [ontolex:evokes](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Evokes) relation between [ontolex:LexicalEntry](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Entry) and [ontolex:LexicalConcept](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Concept). Semantically, it can be seen as a very specific intensional concept (among many, in case of polysemy) evoked by a single [ontolex:LexicalEntry](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Entry), which can be generalized to a [ontolex:LexicalConcept](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Concept) when multiple entries are considered but with a possible loss of information that prevents precise alignments to be represented.
+dc:title a owl:AnnotationProperty .
 
-Mappings are explicitly represented as individuals of class [pmo:Mapping](http://premon.fbk.eu/ontology/core#Mapping), and can be seen as sets of (or n-ary relations between) either (i) [pmo:Conceptualization](http://premon.fbk.eu/ontology/core#Conceptualization)s, (ii) [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass)es, and (iii) [pmo:SemanticRole](http://premon.fbk.eu/ontology/core#SemanticRole)s, with role mappings anchored to conceptualization or class mappings via property [pmo:semRoleMapping](http://premon.fbk.eu/ontology/core#semRoleMapping). We rely on this set-like modeling, since mappings are not necessarily represented as binary relations in predicate mapping resources: e.g., in the PredicateMatrix, each row represents the mapping of a semantic role / lexical entry pair over the different resources (e.g., <*13.1-1-agent*, *deal*> in VN, <*sell.01-arg0*, *sell*> in PB, <*Commerce Sell-seller*, *sell*> in FN) as well as the corresponding WordNet verb sense. Reifying the n-ary mapping relation also allows us, if needed, to further characterize each single mapping, asserting additional information such as confidence and reliability. Moreover, it is possible to further specialize mappings
-(e.g., to model mappings holding only in one direction, from a resource to another one, or to represent different types of relationships among the members of the mapping) by subtyping the [pmo:Mapping](http://premon.fbk.eu/ontology/core#Mapping) class or the property (pmo:item) relating a [pmo:Mapping](http://premon.fbk.eu/ontology/core#Mapping) to its members.
+dc:rights a owl:AnnotationProperty .
 
-### Ontological Mappings
+dcterms:license a owl:AnnotationProperty .
 
-Building on *lemon*, *PreMOn* inherits the capability of linking lexical content to ontological resources. In particular, being [ontolex:LexicalConcept](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Concept)s, [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass)es inherit the link (via [ontolex:isConceptOf](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Concept)) to the ontological entities formalizing them, typically event classes.
+<http://knowledgestore.fbk.eu/ontologies/kem/core> a owl:Ontology ;
+	dc:creator "Francesco Corcoglioniti" , "Marco Rospocher <https://dkm.fbk.eu/people/profile/rospocher>" ;
+	dc:publisher "DKM, Fondazione Bruno Kessler <http://dkm.fbk.eu/>" ;
+	vann:preferredNamespacePrefix "kem" ;
+	vann:preferredNamespaceUri "http://knowledgestore.fbk.eu/ontologies/kem/core#" ;
+	dc:description <http://knowledgestore.fbk.eu/ontologies/kem/core.svg> , """KEM (Knowledge Extraction Model), is an ontological model that supports the RDF/OWL representation and alignment of all the contents involved in Knowledge Extraction from unstructured resources. KEM is built around the semiotic notions of reference and meaning, and consists of two modules: KEM Core and KEM Text.
 
-However, in order to properly align predicate models to existing frame/event-based ontologies such as FrameBase and ESO, *PreMOn* introduces the property [pmo:ontologyMatch](http://premon.fbk.eu/ontology/core#ontologyMatch), having as domain 
-[skos:Concept](https://www.w3.org/2009/08/skos-reference/skos.html#Concept), to enable the possibility of linking to ontological entities also other resources than [ontolex:LexicalConcept](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Concept)s. In particular, [pmo:ontologyMatch](http://premon.fbk.eu/ontology/core#ontologyMatch) property enables the alignment to ontology elements of resources such as: 
+This ontology is the Core module of KEM, which introduces, in a media-independent way (i.e., not considering just text), the core abstractions of resource, mention, and instance, each one being the root of a corresponding representation layer. Resources and instances (with their triples) are respectively the input and output of KE, while mentions are pieces of a resource referring to instances or triples, and enriched with semantic annotations that describe their meaning. Together, mentions, instances, and semantic annotations realize the so-called triangle of reference used in semiotics to represent the meaning of signs (as mentions are).
 
-* [pmo:Conceptualization](http://premon.fbk.eu/ontology/core#Conceptualization)s
-* [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass)es (in this case, [ontolex:isConceptOf](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Concept) can be seen as a subproperty of [pmo:ontologyMatch](http://premon.fbk.eu/ontology/core#ontologyMatch), although we abstained from formally enforcing this)
-* [pmo:SemanticRole](http://premon.fbk.eu/ontology/core#SemanticRole)s.
+#### Resource Layer
 
-### Annotations
+The Resource layer comprises the unstructured content from which knowledge is extracted, and consist of kem:Resources. A kem:Resource is defined as a self-contained, globally identified, and immutable information object, which can be described in terms of its content (e.g., the text of a textual resource) and the associated metadata, encoded using properties of popular metadata vocabularies such as Dublin Core (e.g., dcterms:title, dcterms:created, dcterms:creator, dcterms:publisher, dcterms:rights). 
 
-Predicate models are typically complemented by examples showing concrete occurrences of semantic classes and roles in text. More generally, a text can be annotated with semantic classes and roles as a result of manual or automatic SRL.
+#### Instance Layer
 
-The PreMOn Ontology provides some common primitives, based on the [NLP Interchange Format](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core/nif-core.html) (NIF) by Hellmann et al. (2013), which aim at properly modeling the heterogeneous annotations of a text for different predicate models. NIF introduces the general notion of [nif:String](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#String) to represent arbitrary text strings. [nif:Context](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Context) is a particular subclass of [nif:String](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#String), representing a whole string of text. Any substring (itself a [nif:String](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#String)) has a [nif:referenceContext](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#referenceContext) relation to the [nif:Context](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Context) individual representing the whole text containing it.
+The Instance layer is the home of structured content resulting from knowledge extraction. Differently from the Resource layer, this layer aims at providing a formal and concise representation of the world, abstracting from the many, redundant, and ambiguous ways it can be encoded in unstructured content. The Instance layer contains instances (class kem:Instance) of persons, organizations, locations, frames, dates and other entities of the domain of discourse. These instances are described and related one to another by means of RDF triples, which are grouped in named graphs (class kem:Graph) treated as ontological individuals to which assertions can be attached. KEM does not impose a specific set of vocabularies for describing instances.
 
-To specifically model the aforementioned examples complementing predicate models, we introduce [pmo:Example](http://premon.fbk.eu/ontology/core#Example), subclass of [nif:Context](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Context), to represent the string associated with the example. The occurrence of a [ontolex:LexicalEntry](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Entry), [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass), or [pmo:SemanticRole](http://premon.fbk.eu/ontology/core#SemanticRole) in a [nif:Context](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Context) is denoted by an instance of [nif:Annotation](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Annotation), related to the given [ontolex:LexicalEntry](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Entry), [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass), or [pmo:SemanticRole](http://premon.fbk.eu/ontology/core#SemanticRole) via property [pmo:valueObj](http://premon.fbk.eu/ontology/core#valueObj) (the value attached to the annotation), and to the [nif:Context](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Context) instance via property [nif:annotation](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#annotation). If detailed information on the specific span of text (i.e., substring) denoting the [ontolex:LexicalEntry](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification#Lexical_Entry), [pmo:SemanticClass](http://premon.fbk.eu/ontology/core#SemanticClass), or [pmo:SemanticRole](http://premon.fbk.eu/ontology/core#SemanticRole) is available (e.g., FN provides the specific offsets of lexical units, frames, and frame elements, in the example text) an additional instance of [pmo:Markable](http://premon.fbk.eu/ontology/core#Markable), subclass of [nif:String](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#String), is created and linked to the specific [nif:Annotation](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Annotation) and [nif:Context](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Context) via properties [nif:annotation](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#annotation) and [nif:referenceContext](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#referenceContext), respectively. As the same [nif:Context](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Context) may contain multiple [nif:Annotation](http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Annotation)s referring to one or more semantic classes and their corresponding roles, an additional [pmo:AnnotationSet](http://premon.fbk.eu/ontology/core#AnnotationSet) instance is created to cluster annotations from the same predicate structure."""@en ;
-                                     
-                                     dcterms:publisher "DKM, Fondazione Bruno Kessler <http://dkm.fbk.eu/>" ;
-                                     
-                                     dcterms:title "Predicate Model for Ontologies (PreMOn) - Core ontology module"@en ;
-                                     
-                                     rdfs:comment "The [PreMOn Ontology](http://premon.fbk.eu) is an extension of [lemon](https://www.w3.org/community/ontolex/wiki/Final_Model_Specification) (W3C Ontology Lexicon Community Group, 2015) for representing *predicate models* and their *mappings*. The Core Module of the PreMOn Ontology defines the main abstractions for modelling *semantic classes* with their *semantic roles*, *mappings* between different predicate models, and *annotations*."@en ;
-                                     
-                                     dcterms:rights "This ontology is licensed under CC-BY-SA <http://creativecommons.org/licenses/by-sa/4.0/>"@en ;
-                                     
-                                     vann:preferredNamespaceUri "http://premon.fbk.eu/ontology/core#" ;
-                                     
-                                     vann:preferredNamespacePrefix "pmo" ;
-                                     
-                                     dcterms:license <http://creativecommons.org/licenses/by-sa/4.0/> ;
-                                     
-                                     dcterms:description <http://premon.fbk.eu/images/core.svg> ;
-                                     
-                                     rdfs:isDefinedBy <http://premon.fbk.eu/ns/core.ttl> ;
-                                     
-                                     owl:imports <http://www.w3.org/ns/lemon/ontolex> .
+#### Mention Layer
 
+The Mention layer comprises annotated fragments of resources (class kem:Fragment) and, among them, annotated fragments called mentions (class kem:Mention) that are about some instances or graphs of triples in the Instance layer, overall realizing the connection between the Resource and the Instance layers. The most basic concepts introduced in the Mention layer are kem:Fragment and kem:Annotation, which together provide a general-purpose mechanism for marking and annotating arbitrary fragments of resources. These concepts are specialized into kem:Mention and kem:SemanticAnnotation. A kem:Mention is a resource fragment that is about (property kem:isAbout) some kem:Instances, and/or that conveys (property kem:conveys) some graph of triples. A kem:SemanticAnnotation is an annotation that describes the meaning of a resource or of a mention of it, and that may substantiate (property kem:substantiates) some triples extracted from text. Different subclasses and attributes of kem:Mention and kem:SemanticAnnotation can be defined to represent the results of the content analyses of a resource (e.g., its NLP processing). These subclasses and attributes are not part of KEM Core, but are instead provided by its specializations for different media (e.g., text)."""@en ;
+	dc:title "Knowledge Extraction Model - Core Module"@en ;
+	dc:rights "This ontology is licensed under CC-BY <http://creativecommons.org/licenses/by/4.0/>"@en ;
+	rdfs:comment "This ontology provides the Core module of KEM, the Knowledge Extraction Model. It defines, in a media-independent way, the core concepts of resource, mention and instance, and their corresponding representation layers."@en ;
+	dcterms:license <http://creativecommons.org/licenses/by/4.0/> ;
+	rdfs:isDefinedBy <http://knowledgestore.fbk.eu/ontologies/kem/core.ttl> .
 
-#################################################################
-#
-#    Annotation properties
-#
-#################################################################
+kem:conveys a owl:ObjectProperty ;
+	rdfs:comment "Links a kem:Mention to a kem:Graph of triples that are conveyed by / extracted from that mention."@en ;
+	rdfs:label "conveys"@en ;
+	rdfs:range kem:Graph ;
+	rdfs:domain kem:Mention ;
+	owl:propertyChainAxiom _:node1ag8goampx1 .
 
+kem:Graph a owl:Class ;
+	rdfs:comment "A named graph containing RDF triples."@en ;
+	rdfs:label "graph"@en .
 
-###  http://purl.org/dc/terms/creator
+kem:Mention a owl:Class ;
+	rdfs:comment """A mention is a 'meaningful' kem:Fragment that is about (property kem:isAbout) some kem:Instance(s), and/or that conveys (property kem:conveys) some kem:Graph of triples. Mentions can be annotated with kem:SemanticAnnotations.
 
-dcterms:creator rdf:type owl:AnnotationProperty .
+Relation kem:conveys links a kem:Mention to any kem:Graph of triples formalizing facts that are represented in the mention.
 
+Relation kem:isAbout links a mention to any kem:Instance that is represented, directly or indirectly, by that mention. This primarily includes the semiotic notion of reference (specialized property kem:refersTo) between a mention acting as a sign (e.g., a proper name in a text) and the instance indicated by that sign (e.g., the person carrying that name). 
 
+There are however other cases where a mention, besides having a referent, also implies or otherwise points to other instances that are not their referent. For instance, the word “American” in “An American in Paris” refers to some unspecified person, but also is about America as a geopolitical entity, as well as the people-by-location semantic frame expressing the provenance of that person from America.
 
-###  http://purl.org/dc/terms/description
+A kem:Resource may contain many kem:Mentions, each one associated to some kem:Instance or kem:Graph of triples, and the latter may have multiple associated kem:Mentions within the same kem:Resource, denoting the fact that they occur multiple times in the resource."""@en ;
+	rdfs:label "mention"@en ;
+	rdfs:subClassOf kem:Fragment .
 
-dcterms:description rdf:type owl:AnnotationProperty .
+kem:hasAnnotation a owl:ObjectProperty ;
+	rdfs:comment "Links a kem:Fragment to a kem:Annotation applying to the piece of resource identified by that fragment."@en ;
+	rdfs:label "has annotation"@en ;
+	rdfs:range kem:Annotation ;
+	rdfs:domain kem:Fragment .
 
+kem:substantiates a owl:ObjectProperty ;
+	rdfs:comment """Links a kem:SemanticAnnotation to a kem:Graph of triples whose extraction is supported/justified by the annotation.
 
+Note that if a kem:SemanticAnnotation substantiates a kem:Graph of triples, then the kem:Mention associated to the annotation kem:conveys that graph (this is formalized via a property chain axiom)."""@en ;
+	rdfs:label "substantiates"@en ;
+	rdfs:range kem:Graph ;
+	rdfs:domain kem:SemanticAnnotation .
 
-###  http://purl.org/dc/terms/publisher
+kem:fragmentOf a owl:ObjectProperty , owl:FunctionalProperty ;
+	rdfs:comment "Links a kem:Fragment to the (unique) kem:Resource it is fragment of."@en ;
+	rdfs:label "fragment of"@en ;
+	rdfs:range kem:Resource ;
+	rdfs:domain kem:Fragment ;
+	owl:propertyChainAxiom _:node1ag8goampx3 , _:node1ag8goampx5 .
 
-dcterms:publisher rdf:type owl:AnnotationProperty .
+kem:Fragment a owl:Class ;
+	rdfs:comment """A fragment of an a kem:Resource (exactly one), linked via property kem:fragmentOf.
 
+This is an abstract class that need to be subclassed to consider the specificities of (fragments of) specific kinds of resources.
 
+The identity of a fragment is given by the kem:Resource they are fragment of AND some location attributes specific to the fragment subclass that allows locating the fragment within the enclosing kem:Resource (e.g., character offsets for a textual resource).
 
-###  http://purl.org/dc/terms/rights
+This identity criterion implies that two fragments *cannot* be identical if they are fragment of different resources, or even of the same resource but corresponding to different locations of it, independently from other properties being equal (e.g., the textual or other media content of the fragment). 
 
-dcterms:rights rdf:type owl:AnnotationProperty .
+A consequence of this dependency on location attributes is that a kem:Resource and its maximal kem:Fragment (covering the whole resource) are distinct ontological individuals, i.e., kem:Fragment and kem:Resource are disjoint classes.
 
+Two kem:Fragment(s) can be in a part of relationship (property kem:hasPart) if: (1) they are fragment of the *same* kem:Resource; and (2) one fragment contains the other (to be defined in a way specific to the type of resource).
 
+Disjoint fragments of the same resource can be composed in a kem:CompositeFragment."""@en ;
+	rdfs:label "fragment"@en ;
+	rdfs:subClassOf _:node1ag8goampx26 , _:node1ag8goampx28 , _:node1ag8goampx29 .
 
-###  http://purl.org/dc/terms/license
+kem:Resource a owl:Class ;
+	rdfs:comment """A kem:Resource is a *self-contained*, *globally identified*, and *immutable* *information object*:
 
-dcterms:license rdf:type owl:AnnotationProperty .
+- Information object has to be understood in an abstract sense that prescinds from the way information is physically realized (i.e., the actual sequence of bytes encoding the information).
 
+- Self-contained means that a kem:Resource represents a complete and meaningful unit of information for humans (e.g., a whole news article instead of an arbitrary fragment of text in that article); however, it does not imply that the unit is atomic (i.e., a kem:Resource can have other kem:Resources among its parts).
 
+- Identifiable means that every kem:Resource is assigned a unique identifier, such as a URI, DOI or ISBN, that permits to unambiguously refer to the resource and provides an identity criteria for it.
 
-###  http://purl.org/dc/terms/title
+- Immutable means that the abstract encoding of a kem:Resource (i.e., the words in a text or sounds in an audio resource, regardless of their physical representation) does not change in time.
 
-dcterms:title rdf:type owl:AnnotationProperty .
+The immutability assumption allows not adding a time-index to relevant properties involving resources and their parts (which are immutable themselves), thus simplifying the resulting ontology and its use. This is a major difference with similar \"information resource\" definitions (IRW, PROTONT) which do not impose the immutability constraint. In scenarios where mutations are of interest (e.g., evolving documents), one can introduce/reuse a concept of mutable information resource / document and see the kem:Resource here modeled as a specific snapshot / version of it in time.
 
+Suggested metadata: dcterms:identifier, dcterms:title, dcterms:created, dcterms:creator, dcterms:contributor, dcterms:issued, dcterms:publisher, dcterms:rights."""@en ;
+	rdfs:label "resource"@en .
 
+kem:hasPart a owl:ObjectProperty , owl:ReflexiveProperty , owl:TransitiveProperty ;
+	rdfs:comment "Reflexive, transitive, general-purpose part-of relation. This relation is introduced to allow representing and reasoning, within KEM, on parts of fragments, resources, and possibly other relevant objects."@en ;
+	rdfs:label "has part"@en .
 
-###  http://purl.org/vocab/vann/preferredNamespacePrefix
+kem:Annotation a owl:Class ;
+	rdfs:comment """A kem:Annotation is an arbitrary piece of information that annotates a kem:Fragment via property kem:hasAnnotation (e.g., for marking it as a temporal expression) or, if the fragment cannot be identified for that annotation, a kem:Resource via property kem:hasResourceAnnotation (e.g., for associating the resource to the implicit temporal expression corresponding to its creation time). No identity criteria is specified for kem:Annotation.
 
-vann:preferredNamespacePrefix rdf:type owl:AnnotationProperty .
+Together with kem:Fragment and kem:Resource, kem:Annotation provides a general purpose mechanism for annotating resourced and fragments of them.
 
+Note that annotations can be also expressed by directly predicating over the fragment or resource being annotated. Using a kem:Annotation individual is however necessary when an anchor is needed to refer to the annotation as a whole, and also for differentiating between multiple annotations of the same type attached to the same resource or fragment of it (this case arises, e.g., when a single span of text is annotated with multiple FrameNet frame elements)."""@en ;
+	rdfs:label "annotation"@en .
 
+kem:hasComponent a owl:ObjectProperty ;
+	rdfs:comment """Links a composite object (e.g., a kem:CompositeResource, or a kem:CompositeFragment) to one of its components.
 
-###  http://purl.org/vocab/vann/preferredNamespaceUri
+A component of an object is also a part of that object. However, the kem:hasComponent relation is not reflexive nor transitive."""@en ;
+	rdfs:label "has component"@en ;
+	rdfs:subPropertyOf kem:hasPart .
 
-vann:preferredNamespaceUri rdf:type owl:AnnotationProperty .
+kem:hasResourceAnnotation a owl:ObjectProperty ;
+	rdfs:comment "Links a kem:Resource to a kem:Annotation that applies to the resource as a whole and not to a specific fragment of it (e.g., the document creation time, or the author of a document)."@en ;
+	rdfs:label "has resource annotation"@en ;
+	rdfs:range kem:Annotation ;
+	rdfs:domain kem:Resource .
 
+kem:involves a owl:ObjectProperty ;
+	rdfs:comment "Links a kem:SemanticAnnotation to any kem:Instance that is involved in the meaning description supplied by the annotation."@en ;
+	rdfs:label "involves"@en ;
+	rdfs:range kem:Instance ;
+	rdfs:domain kem:SemanticAnnotation ;
+	owl:propertyChainAxiom _:node1ag8goampx10 , _:node1ag8goampx8 .
 
+kem:Instance a owl:Class ;
+	rdfs:comment "Any ontological instance, e.g., referring to persons, organizations, locations, frames, dates, and other entities of the domain of discourse."@en ;
+	rdfs:label "instance"@en .
 
+kem:SemanticAnnotation a owl:Class ;
+	rdfs:comment """A kem:SemanticAnnotation is an annotation that describes the meaning of a kem:Resource or of a kem:Mention of it, and that may substantiate (property kem:substantiates) some triples extracted from text.
 
+The description of a kem:SemanticAnnotation typically concerns a specific subject instance (property kem:subject), as in case of annotations of named entities, temporal expressions, or events in a text. The description encoded in the semantic annotation may also involve (property kem:involves, super-property of kem:subject) additional instances beyond the subject one, as in case of the source and target instances of some relation annotation whose reification is the subject of the annotation.
 
-#################################################################
-#
-#    Object Properties
-#
-#################################################################
+While kem:involves allows directly relating a kem:SemanticAnnotation to the instances it involves, during knowledge extraction these instances may be initially unknown, and the only information available is that they are the subject of another kem:SemanticAnnotation, or the referent of another kem:Mention. Properties kem:involvesSubjectOf and kem:involvesReferentOf are thus introduced to represent these cases."""@en ;
+	rdfs:label "semantic annotation"@en ;
+	rdfs:subClassOf kem:Annotation .
 
+kem:involvesSubjectOf a owl:ObjectProperty ;
+	rdfs:comment """Links a kem:SemanticAnnotation to another kem:SemanticAnnotation whose subject instance is involved in the first annotation.
 
-###  http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#annotation
+A property chain axiom is defined to derive a kem:involves relation between a kem:SemanticAnnotation and a kem:Instance whenever the annotation kem:involvesSubjectOf another annotation that has kem:subject that instance."""@en ;
+	rdfs:label "involves subject of"@en ;
+	rdfs:range kem:SemanticAnnotation ;
+	rdfs:domain kem:SemanticAnnotation .
 
-nif:annotation rdf:type owl:ObjectProperty .
+kem:subject a owl:ObjectProperty , owl:FunctionalProperty ;
+	rdfs:comment """Links a kem:SemanticAnnotation to the kem:Instance that is the subject of the description provided by that annotation (if any).
 
+As the subject instance is also (by definition) involved in the description of the semantic annotation, property kem:subject is a subproperty of kem:involves.
 
+Note that if a kem:SemanticAnnotation has a certain kem:Instance as kem:subject, then a kem:isAbout relation will also hold between the associated kem:Mention and that instance (this is formalized via a property chain axiom)."""@en ;
+	rdfs:label "subject"@en ;
+	rdfs:subPropertyOf kem:involves .
 
-###  http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#referenceContext
+kem:involvesReferentOf a owl:ObjectProperty ;
+	rdfs:comment """Links a kem:SemanticAnnotation to a kem:Mention whose referent instance is involved in the description of the annotation.
 
-nif:referenceContext rdf:type owl:ObjectProperty ;
-                     
-                     rdfs:label "reference context"@en .
+A property chain axiom is defined to derive a kem:involves relation between a kem:SemanticAnnotation and a kem:Instance whenever the annotation kem:involvesReferentOf some mention that kem:refersTo that instance."""@en ;
+	rdfs:label "involves referent of"@en ;
+	rdfs:range kem:Mention ;
+	rdfs:domain kem:SemanticAnnotation .
 
+kem:refersTo a owl:ObjectProperty , owl:FunctionalProperty ;
+	rdfs:comment "Links a kem:Mention to its referent kem:Instance (if any). The referent, if defined, is postulated to be unique in KEM."@en ;
+	rdfs:label "refers to"@en ;
+	rdfs:subPropertyOf kem:isAbout .
 
+kem:isAbout a owl:ObjectProperty ;
+	rdfs:comment "Links a kem:Mention to any kem:Instance that is lexicalized by the mention, including but not limited to the referent of the mention (other instances could be, e.g., the event implied by a predicate in case of argument nominalization)."@en ;
+	rdfs:label "is about"@en ;
+	rdfs:range kem:Instance ;
+	rdfs:domain kem:Mention ;
+	owl:propertyChainAxiom _:node1ag8goampx12 .
 
-###  http://premon.fbk.eu/ontology/core#classRel
+kem:CompositeFragment a owl:Class ;
+	rdfs:comment """A composite kem:Fragment that has at least two non-composite kem:Fragment(s) as components.
 
-pmo:classRel rdf:type owl:ObjectProperty ;
-             
-             rdfs:label "semantic class relation"@en ;
-             
-             rdfs:domain pmo:SemanticClass ;
-             
-             rdfs:range pmo:SemanticClass .
+A kem:CompositeFragment has to be understood as the mereological sum of its components, and its identity criteria is defined accordingly (i.e., two composite fragments are identical if they have the same components).
 
+Components MUST not overlap (rationale: if two components overlap, then they can be replaced by a unique component and the composite fragment can thus be simplified).
 
+Denoting with:
+  CIF(x) - x rdf:type CompositeFragment
+  C(x,y) - x kem:hasComponent y
+  P(x,y) - x kem:hasPart y
 
-###  http://premon.fbk.eu/ontology/core#evokedConcept
+this constraint can be formalized as:
+  CIF(x) ^ C(x,y) ^ C(x,z) ^ P(y,w) ^ P(z,w) => y = z
 
-pmo:evokedConcept rdf:type owl:FunctionalProperty ,
-                           owl:ObjectProperty ;
-                  
-                  rdfs:label "evoked concept"@en ;
-                  
-                  rdfs:domain pmo:Conceptualization ;
-                  
-                  rdfs:subPropertyOf owl:topObjectProperty ;
-                  
-                  rdfs:range ontolex:LexicalConcept .
+Instances of this class can be used, for instance, to select non-contiguous pieces of text within a text resource."""@en ;
+	rdfs:label "composite fragment"@en ;
+	owl:equivalentClass _:node1ag8goampx14 ;
+	rdfs:subClassOf kem:Fragment , _:node1ag8goampx18 , _:node1ag8goampx19 .
 
+kem:CompositeResource a owl:Class ;
+	rdfs:comment """A kem:CompositeResource is a kem:Resource that has at least two non-composite kem:Resources as components.
 
+Differently from a kem:CompositeFragment, which has to be understood as a mereological sum, a kem:CompositeResource has its own identity given by its identifier, so it is possible to have multiple, distinct kem:CompositeResources having the same components (but perhaps with different metadata that justify their distinction).
 
-###  http://premon.fbk.eu/ontology/core#evokingEntry
+Instances of this class can be used, for instance, to model heterogenous resources, such as a Web page, consisting of multiple atomic resources, such as some text and a few images."""@en ;
+	rdfs:label "composite resource"@en ;
+	owl:equivalentClass _:node1ag8goampx20 ;
+	rdfs:subClassOf kem:Resource , _:node1ag8goampx24 , _:node1ag8goampx25 .
 
-pmo:evokingEntry rdf:type owl:FunctionalProperty ,
-                          owl:ObjectProperty ;
-                 
-                 rdfs:label "evoking entry"@en ;
-                 
-                 rdfs:domain pmo:Conceptualization ;
-                 
-                 rdfs:range ontolex:LexicalEntry .
+_:node1ag8goampx1 rdf:first kem:hasAnnotation ;
+	rdf:rest _:node1ag8goampx2 .
 
+_:node1ag8goampx10 rdf:first kem:involvesReferentOf ;
+	rdf:rest _:node1ag8goampx11 .
 
+_:node1ag8goampx11 rdf:first kem:refersTo ;
+	rdf:rest rdf:nil .
 
-###  http://premon.fbk.eu/ontology/core#first
+_:node1ag8goampx12 rdf:first kem:hasAnnotation ;
+	rdf:rest _:node1ag8goampx13 .
 
-pmo:first rdf:type owl:ObjectProperty ;
-          
-          rdfs:label "first"@en ;
-          
-          rdfs:comment "first, item, next are used to model set-like construct"@en ;
-          
-          rdfs:subPropertyOf pmo:item .
+_:node1ag8goampx13 rdf:first kem:subject ;
+	rdf:rest rdf:nil .
 
+_:node1ag8goampx14 a owl:Class ;
+	owl:intersectionOf _:node1ag8goampx15 .
 
+_:node1ag8goampx15 rdf:first kem:Fragment ;
+	rdf:rest _:node1ag8goampx16 .
 
-###  http://premon.fbk.eu/ontology/core#item
+_:node1ag8goampx16 rdf:first _:node1ag8goampx17 ;
+	rdf:rest rdf:nil .
 
-pmo:item rdf:type owl:ObjectProperty ;
-         
-         rdfs:label "item"@en ;
-         
-         rdfs:comment "first, item, next are used to model set-like construct"@en ;
-         
-         owl:propertyChainAxiom ( pmo:item
-                                  pmo:next
-                                ) .
+_:node1ag8goampx17 a owl:Restriction ;
+	owl:onProperty kem:hasComponent ;
+	owl:someValuesFrom owl:Thing .
 
+_:node1ag8goampx18 a owl:Restriction ;
+	owl:onProperty kem:hasComponent ;
+	owl:allValuesFrom kem:Fragment .
 
+_:node1ag8goampx19 a owl:Restriction ;
+	owl:onProperty kem:hasComponent ;
+	owl:minCardinality "2"^^xsd:nonNegativeInteger .
 
-###  http://premon.fbk.eu/ontology/core#next
+_:node1ag8goampx2 rdf:first kem:substantiates ;
+	rdf:rest rdf:nil .
 
-pmo:next rdf:type owl:ObjectProperty ;
-         
-         rdfs:label "next"@en ;
-         
-         rdfs:comment "first, item, next are used to model set-like construct"@en .
+_:node1ag8goampx20 a owl:Class ;
+	owl:intersectionOf _:node1ag8goampx21 .
 
+_:node1ag8goampx21 rdf:first kem:Resource ;
+	rdf:rest _:node1ag8goampx22 .
 
+_:node1ag8goampx22 rdf:first _:node1ag8goampx23 ;
+	rdf:rest rdf:nil .
 
-###  http://premon.fbk.eu/ontology/core#roleRel
+_:node1ag8goampx23 a owl:Restriction ;
+	owl:onProperty kem:hasComponent ;
+	owl:someValuesFrom owl:Thing .
 
-pmo:roleRel rdf:type owl:ObjectProperty ;
-            
-            rdfs:label "semantic role relation"@en ;
-            
-            rdfs:range pmo:SemanticRole ;
-            
-            rdfs:domain pmo:SemanticRole .
+_:node1ag8goampx24 a owl:Restriction ;
+	owl:onProperty kem:hasComponent ;
+	owl:someValuesFrom owl:Thing .
 
+_:node1ag8goampx25 a owl:Restriction ;
+	owl:onProperty kem:hasComponent ;
+	owl:allValuesFrom kem:Resource .
 
+_:node1ag8goampx26 a owl:Restriction ;
+	owl:onProperty _:node1ag8goampx27 ;
+	owl:allValuesFrom kem:Fragment .
 
-###  http://premon.fbk.eu/ontology/core#semRole
+_:node1ag8goampx27 owl:inverseOf kem:hasPart .
 
-pmo:semRole rdf:type owl:ObjectProperty ;
-            
-            rdfs:label "semantic role"@en ;
-            
-            rdfs:domain pmo:SemanticClass ;
-            
-            rdfs:range pmo:SemanticRole .
+_:node1ag8goampx28 a owl:Restriction ;
+	owl:onProperty kem:fragmentOf ;
+	owl:someValuesFrom owl:Thing .
 
+_:node1ag8goampx29 a owl:Restriction ;
+	owl:onProperty kem:hasPart ;
+	owl:allValuesFrom kem:Fragment .
 
+_:node1ag8goampx3 rdf:first kem:hasPart ;
+	rdf:rest _:node1ag8goampx4 .
 
-###  http://premon.fbk.eu/ontology/core#semRoleMapping
+_:node1ag8goampx30 a owl:AllDisjointClasses ;
+	owl:members _:node1ag8goampx31 .
 
-pmo:semRoleMapping rdf:type owl:ObjectProperty ;
-                   
-                   rdfs:label "semantic role mapping"@en ;
-                   
-                   rdfs:comment "relates a mapping between semantic roles to the corresponding mapping between semantic classes and/or conceptualizations"@en ;
-                   
-                   rdfs:range pmo:SemanticRoleMapping ;
-                   
-                   rdfs:domain [ rdf:type owl:Class ;
-                                 owl:unionOf ( pmo:ConceptualizationMapping
-                                               pmo:SemanticClassMapping
-                                             )
-                               ] .
+_:node1ag8goampx31 rdf:first kem:Annotation ;
+	rdf:rest _:node1ag8goampx32 .
 
+_:node1ag8goampx32 rdf:first kem:Fragment ;
+	rdf:rest _:node1ag8goampx33 .
 
+_:node1ag8goampx33 rdf:first kem:Graph ;
+	rdf:rest _:node1ag8goampx34 .
 
-###  http://premon.fbk.eu/ontology/core#valueObj
+_:node1ag8goampx34 rdf:first kem:Resource ;
+	rdf:rest rdf:nil .
 
-pmo:valueObj rdf:type owl:ObjectProperty ;
-             
-             rdfs:label "value"@en ;
-             
-             rdfs:comment "generic property to associate an object value to an instance"@en .
+_:node1ag8goampx4 rdf:first kem:fragmentOf ;
+	rdf:rest rdf:nil .
 
+_:node1ag8goampx5 rdf:first _:node1ag8goampx6 ;
+	rdf:rest _:node1ag8goampx7 .
 
+_:node1ag8goampx6 owl:inverseOf kem:hasPart .
 
-###  http://www.w3.org/2004/02/skos/core#broader
+_:node1ag8goampx7 rdf:first kem:fragmentOf ;
+	rdf:rest rdf:nil .
 
-skos:broader rdf:type owl:ObjectProperty .
+_:node1ag8goampx8 rdf:first kem:involvesSubjectOf ;
+	rdf:rest _:node1ag8goampx9 .
 
-
-
-###  http://www.w3.org/ns/lemon/ontolex#evokes
-
-ontolex:evokes owl:propertyChainAxiom ( [ owl:inverseOf pmo:evokingEntry
-                                        ]
-                                        pmo:evokedConcept
-                                      ) .
-
-
-
-###  http://premon.fbk.eu/ontology/core#ontologyMatch
-
-pmo:ontologyMatch rdf:type owl:ObjectProperty ;
-
-                  rdfs:label "ontology (exact) match"@en ;
-
-                  rdfs:comment "PreMOn generic property to associate a SKOS concept to an ontological entity"@en ;
-
-                  rdfs:range rdfs:Resource ;
-
-                  rdfs:domain skos:Concept .
-
-
-
-
-
-#################################################################
-#
-#    Data properties
-#
-#################################################################
-
-
-###  http://premon.fbk.eu/ontology/core#abbreviation
-
-pmo:abbreviation rdf:type owl:DatatypeProperty ;
-                 
-                 rdfs:label "abbreviation"@en ;
-                 
-                 rdfs:range xsd:string ;
-                 
-                 rdfs:subPropertyOf owl:topDataProperty .
-
-
-
-###  http://premon.fbk.eu/ontology/core#valueDt
-
-pmo:valueDt rdf:type owl:DatatypeProperty ;
-            
-            rdfs:comment "generic property to associate an data value to an instance"@en ,
-                         "value"@en .
-
-
-
-
-
-#################################################################
-#
-#    Classes
-#
-#################################################################
-
-
-###  http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Annotation
-
-nif:Annotation rdf:type owl:Class ;
-               
-               rdfs:subClassOf [ rdf:type owl:Restriction ;
-                                 owl:onProperty [ owl:inverseOf pmo:item
-                                                ] ;
-                                 owl:onClass pmo:AnnotationSet ;
-                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
-                               ] .
-
-
-
-###  http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#Context
-
-nif:Context rdf:type owl:Class .
-
-
-
-###  http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#RFC5147String
-
-nif:RFC5147String rdf:type owl:Class .
-
-
-
-###  http://premon.fbk.eu/ontology/core#AnnotationSet
-
-pmo:AnnotationSet rdf:type owl:Class ;
-                  
-                  rdfs:label "Annotation Set"@en ;
-                  
-                  rdfs:subClassOf [ rdf:type owl:Restriction ;
-                                    owl:onProperty pmo:item ;
-                                    owl:allValuesFrom nif:Annotation
-                                  ] ,
-                                  [ rdf:type owl:Restriction ;
-                                    owl:onProperty pmo:item ;
-                                    owl:onClass nif:Annotation ;
-                                    owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger
-                                  ] ;
-                  
-                  rdfs:comment "Represent each annotation of a semantic class, togheter with its semantic roles, in an example"@en .
-
-
-
-###  http://premon.fbk.eu/ontology/core#Conceptualization
-
-pmo:Conceptualization rdf:type owl:Class ;
-                      
-                      rdfs:label "Conceptualization"@en ;
-                      
-                      rdfs:subClassOf skos:Concept ,
-                                      [ rdf:type owl:Restriction ;
-                                        owl:onProperty pmo:evokedConcept ;
-                                        owl:onClass ontolex:LexicalConcept ;
-                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
-                                      ] ,
-                                      [ rdf:type owl:Restriction ;
-                                        owl:onProperty pmo:evokingEntry ;
-                                        owl:onClass ontolex:LexicalEntry ;
-                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
-                                      ] ;
-                      
-                      rdfs:comment "Structurally, it can be seen as the reification of the ontolex:evokes relation between ontolex:LexicalEntry and ontolex:LexicalConcept. Semantically, it can be seen as a very specific intensional concept (among many, in case of polysemy) evoked by a single ontolex:LexicalEntry, which can be generalized to a ontolex:LexicalConcept when multiple entries are considered but with a possible loss of information that prevents precise alignments to be represented."@en .
-
-
-
-###  http://premon.fbk.eu/ontology/core#ConceptualizationMapping
-
-pmo:ConceptualizationMapping rdf:type owl:Class ;
-                             
-                             rdfs:label "Conceptualization Mapping"@en ;
-                             
-                             rdfs:subClassOf pmo:Mapping ,
-                                             [ rdf:type owl:Restriction ;
-                                               owl:onProperty pmo:item ;
-                                               owl:allValuesFrom pmo:Conceptualization
-                                             ] ;
-                             
-                             rdfs:comment "An individual of this class represents a mapping between Conceptualizations"@en .
-
-
-
-###  http://premon.fbk.eu/ontology/core#Example
-
-pmo:Example rdf:type owl:Class ;
-            
-            rdfs:label "Example"@en ;
-            
-            rdfs:subClassOf nif:Context ,
-                            [ rdf:type owl:Restriction ;
-                              owl:onProperty [ owl:inverseOf nif:referenceContext
-                                             ] ;
-                              owl:allValuesFrom pmo:Markable
-                            ] ;
-            
-            rdfs:comment "Represent the text associated to an example"@en .
-
-
-
-###  http://premon.fbk.eu/ontology/core#Mapping
-
-pmo:Mapping rdf:type owl:Class ;
-            
-            rdfs:label "Mapping"@en ;
-            
-            rdfs:subClassOf [ rdf:type owl:Restriction ;
-                              owl:onProperty pmo:item ;
-                              owl:onClass skos:Concept ;
-                              owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger
-                            ] ,
-                            [ rdf:type owl:Class ;
-                              owl:unionOf ( [ rdf:type owl:Restriction ;
-                                              owl:onProperty pmo:item ;
-                                              owl:allValuesFrom pmo:Conceptualization
-                                            ]
-                                            [ rdf:type owl:Restriction ;
-                                              owl:onProperty pmo:item ;
-                                              owl:allValuesFrom pmo:SemanticClass
-                                            ]
-                                            [ rdf:type owl:Restriction ;
-                                              owl:onProperty pmo:item ;
-                                              owl:allValuesFrom pmo:SemanticRole
-                                            ]
-                                          )
-                            ] ;
-            
-            rdfs:comment "An individual of this class represents a mapping between skos:Concepts"@en .
-
-
-
-###  http://premon.fbk.eu/ontology/core#Markable
-
-pmo:Markable rdf:type owl:Class ;
-             
-             rdfs:label "Markable"@en ;
-             
-             rdfs:subClassOf nif:RFC5147String ,
-                             [ rdf:type owl:Restriction ;
-                               owl:onProperty nif:referenceContext ;
-                               owl:onClass pmo:Example ;
-                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
-                             ] ,
-                             [ rdf:type owl:Restriction ;
-                               owl:onProperty nif:referenceContext ;
-                               owl:allValuesFrom pmo:Example
-                             ] ;
-             
-             rdfs:comment "Represent a piece of text to which some annotation is attached to"@en .
-
-
-
-###  http://premon.fbk.eu/ontology/core#SemanticClass
-
-pmo:SemanticClass rdf:type owl:Class ;
-                  
-                  rdfs:label "Semantic Class"@en ;
-                  
-                  rdfs:subClassOf ontolex:LexicalConcept ;
-                  
-                  rdfs:comment "SemanticClass homogeneously represents the semantic classes from the various predicate models. That is, individuals of this class correspond to rolesets in PB and NB (e.g., pm:nb10-seller.01 and pm:pb17-sell.01), verb classes in VN (e.g., pm:vn32-give-13.1-1), and frames in FN (e.g., pm:fn15-commerce sell)."@en .
-
-
-
-###  http://premon.fbk.eu/ontology/core#SemanticClassMapping
-
-pmo:SemanticClassMapping rdf:type owl:Class ;
-                         
-                         rdfs:label "Semantic Class Mapping"@en ;
-                         
-                         rdfs:subClassOf pmo:Mapping ,
-                                         [ rdf:type owl:Restriction ;
-                                           owl:onProperty pmo:item ;
-                                           owl:allValuesFrom pmo:SemanticClass
-                                         ] ;
-                         
-                         rdfs:comment "An individual of this class represents a mapping between SemanticClasses"@en .
-
-
-
-###  http://premon.fbk.eu/ontology/core#SemanticRole
-
-pmo:SemanticRole rdf:type owl:Class ;
-                 
-                 rdfs:label "Semantic Role"@en ;
-                 
-                 rdfs:subClassOf skos:Concept ;
-                 
-                 rdfs:comment """SemanticRoles tepresent the roles the arguments of a SemanticClass can play.
-
-Semantic roles are defined locally to semantic classes, so VN agent is represented as multiple semantic roles, one for each verb class it occurs in, and with each semantic role linked to its specific selectional restrictions (if any)."""@en .
-
-
-
-###  http://premon.fbk.eu/ontology/core#SemanticRoleMapping
-
-pmo:SemanticRoleMapping rdf:type owl:Class ;
-                        
-                        rdfs:label "Semantic Role Mapping"@en ;
-                        
-                        rdfs:subClassOf pmo:Mapping ,
-                                        [ rdf:type owl:Restriction ;
-                                          owl:onProperty [ owl:inverseOf pmo:semRoleMapping
-                                                         ] ;
-                                          owl:someValuesFrom owl:Thing
-                                        ] ,
-                                        [ rdf:type owl:Restriction ;
-                                          owl:onProperty pmo:item ;
-                                          owl:allValuesFrom pmo:SemanticRole
-                                        ] ;
-                        
-                        rdfs:comment "An individual of this class represents a mapping between SemanticRoles"@en .
+_:node1ag8goampx9 rdf:first kem:subject ;
+	rdf:rest rdf:nil .

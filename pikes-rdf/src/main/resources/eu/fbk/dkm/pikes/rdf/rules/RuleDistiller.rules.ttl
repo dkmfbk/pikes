@@ -62,7 +62,7 @@ pk: rr:prefix "pk" .
 :instance-creation-base a rr:Rule;
     rr:head """ ?a kem:subject ?i; kem:substantiates ?g. ?m kem:refersTo ?i
                 GRAPH ?g { ?i a kem:Instance } """;
-    rr:body """ ?m a kem:Mention; nif:anchorOf ?s; nif:annotation ?a.
+    rr:body """ ?m a kem:Mention; nif:anchorOf ?s; kem:hasAnnotation ?a.
                 ?a a kemt:EntityAnnotation.
                 FILTER NOT EXISTS { ?a a kemt:Predicate; itsrdf:taClassRef [ a pk:ArgumentNominalization ] }
                 BIND (rr:mint(?s, ?m) AS ?i)
@@ -71,7 +71,7 @@ pk: rr:prefix "pk" .
 :instance-creation-argument-nominalization a rr:Rule;
     rr:head """ ?a kem:subject ?if; kem:involves ?i; kem:substantiates ?g. ?m kem:refersTo ?i; kem:isAbout ?if.
                 GRAPH ?g { ?i a kem:Instance. ?if a kem:Instance, framebase:Frame }""";
-    rr:body """ ?m a kem:Mention; nif:anchorOf ?s; nif:annotation ?a.
+    rr:body """ ?m a kem:Mention; nif:anchorOf ?s; kem:hasAnnotation ?a.
                 ?a a kemt:Predicate; itsrdf:taClassRef [ a pk:ArgumentNominalization ] 
                 BIND (rr:mint(concat(?s, "_pred"), ?m) AS ?if)
                 BIND (rr:mint(?s, ?m) AS ?i)
@@ -181,5 +181,5 @@ pk: rr:prefix "pk" .
                 BIND (rr:mint(?g1, ?g2) as ?g) """.
 
 :fakeRule a rr:Rule;
-    rr:head """ ?v1 rdf:type kemt:Marco .""";
-    rr:body """ ?v1 rdf:type kemt:Predicate .""".
+    rr:head """ ?g rdf:type kemt:Marco .""";
+    rr:body """ ?v1 rdf:type kemt:Predicate . BIND (rr:mint(?v1, ?v1) as ?g) """.

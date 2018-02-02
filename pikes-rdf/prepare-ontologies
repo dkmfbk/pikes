@@ -17,5 +17,4 @@ command -v rdfpro >/dev/null 2>&1 || { echo >&2 "Cannot find RDFpro on the machi
 echo "Generating closed ontology"
 rdfpro @read "$1"/src/main/owl/* \
        @transform '-o owl:Thing owl:topDataProperty owl:topObjectProperty' \
-       @rules -r owl2rl -u \
        @write "$1"/src/main/resources/eu/fbk/dkm/pikes/rdf/rules/RuleDistiller.data.ttl
