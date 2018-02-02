@@ -19,8 +19,8 @@ public class KEM {
     /** Recommended prefix for the vocabulary namespace: "kem". */
     public static final String PREFIX = "kem";
 
-    /** Vocabulary namespace: "https://knowledgestore.fbk.eu/ontologies/kem/core#". */
-    public static final String NAMESPACE = "https://knowledgestore.fbk.eu/ontologies/kem/core#";
+    /** Vocabulary namespace: "http://knowledgestore.fbk.eu/ontologies/kem/core#". */
+    public static final String NAMESPACE = "http://knowledgestore.fbk.eu/ontologies/kem/core#";
 
     /** Immutable {@link Namespace} constant for the vocabulary namespace. */
     public static final Namespace NS = new SimpleNamespace(PREFIX, NAMESPACE);

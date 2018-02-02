@@ -19,8 +19,8 @@ public class KEMT {
     /** Recommended prefix for the vocabulary namespace: "kemt". */
     public static final String PREFIX = "kemt";
 
-    /** Vocabulary namespace: "https://knowledgestore.fbk.eu/ontologies/kem/text#". */
-    public static final String NAMESPACE = "https://knowledgestore.fbk.eu/ontologies/kem/text#";
+    /** Vocabulary namespace: "http://knowledgestore.fbk.eu/ontologies/kem/text#". */
+    public static final String NAMESPACE = "http://knowledgestore.fbk.eu/ontologies/kem/text#";
 
     /** Immutable {@link Namespace} constant for the vocabulary namespace. */
     public static final Namespace NS = new SimpleNamespace(PREFIX, NAMESPACE);
