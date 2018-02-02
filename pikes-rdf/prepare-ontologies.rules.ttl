@@ -1,0 +1,617 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix sys:  <sys:> .
+@prefix rr:   <http://rdfpro.fbk.eu/ontologies/rules#> .
+@prefix :     <http://rdfpro.fbk.eu/ontologies/rules/owl2rl#> .
+
+# General notes:
+# - 85 rules (21 for constraints and related auxiliary rules)
+# - datatype rules not implemented: dt-type2, dt-eq, dt-diff, dt-not-type
+
+
+
+################################################################################
+##                                   PREFIXES                                 ##
+################################################################################
+
+rr: rr:prefix "rr" .
+sys: rr:prefix "sys" .
+rdf: rr:prefix "rdf" .
+rdfs: rr:prefix "rdfs" .
+
+
+################################################################################
+##                              STATIC VOCABULARY                             ##
+################################################################################
+
+
+owl:Class a rr:MetaVocabularyTerm.
+owl:ObjectProperty a rr:MetaVocabularyTerm.
+owl:DatatypeProperty a rr:MetaVocabularyTerm.
+owl:AnnotationProperty a rr:MetaVocabularyTerm.
+owl:FunctionalProperty a rr:MetaVocabularyTerm.
+owl:InverseFunctionalProperty a rr:MetaVocabularyTerm.
+owl:SymmetricProperty a rr:MetaVocabularyTerm.
+owl:AsymmetricProperty a rr:MetaVocabularyTerm.
+owl:IrreflexiveProperty a rr:MetaVocabularyTerm.
+owl:TransitiveProperty a rr:MetaVocabularyTerm.
+owl:AllDifferent a rr:MetaVocabularyTerm.
+owl:AllDisjointClasses a rr:MetaVocabularyTerm.
+owl:AllDisjointProperties a rr:MetaVocabularyTerm.
+
+owl:equivalentClass a rr:MetaVocabularyTerm.
+owl:equivalentProperty a rr:MetaVocabularyTerm.
+owl:propertyChainAxiom a rr:MetaVocabularyTerm.
+owl:propertyDisjointWith a rr:MetaVocabularyTerm.
+owl:hasKey a rr:MetaVocabularyTerm.
+owl:hasValue a rr:MetaVocabularyTerm.
+owl:someValuesFrom a rr:MetaVocabularyTerm.
+owl:allValuesFrom a rr:MetaVocabularyTerm.
+owl:maxCardinality a rr:MetaVocabularyTerm.
+owl:maxQualifiedCardinality a rr:MetaVocabularyTerm.
+owl:onProperty a rr:MetaVocabularyTerm.
+owl:onClass a rr:MetaVocabularyTerm.
+owl:oneOf a rr:MetaVocabularyTerm.
+owl:unionOf a rr:MetaVocabularyTerm.
+owl:intersectionOf a rr:MetaVocabularyTerm.
+owl:complementOf a rr:MetaVocabularyTerm.
+owl:inverseOf a rr:MetaVocabularyTerm.
+owl:members a rr:MetaVocabularyTerm.
+owl:distinctMembers a rr:MetaVocabularyTerm.
+
+rdfs:Datatype a rr:MetaVocabularyTerm.
+rdfs:subClassOf a rr:MetaVocabularyTerm.
+rdfs:subPropertyOf a rr:MetaVocabularyTerm.
+rdfs:domain a rr:MetaVocabularyTerm.
+rdfs:range a rr:MetaVocabularyTerm.
+
+rdf:first a rr:MetaVocabularyTerm.
+rdf:rest a rr:MetaVocabularyTerm.
+rdf:nil a rr:MetaVocabularyTerm.
+
+sys:distinctMember a rr:MetaVocabularyTerm.
+sys:disjointClass a rr:MetaVocabularyTerm.
+sys:disjointProperty a rr:MetaVocabularyTerm.
+sys:chain2prop1 a rr:MetaVocabularyTerm.
+sys:chain2prop2 a rr:MetaVocabularyTerm.
+sys:key1prop a rr:MetaVocabularyTerm.
+sys:key2prop1 a rr:MetaVocabularyTerm.
+sys:key2prop2 a rr:MetaVocabularyTerm.
+sys:keyNprop1 a rr:MetaVocabularyTerm.
+sys:keyNprop2 a rr:MetaVocabularyTerm.
+sys:keyNprop3 a rr:MetaVocabularyTerm.
+sys:keyNrest a rr:MetaVocabularyTerm.
+sys:keyNarg1 a rr:MetaVocabularyTerm.
+sys:keyNarg2 a rr:MetaVocabularyTerm.
+sys:keyNnode a rr:MetaVocabularyTerm.
+sys:intersectionOfMember1 a rr:MetaVocabularyTerm.
+sys:intersectionOfMember2 a rr:MetaVocabularyTerm.
+sys:expandUnion a rr:MetaVocabularyTerm.
+sys:expandOneOf a rr:MetaVocabularyTerm.
+sys:expandAllDifferent a rr:MetaVocabularyTerm.
+sys:expandAllDisjointClasses a rr:MetaVocabularyTerm.
+sys:expandAllDisjointProperties a rr:MetaVocabularyTerm.
+
+
+################################################################################
+##                               AXIOMATIC  TRIPLES                           ##
+################################################################################
+
+
+# AXIOMATIC TRIPLES
+#
+# rules:   cls-thing, cls-nothing1, prp-ap, dt-type1
+# notes:   A single axiom rule merging the original axioms has been implemented.
+
+:owl_axioms a rr:Rule;
+    rr:head """ owl:Thing rdf:type owl:Class.
+                owl:Nothing rdf:type owl:Class.
+                rdfs:label rdf:type owl:AnnotationProperty.
+                rdfs:comment rdf:type owl:AnnotationProperty.
+                rdfs:seeAlso rdf:type owl:AnnotationProperty.
+                rdfs:isDefinedBy rdf:type owl:AnnotationProperty.
+                owl:deprecated rdf:type owl:AnnotationProperty.
+                owl:versionInfo rdf:type owl:AnnotationProperty.
+                owl:priorVersion rdf:type owl:AnnotationProperty.
+                owl:backwardCompatibleWith rdf:type owl:AnnotationProperty.
+                owl:incompatibleWith rdf:type owl:AnnotationProperty.
+                rdf:PlainLiteral rdf:type rdfs:Datatype.
+                rdf:XMLLiteral rdf:type rdfs:Datatype.
+                rdfs:Literal rdf:type rdfs:Datatype.
+                xsd:decimal rdf:type rdfs:Datatype.
+                xsd:integer rdf:type rdfs:Datatype.
+                xsd:nonNegativeInteger rdf:type rdfs:Datatype.
+                xsd:nonPositiveInteger rdf:type rdfs:Datatype.
+                xsd:positiveInteger rdf:type rdfs:Datatype.
+                xsd:negativeInteger rdf:type rdfs:Datatype.
+                xsd:long rdf:type rdfs:Datatype.
+                xsd:int rdf:type rdfs:Datatype.
+                xsd:short rdf:type rdfs:Datatype.
+                xsd:byte rdf:type rdfs:Datatype.
+                xsd:unsignedLong rdf:type rdfs:Datatype.
+                xsd:unsignedInt rdf:type rdfs:Datatype.
+                xsd:unsignedShort rdf:type rdfs:Datatype.
+                xsd:unsignedByte rdf:type rdfs:Datatype.
+                xsd:float rdf:type rdfs:Datatype.
+                xsd:double rdf:type rdfs:Datatype.
+                xsd:string rdf:type rdfs:Datatype.
+                xsd:normalizedString rdf:type rdfs:Datatype.
+                xsd:token rdf:type rdfs:Datatype.
+                xsd:language rdf:type rdfs:Datatype.
+                xsd:Name rdf:type rdfs:Datatype.
+                xsd:NCName rdf:type rdfs:Datatype.
+                xsd:NMTOKEN rdf:type rdfs:Datatype.
+                xsd:boolean rdf:type rdfs:Datatype.
+                xsd:hexBinary rdf:type rdfs:Datatype.
+                xsd:base64Binary rdf:type rdfs:Datatype.
+                xsd:anyURI rdf:type rdfs:Datatype.
+                xsd:dateTime rdf:type rdfs:Datatype.
+                xsd:dateTimeStamp rdf:type rdfs:Datatype """.
+
+
+
+################################################################################
+##                                    AXIOMS                                  ##
+################################################################################
+
+
+# SUBCLASS AND EQUIVALENT CLASS
+#
+# syntax:  ?c1 rdfs:subClassOf ?c2 -- subclass
+#          ?c1 owl:equivalentClass ?c2 -- class equivalence
+# rules:   cax-sco, scm-cls, scm-sco, scm-eqc1, scm-eqc2, cls-nothing2
+#          cax-eqc1, cax-eqc2
+# notes:   Rules cax-eqc1 and cax-eqc2 are redundant, as they are implemented
+#          by cax-sco and scm-eqc2 (via rdfs:subClassOf semantics).
+
+:cax-sco a rr:Rule;
+    rr:head """ ?x rdf:type ?c2. """;
+    rr:body """ ?x rdf:type ?c1. ?c1 rdfs:subClassOf ?c2.
+                FILTER (?c1 != ?c2) """.
+
+:scm-sco a rr:Rule;
+    rr:head """ ?c1 rdfs:subClassOf ?c3. """;
+    rr:body """ ?c1 rdfs:subClassOf ?c2. ?c2 rdfs:subClassOf ?c3.
+                FILTER (?c1 != ?c2 && ?c2 != ?c3 && ?c1 != ?c3) """.
+
+:scm-eqc1 a rr:Rule;
+    rr:head """ ?c1 owl:equivalentClass ?c2. """;
+    rr:body """ ?c1 rdfs:subClassOf ?c2. ?c2 rdfs:subClassOf ?c1.
+                FILTER (?c1 != ?c2) """.
+
+:scm-eqc2 a rr:Rule;
+    rr:head """ ?c1 rdfs:subClassOf ?c2. ?c2 rdfs:subClassOf ?c1. """;
+    rr:body """ ?c1 owl:equivalentClass ?c2. FILTER (?c1 != ?c2) """.
+
+
+# SUBPROPERTY AND EQUIVALENT PROPERTIES
+#
+# syntax:  ?p1 rdfs:subPropertyOf ?p2 -- subproperty
+#          ?p1 owl:equivalentProperty ?p2 -- property equivalence
+# axioms:  prp-spo1, scm-op, scm-dp, scm-spo, scm-eqp1, scm-eqp2,
+#          prp-eqp1, prp-eqp2
+# notes:   Rules prp-eqp1 and prp-eqp2 are redundant, as already implemented by
+#          scm-eqp1 and prp-spo1 (rdfs:subPropertyOf semantics).
+
+:prp-spo1 a rr:Rule;
+    rr:head """ ?x ?p2 ?y. """;
+    rr:body """ ?x ?p1 ?y. ?p1 rdfs:subPropertyOf ?p2. FILTER (?p1 != ?p2) """.
+
+:scm-op a rr:Rule;
+    rr:head """ ?p rdfs:subPropertyOf ?p; owl:equivalentProperty ?p. """;
+    rr:body """ ?p rdf:type owl:ObjectProperty. """.
+
+:scm-dp a rr:Rule ;
+    rr:head """ ?p rdfs:subPropertyOf ?p; owl:equivalentProperty ?p. """;
+    rr:body """ ?p rdf:type owl:DatatypeProperty. """.
+
+:scm-spo a rr:Rule;
+    rr:head """ ?p1 rdfs:subPropertyOf ?p3. """ ;
+    rr:body """ ?p1 rdfs:subPropertyOf ?p2. ?p2 rdfs:subPropertyOf ?p3.
+                FILTER (?p1 != ?p2 && ?p2 != ?p3 && ?p1 != ?p3) """.
+
+:scm-eqp1 a rr:Rule;
+    rr:head """ ?p1 rdfs:subPropertyOf ?p2. ?p2 rdfs:subPropertyOf ?p1. """;
+    rr:body """ ?p1 owl:equivalentProperty ?p2. FILTER (?p1 != ?p2) """.
+
+:scm-eqp2 a rr:Rule;
+    rr:head """ ?p1 owl:equivalentProperty ?p2. """;
+    rr:body """ ?p1 rdfs:subPropertyOf ?p2. ?p2 rdfs:subPropertyOf ?p1.
+                FILTER (?p1 != ?p2) """.
+
+
+# PROPERTY DOMAIN
+#
+# syntax:  ?p rdfs:domain ?t
+# rules:   prp-dom, scm-dom1, scm-dom2
+
+:prp-dom a rr:Rule;
+    rr:head """ ?x rdf:type ?c. """;
+    rr:body """ ?x ?p ?y. ?p rdfs:domain ?c. """.
+
+:scm-dom1 a rr:Rule;
+    rr:head """ ?p rdfs:domain ?c2. """;
+    rr:body """ ?p rdfs:domain ?c1. ?c1 rdfs:subClassOf ?c2. FILTER (?c1 != ?c2) """.
+
+:scm-dom2 a rr:Rule;
+    rr:head """ ?p1 rdfs:domain ?c. """;
+    rr:body """ ?p1 rdfs:subPropertyOf ?p2. ?p2 rdfs:domain ?c. FILTER (?p1 != ?p2) """.
+
+
+# PROPERTY RANGE
+#
+# syntax:  ?p rdfs:range ?t
+# rules:   prp-rng, scm-rng1, scm-rng2
+# issues:  For datatype properties, prp-rng must be implemented as a constraint
+#          checking that the literal value belong to the value space of ?t
+#          (dt-not-type)
+
+:prp-rng a rr:Rule;
+    rr:head """ ?y rdf:type ?c. """;
+    rr:body """ ?x ?p ?y. ?p rdfs:range ?c. """.
+
+:scm-rng1 a rr:Rule;
+    rr:head """ ?p rdfs:range ?c2. """;
+    rr:body """ ?p rdfs:range ?c1. ?c1 rdfs:subClassOf ?c2.
+                FILTER (?c1 != ?c2) """.
+
+:scm-rng2 a rr:Rule;
+    rr:head """ ?p1 rdfs:range ?c. """;
+    rr:body """ ?p1 rdfs:subPropertyOf ?p2. ?p2 rdfs:range ?c.
+                FILTER (?p1 != ?p2) """ .
+
+
+# FUNCTIONAL PROPERTY
+#
+# syntax:  ?p rdf:type owl:FunctionalProperty
+# rules:   prp-fp
+# issues:  For datatype properties, rule prp-fp should be implemented as a
+#          constraint checking that the two literal denote the same value
+#          (dt-diff)
+
+:prp-fp a rr:Rule;
+    rr:head """ ?y1 owl:sameAs ?y2. """;
+    rr:body """ ?p rdf:type owl:FunctionalProperty.
+                ?x ?p ?y1, ?y2. FILTER (?y1 != ?y2) """.
+
+
+# INVERSE FUNCTIONAL PROPERTY
+#
+# syntax:  ?p rdf:type owl:InverseFunctionalProperty
+# rules:   prp-ifp
+
+:prp-ifp a rr:Rule;
+    rr:head """ ?x1 owl:sameAs ?x2. """;
+    rr:body """ ?p rdf:type owl:InverseFunctionalProperty.
+                ?x1 ?p ?y. ?x2 ?p ?y. FILTER (?x1 != ?x2) """.
+
+
+# SYMMETRIC PROPERTY
+#
+# syntax:  ?p rdf:type owl:SymmetricProperty
+# rules:   prp-symp
+
+:prp-symp a rr:Rule;
+    rr:head """ ?y ?p ?x. """ ;
+    rr:body """ ?x ?p ?y. ?p rdf:type owl:SymmetricProperty. """.
+
+
+# TRANSITIVE PROPERTY
+#
+# syntax:  ?p rdf:type owl:TransitiveProperty
+# rules:   prp-trp
+
+:prp-trp a rr:Rule;
+    rr:head """ ?x ?p ?z """;
+    rr:body """ ?x ?p ?y. ?y ?p ?z. ?p rdf:type owl:TransitiveProperty.
+                FILTER (?x != ?y && ?y != ?z) """.
+
+
+# PROPERTY CHAIN
+#
+# syntax:  ?p owl:propertyChainAxiom ( ?p1 ... ?pN )
+# rules:   prp-spo2
+# notes:   Chains of length 1 are handled by prp-spo2-1 via introduction of
+#          rdfs:subPropertyOf axiom. Chains of length 2 are handled by
+#          preprocessing the axiom via prp-spo2-2ax and then applying prp-spo2-2
+#          to the ABox. Chains of lenght >= 3 are reduced to composition of
+#          chains of length <= 2 by creating additional properties, i.e.,
+#          transforming to:
+#            ?p owl:propertyChainAxiom ( ?p1 ?l1 )
+#            ?l1 owl:propertyChainAxiom ( ?p2 ?l2 ) ...
+#            ... ?lN-1 owl:propertyChainAxiom ( ?pN-1 ?pN ) -- prp-spo-2ax, OR
+#            ... ?pN rdfs:subPropertyOf ?lN -- prp-spo2-1
+
+:prp-spo2-1 a rr:Rule;
+    rr:head """ ?p1 rdfs:subPropertyOf ?p """;
+    rr:body """ ?p owl:propertyChainAxiom ?l.
+                ?l rdf:first ?p1; rdf:rest rdf:nil. """.
+
+:prp-spo2-2ax a rr:Rule;
+    rr:head """ ?l1 sys:chain2prop1 ?p1; sys:chain2prop2 ?p2. """;
+    rr:body """ ?p owl:propertyChainAxiom ?l1.
+                ?l1 rdf:first ?p1; rdf:rest ?l2.
+                ?l2 rdf:first ?p2; rdf:rest rdf:nil. """.
+
+:prp-spo2-2 a rr:Rule;
+    rr:head """ ?x ?p ?z. """;
+    rr:body """ ?p owl:propertyChainAxiom ?l.
+                ?l sys:chain2prop1 ?p1; sys:chain2prop2 ?p2.
+                ?x ?p1 ?y. ?y ?p2 ?z. """.
+
+:prp-spo2-nax a rr:Rule;
+    rr:head """ ?l1 sys:chain2prop1 ?p1; sys:chain2prop2 ?u.
+                ?u owl:propertyChainAxiom ?l2. """;
+    rr:body """ ?p owl:propertyChainAxiom ?l1.
+                ?l1 rdf:first ?p1; rdf:rest ?l2. ?l2 rdf:rest ?l3.
+                FILTER (?l3 != rdf:nil) BIND (rr:mint(sys:, ?l2) AS ?u) """.
+
+
+# INVERSE PROPERTY
+#
+# syntax:  ?p1 owl:inverseOf ?p2
+# rules:   prp-inv1, prp-inv2
+
+:prp-inv1 a rr:Rule;
+    rr:head """ ?y ?p2 ?x. """;
+    rr:body """ ?x ?p1 ?y. ?p1 owl:inverseOf ?p2. """.
+
+:prp-inv2 a rr:Rule;
+    rr:head """ ?y ?p1 ?x. """;
+    rr:body """ ?x ?p2 ?y. ?p1 owl:inverseOf ?p2. """.
+
+
+# KEY
+#
+# syntax:  ?c owl:hasKey ( ?p1 ... ?pN )
+# rules:   prp-key
+# notes:   Common cases with keys of length 1 and 2 handled separately by rules
+#          prp-key-1ax, prp-key-1 (length 1); prp-key-2ax, prp-key-2 (length 2).
+#          Keys with length >= 3 handled by auxiliary rule prp-key-nax and rules
+#          prp-key-ns (start), prp-key-nr (recursion), prp-key-ne (end).
+
+:prp-key-1ax a rr:Rule;
+    rr:head """ ?c sys:key1prop ?p. """;
+    rr:body """ ?c owl:hasKey [ rdf:first ?p; rdf:rest rdf:nil ]. """.
+
+:prp-key-2ax a rr:Rule;
+    rr:head """ ?l1 sys:key2prop1 ?p1; sys:key2prop2 ?p2. """;
+    rr:body """ ?c owl:hasKey ?l1.
+                ?l1 rdf:first ?p1; rdf:rest ?l2.
+                ?l2 rdf:first ?p2; rdf:rest rdf:nil. """.
+
+:prp-key-nax a rr:Rule;
+    rr:head """ ?l1 sys:keyNprop1 ?p1; sys:keyNprop2 ?p2;
+                    sys:keyNprop3 ?p3; sys:keyNrest ?l. """;
+    rr:body """ ?c owl:hasKey ?l1.
+                ?l1 rdf:first ?p1; rdf:rest ?l2.
+                ?l2 rdf:first ?p2; rdf:rest ?l3.
+                ?l3 rdf:first ?p3; rdf:rest ?l. """.
+
+:prp-key-1 a rr:Rule;
+    rr:head """ ?x owl:sameAs ?y. """;
+    rr:body """ ?c sys:key1prop ?p.
+                ?x rdf:type ?c; ?p ?v.
+                ?y rdf:type ?c; ?p ?v
+                FILTER (?x != ?y) """.
+
+:prp-key-2 a rr:Rule;
+    rr:head """ ?x owl:sameAs ?y. """;
+    rr:body """ ?c owl:hasKey ?l.
+                ?l sys:key2prop1 ?p1; sys:key2prop2 ?p2.
+                ?x rdf:type ?c; ?p1 ?v1; ?p2 ?v2.
+                ?y rdf:type ?c; ?p1 ?v1; ?p2 ?v2.
+                FILTER (?x != ?y) """.
+
+:prp-key-ns a rr:Rule;
+    rr:head """ ?b sys:keyNarg1 ?x; sys:keyNarg2 ?y;
+                   sys:keyNnode ?l. """;
+    rr:body """ ?c owl:hasKey ?l1.
+                ?l1 sys:keyNprop1 ?p1; sys:keyNprop2 ?p2;
+                    sys:keyNprop3 ?p3; sys:keyNrest ?l.
+                ?x rdf:type ?c; ?p1 ?v1; ?p2 ?v2; ?p3 ?v3.
+                ?y rdf:type ?c; ?p1 ?v1; ?p2 ?v2; ?p3 ?v3.
+                FILTER (?x != ?y && str(?x) <= str(?y))
+                BIND (rr:mint(sys:, ?x, ?y, ?l1) AS ?b) """.
+
+:prp-key-nr a rr:Rule;
+    rr:head """ ?b sys:keyNnode ?l2. """;
+    rr:body """ ?l1 rdf:first ?p1; rdf:rest ?l2.
+                ?b sys:keyNarg1 ?x; sys:keyNarg2 ?y; sys:keyNnode ?l1.
+                ?x ?p1 ?v. ?y ?p2 ?v. """.
+
+:prp-key-ne a rr:Rule;
+    rr:head """ ?x owl:sameAs ?y. """;
+    rr:body """ ?b sys:keyNarg1 ?x; sys:keyNarg2 ?y; sys:keyNnode rdf:nil. """.
+
+
+
+################################################################################
+##                              CLASS EXPRESSIONS                             ##
+################################################################################
+
+# INTERSECTION
+#
+# syntax:  ?c owl:intersectionOf ( ?c1 ... ?cN )
+# rules:   cls-int1, cls-int2
+# notes:   Special case :c owl:intersectionOf ( :c1 ) implemented by cls-int-eq
+#          by declaring :c and :c1 equivalent classes.
+#          Case :c owl:intersectionOf ( :c1 :c2 :c3 ... :cN ) transformed by
+#          rule cls-int-tbox into:
+#            :c owl:intersectionOf ( :c1 :l1 ) ; rdfs:subClassOf :c1 , :l1 .
+#            :l1 owl:intersectionOf ( :c2 :l2 ) ; rdfs:subClassOf :c2 , :l2 .
+#            ... :lN owl:intersectionOf ( :cN )
+#          last axiom is handled by cls-int-eq, while rule cls-int-tbox handles
+#          intersections of length 2. Original rule cls-int2 is implemented
+#          by introducing rdfs:subClassOf and owl:equivalentClass axioms.
+
+:cls-int-eq a rr:Rule;
+    rr:head """ ?c owl:equivalentClass ?c1. """;
+    rr:body """ ?c owl:intersectionOf ?l. ?l rdf:first ?c1; rdf:rest rdf:nil. """.
+
+:cls-int-tbox a rr:Rule;
+    rr:head """ ?c sys:intersectionOfMember1 ?c1;
+                   sys:intersectionOfMember2 ?l2;
+                   rdfs:subClassOf ?c1, ?l2.
+                ?l2 owl:intersectionOf ?l2. """;
+    rr:body """ ?c owl:intersectionOf ?l1.
+                ?l1 rdf:first ?c1; rdf:rest ?l2.
+                FILTER (?l1 != rdf:nil) """.
+
+:cls-int-abox a rr:Rule;
+    rr:head """ ?x rdf:type ?c. """;
+    rr:body """ ?c sys:intersectionOfMember1 ?c1;
+                   sys:intersectionOfMember2 ?c2.
+                ?x rdf:type ?c1, ?c2. """.
+
+
+# UNION
+#
+# syntax:  ?c owl:unionOf ( ?c1 ... ?cN )
+# rules:   cls-uni, scm-uni
+# notes:   Rule cls-uni is redundant, as implemented by scm-uni and rules about
+#          rdfs:subClassOf. Rule scm-uni is implemented by recursively
+#          navigating the class list by rule cls-uni-s (start) and rule
+#          cls-uni-r (recursion).
+
+:cls-uni-s a rr:Rule;
+    rr:head """ ?c sys:expandUnion ?l2. ?c1 rdfs:subClassOf ?c. """;
+    rr:body """ ?c owl:unionOf ?l1. ?l1 rdf:first ?c1; rdf:rest ?l2. """.
+
+:cls-uni-r a rr:Rule;
+    rr:head """ ?c sys:expandUnion ?l2. ?c1 rdfs:subClassOf ?c. """;
+    rr:body """ ?c sys:expandUnion ?l1. ?l1 rdf:first ?c1; rdf:rest ?l2. """.
+
+
+# EXISTENTIAL QUANTIFICATION
+#
+# syntax:  ?r a owl:Restriction; owl:onProperty ?p; owl:someValuesFrom ?t
+# rules:   cls-svf1, cls-svf2, scm-svf1, scm-svf2
+# notes:   Rule cls-svf1 is split in cls-svf1-o and cls-svf1-d respectively for
+#          object and datatype properties. Rule cls-svf2 is implemented
+#          unchanged. Note that cls-svf1-d is restricted to a subset of OWL2RL
+#          datatypes, i.e., it supports only axioms where :t is one of the
+#          following:
+#            rdfs:Literal, rdf:XMLLiteral, xsd:decimal, xsd:float, xsd:double,
+#            rdf:PlainLiteral, rdf:langString, xsd:string, xsd:boolean,
+#            xsd:hexBinary, xsd:base64Binary, xsd:anyURI, xsd:dateTime,
+#            xsd:dateTimeStamp
+
+:cls-svf1-o a rr:Rule;
+    rr:head """ ?u rdf:type ?r. """;
+    rr:body """ ?r owl:someValuesFrom ?c; owl:onProperty ?p.
+                ?u ?p ?v. ?v rdf:type ?c. """.
+
+:cls-svf1-d a rr:Rule;
+    rr:head """ ?u rdf:type ?r. """;
+    rr:body """ ?r owl:someValuesFrom ?d; owl:onProperty ?p. ?u ?p ?v.
+                FILTER (isliteral(?v))
+                FILTER (rr:compatibleDatatype(?d, datatype(?v))) """.
+
+:cls-svf2 a rr:Rule;
+    rr:head """ ?u rdf:type ?r. """;
+    rr:body """ ?r owl:someValuesFrom owl:Thing; owl:onProperty ?p. ?u ?p ?v. """.
+
+:scm-svf1 a rr:Rule;
+    rr:head """ ?r1 rdfs:subClassOf ?r2. """;
+    rr:body """ ?r1 owl:someValuesFrom ?t1; owl:onProperty ?p.
+                ?r2 owl:someValuesFrom ?t2; owl:onProperty ?p.
+                ?t1 rdfs:subClassOf ?t1. FILTER (?r1 != ?r2) """.
+
+:scm-svf2 a rr:Rule;
+    rr:head """ ?r1 rdfs:subClassOf ?r2. """;
+    rr:body """ ?r1 owl:someValuesFrom ?t; owl:onProperty ?p1.
+                ?r2 owl:someValuesFrom ?t; owl:onProperty ?p2.
+                ?p1 rdfs:subPropertyOf ?p2. FILTER (?r1 != ?r2) """.
+
+
+# UNIVERSAL QUANTIFICATION
+#
+# syntax:  ?r rdf:type owl:Restriction; owl:allValuesFrom ?t; owl:onProperty ?p
+# rules:   cls-avf, scm-avf1, scm-avf2
+# issues:  For datatype properties, cls-avf should be implemented as a
+#          constraint checking that the value is assignable to datatype ?t
+#          (dt-not-type).
+
+:cls-avf a rr:Rule;
+    rr:head """ ?v rdf:type ?t. """;
+    rr:body """ ?r owl:allValuesFrom ?t; owl:onProperty ?p.
+                ?u rdf:type ?r; ?p ?v. """.
+
+:scm-avf1 a rr:Rule;
+    rr:head """ ?r1 rdfs:subClassOf ?r2. """;
+    rr:body """ ?r1 owl:allValuesFrom ?t1; owl:onProperty ?p.
+                ?r2 owl:allValuesFrom ?t2; owl:onProperty ?p.
+                ?t1 rdfs:subClassOf ?t2. FILTER (?r1 != ?r2) """.
+
+:scm-avf2 a rr:Rule;
+    rr:head """ ?r2 rdfs:subClassOf ?r1. """;
+    rr:body """ ?r1 owl:allValuesFrom ?t; owl:onProperty ?p1.
+                ?r2 owl:allValuesFrom ?t; owl:onProperty ?p2.
+                ?p1 rdfs:subPropertyOf ?p2. FILTER (?r1 != ?r2) """.
+
+
+# VALUE RESTRICTION
+#
+# syntax:  ?r rdf:type owl:Restriction; owl:onProperty ?p; owl:hasValue ?v
+# rules:   cls-hv1, cls-hv2, :scm-hv
+
+:cls-hv1 a rr:Rule;
+    rr:head """ ?u ?p ?v. """;
+    rr:body """ ?r owl:hasValue ?v; owl:onProperty ?p. ?u rdf:type ?r. """.
+
+:cls-hv2 a rr:Rule;
+    rr:head """ ?u rdf:type ?r. """;
+    rr:body """ ?r owl:hasValue ?v; owl:onProperty ?p. ?u ?p ?v. """.
+
+:scm-hv a rr:Rule;
+    rr:head """ ?r1 rdfs:subClassOf ?r2. """;
+    rr:body """ ?r1 owl:hasValue ?v; owl:onProperty ?p1.
+                ?r2 owl:hasValue ?v; owl:onProperty ?p2.
+                ?p1 rdfs:subPropertyOf ?p2. FILTER (?r1 != ?r2) """.
+
+
+# MAXIMUM CARDINALITY (N <= 1)
+#
+# syntax:  ?r rdf:type owl:Restriction; owl:onProperty ?p;
+#             owl:maxCardinality 1 -- unqualified, OR
+#             owl:maxQualifiedCardinality 1; owl:onClass ?c -- qualified
+# rules:   cls-maxc1, cls-maxc2, cls-maxqc1, cls-maxqc2, cls-maxqc3, cls-maxqc4
+# issues:  For datatype properties, rule cls-maxc2 should be implemented as a
+#          constraint checking that ?y1 and ?y2 denote the same value (dt-diff)
+
+:cls-maxc2 a rr:Rule;
+    rr:head """ ?v1 owl:sameAs ?v2. """;
+    rr:body """ ?r owl:maxCardinality '1'^^xsd:nonNegativeInteger;
+                   owl:onProperty ?p.
+                ?u rdf:type ?r; ?p ?v1, ?v2. """.
+
+:cls-maxqc3 a rr:Rule;
+    rr:head """ ?v1 owl:sameAs ?v2. """;
+    rr:body """ ?u rdf:type ?r; ?p ?v1, ?v2. ?v1 rdf:type ?c. ?v2 rdf:type ?c.
+                FILTER (?v1 != ?v2)
+                ?r owl:onProperty ?p; owl:onClass ?c;
+                   owl:maxQualifiedCardinality '1'^^xsd:nonNegativeInteger. """.
+
+:cls-maxqc4 a rr:Rule;
+    rr:head """ ?v1 owl:sameAs ?v2. """;
+    rr:body """ ?r owl:onProperty ?p; owl:onClass owl:Thing;
+                   owl:maxQualifiedCardinality '1'^^xsd:nonNegativeInteger.
+                ?u rdf:type ?r; ?p ?v1, ?v2. """ .
+
+
+# ENUMERATION
+#
+# syntax:  ?c owl:oneOf ( ?i1 ... ?iN )
+# rules:   cls-oo
+# notes:   Rule cls-oo implemented through recursive navigation of the value
+#          list by rules cls-oo-s (start) and cls-oo-r (recursion).
+
+:cls-oo-s a rr:Rule;
+    rr:head """ ?v1 rdf:type ?c. ?c sys:expandOneOf ?l2. """;
+    rr:body """ ?c owl:oneOf ?l1. ?l1 rdf:first ?v1; rdf:rest ?l2. """.
+
+:cls-oo-r a rr:Rule;
+    rr:head """ ?v1 rdf:type ?c.  ?c sys:expandOneOf ?l2. """;
+    rr:body """ ?c sys:expandOneOf ?l1. ?l1 rdf:first ?v1; rdf:rest ?l2. """.
