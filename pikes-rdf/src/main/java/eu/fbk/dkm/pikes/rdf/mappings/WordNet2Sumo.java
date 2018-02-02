@@ -35,7 +35,7 @@ public class WordNet2Sumo {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WordNet2Yago.class);
 
-    private static final IRI mappingProperty = SimpleValueFactory.getInstance().createIRI("http://www.w3.org/ns/lemon/ontolex#", "reference");
+    private static final IRI mappingProperty = SimpleValueFactory.getInstance().createIRI("http://www.w3.org/ns/lemon/ontolex#", "isConceptOf");
 
     public static final String WN_NAMESPACE = "http://wordnet-rdf.princeton.edu/wn30/";
 
