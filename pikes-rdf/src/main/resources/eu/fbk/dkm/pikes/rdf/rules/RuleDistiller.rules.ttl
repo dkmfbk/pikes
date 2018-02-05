@@ -125,11 +125,11 @@ pkrules:  rr:prefix "pkrules" .
 
 ### LINKING ###
 
-#TODO
+#revised with new kem/kemt UD
 :linking-tern a rr:Rule;
     rr:head """ ?a kem:substantiates ?g. GRAPH ?g { ?i owl:sameAs ?v }
                 ?g prov:wasAttributedTo pkrules:linking-tern . """;
-    rr:body """ ?a a kemt:Timex3; kemt:value ?v ; kemt:subject ?i.
+    rr:body """ ?a a kemt:Timex; kemt:objectValue ?v ; kem:subject ?i.
                 BIND (rr:sid(?i,owl:sameAs,?v) AS ?g) """.
 
 #revised with new kem/kemt UD
@@ -210,3 +210,28 @@ pkrules:  rr:prefix "pkrules" .
     rr:body """ ?a1 kem:substantiates ?g1. GRAPH ?g1 { ?ig ?p ?i FILTER (?p != pk:includes) FILTER (?p != rdfs:label)}
                 ?a2 kem:substantiates ?g2. GRAPH ?g2 { ?ig pk:includes ?im }
                 BIND (rr:sid(?im,?p,?i) as ?g) """.
+
+
+### RELATE ENTITIES (via nif:subString and kemt:hasSameHeadAs) ###
+
+# entities related via kemt:hasSameHeadAs have to be linked via owl:sameAs
+#:relate-entities-same-head a rr:Rule;
+#    rr:head """ ?a1 kem:substantiates ?g. ?a2 kem:substantiates ?g. GRAPH ?g { ?i1 owl:sameAs ?i2 } .
+#                ?g prov:wasAttributedTo pkrules:relate-entities-same-head . """;
+#    rr:body """ ?a1 ^kem:hasAnnotation ?m1 ; kem:subject ?i1 .
+#                ?a2 ^kem:hasAnnotation ?m2 ; kem:subject ?i2 .
+#                ?m1 kemt:hasSameHeadAs ?m2 .
+#                BIND (rr:sid(?i1,owl:sameAs,?i2) as ?g) """.
+
+# entities related via kemt:hasSameHeadAs have to be linked via owl:sameAs
+#:relate-entities-same-head a rr:Rule;
+#    rr:head """ ?a1 kem:substantiates ?g. ?a2 kem:substantiates ?g. GRAPH ?g { ?i1 owl:sameAs ?i2 } .
+#                ?g prov:wasAttributedTo pkrules:relate-entities-same-head . """;
+#    rr:body """ ?a1 ^kem:hasAnnotation ?m1 ; kem:subject ?i1 .
+#                ?a2 ^kem:hasAnnotation ?m2 ; kem:subject ?i2 .
+#                ?m1 nif:subString ?m2 .
+#                BIND (rr:sid(?i1,owl:sameAs,?i2) as ?g) """.
+
+
+
+### REMOVE GROUP ENTITY (later phase) ###
