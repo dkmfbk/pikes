@@ -378,6 +378,7 @@ public class NAFExtractorUD implements Extractor {
                     }
                 }
                 emitTriple(docIRI, KS.TEXT_HASH, Hash.murmur3(builder.toString()).toString());
+                emitTriple(docIRI,KS.TEXT,builder.toString());
             }
 
             // Link document to its NAF annotation
