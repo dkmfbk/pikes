@@ -154,7 +154,7 @@ public class NAFExtractorUD implements Extractor {
     private static final String DEFAULT_BBN_NAMESPACE = "http://pikes.fbk.eu/bbn/";
 
 
-    private static final String DEFAULT_OLIA_UD_POS = "http://fginter.github.io/docs/u/pos/all.html#";
+//    private static final String DEFAULT_OLIA_UD_POS = "http://fginter.github.io/docs/u/pos/all.html#";
 
     public static final NAFExtractorUD DEFAULT = NAFExtractorUD.builder().build();
 
@@ -969,7 +969,9 @@ public class NAFExtractorUD implements Extractor {
 
             //add lemma and pos for framebase mappings
             emitTriple(mentionIRI,NIF.LEMMA,lemma);
-            emitTriple(mentionIRI,NIF.OLIA_LINK,this.vf.createIRI(DEFAULT_OLIA_UD_POS+POS));
+            emitTriple(mentionIRI,NIF.POS_TAG,POS);
+//            emitTriple(mentionIRI,NIF.OLIA_LINK,this.vf.createIRI(DEFAULT_OLIA_UD_POS+POS));
+
 
             IRI lastSemAnnoIRI = null;
             // Process framenet/verbnet/etc external refs
