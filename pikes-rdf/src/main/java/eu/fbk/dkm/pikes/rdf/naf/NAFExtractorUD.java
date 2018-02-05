@@ -201,7 +201,7 @@ public class NAFExtractorUD implements Extractor {
         private final Map<String, Set<Mention>> mentions;
         private final Map<Mention, Set<Annotation>> annotations;
         private final Map<String, Mention> nafIdMentions;
-
+        private final Map<String, Set<Annotation>> nafIdAnnotations;
 
 
 //        private final Map<String, Set<Annotation>> nafIdAnnotations;
@@ -271,6 +271,7 @@ public class NAFExtractorUD implements Extractor {
             this.annotations.put(mention, annotations);
         }
 
+
         Extraction(final IRI IRI, final Model model, final KAFDocument document, final boolean[] sentenceIDs) {
 
             // Reconstruct the document text using term offsets to avoid alignment issues
@@ -307,6 +308,7 @@ public class NAFExtractorUD implements Extractor {
             this.mentions = Maps.newHashMap();
             this.annotations = Maps.newHashMap();
             this.nafIdMentions = Maps.newHashMap();
+            this.nafIdAnnotations = Maps.newHashMap();
 //            this.nafIdAnnotations = Maps.newHashMap();
         }
 
@@ -974,6 +976,9 @@ public class NAFExtractorUD implements Extractor {
 
 
             IRI lastSemAnnoIRI = null;
+
+            HashSet<Annotation> collectAnnotations = new HashSet<>();
+
             // Process framenet/verbnet/etc external refs
             for (final ExternalRef ref : predicate.getExternalRefs()) {
 //                we don't wnat dbpedia on predicates'
@@ -988,8 +993,8 @@ public class NAFExtractorUD implements Extractor {
                 final IRI semAnnoIRI = createSemanticAnnotationIRI(predicate.getId()+"_"+typeIRI.getLocalName(),mentionIRI,KEMT.PREDICATE_C);
                 lastSemAnnoIRI = semAnnoIRI;
                 Annotation ann = new Annotation(semAnnoIRI,KEMT.PREDICATE_C);
-                safeAnnotationPutInMap(mention,ann);
-
+                safeAnnotationPutInMap(mention,ann); //could be revised to use collectAnnotations as well;
+                collectAnnotations.add(ann);
                 emitTriple(semAnnoIRI,ITSRDF.TA_CLASS_REF,typeIRI);
 
                 //attach raw string to annotation
@@ -1002,6 +1007,10 @@ public class NAFExtractorUD implements Extractor {
             }
             //CREATE TERM ANNOTATIONS (WSD, SST)
             if ((lastSemAnnoIRI!=null)&&(head!=null)) emitCommonAttributesAnnotation(lastSemAnnoIRI,head);
+
+            //store annotations for participations
+            this.nafIdAnnotations.put(predicate.getId(),collectAnnotations);
+
         }
 
 
@@ -1265,6 +1274,12 @@ public class NAFExtractorUD implements Extractor {
             emitTriple(participationIRI,KEMT.ARGUMENT_P,fakeRoleIRI);
             emitTriple(participationIRI,KEMT.RAW_STRING,partRawIRI);
 
+            //create an annotation beam of predicate annotations
+            for (Annotation predAnn:this.nafIdAnnotations.get(predicate.getId())
+                 ) {
+                emitTriple(participationIRI,KEMT.PREDICATE_P,predAnn.annotationIRI);
+            }
+
             for (final ExternalRef ref : role.getExternalRefs()) {
                 if ("".equals(ref.getReference())) {
                     continue;
@@ -1276,6 +1291,10 @@ public class NAFExtractorUD implements Extractor {
                 safeAnnotationPutInMap(correspondingMention,ann);
                 emitTriple(roleIRI,ITSRDF.TA_PROP_REF,typeIRI);
                 emitTriple(roleIRI,KEMT.RAW_STRING,fakeRoleRawString);
+
+                //create an annotation beam of roles
+                emitTriple(participationIRI,KEMT.ARGUMENT_P,roleIRI);
+
                 if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("Created participation annotation '{}' of type '{}' between predicate '{}' and role '{}'",roleIRI.getLocalName(),typeIRI,NAFUtilsUD.toString(predicate),NAFUtilsUD.toString(role));
                 }
