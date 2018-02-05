@@ -197,6 +197,16 @@ Note that if a kem:SemanticAnnotation has a certain kem:Instance as kem:subject,
 	rdfs:label "subject"@en ;
 	rdfs:subPropertyOf kem:involves .
 
+
+kem:subjectInvolves a owl:ObjectProperty ;
+	rdfs:comment """Links a kem:SemanticAnnotation of a group of entities participating to a coordination to the kem:Instances corresponding to those entities.
+
+As the subject instance is also (by definition) involved in the description of the semantic annotation, property kem:subjectInvolves is a subproperty of kem:involves."""@en ;
+	rdfs:label "subjectInvolves"@en ;
+	rdfs:subPropertyOf kem:involves .
+
+
+
 kem:involvesReferentOf a owl:ObjectProperty ;
 	rdfs:comment """Links a kem:SemanticAnnotation to a kem:Mention whose referent instance is involved in the description of the annotation.
 
