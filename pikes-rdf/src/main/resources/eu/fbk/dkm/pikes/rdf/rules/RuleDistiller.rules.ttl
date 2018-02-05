@@ -12,6 +12,7 @@
 @prefix pmo:       <http://premon.fbk.eu/ontology/core#> .
 @prefix foaf:      <http://xmlns.com/foaf/0.1/> .
 @prefix pk:        <http://pikes.fbk.eu/mappings#> .
+@prefix pkrules:   <http://pikes.fbk.eu/rules#> .
 @prefix :          <http://pikes.fbk.eu/rules#> .
 
 
@@ -28,7 +29,7 @@ ontolex: rr:prefix "ontolex" .
 pmo: rr:prefix "pmo" .
 foaf: rr:prefix "foaf" .
 pk: rr:prefix "pk" .
-
+pkrules:  rr:prefix "pkrules" .
 
 ### REQUIRED RDFS/OWL2RL RULES ###
 
@@ -63,23 +64,31 @@ pk: rr:prefix "pk" .
 
 #revised with new kem/kemt UD
 :instance-creation-base a rr:Rule;
-    rr:head """ ?a kem:subject ?i; kem:substantiates ?g. ?m kem:refersTo ?i
-                GRAPH ?g { ?i a kem:Instance } """;
+    rr:head """ ?a kem:subject ?i; kem:substantiates ?g. ?m kem:refersTo ?i .
+                GRAPH ?g { ?i a kem:Instance } .
+                ?g prov:wasAttributedTo pkrules:instance-creation-base .""";
     rr:body """ ?m a kem:Mention; nif:anchorOf ?s; kem:hasAnnotation ?a.
                 ?a a kemt:EntityAnnotation.
                 FILTER NOT EXISTS { ?a a kemt:Predicate; itsrdf:taClassRef [ a pk:ArgumentNominalization ] }
                 BIND (rr:mint(?s, ?m) AS ?i)
-                BIND (rr:mint(?a) AS ?g) """.
+                BIND (rr:sid(?i,rdf:type,kem:Instance) AS ?g) """.
 
-#TODO revised with new kem/kemt UD
+#TODO revised with new kem/kemt UD - SSID
 :instance-creation-argument-nominalization a rr:Rule;
-    rr:head """ ?a kem:subject ?if; kem:involves ?i; kem:substantiates ?g. ?m kem:refersTo ?i; kem:isAbout ?if.
-                GRAPH ?g { ?i a kem:Instance. ?if a kem:Instance, fbrame:Top_frame }""";
+    rr:head """ ?a kem:subject ?if; kem:involves ?i; kem:substantiates ?g1,?g2,?g3. ?m kem:refersTo ?i; kem:isAbout ?if.
+                GRAPH ?g1 { ?i  a kem:Instance . }
+                GRAPH ?g2 { ?if a kem:Instance . }
+                GRAPH ?g3 { ?if a fbrame:Top_frame . }
+                ?g1 prov:wasAttributedTo pkrules:instance-creation-argument-nominalization .
+                ?g2 prov:wasAttributedTo pkrules:instance-creation-argument-nominalization .
+                ?g3 prov:wasAttributedTo pkrules:instance-creation-argument-nominalization . """;
     rr:body """ ?m a kem:Mention; nif:anchorOf ?s; kem:hasAnnotation ?a.
                 ?a a kemt:Predicate; itsrdf:taClassRef [ a pk:ArgumentNominalization ] 
                 BIND (rr:mint(concat(?s, "_pred"), ?m) AS ?if)
                 BIND (rr:mint(?s, ?m) AS ?i)
-                BIND (rr:mint(?a) AS ?g) """.
+                BIND (rr:sid(?i,rdf:type,kem:Instance) AS ?g1)
+                BIND (rr:sid(?if,rdf:type,kem:Instance) AS ?g2)
+                BIND (rr:sid(?if,rdf:type,fbrame:Top_frame) AS ?g3) """.
 
 
 ### TYPING ###
@@ -87,77 +96,76 @@ pk: rr:prefix "pk" .
 #revised with new kem/kemt UD
 # maps semantic classes, synsets and NERC classes to type triples (sense annotations on mentions affect only the referent 
 :typing-base a rr:Rule;
-    rr:head """ ?a kem:substantiates ?g. GRAPH ?g { ?i a ?t } """;
+    rr:head """ ?a kem:substantiates ?g. GRAPH ?g { ?i a ?t }
+                ?g prov:wasAttributedTo pkrules:typing-base . """;
     rr:body """ ?m a kem:Mention; kem:hasAnnotation ?a.
                 ?a a kemt:EntityAnnotation; kem:subject ?i.
                 { ?m kem:refersTo ?i. ?a itsrdf:termInfoRef ?c. ?c ontolex:isConceptOf|ontolex:reference ?t } UNION
                 { ?a itsrdf:taClassRef ?c. ?c pmo:ontologyMatch ?t }
-                BIND (rr:mint(?a) AS ?g) """.
+                BIND (rr:sid(?i,rdf:type,?t) AS ?g) """.
 
 
 ### NAMING ###
 
 #revised with new kem/kemt UD
 :naming-proper-names a rr:Rule;
-    rr:head """ ?a kem:substantiates ?g. GRAPH ?g { ?i foaf:name ?s } """;
+    rr:head """ ?a kem:substantiates ?g. GRAPH ?g { ?i foaf:name ?s }
+                ?g prov:wasAttributedTo pkrules:naming-proper-names . """;
     rr:body """ ?a a kemt:NamedEntity; kem:subject ?i; kemt:properName ?s.
-                BIND (rr:mint(?a) AS ?g) """.
+                BIND (rr:sid(?i,foaf:name,?s) AS ?g) """.
 
 #revised with new kem/kemt UD
 :naming-other-names a rr:Rule;
-    rr:head """ ?a kem:substantiates ?g. GRAPH ?g { ?i rdfs:label ?s } """;
+    rr:head """ ?a kem:substantiates ?g. GRAPH ?g { ?i rdfs:label ?s }
+                ?g prov:wasAttributedTo pkrules:naming-other-names . """;
     rr:body """ ?m a kem:Mention; nif:anchorOf ?s; kem:refersTo ?i; kem:hasAnnotation ?a.
                 ?a kem:subject ?i.
-                BIND (rr:mint(?a) AS ?g) """.
+                BIND (rr:sid(?i,rdfs:label,?s) AS ?g) """.
 
 
 ### LINKING ###
 
 #TODO
 :linking-tern a rr:Rule;
-    rr:head """ ?a kem:substantiates ?g. GRAPH ?g { ?i owl:sameAs ?v } """;
+    rr:head """ ?a kem:substantiates ?g. GRAPH ?g { ?i owl:sameAs ?v }
+                ?g prov:wasAttributedTo pkrules:linking-tern . """;
     rr:body """ ?a a kemt:Timex3; kemt:value ?v ; kemt:subject ?i.
-                BIND (rr:mint(?a) AS ?g) """.
+                BIND (rr:sid(?i,owl:sameAs,?v) AS ?g) """.
 
 #revised with new kem/kemt UD
 :linking-nel a rr:Rule;
-    rr:head """ ?a kem:substantiates ?g. GRAPH ?g { ?i ?p ?u } """;
+    rr:head """ ?a kem:substantiates ?g. GRAPH ?g { ?i ?p ?u }
+                ?g prov:wasAttributedTo pkrules:linking-nel . """;
     rr:body """ ?a a kemt:EntityAnnotation; kem:subject ?i; itsrdf:taIdentRef ?u.
                 BIND (EXISTS { ?a ^kem:hasAnnotation/kem:hasAnnotation [ a kemt:NamedEntity ] } AS ?n)
                 BIND (IF(?n, owl:sameAs, rdfs:seeAlso) AS ?p)
-                BIND (rr:mint(?a) AS ?g) """.
+                BIND (rr:sid(?i,?p,?u) AS ?g) """.
 
 
 ### PARTICIPATION ###
 
-#revised with new kem/kemt UD TODO maybe merge with next one
-# maps semantic roles to participation triples
-:participation-base a rr:Rule;
-    rr:head """ ?a kem:substantiates ?g. GRAPH ?g { ?if fbfe:Top_frame.has_element ?ia} """;
-    rr:body """ ?a a kemt:Participation; kemt:predicate ?ap; kemt:argument ?aa.
-                ?ap kem:subject ?if. ?aa kem:subject ?ia.
-		        BIND (rr:mint(?a) AS ?g) """.
-
 #revised with new kem/kemt UD
 # maps semantic roles to participation triples
 :participation-adv a rr:Rule;
-    rr:head """ ?a kem:substantiates ?g. GRAPH ?g { ?if ?p ?ia } """;
+    rr:head """ ?a kem:substantiates ?g. GRAPH ?g { ?if ?p ?ia }
+                ?g prov:wasAttributedTo pkrules:participation-adv . """;
     rr:body """ ?a a kemt:Participation; kemt:predicate ?ap; kemt:argument ?aa.
                 ?ap kem:subject ?if. ?aa kem:subject ?ia.
-                ?aa ^kem:hasAnnotation/kem:hasAnnotation ?ar .
-                ?ar itsrdf:taPropRef [ pmo:ontologyMatch ?p ] .
-		        BIND (rr:mint(?a) AS ?g) """.
+                OPTIONAL {?aa itsrdf:taPropRef [ pmo:ontologyMatch ?pm ] . }
+                BIND(COALESCE(?pm,fbfe:Top_frame.has_element) as ?p)
+		        BIND (rr:sid(?if,?p,?ia) AS ?g) """.
 
 
 ### COREFERENCE ###
 
 #revised with new kem/kemt UD TODO not tested
 :coreference-base a rr:Rule;
-    rr:head """ ?a kem:substantiates ?g. GRAPH ?g { ?i1 owl:sameAs ?i2 } """;
+    rr:head """ ?a kem:substantiates ?g. GRAPH ?g { ?i1 owl:sameAs ?i2 }
+                ?g prov:wasAttributedTo pkrules:coreference-base . """;
     rr:body """ ?a a kemt:Coreference; kemt:coreferring ?a1, ?a2.
                 ?a1 kem:subject ?i1. ?a2 kem:subject ?i2.
                 FILTER (?i1 != ?i2)
-                BIND (rr:mint(?a) AS ?g) """.
+                BIND (rr:sid(?i1,owl:sameAs,?i2) AS ?g) """.
 
 #:coreference-copular-verbs a rr:Rule;
 #    rr:head """ ?a kem:substantiates ?g. GRAPH ?g { ?i1 owl:sameas ?i2 } """;
@@ -173,29 +181,32 @@ pk: rr:prefix "pk" .
 
 #revised with new kem/kemt UD
 :coordination a rr:Rule;
-    rr:head """ ?a kem:substantiates ?g. GRAPH ?g { ?ig pk:includes ?im } """;
+    rr:head """ ?a kem:substantiates ?g. GRAPH ?g { ?ig pk:includes ?im }
+                ?g prov:wasAttributedTo pkrules:coordination . """;
     rr:body """ ?a a kemt:Coordination; kemt:group [ kem:subject ?ig ]; kemt:conjunct [ kem:subject ?im ].
-                BIND (rr:mint(?a) AS ?g) """.
+                BIND (rr:sid(?ig,pk:includes,?im) AS ?g) """.
 
 
 ### POST PROCESSING ###
 
-#TODO this may cause problems!!
+
 # pk:include, link annotations of group instance to member instances
 :post-processing-include a rr:Rule;
-    rr:head """ ?a kem:subject ?i """;
+    rr:head """ ?a kem:subjectInvolves ?i """;
     rr:body """ ?a kem:subject/pk:includes ?i  . """.
 
 # pk:include, group instance is object
-#:post-processing-include-object a rr:Rule;
-#    rr:head """ ?a1 kem:substantiates ?g. ?a2 kem:substantiates ?g. GRAPH ?g { ?i ?p ?im } """;
-#    rr:body """ ?a1 kem:substantiates ?g1. GRAPH ?g1 { ?i ?p ?ig }
-#                ?a2 kem:substantiates ?g2. GRAPH ?g2 { ?ig pk:includes ?im }
-#                BIND (rr:mint(?g1, ?g2) as ?g) """.
+:post-processing-include-object a rr:Rule;
+    rr:head """ ?a1 kem:substantiates ?g. ?a2 kem:substantiates ?g. GRAPH ?g { ?i ?p ?im } .
+                ?g prov:wasAttributedTo pkrules:post-processing-include-object . """;
+    rr:body """ ?a1 kem:substantiates ?g1. GRAPH ?g1 { ?i ?p ?ig }
+                ?a2 kem:substantiates ?g2. GRAPH ?g2 { ?ig pk:includes ?im }
+                BIND (rr:sid(?i,?p,?im) as ?g) """.
 
 # pk:include, group instance is subject
-#:post-processing-include-subject a rr:Rule;
-#    rr:head """ ?a1 kem:substantiates ?g1. ?a2 kem:substantiates ?g. GRAPH ?g { ?im ?p ?i } """;
-#    rr:body """ ?a1 kem:substantiates ?g1. GRAPH ?g1 { ?ig ?p ?i FILTER (?p != pk:includes) }
-#                ?a2 kem:substantiates ?g2. GRAPH ?g2 { ?ig pk:includes ?im }
-#                BIND (rr:mint(?g1, ?g2) as ?g) """.
+:post-processing-include-subject a rr:Rule;
+    rr:head """ ?a1 kem:substantiates ?g1. ?a2 kem:substantiates ?g. GRAPH ?g { ?im ?p ?i }
+                ?g prov:wasAttributedTo pkrules:post-processing-include-subject . """;
+    rr:body """ ?a1 kem:substantiates ?g1. GRAPH ?g1 { ?ig ?p ?i FILTER (?p != pk:includes) FILTER (?p != rdfs:label)}
+                ?a2 kem:substantiates ?g2. GRAPH ?g2 { ?ig pk:includes ?im }
+                BIND (rr:sid(?im,?p,?i) as ?g) """.
