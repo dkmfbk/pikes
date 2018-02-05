@@ -3,12 +3,17 @@ package eu.fbk.dkm.pikes.rdf.api;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import eu.fbk.dkm.pikes.rdf.vocab.*;
+import eu.fbk.rdfpro.util.Statements;
 import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.Namespace;
 import org.eclipse.rdf4j.model.Statement;
@@ -24,12 +29,6 @@ import org.slf4j.LoggerFactory;
 
 import eu.fbk.dkm.pikes.eval.PrettyTurtle;
 import eu.fbk.dkm.pikes.rdf.rules.RuleDistiller;
-import eu.fbk.dkm.pikes.rdf.vocab.ITSRDF;
-import eu.fbk.dkm.pikes.rdf.vocab.KEM;
-import eu.fbk.dkm.pikes.rdf.vocab.KEMT;
-import eu.fbk.dkm.pikes.rdf.vocab.KS;
-import eu.fbk.dkm.pikes.rdf.vocab.NIF;
-import eu.fbk.dkm.pikes.rdf.vocab.OWLTIME;
 import eu.fbk.rdfpro.RDFHandlers;
 import eu.fbk.rdfpro.RDFSources;
 import eu.fbk.rdfpro.Ruleset;
@@ -90,6 +89,10 @@ public class DistillerTest {
                     document.getModel().removeAll(originalModel);
                 }
 
+                final List<Statement> stmts = Lists.newArrayList(document.getModel());
+                Collections.sort(stmts, Statements.statementComparator("spoc", //
+                        Statements.valueComparator(RDF.NAMESPACE)));
+
                 final Set<Namespace> namespaces = Sets
                         .newLinkedHashSet(document.getModel().getNamespaces());
                 namespaces.add(KS.NS);
@@ -103,6 +106,9 @@ public class DistillerTest {
                 namespaces.add(KEM.NS);
                 namespaces.add(KEMT.NS);
                 namespaces.add(ITSRDF.NS);
+                namespaces.add(SUMO.NS);
+                namespaces.add(new SimpleNamespace("frframe", "http://framebase.org/frame/"));
+                namespaces.add(new SimpleNamespace("frfe", "http://framebase.org/fe/"));
                 namespaces.add(new SimpleNamespace("dbpedia", "http://dbpedia.org/resource/"));
                 namespaces.add(
                         new SimpleNamespace("wn30", "http://wordnet-rdf.princeton.edu/wn30/"));
@@ -124,7 +130,7 @@ public class DistillerTest {
                     writer = RDFHandlers.write(null, 1000, pathOutput.toString());
                 }
 
-                RDFSources.wrap(document.getModel(), namespaces).emit(writer, 1);
+                RDFSources.wrap(stmts, namespaces).emit(writer, 1);
 
             } finally {
                 IO.closeQuietly(writer);
