@@ -408,9 +408,12 @@ public final class ModelUtil {
     private static <T extends Value> T rewriteWithRelativeIRIs(@Nullable final String base,
             @Nullable final T value) {
         if (base != null && value instanceof IRI) {
-            final String iriString = value.toString();
-            if (iriString.length() > base.length() && iriString.startsWith(base)) {
-                return (T) new RelativeIRI(iriString.substring(base.length()));
+            final IRI iri = (IRI) value;
+            if (Namespaces.DEFAULT.prefixFor(iri.getNamespace()) == null) {
+                final String iriString = value.toString();
+                if (iriString.length() > base.length() && iriString.startsWith(base)) {
+                    return (T) new RelativeIRI(iriString.substring(base.length()));
+                }
             }
         }
         return value;

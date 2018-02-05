@@ -31,24 +31,83 @@ foaf: rr:prefix "foaf" .
 pk: rr:prefix "pk" .
 pkrules:  rr:prefix "pkrules" .
 
-### REQUIRED RDFS/OWL2RL RULES ###
 
-:cax-sco a rr:Rule;
-    rr:head """ ?x rdf:type ?c2. """;
-    rr:body """ ?x rdf:type ?c1. ?c1 rdfs:subClassOf ?c2.
+### INFERENCE ON KEM  ###
+
+:cax-sco-kem a rr:Rule;
+    rr:head """ ?x rdf:type ?c2 """;
+    rr:body """ GRAPH sesame:nil { ?x rdf:type ?c1 }
+                ?c1 rdfs:subClassOf ?c2 .
                 FILTER (?c1 != ?c2) """.
 
-:prp-spo1 a rr:Rule;
-    rr:head """ ?x ?p2 ?y. """;
-    rr:body """ ?x ?p1 ?y. ?p1 rdfs:subPropertyOf ?p2. FILTER (?p1 != ?p2) """.
+:prp-spo1-kem a rr:Rule;
+    rr:head """ ?x ?p2 ?y """;
+    rr:body """ GRAPH sesame:nil { ?x ?p1 ?y }
+                ?p1 rdfs:subPropertyOf ?p2.
+                FILTER (?p1 != ?p2) """.
 
-:prp-dom a rr:Rule;
-    rr:head """ ?x rdf:type ?c. """;
-    rr:body """ ?x ?p ?y. ?p rdfs:domain ?c. """.
+:prp-dom-kem a rr:Rule;
+    rr:head """ ?x rdf:type ?c """;
+    rr:body """ GRAPH sesame:nil { ?x ?p ?y }
+                ?p rdfs:domain ?c """.
 
-:prp-rng a rr:Rule;
-    rr:head """ ?y rdf:type ?c. """;
-    rr:body """ ?x ?p ?y. ?p rdfs:range ?c. """.
+:prp-rng-kem a rr:Rule;
+    rr:head """ ?y rdf:type ?c """;
+    rr:body """ GRAPH sesame:nil { ?x ?p ?y }
+                ?p rdfs:range ?c """.
+
+:conveys-kem a rr:Rule;
+    rr:head """ ?m kem:conveys ?g """;
+    rr:body """ GRAPH sesame:nil { ?m kem:hasAnnotation/kem:substantiates ?g } """.
+
+:is-about-kem a rr:Rule;
+    rr:head """ ?m kem:isAbout ?i """;
+    rr:body """ GRAPH sesame:nil { ?m kem:hasAnnotation/kem:subject ?i } """.
+
+:involves1-kem a rr:Rule;
+    rr:head """ ?a kem:involves ?i """;
+    rr:body """ GRAPH sesame:nil { ?a kem:involvesSubjectOf/kem:subject ?i } """.
+
+:involves2-kem a rr:Rule;
+    rr:head """ ?a kem:involves ?i """;
+    rr:body """ GRAPH sesame:nil { ?a kem:involvesReferentOf/kem:refersTo ?i } """.
+
+
+### INFERENCE ON INSTANCES ###
+
+#:test a rr:Rule;
+#    rr:head """ kem:Instance rdfs:subClassOf kem:Thing.
+#                rdfs:seeAlso rdfs:subPropertyOf kem:seeAlso.
+#                rdfs:seeAlso rdfs:domain kem:KEMStuff.
+#                rdfs:seeAlso rdfs:range kem:DBpediaStuff. """ .
+
+:cax-sco-instances a rr:Rule;
+    rr:head """ ?am ?amp ?go. GRAPH ?go { ?x rdf:type ?c2 } """;
+    rr:body """ ?gi a kem:Graph. GRAPH ?gi { ?x rdf:type ?c1 }
+                ?c1 rdfs:subClassOf ?c2. FILTER (?c1 != ?c2)
+                BIND (rr:sid(?x, rdf:type, ?c2) AS ?go)
+                OPTIONAL { ?am ?amp ?gi } """.
+                
+:prp-spo1-instances a rr:Rule;
+    rr:head """ ?am ?amp ?go. GRAPH ?go { ?x ?p2 ?y } """;
+    rr:body """ ?gi a kem:Graph. GRAPH ?gi { ?x ?p1 ?y }
+                ?p1 rdfs:subPropertyOf ?p2. FILTER (?p1 != ?p2)
+                BIND (rr:sid(?x, ?p2, ?y) AS ?go)
+                OPTIONAL { ?am ?amp ?gi } """.
+
+:prp-dom-kem-instances a rr:Rule;
+    rr:head """ ?am ?amp ?go. GRAPH ?go { ?x rdf:type ?c } """;
+    rr:body """ ?gi a kem:Graph. GRAPH ?gi { ?x ?p ?y }
+                ?p rdfs:domain ?c
+                BIND (rr:sid(?x, rdf:type, ?c) AS ?go)
+                OPTIONAL { ?am ?amp ?gi } """.
+
+:prp-rng-kem-instances a rr:Rule;
+    rr:head """ ?am ?amp ?go. GRAPH ?go { ?y rdf:type ?c } """;
+    rr:body """ ?gi a kem:Graph. GRAPH ?gi { ?x ?p ?y }
+                ?p rdfs:range ?c
+                BIND (rr:sid(?y, rdf:type, ?c) AS ?go)
+                OPTIONAL { ?am ?amp ?gi } """.
 
 
 ### ATTRIBUTES (TODO) ###
