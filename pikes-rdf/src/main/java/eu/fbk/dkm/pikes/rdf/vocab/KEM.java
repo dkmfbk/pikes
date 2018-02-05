@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import eu.fbk.rdfpro.vocab.VOID;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Namespace;
 import org.eclipse.rdf4j.model.impl.SimpleNamespace;
@@ -94,7 +93,6 @@ public class KEM {
 
     /** Object property kem:isAbout. */
     public static final IRI IS_ABOUT = createIRI("isAbout");
-
 
     // ALL TERMS
 
