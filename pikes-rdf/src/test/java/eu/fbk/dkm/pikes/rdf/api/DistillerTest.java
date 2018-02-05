@@ -77,6 +77,10 @@ public class DistillerTest {
 
                 ModelUtil.write(document.getModel(), pathOutput.toString());
 
+                // final List<Statement> stmts = Lists.newArrayList(document.getModel());
+                // Collections.sort(stmts, Statements.statementComparator("spoc", //
+                // Statements.valueComparator(RDF.NAMESPACE)));
+                //
                 // final Set<Namespace> namespaces = Sets
                 // .newLinkedHashSet(document.getModel().getNamespaces());
                 // namespaces.add(KS.NS);
@@ -90,6 +94,9 @@ public class DistillerTest {
                 // namespaces.add(KEM.NS);
                 // namespaces.add(KEMT.NS);
                 // namespaces.add(ITSRDF.NS);
+                // namespaces.add(SUMO.NS);
+                // namespaces.add(new SimpleNamespace("frframe", "http://framebase.org/frame/"));
+                // namespaces.add(new SimpleNamespace("frfe", "http://framebase.org/fe/"));
                 // namespaces.add(new SimpleNamespace("dbpedia", "http://dbpedia.org/resource/"));
                 // namespaces.add(
                 // new SimpleNamespace("wn30", "http://wordnet-rdf.princeton.edu/wn30/"));
@@ -111,7 +118,7 @@ public class DistillerTest {
                 // writer = RDFHandlers.write(null, 1000, pathOutput.toString());
                 // }
                 //
-                // RDFSources.wrap(document.getModel(), namespaces).emit(writer, 1);
+                // RDFSources.wrap(stmts, namespaces).emit(writer, 1);
 
             } finally {
                 IO.closeQuietly(writer);
