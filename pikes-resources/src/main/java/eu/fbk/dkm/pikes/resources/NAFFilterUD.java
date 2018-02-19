@@ -93,8 +93,11 @@ public final class NAFFilterUD implements Consumer<KAFDocument> {
 
     private final boolean srlPreMOnIRIs;
 
+    private final boolean depFixFlatHeads;
+
     private NAFFilterUD(final Builder builder) {
 
+        this.depFixFlatHeads = MoreObjects.firstNonNull(builder.depFixFlatHeads, true);
         this.termSenseFiltering = MoreObjects.firstNonNull(builder.termSenseFiltering, true);
         this.termSenseCompletion = MoreObjects.firstNonNull(builder.termSenseCompletion, true);
         this.linkingFixing = MoreObjects.firstNonNull(builder.linkingFixing, false);
@@ -134,6 +137,10 @@ public final class NAFFilterUD implements Consumer<KAFDocument> {
         // Normalize the document
         NAFUtilsUD.normalize(document);
 
+        if (this.depFixFlatHeads) {
+            applyDepFixFlatHeads(document);
+        }
+
         // Term-level filtering
         if (this.termSenseFiltering) {
             applyTermSenseFiltering(document);
@@ -166,6 +173,82 @@ public final class NAFFilterUD implements Consumer<KAFDocument> {
 
         LOGGER.debug("Done in {} ms", System.currentTimeMillis() - ts);
     }
+
+
+
+    private void applyDepFixFlatHeads(final KAFDocument document) {
+
+
+        List<Set<Term>> equivalences = new ArrayList<>();
+        for (Dep dep : document.getDeps()){
+            if (dep.getRfunc().toLowerCase().startsWith("flat")) {
+                Term to = dep.getTo();
+                Term from = dep.getFrom();
+                boolean found = false;
+                for (Set set : equivalences
+                        ) {
+                    if ((set.contains(to)) || (set.contains(from))) {
+                        set.add(to);
+                        set.add(from);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    Set set = new HashSet<>();
+                    set.add(to);
+                    set.add(from);
+                    equivalences.add(set);
+                }
+            }
+        }
+
+        //get the new heads
+        Map<Term,Term> newHeads = new HashMap<>();
+        for(Set<Term> set : equivalences){
+            //found token with the highest ID
+            Term head = set.stream().max(Comparator.comparing(term -> term.getWFs().get(0).getOffset())).get();
+            for (Term t:set
+                 ) {
+                newHeads.put(t,head);
+            }
+        }
+
+        //reprocess the dependency tree to fix arcs
+
+        for (Dep dep : document.getDeps()){
+
+            Term from = dep.getFrom();
+            Term to = dep.getTo();
+
+            if (!newHeads.containsKey(from)) {
+                if (!newHeads.containsKey(to)) {
+                    //we don't change anything
+                } else {
+                    dep.setTo(newHeads.get(to));
+                }
+            } else {
+                if (!newHeads.containsKey(to)) {
+                    dep.setFrom(newHeads.get(from));
+                } else {
+                    if(newHeads.get(to).equals(newHeads.get(from))) {
+                        //same cluster
+                        dep.setFrom(newHeads.get(from));
+                        if (newHeads.get(from).equals(to)) dep.setTo(from);
+                    } else {
+                        //different clusters
+                        dep.setTo(newHeads.get(to));
+                        dep.setFrom(newHeads.get(from));
+                    }
+                }
+
+            }
+
+
+        }
+
+    }
+
 
 
     private void applySRLPreprocess(final KAFDocument document) {
@@ -671,6 +754,7 @@ BELOW HERE METHODS ARE UD-SAFE
      */
     public static final Builder builder(@Nullable final Boolean enableAll) {
         return new Builder() //
+                .withDepFixFlatHeads(enableAll)
                 .withTermSenseFiltering(enableAll)
                 .withTermSenseCompletion(enableAll) //
                 .withLinkingFixing(enableAll) //
@@ -767,6 +851,10 @@ BELOW HERE METHODS ARE UD-SAFE
         @Nullable
         private Boolean srlPreMOnIRIs;
 
+        @Nullable
+        private Boolean depFixFlatHeads;
+
+
         Builder() {
         }
 
@@ -786,7 +874,10 @@ BELOW HERE METHODS ARE UD-SAFE
                         && entry.getKey().toString().startsWith(p)) {
                     final String name = entry.getKey().toString().substring(p.length());
                     final String value = Strings.emptyToNull(entry.getValue().toString());
-                    if ("termSenseFiltering".equals(name)) {
+
+                    if ("depFixFlatHeads".equals(name)) {
+                        withDepFixFlatHeads(Boolean.valueOf(value));
+                    } else if ("termSenseFiltering".equals(name)) {
                         withTermSenseFiltering(Boolean.valueOf(value));
                     } else if ("termSenseCompletion".equals(name)) {
                         withTermSenseCompletion(Boolean.valueOf(value));
@@ -822,6 +913,20 @@ BELOW HERE METHODS ARE UD-SAFE
 
 
 //        Methods for NAF
+
+
+        /**
+         * Fixes head for flat cluster in dependency trees, moving it to the term with highest token ID
+         *
+         * @param depFixFlatHeads
+         *            true to enable dependency tree flat fixing, null to use default value
+         * @return this builder object, for call chaining
+         */
+        public Builder withDepFixFlatHeads(@Nullable final Boolean depFixFlatHeads) {
+            this.depFixFlatHeads = depFixFlatHeads;
+            return this;
+        }
+
 
 
         /**
