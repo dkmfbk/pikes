@@ -27,11 +27,11 @@
 <a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> com.google.common.collect.Ordering;
 <a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> com.google.common.io.Resources;
 <a class="jxr_linenumber" name="L21" href="#L21">21</a>  
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.Statement;
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.URI;
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.ValueFactory;
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.vocabulary.RDFS;
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> org.openrdf.rio.RDFHandlerException;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.Statement;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.IRI;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.ValueFactory;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.vocabulary.RDFS;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.rio.RDFHandlerException;
 <a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> org.slf4j.LoggerFactory;
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>  
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">import</strong> eu.fbk.utils.core.CommandLine;
@@ -107,14 +107,14 @@
 <a class="jxr_linenumber" name="L99" href="#L99">99</a>          <strong class="jxr_keyword">return</strong> PREDICATES_SET;
 <a class="jxr_linenumber" name="L100" href="#L100">100</a>     }
 <a class="jxr_linenumber" name="L101" href="#L101">101</a> 
-<a class="jxr_linenumber" name="L102" href="#L102">102</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> URI uriFor(<strong class="jxr_keyword">final</strong> String name) {
+<a class="jxr_linenumber" name="L102" href="#L102">102</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> IRI uriFor(<strong class="jxr_keyword">final</strong> String name) {
 <a class="jxr_linenumber" name="L103" href="#L103">103</a>         <strong class="jxr_keyword">if</strong> (name == <strong class="jxr_keyword">null</strong>) {
 <a class="jxr_linenumber" name="L104" href="#L104">104</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L105" href="#L105">105</a>         }
-<a class="jxr_linenumber" name="L106" href="#L106">106</a>         <strong class="jxr_keyword">return</strong> Statements.VALUE_FACTORY.createURI(NAMESPACE, name);
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>         <strong class="jxr_keyword">return</strong> Statements.VALUE_FACTORY.createIRI(NAMESPACE, name);
 <a class="jxr_linenumber" name="L107" href="#L107">107</a>     }
 <a class="jxr_linenumber" name="L108" href="#L108">108</a> 
-<a class="jxr_linenumber" name="L109" href="#L109">109</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> URI classFor(<strong class="jxr_keyword">final</strong> String fnFrame, <strong class="jxr_keyword">final</strong> String predicateLemma,
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> IRI classFor(<strong class="jxr_keyword">final</strong> String fnFrame, <strong class="jxr_keyword">final</strong> String predicateLemma,
 <a class="jxr_linenumber" name="L110" href="#L110">110</a>             <strong class="jxr_keyword">final</strong> <a href="../../../../../eu/fbk/dkm/pikes/resources/FrameBase.html">POS</a> predicatePos) {
 <a class="jxr_linenumber" name="L111" href="#L111">111</a>         <strong class="jxr_keyword">final</strong> String key = classKeyFor(fnFrame, predicateLemma, predicatePos);
 <a class="jxr_linenumber" name="L112" href="#L112">112</a>         String name = CLASS_MAP.get(key);
@@ -124,10 +124,10 @@
 <a class="jxr_linenumber" name="L116" href="#L116">116</a>                 <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L117" href="#L117">117</a>             }
 <a class="jxr_linenumber" name="L118" href="#L118">118</a>         }
-<a class="jxr_linenumber" name="L119" href="#L119">119</a>         <strong class="jxr_keyword">return</strong> Statements.VALUE_FACTORY.createURI(NAMESPACE, name);
+<a class="jxr_linenumber" name="L119" href="#L119">119</a>         <strong class="jxr_keyword">return</strong> Statements.VALUE_FACTORY.createIRI(NAMESPACE, name);
 <a class="jxr_linenumber" name="L120" href="#L120">120</a>     }
 <a class="jxr_linenumber" name="L121" href="#L121">121</a> 
-<a class="jxr_linenumber" name="L122" href="#L122">122</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> URI propertyFor(<strong class="jxr_keyword">final</strong> String fnFrame, <strong class="jxr_keyword">final</strong> String fnFE) {
+<a class="jxr_linenumber" name="L122" href="#L122">122</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> IRI propertyFor(<strong class="jxr_keyword">final</strong> String fnFrame, <strong class="jxr_keyword">final</strong> String fnFE) {
 <a class="jxr_linenumber" name="L123" href="#L123">123</a>         <strong class="jxr_keyword">final</strong> String key = propertyKeyFor(fnFrame, fnFE);
 <a class="jxr_linenumber" name="L124" href="#L124">124</a>         String name = PROPERTY_MAP.get(key);
 <a class="jxr_linenumber" name="L125" href="#L125">125</a>         <strong class="jxr_keyword">if</strong> (name == <strong class="jxr_keyword">null</strong>) {
@@ -136,10 +136,10 @@
 <a class="jxr_linenumber" name="L128" href="#L128">128</a>                 <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L129" href="#L129">129</a>             }
 <a class="jxr_linenumber" name="L130" href="#L130">130</a>         }
-<a class="jxr_linenumber" name="L131" href="#L131">131</a>         <strong class="jxr_keyword">return</strong> Statements.VALUE_FACTORY.createURI(NAMESPACE, name);
+<a class="jxr_linenumber" name="L131" href="#L131">131</a>         <strong class="jxr_keyword">return</strong> Statements.VALUE_FACTORY.createIRI(NAMESPACE, name);
 <a class="jxr_linenumber" name="L132" href="#L132">132</a>     }
 <a class="jxr_linenumber" name="L133" href="#L133">133</a> 
-<a class="jxr_linenumber" name="L134" href="#L134">134</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">boolean</strong> isMicroframe(<strong class="jxr_keyword">final</strong> URI uri) {
+<a class="jxr_linenumber" name="L134" href="#L134">134</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">boolean</strong> isMicroframe(<strong class="jxr_keyword">final</strong> IRI uri) {
 <a class="jxr_linenumber" name="L135" href="#L135">135</a>         <strong class="jxr_keyword">if</strong> (!uri.getNamespace().equals(FrameBase.NAMESPACE)) {
 <a class="jxr_linenumber" name="L136" href="#L136">136</a>             <strong class="jxr_keyword">return</strong> false;
 <a class="jxr_linenumber" name="L137" href="#L137">137</a>         }
@@ -203,10 +203,10 @@
 <a class="jxr_linenumber" name="L195" href="#L195">195</a>             <strong class="jxr_keyword">final</strong> File outputFile = cmd.getOptionValue(<span class="jxr_string">"o"</span>, File.<strong class="jxr_keyword">class</strong>);
 <a class="jxr_linenumber" name="L196" href="#L196">196</a> 
 <a class="jxr_linenumber" name="L197" href="#L197">197</a>             <strong class="jxr_keyword">final</strong> ValueFactory vf = Statements.VALUE_FACTORY;
-<a class="jxr_linenumber" name="L198" href="#L198">198</a>             <strong class="jxr_keyword">final</strong> URI inheritsFrom = vf.createURI(<span class="jxr_string">"http://framebase.org/ns/inheritsFrom"</span>);
-<a class="jxr_linenumber" name="L199" href="#L199">199</a>             <em class="jxr_comment">//for FB2.0 final URI inheritsFrom = vf.createURI("http://framebase.org/meta/inheritsFrom");</em>
+<a class="jxr_linenumber" name="L198" href="#L198">198</a>             <strong class="jxr_keyword">final</strong> IRI inheritsFrom = vf.createIRI(<span class="jxr_string">"http://framebase.org/ns/inheritsFrom"</span>);
+<a class="jxr_linenumber" name="L199" href="#L199">199</a>             <em class="jxr_comment">//for FB2.0 final IRI inheritsFrom = vf.createIRI("http://framebase.org/meta/inheritsFrom");</em>
 <a class="jxr_linenumber" name="L200" href="#L200">200</a> 
-<a class="jxr_linenumber" name="L201" href="#L201">201</a>             <strong class="jxr_keyword">final</strong> URI denotedBy = vf.createURI(<span class="jxr_string">"http://www.w3.org/ns/lemon/ontolex#isDenotedBy"</span>);
+<a class="jxr_linenumber" name="L201" href="#L201">201</a>             <strong class="jxr_keyword">final</strong> IRI denotedBy = vf.createIRI(<span class="jxr_string">"http://www.w3.org/ns/lemon/ontolex#isDenotedBy"</span>);
 <a class="jxr_linenumber" name="L202" href="#L202">202</a>             <strong class="jxr_keyword">final</strong> String self = <span class="jxr_string">"&lt;SELF&gt;"</span>;
 <a class="jxr_linenumber" name="L203" href="#L203">203</a> 
 <a class="jxr_linenumber" name="L204" href="#L204">204</a>             <strong class="jxr_keyword">final</strong> Multimap&lt;String, String&gt; map = HashMultimap.create();
@@ -214,17 +214,17 @@
 <a class="jxr_linenumber" name="L206" href="#L206">206</a>             <strong class="jxr_keyword">final</strong> Map&lt;String, String&gt; frameParents = Maps.newHashMap();
 <a class="jxr_linenumber" name="L207" href="#L207">207</a>             <strong class="jxr_keyword">final</strong> Multimap&lt;String, String&gt; frameEntries = HashMultimap.create();
 <a class="jxr_linenumber" name="L208" href="#L208">208</a> 
-<a class="jxr_linenumber" name="L209" href="#L209">209</a>             <strong class="jxr_keyword">final</strong> RDFSource source = RDFSources.read(false, <strong class="jxr_keyword">true</strong>, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>,
+<a class="jxr_linenumber" name="L209" href="#L209">209</a>             <strong class="jxr_keyword">final</strong> RDFSource source = RDFSources.read(false, <strong class="jxr_keyword">true</strong>, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">true</strong>,
 <a class="jxr_linenumber" name="L210" href="#L210">210</a>                     inputFile.getAbsolutePath());
 <a class="jxr_linenumber" name="L211" href="#L211">211</a>             source.emit(<strong class="jxr_keyword">new</strong> AbstractRDFHandler() {
 <a class="jxr_linenumber" name="L212" href="#L212">212</a> 
 <a class="jxr_linenumber" name="L213" href="#L213">213</a>                 @Override
 <a class="jxr_linenumber" name="L214" href="#L214">214</a>                 <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> handleStatement(<strong class="jxr_keyword">final</strong> Statement stmt) <strong class="jxr_keyword">throws</strong> RDFHandlerException {
-<a class="jxr_linenumber" name="L215" href="#L215">215</a>                     <strong class="jxr_keyword">if</strong> (stmt.getSubject() instanceof URI &amp;&amp; stmt.getObject() instanceof URI) {
+<a class="jxr_linenumber" name="L215" href="#L215">215</a>                     <strong class="jxr_keyword">if</strong> (stmt.getSubject() instanceof IRI &amp;&amp; stmt.getObject() instanceof IRI) {
 <a class="jxr_linenumber" name="L216" href="#L216">216</a> 
-<a class="jxr_linenumber" name="L217" href="#L217">217</a>                         <strong class="jxr_keyword">final</strong> URI s = (URI) stmt.getSubject();
-<a class="jxr_linenumber" name="L218" href="#L218">218</a>                         <strong class="jxr_keyword">final</strong> URI p = stmt.getPredicate();
-<a class="jxr_linenumber" name="L219" href="#L219">219</a>                         <strong class="jxr_keyword">final</strong> URI o = (URI) stmt.getObject();
+<a class="jxr_linenumber" name="L217" href="#L217">217</a>                         <strong class="jxr_keyword">final</strong> IRI s = (IRI) stmt.getSubject();
+<a class="jxr_linenumber" name="L218" href="#L218">218</a>                         <strong class="jxr_keyword">final</strong> IRI p = stmt.getPredicate();
+<a class="jxr_linenumber" name="L219" href="#L219">219</a>                         <strong class="jxr_keyword">final</strong> IRI o = (IRI) stmt.getObject();
 <a class="jxr_linenumber" name="L220" href="#L220">220</a>                         <strong class="jxr_keyword">final</strong> String sn = s.getLocalName();
 <a class="jxr_linenumber" name="L221" href="#L221">221</a>                         <strong class="jxr_keyword">final</strong> String on = o.getLocalName();
 <a class="jxr_linenumber" name="L222" href="#L222">222</a> 
@@ -341,6 +341,6 @@
 <a class="jxr_linenumber" name="L333" href="#L333">333</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016&#x2013;2017 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2016&#x2013;2018 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
 </body>
 </html>

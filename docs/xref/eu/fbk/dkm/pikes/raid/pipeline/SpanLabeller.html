@@ -450,17 +450,17 @@
 <a class="jxr_linenumber" name="L442" href="#L442">442</a>         <strong class="jxr_keyword">return</strong> <span class="jxr_string">"HeadExpander ("</span> + <strong class="jxr_keyword">this</strong>.classifier.toString() + <span class="jxr_string">")"</span>;
 <a class="jxr_linenumber" name="L443" href="#L443">443</a>     }
 <a class="jxr_linenumber" name="L444" href="#L444">444</a> 
-<a class="jxr_linenumber" name="L445" href="#L445">445</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../../../eu/fbk/dkm/pikes/raid/pipeline/SpanLabeller.html">Trainer</a> train() {
-<a class="jxr_linenumber" name="L446" href="#L446">446</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../eu/fbk/dkm/pikes/raid/pipeline/SpanLabeller.html">Trainer</a>();
+<a class="jxr_linenumber" name="L445" href="#L445">445</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../../../eu/fbk/dkm/pikes/raid/pipeline/LinkLabeller.html">Trainer</a> train() {
+<a class="jxr_linenumber" name="L446" href="#L446">446</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../eu/fbk/dkm/pikes/raid/pipeline/LinkLabeller.html">Trainer</a>();
 <a class="jxr_linenumber" name="L447" href="#L447">447</a>     }
 <a class="jxr_linenumber" name="L448" href="#L448">448</a> 
-<a class="jxr_linenumber" name="L449" href="#L449">449</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../eu/fbk/dkm/pikes/raid/pipeline/SpanLabeller.html">Trainer</a> {
+<a class="jxr_linenumber" name="L449" href="#L449">449</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../eu/fbk/dkm/pikes/raid/pipeline/LinkLabeller.html">Trainer</a> {
 <a class="jxr_linenumber" name="L450" href="#L450">450</a> 
 <a class="jxr_linenumber" name="L451" href="#L451">451</a>         <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> List&lt;LabelledVector&gt; trainingSet;
 <a class="jxr_linenumber" name="L452" href="#L452">452</a> 
 <a class="jxr_linenumber" name="L453" href="#L453">453</a>         <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> SetPrecisionRecall.Evaluator evaluator;
 <a class="jxr_linenumber" name="L454" href="#L454">454</a> 
-<a class="jxr_linenumber" name="L455" href="#L455">455</a>         <strong class="jxr_keyword">private</strong> <a href="../../../../../../eu/fbk/dkm/pikes/raid/pipeline/SpanLabeller.html">Trainer</a>() {
+<a class="jxr_linenumber" name="L455" href="#L455">455</a>         <strong class="jxr_keyword">private</strong> <a href="../../../../../../eu/fbk/dkm/pikes/raid/pipeline/LinkLabeller.html">Trainer</a>() {
 <a class="jxr_linenumber" name="L456" href="#L456">456</a>             <strong class="jxr_keyword">this</strong>.trainingSet = Lists.newArrayList();
 <a class="jxr_linenumber" name="L457" href="#L457">457</a>             <strong class="jxr_keyword">this</strong>.evaluator = SetPrecisionRecall.evaluator();
 <a class="jxr_linenumber" name="L458" href="#L458">458</a>         }
@@ -557,6 +557,6 @@
 <a class="jxr_linenumber" name="L549" href="#L549">549</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016&#x2013;2017 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2016&#x2013;2018 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
 </body>
 </html>

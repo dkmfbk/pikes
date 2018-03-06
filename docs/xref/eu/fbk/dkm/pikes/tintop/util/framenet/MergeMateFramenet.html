@@ -32,7 +32,7 @@
 <a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> eu.fbk.utils.core.CommandLine;
 <a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> eu.fbk.utils.core.FrequencyHashSet;
 <a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> net.didion.jwnl.data.PointerType;
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.URI;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.IRI;
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">import</strong> org.slf4j.Logger;
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">import</strong> org.slf4j.LoggerFactory;
 <a class="jxr_linenumber" name="L30" href="#L30">30</a>  
@@ -60,16 +60,16 @@
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>  
 <a class="jxr_linenumber" name="L53" href="#L53">53</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Logger LOGGER = LoggerFactory.getLogger(MergeMateFramenet.<strong class="jxr_keyword">class</strong>);
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> HashMap&lt;String, String&gt; lemmaToTransform = <strong class="jxr_keyword">new</strong> HashMap();
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>      <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../../../../eu/fbk/dkm/pikes/resources/util/fnlu/FERealizationType.html">Pattern</a> ONTONOTES_FILENAME_PATTERN = Pattern.compile(<span class="jxr_string">"(.*)-([a-z]+)&#92;&#92;.xml"</span>);
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>      <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../../../../eu/fbk/dkm/pikes/resources/util/fnlu/FERealizationType.html">Pattern</a> FRAMEBASE_PATTERN = <a href="../../../../../../../eu/fbk/dkm/pikes/resources/util/fnlu/FERealizationType.html">Pattern</a>
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>      <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../../../../eu/fbk/dkm/pikes/resources/util/fnlu/FEGroupRealizationType.html">Pattern</a> ONTONOTES_FILENAME_PATTERN = Pattern.compile(<span class="jxr_string">"(.*)-([a-z]+)&#92;&#92;.xml"</span>);
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>      <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../../../../eu/fbk/dkm/pikes/resources/util/fnlu/FEGroupRealizationType.html">Pattern</a> FRAMEBASE_PATTERN = <a href="../../../../../../../eu/fbk/dkm/pikes/resources/util/fnlu/FEGroupRealizationType.html">Pattern</a>
 <a class="jxr_linenumber" name="L57" href="#L57">57</a>              .compile(<span class="jxr_string">"^[^&#92;&#92;s]+&#92;&#92;s+[^&#92;&#92;s]+&#92;&#92;s+([^&#92;&#92;s]+)&#92;&#92;s+-&#92;&#92;s+(.+)&#92;&#92;s+-&#92;&#92;s+([a-z])#([0-9]+)$"</span>);
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>      <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../../../../eu/fbk/dkm/pikes/resources/util/fnlu/FERealizationType.html">Pattern</a> PB_PATTERN = Pattern.compile(<span class="jxr_string">"^verb-((.*)&#92;&#92;.[0-9]+)$"</span>);
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>      <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../../../../eu/fbk/dkm/pikes/resources/util/fnlu/FEGroupRealizationType.html">Pattern</a> PB_PATTERN = Pattern.compile(<span class="jxr_string">"^verb-((.*)&#92;&#92;.[0-9]+)$"</span>);
 <a class="jxr_linenumber" name="L59" href="#L59">59</a>  
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>      <em class="jxr_comment">// Must contain frames including '-' (see README)</em>
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>      <em class="jxr_comment">//todo: use a better method to add FrameNet links to FrameBase</em>
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>      <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../../../../eu/fbk/dkm/pikes/resources/util/fnlu/FERealizationType.html">Pattern</a> FB_PREDICATES = Pattern.compile(<span class="jxr_string">"^frame-(Chemical-sense_description|Non-commutative_process|Non-commutative_statement|[^-]*)-(.*)&#92;&#92;.([a-z]+)$"</span>);
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>      <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../../../../eu/fbk/dkm/pikes/resources/util/fnlu/FEGroupRealizationType.html">Pattern</a> FB_PREDICATES = Pattern.compile(<span class="jxr_string">"^frame-(Chemical-sense_description|Non-commutative_process|Non-commutative_statement|[^-]*)-(.*)&#92;&#92;.([a-z]+)$"</span>);
 <a class="jxr_linenumber" name="L63" href="#L63">63</a>  
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>      <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../../../../eu/fbk/dkm/pikes/resources/util/fnlu/FERealizationType.html">Pattern</a> FB_ROLES = Pattern.compile(<span class="jxr_string">"^fe-(.*)-(.*)$"</span>);
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>      <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../../../../eu/fbk/dkm/pikes/resources/util/fnlu/FEGroupRealizationType.html">Pattern</a> FB_ROLES = Pattern.compile(<span class="jxr_string">"^fe-(.*)-(.*)$"</span>);
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>  
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>      <strong class="jxr_keyword">public</strong> enum <a href="../../../../../../../eu/fbk/dkm/pikes/tintop/util/framenet/MergeMateFramenet.html">OutputMapping</a> {
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>          PBauto, NBauto, NBresource, PBtrivial
@@ -252,8 +252,8 @@
 <a class="jxr_linenumber" name="L244" href="#L244">244</a>                     <strong class="jxr_keyword">continue</strong>;
 <a class="jxr_linenumber" name="L245" href="#L245">245</a>                 }
 <a class="jxr_linenumber" name="L246" href="#L246">246</a> 
-<a class="jxr_linenumber" name="L247" href="#L247">247</a>                 URI fbURI = FrameBase.uriFor(predicate);
-<a class="jxr_linenumber" name="L248" href="#L248">248</a>                 <strong class="jxr_keyword">if</strong> (fbURI == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L247" href="#L247">247</a>                 IRI fbIRI = FrameBase.uriFor(predicate);
+<a class="jxr_linenumber" name="L248" href="#L248">248</a>                 <strong class="jxr_keyword">if</strong> (fbIRI == <strong class="jxr_keyword">null</strong>) {
 <a class="jxr_linenumber" name="L249" href="#L249">249</a>                     LOGGER.error(<span class="jxr_string">"This should never happen!"</span>);
 <a class="jxr_linenumber" name="L250" href="#L250">250</a>                     LOGGER.debug(predicate);
 <a class="jxr_linenumber" name="L251" href="#L251">251</a>                     <strong class="jxr_keyword">break</strong>;
@@ -271,7 +271,7 @@
 <a class="jxr_linenumber" name="L263" href="#L263">263</a>                 writerFrames.append(matcher.group(1).toLowerCase()).append('\t');
 <a class="jxr_linenumber" name="L264" href="#L264">264</a>                 writerFrames.append(lemma).append('\t');
 <a class="jxr_linenumber" name="L265" href="#L265">265</a>                 writerFrames.append(matcher.group(3).toLowerCase()).append('\t');
-<a class="jxr_linenumber" name="L266" href="#L266">266</a>                 writerFrames.append(fbURI.toString()).append('\n');
+<a class="jxr_linenumber" name="L266" href="#L266">266</a>                 writerFrames.append(fbIRI.toString()).append('\n');
 <a class="jxr_linenumber" name="L267" href="#L267">267</a>             }
 <a class="jxr_linenumber" name="L268" href="#L268">268</a>             <strong class="jxr_keyword">for</strong> (String role : FrameBase.getRolesSet()) {
 <a class="jxr_linenumber" name="L269" href="#L269">269</a>                 Matcher matcher = FB_ROLES.matcher(role.trim());
@@ -280,8 +280,8 @@
 <a class="jxr_linenumber" name="L272" href="#L272">272</a>                     <strong class="jxr_keyword">continue</strong>;
 <a class="jxr_linenumber" name="L273" href="#L273">273</a>                 }
 <a class="jxr_linenumber" name="L274" href="#L274">274</a> 
-<a class="jxr_linenumber" name="L275" href="#L275">275</a>                 URI fbURI = FrameBase.uriFor(role);
-<a class="jxr_linenumber" name="L276" href="#L276">276</a>                 <strong class="jxr_keyword">if</strong> (fbURI == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L275" href="#L275">275</a>                 IRI fbIRI = FrameBase.uriFor(role);
+<a class="jxr_linenumber" name="L276" href="#L276">276</a>                 <strong class="jxr_keyword">if</strong> (fbIRI == <strong class="jxr_keyword">null</strong>) {
 <a class="jxr_linenumber" name="L277" href="#L277">277</a>                     LOGGER.error(<span class="jxr_string">"This should never happen!"</span>);
 <a class="jxr_linenumber" name="L278" href="#L278">278</a>                     LOGGER.debug(role);
 <a class="jxr_linenumber" name="L279" href="#L279">279</a>                     <strong class="jxr_keyword">break</strong>;
@@ -292,7 +292,7 @@
 <a class="jxr_linenumber" name="L284" href="#L284">284</a> 
 <a class="jxr_linenumber" name="L285" href="#L285">285</a>                 writerRoles.append(<span class="jxr_string">"fn:"</span>);
 <a class="jxr_linenumber" name="L286" href="#L286">286</a>                 writerRoles.append(roleAt).append('\t');
-<a class="jxr_linenumber" name="L287" href="#L287">287</a>                 writerRoles.append(fbURI.toString()).append('\n');
+<a class="jxr_linenumber" name="L287" href="#L287">287</a>                 writerRoles.append(fbIRI.toString()).append('\n');
 <a class="jxr_linenumber" name="L288" href="#L288">288</a>             }
 <a class="jxr_linenumber" name="L289" href="#L289">289</a> 
 <a class="jxr_linenumber" name="L290" href="#L290">290</a> <em class="jxr_comment">//            writerFrames.close();</em>
@@ -304,7 +304,7 @@
 <a class="jxr_linenumber" name="L296" href="#L296">296</a> 
 <a class="jxr_linenumber" name="L297" href="#L297">297</a>             LOGGER.info(<span class="jxr_string">"Loading closeMatches"</span>);
 <a class="jxr_linenumber" name="L298" href="#L298">298</a>             HashMap&lt;String, HashMap&lt;String, String&gt;&gt; nomBankToProbBankRoles = <strong class="jxr_keyword">new</strong> HashMap&lt;&gt;();
-<a class="jxr_linenumber" name="L299" href="#L299">299</a>             <a href="../../../../../../../eu/fbk/dkm/pikes/resources/util/fnlu/FERealizationType.html">Pattern</a> CLOSEMATCH_PATTERN = Pattern.compile(<span class="jxr_string">"nb10-(.*?)-arg([0-9])&gt;.*pbon5-(.*?)-arg([0-9])&gt;"</span>);
+<a class="jxr_linenumber" name="L299" href="#L299">299</a>             <a href="../../../../../../../eu/fbk/dkm/pikes/resources/util/fnlu/FEGroupRealizationType.html">Pattern</a> CLOSEMATCH_PATTERN = Pattern.compile(<span class="jxr_string">"nb10-(.*?)-arg([0-9])&gt;.*pbon5-(.*?)-arg([0-9])&gt;"</span>);
 <a class="jxr_linenumber" name="L300" href="#L300">300</a>             List&lt;String&gt; closeMatchLines = Files.readLines(closeMatchFile, Charsets.UTF_8);
 <a class="jxr_linenumber" name="L301" href="#L301">301</a>             <strong class="jxr_keyword">for</strong> (String line : closeMatchLines) {
 <a class="jxr_linenumber" name="L302" href="#L302">302</a>                 line = line.trim();
@@ -1309,7 +1309,7 @@
 <a class="jxr_linenumber" name="L1301" href="#L1301">1301</a>                 <strong class="jxr_keyword">for</strong> (String key : outputMappingsForPredicates.get(outputMapping).keySet()) {
 <a class="jxr_linenumber" name="L1302" href="#L1302">1302</a>                     String value = outputMappingsForPredicates.get(outputMapping).get(key);
 <a class="jxr_linenumber" name="L1303" href="#L1303">1303</a> 
-<a class="jxr_linenumber" name="L1304" href="#L1304">1304</a>                     URI fbURI = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L1304" href="#L1304">1304</a>                     IRI fbIRI = <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L1305" href="#L1305">1305</a>                     FrameBase.POS pos = FrameBase.POS.VERB;
 <a class="jxr_linenumber" name="L1306" href="#L1306">1306</a>                     <strong class="jxr_keyword">switch</strong> (outputMapping) {
 <a class="jxr_linenumber" name="L1307" href="#L1307">1307</a>                     <strong class="jxr_keyword">case</strong> NBauto:
@@ -1320,15 +1320,15 @@
 <a class="jxr_linenumber" name="L1312" href="#L1312">1312</a> 
 <a class="jxr_linenumber" name="L1313" href="#L1313">1313</a>                     String lemma = predicateToLemma.get(key);
 <a class="jxr_linenumber" name="L1314" href="#L1314">1314</a>                     <strong class="jxr_keyword">if</strong> (lemma != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L1315" href="#L1315">1315</a>                         fbURI = FrameBase.classFor(value, lemma, pos);
+<a class="jxr_linenumber" name="L1315" href="#L1315">1315</a>                         fbIRI = FrameBase.classFor(value, lemma, pos);
 <a class="jxr_linenumber" name="L1316" href="#L1316">1316</a>                     }
-<a class="jxr_linenumber" name="L1317" href="#L1317">1317</a>                     <strong class="jxr_keyword">if</strong> (fbURI == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L1317" href="#L1317">1317</a>                     <strong class="jxr_keyword">if</strong> (fbIRI == <strong class="jxr_keyword">null</strong>) {
 <a class="jxr_linenumber" name="L1318" href="#L1318">1318</a>                         lemma = key.substring(0, key.length() - 3);
-<a class="jxr_linenumber" name="L1319" href="#L1319">1319</a>                         fbURI = FrameBase.classFor(value, lemma, pos);
+<a class="jxr_linenumber" name="L1319" href="#L1319">1319</a>                         fbIRI = FrameBase.classFor(value, lemma, pos);
 <a class="jxr_linenumber" name="L1320" href="#L1320">1320</a>                     }
 <a class="jxr_linenumber" name="L1321" href="#L1321">1321</a> 
 <a class="jxr_linenumber" name="L1322" href="#L1322">1322</a>                     <em class="jxr_comment">// Should never happen</em>
-<a class="jxr_linenumber" name="L1323" href="#L1323">1323</a>                     <strong class="jxr_keyword">if</strong> (fbURI == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L1323" href="#L1323">1323</a>                     <strong class="jxr_keyword">if</strong> (fbIRI == <strong class="jxr_keyword">null</strong>) {
 <a class="jxr_linenumber" name="L1324" href="#L1324">1324</a>                         LOGGER.error(<span class="jxr_string">"This should never happen!"</span>);
 <a class="jxr_linenumber" name="L1325" href="#L1325">1325</a>                         LOGGER.debug(value);
 <a class="jxr_linenumber" name="L1326" href="#L1326">1326</a>                         LOGGER.debug(key);
@@ -1345,7 +1345,7 @@
 <a class="jxr_linenumber" name="L1337" href="#L1337">1337</a>                     writerFrames.append(key).append('\t');
 <a class="jxr_linenumber" name="L1338" href="#L1338">1338</a>                     writerFrames.append(lemma).append('\t');
 <a class="jxr_linenumber" name="L1339" href="#L1339">1339</a>                     writerFrames.append(pos.getLetter()).append('\t');
-<a class="jxr_linenumber" name="L1340" href="#L1340">1340</a>                     writerFrames.append(fbURI.toString()).append('\n');
+<a class="jxr_linenumber" name="L1340" href="#L1340">1340</a>                     writerFrames.append(fbIRI.toString()).append('\n');
 <a class="jxr_linenumber" name="L1341" href="#L1341">1341</a>                 }
 <a class="jxr_linenumber" name="L1342" href="#L1342">1342</a>             }
 <a class="jxr_linenumber" name="L1343" href="#L1343">1343</a>             writer.close();
@@ -1366,8 +1366,8 @@
 <a class="jxr_linenumber" name="L1358" href="#L1358">1358</a>                         LOGGER.error(<span class="jxr_string">"This is impossible!"</span>);
 <a class="jxr_linenumber" name="L1359" href="#L1359">1359</a>                         <strong class="jxr_keyword">break</strong>;
 <a class="jxr_linenumber" name="L1360" href="#L1360">1360</a>                     }
-<a class="jxr_linenumber" name="L1361" href="#L1361">1361</a>                     URI fbURI = FrameBase.propertyFor(parts[0], parts[1]);
-<a class="jxr_linenumber" name="L1362" href="#L1362">1362</a>                     <strong class="jxr_keyword">if</strong> (fbURI == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L1361" href="#L1361">1361</a>                     IRI fbIRI = FrameBase.propertyFor(parts[0], parts[1]);
+<a class="jxr_linenumber" name="L1362" href="#L1362">1362</a>                     <strong class="jxr_keyword">if</strong> (fbIRI == <strong class="jxr_keyword">null</strong>) {
 <a class="jxr_linenumber" name="L1363" href="#L1363">1363</a>                         LOGGER.error(<span class="jxr_string">"This should never happen!"</span>);
 <a class="jxr_linenumber" name="L1364" href="#L1364">1364</a>                         LOGGER.debug(key);
 <a class="jxr_linenumber" name="L1365" href="#L1365">1365</a>                         LOGGER.debug(value);
@@ -1380,7 +1380,7 @@
 <a class="jxr_linenumber" name="L1372" href="#L1372">1372</a> 
 <a class="jxr_linenumber" name="L1373" href="#L1373">1373</a>                     writerRoles.append(outputMapping.toString().substring(0, 2).toLowerCase()).append(':');
 <a class="jxr_linenumber" name="L1374" href="#L1374">1374</a>                     writerRoles.append(key).append('\t');
-<a class="jxr_linenumber" name="L1375" href="#L1375">1375</a>                     writerRoles.append(fbURI.toString()).append('\n');
+<a class="jxr_linenumber" name="L1375" href="#L1375">1375</a>                     writerRoles.append(fbIRI.toString()).append('\n');
 <a class="jxr_linenumber" name="L1376" href="#L1376">1376</a>                 }
 <a class="jxr_linenumber" name="L1377" href="#L1377">1377</a>             }
 <a class="jxr_linenumber" name="L1378" href="#L1378">1378</a>             writer.close();
@@ -1402,8 +1402,8 @@
 <a class="jxr_linenumber" name="L1394" href="#L1394">1394</a>                             LOGGER.error(<span class="jxr_string">"This is impossible!"</span>);
 <a class="jxr_linenumber" name="L1395" href="#L1395">1395</a>                             <strong class="jxr_keyword">break</strong>;
 <a class="jxr_linenumber" name="L1396" href="#L1396">1396</a>                         }
-<a class="jxr_linenumber" name="L1397" href="#L1397">1397</a>                         URI fbURI = FrameBase.propertyFor(parts[0], parts[1]);
-<a class="jxr_linenumber" name="L1398" href="#L1398">1398</a>                         <strong class="jxr_keyword">if</strong> (fbURI == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L1397" href="#L1397">1397</a>                         IRI fbIRI = FrameBase.propertyFor(parts[0], parts[1]);
+<a class="jxr_linenumber" name="L1398" href="#L1398">1398</a>                         <strong class="jxr_keyword">if</strong> (fbIRI == <strong class="jxr_keyword">null</strong>) {
 <a class="jxr_linenumber" name="L1399" href="#L1399">1399</a>                             LOGGER.error(<span class="jxr_string">"This should never happen!"</span>);
 <a class="jxr_linenumber" name="L1400" href="#L1400">1400</a>                             LOGGER.debug(key);
 <a class="jxr_linenumber" name="L1401" href="#L1401">1401</a>                             LOGGER.debug(value);
@@ -1416,7 +1416,7 @@
 <a class="jxr_linenumber" name="L1408" href="#L1408">1408</a> 
 <a class="jxr_linenumber" name="L1409" href="#L1409">1409</a>                         writerRoles.append(outputMapping.toString().substring(0, 2).toLowerCase()).append(':');
 <a class="jxr_linenumber" name="L1410" href="#L1410">1410</a>                         writerRoles.append(key).append('\t');
-<a class="jxr_linenumber" name="L1411" href="#L1411">1411</a>                         writerRoles.append(fbURI.toString()).append('\n');
+<a class="jxr_linenumber" name="L1411" href="#L1411">1411</a>                         writerRoles.append(fbIRI.toString()).append('\n');
 <a class="jxr_linenumber" name="L1412" href="#L1412">1412</a>                     }
 <a class="jxr_linenumber" name="L1413" href="#L1413">1413</a>                 }
 <a class="jxr_linenumber" name="L1414" href="#L1414">1414</a>                 writer.close();
@@ -1642,6 +1642,6 @@
 <a class="jxr_linenumber" name="L1634" href="#L1634">1634</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016&#x2013;2017 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2016&#x2013;2018 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
 </body>
 </html>

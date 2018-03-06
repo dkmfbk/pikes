@@ -106,8 +106,8 @@
 <a class="jxr_linenumber" name="L98" href="#L98">98</a>                      <strong class="jxr_keyword">final</strong> <a href="../../../../../eu/fbk/dkm/pikes/resources/Lexicon.html">Token</a> token = Token.create(lemma, stem, pos);
 <a class="jxr_linenumber" name="L99" href="#L99">99</a>                      <strong class="jxr_keyword">final</strong> String id = word + (stemmed ? <span class="jxr_string">"_stemmed"</span> : <span class="jxr_string">""</span>)
 <a class="jxr_linenumber" name="L100" href="#L100">100</a>                             + (pos == <strong class="jxr_keyword">null</strong> ? <span class="jxr_string">""</span> : <span class="jxr_string">"_"</span> + pos.toLowerCase());
-<a class="jxr_linenumber" name="L101" href="#L101">101</a>                     <strong class="jxr_keyword">final</strong> <a href="../../../../../eu/fbk/dkm/pikes/resources/SubjectivityLexicon.html">Lexeme</a> lexeme = <strong class="jxr_keyword">new</strong> <a href="../../../../../eu/fbk/dkm/pikes/resources/SubjectivityLexicon.html">Lexeme</a>(id, ImmutableList.of(token), polarity, strong);
-<a class="jxr_linenumber" name="L102" href="#L102">102</a>                     <strong class="jxr_keyword">final</strong> <a href="../../../../../eu/fbk/dkm/pikes/resources/SubjectivityLexicon.html">Lexeme</a> oldLexeme = lexemes.put(id, lexeme);
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>                     <strong class="jxr_keyword">final</strong> <a href="../../../../../eu/fbk/dkm/pikes/resources/Lexicon.html">Lexeme</a> lexeme = <strong class="jxr_keyword">new</strong> <a href="../../../../../eu/fbk/dkm/pikes/resources/Lexicon.html">Lexeme</a>(id, ImmutableList.of(token), polarity, strong);
+<a class="jxr_linenumber" name="L102" href="#L102">102</a>                     <strong class="jxr_keyword">final</strong> <a href="../../../../../eu/fbk/dkm/pikes/resources/Lexicon.html">Lexeme</a> oldLexeme = lexemes.put(id, lexeme);
 <a class="jxr_linenumber" name="L103" href="#L103">103</a>                     <strong class="jxr_keyword">if</strong> (oldLexeme != <strong class="jxr_keyword">null</strong>) {
 <a class="jxr_linenumber" name="L104" href="#L104">104</a>                         <strong class="jxr_keyword">if</strong> (lexeme.getTokens().equals(oldLexeme.getTokens())
 <a class="jxr_linenumber" name="L105" href="#L105">105</a>                                 &amp;&amp; lexeme.getPolarity().equals(oldLexeme.getPolarity())
@@ -155,20 +155,20 @@
 <a class="jxr_linenumber" name="L147" href="#L147">147</a>         <strong class="jxr_keyword">super</strong>(lexemes);
 <a class="jxr_linenumber" name="L148" href="#L148">148</a>     }
 <a class="jxr_linenumber" name="L149" href="#L149">149</a> 
-<a class="jxr_linenumber" name="L150" href="#L150">150</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../eu/fbk/dkm/pikes/resources/SubjectivityLexicon.html">Lexeme</a> <strong class="jxr_keyword">extends</strong> Lexicon.Lexeme {
+<a class="jxr_linenumber" name="L150" href="#L150">150</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../eu/fbk/dkm/pikes/resources/Lexicon.html">Lexeme</a> <strong class="jxr_keyword">extends</strong> Lexicon.Lexeme {
 <a class="jxr_linenumber" name="L151" href="#L151">151</a> 
 <a class="jxr_linenumber" name="L152" href="#L152">152</a>         <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../../eu/fbk/dkm/pikes/resources/SubjectivityLexicon.html">Polarity</a> polarity;
 <a class="jxr_linenumber" name="L153" href="#L153">153</a> 
 <a class="jxr_linenumber" name="L154" href="#L154">154</a>         <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">boolean</strong> strong;
 <a class="jxr_linenumber" name="L155" href="#L155">155</a> 
-<a class="jxr_linenumber" name="L156" href="#L156">156</a>         <strong class="jxr_keyword">public</strong> <a href="../../../../../eu/fbk/dkm/pikes/resources/SubjectivityLexicon.html">Lexeme</a>(<strong class="jxr_keyword">final</strong> String id, <strong class="jxr_keyword">final</strong> Iterable&lt;Token&gt; tokens, <strong class="jxr_keyword">final</strong> <a href="../../../../../eu/fbk/dkm/pikes/resources/SubjectivityLexicon.html">Polarity</a> polarity,
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>         <strong class="jxr_keyword">public</strong> <a href="../../../../../eu/fbk/dkm/pikes/resources/Lexicon.html">Lexeme</a>(<strong class="jxr_keyword">final</strong> String id, <strong class="jxr_keyword">final</strong> Iterable&lt;Token&gt; tokens, <strong class="jxr_keyword">final</strong> <a href="../../../../../eu/fbk/dkm/pikes/resources/SubjectivityLexicon.html">Polarity</a> polarity,
 <a class="jxr_linenumber" name="L157" href="#L157">157</a>                 <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">boolean</strong> strong) {
 <a class="jxr_linenumber" name="L158" href="#L158">158</a>             <strong class="jxr_keyword">super</strong>(id, tokens);
 <a class="jxr_linenumber" name="L159" href="#L159">159</a>             <strong class="jxr_keyword">this</strong>.polarity = Preconditions.checkNotNull(polarity);
 <a class="jxr_linenumber" name="L160" href="#L160">160</a>             <strong class="jxr_keyword">this</strong>.strong = strong;
 <a class="jxr_linenumber" name="L161" href="#L161">161</a>         }
 <a class="jxr_linenumber" name="L162" href="#L162">162</a> 
-<a class="jxr_linenumber" name="L163" href="#L163">163</a>         <strong class="jxr_keyword">protected</strong> <a href="../../../../../eu/fbk/dkm/pikes/resources/SubjectivityLexicon.html">Lexeme</a>(<strong class="jxr_keyword">final</strong> String id, <strong class="jxr_keyword">final</strong> Iterable&lt;Token&gt; tokens,
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>         <strong class="jxr_keyword">protected</strong> <a href="../../../../../eu/fbk/dkm/pikes/resources/Lexicon.html">Lexeme</a>(<strong class="jxr_keyword">final</strong> String id, <strong class="jxr_keyword">final</strong> Iterable&lt;Token&gt; tokens,
 <a class="jxr_linenumber" name="L164" href="#L164">164</a>                 <strong class="jxr_keyword">final</strong> Map&lt;String, String&gt; properties) {
 <a class="jxr_linenumber" name="L165" href="#L165">165</a>             <em class="jxr_comment">// for use with reflection</em>
 <a class="jxr_linenumber" name="L166" href="#L166">166</a>             <strong class="jxr_keyword">this</strong>(id, tokens, Polarity.valueOf(properties.get(<span class="jxr_string">"polarity"</span>).toUpperCase()), Boolean
@@ -206,6 +206,6 @@
 <a class="jxr_linenumber" name="L198" href="#L198">198</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016&#x2013;2017 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2016&#x2013;2018 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
 </body>
 </html>

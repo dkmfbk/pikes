@@ -423,13 +423,13 @@
 <a class="jxr_linenumber" name="L415" href="#L415">415</a>         <strong class="jxr_keyword">return</strong> graph;
 <a class="jxr_linenumber" name="L416" href="#L416">416</a>     }
 <a class="jxr_linenumber" name="L417" href="#L417">417</a> 
-<a class="jxr_linenumber" name="L418" href="#L418">418</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../../../eu/fbk/dkm/pikes/raid/pipeline/SpanLabeller.html">Trainer</a> train(<strong class="jxr_keyword">final</strong> String... posPrefixes) {
+<a class="jxr_linenumber" name="L418" href="#L418">418</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../../../eu/fbk/dkm/pikes/raid/pipeline/LinkLabeller.html">Trainer</a> train(<strong class="jxr_keyword">final</strong> String... posPrefixes) {
 <a class="jxr_linenumber" name="L419" href="#L419">419</a>         <strong class="jxr_keyword">final</strong> Set&lt;String&gt; posPrefixesSet = posPrefixes == <strong class="jxr_keyword">null</strong> || posPrefixes.length == 0 ? <strong class="jxr_keyword">null</strong>
 <a class="jxr_linenumber" name="L420" href="#L420">420</a>                 : ImmutableSet.copyOf(posPrefixes);
-<a class="jxr_linenumber" name="L421" href="#L421">421</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../eu/fbk/dkm/pikes/raid/pipeline/SpanLabeller.html">Trainer</a>(posPrefixesSet);
+<a class="jxr_linenumber" name="L421" href="#L421">421</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../eu/fbk/dkm/pikes/raid/pipeline/LinkLabeller.html">Trainer</a>(posPrefixesSet);
 <a class="jxr_linenumber" name="L422" href="#L422">422</a>     }
 <a class="jxr_linenumber" name="L423" href="#L423">423</a> 
-<a class="jxr_linenumber" name="L424" href="#L424">424</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../eu/fbk/dkm/pikes/raid/pipeline/SpanLabeller.html">Trainer</a> {
+<a class="jxr_linenumber" name="L424" href="#L424">424</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../eu/fbk/dkm/pikes/raid/pipeline/LinkLabeller.html">Trainer</a> {
 <a class="jxr_linenumber" name="L425" href="#L425">425</a> 
 <a class="jxr_linenumber" name="L426" href="#L426">426</a>         <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> List&lt;LabelledVector&gt; trainingSet;
 <a class="jxr_linenumber" name="L427" href="#L427">427</a> 
@@ -438,7 +438,7 @@
 <a class="jxr_linenumber" name="L430" href="#L430">430</a>         @Nullable
 <a class="jxr_linenumber" name="L431" href="#L431">431</a>         <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> Set&lt;String&gt; posPrefixes;
 <a class="jxr_linenumber" name="L432" href="#L432">432</a> 
-<a class="jxr_linenumber" name="L433" href="#L433">433</a>         <strong class="jxr_keyword">private</strong> <a href="../../../../../../eu/fbk/dkm/pikes/raid/pipeline/SpanLabeller.html">Trainer</a>(@Nullable <strong class="jxr_keyword">final</strong> Set&lt;String&gt; posPrefixes) {
+<a class="jxr_linenumber" name="L433" href="#L433">433</a>         <strong class="jxr_keyword">private</strong> <a href="../../../../../../eu/fbk/dkm/pikes/raid/pipeline/LinkLabeller.html">Trainer</a>(@Nullable <strong class="jxr_keyword">final</strong> Set&lt;String&gt; posPrefixes) {
 <a class="jxr_linenumber" name="L434" href="#L434">434</a>             <strong class="jxr_keyword">this</strong>.trainingSet = Lists.newArrayList();
 <a class="jxr_linenumber" name="L435" href="#L435">435</a>             <strong class="jxr_keyword">this</strong>.posPrefixes = posPrefixes;
 <a class="jxr_linenumber" name="L436" href="#L436">436</a>             <strong class="jxr_keyword">this</strong>.coverageEvaluator = PrecisionRecall.evaluator();
@@ -527,6 +527,6 @@
 <a class="jxr_linenumber" name="L519" href="#L519">519</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016&#x2013;2017 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2016&#x2013;2018 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
 </body>
 </html>

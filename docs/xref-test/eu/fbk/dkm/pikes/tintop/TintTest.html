@@ -16,6 +16,7 @@
 <a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../eu/fbk/dkm/pikes/tintop/TintTest.html">TintTest</a> {
 <a class="jxr_linenumber" name="L9" href="#L9">9</a>       <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> main(String[] args) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 <a class="jxr_linenumber" name="L10" href="#L10">10</a>          File configFile = <strong class="jxr_keyword">new</strong> File(<span class="jxr_string">"/Users/marcorospocher/CodeRepository/pikes/config-pikes.prop"</span>);
 <a class="jxr_linenumber" name="L11" href="#L11">11</a>          Properties properties = <strong class="jxr_keyword">new</strong> Properties();
 <a class="jxr_linenumber" name="L12" href="#L12">12</a>  
@@ -52,8 +53,30 @@
 <a class="jxr_linenumber" name="L24" href="#L24">24</a>      }
 <a class="jxr_linenumber" name="L25" href="#L25">25</a>  }
 >>>>>>> 66f8788e... updated download page
+=======
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>          File configFile = <strong class="jxr_keyword">new</strong> File(<span class="jxr_string">"/Users/marcorospocher/CodeRepository/pikes/config-pikes.prop"</span>);
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>          Properties properties = <strong class="jxr_keyword">new</strong> Properties();
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>          <em class="jxr_comment">// add annotators here... order matters</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_comment">//        properties.setProperty("stanford.annotators", "udpipe, ner, simple_pos, ukb, stanford2conll");</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_comment">//        properties.setProperty("stanford.annotators", "udpipe, dbps, simple_pos, ukb, ner_custom, conll_parse, mst_fake, semafor");</em>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>          properties.setProperty(<span class="jxr_string">"stanford.annotators"</span>, <span class="jxr_string">"udpipe, dbps, ner_custom, simple_pos, ukb, stanford2conll, mst_fake, semafor"</span>);
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>          properties.setProperty(<span class="jxr_string">"stanford.udpipe.server"</span>, <span class="jxr_string">"gardner"</span>);
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>          properties.setProperty(<span class="jxr_string">"stanford.udpipe.port"</span>, <span class="jxr_string">"50021"</span>);
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>          properties.setProperty(<span class="jxr_string">"stanford.udpipe.alreadyTokenized"</span>, <span class="jxr_string">"0"</span>);
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>          properties.setProperty(<span class="jxr_string">"stanford.customAnnotatorClass.udpipe"</span>, <span class="jxr_string">"eu.fbk.fcw.udpipe.api.UDPipeAnnotator"</span>);
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>          properties.setProperty(<span class="jxr_string">"stanford.customAnnotatorClass.stanford2conll"</span>, <span class="jxr_string">"eu.fbk.dkm.pikes.depparseannotation.StanfordToConllDepsAnnotator"</span>);
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_comment">//        properties.setProperty("stanford.customAnnotatorClass.ita_toksent", "eu.fbk.dh.tint.tokenizer.annotators.ItalianTokenizerAnnotator");</em>
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <em class="jxr_comment">//        properties.setProperty("stanford.ner.model", "models/ner-ita-nogpe-noiob_gaz_wikipedia_sloppy.ser.gz");</em>
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <em class="jxr_comment">//        properties.setProperty("stanford.ner.useSUTime", "0");</em>
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>          properties.setProperty(<span class="jxr_string">"enable_naf_filter"</span>, <span class="jxr_string">"0"</span>);
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>          PipelineServer pipelineServer = <strong class="jxr_keyword">new</strong> PipelineServer(<span class="jxr_string">"0.0.0.0"</span>, 8011, configFile, properties);
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>      }
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  }
+>>>>>>> a983ef6d... Updated KE4IR page
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016&#x2013;2017 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2016&#x2013;2018 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
 </body>
 </html>

@@ -40,17 +40,17 @@
 <a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">import</strong> com.spotify.sparkey.SparkeyReader;
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">import</strong> com.spotify.sparkey.SparkeyWriter;
 <a class="jxr_linenumber" name="L34" href="#L34">34</a>  
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.BNode;
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.Literal;
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.Resource;
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.Statement;
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.URI;
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.Value;
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.ValueFactory;
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.vocabulary.XMLSchema;
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <strong class="jxr_keyword">import</strong> org.openrdf.rio.RDFHandler;
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>  <strong class="jxr_keyword">import</strong> org.openrdf.rio.RDFHandlerException;
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <strong class="jxr_keyword">import</strong> org.openrdf.rio.Rio;
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.BNode;
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.Literal;
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.Resource;
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.Statement;
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.IRI;
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.Value;
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.ValueFactory;
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.vocabulary.XMLSchema;
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.rio.RDFHandler;
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.rio.RDFHandlerException;
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.rio.Rio;
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  <strong class="jxr_keyword">import</strong> org.slf4j.bridge.SLF4JBridgeHandler;
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  <strong class="jxr_keyword">import</strong> eu.fbk.utils.core.CommandLine;
@@ -75,7 +75,7 @@
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>  
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> HI_END_C = 3 &lt;&lt; 5;
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>  
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> HI_URI = 4 &lt;&lt; 5;
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> HI_IRI = 4 &lt;&lt; 5;
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>  
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> HI_LITERAL = 5 &lt;&lt; 5;
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>  
@@ -83,7 +83,7 @@
 <a class="jxr_linenumber" name="L75" href="#L75">75</a>  
 <a class="jxr_linenumber" name="L76" href="#L76">76</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> HI_NULL = 7 &lt;&lt; 5;
 <a class="jxr_linenumber" name="L77" href="#L77">77</a>  
-<a class="jxr_linenumber" name="L78" href="#L78">78</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> BiMap&lt;URI, Integer&gt; DT_MAP;
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> BiMap&lt;IRI, Integer&gt; DT_MAP;
 <a class="jxr_linenumber" name="L79" href="#L79">79</a>  
 <a class="jxr_linenumber" name="L80" href="#L80">80</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> SparkeyReader reader;
 <a class="jxr_linenumber" name="L81" href="#L81">81</a>  
@@ -92,9 +92,9 @@
 <a class="jxr_linenumber" name="L84" href="#L84">84</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> String[] nsArray;
 <a class="jxr_linenumber" name="L85" href="#L85">85</a>  
 <a class="jxr_linenumber" name="L86" href="#L86">86</a>      <strong class="jxr_keyword">static</strong> {
-<a class="jxr_linenumber" name="L87" href="#L87">87</a>          <strong class="jxr_keyword">final</strong> ImmutableBiMap.Builder&lt;URI, Integer&gt; builder = ImmutableBiMap.builder();
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>          <strong class="jxr_keyword">final</strong> ImmutableBiMap.Builder&lt;IRI, Integer&gt; builder = ImmutableBiMap.builder();
 <a class="jxr_linenumber" name="L88" href="#L88">88</a>          <strong class="jxr_keyword">int</strong> index = 0;
-<a class="jxr_linenumber" name="L89" href="#L89">89</a>          <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">final</strong> URI dt : <strong class="jxr_keyword">new</strong> URI[] { XMLSchema.DURATION, XMLSchema.DATETIME,
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>          <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">final</strong> IRI dt : <strong class="jxr_keyword">new</strong> IRI[] { XMLSchema.DURATION, XMLSchema.DATETIME,
 <a class="jxr_linenumber" name="L90" href="#L90">90</a>                  XMLSchema.DAYTIMEDURATION, XMLSchema.TIME, XMLSchema.DATE, XMLSchema.GYEARMONTH,
 <a class="jxr_linenumber" name="L91" href="#L91">91</a>                  XMLSchema.GYEAR, XMLSchema.GMONTHDAY, XMLSchema.GDAY, XMLSchema.GMONTH,
 <a class="jxr_linenumber" name="L92" href="#L92">92</a>                  XMLSchema.STRING, XMLSchema.BOOLEAN, XMLSchema.BASE64BINARY, XMLSchema.HEXBINARY,
@@ -165,28 +165,28 @@
 <a class="jxr_linenumber" name="L157" href="#L157">157</a>                 ByteStreams.readFully(stream, id);
 <a class="jxr_linenumber" name="L158" href="#L158">158</a>                 <strong class="jxr_keyword">return</strong> vf.createBNode(<strong class="jxr_keyword">new</strong> String(id, Charsets.UTF_8));
 <a class="jxr_linenumber" name="L159" href="#L159">159</a> 
-<a class="jxr_linenumber" name="L160" href="#L160">160</a>             } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (hi == HI_URI) {
+<a class="jxr_linenumber" name="L160" href="#L160">160</a>             } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (hi == HI_IRI) {
 <a class="jxr_linenumber" name="L161" href="#L161">161</a>                 <strong class="jxr_keyword">if</strong> ((b &amp; 0x10) != 0) {
 <a class="jxr_linenumber" name="L162" href="#L162">162</a>                     <strong class="jxr_keyword">final</strong> byte[] name = <strong class="jxr_keyword">new</strong> byte[(b &amp; 0xF) &lt;&lt; 8 | stream.read()];
 <a class="jxr_linenumber" name="L163" href="#L163">163</a>                     <strong class="jxr_keyword">final</strong> String ns = nsArray[stream.read()];
 <a class="jxr_linenumber" name="L164" href="#L164">164</a>                     ByteStreams.readFully(stream, name);
-<a class="jxr_linenumber" name="L165" href="#L165">165</a>                     <strong class="jxr_keyword">return</strong> vf.createURI(ns, <strong class="jxr_keyword">new</strong> String(name, Charsets.UTF_8));
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>                     <strong class="jxr_keyword">return</strong> vf.createIRI(ns, <strong class="jxr_keyword">new</strong> String(name, Charsets.UTF_8));
 <a class="jxr_linenumber" name="L166" href="#L166">166</a>                 } <strong class="jxr_keyword">else</strong> {
 <a class="jxr_linenumber" name="L167" href="#L167">167</a>                     <strong class="jxr_keyword">final</strong> byte[] str = <strong class="jxr_keyword">new</strong> byte[(b &amp; 0xF) &lt;&lt; 8 | stream.read()];
 <a class="jxr_linenumber" name="L168" href="#L168">168</a>                     ByteStreams.readFully(stream, str);
-<a class="jxr_linenumber" name="L169" href="#L169">169</a>                     <strong class="jxr_keyword">return</strong> vf.createURI(<strong class="jxr_keyword">new</strong> String(str, Charsets.UTF_8));
+<a class="jxr_linenumber" name="L169" href="#L169">169</a>                     <strong class="jxr_keyword">return</strong> vf.createIRI(<strong class="jxr_keyword">new</strong> String(str, Charsets.UTF_8));
 <a class="jxr_linenumber" name="L170" href="#L170">170</a>                 }
 <a class="jxr_linenumber" name="L171" href="#L171">171</a> 
 <a class="jxr_linenumber" name="L172" href="#L172">172</a>             } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (hi == HI_LITERAL) {
 <a class="jxr_linenumber" name="L173" href="#L173">173</a>                 byte[] lang = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L174" href="#L174">174</a>                 URI dt = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L174" href="#L174">174</a>                 IRI dt = <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L175" href="#L175">175</a>                 <strong class="jxr_keyword">if</strong> ((b &amp; 0x10) != 0) {
 <a class="jxr_linenumber" name="L176" href="#L176">176</a>                     lang = <strong class="jxr_keyword">new</strong> byte[b &amp; 0xF];
 <a class="jxr_linenumber" name="L177" href="#L177">177</a>                     ByteStreams.readFully(stream, lang);
 <a class="jxr_linenumber" name="L178" href="#L178">178</a>                 } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> ((b &amp; 0x1) != 0) {
 <a class="jxr_linenumber" name="L179" href="#L179">179</a>                     dt = DT_MAP.inverse().get(stream.read());
 <a class="jxr_linenumber" name="L180" href="#L180">180</a>                 } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> ((b &amp; 0x2) != 0) {
-<a class="jxr_linenumber" name="L181" href="#L181">181</a>                     dt = (URI) read(nsArray, stream);
+<a class="jxr_linenumber" name="L181" href="#L181">181</a>                     dt = (IRI) read(nsArray, stream);
 <a class="jxr_linenumber" name="L182" href="#L182">182</a>                 }
 <a class="jxr_linenumber" name="L183" href="#L183">183</a>                 <strong class="jxr_keyword">final</strong> byte[] label = <strong class="jxr_keyword">new</strong> byte[stream.read() &lt;&lt; 16 | stream.read() &lt;&lt; 8
 <a class="jxr_linenumber" name="L184" href="#L184">184</a>                         | stream.read()];
@@ -222,32 +222,32 @@
 <a class="jxr_linenumber" name="L214" href="#L214">214</a>             stream.write(id.length &amp; 0xFF);
 <a class="jxr_linenumber" name="L215" href="#L215">215</a>             stream.write(id, 0, id.length);
 <a class="jxr_linenumber" name="L216" href="#L216">216</a> 
-<a class="jxr_linenumber" name="L217" href="#L217">217</a>         } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (value instanceof URI) {
-<a class="jxr_linenumber" name="L218" href="#L218">218</a>             <strong class="jxr_keyword">final</strong> URI uri = (URI) value;
+<a class="jxr_linenumber" name="L217" href="#L217">217</a>         } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (value instanceof IRI) {
+<a class="jxr_linenumber" name="L218" href="#L218">218</a>             <strong class="jxr_keyword">final</strong> IRI uri = (IRI) value;
 <a class="jxr_linenumber" name="L219" href="#L219">219</a>             <strong class="jxr_keyword">final</strong> Integer nsID = nsMap.get(uri.getNamespace());
 <a class="jxr_linenumber" name="L220" href="#L220">220</a>             <strong class="jxr_keyword">if</strong> (nsID != <strong class="jxr_keyword">null</strong> &amp;&amp; nsID &lt;= 0xFF) {
 <a class="jxr_linenumber" name="L221" href="#L221">221</a>                 <strong class="jxr_keyword">final</strong> byte[] name = uri.getLocalName().getBytes(Charsets.UTF_8);
 <a class="jxr_linenumber" name="L222" href="#L222">222</a>                 Preconditions.checkArgument(name.length &lt;= 0xFFF);
-<a class="jxr_linenumber" name="L223" href="#L223">223</a>                 stream.write(HI_URI | 0x10 | name.length &gt;&gt;&gt; 8);
+<a class="jxr_linenumber" name="L223" href="#L223">223</a>                 stream.write(HI_IRI | 0x10 | name.length &gt;&gt;&gt; 8);
 <a class="jxr_linenumber" name="L224" href="#L224">224</a>                 stream.write(name.length &amp; 0xFF);
 <a class="jxr_linenumber" name="L225" href="#L225">225</a>                 stream.write(nsID);
 <a class="jxr_linenumber" name="L226" href="#L226">226</a>                 stream.write(name, 0, name.length);
 <a class="jxr_linenumber" name="L227" href="#L227">227</a>             } <strong class="jxr_keyword">else</strong> {
 <a class="jxr_linenumber" name="L228" href="#L228">228</a>                 <strong class="jxr_keyword">final</strong> byte[] str = uri.stringValue().getBytes(Charsets.UTF_8);
 <a class="jxr_linenumber" name="L229" href="#L229">229</a>                 Preconditions.checkArgument(str.length &lt;= 0xFFF);
-<a class="jxr_linenumber" name="L230" href="#L230">230</a>                 stream.write(HI_URI | str.length &gt;&gt;&gt; 8);
+<a class="jxr_linenumber" name="L230" href="#L230">230</a>                 stream.write(HI_IRI | str.length &gt;&gt;&gt; 8);
 <a class="jxr_linenumber" name="L231" href="#L231">231</a>                 stream.write(str.length &amp; 0xFF);
 <a class="jxr_linenumber" name="L232" href="#L232">232</a>                 stream.write(str, 0, str.length);
 <a class="jxr_linenumber" name="L233" href="#L233">233</a>             }
 <a class="jxr_linenumber" name="L234" href="#L234">234</a> 
 <a class="jxr_linenumber" name="L235" href="#L235">235</a>         } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (value instanceof Literal) {
 <a class="jxr_linenumber" name="L236" href="#L236">236</a>             <strong class="jxr_keyword">final</strong> Literal lit = (Literal) value;
-<a class="jxr_linenumber" name="L237" href="#L237">237</a>             <strong class="jxr_keyword">if</strong> (lit.getLanguage() != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L238" href="#L238">238</a>                 <strong class="jxr_keyword">final</strong> byte[] lang = lit.getLanguage().getBytes(Charsets.UTF_8);
+<a class="jxr_linenumber" name="L237" href="#L237">237</a>             <strong class="jxr_keyword">if</strong> (lit.getLanguage().isPresent()) {
+<a class="jxr_linenumber" name="L238" href="#L238">238</a>                 <strong class="jxr_keyword">final</strong> byte[] lang = lit.getLanguage().get().getBytes(Charsets.UTF_8);
 <a class="jxr_linenumber" name="L239" href="#L239">239</a>                 Preconditions.checkArgument(lang.length &lt;= 0x0F);
 <a class="jxr_linenumber" name="L240" href="#L240">240</a>                 stream.write(HI_LITERAL | 0x10 | lang.length);
 <a class="jxr_linenumber" name="L241" href="#L241">241</a>                 stream.write(lang, 0, lang.length);
-<a class="jxr_linenumber" name="L242" href="#L242">242</a>             } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (lit.getDatatype() == <strong class="jxr_keyword">null</strong> || lit.getDatatype().equals(XMLSchema.STRING)) {
+<a class="jxr_linenumber" name="L242" href="#L242">242</a>             } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (lit.getDatatype().equals(XMLSchema.STRING)) {
 <a class="jxr_linenumber" name="L243" href="#L243">243</a>                 stream.write(HI_LITERAL);
 <a class="jxr_linenumber" name="L244" href="#L244">244</a>             } <strong class="jxr_keyword">else</strong> {
 <a class="jxr_linenumber" name="L245" href="#L245">245</a>                 <strong class="jxr_keyword">final</strong> Integer dtID = DT_MAP.get(lit.getDatatype());
@@ -291,7 +291,7 @@
 <a class="jxr_linenumber" name="L283" href="#L283">283</a>             values[index++] = read(nsArray, stream);
 <a class="jxr_linenumber" name="L284" href="#L284">284</a>             <strong class="jxr_keyword">if</strong> (index == 4) {
 <a class="jxr_linenumber" name="L285" href="#L285">285</a>                 handler.handleStatement(Statements.VALUE_FACTORY.createStatement(
-<a class="jxr_linenumber" name="L286" href="#L286">286</a>                         (Resource) values[1], (URI) values[2], values[3], (Resource) values[0]));
+<a class="jxr_linenumber" name="L286" href="#L286">286</a>                         (Resource) values[1], (IRI) values[2], values[3], (Resource) values[0]));
 <a class="jxr_linenumber" name="L287" href="#L287">287</a>                 --index;
 <a class="jxr_linenumber" name="L288" href="#L288">288</a>             }
 <a class="jxr_linenumber" name="L289" href="#L289">289</a>         }
@@ -376,14 +376,14 @@
 <a class="jxr_linenumber" name="L368" href="#L368">368</a>             @Override
 <a class="jxr_linenumber" name="L369" href="#L369">369</a>             <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> handleStatement(<strong class="jxr_keyword">final</strong> Statement stmt) <strong class="jxr_keyword">throws</strong> RDFHandlerException {
 <a class="jxr_linenumber" name="L370" href="#L370">370</a>                 <strong class="jxr_keyword">this</strong>.namespaces.add(stmt.getPredicate().getNamespace());
-<a class="jxr_linenumber" name="L371" href="#L371">371</a>                 <strong class="jxr_keyword">if</strong> (stmt.getSubject() instanceof URI) {
-<a class="jxr_linenumber" name="L372" href="#L372">372</a>                     <strong class="jxr_keyword">this</strong>.namespaces.add(((URI) stmt.getSubject()).getNamespace());
+<a class="jxr_linenumber" name="L371" href="#L371">371</a>                 <strong class="jxr_keyword">if</strong> (stmt.getSubject() instanceof IRI) {
+<a class="jxr_linenumber" name="L372" href="#L372">372</a>                     <strong class="jxr_keyword">this</strong>.namespaces.add(((IRI) stmt.getSubject()).getNamespace());
 <a class="jxr_linenumber" name="L373" href="#L373">373</a>                 }
-<a class="jxr_linenumber" name="L374" href="#L374">374</a>                 <strong class="jxr_keyword">if</strong> (stmt.getObject() instanceof URI) {
-<a class="jxr_linenumber" name="L375" href="#L375">375</a>                     <strong class="jxr_keyword">this</strong>.namespaces.add(((URI) stmt.getObject()).getNamespace());
+<a class="jxr_linenumber" name="L374" href="#L374">374</a>                 <strong class="jxr_keyword">if</strong> (stmt.getObject() instanceof IRI) {
+<a class="jxr_linenumber" name="L375" href="#L375">375</a>                     <strong class="jxr_keyword">this</strong>.namespaces.add(((IRI) stmt.getObject()).getNamespace());
 <a class="jxr_linenumber" name="L376" href="#L376">376</a>                 }
-<a class="jxr_linenumber" name="L377" href="#L377">377</a>                 <strong class="jxr_keyword">if</strong> (stmt.getContext() instanceof URI) {
-<a class="jxr_linenumber" name="L378" href="#L378">378</a>                     <strong class="jxr_keyword">this</strong>.namespaces.add(((URI) stmt.getContext()).getNamespace());
+<a class="jxr_linenumber" name="L377" href="#L377">377</a>                 <strong class="jxr_keyword">if</strong> (stmt.getContext() instanceof IRI) {
+<a class="jxr_linenumber" name="L378" href="#L378">378</a>                     <strong class="jxr_keyword">this</strong>.namespaces.add(((IRI) stmt.getContext()).getNamespace());
 <a class="jxr_linenumber" name="L379" href="#L379">379</a>                 }
 <a class="jxr_linenumber" name="L380" href="#L380">380</a>                 <strong class="jxr_keyword">super</strong>.handleStatement(stmt);
 <a class="jxr_linenumber" name="L381" href="#L381">381</a>             }
@@ -461,7 +461,7 @@
 <a class="jxr_linenumber" name="L453" href="#L453">453</a>             <strong class="jxr_keyword">final</strong> RDFHandler indexer = indexer(output, component);
 <a class="jxr_linenumber" name="L454" href="#L454">454</a> 
 <a class="jxr_linenumber" name="L455" href="#L455">455</a>             <em class="jxr_comment">// Run the indexer</em>
-<a class="jxr_linenumber" name="L456" href="#L456">456</a>             RDFProcessors.read(<strong class="jxr_keyword">true</strong>, <strong class="jxr_keyword">true</strong>, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>,
+<a class="jxr_linenumber" name="L456" href="#L456">456</a>             RDFProcessors.read(<strong class="jxr_keyword">true</strong>, <strong class="jxr_keyword">true</strong>, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>,<strong class="jxr_keyword">null</strong>,<strong class="jxr_keyword">true</strong>,
 <a class="jxr_linenumber" name="L457" href="#L457">457</a>                     locations.toArray(<strong class="jxr_keyword">new</strong> String[locations.size()])).apply(RDFSources.NIL,
 <a class="jxr_linenumber" name="L458" href="#L458">458</a>                     indexer, 1);
 <a class="jxr_linenumber" name="L459" href="#L459">459</a> 
@@ -474,6 +474,6 @@
 <a class="jxr_linenumber" name="L466" href="#L466">466</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016&#x2013;2017 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2016&#x2013;2018 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
 </body>
 </html>

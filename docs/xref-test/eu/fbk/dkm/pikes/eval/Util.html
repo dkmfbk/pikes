@@ -17,12 +17,12 @@
 <a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> com.google.common.collect.Maps;
 <a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> com.google.common.collect.Ordering;
 <a class="jxr_linenumber" name="L11" href="#L11">11</a>  
-<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.Statement;
-<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.URI;
-<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.Value;
-<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> org.openrdf.query.BindingSet;
-<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> org.openrdf.query.MalformedQueryException;
-<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> org.openrdf.query.algebra.TupleExpr;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.Statement;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.IRI;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.Value;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.query.BindingSet;
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.query.MalformedQueryException;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.query.algebra.TupleExpr;
 <a class="jxr_linenumber" name="L18" href="#L18">18</a>  
 <a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> eu.fbk.utils.eval.PrecisionRecall;
 <a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> eu.fbk.rdfpro.util.Algebra;
@@ -76,23 +76,23 @@
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>          };
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>      }
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>  
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> String format(@Nullable <strong class="jxr_keyword">final</strong> URI baseURI, <strong class="jxr_keyword">final</strong> Object... objects) {
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> String format(@Nullable <strong class="jxr_keyword">final</strong> IRI baseIRI, <strong class="jxr_keyword">final</strong> Object... objects) {
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>          String result = <span class="jxr_string">""</span>;
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>          <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">final</strong> Object object : objects) {
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>              String s = <span class="jxr_string">""</span>;
 <a class="jxr_linenumber" name="L75" href="#L75">75</a>              <strong class="jxr_keyword">if</strong> (object instanceof Value) {
 <a class="jxr_linenumber" name="L76" href="#L76">76</a>                  <strong class="jxr_keyword">final</strong> Value value = (Value) object;
-<a class="jxr_linenumber" name="L77" href="#L77">77</a>                  <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">boolean</strong> abbreviate = value instanceof URI &amp;&amp; baseURI != <strong class="jxr_keyword">null</strong>
-<a class="jxr_linenumber" name="L78" href="#L78">78</a>                          &amp;&amp; ((URI) value).getNamespace().equals(baseURI.stringValue());
-<a class="jxr_linenumber" name="L79" href="#L79">79</a>                  s = abbreviate ? <span class="jxr_string">":"</span> + ((URI) value).getLocalName() : Statements.formatValue(
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>                  <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">boolean</strong> abbreviate = value instanceof IRI &amp;&amp; baseIRI != <strong class="jxr_keyword">null</strong>
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>                          &amp;&amp; ((IRI) value).getNamespace().equals(baseIRI.stringValue());
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>                  s = abbreviate ? <span class="jxr_string">":"</span> + ((IRI) value).getLocalName() : Statements.formatValue(
 <a class="jxr_linenumber" name="L80" href="#L80">80</a>                          value, Util.NAMESPACES);
 <a class="jxr_linenumber" name="L81" href="#L81">81</a>              } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (object instanceof Relation) {
-<a class="jxr_linenumber" name="L82" href="#L82">82</a>                  s = ((Relation) object).toString(baseURI);
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>                  s = ((Relation) object).toString(baseIRI);
 <a class="jxr_linenumber" name="L83" href="#L83">83</a>              } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (object instanceof Statement) {
 <a class="jxr_linenumber" name="L84" href="#L84">84</a>                  <strong class="jxr_keyword">final</strong> Statement stmt = (Statement) object;
-<a class="jxr_linenumber" name="L85" href="#L85">85</a>                  <strong class="jxr_keyword">return</strong> format(baseURI, stmt.getSubject()) + <span class="jxr_string">" "</span>
-<a class="jxr_linenumber" name="L86" href="#L86">86</a>                          + format(baseURI, stmt.getPredicate()) + <span class="jxr_string">" "</span>
-<a class="jxr_linenumber" name="L87" href="#L87">87</a>                          + format(baseURI, stmt.getObject());
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>                  <strong class="jxr_keyword">return</strong> format(baseIRI, stmt.getSubject()) + <span class="jxr_string">" "</span>
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>                          + format(baseIRI, stmt.getPredicate()) + <span class="jxr_string">" "</span>
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>                          + format(baseIRI, stmt.getObject());
 <a class="jxr_linenumber" name="L88" href="#L88">88</a>              } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (object instanceof PrecisionRecall) {
 <a class="jxr_linenumber" name="L89" href="#L89">89</a>                  <strong class="jxr_keyword">final</strong> PrecisionRecall pr = (PrecisionRecall) object;
 <a class="jxr_linenumber" name="L90" href="#L90">90</a>                  <strong class="jxr_keyword">return</strong> String.format(<span class="jxr_string">"f1=%5.3f p=%5.3f r=%5.3f tp=%d fp=%d fn=%d"</span>, pr.getF1(),
@@ -109,6 +109,6 @@
 <a class="jxr_linenumber" name="L101" href="#L101">101</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016&#x2013;2017 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2016&#x2013;2018 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
 </body>
 </html>
