@@ -9,9 +9,9 @@
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> eu.fbk.dkm.pikes.resources.mpqa;
 <a class="jxr_linenumber" name="L2" href="#L2">2</a>   
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> com.google.common.io.Files;
-<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> eu.fbk.utils.core.CommandLine;
-<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> ixa.kaflib.KAFDocument;
-<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.openrdf.model.impl.URIImpl;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> eu.fbk.rdfpro.util.Statements;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> eu.fbk.utils.core.CommandLine;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> ixa.kaflib.KAFDocument;
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.slf4j.LoggerFactory;
 <a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> org.w3c.dom.Document;
 <a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> org.w3c.dom.Element;
@@ -195,7 +195,7 @@
 <a class="jxr_linenumber" name="L187" href="#L187">187</a> 				document.setRawText(text);
 <a class="jxr_linenumber" name="L188" href="#L188">188</a> 
 <a class="jxr_linenumber" name="L189" href="#L189">189</a> 				document.createPublic();
-<a class="jxr_linenumber" name="L190" href="#L190">190</a> 				document.getPublic().publicId = <strong class="jxr_keyword">new</strong> URIImpl(documentURI).getLocalName();
+<a class="jxr_linenumber" name="L190" href="#L190">190</a> 				document.getPublic().publicId = Statements.VALUE_FACTORY.createIRI(documentURI).getLocalName();
 <a class="jxr_linenumber" name="L191" href="#L191">191</a> 				document.getPublic().uri = documentURI;
 <a class="jxr_linenumber" name="L192" href="#L192">192</a> 
 <a class="jxr_linenumber" name="L193" href="#L193">193</a> 				document.createFileDesc();
@@ -218,6 +218,6 @@
 <a class="jxr_linenumber" name="L210" href="#L210">210</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016&#x2013;2017 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2016&#x2013;2018 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
 </body>
 </html>

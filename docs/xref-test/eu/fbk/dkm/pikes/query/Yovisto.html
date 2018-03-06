@@ -20,19 +20,19 @@
 <a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> com.google.common.collect.Ordering;
 <a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> com.google.common.xml.XmlEscapers;
 <a class="jxr_linenumber" name="L14" href="#L14">14</a>  
-<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.Literal;
-<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.Resource;
-<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.Statement;
-<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.URI;
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.Value;
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.ValueFactory;
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.vocabulary.DC;
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.vocabulary.RDF;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.Literal;
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.Resource;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.Statement;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.IRI;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.Value;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.ValueFactory;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.vocabulary.DC;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.vocabulary.RDF;
 <a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> org.slf4j.Logger;
 <a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> org.slf4j.LoggerFactory;
 <a class="jxr_linenumber" name="L25" href="#L25">25</a>  
 <a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> eu.fbk.utils.core.CommandLine;
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> eu.fbk.utils.vocab.NIF;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> eu.fbk.dkm.pikes.rdf.vocab.NIF;
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">import</strong> eu.fbk.rdfpro.RDFSources;
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">import</strong> eu.fbk.rdfpro.util.IO;
 <a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">import</strong> eu.fbk.rdfpro.util.QuadModel;
@@ -44,20 +44,20 @@
 <a class="jxr_linenumber" name="L36" href="#L36">36</a>  
 <a class="jxr_linenumber" name="L37" href="#L37">37</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> ValueFactory VF = Statements.VALUE_FACTORY;
 <a class="jxr_linenumber" name="L38" href="#L38">38</a>  
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> URI SI_QUERY = VF.createURI(<span class="jxr_string">"http://sindice.com/vocab/search#Query"</span>);
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> IRI SI_QUERY = VF.createIRI(<span class="jxr_string">"http://sindice.com/vocab/search#Query"</span>);
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>  
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> URI SI_RESULT = VF.createURI(<span class="jxr_string">"http://sindice.com/vocab/search#result"</span>);
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> IRI SI_RESULT = VF.createIRI(<span class="jxr_string">"http://sindice.com/vocab/search#result"</span>);
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>  
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> URI SI_RANK = VF.createURI(<span class="jxr_string">"http://sindice.com/vocab/search#rank"</span>);
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> IRI SI_RANK = VF.createIRI(<span class="jxr_string">"http://sindice.com/vocab/search#rank"</span>);
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> URI YV_QUERY_ID = VF.createURI(<span class="jxr_string">"http://yovisto.com/eval#queryId"</span>);
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> IRI YV_QUERY_ID = VF.createIRI(<span class="jxr_string">"http://yovisto.com/eval#queryId"</span>);
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  
-<a class="jxr_linenumber" name="L47" href="#L47">47</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> URI YV_DOCUMENT_ID = VF.createURI(<span class="jxr_string">"http://yovisto.com/eval#documentId"</span>);
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> IRI YV_DOCUMENT_ID = VF.createIRI(<span class="jxr_string">"http://yovisto.com/eval#documentId"</span>);
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> URI YV_DOCUMENT = VF.createURI(<span class="jxr_string">"http://yovisto.com/eval#Document"</span>);
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> IRI YV_DOCUMENT = VF.createIRI(<span class="jxr_string">"http://yovisto.com/eval#Document"</span>);
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> URI ITSRDF_TA_IDENT_REF = VF
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>              .createURI(<span class="jxr_string">"http://www.w3.org/2005/11/its/rdf#taIdentRef"</span>);
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> IRI ITSRDF_TA_IDENT_REF = VF
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>              .createIRI(<span class="jxr_string">"http://www.w3.org/2005/11/its/rdf#taIdentRef"</span>);
 <a class="jxr_linenumber" name="L53" href="#L53">53</a>  
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Pattern SPLIT_PATTERN = Pattern
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>              .compile(<span class="jxr_string">"[^ ][ ]([ ]+[A-Z]|The |This |That |These |Those |My |Your |His |Her |Its "</span>
@@ -93,7 +93,7 @@
 <a class="jxr_linenumber" name="L85" href="#L85">85</a>  
 <a class="jxr_linenumber" name="L86" href="#L86">86</a>              <em class="jxr_comment">// Read RDF file</em>
 <a class="jxr_linenumber" name="L87" href="#L87">87</a>              <strong class="jxr_keyword">final</strong> QuadModel model = QuadModel.create();
-<a class="jxr_linenumber" name="L88" href="#L88">88</a>              <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">final</strong> Statement stmt : RDFSources.read(false, <strong class="jxr_keyword">true</strong>, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>,
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>              <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">final</strong> Statement stmt : RDFSources.read(false, <strong class="jxr_keyword">true</strong>, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>,<strong class="jxr_keyword">null</strong>,<strong class="jxr_keyword">true</strong>,
 <a class="jxr_linenumber" name="L89" href="#L89">89</a>                      input.getAbsolutePath())) {
 <a class="jxr_linenumber" name="L90" href="#L90">90</a>                  <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L91" href="#L91">91</a>                      model.add(stmt);
@@ -102,8 +102,8 @@
 <a class="jxr_linenumber" name="L94" href="#L94">94</a>                  }
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>              }
 <a class="jxr_linenumber" name="L96" href="#L96">96</a>  
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>              <em class="jxr_comment">// Define a URI -&gt; ID map</em>
-<a class="jxr_linenumber" name="L98" href="#L98">98</a>              <strong class="jxr_keyword">final</strong> Map&lt;URI, String&gt; ids = Maps.newHashMap();
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>              <em class="jxr_comment">// Define a IRI -&gt; ID map</em>
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>              <strong class="jxr_keyword">final</strong> Map&lt;IRI, String&gt; ids = Maps.newHashMap();
 <a class="jxr_linenumber" name="L99" href="#L99">99</a>  
 <a class="jxr_linenumber" name="L100" href="#L100">100</a>             <em class="jxr_comment">// Emit queries</em>
 <a class="jxr_linenumber" name="L101" href="#L101">101</a>             <strong class="jxr_keyword">int</strong> numResults = 0;
@@ -111,13 +111,13 @@
 <a class="jxr_linenumber" name="L103" href="#L103">103</a>             <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">final</strong> Resource query : model.filter(<strong class="jxr_keyword">null</strong>, RDF.TYPE, SI_QUERY).subjects()) {
 <a class="jxr_linenumber" name="L104" href="#L104">104</a>                 <strong class="jxr_keyword">final</strong> String id = String.format(<span class="jxr_string">"q%02d"</span>, model.filter(query, YV_QUERY_ID, <strong class="jxr_keyword">null</strong>)
 <a class="jxr_linenumber" name="L105" href="#L105">105</a>                         .objectLiteral().intValue());
-<a class="jxr_linenumber" name="L106" href="#L106">106</a>                 ids.put((URI) query, id);
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>                 ids.put((IRI) query, id);
 <a class="jxr_linenumber" name="L107" href="#L107">107</a>                 <strong class="jxr_keyword">final</strong> String text = fixQuery(model.filter(query, NIF.IS_STRING, <strong class="jxr_keyword">null</strong>)
 <a class="jxr_linenumber" name="L108" href="#L108">108</a>                         .objectLiteral().stringValue());
 <a class="jxr_linenumber" name="L109" href="#L109">109</a>                 <strong class="jxr_keyword">final</strong> Map&lt;Integer, String&gt; resultMap = Maps.newHashMap();
 <a class="jxr_linenumber" name="L110" href="#L110">110</a>                 <strong class="jxr_keyword">final</strong> Map&lt;String, Integer&gt; rankMap = Maps.newHashMap();
 <a class="jxr_linenumber" name="L111" href="#L111">111</a>                 <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">final</strong> Value result : model.filter(query, SI_RESULT, <strong class="jxr_keyword">null</strong>).objects()) {
-<a class="jxr_linenumber" name="L112" href="#L112">112</a>                     <strong class="jxr_keyword">final</strong> URI uri = (URI) result;
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>                     <strong class="jxr_keyword">final</strong> IRI uri = (IRI) result;
 <a class="jxr_linenumber" name="L113" href="#L113">113</a>                     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> num = Integer.parseInt(uri.getLocalName());
 <a class="jxr_linenumber" name="L114" href="#L114">114</a>                     <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> rank = model.filter(uri, SI_RANK, <strong class="jxr_keyword">null</strong>).objectLiteral().intValue();
 <a class="jxr_linenumber" name="L115" href="#L115">115</a>                     <strong class="jxr_keyword">final</strong> String documentId = String.format(<span class="jxr_string">"d%03d"</span>,
@@ -137,7 +137,7 @@
 <a class="jxr_linenumber" name="L129" href="#L129">129</a>                 }
 <a class="jxr_linenumber" name="L130" href="#L130">130</a>                 queryLines.add(builder.toString());
 <a class="jxr_linenumber" name="L131" href="#L131">131</a>                 <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> index = query.stringValue().indexOf('#');
-<a class="jxr_linenumber" name="L132" href="#L132">132</a>                 <strong class="jxr_keyword">final</strong> URI queryURI = index &lt; 0 ? (URI) query : VF.createURI(query.stringValue()
+<a class="jxr_linenumber" name="L132" href="#L132">132</a>                 <strong class="jxr_keyword">final</strong> IRI queryIRI = index &lt; 0 ? (IRI) query : VF.createIRI(query.stringValue()
 <a class="jxr_linenumber" name="L133" href="#L133">133</a>                         .substring(0, index));
 <a class="jxr_linenumber" name="L134" href="#L134">134</a>                 <strong class="jxr_keyword">try</strong> (Writer writer = IO
 <a class="jxr_linenumber" name="L135" href="#L135">135</a>                         .utf8Writer(IO.buffer(IO.write(output + <span class="jxr_string">"."</span> + id + <span class="jxr_string">".naf"</span>)))) {
@@ -147,7 +147,7 @@
 <a class="jxr_linenumber" name="L139" href="#L139">139</a>                     writer.write(<span class="jxr_string">"    &lt;fileDesc creationtime=\&quot;2015-07-09T00:00:00+00:00\&quot; /&gt;\n"</span>);
 <a class="jxr_linenumber" name="L140" href="#L140">140</a>                     writer.write(<span class="jxr_string">"    &lt;public publicId=\&quot;"</span>
 <a class="jxr_linenumber" name="L141" href="#L141">141</a>                             + XmlEscapers.xmlAttributeEscaper().escape(id) + <span class="jxr_string">"\&quot; uri=\&quot;"</span>
-<a class="jxr_linenumber" name="L142" href="#L142">142</a>                             + XmlEscapers.xmlAttributeEscaper().escape(queryURI.stringValue())
+<a class="jxr_linenumber" name="L142" href="#L142">142</a>                             + XmlEscapers.xmlAttributeEscaper().escape(queryIRI.stringValue())
 <a class="jxr_linenumber" name="L143" href="#L143">143</a>                             + <span class="jxr_string">"\&quot;/&gt;\n"</span>);
 <a class="jxr_linenumber" name="L144" href="#L144">144</a>                     writer.write(<span class="jxr_string">"  &lt;/nafHeader&gt;\n"</span>);
 <a class="jxr_linenumber" name="L145" href="#L145">145</a>                     writer.write(<span class="jxr_string">"  &lt;raw&gt;&lt;![CDATA["</span>);
@@ -173,9 +173,9 @@
 <a class="jxr_linenumber" name="L165" href="#L165">165</a>                 <strong class="jxr_keyword">final</strong> String text = fixDocument(model.filter(document, NIF.IS_STRING, <strong class="jxr_keyword">null</strong>)
 <a class="jxr_linenumber" name="L166" href="#L166">166</a>                         .objectLiteral().stringValue());
 <a class="jxr_linenumber" name="L167" href="#L167">167</a>                 <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> index = document.stringValue().indexOf('#');
-<a class="jxr_linenumber" name="L168" href="#L168">168</a>                 <strong class="jxr_keyword">final</strong> URI documentURI = index &lt; 0 ? (URI) document : VF.createURI(document
+<a class="jxr_linenumber" name="L168" href="#L168">168</a>                 <strong class="jxr_keyword">final</strong> IRI documentIRI = index &lt; 0 ? (IRI) document : VF.createIRI(document
 <a class="jxr_linenumber" name="L169" href="#L169">169</a>                         .stringValue().substring(0, index));
-<a class="jxr_linenumber" name="L170" href="#L170">170</a>                 ids.put((URI) document, id);
+<a class="jxr_linenumber" name="L170" href="#L170">170</a>                 ids.put((IRI) document, id);
 <a class="jxr_linenumber" name="L171" href="#L171">171</a>                 <strong class="jxr_keyword">try</strong> (Writer writer = IO
 <a class="jxr_linenumber" name="L172" href="#L172">172</a>                         .utf8Writer(IO.buffer(IO.write(output + <span class="jxr_string">"."</span> + id + <span class="jxr_string">".naf"</span>)))) {
 <a class="jxr_linenumber" name="L173" href="#L173">173</a>                     writer.write(<span class="jxr_string">"&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;UTF-8\&quot;?&gt;\n"</span>);
@@ -185,7 +185,7 @@
 <a class="jxr_linenumber" name="L177" href="#L177">177</a>                             + XmlEscapers.xmlAttributeEscaper().escape(title) + <span class="jxr_string">"\&quot;/&gt;\n"</span>);
 <a class="jxr_linenumber" name="L178" href="#L178">178</a>                     writer.write(<span class="jxr_string">"    &lt;public publicId=\&quot;"</span>
 <a class="jxr_linenumber" name="L179" href="#L179">179</a>                             + XmlEscapers.xmlAttributeEscaper().escape(id) + <span class="jxr_string">"\&quot; uri=\&quot;"</span>
-<a class="jxr_linenumber" name="L180" href="#L180">180</a>                             + XmlEscapers.xmlAttributeEscaper().escape(documentURI.stringValue())
+<a class="jxr_linenumber" name="L180" href="#L180">180</a>                             + XmlEscapers.xmlAttributeEscaper().escape(documentIRI.stringValue())
 <a class="jxr_linenumber" name="L181" href="#L181">181</a>                             + <span class="jxr_string">"\&quot;/&gt;\n"</span>);
 <a class="jxr_linenumber" name="L182" href="#L182">182</a>                     writer.write(<span class="jxr_string">"  &lt;/nafHeader&gt;\n"</span>);
 <a class="jxr_linenumber" name="L183" href="#L183">183</a>                     writer.write(<span class="jxr_string">"  &lt;raw&gt;&lt;![CDATA["</span>);
@@ -203,9 +203,9 @@
 <a class="jxr_linenumber" name="L195" href="#L195">195</a>             <em class="jxr_comment">// Emit entities</em>
 <a class="jxr_linenumber" name="L196" href="#L196">196</a>             <strong class="jxr_keyword">final</strong> Map&lt;String, String&gt; entityLines = Maps.newHashMap();
 <a class="jxr_linenumber" name="L197" href="#L197">197</a>             <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">final</strong> Statement stmt : model.filter(<strong class="jxr_keyword">null</strong>, ITSRDF_TA_IDENT_REF, <strong class="jxr_keyword">null</strong>)) {
-<a class="jxr_linenumber" name="L198" href="#L198">198</a>                 <strong class="jxr_keyword">final</strong> URI entity = (URI) stmt.getSubject();
-<a class="jxr_linenumber" name="L199" href="#L199">199</a>                 <strong class="jxr_keyword">final</strong> URI reference = VF.createURI(stmt.getObject().stringValue());
-<a class="jxr_linenumber" name="L200" href="#L200">200</a>                 <strong class="jxr_keyword">final</strong> URI context = VF.createURI(model.filter(entity, NIF.REFERENCE_CONTEXT, <strong class="jxr_keyword">null</strong>)
+<a class="jxr_linenumber" name="L198" href="#L198">198</a>                 <strong class="jxr_keyword">final</strong> IRI entity = (IRI) stmt.getSubject();
+<a class="jxr_linenumber" name="L199" href="#L199">199</a>                 <strong class="jxr_keyword">final</strong> IRI reference = VF.createIRI(stmt.getObject().stringValue());
+<a class="jxr_linenumber" name="L200" href="#L200">200</a>                 <strong class="jxr_keyword">final</strong> IRI context = VF.createIRI(model.filter(entity, NIF.REFERENCE_CONTEXT, <strong class="jxr_keyword">null</strong>)
 <a class="jxr_linenumber" name="L201" href="#L201">201</a>                         .objectValue().stringValue());
 <a class="jxr_linenumber" name="L202" href="#L202">202</a>                 <strong class="jxr_keyword">final</strong> String id = ids.get(context);
 <a class="jxr_linenumber" name="L203" href="#L203">203</a>                 <strong class="jxr_keyword">final</strong> String text = model.filter(entity, NIF.ANCHOR_OF, <strong class="jxr_keyword">null</strong>).objectLiteral()
@@ -302,7 +302,7 @@
 <a class="jxr_linenumber" name="L294" href="#L294">294</a>         <strong class="jxr_keyword">return</strong> builder.toString();
 <a class="jxr_linenumber" name="L295" href="#L295">295</a>     }
 <a class="jxr_linenumber" name="L296" href="#L296">296</a> 
-<a class="jxr_linenumber" name="L297" href="#L297">297</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">int</strong> getInt(<strong class="jxr_keyword">final</strong> QuadModel model, <strong class="jxr_keyword">final</strong> Resource subject, <strong class="jxr_keyword">final</strong> URI property) {
+<a class="jxr_linenumber" name="L297" href="#L297">297</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">int</strong> getInt(<strong class="jxr_keyword">final</strong> QuadModel model, <strong class="jxr_keyword">final</strong> Resource subject, <strong class="jxr_keyword">final</strong> IRI property) {
 <a class="jxr_linenumber" name="L298" href="#L298">298</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">final</strong> Value value : model.filter(subject, property, <strong class="jxr_keyword">null</strong>).objects()) {
 <a class="jxr_linenumber" name="L299" href="#L299">299</a>             <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L300" href="#L300">300</a>                 <strong class="jxr_keyword">return</strong> ((Literal) value).intValue();
@@ -319,6 +319,6 @@
 <a class="jxr_linenumber" name="L311" href="#L311">311</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016&#x2013;2017 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2016&#x2013;2018 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
 </body>
 </html>

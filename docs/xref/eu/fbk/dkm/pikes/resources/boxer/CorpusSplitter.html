@@ -8,9 +8,9 @@
 <pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> eu.fbk.dkm.pikes.resources.boxer;
 <a class="jxr_linenumber" name="L2" href="#L2">2</a>   
-<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> eu.fbk.utils.core.CommandLine;
-<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> ixa.kaflib.KAFDocument;
-<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> org.openrdf.model.impl.URIImpl;
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> eu.fbk.rdfpro.util.Statements;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> eu.fbk.utils.core.CommandLine;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> ixa.kaflib.KAFDocument;
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.slf4j.LoggerFactory;
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   
 <a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> java.io.BufferedReader;
@@ -44,7 +44,7 @@
 <a class="jxr_linenumber" name="L36" href="#L36">36</a>  		<strong class="jxr_keyword">final</strong> <a href="../../../../../../ixa/kaflib/KAFDocument.html">KAFDocument</a> document = <strong class="jxr_keyword">new</strong> <a href="../../../../../../ixa/kaflib/KAFDocument.html">KAFDocument</a>(<span class="jxr_string">"en"</span>, <span class="jxr_string">"v3"</span>);
 <a class="jxr_linenumber" name="L37" href="#L37">37</a>  		document.setRawText(text);
 <a class="jxr_linenumber" name="L38" href="#L38">38</a>  		document.createPublic();
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>  		document.getPublic().publicId = <strong class="jxr_keyword">new</strong> URIImpl(documentURI).getLocalName();
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  		document.getPublic().publicId = Statements.VALUE_FACTORY.createIRI(documentURI).getLocalName();
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>  		document.getPublic().uri = documentURI;
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>  		document.createFileDesc();
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>  		document.getFileDesc().filename = nafFileName;
@@ -100,6 +100,6 @@
 <a class="jxr_linenumber" name="L92" href="#L92">92</a>  }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016&#x2013;2017 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2016&#x2013;2018 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
 </body>
 </html>

@@ -10,15 +10,15 @@
 <a class="jxr_linenumber" name="L2" href="#L2">2</a>   
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> com.google.common.base.Preconditions;
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> com.google.common.base.Strings;
-<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> eu.fbk.utils.vocab.OWLTIME;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> eu.fbk.dkm.pikes.rdf.vocab.OWLTIME;
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> eu.fbk.rdfpro.util.Statements;
-<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.openrdf.model.Resource;
-<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> org.openrdf.model.URI;
-<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> org.openrdf.model.Value;
-<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.vocabulary.RDF;
-<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.vocabulary.RDFS;
-<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> org.openrdf.rio.RDFHandler;
-<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> org.openrdf.rio.RDFHandlerException;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.Resource;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.IRI;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.Value;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.vocabulary.RDF;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.model.vocabulary.RDFS;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.rio.RDFHandler;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> org.eclipse.rdf4j.rio.RDFHandlerException;
 <a class="jxr_linenumber" name="L14" href="#L14">14</a>  
 <a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> javax.annotation.Nullable;
 <a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> java.util.Calendar;
@@ -40,7 +40,7 @@
 <a class="jxr_linenumber" name="L32" href="#L32">32</a>                  : value == -1 ? <span class="jxr_string">"XX"</span> : String.format(<span class="jxr_string">"%02d"</span>, value);
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>      }
 <a class="jxr_linenumber" name="L34" href="#L34">34</a>  
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> emit(<strong class="jxr_keyword">final</strong> RDFHandler handler, <strong class="jxr_keyword">final</strong> Resource subj, <strong class="jxr_keyword">final</strong> URI pred,
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> emit(<strong class="jxr_keyword">final</strong> RDFHandler handler, <strong class="jxr_keyword">final</strong> Resource subj, <strong class="jxr_keyword">final</strong> IRI pred,
 <a class="jxr_linenumber" name="L36" href="#L36">36</a>              <strong class="jxr_keyword">final</strong> Object obj, <strong class="jxr_keyword">final</strong> Resource ctx) <strong class="jxr_keyword">throws</strong> RDFHandlerException {
 <a class="jxr_linenumber" name="L37" href="#L37">37</a>          <strong class="jxr_keyword">final</strong> Value o = Statements.convert(obj, Value.<strong class="jxr_keyword">class</strong>);
 <a class="jxr_linenumber" name="L38" href="#L38">38</a>          <strong class="jxr_keyword">if</strong> (subj != <strong class="jxr_keyword">null</strong> &amp;&amp; pred != <strong class="jxr_keyword">null</strong> &amp;&amp; o != <strong class="jxr_keyword">null</strong>) {
@@ -263,29 +263,29 @@
 <a class="jxr_linenumber" name="L255" href="#L255">255</a>             <strong class="jxr_keyword">return</strong> Objects.hash(<strong class="jxr_keyword">this</strong>.begin, <strong class="jxr_keyword">this</strong>.end);
 <a class="jxr_linenumber" name="L256" href="#L256">256</a>         }
 <a class="jxr_linenumber" name="L257" href="#L257">257</a> 
-<a class="jxr_linenumber" name="L258" href="#L258">258</a>         <strong class="jxr_keyword">public</strong> URI toRDF(<strong class="jxr_keyword">final</strong> RDFHandler handler, <strong class="jxr_keyword">final</strong> String namespace, <strong class="jxr_keyword">final</strong> Resource ctx)
+<a class="jxr_linenumber" name="L258" href="#L258">258</a>         <strong class="jxr_keyword">public</strong> IRI toRDF(<strong class="jxr_keyword">final</strong> RDFHandler handler, <strong class="jxr_keyword">final</strong> String namespace, <strong class="jxr_keyword">final</strong> Resource ctx)
 <a class="jxr_linenumber" name="L259" href="#L259">259</a>                 <strong class="jxr_keyword">throws</strong> RDFHandlerException {
-<a class="jxr_linenumber" name="L260" href="#L260">260</a>             <strong class="jxr_keyword">final</strong> URI uri = toURI(namespace);
+<a class="jxr_linenumber" name="L260" href="#L260">260</a>             <strong class="jxr_keyword">final</strong> IRI iri = toIRI(namespace);
 <a class="jxr_linenumber" name="L261" href="#L261">261</a>             <strong class="jxr_keyword">if</strong> (isDateTimeInterval()) {
-<a class="jxr_linenumber" name="L262" href="#L262">262</a>                 <strong class="jxr_keyword">final</strong> URI uriDesc = <strong class="jxr_keyword">this</strong>.begin.toRDF(handler, namespace, ctx);
-<a class="jxr_linenumber" name="L263" href="#L263">263</a>                 emit(handler, uri, OWLTIME.HAS_DATE_TIME_DESCRIPTION, uriDesc, ctx);
-<a class="jxr_linenumber" name="L264" href="#L264">264</a>                 emit(handler, uri, RDF.TYPE, OWLTIME.DATE_TIME_INTERVAL, ctx);
+<a class="jxr_linenumber" name="L262" href="#L262">262</a>                 <strong class="jxr_keyword">final</strong> IRI iriDesc = <strong class="jxr_keyword">this</strong>.begin.toRDF(handler, namespace, ctx);
+<a class="jxr_linenumber" name="L263" href="#L263">263</a>                 emit(handler, iri, OWLTIME.HAS_DATE_TIME_DESCRIPTION, iriDesc, ctx);
+<a class="jxr_linenumber" name="L264" href="#L264">264</a>                 emit(handler, iri, RDF.TYPE, OWLTIME.DATE_TIME_INTERVAL, ctx);
 <a class="jxr_linenumber" name="L265" href="#L265">265</a>             } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L266" href="#L266">266</a>                 <strong class="jxr_keyword">final</strong> URI beginURI = <strong class="jxr_keyword">this</strong>.begin == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">null</strong> : create(<strong class="jxr_keyword">this</strong>.begin).toRDF(handler,
+<a class="jxr_linenumber" name="L266" href="#L266">266</a>                 <strong class="jxr_keyword">final</strong> IRI beginIRI = <strong class="jxr_keyword">this</strong>.begin == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">null</strong> : create(<strong class="jxr_keyword">this</strong>.begin).toRDF(handler,
 <a class="jxr_linenumber" name="L267" href="#L267">267</a>                         namespace, ctx);
-<a class="jxr_linenumber" name="L268" href="#L268">268</a>                 <strong class="jxr_keyword">final</strong> URI endURI = <strong class="jxr_keyword">this</strong>.end == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">null</strong> : create(<strong class="jxr_keyword">this</strong>.end).toRDF(handler,
+<a class="jxr_linenumber" name="L268" href="#L268">268</a>                 <strong class="jxr_keyword">final</strong> IRI endIRI = <strong class="jxr_keyword">this</strong>.end == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">null</strong> : create(<strong class="jxr_keyword">this</strong>.end).toRDF(handler,
 <a class="jxr_linenumber" name="L269" href="#L269">269</a>                         namespace, ctx);
-<a class="jxr_linenumber" name="L270" href="#L270">270</a>                 emit(handler, uri, OWLTIME.INTERVAL_STARTED_BY, beginURI, ctx);
-<a class="jxr_linenumber" name="L271" href="#L271">271</a>                 emit(handler, uri, OWLTIME.INTERVAL_FINISHED_BY, endURI, ctx);
+<a class="jxr_linenumber" name="L270" href="#L270">270</a>                 emit(handler, iri, OWLTIME.INTERVAL_STARTED_BY, beginIRI, ctx);
+<a class="jxr_linenumber" name="L271" href="#L271">271</a>                 emit(handler, iri, OWLTIME.INTERVAL_FINISHED_BY, endIRI, ctx);
 <a class="jxr_linenumber" name="L272" href="#L272">272</a>             }
-<a class="jxr_linenumber" name="L273" href="#L273">273</a>             emit(handler, uri, RDF.TYPE, OWLTIME.PROPER_INTERVAL, ctx);
-<a class="jxr_linenumber" name="L274" href="#L274">274</a>             emit(handler, uri, RDFS.LABEL, toString(), ctx);
-<a class="jxr_linenumber" name="L275" href="#L275">275</a>             <strong class="jxr_keyword">return</strong> uri;
+<a class="jxr_linenumber" name="L273" href="#L273">273</a>             emit(handler, iri, RDF.TYPE, OWLTIME.PROPER_INTERVAL, ctx);
+<a class="jxr_linenumber" name="L274" href="#L274">274</a>             emit(handler, iri, RDFS.LABEL, toString(), ctx);
+<a class="jxr_linenumber" name="L275" href="#L275">275</a>             <strong class="jxr_keyword">return</strong> iri;
 <a class="jxr_linenumber" name="L276" href="#L276">276</a>         }
 <a class="jxr_linenumber" name="L277" href="#L277">277</a> 
-<a class="jxr_linenumber" name="L278" href="#L278">278</a>         <strong class="jxr_keyword">public</strong> URI toURI(<strong class="jxr_keyword">final</strong> String namespace) {
+<a class="jxr_linenumber" name="L278" href="#L278">278</a>         <strong class="jxr_keyword">public</strong> IRI toIRI(<strong class="jxr_keyword">final</strong> String namespace) {
 <a class="jxr_linenumber" name="L279" href="#L279">279</a>             <strong class="jxr_keyword">final</strong> String localName = toString().replace(<span class="jxr_string">" - "</span>, <span class="jxr_string">"_"</span>).replace(':', '.');
-<a class="jxr_linenumber" name="L280" href="#L280">280</a>             <strong class="jxr_keyword">return</strong> Statements.VALUE_FACTORY.createURI(namespace, localName);
+<a class="jxr_linenumber" name="L280" href="#L280">280</a>             <strong class="jxr_keyword">return</strong> Statements.VALUE_FACTORY.createIRI(namespace, localName);
 <a class="jxr_linenumber" name="L281" href="#L281">281</a>         }
 <a class="jxr_linenumber" name="L282" href="#L282">282</a> 
 <a class="jxr_linenumber" name="L283" href="#L283">283</a>         @Override
@@ -423,68 +423,68 @@
 <a class="jxr_linenumber" name="L415" href="#L415">415</a>                     <strong class="jxr_keyword">this</strong>.minute, <strong class="jxr_keyword">this</strong>.second);
 <a class="jxr_linenumber" name="L416" href="#L416">416</a>         }
 <a class="jxr_linenumber" name="L417" href="#L417">417</a> 
-<a class="jxr_linenumber" name="L418" href="#L418">418</a>         <strong class="jxr_keyword">public</strong> URI toRDF(<strong class="jxr_keyword">final</strong> RDFHandler handler, <strong class="jxr_keyword">final</strong> String namespace,
+<a class="jxr_linenumber" name="L418" href="#L418">418</a>         <strong class="jxr_keyword">public</strong> IRI toRDF(<strong class="jxr_keyword">final</strong> RDFHandler handler, <strong class="jxr_keyword">final</strong> String namespace,
 <a class="jxr_linenumber" name="L419" href="#L419">419</a>                 @Nullable <strong class="jxr_keyword">final</strong> Resource ctx) <strong class="jxr_keyword">throws</strong> RDFHandlerException {
 <a class="jxr_linenumber" name="L420" href="#L420">420</a> 
 <a class="jxr_linenumber" name="L421" href="#L421">421</a>             <em class="jxr_comment">// TODO: this implementation allows for missing fields: should we allow them?</em>
 <a class="jxr_linenumber" name="L422" href="#L422">422</a> 
 <a class="jxr_linenumber" name="L423" href="#L423">423</a>             <em class="jxr_comment">// Emit RDF</em>
-<a class="jxr_linenumber" name="L424" href="#L424">424</a>             <strong class="jxr_keyword">final</strong> URI uri = toURI(namespace);
-<a class="jxr_linenumber" name="L425" href="#L425">425</a>             URI unitType = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L426" href="#L426">426</a>             emit(handler, uri, RDF.TYPE, OWLTIME.DATE_TIME_DESCRIPTION, ctx);
+<a class="jxr_linenumber" name="L424" href="#L424">424</a>             <strong class="jxr_keyword">final</strong> IRI iri = toIRI(namespace);
+<a class="jxr_linenumber" name="L425" href="#L425">425</a>             IRI unitType = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L426" href="#L426">426</a>             emit(handler, iri, RDF.TYPE, OWLTIME.DATE_TIME_DESCRIPTION, ctx);
 <a class="jxr_linenumber" name="L427" href="#L427">427</a>             <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.year != -1) {
-<a class="jxr_linenumber" name="L428" href="#L428">428</a>                 emit(handler, uri, OWLTIME.YEAR, <strong class="jxr_keyword">this</strong>.year, ctx);
+<a class="jxr_linenumber" name="L428" href="#L428">428</a>                 emit(handler, iri, OWLTIME.YEAR, <strong class="jxr_keyword">this</strong>.year, ctx);
 <a class="jxr_linenumber" name="L429" href="#L429">429</a>                 unitType = OWLTIME.UNIT_YEAR;
 <a class="jxr_linenumber" name="L430" href="#L430">430</a>             }
 <a class="jxr_linenumber" name="L431" href="#L431">431</a>             <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.month != -1) {
-<a class="jxr_linenumber" name="L432" href="#L432">432</a>                 emit(handler, uri, OWLTIME.MONTH, <strong class="jxr_keyword">this</strong>.month, ctx);
+<a class="jxr_linenumber" name="L432" href="#L432">432</a>                 emit(handler, iri, OWLTIME.MONTH, <strong class="jxr_keyword">this</strong>.month, ctx);
 <a class="jxr_linenumber" name="L433" href="#L433">433</a>                 unitType = OWLTIME.UNIT_MONTH;
 <a class="jxr_linenumber" name="L434" href="#L434">434</a>             }
 <a class="jxr_linenumber" name="L435" href="#L435">435</a>             <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.week != -1) {
-<a class="jxr_linenumber" name="L436" href="#L436">436</a>                 emit(handler, uri, OWLTIME.WEEK, <strong class="jxr_keyword">this</strong>.week, ctx);
+<a class="jxr_linenumber" name="L436" href="#L436">436</a>                 emit(handler, iri, OWLTIME.WEEK, <strong class="jxr_keyword">this</strong>.week, ctx);
 <a class="jxr_linenumber" name="L437" href="#L437">437</a>                 unitType = OWLTIME.UNIT_WEEK;
 <a class="jxr_linenumber" name="L438" href="#L438">438</a>             }
 <a class="jxr_linenumber" name="L439" href="#L439">439</a>             <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.day != -1) {
-<a class="jxr_linenumber" name="L440" href="#L440">440</a>                 emit(handler, uri, OWLTIME.DAY, <strong class="jxr_keyword">this</strong>.day, ctx);
+<a class="jxr_linenumber" name="L440" href="#L440">440</a>                 emit(handler, iri, OWLTIME.DAY, <strong class="jxr_keyword">this</strong>.day, ctx);
 <a class="jxr_linenumber" name="L441" href="#L441">441</a>                 unitType = OWLTIME.UNIT_DAY;
 <a class="jxr_linenumber" name="L442" href="#L442">442</a>             }
 <a class="jxr_linenumber" name="L443" href="#L443">443</a>             <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.dayOfWeek != -1) {
-<a class="jxr_linenumber" name="L444" href="#L444">444</a>                 URI dayURI;
+<a class="jxr_linenumber" name="L444" href="#L444">444</a>                 IRI dayIRI;
 <a class="jxr_linenumber" name="L445" href="#L445">445</a>                 <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.dayOfWeek == Calendar.MONDAY) {
-<a class="jxr_linenumber" name="L446" href="#L446">446</a>                     dayURI = OWLTIME.MONDAY;
+<a class="jxr_linenumber" name="L446" href="#L446">446</a>                     dayIRI = OWLTIME.MONDAY;
 <a class="jxr_linenumber" name="L447" href="#L447">447</a>                 } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.dayOfWeek == Calendar.TUESDAY) {
-<a class="jxr_linenumber" name="L448" href="#L448">448</a>                     dayURI = OWLTIME.TUESDAY;
+<a class="jxr_linenumber" name="L448" href="#L448">448</a>                     dayIRI = OWLTIME.TUESDAY;
 <a class="jxr_linenumber" name="L449" href="#L449">449</a>                 } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.dayOfWeek == Calendar.WEDNESDAY) {
-<a class="jxr_linenumber" name="L450" href="#L450">450</a>                     dayURI = OWLTIME.WEDNESDAY;
+<a class="jxr_linenumber" name="L450" href="#L450">450</a>                     dayIRI = OWLTIME.WEDNESDAY;
 <a class="jxr_linenumber" name="L451" href="#L451">451</a>                 } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.dayOfWeek == Calendar.THURSDAY) {
-<a class="jxr_linenumber" name="L452" href="#L452">452</a>                     dayURI = OWLTIME.THURSDAY;
+<a class="jxr_linenumber" name="L452" href="#L452">452</a>                     dayIRI = OWLTIME.THURSDAY;
 <a class="jxr_linenumber" name="L453" href="#L453">453</a>                 } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.dayOfWeek == Calendar.FRIDAY) {
-<a class="jxr_linenumber" name="L454" href="#L454">454</a>                     dayURI = OWLTIME.FRIDAY;
+<a class="jxr_linenumber" name="L454" href="#L454">454</a>                     dayIRI = OWLTIME.FRIDAY;
 <a class="jxr_linenumber" name="L455" href="#L455">455</a>                 } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.dayOfWeek == Calendar.SATURDAY) {
-<a class="jxr_linenumber" name="L456" href="#L456">456</a>                     dayURI = OWLTIME.SATURDAY;
+<a class="jxr_linenumber" name="L456" href="#L456">456</a>                     dayIRI = OWLTIME.SATURDAY;
 <a class="jxr_linenumber" name="L457" href="#L457">457</a>                 } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L458" href="#L458">458</a>                     dayURI = OWLTIME.SUNDAY;
+<a class="jxr_linenumber" name="L458" href="#L458">458</a>                     dayIRI = OWLTIME.SUNDAY;
 <a class="jxr_linenumber" name="L459" href="#L459">459</a>                 }
-<a class="jxr_linenumber" name="L460" href="#L460">460</a>                 emit(handler, uri, OWLTIME.DAY_OF_WEEK, dayURI, ctx);
+<a class="jxr_linenumber" name="L460" href="#L460">460</a>                 emit(handler, iri, OWLTIME.DAY_OF_WEEK, dayIRI, ctx);
 <a class="jxr_linenumber" name="L461" href="#L461">461</a>             }
 <a class="jxr_linenumber" name="L462" href="#L462">462</a>             <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.hour != -1) {
-<a class="jxr_linenumber" name="L463" href="#L463">463</a>                 emit(handler, uri, OWLTIME.HOUR, <strong class="jxr_keyword">this</strong>.hour, ctx);
+<a class="jxr_linenumber" name="L463" href="#L463">463</a>                 emit(handler, iri, OWLTIME.HOUR, <strong class="jxr_keyword">this</strong>.hour, ctx);
 <a class="jxr_linenumber" name="L464" href="#L464">464</a>                 unitType = OWLTIME.UNIT_HOUR;
 <a class="jxr_linenumber" name="L465" href="#L465">465</a>             }
 <a class="jxr_linenumber" name="L466" href="#L466">466</a>             <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.minute != -1) {
-<a class="jxr_linenumber" name="L467" href="#L467">467</a>                 emit(handler, uri, OWLTIME.MINUTE, <strong class="jxr_keyword">this</strong>.minute, ctx);
+<a class="jxr_linenumber" name="L467" href="#L467">467</a>                 emit(handler, iri, OWLTIME.MINUTE, <strong class="jxr_keyword">this</strong>.minute, ctx);
 <a class="jxr_linenumber" name="L468" href="#L468">468</a>                 unitType = OWLTIME.UNIT_MINUTE;
 <a class="jxr_linenumber" name="L469" href="#L469">469</a>             }
 <a class="jxr_linenumber" name="L470" href="#L470">470</a>             <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.second != -1) {
-<a class="jxr_linenumber" name="L471" href="#L471">471</a>                 emit(handler, uri, OWLTIME.SECOND, <strong class="jxr_keyword">this</strong>.second, ctx);
+<a class="jxr_linenumber" name="L471" href="#L471">471</a>                 emit(handler, iri, OWLTIME.SECOND, <strong class="jxr_keyword">this</strong>.second, ctx);
 <a class="jxr_linenumber" name="L472" href="#L472">472</a>                 unitType = OWLTIME.UNIT_SECOND;
 <a class="jxr_linenumber" name="L473" href="#L473">473</a>             }
-<a class="jxr_linenumber" name="L474" href="#L474">474</a>             emit(handler, uri, OWLTIME.UNIT_TYPE, unitType, ctx);
-<a class="jxr_linenumber" name="L475" href="#L475">475</a>             <strong class="jxr_keyword">return</strong> uri;
+<a class="jxr_linenumber" name="L474" href="#L474">474</a>             emit(handler, iri, OWLTIME.UNIT_TYPE, unitType, ctx);
+<a class="jxr_linenumber" name="L475" href="#L475">475</a>             <strong class="jxr_keyword">return</strong> iri;
 <a class="jxr_linenumber" name="L476" href="#L476">476</a>         }
 <a class="jxr_linenumber" name="L477" href="#L477">477</a> 
-<a class="jxr_linenumber" name="L478" href="#L478">478</a>         <strong class="jxr_keyword">public</strong> URI toURI(<strong class="jxr_keyword">final</strong> String namespace) {
-<a class="jxr_linenumber" name="L479" href="#L479">479</a>             <strong class="jxr_keyword">return</strong> Statements.VALUE_FACTORY.createURI(namespace, toString().replace(':', '.')
+<a class="jxr_linenumber" name="L478" href="#L478">478</a>         <strong class="jxr_keyword">public</strong> IRI toIRI(<strong class="jxr_keyword">final</strong> String namespace) {
+<a class="jxr_linenumber" name="L479" href="#L479">479</a>             <strong class="jxr_keyword">return</strong> Statements.VALUE_FACTORY.createIRI(namespace, toString().replace(':', '.')
 <a class="jxr_linenumber" name="L480" href="#L480">480</a>                     + <span class="jxr_string">"_desc"</span>);
 <a class="jxr_linenumber" name="L481" href="#L481">481</a>         }
 <a class="jxr_linenumber" name="L482" href="#L482">482</a> 
@@ -681,37 +681,37 @@
 <a class="jxr_linenumber" name="L673" href="#L673">673</a>                     <strong class="jxr_keyword">this</strong>.minutes, <strong class="jxr_keyword">this</strong>.seconds);
 <a class="jxr_linenumber" name="L674" href="#L674">674</a>         }
 <a class="jxr_linenumber" name="L675" href="#L675">675</a> 
-<a class="jxr_linenumber" name="L676" href="#L676">676</a>         <strong class="jxr_keyword">public</strong> URI toRDF(<strong class="jxr_keyword">final</strong> RDFHandler handler, <strong class="jxr_keyword">final</strong> String namespace,
+<a class="jxr_linenumber" name="L676" href="#L676">676</a>         <strong class="jxr_keyword">public</strong> IRI toRDF(<strong class="jxr_keyword">final</strong> RDFHandler handler, <strong class="jxr_keyword">final</strong> String namespace,
 <a class="jxr_linenumber" name="L677" href="#L677">677</a>                 @Nullable <strong class="jxr_keyword">final</strong> Resource ctx) <strong class="jxr_keyword">throws</strong> RDFHandlerException {
-<a class="jxr_linenumber" name="L678" href="#L678">678</a>             <strong class="jxr_keyword">final</strong> URI uri = toURI(namespace);
-<a class="jxr_linenumber" name="L679" href="#L679">679</a>             emit(handler, uri, RDF.TYPE, OWLTIME.DURATION_DESCRIPTION, ctx);
+<a class="jxr_linenumber" name="L678" href="#L678">678</a>             <strong class="jxr_keyword">final</strong> IRI iri = toIRI(namespace);
+<a class="jxr_linenumber" name="L679" href="#L679">679</a>             emit(handler, iri, RDF.TYPE, OWLTIME.DURATION_DESCRIPTION, ctx);
 <a class="jxr_linenumber" name="L680" href="#L680">680</a>             <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.years &gt; 0) {
-<a class="jxr_linenumber" name="L681" href="#L681">681</a>                 emit(handler, uri, OWLTIME.YEARS, <strong class="jxr_keyword">this</strong>.years, ctx);
+<a class="jxr_linenumber" name="L681" href="#L681">681</a>                 emit(handler, iri, OWLTIME.YEARS, <strong class="jxr_keyword">this</strong>.years, ctx);
 <a class="jxr_linenumber" name="L682" href="#L682">682</a>             }
 <a class="jxr_linenumber" name="L683" href="#L683">683</a>             <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.months &gt; 0) {
-<a class="jxr_linenumber" name="L684" href="#L684">684</a>                 emit(handler, uri, OWLTIME.MONTHS, <strong class="jxr_keyword">this</strong>.months, ctx);
+<a class="jxr_linenumber" name="L684" href="#L684">684</a>                 emit(handler, iri, OWLTIME.MONTHS, <strong class="jxr_keyword">this</strong>.months, ctx);
 <a class="jxr_linenumber" name="L685" href="#L685">685</a>             }
 <a class="jxr_linenumber" name="L686" href="#L686">686</a>             <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.weeks &gt; 0) {
-<a class="jxr_linenumber" name="L687" href="#L687">687</a>                 emit(handler, uri, OWLTIME.WEEKS, <strong class="jxr_keyword">this</strong>.weeks, ctx);
+<a class="jxr_linenumber" name="L687" href="#L687">687</a>                 emit(handler, iri, OWLTIME.WEEKS, <strong class="jxr_keyword">this</strong>.weeks, ctx);
 <a class="jxr_linenumber" name="L688" href="#L688">688</a>             }
 <a class="jxr_linenumber" name="L689" href="#L689">689</a>             <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.days &gt; 0) {
-<a class="jxr_linenumber" name="L690" href="#L690">690</a>                 emit(handler, uri, OWLTIME.YEARS, <strong class="jxr_keyword">this</strong>.days, ctx);
+<a class="jxr_linenumber" name="L690" href="#L690">690</a>                 emit(handler, iri, OWLTIME.YEARS, <strong class="jxr_keyword">this</strong>.days, ctx);
 <a class="jxr_linenumber" name="L691" href="#L691">691</a>             }
 <a class="jxr_linenumber" name="L692" href="#L692">692</a>             <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.hours &gt; 0) {
-<a class="jxr_linenumber" name="L693" href="#L693">693</a>                 emit(handler, uri, OWLTIME.HOURS, <strong class="jxr_keyword">this</strong>.hours, ctx);
+<a class="jxr_linenumber" name="L693" href="#L693">693</a>                 emit(handler, iri, OWLTIME.HOURS, <strong class="jxr_keyword">this</strong>.hours, ctx);
 <a class="jxr_linenumber" name="L694" href="#L694">694</a>             }
 <a class="jxr_linenumber" name="L695" href="#L695">695</a>             <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.minutes &gt; 0) {
-<a class="jxr_linenumber" name="L696" href="#L696">696</a>                 emit(handler, uri, OWLTIME.MINUTES, <strong class="jxr_keyword">this</strong>.minutes, ctx);
+<a class="jxr_linenumber" name="L696" href="#L696">696</a>                 emit(handler, iri, OWLTIME.MINUTES, <strong class="jxr_keyword">this</strong>.minutes, ctx);
 <a class="jxr_linenumber" name="L697" href="#L697">697</a>             }
 <a class="jxr_linenumber" name="L698" href="#L698">698</a>             <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong>.seconds &gt; 0) {
-<a class="jxr_linenumber" name="L699" href="#L699">699</a>                 emit(handler, uri, OWLTIME.SECONDS, <strong class="jxr_keyword">this</strong>.seconds, ctx);
+<a class="jxr_linenumber" name="L699" href="#L699">699</a>                 emit(handler, iri, OWLTIME.SECONDS, <strong class="jxr_keyword">this</strong>.seconds, ctx);
 <a class="jxr_linenumber" name="L700" href="#L700">700</a>             }
-<a class="jxr_linenumber" name="L701" href="#L701">701</a>             emit(handler, uri, RDFS.LABEL, toString(), ctx);
-<a class="jxr_linenumber" name="L702" href="#L702">702</a>             <strong class="jxr_keyword">return</strong> uri;
+<a class="jxr_linenumber" name="L701" href="#L701">701</a>             emit(handler, iri, RDFS.LABEL, toString(), ctx);
+<a class="jxr_linenumber" name="L702" href="#L702">702</a>             <strong class="jxr_keyword">return</strong> iri;
 <a class="jxr_linenumber" name="L703" href="#L703">703</a>         }
 <a class="jxr_linenumber" name="L704" href="#L704">704</a> 
-<a class="jxr_linenumber" name="L705" href="#L705">705</a>         <strong class="jxr_keyword">public</strong> URI toURI(<strong class="jxr_keyword">final</strong> String namespace) {
-<a class="jxr_linenumber" name="L706" href="#L706">706</a>             <strong class="jxr_keyword">return</strong> Statements.VALUE_FACTORY.createURI(namespace, toString() + <span class="jxr_string">"_desc"</span>);
+<a class="jxr_linenumber" name="L705" href="#L705">705</a>         <strong class="jxr_keyword">public</strong> IRI toIRI(<strong class="jxr_keyword">final</strong> String namespace) {
+<a class="jxr_linenumber" name="L706" href="#L706">706</a>             <strong class="jxr_keyword">return</strong> Statements.VALUE_FACTORY.createIRI(namespace, toString() + <span class="jxr_string">"_desc"</span>);
 <a class="jxr_linenumber" name="L707" href="#L707">707</a>         }
 <a class="jxr_linenumber" name="L708" href="#L708">708</a> 
 <a class="jxr_linenumber" name="L709" href="#L709">709</a>         @Override
@@ -749,6 +749,6 @@
 <a class="jxr_linenumber" name="L741" href="#L741">741</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016&#x2013;2017 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2016&#x2013;2018 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
 </body>
 </html>

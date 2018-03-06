@@ -17,10 +17,10 @@
 <a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> com.google.common.html.HtmlEscapers;
 <a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> com.google.common.io.CharStreams;
 <a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> com.google.common.io.Files;
-<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> eu.fbk.utils.core.CommandLine;
-<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> eu.fbk.rdfpro.util.IO;
-<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> ixa.kaflib.KAFDocument;
-<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> org.openrdf.model.impl.URIImpl;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> eu.fbk.rdfpro.util.Statements;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> eu.fbk.utils.core.CommandLine;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> eu.fbk.rdfpro.util.IO;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> ixa.kaflib.KAFDocument;
 <a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> org.slf4j.Logger;
 <a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> org.slf4j.LoggerFactory;
 <a class="jxr_linenumber" name="L18" href="#L18">18</a>  
@@ -196,7 +196,7 @@
 <a class="jxr_linenumber" name="L188" href="#L188">188</a> 		document.setRawText(builder.toString());
 <a class="jxr_linenumber" name="L189" href="#L189">189</a> 
 <a class="jxr_linenumber" name="L190" href="#L190">190</a> 		document.createPublic();
-<a class="jxr_linenumber" name="L191" href="#L191">191</a> 		document.getPublic().publicId = <strong class="jxr_keyword">new</strong> URIImpl(documentURI).getLocalName();
+<a class="jxr_linenumber" name="L191" href="#L191">191</a> 		document.getPublic().publicId = Statements.VALUE_FACTORY.createIRI(documentURI).getLocalName();
 <a class="jxr_linenumber" name="L192" href="#L192">192</a> 		document.getPublic().uri = documentURI;
 <a class="jxr_linenumber" name="L193" href="#L193">193</a> 
 <a class="jxr_linenumber" name="L194" href="#L194">194</a> 		document.createFileDesc();
@@ -729,6 +729,6 @@
 <a class="jxr_linenumber" name="L721" href="#L721">721</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016&#x2013;2017 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2016&#x2013;2018 <a href="http://www.fbk.eu">FBK</a>. All rights reserved.</div>
 </body>
 </html>
