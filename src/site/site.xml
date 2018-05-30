@@ -27,10 +27,15 @@
         </menu>
 
         <menu name="Resources">
+            <item name="JPARK Entity Annotation Revision" href="jpark.html"/>
+            <item name="PSL4EA: PSL for Entity Annotation" href="psl4ea.html"/>
             <item name="Mappings to FrameBase" href="mappings.html"/>
-            <item name="Evaluation using FrameBase TBox" href="eval-framebase.html"/>
-            <item name="Evaluation using predicate models TBox" href="eval-pm.html"/>
-            <item name="Evaluation using Simple English Wikipedia" href="eval-sew.html"/>
+        </menu>
+
+        <menu name="Evaluation">
+            <item name="Using FrameBase TBox" href="eval-framebase.html"/>
+            <item name="Using predicate models TBox" href="eval-pm.html"/>
+            <item name="Using Simple English Wikipedia" href="eval-sew.html"/>
         </menu>
 
         <menu name="Applications">
@@ -86,7 +91,7 @@
               <tocTopMax>6</tocTopMax>
               <tocTopFlatten>false</tocTopFlatten>
             -->
-            <topNav>About|Resources|Applications|Maven Reports|Modules|Parent Project|Links</topNav>
+            <topNav>About|Resources|Evaluation|Applications|Maven Reports|Modules|Parent Project|Links</topNav>
 
             <bottomNav maxSpan="8">
                 <column>About</column>
