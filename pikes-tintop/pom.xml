@@ -57,7 +57,7 @@
 			<groupId>edu.stanford.nlp</groupId>
 			<artifactId>stanford-corenlp</artifactId>
 			<classifier>models</classifier>
-			<version>3.7.0</version>
+			<!-- <version>3.7.0</version> -->
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
