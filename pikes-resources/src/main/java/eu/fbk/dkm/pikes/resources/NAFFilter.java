@@ -57,7 +57,6 @@ import ixa.kaflib.Term;
 import ixa.kaflib.Timex3;
 import ixa.kaflib.WF;
 
-
 /**
  * A filter for the post-processing of a NAF document.
  * <p>
@@ -72,8 +71,10 @@ public final class NAFFilter implements Consumer<KAFDocument> {
 
     public static final String SUMO_NAMESPACE = "http://www.ontologyportal.org/SUMO.owl#";
 
-    public static final IRI SUMO_PROCESS = SimpleValueFactory.getInstance().createIRI(SUMO_NAMESPACE, "Process");
-//    public static final IRI SUMO_PROCESS = SimpleValueFactory.getInstance().createIRI(SUMO_NAMESPACE, "Process");
+    public static final IRI SUMO_PROCESS = SimpleValueFactory.getInstance()
+            .createIRI(SUMO_NAMESPACE, "Process");
+    // public static final IRI SUMO_PROCESS =
+    // SimpleValueFactory.getInstance().createIRI(SUMO_NAMESPACE, "Process");
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NAFFilter.class);
 
@@ -215,8 +216,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         this.srlEnableMate = MoreObjects.firstNonNull(builder.srlEnableMate, true);
         this.srlEnableSemafor = MoreObjects.firstNonNull(builder.srlEnableSemafor, true);
         this.srlRemoveWrongRefs = MoreObjects.firstNonNull(builder.srlRemoveWrongRefs, true);
-        this.srlRemoveUnknownPredicates = MoreObjects.firstNonNull(
-                builder.srlRemoveUnknownPredicates, false);
+        this.srlRemoveUnknownPredicates = MoreObjects
+                .firstNonNull(builder.srlRemoveUnknownPredicates, false);
         this.srlPredicateAddition = MoreObjects.firstNonNull(builder.srlPredicateAddition, true);
         this.srlSelfArgFixing = MoreObjects.firstNonNull(builder.srlSelfArgFixing, true);
         this.srlSenseMapping = MoreObjects.firstNonNull(builder.srlSenseMapping, true);
@@ -226,8 +227,7 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         this.srlRoleLinkingUsingCoref = MoreObjects.firstNonNull(builder.srlRoleLinkingUsingCoref,
                 true);
 
-        this.srlPreMOnIRIs = MoreObjects.firstNonNull(builder.srlPreMOnIRIs,
-                true);
+        this.srlPreMOnIRIs = MoreObjects.firstNonNull(builder.srlPreMOnIRIs, true);
         this.opinionLinking = MoreObjects.firstNonNull(builder.opinionLinking, true);
         this.opinionLinkingUsingCoref = MoreObjects.firstNonNull(builder.opinionLinkingUsingCoref,
                 true);
@@ -311,11 +311,10 @@ public final class NAFFilter implements Consumer<KAFDocument> {
             applySRLRoleLinking(document);
         }
 
-        //added for replacing with premon IRIs
+        // added for replacing with premon IRIs
         if (this.srlPreMOnIRIs) {
             applySRLPreMOnIRIs(document);
         }
-
 
         // Coref-level filtering
         if (this.corefForRoleDependencies) {
@@ -330,53 +329,48 @@ public final class NAFFilter implements Consumer<KAFDocument> {
             applyOpinionLinking(document);
         }
 
-
-
-
         LOGGER.debug("Done in {} ms", System.currentTimeMillis() - ts);
     }
 
-
-//    private void applyEntityTypeFixing(final KAFDocument document) {
-//
-//        for (final Entity entity : ImmutableList.copyOf(document.getEntities())) {
-//
-//
-//
-//
-//            // Remove initial determiners and prepositions, plus all the terms not containing at
-//            // least a letter or a digit. Move to next entity if no change was applied
-//            final List<Term> filteredTerms = NAFUtils.filterTerms(entity.getTerms());
-//            if (filteredTerms.size() == entity.getTerms().size()) {
-//                continue;
-//            }
-//
-//            // Remove the old entity
-//            document.removeAnnotation(entity);
-//
-//            // If some term remained, add the filtered entity, reusing old type, named flag and
-//            // external references
-//            Entity newEntity = null;
-//            if (!filteredTerms.isEmpty()) {
-//                newEntity = document.newEntity(ImmutableList.of(KAFDocument
-//                        .newTermSpan(filteredTerms)));
-//                newEntity.setType(entity.getType());
-//                newEntity.setNamed(entity.isNamed());
-//                for (final ExternalRef ref : entity.getExternalRefs()) {
-//                    newEntity.addExternalRef(ref);
-//                }
-//            }
-//
-//            // Log the change
-//            if (LOGGER.isDebugEnabled()) {
-//                LOGGER.debug((newEntity == null ? "Removed" : "Replaced") + " invalid " //
-//                        + NAFUtils.toString(entity) + (newEntity == null ? "" : " with filtered " //
-//                        + NAFUtils.toString(newEntity)));
-//            }
-//        }
-//
-//    }
-
+    // private void applyEntityTypeFixing(final KAFDocument document) {
+    //
+    // for (final Entity entity : ImmutableList.copyOf(document.getEntities())) {
+    //
+    //
+    //
+    //
+    // // Remove initial determiners and prepositions, plus all the terms not containing at
+    // // least a letter or a digit. Move to next entity if no change was applied
+    // final List<Term> filteredTerms = NAFUtils.filterTerms(entity.getTerms());
+    // if (filteredTerms.size() == entity.getTerms().size()) {
+    // continue;
+    // }
+    //
+    // // Remove the old entity
+    // document.removeAnnotation(entity);
+    //
+    // // If some term remained, add the filtered entity, reusing old type, named flag and
+    // // external references
+    // Entity newEntity = null;
+    // if (!filteredTerms.isEmpty()) {
+    // newEntity = document.newEntity(ImmutableList.of(KAFDocument
+    // .newTermSpan(filteredTerms)));
+    // newEntity.setType(entity.getType());
+    // newEntity.setNamed(entity.isNamed());
+    // for (final ExternalRef ref : entity.getExternalRefs()) {
+    // newEntity.addExternalRef(ref);
+    // }
+    // }
+    //
+    // // Log the change
+    // if (LOGGER.isDebugEnabled()) {
+    // LOGGER.debug((newEntity == null ? "Removed" : "Replaced") + " invalid " //
+    // + NAFUtils.toString(entity) + (newEntity == null ? "" : " with filtered " //
+    // + NAFUtils.toString(newEntity)));
+    // }
+    // }
+    //
+    // }
 
     private void applyTermSenseFiltering(final KAFDocument document) {
 
@@ -399,10 +393,10 @@ public final class NAFFilter implements Consumer<KAFDocument> {
             ExternalRef bbnRef = NAFUtils.getRef(term, NAFUtils.RESOURCE_BBN, null);
             ExternalRef synsetRef = NAFUtils.getRef(term, NAFUtils.RESOURCE_WN_SYNSET, null);
             ExternalRef sstRef = NAFUtils.getRef(term, NAFUtils.RESOURCE_WN_SST, null);
-            final List<ExternalRef> sumoRefs = NAFUtils
-                    .getRefs(term, NAFUtils.RESOURCE_SUMO, null);
-            final List<ExternalRef> yagoRefs = NAFUtils
-                    .getRefs(term, NAFUtils.RESOURCE_YAGO, null);
+            final List<ExternalRef> sumoRefs = NAFUtils.getRefs(term, NAFUtils.RESOURCE_SUMO,
+                    null);
+            final List<ExternalRef> yagoRefs = NAFUtils.getRefs(term, NAFUtils.RESOURCE_YAGO,
+                    null);
 
             // Retrieve a missing SST from the WN Synset (works always)
             if (sstRef == null && synsetRef != null) {
@@ -438,9 +432,9 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                     if (synsetID != null) {
                         synsetRef = document.newExternalRef(NAFUtils.RESOURCE_WN_SYNSET, synsetID);
                         NAFUtils.addRef(term, synsetRef);
-                        LOGGER.debug("Added Synset '" + synsetID + "' of "
-                                + NAFUtils.toString(term) + " based on BBN '"
-                                + bbnRef.getReference() + "'");
+                        LOGGER.debug(
+                                "Added Synset '" + synsetID + "' of " + NAFUtils.toString(term)
+                                        + " based on BBN '" + bbnRef.getReference() + "'");
                     }
                 }
 
@@ -456,48 +450,48 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                 }
             }
 
-//            // Apply mapping to SUMO if synset is available
-//            final String lemma = term.getLemma().toLowerCase();
-//            if (sumoRefs.isEmpty() && synsetRef != null && !lemma.equals("be")) {
-//                Set<String> synsetIDs = Sets.newHashSet(synsetRef.getReference());
-//                Set<IRI> conceptIRIs = Sumo.synsetsToConcepts(synsetIDs);
-//                while (conceptIRIs.isEmpty() && !synsetIDs.isEmpty()) {
-//                    final Set<String> oldSynsetIDs = synsetIDs;
-//                    synsetIDs = Sets.newHashSet();
-//                    for (final String oldSynsetID : oldSynsetIDs) {
-//                        synsetIDs.addAll(WordNet.getHypernyms(oldSynsetID));
-//                    }
-//                    conceptIRIs = Sumo.synsetsToConcepts(synsetIDs);
-//                }
-//                if (conceptIRIs.isEmpty()) {
-//                    synsetIDs = WordNet.getHyponyms(synsetRef.getReference());
-//                    conceptIRIs = Sumo.synsetsToConcepts(synsetIDs);
-//                }
-//                if (!conceptIRIs.isEmpty()) {
-//                    for (final IRI conceptIRI : conceptIRIs) {
-//                        final String sumoID = conceptIRI.getLocalName();
-//                        final ExternalRef sumoRef = document.newExternalRef(
-//                                NAFUtils.RESOURCE_SUMO, sumoID);
-//                        NAFUtils.setRef(term, sumoRef);
-//                        LOGGER.debug("Added SUMO mapping: " + NAFUtils.toString(term)
-//                                + " -> sumo:" + conceptIRI.getLocalName());
-//                    }
-//                }
-//            }
-//
-//            // Apply mapping to Yago if synset is available
-//            if (yagoRefs.isEmpty() && synsetRef != null) {
-//                for (final IRI uri : YagoTaxonomy.getDBpediaYagoIRIs(ImmutableList.of(synsetRef
-//                        .getReference()))) {
-//                    final String yagoID = uri.stringValue().substring(
-//                            YagoTaxonomy.NAMESPACE.length());
-//                    final ExternalRef yagoRef = document.newExternalRef(NAFUtils.RESOURCE_YAGO,
-//                            yagoID);
-//                    NAFUtils.setRef(term, yagoRef);
-//                    LOGGER.debug("Added Yago mapping: " + NAFUtils.toString(term) + " -> yago:"
-//                            + yagoID);
-//                }
-//            }
+            // Apply mapping to SUMO if synset is available
+            final String lemma = term.getLemma().toLowerCase();
+            if (sumoRefs.isEmpty() && synsetRef != null && !lemma.equals("be")) {
+                Set<String> synsetIDs = Sets.newHashSet(synsetRef.getReference());
+                Set<IRI> conceptIRIs = Sumo.synsetsToConcepts(synsetIDs);
+                while (conceptIRIs.isEmpty() && !synsetIDs.isEmpty()) {
+                    final Set<String> oldSynsetIDs = synsetIDs;
+                    synsetIDs = Sets.newHashSet();
+                    for (final String oldSynsetID : oldSynsetIDs) {
+                        synsetIDs.addAll(WordNet.getHypernyms(oldSynsetID));
+                    }
+                    conceptIRIs = Sumo.synsetsToConcepts(synsetIDs);
+                }
+                if (conceptIRIs.isEmpty()) {
+                    synsetIDs = WordNet.getHyponyms(synsetRef.getReference());
+                    conceptIRIs = Sumo.synsetsToConcepts(synsetIDs);
+                }
+                if (!conceptIRIs.isEmpty()) {
+                    for (final IRI conceptIRI : conceptIRIs) {
+                        final String sumoID = conceptIRI.getLocalName();
+                        final ExternalRef sumoRef = document.newExternalRef(NAFUtils.RESOURCE_SUMO,
+                                sumoID);
+                        NAFUtils.setRef(term, sumoRef);
+                        LOGGER.debug("Added SUMO mapping: " + NAFUtils.toString(term) + " -> sumo:"
+                                + conceptIRI.getLocalName());
+                    }
+                }
+            }
+
+            // Apply mapping to Yago if synset is available
+            if (yagoRefs.isEmpty() && synsetRef != null) {
+                for (final IRI uri : YagoTaxonomy
+                        .getDBpediaYagoIRIs(ImmutableList.of(synsetRef.getReference()))) {
+                    final String yagoID = uri.stringValue()
+                            .substring(YagoTaxonomy.NAMESPACE.length());
+                    final ExternalRef yagoRef = document.newExternalRef(NAFUtils.RESOURCE_YAGO,
+                            yagoID);
+                    NAFUtils.setRef(term, yagoRef);
+                    LOGGER.debug("Added Yago mapping: " + NAFUtils.toString(term) + " -> yago:"
+                            + yagoID);
+                }
+            }
         }
     }
 
@@ -520,8 +514,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
             // external references
             Entity newEntity = null;
             if (!filteredTerms.isEmpty()) {
-                newEntity = document.newEntity(ImmutableList.of(KAFDocument
-                        .newTermSpan(filteredTerms)));
+                newEntity = document
+                        .newEntity(ImmutableList.of(KAFDocument.newTermSpan(filteredTerms)));
                 newEntity.setType(entity.getType());
                 newEntity.setNamed(entity.isNamed());
                 for (final ExternalRef ref : entity.getExternalRefs()) {
@@ -532,8 +526,9 @@ public final class NAFFilter implements Consumer<KAFDocument> {
             // Log the change
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug((newEntity == null ? "Removed" : "Replaced") + " invalid " //
-                        + NAFUtils.toString(entity) + (newEntity == null ? "" : " with filtered " //
-                                + NAFUtils.toString(newEntity)));
+                        + NAFUtils.toString(entity) + (newEntity == null ? ""
+                                : " with filtered " //
+                                        + NAFUtils.toString(newEntity)));
             }
         }
     }
@@ -616,7 +611,9 @@ public final class NAFFilter implements Consumer<KAFDocument> {
 
             // Add the entity, setting its type and 'named' flag
             final Entity entity = document.newEntity(ImmutableList.of(span));
-            if (type!= null) entity.setType(type.toUpperCase().replace("PERSON","PER").replace("ORGANIZATION","ORG").replace("LOCATION","LOC"));
+            if (type != null)
+                entity.setType(type.toUpperCase().replace("PERSON", "PER")
+                        .replace("ORGANIZATION", "ORG").replace("LOCATION", "LOC"));
             entity.setNamed(pos == 'R');
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("Added " + (entity.isNamed() ? "named " : "")
@@ -686,8 +683,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                 }
             }
             if (entityToModify == null) {
-                final Span<Term> span = KAFDocument.newTermSpan(document.getTermsByWFs(le.getWFs()
-                        .getTargets()));
+                final Span<Term> span = KAFDocument
+                        .newTermSpan(document.getTermsByWFs(le.getWFs().getTargets()));
                 boolean overlap = false;
                 for (final Term term : span.getTargets()) {
                     final List<Entity> overlappingEntities = document.getEntitiesByTerm(term);
@@ -701,39 +698,41 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                     boolean accept = named;
                     if (!accept) {
                         final String textStr = span.getStr().toLowerCase().replaceAll("\\s+", "_");
-                        final String entityStr = Statements.VALUE_FACTORY.createIRI(le.getReference()).getLocalName()
-                                .toLowerCase();
+                        final String entityStr = Statements.VALUE_FACTORY
+                                .createIRI(le.getReference()).getLocalName().toLowerCase();
                         accept = textStr.equals(entityStr);
                     }
                     if (accept) {
                         entityToModify = document.newEntity(ImmutableList.of(span));
                         entityToModify.setNamed(head.getMorphofeat().startsWith("NNP"));
                         if (LOGGER.isDebugEnabled()) {
-                            LOGGER.debug("Added linked "
-                                    + (entityToModify.isNamed() ? "named " : "")
-                                    + NAFUtils.toString(entityToModify));
+                            LOGGER.debug(
+                                    "Added linked " + (entityToModify.isNamed() ? "named " : "")
+                                            + NAFUtils.toString(entityToModify));
                         }
                     }
                 }
             }
 
-            if (entityToModify != null){
-                final ExternalRef existingRef = NAFUtils.getRef(entityToModify, le.getResource(), le.getReference());
-                if (existingRef==null){
+            if (entityToModify != null) {
+                final ExternalRef existingRef = NAFUtils.getRef(entityToModify, le.getResource(),
+                        le.getReference());
+                if (existingRef == null) {
                     final ExternalRef ref = document.newExternalRef(le.getResource(),
                             le.getReference());
                     ref.setConfidence((float) le.getConfidence());
                     NAFUtils.addRef(entityToModify, ref);
-                    LOGGER.debug("Added ref '" + ref + "' to " + NAFUtils.toString(entityToModify));
+                    LOGGER.debug(
+                            "Added ref '" + ref + "' to " + NAFUtils.toString(entityToModify));
                 } else {
                     float existingRefConfidence = existingRef.getConfidence();
-                    if (existingRefConfidence<le.getConfidence()) {
+                    if (existingRefConfidence < le.getConfidence()) {
                         existingRef.setConfidence((float) le.getConfidence());
-                        LOGGER.debug("Modified confidence of '" + existingRef + "' to " + le.getConfidence());
+                        LOGGER.debug("Modified confidence of '" + existingRef + "' to "
+                                + le.getConfidence());
                     }
                 }
             }
-
 
             // Apply the sense to predicates with same head where it is missing
             for (final Predicate predicate : document.getPredicatesByTerm(head)) {
@@ -821,7 +820,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                 if (!isEvent) {
                     for (final ExternalRef ref : NAFUtils.getRefs(span1.getHead(),
                             NAFUtils.RESOURCE_SUMO, null)) {
-                        final IRI sumoID = Statements.VALUE_FACTORY.createIRI(SUMO_NAMESPACE + ref.getReference());
+                        final IRI sumoID = Statements.VALUE_FACTORY
+                                .createIRI(SUMO_NAMESPACE + ref.getReference());
                         if (Sumo.isSubClassOf(sumoID, SUMO_PROCESS)) {
                             isEvent = true;
                         }
@@ -845,16 +845,17 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                                     .getPredicatesByTerm(head)) {
                                 for (final ExternalRef ref : NAFUtils.getRefs(predicate,
                                         NAFUtils.RESOURCE_NOMBANK, null)) {
-                                    final NomBank.Roleset roleset = NomBank.getRoleset(ref
-                                            .getReference());
+                                    final NomBank.Roleset roleset = NomBank
+                                            .getRoleset(ref.getReference());
                                     if (roleset != null
                                             && roleset.getPredMandatoryArgNums().isEmpty()
                                             && roleset.getPredOptionalArgNums().isEmpty()) {
                                         // Not a role
                                         coref.getSpans().remove(span);
-                                        LOGGER.debug("Removed span with non-role predicate "
-                                                + "head '{}' from {}", span.getStr(),
-                                                NAFUtils.toString(coref));
+                                        LOGGER.debug(
+                                                "Removed span with non-role predicate "
+                                                        + "head '{}' from {}",
+                                                span.getStr(), NAFUtils.toString(coref));
                                         break outer;
                                     }
                                 }
@@ -873,7 +874,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                 }
                 if (spansBySentence.keySet().size() > 1) {
                     coref.getSpans().clear();
-                    for (final Collection<Span<Term>> sentSpans : spansBySentence.asMap().values()) {
+                    for (final Collection<Span<Term>> sentSpans : spansBySentence.asMap()
+                            .values()) {
                         if (sentSpans.size() > 1) {
                             document.newCoref(Lists.newArrayList(sentSpans));
                         }
@@ -923,7 +925,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
 
                 // Verify the role term actually corresponds to a nombank role
                 boolean isActualRole = false;
-                predLoop: for (final Predicate predicate : document.getPredicatesByTerm(roleTerm)) {
+                predLoop: for (final Predicate predicate : document
+                        .getPredicatesByTerm(roleTerm)) {
                     for (final ExternalRef ref : predicate.getExternalRefs()) {
                         if (NAFUtils.RESOURCE_NOMBANK.equals(ref.getResource())) {
                             final NomBank.Roleset rs = NomBank.getRoleset(ref.getReference());
@@ -940,10 +943,10 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                 }
 
                 // Expand coordination
-                final Set<Term> roleHeads = document.getTermsByDepAncestors(
-                        ImmutableSet.of(roleTerm), "(COORD CONJ?)*");
-                final Set<Term> nameHeads = document.getTermsByDepAncestors(
-                        ImmutableSet.of(nameTerm), "(COORD CONJ?)*");
+                final Set<Term> roleHeads = document
+                        .getTermsByDepAncestors(ImmutableSet.of(roleTerm), "(COORD CONJ?)*");
+                final Set<Term> nameHeads = document
+                        .getTermsByDepAncestors(ImmutableSet.of(nameTerm), "(COORD CONJ?)*");
 
                 // Check that all name heads are proper names
                 for (final Term nameHead : nameHeads) {
@@ -994,34 +997,34 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         }
 
         // TODO: remove once fixed - normalize Semafor roles
-        //        if (this.srlEnableSemafor) {
-        //            for (final Predicate predicate : document.getPredicates()) {
-        //                if (predicate.getId().startsWith("f_pr")
-        //                        || "semafor".equalsIgnoreCase(predicate.getSource())) {
-        //                    for (final Role role : predicate.getRoles()) {
-        //                        role.setSemRole("");
-        //                        final Term head = NAFUtils.extractHead(document, role.getSpan());
-        //                        if (head != null) {
-        //                            final Span<Term> newSpan = KAFDocument.newTermSpan(Ordering.from(
-        //                                    Term.OFFSET_COMPARATOR).sortedCopy(
-        //                                    document.getTermsByDepAncestors(ImmutableList.of(head))));
-        //                            role.setSpan(newSpan);
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //        }
+        // if (this.srlEnableSemafor) {
+        // for (final Predicate predicate : document.getPredicates()) {
+        // if (predicate.getId().startsWith("f_pr")
+        // || "semafor".equalsIgnoreCase(predicate.getSource())) {
+        // for (final Role role : predicate.getRoles()) {
+        // role.setSemRole("");
+        // final Term head = NAFUtils.extractHead(document, role.getSpan());
+        // if (head != null) {
+        // final Span<Term> newSpan = KAFDocument.newTermSpan(Ordering.from(
+        // Term.OFFSET_COMPARATOR).sortedCopy(
+        // document.getTermsByDepAncestors(ImmutableList.of(head))));
+        // role.setSpan(newSpan);
+        // }
+        // }
+        // }
+        // }
+        // }
 
         // TODO: remove alignments from PM
-        //        for (final Predicate predicate : document.getPredicates()) {
-        //            if (!predicate.getId().startsWith("f_pr")
-        //                    && !"semafor".equalsIgnoreCase(predicate.getSource())) {
-        //                NAFUtils.removeRefs(predicate, "FrameNet", null);
-        //                for (final Role role : predicate.getRoles()) {
-        //                    NAFUtils.removeRefs(role, "FrameNet", null);
-        //                }
-        //            }
-        //        }
+        // for (final Predicate predicate : document.getPredicates()) {
+        // if (!predicate.getId().startsWith("f_pr")
+        // && !"semafor".equalsIgnoreCase(predicate.getSource())) {
+        // NAFUtils.removeRefs(predicate, "FrameNet", null);
+        // for (final Role role : predicate.getRoles()) {
+        // NAFUtils.removeRefs(role, "FrameNet", null);
+        // }
+        // }
+        // }
 
         // Remove predicates from non-enabled tools (Mate, Semafor)
         for (final Predicate predicate : Lists.newArrayList(document.getPredicates())) {
@@ -1061,11 +1064,11 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                 // Merge roles
                 for (final Role mateRole : matePredicate.getRoles()) {
                     boolean addRole = true;
-                    final Set<Term> mateTerms = ImmutableSet.copyOf(mateRole.getSpan()
-                            .getTargets());
+                    final Set<Term> mateTerms = ImmutableSet
+                            .copyOf(mateRole.getSpan().getTargets());
                     for (final Role semaforRole : semaforPredicate.getRoles()) {
-                        final Set<Term> semaforTerms = ImmutableSet.copyOf(semaforRole.getSpan()
-                                .getTargets());
+                        final Set<Term> semaforTerms = ImmutableSet
+                                .copyOf(semaforRole.getSpan().getTargets());
                         if (mateTerms.equals(semaforTerms)) {
                             addRole = false;
                             semaforRole.setSemRole(mateRole.getSemRole());
@@ -1127,8 +1130,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
             for (final ExternalRef ref : refs) {
                 final String lemma = NAFUtils.extractLemma(ref.getReference());
                 final Integer sense = NAFUtils.extractSense(ref.getReference());
-                if (!expectedLemma.equalsIgnoreCase(lemma) || expectedSense != null
-                        && !expectedSense.equals(sense)) {
+                if (!expectedLemma.equalsIgnoreCase(lemma)
+                        || expectedSense != null && !expectedSense.equals(sense)) {
                     NAFUtils.removeRefs(predicate, resource, ref.getReference());
                     if (LOGGER.isDebugEnabled()) {
                         LOGGER.debug("Removed wrong roleset '" + ref.getReference() + "' for "
@@ -1170,8 +1173,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
             // Predicate is invalid if its roleset is unknown in NomBank / PropBank
             for (final ExternalRef ref : NAFUtils.getRefs(predicate, resource, null)) {
                 final String roleset = ref.getReference();
-                if (isVerb && PropBank.getRoleset(roleset) == null || !isVerb
-                        && NomBank.getRoleset(roleset) == null) {
+                if (isVerb && PropBank.getRoleset(roleset) == null
+                        || !isVerb && NomBank.getRoleset(roleset) == null) {
                     document.removeAnnotation(predicate);
                     if (LOGGER.isDebugEnabled()) {
                         LOGGER.debug("Removed " + NAFUtils.toString(predicate)
@@ -1229,8 +1232,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
 
             // Create the predicate, if possible
             if (ref != null) {
-                final Predicate predicate = document.newPredicate(KAFDocument.newTermSpan(
-                        Collections.singletonList(term), term));
+                final Predicate predicate = document.newPredicate(
+                        KAFDocument.newTermSpan(Collections.singletonList(term), term));
                 predicate.addExternalRef(ref);
                 if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("Added " + NAFUtils.toString(predicate) + ", sense '"
@@ -1252,8 +1255,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
 
             // Retrieve the NomBank roleset for current predicate, if known. Skip otherwise
             final String rolesetID = NAFUtils.getRoleset(predicate);
-            final NomBank.Roleset roleset = rolesetID == null ? null : NomBank
-                    .getRoleset(rolesetID);
+            final NomBank.Roleset roleset = rolesetID == null ? null
+                    : NomBank.getRoleset(rolesetID);
             if (roleset == null) {
                 continue;
             }
@@ -1329,12 +1332,14 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                 // Skip the predicate if the PropBank roleset could not be obtained
                 if (pbRoleset != null) {
                     // Add an external ref for the PropBank roleset, if missing
-                    if (NAFUtils.getRef(predicate, NAFUtils.RESOURCE_PROPBANK, pbRoleset.getID()) == null) {
+                    if (NAFUtils.getRef(predicate, NAFUtils.RESOURCE_PROPBANK,
+                            pbRoleset.getID()) == null) {
                         NAFUtils.addRef(predicate, document.newExternalRef( //
                                 NAFUtils.RESOURCE_PROPBANK, pbRoleset.getID()));
                     }
 
-                    // Apply mappings from the predicate matrix (indexed in PropBank.Roleset object)
+                    // Apply mappings from the predicate matrix (indexed in PropBank.Roleset
+                    // object)
                     for (final String vnFrame : pbRoleset.getVNFrames()) {
                         NAFUtils.setRef(predicate,
                                 document.newExternalRef(NAFUtils.RESOURCE_VERBNET, vnFrame));
@@ -1356,10 +1361,11 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                     final String resource = verb ? "PropBank" : "NomBank";
                     final ExternalRef ref = NAFUtils.getRef(predicate, resource, null);
                     if (ref != null) {
-                        final String r = role.getSemRole().startsWith("AM-") ? role.getSemRole()
-                                .substring(3) : role.getSemRole().substring(1);
-                        role.addExternalRef(new ExternalRef(resource, ref.getReference() + "@"
-                                + r.toLowerCase()));
+                        final String r = role.getSemRole().startsWith("AM-")
+                                ? role.getSemRole().substring(3)
+                                : role.getSemRole().substring(1);
+                        role.addExternalRef(new ExternalRef(resource,
+                                ref.getReference() + "@" + r.toLowerCase()));
                     }
                 }
 
@@ -1379,7 +1385,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                             continue;
                         }
                         final String pbRole = pbRoleset.getID() + '@' + pbNum;
-                        // final String pbRole = semRole.substring(0, semRole.length() - 2) + pbNum;
+                        // final String pbRole = semRole.substring(0, semRole.length() - 2) +
+                        // pbNum;
 
                         // Create an external ref for the PropBank role, if missing
                         if (NAFUtils.getRef(role, NAFUtils.RESOURCE_PROPBANK, pbRole) == null) {
@@ -1465,8 +1472,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                 }
 
                 // Identify the terms that can be linked
-                final Set<Term> argTerms = document.getTermsByDepAncestors(
-                        Collections.singleton(head), PARTICIPATION_REGEX);
+                final Set<Term> argTerms = document
+                        .getTermsByDepAncestors(Collections.singleton(head), PARTICIPATION_REGEX);
 
                 // Perform the linking, possible augmenting terms using coref info
                 linkEntitiesTimexPredicates(document, role, role.getSpan(), argTerms,
@@ -1483,10 +1490,7 @@ public final class NAFFilter implements Consumer<KAFDocument> {
             // Add links for the opinion expression, if any
             final OpinionExpression expression = opinion.getOpinionExpression();
             if (expression != null) {
-                linkEntitiesTimexPredicates(
-                        document,
-                        expression,
-                        expression.getSpan(),
+                linkEntitiesTimexPredicates(document, expression, expression.getSpan(),
                         NAFUtils.extractHeads(document, null, expression.getTerms(),
                                 NAFUtils.matchExtendedPos(document, "NN", "VB", "JJ", "R")),
                         this.opinionLinkingUsingCoref);
@@ -1505,11 +1509,10 @@ public final class NAFFilter implements Consumer<KAFDocument> {
             final OpinionTarget target = opinion.getOpinionTarget();
             if (target != null) {
                 linkEntitiesTimexPredicates(
-                        document,
-                        target,
-                        target.getSpan(),
-                        NAFUtils.extractHeads(document, null, target.getTerms(), NAFUtils
-                                .matchExtendedPos(document, "NN", "PRP", "JJP", "DTP", "WP", "VB")),
+                        document, target, target.getSpan(), NAFUtils
+                                .extractHeads(document, null, target.getTerms(),
+                                        NAFUtils.matchExtendedPos(document, "NN", "PRP", "JJP",
+                                                "DTP", "WP", "VB")),
                         this.opinionLinkingUsingCoref);
             }
         }
@@ -1600,7 +1603,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         }
     }
 
-    private void mapExternalRefs(final Object annotation, final Multimap<String, String> mappings) {
+    private void mapExternalRefs(final Object annotation,
+            final Multimap<String, String> mappings) {
 
         // Keep track of prefixes (NB, PB, VN, FN) of resources already available, as well as the
         // keys corresponding to their values
@@ -1637,32 +1641,31 @@ public final class NAFFilter implements Consumer<KAFDocument> {
         }
     }
 
-
     private void applySRLPreMOnIRIs(final KAFDocument document) {
         // Process each predicate and role in the SRL layer
 
-        final List<String> models = Arrays.asList(NAFUtils.RESOURCE_FRAMENET, NAFUtils.RESOURCE_VERBNET, NAFUtils.RESOURCE_PROPBANK, NAFUtils.RESOURCE_NOMBANK);
-
+        final List<String> models = Arrays.asList(NAFUtils.RESOURCE_FRAMENET,
+                NAFUtils.RESOURCE_VERBNET, NAFUtils.RESOURCE_PROPBANK, NAFUtils.RESOURCE_NOMBANK);
 
         for (final Predicate predicate : document.getPredicates()) {
 
-
             List<ExternalRef> allPredicateExtRefs = predicate.getExternalRefs();
-            List<ExternalRef> predicateExtRefToRemove =  Lists.newArrayList();
+            List<ExternalRef> predicateExtRefToRemove = Lists.newArrayList();
 
             for (final ExternalRef predRef : ImmutableList.copyOf(allPredicateExtRefs)) {
-                String refStr= predRef.getResource();
+                String refStr = predRef.getResource();
 
                 if (models.contains(refStr)) {
                     final String pred = predRef.getReference();
                     final String source = predRef.getSource();
 
-                    final IRI premonIRI = NAFUtils.createPreMOnSemanticClassIRIfor(refStr,pred);
+                    final IRI premonIRI = NAFUtils.createPreMOnSemanticClassIRIfor(refStr, pred);
                     if (premonIRI != null) {
-                        ExternalRef e = new ExternalRef("PreMOn+"+refStr, premonIRI.getLocalName());
-                        if (source!=null) e.setSource(source);
+                        ExternalRef e = new ExternalRef("PreMOn+" + refStr,
+                                premonIRI.getLocalName());
+                        if (source != null)
+                            e.setSource(source);
                         NAFUtils.setRef(predicate, e);
-
 
                     }
 
@@ -1671,24 +1674,20 @@ public final class NAFFilter implements Consumer<KAFDocument> {
 
             }
 
-            //remove old predicate ref
-            for (ExternalRef toBeDropped:predicateExtRefToRemove
-                 ) {
+            // remove old predicate ref
+            for (ExternalRef toBeDropped : predicateExtRefToRemove) {
                 allPredicateExtRefs.remove(toBeDropped);
             }
-
 
             // Convert FrameNet refs to FrameBase refs at the role level
             for (final Role role : predicate.getRoles()) {
 
-
                 List<ExternalRef> allRoleExtRefs = role.getExternalRefs();
-                List<ExternalRef> roleExtRefToRemove =  Lists.newArrayList();
+                List<ExternalRef> roleExtRefToRemove = Lists.newArrayList();
 
                 for (final ExternalRef roleRef : ImmutableList.copyOf(allRoleExtRefs)) {
 
-
-                    String refStr= roleRef.getResource();
+                    String refStr = roleRef.getResource();
 
                     if (models.contains(refStr)) {
 
@@ -1699,25 +1698,26 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                             final String pred = predicateAndRole.substring(0, index);
                             final String rol = predicateAndRole.substring(index + 1);
 
-                            final IRI premonIRI = NAFUtils.createPreMOnSemanticRoleIRIfor(refStr,pred,rol);
+                            final IRI premonIRI = NAFUtils.createPreMOnSemanticRoleIRIfor(refStr,
+                                    pred, rol);
                             if (premonIRI != null) {
-                                ExternalRef e = new ExternalRef("PreMOn+"+refStr, premonIRI.getLocalName());
-                                if (source!=null) e.setSource(source);
+                                ExternalRef e = new ExternalRef("PreMOn+" + refStr,
+                                        premonIRI.getLocalName());
+                                if (source != null)
+                                    e.setSource(source);
                                 NAFUtils.setRef(role, e);
                             }
                         }
                         roleExtRefToRemove.add(roleRef);
                     }
                 }
-                //remove old role
-                for (ExternalRef toBeRemoved:roleExtRefToRemove
-                     ) {
+                // remove old role
+                for (ExternalRef toBeRemoved : roleExtRefToRemove) {
                     allRoleExtRefs.remove(toBeRemoved);
                 }
             }
         }
     }
-
 
     /**
      * Returns a new configurable {@code Builder} for the instantiation of a {@code NAFFilter}.
@@ -1753,8 +1753,7 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                 .withSRLSelfArgFixing(enableAll) //
                 .withSRLSenseMapping(enableAll) //
                 .withSRLRoleLinking(enableAll, enableAll) //
-                .withOpinionLinking(enableAll, enableAll)
-                .withSRLPreMOnIRIs(enableAll);
+                .withOpinionLinking(enableAll, enableAll).withSRLPreMOnIRIs(enableAll);
     }
 
     /**
@@ -2007,8 +2006,9 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                             withSRLPreprocess(true, false, true);
                         } else if ("mate+semafor".equalsIgnoreCase(value)) {
                             withSRLPreprocess(true, true, true);
-                        }else {
-                            throw new IllegalArgumentException("Invalid '" + value +"' srlPreprocess property. Supported: none basic mate semafor mate+semafor");
+                        } else {
+                            throw new IllegalArgumentException("Invalid '" + value
+                                    + "' srlPreprocess property. Supported: none basic mate semafor mate+semafor");
                         }
                     } else if ("srlRemoveWrongRefs".equals(name)) {
                         withSRLRemoveWrongRefs(Boolean.valueOf(value));
@@ -2030,9 +2030,10 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                         } else if ("coref".equalsIgnoreCase(value)) {
                             withSRLRoleLinking(true, true);
                         } else {
-                            throw new IllegalArgumentException("Invalid '" + value + "' srlRoleLinking property. Supported: none exact coref ");
+                            throw new IllegalArgumentException("Invalid '" + value
+                                    + "' srlRoleLinking property. Supported: none exact coref ");
                         }
-                    } else if ("srlPreMOnIRIs".equals(name)){
+                    } else if ("srlPreMOnIRIs".equals(name)) {
                         withSRLPreMOnIRIs(Boolean.valueOf(value));
                     } else if ("opinionLinking".equals(name)) {
                         if ("none".equalsIgnoreCase(value)) {
@@ -2042,7 +2043,8 @@ public final class NAFFilter implements Consumer<KAFDocument> {
                         } else if ("coref".equalsIgnoreCase(value)) {
                             withOpinionLinking(true, true);
                         } else {
-                            throw new IllegalArgumentException("Invalid '" + value +"' opinionLinking property. Supported: none exact coref ");
+                            throw new IllegalArgumentException("Invalid '" + value
+                                    + "' opinionLinking property. Supported: none exact coref ");
                         }
                     }
                 }
@@ -2335,7 +2337,6 @@ public final class NAFFilter implements Consumer<KAFDocument> {
             this.srlRoleLinkingUsingCoref = useCoref;
             return this;
         }
-
 
         /**
          * Specifies replace reference of predicate models in NAF with premon IRIs
