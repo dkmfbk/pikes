@@ -351,7 +351,28 @@ mvn clean package -DskipTests -Prelease
 </pre> 
   </div> 
  </div> 
- <p>You’ll get the <tt>pikes-tintop-1.0-SNAPSHOT-jar-with-dependencies.jar</tt> package into the <tt>pikes-tintop/target/</tt> folder. Just copy it to the running folder and restart PIKES.</p> 
+ <p>You’ll get the <tt>pikes-tintop-1.0-SNAPSHOT-jar-with-dependencies.jar</tt> package into the <tt>pikes-tintop/target/</tt> folder. Just copy it to the running folder and restart PIKES.</p>
+ <p>
+   In the event that there are build issues with the <i>devel</i> branches, you may want to check out the master branches instead (which reference an earlier version of the Stanford Core). To get the unit tests to run on the master branch, you may need to make pointers to certain models in the working downloadable version(unix-centric instructions):
+   <ul>
+     <li>Follow the <a href=#download>instructions above</a> to download the working version. Let's say that's in the $DOWNLOADED_PIKES directory.
+   </li>
+     <li>
+       Make symbolic links from the ./pikes directory to certain data models:
+       <pre>
+         ln -sf $DOWLOADED_PIKES/models models
+         ln -sf $DOWNLOADED_PIKES/wordnet wordnet
+         ln -sf $DOWNLOADED_PIKES/ukb ukb
+       </pre>
+     </li>
+     <li>
+       If you see complaints about not being able to run UKB libraries, you may need to follow the <a href=#mac>instructions above</a> for installing UKB natively on your machine.
+     </li>
+   </ul>
+ </p>
+ <p>
+   After following the above instructions, you should be able to run all of the unit tests for the master branch in your favorite IDE, and step through the code.
+   </p>
 </div>
 			</div>
 		</div>

@@ -41,6 +41,11 @@
             <id>fbk-repo</id>
             <url>https://raw.githubusercontent.com/fbk/mvn-repo/master/releases</url>
         </repository>
+        <repository> <!-- home to morpha-stemmer -->
+          <id>KnowItAll</id>
+          <url>http://knowitall.cs.washington.edu/maven2/</url>
+        </repository>
+        
     </repositories>
 
     <developers>
