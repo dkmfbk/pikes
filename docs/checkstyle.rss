@@ -23,11 +23,11 @@ under the License.
     <link>https://github.com/fbk/parent/pikes</link>
     <description>pikes - Checkstyle report</description>
     <language>en-us</language>
-    <copyright>&#169;2016 - 2018 FBK</copyright>
+    <copyright>&#169;2016 - 2019 FBK</copyright>
     <item>
       <title>File: 318,
              Errors: 17,
-             Warnings: 13313,
+             Warnings: 13259,
              Infos: 0
       </title>
             <link>https://github.com/fbk/parent/pikes/checkstyle.html</link>
@@ -542,7 +542,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  71
+                  27
                 </td>
                 <td>
                   0
@@ -1886,7 +1886,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  895
+                  897
                 </td>
                 <td>
                   0
@@ -3202,7 +3202,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  40
+                  28
                 </td>
                 <td>
                   0

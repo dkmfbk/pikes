@@ -36,7 +36,7 @@ entities.
 - Based on [Java 8](http://www.oracle.com/technetwork/java/javase/overview/java8-2100321.html) and [RDFpro](http://rdfpro.fbk.eu/)
 
 <h3 class='no-before'>News</h3>
-
+- 2019-09-23 Added [new evaluation material](jpark.html) for JPARK.
 - 2018-05-25 [Paper](https://dkm-static.fbk.eu/people/rospocher/files/pubs/2018iswc_research.pdf) on PSL4EA accepted at [ISWC2018](http://iswc2018.semanticweb.org/)! Additional material available [here](psl4ea.html). 
 - 2018-04-16 [Paper](https://dkm-static.fbk.eu/people/rospocher/files/pubs/2018ijcai.pdf) on JPARK accepted at [IJCAI-ECAI-18](https://www.ijcai-18.org/)! Additional material available [here](jpark.html).
 - 2017-10-27 Added [instructions](download.html#batch) to use PIKES for batch processing documents.
