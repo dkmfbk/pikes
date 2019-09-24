@@ -76,4 +76,7 @@ The following __JPARK__ resources used in the IJCAI-18 paper are made available:
     * the official [TAC scorer](https://github.com/wikilinks/neleval);
     * commands for computing scores (and statistical significance) for all metrics and measures considered;
     * gold standard, baselins, and __JPARK__ (with and without NIL extension) annotations for all datasets (excluding TAC-KBP, under LDC copyright).
-  
+  * Full evaluation results (with baseline and __JPARK__ scores, as well as p-values):
+    * [TXT](https://knowledgestore.fbk.eu/files/jpark-ext/results.txt): using separate named entity spotters for NERC and EL;
+    * [TXT](https://knowledgestore.fbk.eu/files/jpark-ext/results_samespoting.txt): using same named entity spotter (Stanford NER) for NERC and EL;
+    * [TXT](https://knowledgestore.fbk.eu/files/jpark-ext/results_upperbounds.txt): performance upper bounds for the posterior revision of the annotations. 
