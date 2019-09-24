@@ -40,7 +40,7 @@ __JPARK__ has been evaluated on three reference datasets for Named Entity Recogn
   
 The following __JPARK__ resources used in the IJCAI-18 paper are made available:
 
-  * [TSV](https://knowledgestore.fbk.eu/files/jpark/IJCAI2018model.tsv.gz) (~39MB) containing the model (used in the IJCAI-18 experiments) built with [YAGO2](http://www.yago-knowledge.org/) as background knowledge, and trained on AIDA CoNLL-YAGO (eng.train). Its columns contain:
+  * [TSV](https://knowledgestore.fbk.eu/files/jpark/IJCAI2018model.tsv.gz) (~39MB) containing the model (used in the IJCAI-18 experiments) built with [YAGO](http://www.yago-knowledge.org/) as background knowledge, and trained on AIDA CoNLL-YAGO (eng.train). Its columns contain:
     1. a YAGO Class Set (classes in the set are space separated)
     2. the conditional probability --- cf. eq. (6) in the paper --- of having that class set given a NERC PER annotation
     3. the conditional probability --- cf. eq. (6) in the paper --- of having that class set given a NERC ORG annotation
@@ -63,7 +63,7 @@ The following __JPARK__ resources used in the IJCAI-18 paper are made available:
 ### Additional evaluation material (manuscript describing the new developments and experiments currently under review):
   
   * __JPARK__ models:
-    * [TSV](https://knowledgestore.fbk.eu/files/jpark-ext/JPARK-yago_model.tsv.gz) (~37MB) containing the model (the same used in the IJCAI-18 experiments) built with [YAGO2](http://www.yago-knowledge.org/) as background knowledge, and trained on AIDA CoNLL-YAGO (eng.train).
+    * [TSV](https://knowledgestore.fbk.eu/files/jpark-ext/JPARK-yago_model.tsv.gz) (~37MB) containing the model (the same used in the IJCAI-18 experiments) built with [YAGO](http://www.yago-knowledge.org/) as background knowledge, and trained on AIDA CoNLL-YAGO (eng.train).
     * [TSV](https://knowledgestore.fbk.eu/files/jpark-ext/JPARK-dbo_model.tsv.gz) (~29MB) containing the model (NOT used in the IJCAI-18 experiments) built with [DBpedia Ontology](https://wiki.dbpedia.org/services-resources/ontology/) as background knowledge, and trained on AIDA CoNLL-YAGO (eng.train). It contains the same information as the YAGO model, but with DBpedia Ontology class sets instead. 
     * [TSV](https://knowledgestore.fbk.eu/files/jpark-ext/JPARK-wikidata_model.tsv.gz) (~20MB) containing the model (NOT used in the IJCAI-18 experiments) built with [Wikidata](https://www.wikidata.org/) as background knowledge, and trained on AIDA CoNLL-YAGO (eng.train). It contains the same information as the YAGO model, but with Wikidata class sets instead.
   * [TSV](https://knowledgestore.fbk.eu/files/jpark-ext/NILpriors.tsv.gz) (~94B) NIL Priors, trained on AIDA CoNLL-YAGO (eng.train), for the different NERC categories
