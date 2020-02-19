@@ -97,7 +97,8 @@ public class Defaults {
     public static final String MATE_MODEL_BE = MODEL_FOLDER + "mate_be.model";
 
     public static final String DBPS_ANNOTATOR = "dbpedia-candidates";
-    public static final String DBPS_ADDRESS = "http://spotlight.sztaki.hu:2222/rest";
+
+    public static final String DBPS_ADDRESS = "https://api.dbpedia-spotlight.org/en";
     public static final double DBPSC_MIN_CONFIDENCE = 0.01;
     public static final double DBPSC_FIRST_CONFIDENCE = 0.5;
     public static final double DBPS_MIN_CONFIDENCE = 0.33;
