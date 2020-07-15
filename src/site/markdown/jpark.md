@@ -71,12 +71,15 @@ The following __JPARK__ resources used in the IJCAI-18 paper are made available:
   * NAF files annotated (also with NIL confidences) with PIKES (as the PIKES annotated files contain the whole text, due to copyright restrictions, only the MEANTIME annotated files can be made available)
     * [FOLDER](https://knowledgestore.fbk.eu/files/jpark-ext/MEANTIME-PIKES-NAFs.tgz) (~10MB), with Stanford NER and DBpedia Spotlight independently spotting named entities
     * [FOLDER](https://knowledgestore.fbk.eu/files/jpark-ext/MEANTIME-PIKES-NAFs_SAME.tgz) (~7MB), using the Stanford NER spotter also for DBpedia Spotlight
+    * [FOLDER](https://knowledgestore.fbk.eu/files/jpark-ext/MEANTIME-PIKES-NAFs-FLAIR-E2ENEL.tgz) (~7MB), with Flair and End-to-End Neural Entity Linking independently spotting named entities
   * [JAR](https://knowledgestore.fbk.eu/files/jpark-ext/jpark.jar.gz) (~64MB) JAR binary of __JPARK__
   * [FOLDER](https://knowledgestore.fbk.eu/files/jpark-ext/evaluation.tgz) (~3MB) package of the evaluation folder, containing:
     * the official [TAC scorer](https://github.com/wikilinks/neleval);
     * commands for computing scores (and statistical significance) for all metrics and measures considered;
     * gold standard, baselins, and __JPARK__ (with and without NIL extension) annotations for all datasets (excluding TAC-KBP, under LDC copyright).
   * Full evaluation results (with baseline and __JPARK__ scores, as well as p-values):
-    * [TXT](https://knowledgestore.fbk.eu/files/jpark-ext/results.txt): using separate named entity spotters for NERC and EL;
-    * [TXT](https://knowledgestore.fbk.eu/files/jpark-ext/results_samespoting.txt): using same named entity spotter (Stanford NER) for NERC and EL;
-    * [TXT](https://knowledgestore.fbk.eu/files/jpark-ext/results_upperbounds.txt): performance upper bounds for the posterior revision of the annotations. 
+    * [TXT](https://knowledgestore.fbk.eu/files/jpark-ext/results.txt): using separate named entity spotters for NERC (Stanford NER) and EL (DBpedia Spotlight);
+    * [TXT](https://knowledgestore.fbk.eu/files/jpark-ext/results_samespoting.txt): using same named entity spotter (Stanford NER) for NERC (Stanford NER) and EL (DBpedia Spotlight);
+    * [TXT](https://knowledgestore.fbk.eu/files/jpark-ext/results_upperbounds.txt): performance upper bounds for the posterior revision of the annotations NERC (Stanford NER) and EL (DBpedia Spotlight);
+    * [TXT](https://knowledgestore.fbk.eu/files/jpark-ext/results-flair-e2enel.txt): using separate named entity spotters for NERC (Flair) and EL (End-to-End Neural Entity Linking);
+    * [TXT](https://knowledgestore.fbk.eu/files/jpark-ext/results-flair-e2enel_upperbounds.txt): performance upper bounds for the posterior revision of the annotations NERC (Flair) and EL (End-to-End Neural Entity Linking).
