@@ -118,7 +118,7 @@
         <pikes-version>${project.version}</pikes-version>
         <utils-version>3.0</utils-version>
         <rdfpro-version>0.5</rdfpro-version>
-        <site.root>http://pikes.fbk.eu/</site.root>
+        <site.root>https://pikes.fbk.eu/</site.root>
         <site-download>https://knowledgestore.fbk.eu/files/pikes/latest/</site-download>
     </properties>
 
