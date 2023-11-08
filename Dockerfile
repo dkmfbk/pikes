@@ -1,4 +1,4 @@
-FROM maven:3.9-amazoncorretto-8 as builder
+FROM maven:3.9-amazoncorretto-8-debian as builder
 
 RUN apt-get install -y git \
   && git clone https://github.com/fbk/utils \
