@@ -1,6 +1,7 @@
 FROM maven:3.9-amazoncorretto-8 as builder
 
-RUN git clone https://github.com/fbk/utils \
+RUN apt-get install -y git \
+  && git clone https://github.com/fbk/utils \
   && cd utils \
   && mvn clean install \
   && cd .. \
