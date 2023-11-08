@@ -22,7 +22,7 @@ RUN git clone https://github.com/fbk/utils \
 FROM openjdk:8 as server
 
 COPY . /
-COPY --from=build **/pikes-tintop-1.0-SNAPSHOT-jar-with-dependencies.jar ./pikes-tintop-1.0-SNAPSHOT-jar-with-dependencies.jar
+COPY --from=builder **/pikes-tintop-1.0-SNAPSHOT-jar-with-dependencies.jar ./pikes-tintop-1.0-SNAPSHOT-jar-with-dependencies.jar
 
 RUN apt-get update && apt-get install -y graphviz
 
