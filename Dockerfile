@@ -2,16 +2,16 @@ FROM maven:3.9-amazoncorretto-8-debian as builder
 
 RUN apt-get update && apt-get install -y git gnupg2 \
   && gpg --batch --passphrase "pikes" --generate-key <<EOF \
-Key-Type: RSA \
-Key-Length: 2048 \
-Subkey-Type: RSA \
-Subkey-Length: 2048 \
-Name-Real: pikes \
-Name-Email: example@example.com \
-Expire-Date: 0 \
-Passphrase: pikes \
-%commit \
-EOF \
+  Key-Type: RSA \
+  Key-Length: 2048 \
+  Subkey-Type: RSA \
+  Subkey-Length: 2048 \
+  Name-Real: pikes \
+  Name-Email: example@example.com \
+  Expire-Date: 0 \
+  Passphrase: pikes \
+  %commit \
+  EOF \
   && git clone https://github.com/fbk/utils \
   && cd utils \
   && mvn clean install \
