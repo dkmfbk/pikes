@@ -1,6 +1,6 @@
 FROM maven:3.9-amazoncorretto-8-debian as builder
 
-RUN apt-get update && apt-get install -y git \
+RUN apt-get update && apt-get install -y git gnupg \
   && git clone https://github.com/fbk/utils \
   && cd utils \
   && mvn clean install \
