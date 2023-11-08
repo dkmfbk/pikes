@@ -11,6 +11,9 @@ Passphrase: pikes
 %commit
 EOF
 
+GPG_TTY=$(tty)
+export GPG_TTY
+
 git clone https://github.com/fbk/utils \
   && cd utils \
   && mvn clean install \
