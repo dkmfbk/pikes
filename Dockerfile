@@ -1,6 +1,6 @@
 FROM maven:3.9-amazoncorretto-8-debian as builder
 
-RUN apt-get update && apt-get install -y git gnupg \
+RUN apt-get update && apt-get install -y git gnupg2 \
   && git clone https://github.com/fbk/utils \
   && cd utils \
   && mvn clean install \
@@ -15,9 +15,6 @@ RUN apt-get update && apt-get install -y git gnupg \
   && git checkout develop \
   && mvn clean install \
   && cd .. \
-  && git clone https://github.com/dkmfbk/pikes \
-  && cd pikes \
-  && git checkout develop \
   && mvn clean package -DskipTests -Prelease
 
 FROM openjdk:8 as server
