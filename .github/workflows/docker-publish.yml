@@ -20,7 +20,6 @@ env:
 jobs:
   build:
 
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
