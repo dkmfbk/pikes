@@ -1,4 +1,4 @@
-FROM maven:3.9-amazoncorretto-8-debian as builder
+FROM maven:3.9-amazoncorretto-8-focal as builder
 
 COPY ./build.sh /
 RUN sh ./build.sh

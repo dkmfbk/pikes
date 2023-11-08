@@ -1,18 +1,4 @@
-apt-get update && apt-get install -y git gnupg2
-gpg --batch --passphrase "pikes" --generate-key <<EOF
-Key-Type: RSA
-Key-Length: 2048
-Subkey-Type: RSA
-Subkey-Length: 2048
-Name-Real: pikes
-Name-Email: example@example.com
-Expire-Date: 0
-Passphrase: pikes
-%commit
-EOF
-
-GPG_TTY=$(tty)
-export GPG_TTY
+apt-get update && apt-get install -y git
 
 git clone https://github.com/fbk/utils \
   && cd utils \
