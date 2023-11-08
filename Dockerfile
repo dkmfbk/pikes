@@ -1,4 +1,4 @@
-FROM openjdk:8 as builder
+FROM maven:3.9-amazoncorretto-8 as builder
 
 RUN git clone https://github.com/fbk/utils \
   && cd utils \
