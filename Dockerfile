@@ -14,6 +14,6 @@ COPY --from=builder wordnet ./wordnet/
 COPY --from=builder models ./models/
 COPY --from=builder ukb ./ukb/
 
-RUN apt-get update && apt-get install -y graphviz && chmod 777 ukb
+RUN apt-get update && apt-get install -y graphviz && chmod -R 777 ukb
 
-CMD ["sudo", "sh", "run.sh"]
+CMD ["sh", "run.sh"]
