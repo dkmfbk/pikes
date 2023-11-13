@@ -20,6 +20,7 @@ git clone https://github.com/fbk/utils \
   && git clone https://github.com/fbk/fcw \
   && cd fcw \
   && git checkout develop \
+  && mvn versions:set -DnewVersion=1.0-SNAPSHOT \
   && mvn clean install -DskipTests -Dgpg.skip \
   && cd .. \
   && git clone https://github.com/dhfbk/tint \
