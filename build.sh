@@ -6,7 +6,7 @@ git clone https://github.com/fbk/utils \
   && cd .. \
   && git clone https://github.com/dkmfbk/rdfpro \
   && cd rdfpro \
-  && mvn clean install -DskipTests -Dgpg.skip \
+  && mvn clean install -DskipTests -Dgpg.skip -Prelease \
   && cd .. \
   && git clone https://github.com/fbk/fcw \
   && cd fcw \
@@ -17,4 +17,4 @@ git clone https://github.com/fbk/utils \
   && cd tint \
   && mvn clean install -DskipTests -Dgpg.skip \
   && cd .. \
-  && mvn clean package -DskipTests -Dgpg.skip -Prelease
+  && mvn clean package -DskipTests -Dgpg.skip -Prelease versions:use-latest-versions 
