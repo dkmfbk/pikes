@@ -2,7 +2,8 @@ apt-get update && apt-get install -y git
 
 git clone https://github.com/fbk/utils \
   && cd utils \
-  && mvn clean install -DskipTests -Dgpg.skip -Prelease \
+  && mvn versions:set -DnewVersion=3.2-SNAPSHOT \
+  && mvn clean install -DskipTests -Dgpg.skip \
   && cd .. \
   && git clone https://github.com/dkmfbk/rdfpro \
   && cd rdfpro \
