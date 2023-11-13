@@ -16,4 +16,4 @@ COPY --from=builder ukb ./ukb/
 
 RUN apt-get update && apt-get install -y graphviz && chmod 777 ukb
 
-CMD ["sh", "run.sh"]
+CMD ["sudo", "sh", "run.sh"]
