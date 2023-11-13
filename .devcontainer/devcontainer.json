@@ -16,5 +16,8 @@
 				"streetsidesoftware.code-spell-checker"
 			]
 		}
-	}
+	},
+	
+	// Use 'onCreateCommand' to run commands before the container is created.
+	"onCreateCommand": "sudo apt-get update && sudo apt-get install -y maven"
 }
