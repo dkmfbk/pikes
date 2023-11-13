@@ -1,6 +1,7 @@
 FROM maven:3.9-eclipse-temurin-8-focal as builder
 
 COPY . /
+RUN apt-get update && apt-get install -y git
 RUN sh ./build.sh
 RUN sh ./getDependencies.sh
 

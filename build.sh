@@ -1,5 +1,3 @@
-apt-get update && apt-get install -y git
-
 git clone https://github.com/fbk/utils \
   && cd utils \
   && mvn versions:set -DnewVersion=3.2-SNAPSHOT \
