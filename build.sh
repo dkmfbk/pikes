@@ -4,13 +4,19 @@ git clone https://github.com/fbk/utils \
   && cd utils \
   && mvn versions:set -DnewVersion=3.2-SNAPSHOT \
   && mvn clean install -DskipTests -Dgpg.skip \
+  && cd .. \  
+  && git clone https://github.com/fbk/parent \
+  && cd parent \
+  && git checkout develop \
+  && mvn versions:set -DnewVersion=2.3-SNAPSHOT \
+  && mvn clean install -DskipTests -Dgpg.skip \
   && cd .. \
-  && git clone https://github.com/dkmfbk/rdfpro \
-  && cd rdfpro \
+  && git clone https://github.com/dkmfbk/rdfpro parent/rdfpro \
+  && cd parent/rdfpro \
   && git checkout develop \
   && mvn versions:set -DnewVersion=0.7-SNAPSHOT \
   && mvn clean install -DskipTests -Dgpg.skip \
-  && cd .. \
+  && cd ../.. \
   && git clone https://github.com/fbk/fcw \
   && cd fcw \
   && git checkout develop \
