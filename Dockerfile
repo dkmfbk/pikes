@@ -1,6 +1,6 @@
 FROM maven:3.9-eclipse-temurin-8-focal as builder
 
-COPY ./build.sh /
+COPY . /
 RUN sh ./build.sh
 
 FROM openjdk:8 as server
