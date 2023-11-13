@@ -7,6 +7,7 @@ git clone https://github.com/fbk/utils \
   && cd .. \
   && git clone https://github.com/dkmfbk/rdfpro \
   && cd rdfpro \
+  && git checkout develop \
   && mvn versions:set -DnewVersion=0.7-SNAPSHOT \
   && mvn clean install -DskipTests -Dgpg.skip \
   && cd .. \
