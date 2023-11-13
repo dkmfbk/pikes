@@ -18,6 +18,21 @@
 		}
 	},
 	
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [8011],
+
+	// Use 'portsAttributes' to set default properties for specific forwarded ports. 
+	// More info: https://containers.dev/implementors/json_reference/#port-attributes
+	"portsAttributes": {
+		"8011": {
+			"label": "Server",
+			"onAutoForward": "notify"
+		}
+	},
+	
 	// Use 'onCreateCommand' to run commands before the container is created.
-	"onCreateCommand": "sudo apt-get update && sudo apt-get install -y maven"
+	"onCreateCommand": "sudo apt-get update && sudo apt-get install -y maven",
+	
+	// Use 'postStartCommand' to run commands after the container is started.
+	"postStartCommand": "chmod 777 build.sh && sudo sh build.sh && chmod 777 getDependencies.sh && sudo sh getDependencies.sh && cp pikes-tintop/target/pikes-tintop-1.0-SNAPSHOT-jar-with-dependencies.jar ./pikes-tintop-1.0-SNAPSHOT-jar-with-dependencies.jar"
 }
