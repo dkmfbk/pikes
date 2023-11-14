@@ -17,6 +17,7 @@ git clone https://github.com/fbk/utils \
   && cd ../.. \
   && git clone https://github.com/fbk/fcw \
   && cd fcw \
+  && grep -rl "http://model.dbpedia-spotlight.org/en" . | xargs sed -i 's/http:\/\/model.dbpedia-spotlight.org\/en/https:\/\/api.dbpedia-spotlight.org\/en/g' \
   && git checkout develop \
   && mvn versions:set -DnewVersion=1.0-SNAPSHOT \
   && mvn clean install -DskipTests -Dgpg.skip \

@@ -1,8 +1,8 @@
-stanford.dbps.annotator = dbpedia-annotate
-stanford.dbps.address = http://api.dbpedia-spotlight.org
-stanford.dbps.min_confidence = 0.0
-stanford.dbps.first_confidence = 0.5
-stanford.dbps.extract_types = 0
+stanford.customAnnotatorClass.dbps.annotator = dbpedia-annotate
+stanford.customAnnotatorClass.dbps.address = http://api.dbpedia-spotlight.org/en
+stanford.customAnnotatorClass.dbps.min_confidence = 0.0
+stanford.customAnnotatorClass.dbps.first_confidence = 0.5
+stanford.customAnnotatorClass.dbps.extract_types = 0
 
 enable_predicate_matrix = 1
 enable_naf_filter = 1
@@ -10,10 +10,7 @@ enable_on_filter = 1
 
 max_text_len = 1000000
 
-#stanford.annotators = tokenize, ssplit, dbps, pos, simple_pos, lemma, ukb, ner_custom, parse, conll_parse, mst_fake, mate, semafor, dcoref
-#stanford.annotators = tokenize, ssplit, dbps, pos, simple_pos, lemma, ukb, ner, depparse, conll_parse, mst_fake, mate, semafor, coref
-stanford.annotators = tokenize, ssplit, dbps, pos, simple_pos, lemma, ukb, ner, parse, conll_parse, mst_fake, mate, semafor, coref, kbp
-#, entitylink
+stanford.annotators = tokenize, ssplit, dbps, pos, simple_pos, lemma, ukb, ner, parse, depparse, conll_parse, mst_fake, mate, semafor, dcoref
 
 stanford.ssplit.newlineIsSentenceBreak = two
 
