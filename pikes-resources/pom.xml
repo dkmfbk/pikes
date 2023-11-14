@@ -30,7 +30,7 @@
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>joox</artifactId>
-            <version>2.0.0</version>
+            <version>1.3.0</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -134,7 +134,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.4.11</version>
+            <version>1.1.3</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -142,7 +142,7 @@
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-parsers</artifactId>
-            <version>2.9.1</version>
+            <version>1.28.5</version>
             <optional>true</optional>
         </dependency>
         <!-- Next one needed for wt10g doc conversion -->
@@ -178,12 +178,12 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.16.2</version>
+            <version>1.7.2</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
-            <version>2.9.1</version>
+            <version>1.28.5</version>
         </dependency>
 <!--         <dependency> -->
 <!--             <groupId>com.googlecode.json-simple</groupId> -->
@@ -240,7 +240,7 @@
                 <dependency>
                     <groupId>org.apache.tika</groupId>
                     <artifactId>tika-parsers</artifactId>
-                    <version>2.9.1</version>
+                    <version>1.28.5</version>
 
                 </dependency>
                 <!-- Next one needed for wt10g doc conversion -->

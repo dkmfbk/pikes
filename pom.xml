@@ -39,10 +39,6 @@
 
 	<repositories>
 		<repository>
-			<id>fbk-repo</id>
-			<url>https://raw.githubusercontent.com/fbk/mvn-repo/master/releases</url>
-		</repository>
-		<repository>
 			<id>central</id>
 			<name>Maven Central</name>
 			<layout>default</layout>
@@ -50,6 +46,10 @@
 			<snapshots>
 			<enabled>false</enabled>
 			</snapshots>
+		</repository>
+		<repository>
+			<id>fbk-repo</id>
+			<url>https://raw.githubusercontent.com/fbk/mvn-repo/master/releases</url>
 		</repository>
 	</repositories>
 

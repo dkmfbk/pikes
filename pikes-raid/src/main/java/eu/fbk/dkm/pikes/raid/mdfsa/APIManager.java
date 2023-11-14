@@ -204,7 +204,7 @@ public class APIManager {
 
   public double evaluateSentence(CoreMap sentence, int startNodeId, ArrayList<Integer> blockedNodes) {
     SemanticGraph dependencies = sentence.get(BasicDependenciesAnnotation.class);
-    String[] dependenciesList = dependencies.toString("list").split("\n");
+    String[] dependenciesList = dependencies.toString(SemanticGraph.OutputFormat.LIST).split("\n");
     return evaluateSentence(dependenciesList, startNodeId, blockedNodes);
   }
 

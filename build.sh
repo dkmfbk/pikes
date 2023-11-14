@@ -25,4 +25,4 @@ git clone https://github.com/fbk/utils \
   && cd tint \
   && mvn clean install -DskipTests -Dgpg.skip \
   && cd .. \
-  && mvn clean package -DskipTests -Dgpg.skip -Prelease versions:use-latest-versions 
+  && mvn clean package -DskipTests -Dgpg.skip -Prelease
