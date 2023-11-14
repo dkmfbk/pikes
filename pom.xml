@@ -138,7 +138,7 @@
 		<utils-version>3.2-SNAPSHOT</utils-version>
 		<rdfpro-version>0.7-SNAPSHOT</rdfpro-version>
 		<fcw-version>1.0-SNAPSHOT</fcw-version>
-		<corenlp-version>3.9.2</corenlp-version>
+		<corenlp-version>4.5.5</corenlp-version>
 		<rdf4j-version>2.2.4</rdf4j-version>
 
 		<site.root>http://pikes.fbk.eu/</site.root>

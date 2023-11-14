@@ -10,7 +10,9 @@ enable_on_filter = 1
 
 max_text_len = 1000000
 
-stanford.annotators = tokenize, ssplit, dbps, pos, simple_pos, lemma, ukb, ner_custom, parse, conll_parse, mst_fake, mate, semafor, dcoref
+#stanford.annotators = tokenize, ssplit, dbps, pos, simple_pos, lemma, ukb, ner_custom, parse, conll_parse, mst_fake, mate, semafor, dcoref
+#stanford.annotators = tokenize, ssplit, dbps, pos, simple_pos, lemma, ukb, ner, depparse, conll_parse, mst_fake, mate, semafor, coref
+stanford.annotators = tokenize, ssplit, dbps, pos, simple_pos, lemma, ukb, ner, parse, conll_parse, mst_fake, mate, semafor, coref, entitylink, kbp
 
 stanford.ssplit.newlineIsSentenceBreak = two
 

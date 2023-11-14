@@ -10,3 +10,14 @@ dkm-commandlist.txt
 *.versionsBackup
 pikes.ipr
 pikes.iws
+utils
+parent
+fcw
+tint
+wordnet
+ukb
+ukb-3.2
+models
+*.tgz*
+*.tar.gz*
+pikes-tintop-1.0-SNAPSHOT-jar-with-dependencies.jar
