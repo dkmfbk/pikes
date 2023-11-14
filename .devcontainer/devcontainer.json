@@ -1,0 +1,38 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/python
+{
+	"name": "Java 8",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "mcr.microsoft.com/devcontainers/java:8",
+
+	// Configure tool-specific properties.
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			"settings": {},
+			"extensions": [
+				"github.vscode-github-actions",
+				"ms-azuretools.vscode-docker",
+				"streetsidesoftware.code-spell-checker"
+			]
+		}
+	},
+	
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [8011],
+
+	// Use 'portsAttributes' to set default properties for specific forwarded ports. 
+	// More info: https://containers.dev/implementors/json_reference/#port-attributes
+	"portsAttributes": {
+		"8011": {
+			"label": "Server",
+			"onAutoForward": "notify"
+		}
+	},
+	
+	// Use 'onCreateCommand' to run commands before the container is created.
+	"onCreateCommand": "sudo apt-get update && sudo apt-get install -y maven graphviz",
+	
+	// Use 'postStartCommand' to run commands after the container is started.
+	"postStartCommand": "chmod 777 build.sh && sh build.sh && chmod 777 getDependencies.sh && sudo sh getDependencies.sh && cp pikes-tintop/target/pikes-tintop-1.0-SNAPSHOT-jar-with-dependencies.jar ./pikes-tintop-1.0-SNAPSHOT-jar-with-dependencies.jar"
+}

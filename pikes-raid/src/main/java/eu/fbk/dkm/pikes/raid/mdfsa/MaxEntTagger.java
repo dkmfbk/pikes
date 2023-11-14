@@ -1,7 +1,7 @@
 package eu.fbk.dkm.pikes.raid.mdfsa;
 
 import edu.stanford.nlp.ling.HasWord;
-import edu.stanford.nlp.ling.Sentence;
+import edu.stanford.nlp.ling.SentenceUtils;
 import edu.stanford.nlp.ling.TaggedWord;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
@@ -36,7 +36,7 @@ public class MaxEntTagger
 	    List<List<HasWord>> sentences = MaxentTagger.tokenizeText(new BufferedReader(new StringReader(fn)));
 	    for (List<HasWord> sentence : sentences) {
 	    	ArrayList<TaggedWord> tSentence = (ArrayList<TaggedWord>) tagger.tagSentence(sentence);
-	      taggedString = taggedString.concat(Sentence.listToString(tSentence, false));
+	      taggedString = taggedString.concat(SentenceUtils.listToString(tSentence, false));
 	    }
 	    return taggedString; 
 		} catch(Exception e) {

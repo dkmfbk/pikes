@@ -1,7 +1,8 @@
 package eu.fbk.dkm.pikes.raid.mdfsa.parser;
 
 import edu.stanford.nlp.ling.HasWord;
-import edu.stanford.nlp.ling.Sentence;
+import edu.stanford.nlp.ling.IndexedWord;
+import edu.stanford.nlp.ling.SentenceUtils;
 import edu.stanford.nlp.parser.lexparser.LexicalizedParser;
 import edu.stanford.nlp.process.DocumentPreprocessor;
 import edu.stanford.nlp.trees.*;
@@ -58,8 +59,8 @@ public class DependenciesBuilder {
       
       DependencyTree dt = new DependencyTree();
       for(TypedDependency td: tdl) {
-        TreeGraphNode dep = td.dep();
-        TreeGraphNode gov = td.gov();
+        IndexedWord dep = td.dep();
+        IndexedWord gov = td.gov();
         GrammaticalRelation gr = td.reln();
         String depString = gr.toString() + "^^^" + gov.toString() + "^^^" + dep.toString();
         //System.out.println(depString);
@@ -78,13 +79,13 @@ public class DependenciesBuilder {
     for(String text: texts) {
      System.out.println(textId);
      String[] sent = text.split(" ");
-      Tree parse = this.lp.apply(Sentence.toWordList(sent));
+      Tree parse = this.lp.apply(SentenceUtils.toWordList(sent));
       GrammaticalStructure gs = this.gsf.newGrammaticalStructure(parse);
       Collection<TypedDependency> tdl = gs.typedDependenciesCCprocessed();
       DependencyTree curDT = new DependencyTree();
       for(TypedDependency td: tdl) {
-        TreeGraphNode dep = td.dep();
-        TreeGraphNode gov = td.gov();
+        IndexedWord dep = td.dep();
+        IndexedWord gov = td.gov();
         GrammaticalRelation gr = td.reln();
         String depString = gr.toString() + "^^^" + gov.toString() + "^^^" + dep.toString();
         curDT.addDependency(depString);

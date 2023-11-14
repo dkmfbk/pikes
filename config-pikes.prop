@@ -1,0 +1,35 @@
+stanford.customAnnotatorClass.dbps.annotator = dbpedia-annotate
+stanford.customAnnotatorClass.dbps.address = http://api.dbpedia-spotlight.org/en
+stanford.customAnnotatorClass.dbps.min_confidence = 0.0
+stanford.customAnnotatorClass.dbps.first_confidence = 0.5
+stanford.customAnnotatorClass.dbps.extract_types = 0
+
+enable_predicate_matrix = 1
+enable_naf_filter = 1
+enable_on_filter = 1
+
+max_text_len = 1000000
+
+stanford.annotators = tokenize, ssplit, dbps, pos, simple_pos, lemma, ukb, ner, parse, depparse, conll_parse, mst_fake, mate, semafor, dcoref
+
+stanford.ssplit.newlineIsSentenceBreak = two
+
+filter.termSenseCompletion = true
+filter.entityRemoveOverlaps = true
+filter.entitySpanFixing = true
+filter.entityAddition = true
+filter.entityValueNormalization = true
+filter.linkingCompletion = true
+filter.linkingFixing = true
+filter.corefSpanFixing = true
+filter.corefForRoleDependencies = true
+filter.srlRemoveWrongRefs = true
+filter.srlRemoveUnknownPredicates = true
+filter.srlPredicateAddition = true
+filter.srlSelfArgFixing = true
+filter.srlSenseMapping = false
+filter.srlRoleLinking = none
+filter.opinionLinking = none
+
+stanford.parse.maxlen = 50
+stanford.dcoref.maxdist = 5
