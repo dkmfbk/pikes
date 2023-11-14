@@ -211,6 +211,20 @@
             <artifactId>Semafor</artifactId>
             <version>3.0-alpha-04</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/uk.ac.susx.informatics/morpha-stemmer -->
+        <dependency>
+          <groupId>uk.ac.susx.informatics</groupId>
+          <artifactId>morpha-stemmer</artifactId>
+          <version>1.0.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.pcollections/pcollections -->
+        <dependency>
+            <groupId>org.pcollections</groupId>
+            <artifactId>pcollections</artifactId>
+            <version>2.1.2</version>
+        </dependency>
+
+
 
     </dependencies>
 
