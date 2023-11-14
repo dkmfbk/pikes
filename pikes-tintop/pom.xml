@@ -47,6 +47,7 @@
 		<dependency>
 			<groupId>edu.stanford.nlp</groupId>
 			<artifactId>stanford-corenlp</artifactId>
+            <version>${corenlp-version}</version>
 		</dependency>
 
 		<dependency>
@@ -57,7 +58,14 @@
 			<groupId>edu.stanford.nlp</groupId>
 			<artifactId>stanford-corenlp</artifactId>
 			<classifier>models</classifier>
-			<!-- <version>3.7.0</version> -->
+            <version>${corenlp-version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>edu.stanford.nlp</groupId>
+			<artifactId>stanford-corenlp</artifactId>
+			<classifier>models-english-kbp</classifier>
+            <version>${corenlp-version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
