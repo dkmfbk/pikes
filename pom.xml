@@ -42,6 +42,15 @@
 			<id>fbk-repo</id>
 			<url>https://raw.githubusercontent.com/fbk/mvn-repo/master/releases</url>
 		</repository>
+		<repository>
+			<id>central</id>
+			<name>Maven Central</name>
+			<layout>default</layout>
+			<url>https://repo1.maven.org/maven2</url>
+			<snapshots>
+			<enabled>false</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
 
 	<developers>
